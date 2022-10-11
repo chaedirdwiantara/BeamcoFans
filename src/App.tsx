@@ -43,12 +43,12 @@ const TabScreen = () => (
     screenOptions={{
       tabBarActiveTintColor: '#00AA49',
       tabBarInactiveTintColor: '#48546A',
-      tabBarActiveBackgroundColor: '#0F1319',
-      tabBarInactiveBackgroundColor: '#0F1319',
       tabBarShowLabel: false,
       headerShown: false,
       tabBarStyle: {
         paddingBottom: 0,
+        height: 64,
+        backgroundColor: '#0F1319',
       },
     }}>
     <MainTab.Screen
