@@ -13,6 +13,10 @@ import {HomeScreen} from './screen/Home';
 import {SearchScreen} from './screen/Search';
 import {FeedScreen} from './screen/Feed';
 import {CollectionScreen} from './screen/Collection';
+import HomeIcon from './assets/icon/Home.icon';
+import SearchIcon from './assets/icon/Search.icon';
+import FeedIcon from './assets/icon/Feed.icon';
+import CollectionIcon from './assets/icon/Collection.icon';
 
 export type RootStackParams = {
   Boarding: undefined;
@@ -35,11 +39,46 @@ const screenOption: NativeStackNavigationOptions = {
 
 const MainTab = createBottomTabNavigator<MainTabParams>();
 const TabScreen = () => (
-  <MainTab.Navigator>
-    <MainTab.Screen name="Home" component={HomeScreen} />
-    <MainTab.Screen name="Search" component={SearchScreen} />
-    <MainTab.Screen name="Feed" component={FeedScreen} />
-    <MainTab.Screen name="Collection" component={CollectionScreen} />
+  <MainTab.Navigator
+    screenOptions={{
+      tabBarActiveTintColor: '#00AA49',
+      tabBarInactiveTintColor: '#48546A',
+      tabBarActiveBackgroundColor: '#0F1319',
+      tabBarInactiveBackgroundColor: '#0F1319',
+      tabBarShowLabel: false,
+      headerShown: false,
+      tabBarStyle: {
+        paddingBottom: 0,
+      },
+    }}>
+    <MainTab.Screen
+      name="Home"
+      component={HomeScreen}
+      options={{
+        tabBarIcon: ({color}) => <HomeIcon stroke={color} />,
+      }}
+    />
+    <MainTab.Screen
+      name="Search"
+      component={SearchScreen}
+      options={{
+        tabBarIcon: ({color}) => <SearchIcon stroke={color} />,
+      }}
+    />
+    <MainTab.Screen
+      name="Feed"
+      component={FeedScreen}
+      options={{
+        tabBarIcon: ({color}) => <FeedIcon stroke={color} />,
+      }}
+    />
+    <MainTab.Screen
+      name="Collection"
+      component={CollectionScreen}
+      options={{
+        tabBarIcon: ({color}) => <CollectionIcon stroke={color} />,
+      }}
+    />
   </MainTab.Navigator>
 );
 
