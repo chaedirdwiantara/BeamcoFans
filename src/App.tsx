@@ -20,6 +20,8 @@ import FeedIcon from './assets/icon/Feed.icon';
 import CollectionIcon from './assets/icon/Collection.icon';
 import Color from './theme/Color';
 
+import {AppProvider} from './context/app.context';
+
 export type RootStackParams = {
   Boarding: undefined;
   Login: undefined;
@@ -97,7 +99,9 @@ const RootStackScreen = () => (
 const App = () => {
   return (
     <NavigationContainer>
-      <RootStackScreen />
+      <AppProvider>
+        <RootStackScreen />
+      </AppProvider>
     </NavigationContainer>
   );
 };
