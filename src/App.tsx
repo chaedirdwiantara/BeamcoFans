@@ -13,10 +13,12 @@ import {HomeScreen} from './screen/Home';
 import {SearchScreen} from './screen/Search';
 import {FeedScreen} from './screen/Feed';
 import {CollectionScreen} from './screen/Collection';
+
 import HomeIcon from './assets/icon/Home.icon';
 import SearchIcon from './assets/icon/Search.icon';
 import FeedIcon from './assets/icon/Feed.icon';
 import CollectionIcon from './assets/icon/Collection.icon';
+import Color from './theme/Color';
 
 export type RootStackParams = {
   Boarding: undefined;
@@ -41,8 +43,8 @@ const MainTab = createBottomTabNavigator<MainTabParams>();
 const TabScreen = () => (
   <MainTab.Navigator
     screenOptions={{
-      tabBarActiveTintColor: '#00AA49',
-      tabBarInactiveTintColor: '#48546A',
+      tabBarActiveTintColor: Color.Success[700],
+      tabBarInactiveTintColor: Color.Dark[300],
       tabBarShowLabel: false,
       headerShown: false,
       tabBarStyle: {
