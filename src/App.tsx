@@ -1,0 +1,64 @@
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+import {OnboardScreen} from './screen/Onboard';
+import {LoginScreen} from './screen/Login';
+import {SignupScreen} from './screen/Signup';
+import {HomeScreen} from './screen/Home';
+import {SearchScreen} from './screen/Search';
+import {FeedScreen} from './screen/Feed';
+import {CollectionScreen} from './screen/Collection';
+
+export type RootStackParams = {
+  Boarding: undefined;
+  Login: undefined;
+  Signup: undefined;
+  MainTab: undefined;
+};
+
+export type MainTabParams = {
+  Home: undefined;
+  Search: undefined;
+  Feed: undefined;
+  Collection: undefined;
+};
+
+const screenOption: NativeStackNavigationOptions = {
+  headerShown: false,
+  gestureEnabled: false,
+};
+
+const MainTab = createBottomTabNavigator<MainTabParams>();
+const TabScreen = () => (
+  <MainTab.Navigator>
+    <MainTab.Screen name="Home" component={HomeScreen} />
+    <MainTab.Screen name="Search" component={SearchScreen} />
+    <MainTab.Screen name="Feed" component={FeedScreen} />
+    <MainTab.Screen name="Collection" component={CollectionScreen} />
+  </MainTab.Navigator>
+);
+
+const RootStack = createNativeStackNavigator<RootStackParams>();
+const RootStackScreen = () => (
+  <RootStack.Navigator screenOptions={screenOption}>
+    <RootStack.Screen name="Boarding" component={OnboardScreen} />
+    <RootStack.Screen name="Login" component={LoginScreen} />
+    <RootStack.Screen name="Signup" component={SignupScreen} />
+    <RootStack.Screen name="MainTab" component={TabScreen} />
+  </RootStack.Navigator>
+);
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <RootStackScreen />
+    </NavigationContainer>
+  );
+};
+
+export default App;
