@@ -1,8 +1,7 @@
 /** === IMPORT LIB HERE === */
 import React, { FC } from 'react';
 import { Text } from 'react-native';
-import Color from '../../../theme/Color';
-import Font from '../../../theme/Font';
+import { color, font } from '../../../theme';
 /** === INTERFACE === */
 type Props = {
   color?: string;
@@ -14,28 +13,96 @@ type Props = {
 };
 /** === COMPONENT === */
 /** => Headline - Default */
-const Large: FC<Props> = (props) => {
-  return (
-    <Text
-      ellipsizeMode={props.ellipsizeMode}
-      numberOfLines={props.numberOfLines}
-      style={{
-        textDecorationLine: props.textDecorationLine
-          ? props.textDecorationLine
-          : 'none',
-        fontFamily: Font.MontserratMedium,
-        fontSize: 24,
-        lineHeight: 32,
-        fontWeight: '600',
-        // letterSpacing:
-        color: props.color ? props.color : Color.Neutral[10],
-        textAlign: props.align ? props.align : 'auto'
-      }}
-      >
-      {props.children}
-    </Text>
-  );
-};
+
+  // Biggest type
+  const Large: FC<Props> = (props) => {
+    return (
+      <Text
+        ellipsizeMode={props.ellipsizeMode}
+        numberOfLines={props.numberOfLines}
+        style={{
+          textDecorationLine: props.textDecorationLine
+            ? props.textDecorationLine
+            : 'none',
+          fontFamily: font.MontserratMedium,
+          fontSize: 24,
+          lineHeight: 32,
+          fontWeight: '600',
+          color: props.color ? props.color : color.Neutral[10],
+          textAlign: props.align ? props.align : 'auto'
+        }}
+        >
+        {props.children}
+      </Text>
+    );
+  };
+
+  const Default: FC<Props> = (props) => {
+    return (
+      <Text
+        ellipsizeMode={props.ellipsizeMode}
+        numberOfLines={props.numberOfLines}
+        style={{
+          textDecorationLine: props.textDecorationLine
+            ? props.textDecorationLine
+            : 'none',
+          fontFamily: font.MontserratMedium,
+          fontSize: 18,
+          lineHeight: 24,
+          fontWeight: '600',
+          color: props.color ? props.color : color.Neutral[10],
+          textAlign: props.align ? props.align : 'auto'
+        }}
+        >
+        {props.children}
+      </Text>
+    );
+  };
+
+  const Small: FC<Props> = (props) => {
+    return (
+      <Text
+        ellipsizeMode={props.ellipsizeMode}
+        numberOfLines={props.numberOfLines}
+        style={{
+          textDecorationLine: props.textDecorationLine
+            ? props.textDecorationLine
+            : 'none',
+          fontFamily: font.MontserratMedium,
+          fontSize: 16,
+          lineHeight: 20,
+          fontWeight: '700',
+          color: props.color ? props.color : color.Neutral[10],
+          textAlign: props.align ? props.align : 'auto'
+        }}
+        >
+        {props.children}
+      </Text>
+    );
+  };
+
+const Tiny: FC<Props> = (props) => {
+    return (
+      <Text
+        ellipsizeMode={props.ellipsizeMode}
+        numberOfLines={props.numberOfLines}
+        style={{
+          textDecorationLine: props.textDecorationLine
+            ? props.textDecorationLine
+            : 'none',
+          fontFamily: font.MontserratMedium,
+          fontSize: 13,
+          lineHeight: 20,
+          fontWeight: '500',
+          letterSpacing: 0.1,
+          color: props.color ? props.color : color.Neutral[10],
+          textAlign: props.align ? props.align : 'auto'
+        }}
+        >
+        {props.children}
+      </Text>
+    );
+  };
 
 /** === EXPORT COMPONENT === */
-export default { Large };
+export default { Default, Large, Small, Tiny };

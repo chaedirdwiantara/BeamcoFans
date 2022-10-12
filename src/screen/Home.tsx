@@ -7,6 +7,9 @@ export const HomeScreen: React.FC = () => {
     <View style={styles.root}>
       <Text>Home Screen</Text>
       <SsuText.Headline.Large>Update your password</SsuText.Headline.Large>
+      <SsuText.Headline.Default>Select your expectation as a fans</SsuText.Headline.Default>
+      <SsuText.Headline.Small>SSU Warehouse Project</SsuText.Headline.Small>
+      <SsuText.Headline.Tiny>Top Musician</SsuText.Headline.Tiny>
     </View>
   );
 };
