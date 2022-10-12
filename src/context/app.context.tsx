@@ -1,24 +1,29 @@
 import React from 'react';
 import {BaseProvider} from './base.context';
-
-const provider = (provider: any, props = {}) => [provider, props];
-
-type AppProviderProps = {
+interface WithChildrenProps {
   children: React.ReactNode;
-};
+}
 
-const ProviderComposer = ({providers, children}: any) => {
-  for (let i = providers.length - 1; i >= 0; --i) {
-    const [Provider, props] = providers[i];
-    children = <Provider {...props}>{children}</Provider>;
+type PackComponentType<T extends WithChildrenProps = WithChildrenProps> =
+  React.ElementType<T>;
+
+function pack(
+  children: React.ReactNode = null,
+  ...components: PackComponentType[]
+) {
+  if (!components.length) {
+    return children as JSX.Element;
   }
-  return children;
-};
 
-export const AppProvider = ({children}: AppProviderProps) => {
-  return (
-    <ProviderComposer providers={[provider(BaseProvider)]}>
-      {children}
-    </ProviderComposer>
-  );
-};
+  const [Component, ...rest] = components;
+
+  return <Component>{pack(children, ...rest)}</Component>;
+}
+
+function createPack(...components: PackComponentType[]) {
+  return function PackComponent({children}: WithChildrenProps) {
+    return pack(children, ...components);
+  };
+}
+
+export const AppProvider = createPack(BaseProvider);
