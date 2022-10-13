@@ -1,0 +1,64 @@
+workflows:
+  android:
+    name: build, test & publish Android version
+    scripts:
+      - name: Authorize access to Firebase Test Lab with a service account
+        script: |
+          set -e # exit on first failed command
+
+          echo ${GCLOUD_KEY_FILE?} > ./gcloud_key_file.json
+          gcloud auth activate-service-account --key-file=gcloud_key_file.json
+          gcloud --quiet config set project ${FIREBASE_PROJECT}
+      - name: Interact with Firebase Test Lab
+        script: |
+          set -e # exit on first failed command
+
+          gcloud firebase test --help
+          
+      - name: Build Android APK
+        working_directory: android
+        script: ./gradlew assembleRelease
+    
+    artifacts:
+      - app/build/outputs/**/**/*.apk
+      
+  ios:
+    name: build, test & publish iOS version
+    scripts:
+      - name: Run iOS tests
+        script: |
+          set -e # exit on first failed command
+
+          xcode-project run-tests \
+              --workspace ${XCODE_WORKSPACE?} \
+              --scheme ${XCODE_SCHEME?} \
+              --device "iPhone 12"
+        test_report: build/ios/test/*.xml  
+      
+      - name: Add provisioning profiles
+        script: |
+          set -e # exit on first failed command
+
+          PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"
+          mkdir -p "$PROFILES_HOME"
+          echo ${PROVISIONING_PROFILE?} | base64 --decode > "$PROFILES_HOME/$(uuidgen).mobileprovision"
+      - name: Add signing certificate
+        script: |
+          set -e # exit on first failed command
+
+          echo ${CERTIFICATE?} | base64 --decode > /tmp/certificate.p12
+          keychain initialize
+          keychain add-certificates \
+              --certificate /tmp/certificate.p12 \
+              --certificate-password ${CERTIFICATE_PASSWORD?}
+      - name: Increment build number
+        script: agvtool new-version -all $BUILD_NUMBER
+      - name: Set up code signing settings on Xcode project
+        script: xcode-project use-profiles
+      - name: Build ipa for distribution
+        script: xcode-project build-ipa \
+                    --workspace "${XCODE_WORKSPACE?}" \
+                    --scheme "${XCODE_SCHEME?}"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      
