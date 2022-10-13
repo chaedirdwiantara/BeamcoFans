@@ -2,19 +2,6 @@ workflows:
   android:
     name: build, test & publish Android version
     scripts:
-      - name: Authorize access to Firebase Test Lab with a service account
-        script: |
-          set -e # exit on first failed command
-
-          echo ${GCLOUD_KEY_FILE?} > ./gcloud_key_file.json
-          gcloud auth activate-service-account --key-file=gcloud_key_file.json
-          gcloud --quiet config set project ${FIREBASE_PROJECT}
-      - name: Interact with Firebase Test Lab
-        script: |
-          set -e # exit on first failed command
-
-          gcloud firebase test --help
-          
       - name: Build Android APK
         working_directory: android
         script: ./gradlew assembleRelease
