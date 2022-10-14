@@ -6,9 +6,12 @@ import {
   Text,
   TextInput,
   TextStyle,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
+import HomeIcon from '../../../assets/icon/Home.icon';
+import SearchIcon from '../../../assets/icon/Search.icon';
 import {color, font} from '../../../theme';
 
 interface InputProps {
@@ -22,6 +25,7 @@ interface InputProps {
   isError?: boolean;
   errorMsg?: string;
   placeholder?: string;
+  password?: boolean;
 }
 
 interface TextAreaProps {
@@ -44,6 +48,7 @@ type TypeStyle = {
 };
 
 const ErrorColor = color.Error[900];
+const FontColor = color.Dark[50];
 
 const InputText: React.FC<InputProps> = ({
   fontSize,
@@ -56,30 +61,57 @@ const InputText: React.FC<InputProps> = ({
   isError,
   errorMsg,
   icon,
+  password,
 }) => {
   const [state, setState] = useState<boolean>(false);
+  const [secure, setSecure] = useState<boolean>(true);
 
   return (
-    <View style={styles.container}>
-      <TextInput
+    <View>
+      <View
         style={[
-          styles.input(fontSize, onChangeText),
+          styles.container,
           {
             borderWidth: state === true ? 1 : 0,
             borderColor: isError === true ? ErrorColor : color.Success[500],
           },
-        ]}
-        value={value}
-        secureTextEntry={secureTextEntry}
-        keyboardType={keyboardType}
-        onChangeText={onChangeText}
-        editable={disabled ? false : true}
-        placeholder={placeholder}
-        placeholderTextColor={color.Neutral[70]}
-        onFocus={() => setState(true)}
-      />
+        ]}>
+        {icon}
+        <TextInput
+          style={[styles.input(fontSize, onChangeText)]}
+          value={value}
+          secureTextEntry={secure}
+          keyboardType={keyboardType}
+          onChangeText={onChangeText}
+          editable={disabled ? false : true}
+          placeholder={placeholder}
+          placeholderTextColor={FontColor}
+          onFocus={() => setState(true)}
+        />
+        {password ? (
+          <TouchableOpacity
+            onPress={() => {
+              setSecure(!secure);
+            }}>
+            {secure ? (
+              <HomeIcon stroke={FontColor} />
+            ) : (
+              <SearchIcon stroke={FontColor} />
+            )}
+          </TouchableOpacity>
+        ) : null}
+      </View>
+
       {isError === true && state === true ? (
-        <Text style={styles.errorText}>{errorMsg}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 10,
+          }}>
+          <HomeIcon stroke={ErrorColor} />
+          <Text style={styles.errorText}>{errorMsg}</Text>
+        </View>
       ) : null}
     </View>
   );
@@ -114,24 +146,27 @@ export default {InputText, TextArea};
 
 const styles = StyleSheet.create<TypeStyle>({
   container: {
-    marginTop: 10,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    backgroundColor: color.Dark[900],
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   errorText: {
     color: ErrorColor,
     fontSize: 13,
+    marginLeft: 10,
   },
   label: (fontSize: number) => ({
     fontSize: fontSize ? fontSize : 18,
     // fontFamily: fonts.primary.regular,
   }),
   input: (fontSize: number) => ({
+    flex: 1,
     fontSize: fontSize ? fontSize : 13,
     fontFamily: font.MontserratLight,
-    color: color.Neutral[50],
-    borderRadius: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    backgroundColor: color.Dark[900],
+    color: FontColor,
+    paddingLeft: 10,
   }),
   inputTextArea: (fontSize: number) => ({
     fontSize: fontSize ? fontSize : 18,
