@@ -12,8 +12,6 @@ import {
 import {color, font} from '../../../theme';
 
 interface InputProps {
-  width?: number | string;
-  height?: number;
   fontSize?: number;
   value: string;
   secureTextEntry?: boolean;
@@ -48,8 +46,6 @@ type TypeStyle = {
 const ErrorColor = color.Error[900];
 
 const InputText: React.FC<InputProps> = ({
-  width,
-  height,
   fontSize,
   value,
   secureTextEntry,
@@ -67,7 +63,7 @@ const InputText: React.FC<InputProps> = ({
     <View style={styles.container}>
       <TextInput
         style={[
-          styles.input(width, height, fontSize, onChangeText),
+          styles.input(fontSize, onChangeText),
           {
             borderWidth: state === true ? 1 : 0,
             borderColor: isError === true ? ErrorColor : color.Success[500],
@@ -128,12 +124,10 @@ const styles = StyleSheet.create<TypeStyle>({
     fontSize: fontSize ? fontSize : 18,
     // fontFamily: fonts.primary.regular,
   }),
-  input: (width: number, height: number, fontSize: number) => ({
+  input: (fontSize: number) => ({
     fontSize: fontSize ? fontSize : 13,
     fontFamily: font.MontserratLight,
     color: color.Neutral[50],
-    width: width,
-    height: height,
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,

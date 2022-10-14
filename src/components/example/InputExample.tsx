@@ -12,7 +12,7 @@ const InputExample = () => {
         value={state}
         onChangeText={(newText: any) => setState(newText)}
         placeholder={'Email or Username'}
-        isError={true}
+        isError={false}
         errorMsg={'Incorrect email or password'}
       />
     </View>
