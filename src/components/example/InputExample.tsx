@@ -7,6 +7,7 @@ import {KeyIcon, UserIcon} from '../../assets/icon';
 
 const InputExample = () => {
   const [state, setState] = useState('');
+  const [areaState, setAreaState] = useState('');
 
   return (
     <View style={{width: '100%', paddingHorizontal: 16}}>
@@ -18,6 +19,11 @@ const InputExample = () => {
         errorMsg={'Incorrect email or password'}
         leftIcon={<KeyIcon stroke={color.Dark[50]} />}
         password
+      />
+      <SsuInput.TextArea
+        value={areaState}
+        onChangeText={(newText: any) => setAreaState(newText)}
+        placeholder={'Type here...'}
       />
     </View>
   );

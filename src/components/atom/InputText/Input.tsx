@@ -17,7 +17,6 @@ import {color, font} from '../../../theme';
 interface InputProps {
   fontSize?: number;
   value: string;
-  secureTextEntry?: boolean;
   keyboardType?: undefined | KeyboardTypeOptions;
   onChangeText: (text: string) => void;
   disabled?: boolean;
@@ -33,9 +32,6 @@ interface TextAreaProps {
   value: string;
   onChangeText: (text: string) => void;
   disabled?: boolean;
-  leftIcon?: React.ReactNode;
-  isError?: boolean;
-  errorMsg?: string;
   placeholder?: string;
 }
 
@@ -53,7 +49,6 @@ const FontColor = color.Dark[50];
 const InputText: React.FC<InputProps> = ({
   fontSize,
   value,
-  secureTextEntry,
   keyboardType,
   onChangeText,
   disabled,
@@ -123,12 +118,17 @@ const TextArea: React.FC<TextAreaProps> = ({
   onChangeText,
   disabled,
   placeholder,
-  isError,
-  errorMsg,
-  leftIcon,
 }) => {
+  const [state, setState] = useState<boolean>(false);
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          borderWidth: state === true ? 1 : 0,
+          borderColor: color.Success[500],
+        },
+      ]}>
       <TextInput
         style={styles.inputTextArea(fontSize)}
         multiline={true}
@@ -137,6 +137,8 @@ const TextArea: React.FC<TextAreaProps> = ({
         onChangeText={onChangeText}
         editable={disabled ? false : true}
         placeholder={placeholder}
+        placeholderTextColor={FontColor}
+        onFocus={() => setState(true)}
       />
     </View>
   );
@@ -159,7 +161,7 @@ const styles = StyleSheet.create<TypeStyle>({
   },
   label: (fontSize: number) => ({
     fontSize: fontSize ? fontSize : 18,
-    // fontFamily: fonts.primary.regular,
+    fontFamily: font.MontserratLight,
   }),
   input: (fontSize: number) => ({
     flex: 1,
@@ -169,13 +171,12 @@ const styles = StyleSheet.create<TypeStyle>({
     paddingLeft: 10,
   }),
   inputTextArea: (fontSize: number) => ({
-    fontSize: fontSize ? fontSize : 18,
-    // fontFamily: fonts.primary.regular,
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: color.Secondary[300],
+    flex: 1,
+    fontSize: fontSize ? fontSize : 13,
+    fontFamily: font.MontserratLight,
     paddingVertical: 5,
     paddingHorizontal: 10,
     textAlignVertical: 'top',
+    color: FontColor,
   }),
 });
