@@ -10,8 +10,8 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import {EyeCloseIcon, EyeOpenIcon} from '../../../assets/icon';
 import HomeIcon from '../../../assets/icon/Home.icon';
-import SearchIcon from '../../../assets/icon/Search.icon';
 import {color, font} from '../../../theme';
 
 interface InputProps {
@@ -21,7 +21,7 @@ interface InputProps {
   keyboardType?: undefined | KeyboardTypeOptions;
   onChangeText: (text: string) => void;
   disabled?: boolean;
-  icon?: React.ReactNode;
+  leftIcon?: React.ReactNode;
   isError?: boolean;
   errorMsg?: string;
   placeholder?: string;
@@ -33,7 +33,7 @@ interface TextAreaProps {
   value: string;
   onChangeText: (text: string) => void;
   disabled?: boolean;
-  icon?: React.ReactNode;
+  leftIcon?: React.ReactNode;
   isError?: boolean;
   errorMsg?: string;
   placeholder?: string;
@@ -60,7 +60,7 @@ const InputText: React.FC<InputProps> = ({
   placeholder,
   isError,
   errorMsg,
-  icon,
+  leftIcon,
   password,
 }) => {
   const [state, setState] = useState<boolean>(false);
@@ -76,7 +76,7 @@ const InputText: React.FC<InputProps> = ({
             borderColor: isError === true ? ErrorColor : color.Success[500],
           },
         ]}>
-        {icon}
+        {leftIcon}
         <TextInput
           style={[styles.input(fontSize, onChangeText)]}
           value={value}
@@ -94,9 +94,9 @@ const InputText: React.FC<InputProps> = ({
               setSecure(!secure);
             }}>
             {secure ? (
-              <HomeIcon stroke={FontColor} />
+              <EyeCloseIcon stroke={FontColor} />
             ) : (
-              <SearchIcon stroke={FontColor} />
+              <EyeOpenIcon stroke={FontColor} />
             )}
           </TouchableOpacity>
         ) : null}
@@ -125,7 +125,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   placeholder,
   isError,
   errorMsg,
-  icon,
+  leftIcon,
 }) => {
   return (
     <View style={styles.container}>

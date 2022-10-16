@@ -2,8 +2,8 @@ import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {StackRouter} from '@react-navigation/native';
 import {SsuInput} from '../atom/InputText/SsuInput';
-import HomeIcon from '../../assets/icon/Home.icon';
 import {color} from '../../theme';
+import {KeyIcon, UserIcon} from '../../assets/icon';
 
 const InputExample = () => {
   const [state, setState] = useState('');
@@ -16,7 +16,7 @@ const InputExample = () => {
         placeholder={'Email or Username'}
         isError={false}
         errorMsg={'Incorrect email or password'}
-        icon={<HomeIcon stroke={color.Dark[50]} />}
+        leftIcon={<KeyIcon stroke={color.Dark[50]} />}
         password
       />
     </View>
