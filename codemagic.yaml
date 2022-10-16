@@ -1,16 +1,8 @@
 workflows:
   android:
-    name: build, test & publish Android version
-    scripts:
-      - name: Build Android APK
-        working_directory: android
-        script: ./gradlew assembleRelease
-    
-    artifacts:
-      - app/build/outputs/**/**/*.apk
-      
+     name: Android workflow 
   ios:
-    name: build, test & publish iOS version
+    name: iOS Workflow
     scripts:
       - name: Run iOS tests
         script: |
