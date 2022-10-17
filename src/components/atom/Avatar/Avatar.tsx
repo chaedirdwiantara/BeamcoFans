@@ -8,10 +8,12 @@ interface AvatarProps {
   size?: number;
 }
 
-export const Avatar: React.FC<AvatarProps> = (props: AvatarProps) => {
+const Avatar: React.FC<AvatarProps> = (props: AvatarProps) => {
   const {imgUri, size = width * 0.15} = props;
   return <Image source={{uri: imgUri}} style={[styles.root, {width: size}]} />;
 };
+
+export default Avatar;
 
 const styles = StyleSheet.create({
   root: {

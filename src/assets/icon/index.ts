@@ -6,5 +6,6 @@ import CollectionIcon from "./Collection.icon";
 import FeedIcon from "./Feed.icon";
 import HomeIcon from "./Home.icon";
 import SearchIcon from "./Search.icon";
+import ErrorIcon from "./Error.icon";
 
-export {UserIcon,EyeCloseIcon, EyeOpenIcon,KeyIcon,CollectionIcon,FeedIcon,HomeIcon,SearchIcon} 
+export {UserIcon,EyeCloseIcon, EyeOpenIcon,KeyIcon,CollectionIcon,FeedIcon,HomeIcon,SearchIcon, ErrorIcon} 

@@ -10,9 +10,10 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {EyeCloseIcon, EyeOpenIcon} from '../../../assets/icon';
-import HomeIcon from '../../../assets/icon/Home.icon';
+import {ErrorIcon, EyeCloseIcon, EyeOpenIcon} from '../../../assets/icon';
 import {color, font} from '../../../theme';
+import Gap from '../Gap/Gap';
+import {SsuText} from '../Text/SsuText';
 
 interface InputProps {
   fontSize?: number;
@@ -101,11 +102,12 @@ const InputText: React.FC<InputProps> = ({
         <View
           style={{
             flexDirection: 'row',
-            alignItems: 'center',
+            paddingTop: 4,
             paddingHorizontal: 10,
           }}>
-          <HomeIcon stroke={ErrorColor} />
-          <Text style={styles.errorText}>{errorMsg}</Text>
+          <ErrorIcon fill={ErrorColor} />
+          <Gap width={4} />
+          <SsuText.Body.Small color={ErrorColor}>{errorMsg}</SsuText.Body.Small>
         </View>
       ) : null}
     </View>
