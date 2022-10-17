@@ -152,7 +152,7 @@ const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
     paddingHorizontal: 10,
-    backgroundColor: color.Dark[900],
+    // backgroundColor: color.Dark[900],
     alignItems: 'center',
     flexDirection: 'row',
   },
@@ -177,7 +177,7 @@ const styles = StyleSheet.create<TypeStyle>({
     fontSize: fontSize ? fontSize : 13,
     fontFamily: font.MontserratLight,
     paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     textAlignVertical: 'top',
     color: FontColor,
   }),
