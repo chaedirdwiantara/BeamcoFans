@@ -4,6 +4,7 @@ import {SsuText} from '../components/atom/Text/SsuText';
 import {
   ButtonTabExample,
   InputExample,
+  MusicListCardExample,
   TextExample,
 } from '../components/example';
 import {color} from '../theme';
@@ -12,7 +13,7 @@ export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
       <Text>Home Screen</Text>
-      <ButtonTabExample />
+      <MusicListCardExample />
     </View>
   );
 };

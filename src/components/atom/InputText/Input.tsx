@@ -74,7 +74,7 @@ const InputText: React.FC<InputProps> = ({
         ]}>
         {leftIcon}
         <TextInput
-          style={[styles.input(fontSize, onChangeText)]}
+          style={[styles.input(fontSize)]}
           value={value}
           secureTextEntry={secure}
           keyboardType={keyboardType}
