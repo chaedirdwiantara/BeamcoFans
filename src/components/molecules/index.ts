@@ -1,3 +1,3 @@
-import { MusicListCard } from "./ListCard";
+import { ListCard } from "./ListCard";
 
-export {MusicListCard}
+export {ListCard}

@@ -1,3 +1,4 @@
-import MusicListCard from "./MusicListCard";
+import {default as MusicList} from "./MusicListCard";
+import {default as MusicianList} from "./MusiciansListCard";
 
-export {MusicListCard}
+export const ListCard = {MusicList, MusicianList}

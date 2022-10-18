@@ -10,7 +10,6 @@ interface ListProps {
   musicTitle: string;
   musicDesc: string;
   likePressed: boolean;
-  dotsPressed: boolean;
 }
 
 const MusicListCard: React.FC<ListProps> = ({
@@ -21,7 +20,6 @@ const MusicListCard: React.FC<ListProps> = ({
   musicTitle,
   musicDesc,
   likePressed,
-  dotsPressed,
 }) => {
   return (
     <View style={styles.container}>
