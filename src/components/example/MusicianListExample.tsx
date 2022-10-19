@@ -14,6 +14,7 @@ const MusicianListExample = () => {
         'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
       }
       onPressThreeDots={onPressThreeDots}
+      point={'1000'}
     />
   );
 };
