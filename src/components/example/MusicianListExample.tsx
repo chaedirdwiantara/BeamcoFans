@@ -1,13 +1,13 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React from 'react';
-import MusiciansListCard from '../molecules/ListCard/MusiciansListCard';
+import {ListCard} from '../molecules';
 
 const MusicianListExample = () => {
   const onPressThreeDots = () => {
     console.log('dowtey');
   };
   return (
-    <MusiciansListCard
+    <ListCard.MusicianList
       musicNum={'01'}
       musicTitle={'Sikok Bagi Tigo'}
       imgUri={

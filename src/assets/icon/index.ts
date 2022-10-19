@@ -9,5 +9,6 @@ import SearchIcon from "./Search.icon";
 import ErrorIcon from "./Error.icon";
 import LoveIcon from "./Love.icon";
 import ThreeDotsIcon from "./ThreeDots.icon";
+import CommentIcon from "./Comment.icon";
 
-export {UserIcon,EyeCloseIcon, EyeOpenIcon,KeyIcon,CollectionIcon,FeedIcon,HomeIcon,SearchIcon, ErrorIcon, LoveIcon, ThreeDotsIcon} 
+export {UserIcon,EyeCloseIcon, EyeOpenIcon,KeyIcon,CollectionIcon,FeedIcon,HomeIcon,SearchIcon, ErrorIcon, LoveIcon, ThreeDotsIcon, CommentIcon} 

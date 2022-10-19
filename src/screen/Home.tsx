@@ -8,13 +8,14 @@ import {
   MusicListCardExample,
   TextExample,
 } from '../components/example';
+import PostListCardExample from '../components/example/PostListCardExample';
 import {color} from '../theme';
 
 export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
       <Text>Home Screen</Text>
-      <MusicianListExample />
+      <PostListCardExample />
     </View>
   );
 };
