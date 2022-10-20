@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TextInputProps,
   TextStyle,
   TouchableOpacity,
   View,
@@ -15,25 +16,17 @@ import {color, font} from '../../../theme';
 import Gap from '../Gap/Gap';
 import {SsuText} from '../Text/SsuText';
 
-interface InputProps {
+interface InputProps extends TextInputProps {
   fontSize?: number;
-  value: string;
-  keyboardType?: undefined | KeyboardTypeOptions;
-  onChangeText: (text: string) => void;
   disabled?: boolean;
   leftIcon?: React.ReactNode;
   isError?: boolean;
   errorMsg?: string;
-  placeholder?: string;
   password?: boolean;
 }
 
-interface TextAreaProps {
+interface TextAreaProps extends TextInputProps {
   fontSize?: number;
-  value: string;
-  onChangeText: (text: string) => void;
-  disabled?: boolean;
-  placeholder?: string;
 }
 
 type TypeStyle = {
@@ -58,6 +51,7 @@ const InputText: React.FC<InputProps> = ({
   errorMsg,
   leftIcon,
   password,
+  onEndEditing,
 }) => {
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
@@ -76,13 +70,14 @@ const InputText: React.FC<InputProps> = ({
         <TextInput
           style={[styles.input(fontSize)]}
           value={value}
-          secureTextEntry={secure}
+          secureTextEntry={password ? secure : false}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
           editable={disabled ? false : true}
           placeholder={placeholder}
           placeholderTextColor={FontColor}
           onFocus={() => setState(true)}
+          onEndEditing={onEndEditing}
         />
         {password ? (
           <TouchableOpacity
@@ -118,7 +113,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   fontSize,
   value,
   onChangeText,
-  disabled,
+  editable,
   placeholder,
 }) => {
   const [state, setState] = useState<boolean>(false);
@@ -137,7 +132,7 @@ const TextArea: React.FC<TextAreaProps> = ({
         numberOfLines={3}
         value={value}
         onChangeText={onChangeText}
-        editable={disabled ? false : true}
+        editable={editable}
         placeholder={placeholder}
         placeholderTextColor={FontColor}
         onFocus={() => setState(true)}

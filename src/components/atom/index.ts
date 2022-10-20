@@ -5,5 +5,6 @@ import { SsuText } from "./Text/SsuText";
 import ButtonTabFilter from "./ButtonTabFilter"
 import SquareImage from "./SquareImage/SquareImage";
 import DropdownComponent from "./DropDown/Dropdown";
+import SearchBar from "./SearchBar";
 
-export {Gap, Avatar, SsuInput, SsuText, ButtonTabFilter, SquareImage, DropdownComponent}
+export {Gap, Avatar, SsuInput, SsuText, ButtonTabFilter, SquareImage, DropdownComponent, SearchBar}
