@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {DropdownComponent} from '../atom';
+import {Dropdown} from '../atom';
 
 const DropDownExample = () => {
   const data = [
@@ -12,7 +12,7 @@ const DropDownExample = () => {
     {label: 'Highlight Post', value: '6'},
     {label: 'Backstage', value: '7'},
   ];
-  return <DropdownComponent data={data} />;
+  return <Dropdown.Menu data={data} />;
 };
 
 export default DropDownExample;

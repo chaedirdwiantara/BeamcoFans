@@ -9,12 +9,12 @@ interface dataProps {
   value?: string;
 }
 
-interface DropDownComponentProps {
+interface DropdownMenuProps {
   data: dataProps[];
 }
 
-const DropdownComponent: React.FC<DropDownComponentProps> = (
-  props: DropDownComponentProps,
+const DropdownMenu: React.FC<DropdownMenuProps> = (
+  props: DropdownMenuProps,
 ) => {
   const {data} = props;
   const [value, setValue] = useState(null);
@@ -24,6 +24,7 @@ const DropdownComponent: React.FC<DropDownComponentProps> = (
     <View style={styles.container}>
       <Dropdown
         style={[styles.dropdown, isFocus && {borderColor: color.Success[500]}]}
+        containerStyle={{borderWidth: 0}}
         placeholderStyle={styles.fontAll}
         selectedTextStyle={styles.fontAll}
         iconStyle={styles.iconStyle}
@@ -41,23 +42,22 @@ const DropdownComponent: React.FC<DropDownComponentProps> = (
         }}
         fontFamily={font.MontserratRegular}
         showsVerticalScrollIndicator={false}
+        autoScroll={false}
         activeColor={color.Dark[500]}
-        itemContainerStyle={{
-          height: 46,
-        }}
+        itemContainerStyle={[styles.itemContainer]}
         itemTextStyle={styles.fontAll}
       />
     </View>
   );
 };
 
-export default DropdownComponent;
+export default DropdownMenu;
 
 const styles = StyleSheet.create({
   container: {
-    width: 130,
-    backgroundColor: 'white',
-    padding: 16,
+    width: 110,
+    // backgroundColor: 'white',
+    padding: 4,
   },
   dropdown: {
     paddingHorizontal: 8,
@@ -79,7 +79,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: color.Neutral[50],
   },
-  itemContainerStyle: {},
+  itemContainer: {
+    height: 47,
+    backgroundColor: color.Dark[900],
+    borderColor: color.Dark[900],
+  },
   iconStyle: {
     width: 20,
     height: 20,
