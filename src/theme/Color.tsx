@@ -88,6 +88,7 @@ const Color = {
     100: '#657694',
     50: '#8794AD',
   },
+  Pink: '#F98FD9',
 };
 
 export default Color;
