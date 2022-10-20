@@ -11,12 +11,13 @@ interface dataProps {
 
 interface DropdownMenuProps {
   data: dataProps[];
+  placeHolder: string;
 }
 
 const DropdownMenu: React.FC<DropdownMenuProps> = (
   props: DropdownMenuProps,
 ) => {
-  const {data} = props;
+  const {data, placeHolder} = props;
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -32,7 +33,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? 'Category' : '...'}
+        placeholder={!isFocus ? placeHolder : '...'}
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}

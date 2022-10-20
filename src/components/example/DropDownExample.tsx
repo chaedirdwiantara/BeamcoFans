@@ -12,7 +12,7 @@ const DropDownExample = () => {
     {label: 'Highlight Post', value: '6'},
     {label: 'Backstage', value: '7'},
   ];
-  return <Dropdown.Menu data={data} />;
+  return <Dropdown.Menu data={data} placeHolder={'Category'} />;
 };
 
 export default DropDownExample;
