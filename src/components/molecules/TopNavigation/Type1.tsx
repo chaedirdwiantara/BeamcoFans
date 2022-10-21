@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {HomeIcon} from '../../../assets/icon';
+import {HomeIcon, SearchIcon} from '../../../assets/icon';
 import {elipsisText, normalize} from '../../../utils';
 import {
   widthPercentageToDP as wp,
@@ -21,8 +21,9 @@ type Props = {
   maxLengthTitle?: number;
   bgColor?: string;
   itemStrokeColor?: string;
-  leftIconChild?: React.ReactNode;
   backAction: () => void;
+  rightIcon?: boolean;
+  rightIconAction?: () => void;
 };
 
 /** == COMPONENT === */
@@ -33,7 +34,16 @@ const Type1: React.FC<Props> = (props: Props) => {
       <TouchableOpacity
         style={styles.iconLeftContainer}
         onPress={props.backAction}>
-        <View style={{paddingLeft: 16}}>{props.leftIconChild}</View>
+        <HomeIcon stroke={'white'} />
+      </TouchableOpacity>
+    );
+  };
+  const iconRight = () => {
+    return (
+      <TouchableOpacity
+        style={styles.iconRightContainer}
+        onPress={props.rightIconAction}>
+        <SearchIcon stroke={'white'} />
       </TouchableOpacity>
     );
   };
@@ -49,7 +59,11 @@ const Type1: React.FC<Props> = (props: Props) => {
             },
           ]}>
           <View style={{flexDirection: 'row'}}>
-            <View style={{flex: 1, justifyContent: 'center'}}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'flex-start',
+              }}>
               {iconLeft()}
             </View>
             <View style={styles.titleContainer}>
@@ -59,7 +73,13 @@ const Type1: React.FC<Props> = (props: Props) => {
                 {elipsisText(props.title, props.maxLengthTitle ?? 20)}
               </Text>
             </View>
-            <View style={{flex: 1}} />
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'flex-end',
+              }}>
+              {props.rightIcon ? iconRight() : null}
+            </View>
           </View>
         </View>
       </View>
@@ -90,19 +110,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 20,
   },
-
-  iconContainer: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
   iconLeftContainer: {
     alignItems: 'flex-start',
     justifyContent: 'center',
-  },
-  iconRightMultiContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
   },
   iconRightContainer: {
     alignItems: 'flex-end',

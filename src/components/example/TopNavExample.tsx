@@ -8,9 +8,10 @@ const TopNavExample = () => {
     <TopNavigation.Type1
       title="Fav Songs"
       backAction={() => console.log('Left Icon Pressed')}
+      //   rightIcon
+      //   rightIconAction={() => console.log('Right Icon Pressed')}
       maxLengthTitle={20}
       itemStrokeColor={'white'}
-      leftIconChild={<HomeIcon stroke={'white'} />}
     />
   );
 };
