@@ -1,8 +1,8 @@
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {ButtonTabFilter} from '../atom';
+import {TabFilter} from '../atom';
 
-const ButtonTabExample = () => {
+const TabFilterExample = () => {
   const [data, setData] = useState([
     {
       productName: 'SONG',
@@ -19,7 +19,7 @@ const ButtonTabExample = () => {
   ]);
 
   const [dataShow, setDataShow] = useState(data);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const [filter, setFilter] = useState([
     {filterName: 'SONG'},
@@ -37,7 +37,7 @@ const ButtonTabExample = () => {
 
   return (
     <>
-      <ButtonTabFilter
+      <TabFilter.Type2
         filterData={filter}
         onPress={filterData}
         selectedIndex={selectedIndex}
@@ -62,6 +62,6 @@ const ButtonTabExample = () => {
   );
 };
 
-export default ButtonTabExample;
+export default TabFilterExample;
 
 const styles = StyleSheet.create({});

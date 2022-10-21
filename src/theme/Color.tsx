@@ -90,6 +90,7 @@ const Color = {
   },
   Pink: {
     100: '#FF87DB',
+    200: '#FF69D2',
   },
 };
 

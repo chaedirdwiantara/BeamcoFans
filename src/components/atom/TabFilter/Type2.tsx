@@ -14,10 +14,10 @@ interface TabFilterProps {
   selectedIndex: number;
 }
 
-const SelectedColor = color.Pink[100];
-const UnSelectedColor = color.Neutral[10];
+const MainColor = color.Pink[200];
+const SelectedColorTxt = color.Neutral[10];
 
-const ButtonTabFilter: React.FC<TabFilterProps> = ({
+const Type2: React.FC<TabFilterProps> = ({
   filterData,
   onPress,
   selectedIndex,
@@ -32,7 +32,7 @@ const ButtonTabFilter: React.FC<TabFilterProps> = ({
           <TouchableOpacity
             style={[
               styles.tabStyle,
-              {borderBottomWidth: selectedIndex == index ? 1 : 0},
+              {backgroundColor: selectedIndex == index ? MainColor : undefined},
             ]}
             onPress={() => onPress(item.filterName, index)}>
             <Text
@@ -40,8 +40,7 @@ const ButtonTabFilter: React.FC<TabFilterProps> = ({
                 styles.TextStyle,
                 {
                   fontWeight: selectedIndex == index ? 'bold' : '500',
-                  color:
-                    selectedIndex == index ? SelectedColor : UnSelectedColor,
+                  color: selectedIndex == index ? SelectedColorTxt : MainColor,
                 },
               ]}>
               {item.filterName}
@@ -53,7 +52,7 @@ const ButtonTabFilter: React.FC<TabFilterProps> = ({
   );
 };
 
-export default ButtonTabFilter;
+export default Type2;
 
 const styles = StyleSheet.create({
   tab: {
@@ -61,11 +60,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tabStyle: {
-    height: mvs(40),
-    paddingHorizontal: ms(15),
+    marginRight: ms(6),
+    paddingHorizontal: ms(12),
+    paddingVertical: mvs(6),
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: SelectedColor,
+    borderWidth: 1,
+    borderColor: MainColor,
+    borderRadius: 4,
   },
   TextStyle: {
     fontSize: normalize(13),
