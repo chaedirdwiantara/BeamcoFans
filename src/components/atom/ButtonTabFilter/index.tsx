@@ -1,6 +1,8 @@
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {color} from '../../../theme';
+import {normalize} from '../../../utils';
+import {ms, mvs} from 'react-native-size-matters';
 
 interface filterData {
   filterName: string;
@@ -8,11 +10,12 @@ interface filterData {
 
 interface TabFilterProps {
   filterData: Array<filterData>;
-  onPress: () => void;
+  onPress: (params: string, index: number) => void;
   selectedIndex: number;
 }
 
-const SelectedColor = color.Success[600];
+const SelectedColor = color.Pink[100];
+const UnSelectedColor = color.Neutral[10];
 
 const ButtonTabFilter: React.FC<TabFilterProps> = ({
   filterData,
@@ -20,12 +23,11 @@ const ButtonTabFilter: React.FC<TabFilterProps> = ({
   selectedIndex,
 }) => {
   return (
-    <>
+    <View style={styles.tab}>
       <FlatList
         horizontal
         data={filterData}
         showsHorizontalScrollIndicator={false}
-        style={{marginBottom: 20, marginHorizontal: 10}}
         renderItem={({item, index}) => (
           <TouchableOpacity
             style={[
@@ -34,29 +36,38 @@ const ButtonTabFilter: React.FC<TabFilterProps> = ({
             ]}
             onPress={() => onPress(item.filterName, index)}>
             <Text
-              style={{
-                fontWeight: selectedIndex == index ? 'bold' : undefined,
-                color: selectedIndex == index ? SelectedColor : undefined,
-              }}>
+              style={[
+                styles.TextStyle,
+                {
+                  fontWeight: selectedIndex == index ? 'bold' : '500',
+                  color:
+                    selectedIndex == index ? SelectedColor : UnSelectedColor,
+                },
+              ]}>
               {item.filterName}
             </Text>
           </TouchableOpacity>
         )}
       />
-    </>
+    </View>
   );
 };
 
 export default ButtonTabFilter;
 
 const styles = StyleSheet.create({
+  tab: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   tabStyle: {
-    marginTop: 10,
-    marginBottom: 4,
-    height: 40,
-    paddingHorizontal: 15,
+    height: mvs(40),
+    paddingHorizontal: ms(15),
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: SelectedColor,
+  },
+  TextStyle: {
+    fontSize: normalize(13),
   },
 });
