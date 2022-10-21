@@ -8,27 +8,34 @@ interface dataProps {
   value?: string;
 }
 
-interface DropdownMenuProps {
+interface InputDropdownProps {
   data: dataProps[];
   placeHolder: string;
+  dropdownLabel: string;
 }
-
+const borderColor = color.Dark[50];
 const itemBg = color.Dark[900];
+const fontColorMain = color.Neutral[10];
 
-const DropdownMenu: React.FC<DropdownMenuProps> = (
-  props: DropdownMenuProps,
+const InputDropdown: React.FC<InputDropdownProps> = (
+  props: InputDropdownProps,
 ) => {
-  const {data, placeHolder} = props;
+  const {data, placeHolder, dropdownLabel} = props;
+
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
+  const renderLabel = () => {
+    return <Text style={[styles.label]}>{dropdownLabel}</Text>;
+  };
+
   return (
     <View style={styles.container}>
+      {renderLabel()}
       <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor: color.Success[500]}]}
+        style={[styles.dropdown]}
         containerStyle={styles.containerStyle}
-        placeholderStyle={styles.fontAll}
-        selectedTextStyle={styles.fontAll}
+        placeholderStyle={styles.placeholderStyle}
         iconStyle={styles.iconStyle}
         data={data}
         maxHeight={300}
@@ -47,22 +54,24 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
         autoScroll={false}
         activeColor={color.Dark[500]}
         itemContainerStyle={[styles.itemContainer]}
-        itemTextStyle={styles.fontAll}
+        itemTextStyle={styles.itemTextStyle}
+        selectedTextStyle={styles.selectedTextStyle}
       />
     </View>
   );
 };
 
-export default DropdownMenu;
+export default InputDropdown;
 
 const styles = StyleSheet.create({
   container: {
-    width: 110,
+    width: '100%',
     padding: 4,
   },
   // Dropdown first view
   dropdown: {
-    paddingHorizontal: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: borderColor,
   },
   // Dropdown modal container
   containerStyle: {
@@ -71,18 +80,28 @@ const styles = StyleSheet.create({
   },
   // Item container in modal container
   itemContainer: {
-    height: 47,
+    height: 53,
+    borderWidth: 0,
     backgroundColor: itemBg,
-    borderColor: itemBg,
   },
-  fontAll: {
-    fontSize: 10,
-    fontWeight: '500',
+  label: {
     color: color.Neutral[50],
+    fontSize: 10,
+  },
+  placeholderStyle: {
+    fontSize: 13,
+    color: fontColorMain,
+  },
+  selectedTextStyle: {
+    fontSize: 13,
+    color: fontColorMain,
+  },
+  itemTextStyle: {
+    fontSize: 13,
+    color: fontColorMain,
   },
   iconStyle: {
     width: 20,
     height: 20,
-    tintColor: 'pink',
   },
 });
