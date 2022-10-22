@@ -2,6 +2,7 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {TopNavigation} from '../molecules';
 import {HomeIcon, SearchIcon} from '../../assets/icon';
+import {color} from '../../theme';
 
 const TopNavExample = () => {
   return (
@@ -37,6 +38,21 @@ const TopNavExample = () => {
         rightIconAction={() => console.log('Right Icon Pressed')}
         maxLengthTitle={20}
         itemStrokeColor={'white'}
+      />
+      <Text style={{color: 'green'}}>
+        Left Icon Profile With Name, No Title, Right Icon With Notif Icon
+      </Text>
+      <TopNavigation.Type5
+        name="Type 5"
+        profileUri={
+          'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
+        }
+        leftIconAction={() => console.log('Left Icon Pressed')}
+        rightIcon={<SearchIcon stroke={'white'} />}
+        rightIconAction={() => console.log('Right Icon Pressed')}
+        maxLengthTitle={20}
+        itemStrokeColor={color.Pink[100]}
+        points={'100000'}
       />
     </ScrollView>
   );
