@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {HomeIcon} from '../../../assets/icon';
+import {HomeIcon, SearchIcon} from '../../../assets/icon';
 import {elipsisText, normalize} from '../../../utils';
 import {
   widthPercentageToDP as wp,
@@ -21,22 +21,10 @@ type Props = {
   maxLengthTitle?: number;
   bgColor?: string;
   itemStrokeColor?: string;
-  leftIconAction: () => void;
 };
 
 /** == COMPONENT === */
-const Type1: React.FC<Props> = (props: Props) => {
-  /** => icon left */
-  const iconLeft = () => {
-    return (
-      <TouchableOpacity
-        style={styles.iconLeftContainer}
-        onPress={props.leftIconAction}>
-        <HomeIcon stroke={'white'} />
-      </TouchableOpacity>
-    );
-  };
-
+const Type2: React.FC<Props> = (props: Props) => {
   /** => header */
   const header = () => {
     return (
@@ -53,9 +41,7 @@ const Type1: React.FC<Props> = (props: Props) => {
               style={{
                 flex: 1,
                 alignItems: 'flex-start',
-              }}>
-              {iconLeft()}
-            </View>
+              }}></View>
             <View style={styles.titleContainer}>
               <Text
                 numberOfLines={1}
@@ -77,7 +63,7 @@ const Type1: React.FC<Props> = (props: Props) => {
   return <>{header()}</>;
 };
 
-export default Type1;
+export default Type2;
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -97,9 +83,5 @@ const styles = StyleSheet.create({
     fontSize: normalize(16),
     fontWeight: '600',
     lineHeight: 20,
-  },
-  iconLeftContainer: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
   },
 });

@@ -22,10 +22,12 @@ type Props = {
   bgColor?: string;
   itemStrokeColor?: string;
   leftIconAction: () => void;
+  rightIcon: React.ReactNode;
+  rightIconAction?: () => void;
 };
 
 /** == COMPONENT === */
-const Type1: React.FC<Props> = (props: Props) => {
+const Type4: React.FC<Props> = (props: Props) => {
   /** => icon left */
   const iconLeft = () => {
     return (
@@ -36,7 +38,16 @@ const Type1: React.FC<Props> = (props: Props) => {
       </TouchableOpacity>
     );
   };
-
+  /** => icon right */
+  const iconRight = () => {
+    return (
+      <TouchableOpacity
+        style={styles.iconRightContainer}
+        onPress={props.rightIconAction}>
+        {props.rightIcon}
+      </TouchableOpacity>
+    );
+  };
   /** => header */
   const header = () => {
     return (
@@ -67,7 +78,9 @@ const Type1: React.FC<Props> = (props: Props) => {
               style={{
                 flex: 1,
                 alignItems: 'flex-end',
-              }}></View>
+              }}>
+              {iconRight()}
+            </View>
           </View>
         </View>
       </View>
@@ -77,7 +90,7 @@ const Type1: React.FC<Props> = (props: Props) => {
   return <>{header()}</>;
 };
 
-export default Type1;
+export default Type4;
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -100,6 +113,10 @@ const styles = StyleSheet.create({
   },
   iconLeftContainer: {
     alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  iconRightContainer: {
+    alignItems: 'flex-end',
     justifyContent: 'center',
   },
 });

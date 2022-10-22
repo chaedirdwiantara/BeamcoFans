@@ -21,22 +21,22 @@ type Props = {
   maxLengthTitle?: number;
   bgColor?: string;
   itemStrokeColor?: string;
-  leftIconAction: () => void;
+  rightIcon: React.ReactNode;
+  rightIconAction?: () => void;
 };
 
 /** == COMPONENT === */
-const Type1: React.FC<Props> = (props: Props) => {
-  /** => icon left */
-  const iconLeft = () => {
+const Type3: React.FC<Props> = (props: Props) => {
+  /** => icon right */
+  const iconRight = () => {
     return (
       <TouchableOpacity
-        style={styles.iconLeftContainer}
-        onPress={props.leftIconAction}>
-        <HomeIcon stroke={'white'} />
+        style={styles.iconRightContainer}
+        onPress={props.rightIconAction}>
+        {props.rightIcon}
       </TouchableOpacity>
     );
   };
-
   /** => header */
   const header = () => {
     return (
@@ -53,9 +53,7 @@ const Type1: React.FC<Props> = (props: Props) => {
               style={{
                 flex: 1,
                 alignItems: 'flex-start',
-              }}>
-              {iconLeft()}
-            </View>
+              }}></View>
             <View style={styles.titleContainer}>
               <Text
                 numberOfLines={1}
@@ -67,7 +65,9 @@ const Type1: React.FC<Props> = (props: Props) => {
               style={{
                 flex: 1,
                 alignItems: 'flex-end',
-              }}></View>
+              }}>
+              {iconRight()}
+            </View>
           </View>
         </View>
       </View>
@@ -77,7 +77,7 @@ const Type1: React.FC<Props> = (props: Props) => {
   return <>{header()}</>;
 };
 
-export default Type1;
+export default Type3;
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 20,
   },
-  iconLeftContainer: {
-    alignItems: 'flex-start',
+  iconRightContainer: {
+    alignItems: 'flex-end',
     justifyContent: 'center',
   },
 });

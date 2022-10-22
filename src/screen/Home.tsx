@@ -6,7 +6,7 @@ export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
       <Text>Home Screen</Text>
-      <TabFilterExample />
+      <TopNavExample />
     </View>
   );
 };
