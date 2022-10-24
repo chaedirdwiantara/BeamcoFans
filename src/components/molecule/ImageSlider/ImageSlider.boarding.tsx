@@ -18,7 +18,7 @@ interface ImageSliderProps {
   onPress: () => void;
 }
 
-const ImageSlider: FC<ImageSliderProps> = ({data, onPress}) => {
+export const ImageSlider: FC<ImageSliderProps> = ({data, onPress}) => {
   const currentIndex = useRef<number>(0);
 
   useEffect(() => {
@@ -76,8 +76,6 @@ const ImageSlider: FC<ImageSliderProps> = ({data, onPress}) => {
     </View>
   );
 };
-
-export default ImageSlider;
 
 const styles = StyleSheet.create({
   itemImage: {
