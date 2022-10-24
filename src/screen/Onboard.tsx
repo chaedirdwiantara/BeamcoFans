@@ -1,9 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../App';
 import {useBaseHook} from '../hooks/use-base.hook';
+
+import Color from '../theme/Color';
+import {ImageSlider} from '../components';
 
 export const OnboardScreen: React.FC = () => {
   const navigation =
@@ -19,9 +22,33 @@ export const OnboardScreen: React.FC = () => {
     });
   };
 
+  const data = [
+    {
+      id: 0,
+      uri: require('../assets/background/onboard-1.png'),
+      title: "Let's the fans grow\nwith their musician",
+      subtitle:
+        'Lorem ipsum dolor sit amet, consectetur adispicing elit. Vestibulum porta ipsum Lorem ipsum dolor sit amet.',
+    },
+    {
+      id: 1,
+      uri: require('../assets/background/onboard-2.png'),
+      title: "Let's the fans grow\nwith their musician",
+      subtitle:
+        'Lorem ipsum dolor sit amet, consectetur adispicing elit. Vestibulum porta ipsum Lorem ipsum dolor sit amet.',
+    },
+    {
+      id: 2,
+      uri: require('../assets/background/onboard-3.png'),
+      title: "Let's the fans grow\nwith their musician",
+      subtitle:
+        'Lorem ipsum dolor sit amet, consectetur adispicing elit. Vestibulum porta ipsum Lorem ipsum dolor sit amet.',
+    },
+  ];
+
   return (
     <View style={styles.root}>
-      <Text onPress={handeOnpressText}>Onboard screen</Text>
+      <ImageSlider data={data} onPress={handeOnpressText} />
     </View>
   );
 };
@@ -29,6 +56,7 @@ export const OnboardScreen: React.FC = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: Color.Dark[800],
     justifyContent: 'center',
     alignItems: 'center',
   },

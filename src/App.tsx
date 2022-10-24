@@ -13,6 +13,7 @@ import {HomeScreen} from './screen/Home';
 import {SearchScreen} from './screen/Search';
 import {FeedScreen} from './screen/Feed';
 import {CollectionScreen} from './screen/Collection';
+import {ModalConfirm} from './components';
 
 import HomeIcon from './assets/icon/Home.icon';
 import SearchIcon from './assets/icon/Search.icon';
@@ -27,6 +28,7 @@ export type RootStackParams = {
   Login: undefined;
   Signup: undefined;
   MainTab: undefined;
+  ModalConfirm: undefined;
 };
 
 export type MainTabParams = {
@@ -89,10 +91,44 @@ const TabScreen = () => (
 const RootStack = createNativeStackNavigator<RootStackParams>();
 const RootStackScreen = () => (
   <RootStack.Navigator screenOptions={screenOption}>
-    <RootStack.Screen name="Boarding" component={OnboardScreen} />
-    <RootStack.Screen name="Login" component={LoginScreen} />
-    <RootStack.Screen name="Signup" component={SignupScreen} />
-    <RootStack.Screen name="MainTab" component={TabScreen} />
+    <RootStack.Group>
+      <RootStack.Screen name="Boarding" component={OnboardScreen} />
+      <RootStack.Screen name="Login" component={LoginScreen} />
+      <RootStack.Screen name="Signup" component={SignupScreen} />
+      <RootStack.Screen name="MainTab" component={TabScreen} />
+    </RootStack.Group>
+    <RootStack.Group
+      screenOptions={({}) => ({
+        presentation: 'transparentModal',
+      })}>
+      <RootStack.Screen
+        name="ModalConfirm"
+        component={ModalConfirm}
+        options={{
+          headerShown: false,
+          animationEnabled: true,
+          cardStyle: {backgroundColor: 'rgba(0,0,0,0.01)'},
+          cardOverlayEnabled: true,
+          cardStyleInterpolator: ({current: {progress}}) => {
+            return {
+              cardStyle: {
+                opacity: progress.interpolate({
+                  inputRange: [0, 0.5, 0.9, 1],
+                  outputRange: [0, 0.25, 0.7, 1],
+                }),
+              },
+              overlayStyle: {
+                opacity: progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 0.01],
+                  extrapolate: 'clamp',
+                }),
+              },
+            };
+          },
+        }}
+      />
+    </RootStack.Group>
   </RootStack.Navigator>
 );
 
