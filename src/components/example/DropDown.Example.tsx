@@ -23,15 +23,16 @@ const DropDownExample = () => {
     {label: 'Plutonese', value: '7'},
   ];
   return (
-    <>
+    <View style={{width: '100%', marginBottom: 16}}>
+      <Text style={{color: 'green'}}>Type 1 Dropdown menu</Text>
       <Dropdown.Menu data={data} placeHolder={'Category'} />
-      <Gap height={200} />
+      <Text style={{color: 'green'}}>Type 2 Dropdown input</Text>
       <Dropdown.Input
         data={dataLanguage}
         placeHolder={'Select Language'}
         dropdownLabel={'Language'}
       />
-    </>
+    </View>
   );
 };
 

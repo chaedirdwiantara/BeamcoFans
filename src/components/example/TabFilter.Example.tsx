@@ -36,7 +36,31 @@ const TabFilterExample = () => {
   };
 
   return (
-    <>
+    <View style={{width: '100%', marginBottom: 16}}>
+      <Text style={{color: 'green'}}>Tab Filter Type 1</Text>
+      <TabFilter.Type1
+        filterData={filter}
+        onPress={filterData}
+        selectedIndex={selectedIndex}
+      />
+      <FlatList
+        data={dataShow}
+        renderItem={({item}) => (
+          <View
+            style={{
+              marginHorizontal: 20,
+              marginTop: 10,
+              backgroundColor: '#FFF',
+              elevation: 2,
+              paddingVertical: 10,
+              paddingLeft: 10,
+            }}>
+            <Text>{item.productName}</Text>
+          </View>
+        )}
+      />
+
+      <Text style={{color: 'green'}}>Tab Filter Type 2</Text>
       <TabFilter.Type2
         filterData={filter}
         onPress={filterData}
@@ -58,7 +82,7 @@ const TabFilterExample = () => {
           </View>
         )}
       />
-    </>
+    </View>
   );
 };
 

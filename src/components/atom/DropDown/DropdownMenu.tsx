@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
+import {ms, mvs} from 'react-native-size-matters';
 import {color, font} from '../../../theme';
+import {normalize} from '../../../utils';
 
 interface dataProps {
   label: string;
@@ -57,12 +59,11 @@ export default DropdownMenu;
 
 const styles = StyleSheet.create({
   container: {
-    width: 110,
-    padding: 4,
+    width: ms(100),
   },
   // Dropdown first view
   dropdown: {
-    paddingHorizontal: 8,
+    // paddingHorizontal: 8,
   },
   // Dropdown modal container
   containerStyle: {
@@ -71,18 +72,18 @@ const styles = StyleSheet.create({
   },
   // Item container in modal container
   itemContainer: {
-    height: 47,
+    height: mvs(47),
     backgroundColor: itemBg,
     borderColor: itemBg,
   },
   fontAll: {
-    fontSize: 10,
+    fontSize: normalize(10),
     fontWeight: '500',
     color: color.Neutral[50],
   },
   iconStyle: {
-    width: 20,
-    height: 20,
+    width: ms(20),
+    height: ms(20),
     tintColor: 'pink',
   },
 });

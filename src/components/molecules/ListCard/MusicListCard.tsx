@@ -1,6 +1,10 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {LoveIcon, ThreeDotsIcon} from '../../../assets/icon';
+import {normalize} from '../../../utils';
+import {ms} from 'react-native-size-matters';
+import {color} from '../../../theme';
+import {SquareImage} from '../../atom';
 
 interface ListProps {
   imgUri: string;
@@ -24,9 +28,7 @@ const MusicListCard: React.FC<ListProps> = ({
   return (
     <View style={styles.container}>
       <Text style={styles.rankStyle}>{musicNum}</Text>
-      <View style={styles.imageContainer}>
-        <Image source={{uri: imgUri}} style={{flex: 1}} />
-      </View>
+      <SquareImage imgUri={imgUri} size={44} />
       <View style={styles.textContainer}>
         <Text style={styles.songTitle}>{musicTitle}</Text>
         <Text style={styles.songDesc}>{musicDesc}</Text>
@@ -54,16 +56,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rankStyle: {
-    fontSize: 10,
+    fontSize: normalize(10),
     fontWeight: '600',
     lineHeight: 12,
-    marginRight: 10,
-  },
-  imageContainer: {
-    height: 40,
-    width: 40,
-    marginRight: 12,
-    backgroundColor: 'black',
+    marginRight: ms(10),
+    color: color.Neutral[10],
   },
   textContainer: {
     flex: 1,
@@ -71,18 +68,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   songTitle: {
-    fontSize: 15,
+    fontSize: normalize(15),
     fontWeight: '500',
     lineHeight: 20,
   },
   songDesc: {
-    fontSize: 10,
+    fontSize: normalize(10),
     fontWeight: '500',
     lineHeight: 12,
   },
   likeButton: {
     justifyContent: 'center',
-    marginRight: 5,
+    marginRight: ms(5),
   },
   dotsButton: {
     justifyContent: 'center',

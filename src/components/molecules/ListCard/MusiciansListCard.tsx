@@ -3,6 +3,8 @@ import React from 'react';
 import {Avatar} from '../../atom';
 import {ThreeDotsIcon} from '../../../assets/icon';
 import {color, font} from '../../../theme';
+import {normalize} from '../../../utils';
+import {ms} from 'react-native-size-matters';
 
 interface ListProps {
   musicNum: string;
@@ -41,12 +43,14 @@ const styles = StyleSheet.create({
     height: undefined,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   rankStyle: {
-    fontSize: 10,
+    fontSize: normalize(10),
     fontWeight: '600',
     lineHeight: 12,
-    marginRight: 10,
+    marginRight: ms(10),
+    color: color.Neutral[10],
   },
   textContainer: {
     flex: 1,
@@ -54,10 +58,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   songTitle: {
-    fontSize: 15,
+    fontSize: normalize(15),
     fontWeight: '500',
     lineHeight: 20,
-    marginLeft: 12,
+    marginLeft: ms(12),
+    color: color.Neutral[10],
   },
   rightContainer: {
     flexDirection: 'row',
@@ -66,7 +71,7 @@ const styles = StyleSheet.create({
   pointStyle: {
     fontFamily: font.MontserratSemiBold,
     fontWeight: '600',
-    fontSize: 10,
+    fontSize: normalize(10),
     lineHeight: 12,
     color: '#FF87DB',
   },

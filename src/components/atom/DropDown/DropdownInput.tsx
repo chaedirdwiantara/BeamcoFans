@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
+import {ms, mvs} from 'react-native-size-matters';
 import {color, font} from '../../../theme';
+import {normalize} from '../../../utils';
 
 interface dataProps {
   label: string;
@@ -38,7 +40,7 @@ const InputDropdown: React.FC<InputDropdownProps> = (
         placeholderStyle={styles.placeholderStyle}
         iconStyle={styles.iconStyle}
         data={data}
-        maxHeight={300}
+        maxHeight={mvs(300)}
         labelField="label"
         valueField="value"
         placeholder={!isFocus ? placeHolder : '...'}
@@ -66,7 +68,6 @@ export default InputDropdown;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    padding: 4,
   },
   // Dropdown first view
   dropdown: {
@@ -80,28 +81,28 @@ const styles = StyleSheet.create({
   },
   // Item container in modal container
   itemContainer: {
-    height: 53,
+    height: mvs(53),
     borderWidth: 0,
     backgroundColor: itemBg,
   },
   label: {
     color: color.Neutral[50],
-    fontSize: 10,
+    fontSize: normalize(10),
   },
   placeholderStyle: {
-    fontSize: 13,
+    fontSize: normalize(13),
     color: fontColorMain,
   },
   selectedTextStyle: {
-    fontSize: 13,
+    fontSize: normalize(13),
     color: fontColorMain,
   },
   itemTextStyle: {
-    fontSize: 13,
+    fontSize: normalize(13),
     color: fontColorMain,
   },
   iconStyle: {
-    width: 20,
-    height: 20,
+    width: ms(20),
+    height: ms(20),
   },
 });
