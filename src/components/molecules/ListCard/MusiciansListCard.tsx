@@ -4,7 +4,7 @@ import {Avatar} from '../../atom';
 import {ThreeDotsIcon} from '../../../assets/icon';
 import {color, font} from '../../../theme';
 import {normalize} from '../../../utils';
-import {ms} from 'react-native-size-matters';
+import {ms, mvs} from 'react-native-size-matters';
 
 interface ListProps {
   musicNum: string;
@@ -28,7 +28,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
         <TouchableOpacity
           onPress={onPressThreeDots}
           style={[styles.dotsButton]}>
-          <ThreeDotsIcon fill={color.Dark[50]} />
+          <ThreeDotsIcon fill={color.Neutral[10]} />
         </TouchableOpacity>
       </View>
     </View>
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   rankStyle: {
     fontSize: normalize(10),
     fontWeight: '600',
-    lineHeight: 12,
+    lineHeight: mvs(12),
     marginRight: ms(10),
     color: color.Neutral[10],
   },
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   songTitle: {
     fontSize: normalize(15),
     fontWeight: '500',
-    lineHeight: 20,
+    lineHeight: mvs(20),
     marginLeft: ms(12),
     color: color.Neutral[10],
   },
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     fontFamily: font.MontserratSemiBold,
     fontWeight: '600',
     fontSize: normalize(10),
-    lineHeight: 12,
+    lineHeight: mvs(12),
     color: '#FF87DB',
   },
   dotsButton: {

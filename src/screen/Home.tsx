@@ -17,7 +17,7 @@ export const HomeScreen: React.FC = () => {
     <View style={styles.root}>
       <ScrollView>
         {/* <Text>Home Screen</Text> */}
-        {/* <TopNavExample /> */}
+        <TopNavExample />
         <DropDownExample />
         <InputExample />
         <MusicianListExample />

@@ -65,11 +65,12 @@ const styles = StyleSheet.create({
     paddingVertical: mvs(6),
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: ms(1),
     borderColor: MainColor,
     borderRadius: 4,
   },
   TextStyle: {
-    fontSize: normalize(13),
+    fontSize: normalize(10),
+    lineHeight: mvs(12),
   },
 });

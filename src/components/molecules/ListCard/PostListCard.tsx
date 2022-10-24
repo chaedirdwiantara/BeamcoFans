@@ -3,6 +3,8 @@ import React from 'react';
 import {Avatar, Gap} from '../../atom';
 import {CommentIcon, LoveIcon, ThreeDotsIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
+import {normalize} from '../../../utils';
+import {ms, mvs} from 'react-native-size-matters';
 
 interface ListProps {
   imgUri: string;
@@ -68,7 +70,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
       </View>
       {/* BOTTOM SECTION */}
       <View style={styles.bottomContainer}>
-        <Gap width={57} />
+        <Gap width={55} />
         <View
           style={{
             flex: 1,
@@ -81,8 +83,8 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
               onPress={likeOnPress}
               style={{flexDirection: 'row', alignItems: 'center'}}>
               <LoveIcon
-                fill={likePressed ? 'pink' : 'none'}
-                stroke={likePressed ? 'none' : 'black'}
+                fill={likePressed ? color.Pink[100] : 'none'}
+                stroke={likePressed ? 'none' : color.Dark[100]}
               />
               <Gap width={3} />
               <Text style={{color: color.Dark[100], fontSize: 10}}>5000</Text>
@@ -129,10 +131,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rankStyle: {
-    fontSize: 10,
+    fontSize: normalize(10),
     fontWeight: '600',
-    lineHeight: 12,
-    marginRight: 10,
+    lineHeight: mvs(12),
+    marginRight: ms(10),
+    color: color.Neutral[10],
   },
   textContainer: {
     flex: 1,
@@ -140,40 +143,42 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   songTitle: {
-    fontSize: 15,
+    fontSize: normalize(15),
     fontWeight: '500',
-    lineHeight: 20,
+    lineHeight: mvs(20),
+    color: color.Neutral[10],
   },
   songDesc: {
-    fontSize: 10,
+    fontSize: normalize(10),
     fontWeight: '500',
-    lineHeight: 12,
+    lineHeight: mvs(12),
     color: color.Dark[50],
   },
   rightComponent: {
-    width: 90,
+    width: ms(90),
     alignItems: 'flex-end',
+    justifyContent: 'space-evenly',
   },
   category: {
-    backgroundColor: '#FF70D4',
-    paddingHorizontal: 4,
-    paddingVertical: 3,
+    backgroundColor: color.Pink[100],
+    paddingHorizontal: ms(4),
+    paddingVertical: mvs(3),
     borderRadius: 2,
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: mvs(4),
   },
   categoryText: {
     color: color.Neutral[10],
-    fontSize: 8,
+    fontSize: normalize(8),
     fontWeight: '500',
-    lineHeight: 10,
+    lineHeight: mvs(10),
   },
   dateStyle: {
-    fontSize: 10,
+    fontSize: normalize(10),
     fontWeight: '500',
-    lineHeight: 12,
+    lineHeight: mvs(12),
     color: color.Dark[50],
-    marginTop: 4,
+    marginTop: mvs(4),
   },
   bottomContainer: {
     flexDirection: 'row',

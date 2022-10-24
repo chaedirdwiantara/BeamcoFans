@@ -2,7 +2,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {LoveIcon, ThreeDotsIcon} from '../../../assets/icon';
 import {normalize} from '../../../utils';
-import {ms} from 'react-native-size-matters';
+import {ms, mvs} from 'react-native-size-matters';
 import {color} from '../../../theme';
 import {SquareImage} from '../../atom';
 
@@ -35,12 +35,12 @@ const MusicListCard: React.FC<ListProps> = ({
       </View>
       <TouchableOpacity onPress={onPressLikeIcon} style={[styles.likeButton]}>
         <LoveIcon
-          fill={likePressed ? 'pink' : 'none'}
-          stroke={likePressed ? 'none' : 'black'}
+          fill={likePressed ? color.Pink[100] : 'none'}
+          stroke={likePressed ? 'none' : color.Neutral[10]}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={onPressThreeDots} style={[styles.dotsButton]}>
-        <ThreeDotsIcon fill="black" />
+        <ThreeDotsIcon fill={color.Neutral[20]} />
       </TouchableOpacity>
     </View>
   );
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   rankStyle: {
     fontSize: normalize(10),
     fontWeight: '600',
-    lineHeight: 12,
+    lineHeight: mvs(12),
     marginRight: ms(10),
     color: color.Neutral[10],
   },
@@ -66,16 +66,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
+    marginLeft: ms(12),
   },
   songTitle: {
     fontSize: normalize(15),
     fontWeight: '500',
-    lineHeight: 20,
+    lineHeight: mvs(20),
+    color: color.Neutral[10],
   },
   songDesc: {
     fontSize: normalize(10),
     fontWeight: '500',
-    lineHeight: 12,
+    lineHeight: mvs(12),
+    color: color.Dark[100],
   },
   likeButton: {
     justifyContent: 'center',

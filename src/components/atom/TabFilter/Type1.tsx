@@ -32,14 +32,14 @@ const Type1: React.FC<TabFilterProps> = ({
           <TouchableOpacity
             style={[
               styles.tabStyle,
-              {borderBottomWidth: selectedIndex == index ? 1 : 0},
+              {borderBottomWidth: selectedIndex == index ? 2 : 0},
             ]}
             onPress={() => onPress(item.filterName, index)}>
             <Text
               style={[
                 styles.TextStyle,
                 {
-                  fontWeight: selectedIndex == index ? 'bold' : '500',
+                  fontWeight: selectedIndex == index ? '700' : '500',
                   color:
                     selectedIndex == index ? SelectedColor : UnSelectedColor,
                 },
@@ -62,12 +62,14 @@ const styles = StyleSheet.create({
   },
   tabStyle: {
     height: mvs(40),
-    paddingHorizontal: ms(15),
+    paddingHorizontal: ms(10),
+    paddingVertical: mvs(8),
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: SelectedColor,
   },
   TextStyle: {
     fontSize: normalize(13),
+    lineHeight: mvs(20),
   },
 });
