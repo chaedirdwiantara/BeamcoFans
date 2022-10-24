@@ -6,7 +6,7 @@ import {RootStackParams} from '../App';
 import {useBaseHook} from '../hooks/use-base.hook';
 
 import Color from '../theme/Color';
-import ImageSlider from '../components/molecule/ImageSlider/ImageSlider.boarding';
+import {ImageSlider} from '../components';
 
 export const OnboardScreen: React.FC = () => {
   const navigation =
