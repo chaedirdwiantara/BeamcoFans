@@ -51,58 +51,41 @@ const Type4: React.FC<Props> = (props: Props) => {
   /** => header */
   const header = () => {
     return (
-      <View style={{overflow: 'hidden', paddingBottom: 4}}>
-        <View
-          style={[
-            styles.headerContainer,
-            {
-              backgroundColor: props.bgColor,
-            },
-          ]}>
-          <View style={{flexDirection: 'row'}}>
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'flex-start',
-              }}>
-              {iconLeft()}
-            </View>
-            <View style={styles.titleContainer}>
-              <Text
-                numberOfLines={1}
-                style={[styles.centerTitle, {color: props.itemStrokeColor}]}>
-                {elipsisText(props.title, props.maxLengthTitle ?? 20)}
-              </Text>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'flex-end',
-              }}>
-              {iconRight()}
-            </View>
-          </View>
+      <View
+        style={[
+          styles.headerContainer,
+          {
+            backgroundColor: props.bgColor,
+          },
+        ]}>
+        <View>{iconLeft()}</View>
+        <View>
+          <Text
+            numberOfLines={1}
+            style={[styles.centerTitle, {color: props.itemStrokeColor}]}>
+            {elipsisText(props.title, props.maxLengthTitle ?? 20)}
+          </Text>
         </View>
+        <View>{iconRight()}</View>
       </View>
     );
   };
   /** => MAIN */
-  return <>{header()}</>;
+  return <View>{header()}</View>;
 };
 
 export default Type4;
 
 const styles = StyleSheet.create({
   headerContainer: {
-    alignItems: 'center',
-    width: wp('100%'),
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: color.Dark[300],
     paddingTop: mvs(44),
     paddingBottom: mvs(24),
-  },
-  titleContainer: {
-    flex: 3,
+    backgroundColor: 'yellow',
   },
   centerTitle: {
     fontfamily: font.MontserratRegular,

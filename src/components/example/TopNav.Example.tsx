@@ -3,10 +3,12 @@ import React from 'react';
 import {TopNavigation} from '../molecules';
 import {HomeIcon, SearchIcon} from '../../assets/icon';
 import {color} from '../../theme';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
+import {mvs} from 'react-native-size-matters';
 
 const TopNavExample = () => {
   return (
-    <ScrollView>
+    <View style={styles.container}>
       <Text style={{color: 'green'}}>Type 1 Left back action with Title</Text>
       <TopNavigation.Type1
         title="Type 1"
@@ -54,10 +56,15 @@ const TopNavExample = () => {
         itemStrokeColor={color.Pink[100]}
         points={'100000'}
       />
-    </ScrollView>
+    </View>
   );
 };
 
 export default TopNavExample;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // width: widthPercentageToDP('100%'),
+  },
+});

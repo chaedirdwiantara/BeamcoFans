@@ -54,47 +54,42 @@ const Type5: React.FC<Props> = (props: Props) => {
   /** => header */
   const header = () => {
     return (
-      <View style={{overflow: 'hidden', paddingBottom: 4}}>
+      <View
+        style={[
+          styles.headerContainer,
+          {
+            backgroundColor: props.bgColor,
+          },
+        ]}>
         <View
-          style={[
-            styles.headerContainer,
-            {
-              backgroundColor: props.bgColor,
-            },
-          ]}>
-          <View style={{flexDirection: 'row'}}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                flexDirection: 'row',
-              }}>
-              {iconLeft()}
-              <Gap width={8} />
-              <Text
-                numberOfLines={1}
-                style={[styles.centerTitle, {color: props.itemStrokeColor}]}>
-                {elipsisText(`Hi, ${props.name}`, props.maxLengthTitle ?? 20)}
-              </Text>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                flexDirection: 'row',
-              }}>
-              {/* Need to change this text into chip money component */}
-              <Text
-                numberOfLines={1}
-                style={[styles.centerTitle, {color: props.itemStrokeColor}]}>
-                {props.points}
-              </Text>
-              <Gap width={12} />
-              {iconRight()}
-            </View>
-          </View>
+          style={{
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}>
+          {iconLeft()}
+          <Gap width={8} />
+          <Text
+            numberOfLines={1}
+            style={[styles.centerTitle, {color: props.itemStrokeColor}]}>
+            {elipsisText(`Hi, ${props.name}`, props.maxLengthTitle ?? 20)}
+          </Text>
+        </View>
+        <View
+          style={{
+            // flex: 1,
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}>
+          {/* Need to change this text into chip money component */}
+          <Text
+            numberOfLines={1}
+            style={[styles.centerTitle, {color: props.itemStrokeColor}]}>
+            {props.points}
+          </Text>
+          <Gap width={12} />
+          {iconRight()}
         </View>
       </View>
     );
@@ -107,15 +102,13 @@ export default Type5;
 
 const styles = StyleSheet.create({
   headerContainer: {
-    alignItems: 'center',
-    width: wp('100%'),
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     // borderBottomWidth: 1,
     // borderBottomColor: color.Dark[300],
     paddingTop: mvs(44),
     paddingBottom: mvs(24),
-  },
-  titleContainer: {
-    flex: 3,
   },
   centerTitle: {
     fontfamily: font.MontserratRegular,
