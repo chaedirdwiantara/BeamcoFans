@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: normalize(16),
     fontWeight: '600',
-    lineHeight: 20,
+    lineHeight: mvs(20),
   },
   iconLeftContainer: {
     alignItems: 'flex-start',

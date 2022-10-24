@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {mvs} from 'react-native-size-matters';
+import {SearchBar} from '../components';
 import {
   DropDownExample,
   InputExample,
@@ -20,6 +21,7 @@ export const HomeScreen: React.FC = () => {
         <TopNavExample />
         <DropDownExample />
         <InputExample />
+        <SearchBar />
         <MusicianListExample />
         <MusicListCardExample />
         <PostListCardExample />

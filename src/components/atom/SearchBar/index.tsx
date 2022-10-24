@@ -6,19 +6,33 @@ import {SsuInput} from '../InputText/SsuInput';
 
 const SearchBar = () => {
   const [state, setState] = useState('');
+  const [showIcon, setShowIcon] = useState(false);
 
   const onEndEditing = () => {
     console.log(state);
+  };
+
+  const onChangeText = (text: string) => {
+    setState(text);
+    setShowIcon(true);
+  };
+  const onReset = () => {
+    setState('');
+    setShowIcon(false);
+    console.log('works');
   };
 
   return (
     <View style={styles.container}>
       <SsuInput.InputText
         value={state}
-        onChangeText={(newText: any) => setState(newText)}
+        onChangeText={onChangeText}
         placeholder={'Search'}
         leftIcon={<SearchIcon stroke={color.Dark[50]} />}
         onEndEditing={onEndEditing}
+        backgroundColor={color.Dark[600]}
+        rightIcon={showIcon}
+        reset={onReset}
       />
     </View>
   );

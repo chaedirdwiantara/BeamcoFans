@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
+    borderBottomWidth: mvs(1),
     borderBottomColor: color.Dark[300],
     paddingTop: mvs(44),
     paddingBottom: mvs(24),
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: normalize(16),
     fontWeight: '600',
-    lineHeight: 20,
+    lineHeight: mvs(20),
   },
   iconLeftContainer: {
     alignItems: 'flex-start',
