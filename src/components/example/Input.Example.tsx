@@ -10,7 +10,8 @@ const InputExample = () => {
   const [areaState, setAreaState] = useState('');
 
   return (
-    <View style={{width: '100%', paddingHorizontal: 16}}>
+    <View style={{width: '100%', marginBottom: 16}}>
+      <Text style={{color: 'green'}}>Type 1 Text Input</Text>
       <SsuInput.InputText
         value={state}
         onChangeText={(newText: any) => setState(newText)}
@@ -20,6 +21,7 @@ const InputExample = () => {
         leftIcon={<KeyIcon stroke={color.Dark[50]} />}
         password
       />
+      <Text style={{color: 'green'}}>Type 2 Text Area</Text>
       <SsuInput.TextArea
         value={areaState}
         onChangeText={(newText: any) => setAreaState(newText)}

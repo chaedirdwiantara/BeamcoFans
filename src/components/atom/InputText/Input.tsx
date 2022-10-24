@@ -5,35 +5,39 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TextInputProps,
   TextStyle,
   TouchableOpacity,
   View,
+  ViewProps,
   ViewStyle,
 } from 'react-native';
-import {ErrorIcon, EyeCloseIcon, EyeOpenIcon} from '../../../assets/icon';
+import {
+  CloseIcon,
+  ErrorIcon,
+  EyeCloseIcon,
+  EyeOpenIcon,
+  HomeIcon,
+} from '../../../assets/icon';
 import {color, font} from '../../../theme';
 import Gap from '../Gap/Gap';
 import {SsuText} from '../Text/SsuText';
 
-interface InputProps {
+interface InputProps extends TextInputProps {
   fontSize?: number;
-  value: string;
-  keyboardType?: undefined | KeyboardTypeOptions;
-  onChangeText: (text: string) => void;
   disabled?: boolean;
   leftIcon?: React.ReactNode;
   isError?: boolean;
   errorMsg?: string;
-  placeholder?: string;
   password?: boolean;
+  backgroundColor?: string;
+  rightIcon?: boolean;
+  reset?: () => void;
 }
 
-interface TextAreaProps {
+interface TextAreaProps extends TextInputProps {
   fontSize?: number;
-  value: string;
-  onChangeText: (text: string) => void;
-  disabled?: boolean;
-  placeholder?: string;
+  backgroundColor?: string;
 }
 
 type TypeStyle = {
@@ -58,9 +62,21 @@ const InputText: React.FC<InputProps> = ({
   errorMsg,
   leftIcon,
   password,
+  onEndEditing,
+  backgroundColor,
+  rightIcon,
+  reset,
 }) => {
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
+
+  const rightIconComp = () => {
+    return (
+      <TouchableOpacity onPress={reset} style={{padding: 4}}>
+        <CloseIcon stroke={FontColor} fill={backgroundColor} />
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View>
@@ -68,21 +84,26 @@ const InputText: React.FC<InputProps> = ({
         style={[
           styles.container,
           {
+            backgroundColor: backgroundColor
+              ? backgroundColor
+              : color.Dark[900],
             borderWidth: state === true ? 1 : 0,
             borderColor: isError === true ? ErrorColor : color.Success[500],
           },
         ]}>
         {leftIcon}
         <TextInput
-          style={[styles.input(fontSize, onChangeText)]}
+          style={[styles.input(fontSize)]}
           value={value}
-          secureTextEntry={secure}
+          secureTextEntry={password ? secure : false}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
           editable={disabled ? false : true}
           placeholder={placeholder}
           placeholderTextColor={FontColor}
           onFocus={() => setState(true)}
+          // onEndEditing={onEndEditing}
+          onSubmitEditing={onEndEditing}
         />
         {password ? (
           <TouchableOpacity
@@ -96,6 +117,7 @@ const InputText: React.FC<InputProps> = ({
             )}
           </TouchableOpacity>
         ) : null}
+        <View>{rightIcon ? rightIconComp() : null}</View>
       </View>
 
       {isError === true && state === true ? (
@@ -118,8 +140,9 @@ const TextArea: React.FC<TextAreaProps> = ({
   fontSize,
   value,
   onChangeText,
-  disabled,
+  editable,
   placeholder,
+  backgroundColor,
 }) => {
   const [state, setState] = useState<boolean>(false);
   return (
@@ -129,6 +152,7 @@ const TextArea: React.FC<TextAreaProps> = ({
         {
           borderWidth: state === true ? 1 : 0,
           borderColor: color.Success[500],
+          backgroundColor: backgroundColor ? backgroundColor : color.Dark[900],
         },
       ]}>
       <TextInput
@@ -137,7 +161,7 @@ const TextArea: React.FC<TextAreaProps> = ({
         numberOfLines={3}
         value={value}
         onChangeText={onChangeText}
-        editable={disabled ? false : true}
+        editable={editable}
         placeholder={placeholder}
         placeholderTextColor={FontColor}
         onFocus={() => setState(true)}
@@ -152,7 +176,6 @@ const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
     paddingHorizontal: 10,
-    // backgroundColor: color.Dark[900],
     alignItems: 'center',
     flexDirection: 'row',
   },

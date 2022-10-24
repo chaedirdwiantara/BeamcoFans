@@ -1,15 +1,33 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import { SsuText } from '../components/atom/Text/SsuText';
-import { InputExample, TextExample } from '../components/example';
-import { color } from '../theme';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {mvs} from 'react-native-size-matters';
+import {SearchBar} from '../components';
+import {
+  DropDownExample,
+  InputExample,
+  MusicianListExample,
+  MusicListCardExample,
+  TabFilterExample,
+  ToastExample,
+  TopNavExample,
+} from '../components/example';
+import PostListCardExample from '../components/example/PostListCard.Example';
 
 export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
-      <Text>Home Screen</Text>
-      <TextExample />
-      <InputExample />
+      <ScrollView>
+        {/* <Text>Home Screen</Text> */}
+        <TopNavExample />
+        <DropDownExample />
+        <InputExample />
+        <SearchBar />
+        <MusicianListExample />
+        <MusicListCardExample />
+        <PostListCardExample />
+        <TabFilterExample />
+        {/* <ToastExample /> */}
+      </ScrollView>
     </View>
   );
 };
@@ -17,8 +35,9 @@ export const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor:'white'
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: 'black',
+    paddingHorizontal: mvs(12),
   },
 });

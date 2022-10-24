@@ -1,0 +1,76 @@
+import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {color} from '../../../theme';
+import {normalize} from '../../../utils';
+import {ms, mvs} from 'react-native-size-matters';
+
+interface filterData {
+  filterName: string;
+}
+
+interface TabFilterProps {
+  filterData: Array<filterData>;
+  onPress: (params: string, index: number) => void;
+  selectedIndex: number;
+}
+
+const MainColor = color.Pink[200];
+const SelectedColorTxt = color.Neutral[10];
+
+const Type2: React.FC<TabFilterProps> = ({
+  filterData,
+  onPress,
+  selectedIndex,
+}) => {
+  return (
+    <View style={styles.tab}>
+      <FlatList
+        horizontal
+        data={filterData}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item, index}) => (
+          <TouchableOpacity
+            style={[
+              styles.tabStyle,
+              {backgroundColor: selectedIndex == index ? MainColor : undefined},
+            ]}
+            onPress={() => onPress(item.filterName, index)}>
+            <Text
+              style={[
+                styles.TextStyle,
+                {
+                  fontWeight: selectedIndex == index ? 'bold' : '500',
+                  color: selectedIndex == index ? SelectedColorTxt : MainColor,
+                },
+              ]}>
+              {item.filterName}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  );
+};
+
+export default Type2;
+
+const styles = StyleSheet.create({
+  tab: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  tabStyle: {
+    marginRight: ms(6),
+    paddingHorizontal: ms(12),
+    paddingVertical: mvs(6),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: ms(1),
+    borderColor: MainColor,
+    borderRadius: 4,
+  },
+  TextStyle: {
+    fontSize: normalize(10),
+    lineHeight: mvs(12),
+  },
+});

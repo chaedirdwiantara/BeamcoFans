@@ -7,5 +7,9 @@ import FeedIcon from "./Feed.icon";
 import HomeIcon from "./Home.icon";
 import SearchIcon from "./Search.icon";
 import ErrorIcon from "./Error.icon";
+import LoveIcon from "./Love.icon";
+import ThreeDotsIcon from "./ThreeDots.icon";
+import CommentIcon from "./Comment.icon";
+import CloseIcon from "./Close.icon";
 
-export {UserIcon,EyeCloseIcon, EyeOpenIcon,KeyIcon,CollectionIcon,FeedIcon,HomeIcon,SearchIcon, ErrorIcon} 
+export {UserIcon,EyeCloseIcon, EyeOpenIcon,KeyIcon,CollectionIcon,FeedIcon,HomeIcon,SearchIcon, ErrorIcon, LoveIcon, ThreeDotsIcon, CommentIcon, CloseIcon} 
