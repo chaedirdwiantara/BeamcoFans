@@ -1,9 +1,18 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Button} from '../components/atom/Button/Button';
-import {ChipMoney} from '../components/atom/ChipMoney/ChipMoney';
-import ImageSlider from '../components/atom/ImageSlider/ImageSlider.home';
+import AddToPlaylist from '../assets/icon/AddToPlaylist.icon';
+import ProcessingIcon from '../assets/icon/Processing.icon';
+import {
+  Button,
+  FollowingCard,
+  MenuText,
+  NotificationCard,
+  ProfileHeader,
+} from '../components';
 import Color from '../theme/Color';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../App';
 
 const data: ImageSliderItem[] = [
   {
@@ -45,10 +54,29 @@ const data: ImageSliderItem[] = [
 ];
 
 export const SearchScreen: React.FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
   return (
     <View style={styles.root}>
-      <Button label="Sign In" onPress={() => null} />
+      <ProfileHeader
+        fullname="Kendal Jenner"
+        username="@kendaljenner"
+        avatarUri={
+          'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg'
+        }
+      />
       <Button
+        label="Sign In"
+        onPress={() =>
+          navigation.push('ModalConfirm', {
+            title: 'Edit Profile',
+            subtitle: 'Cancel Changes',
+            goBack: () => navigation.pop(),
+          })
+        }
+      />
+      {/* <Button
         type="border"
         label="Sign Up"
         labelColor={Color.Pink}
@@ -60,16 +88,35 @@ export const SearchScreen: React.FC = () => {
         buttonWidth={200}
         onPress={() => null}
       />
-      <ChipMoney balance={20000} />
-      <ImageSlider data={data} />
+      <MenuText.LeftIcon
+        text="Add To Playlist"
+        onPress={() => null}
+        icon={<AddToPlaylist />}
+      />
+      <MenuText.RightIcon text="Change Password" onPress={() => null} />
+      <MenuText.LeftIconWithSubtitle
+        text="No Room for Speed"
+        subtitle="Be the first jam contributor on 100 artist"
+        onPress={() => null}
+        icon={<ProcessingIcon />}
+      />
+      <NotificationCard
+        title="Naruto, Sakura, Sasuke and 997 others"
+        description="Liked your reply"
+      />
+      <FollowingCard
+        name="Frank Ocean"
+        description="312,123,231 Listener"
+        imgUri="https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg"
+      /> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Color.Dark[800],
   },
 });
