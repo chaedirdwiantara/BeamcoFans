@@ -82,6 +82,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
       {listItem.map((val, i) => (
         <View key={i} style={styles.containerItem}>
           <Item point={val.point} title={val.title} />
+
           {listItem.length !== i + 1 && (
             <View style={[styles.separator, newStyles]} />
           )}
