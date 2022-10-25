@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   username: {
-    color: Color.Pink,
+    color: Color.Pink1,
     fontSize: 16,
     fontFamily: Font.MontserratSemiBold,
     marginLeft: 10,

@@ -20,7 +20,7 @@ interface ModalConfirmProps {
 export const ModalConfirm: React.FC<ModalConfirmProps> = (
   props: ModalConfirmProps,
 ) => {
-  const {title, subtitle, goBack} = props?.route?.params;
+  const {title, subtitle, goBack} = props;
   return (
     <View style={styles.root}>
       <View style={styles.card}>

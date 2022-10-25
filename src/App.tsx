@@ -106,9 +106,11 @@ const RootStackScreen = () => (
         component={ModalConfirm}
         options={{
           headerShown: false,
+          // @ts-ignore
           animationEnabled: true,
           cardStyle: {backgroundColor: 'rgba(0,0,0,0.01)'},
           cardOverlayEnabled: true,
+          // @ts-ignore
           cardStyleInterpolator: ({current: {progress}}) => {
             return {
               cardStyle: {

@@ -6,7 +6,7 @@ import DescriptionBoarding from '../../atom/DescriptionBoarding/DescriptionBoard
 
 const {width, height} = Dimensions.get('window');
 
-interface ImageSliderItem {
+export interface ImageSliderItem {
   id?: number;
   uri?: any;
   title?: string;
@@ -69,7 +69,7 @@ export const ImageSlider: FC<ImageSliderProps> = ({data, onPress}) => {
           label="Skip"
           fontSize={14}
           borderColor="transparent"
-          labelColor={Color.Pink}
+          labelColor={Color.Pink1}
           onPress={onPress}
         />
       </View>

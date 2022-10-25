@@ -8,7 +8,6 @@ import {
   MusicianListExample,
   MusicListCardExample,
   TabFilterExample,
-  ToastExample,
   TopNavExample,
 } from '../components/example';
 import PostListCardExample from '../components/example/PostListCard.Example';
@@ -26,7 +25,6 @@ export const HomeScreen: React.FC = () => {
         <MusicListCardExample />
         <PostListCardExample />
         <TabFilterExample />
-        {/* <ToastExample /> */}
       </ScrollView>
     </View>
   );
