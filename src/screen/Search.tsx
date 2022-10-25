@@ -1,18 +1,11 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import AddToPlaylist from '../assets/icon/AddToPlaylist.icon';
-import ProcessingIcon from '../assets/icon/Processing.icon';
-import {
-  Button,
-  FollowingCard,
-  MenuText,
-  NotificationCard,
-  ProfileHeader,
-} from '../components';
+import {Button, ProfileHeader} from '../components';
 import Color from '../theme/Color';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../App';
+import {ImageSliderItem} from '../components/molecule/ImageSlider/ImageSlider.boarding';
 
 const data: ImageSliderItem[] = [
   {
@@ -69,11 +62,12 @@ export const SearchScreen: React.FC = () => {
       <Button
         label="Sign In"
         onPress={() =>
-          navigation.push('ModalConfirm', {
-            title: 'Edit Profile',
-            subtitle: 'Cancel Changes',
-            goBack: () => navigation.pop(),
-          })
+          // navigation.push('ModalConfirm', {
+          //   title: 'Edit Profile',
+          //   subtitle: 'Cancel Changes',
+          //   goBack: () => navigation.pop(),
+          // })
+          console.log('onPress')
         }
       />
       {/* <Button

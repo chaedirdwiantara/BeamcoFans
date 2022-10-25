@@ -1,15 +1,17 @@
-export default function rupiahConverter(angka) {
-  let isNegative = false;
-  let counter = 1;
-  let rupiah = '';
-  let price = '';
+export default function rupiahConverter(angka: number | string) {
+  let isNegative: boolean = false;
+  let counter: number = 1;
+  let rupiah: string = '';
+  let price: string = '';
   if (typeof angka === 'string') {
+    // @ts-ignore
     price = angka.split('').reverse();
   } else if (typeof angka === 'number') {
     if (angka < 0) {
       angka *= -1;
       isNegative = true;
     }
+    // @ts-ignore
     price = angka.toString().split('').reverse();
   } else {
     price = '0';
