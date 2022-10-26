@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   username: {
-    color: Color.Pink1,
+    color: Color.Pink[300],
     fontSize: 16,
-    fontFamily: Font.MontserratSemiBold,
+    fontFamily: Font.InterSemiBold,
     marginLeft: 10,
   },
 });

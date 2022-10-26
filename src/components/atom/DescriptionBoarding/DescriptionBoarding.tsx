@@ -31,14 +31,14 @@ const styles = StyleSheet.create({
   title: {
     color: Color.Neutral[10],
     fontSize: 20,
-    fontFamily: Font.MontserratSemiBold,
+    fontFamily: Font.InterSemiBold,
     textAlign: 'center',
     marginVertical: 20,
   },
   subtitle: {
     color: Color.Neutral[10],
     fontSize: 13,
-    fontFamily: Font.MontserratLight,
+    fontFamily: Font.InterLight,
     textAlign: 'center',
   },
 });

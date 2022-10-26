@@ -8,6 +8,7 @@ import {SsuText} from './Text/SsuText';
 import {SsuInput} from './InputText/SsuInput';
 import SquareImage from './SquareImage/SquareImage';
 import {TabFilter} from './TabFilter';
+import SsuStatusBar from './StatusBar';
 
 export {
   Avatar,
@@ -21,4 +22,5 @@ export {
   SsuText,
   SquareImage,
   TabFilter,
+  SsuStatusBar,
 };

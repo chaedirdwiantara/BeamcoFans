@@ -57,12 +57,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 17,
     color: Color.Neutral[10],
-    fontFamily: Font.MontserratSemiBold,
+    fontFamily: Font.InterSemiBold,
   },
   subtitle: {
     fontSize: 14,
     color: Color.Neutral[10],
-    fontFamily: Font.MontserratRegular,
+    fontFamily: Font.InterRegular,
     marginTop: 5,
   },
   containerButton: {
@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingHorizontal: 12,
     color: Color.Neutral[10],
-    fontFamily: Font.MontserratRegular,
+    fontFamily: Font.InterRegular,
   },
 });

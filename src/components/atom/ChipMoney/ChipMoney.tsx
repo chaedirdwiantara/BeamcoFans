@@ -4,7 +4,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import CoinIcon from '../../../assets/icon/Coin.icon';
 import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
-import rupiahConverter from '../../../helpers/rupiahConverter';
+import {kFormatter} from '../../../utils';
 
 interface ChipMoneyProps {
   balance: number;
@@ -16,7 +16,7 @@ export const ChipMoney: React.FC<ChipMoneyProps> = (props: ChipMoneyProps) => {
   return (
     <View style={[styles.root]}>
       <CoinIcon />
-      <Text style={styles.text}>{rupiahConverter(balance)}</Text>
+      <Text style={styles.text}>{kFormatter(balance)}</Text>
     </View>
   );
 };
@@ -26,14 +26,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Color.Pink1,
+    backgroundColor: Color.Pink[300],
     borderRadius: 5,
     padding: 5,
   },
   text: {
     color: '#FFF',
     fontSize: 18,
-    fontFamily: Font.MontserratBold,
+    fontFamily: Font.InterBold,
     padding: 5,
   },
 });

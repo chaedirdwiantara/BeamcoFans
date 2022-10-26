@@ -120,12 +120,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pointStyle: {
-    fontFamily: Font.MontserratSemiBold,
+    fontFamily: Font.InterSemiBold,
     fontSize: 17,
     color: '#FFF',
   },
   titleStyle: {
-    fontFamily: Font.MontserratMedium,
+    fontFamily: Font.InterMedium,
     fontSize: 11,
     color: Color.Dark[50],
   },

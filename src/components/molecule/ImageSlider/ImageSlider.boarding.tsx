@@ -75,7 +75,7 @@ export const ImageSlider: FC<ImageSliderProps> = ({data, onPress}) => {
           label="Skip"
           fontSize={14}
           borderColor="transparent"
-          labelColor={Color.Pink1}
+          labelColor={Color.Pink[300]}
           onPress={onPress}
         />
       </View>

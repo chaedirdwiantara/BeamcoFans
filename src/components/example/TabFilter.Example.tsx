@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View, FlatList} from 'react-native';
+import React, {useState} from 'react';
 import {TabFilter} from '../atom';
 
 const TabFilterExample = () => {

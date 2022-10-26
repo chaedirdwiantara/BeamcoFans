@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import {ListCard} from '../molecules';
+import {ListCard} from '../molecule';
 
 const MusicListCardExample = () => {
   const [likePressed, setLikePressed] = useState(false);

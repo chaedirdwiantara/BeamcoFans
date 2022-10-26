@@ -1,9 +1,8 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import {StackRouter} from '@react-navigation/native';
 import {SsuInput} from '../atom/InputText/SsuInput';
 import {color} from '../../theme';
-import {KeyIcon, UserIcon} from '../../assets/icon';
+import {KeyIcon} from '../../assets/icon';
 
 const InputExample = () => {
   const [state, setState] = useState('');
