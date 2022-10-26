@@ -2,17 +2,18 @@ import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
 import {SvgProps} from '../../interface/svg.interface';
+import {normalize} from '../../utils';
 
 function EditIcon({
-  width = 24,
-  height = 24,
+  width = normalize(24),
+  height = normalize(24),
   fill = 'none',
   stroke = '#fff',
   style,
 }: SvgProps) {
   return (
     <View style={[{width: width, height: height}, style]}>
-      <Svg width={'100%'} height={'100%'} fill={fill}>
+      <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
         <Path
           d="M15 22.75H9c-5.43 0-7.75-2.32-7.75-7.75V9c0-5.43 2.32-7.75 7.75-7.75h2c.41 0 .75.34.75.75s-.34.75-.75.75H9C4.39 2.75 2.75 4.39 2.75 9v6c0 4.61 1.64 6.25 6.25 6.25h6c4.61 0 6.25-1.64 6.25-6.25v-2c0-.41.34-.75.75-.75s.75.34.75.75v2c0 5.43-2.32 7.75-7.75 7.75z"
           fill={stroke}

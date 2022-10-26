@@ -9,7 +9,7 @@ import {
 
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
-import ArrowRight from '../../../assets/icon/ArrowRight.icon';
+import {ArrowRightIcon} from '../../../assets/icon';
 
 const {width} = Dimensions.get('screen');
 
@@ -31,7 +31,7 @@ const LeftIcon: React.FC<Props> = (props: Props) => {
 };
 
 const RightIcon: React.FC<Props> = (props: Props) => {
-  const {icon = <ArrowRight />, text, onPress} = props;
+  const {icon = <ArrowRightIcon />, text, onPress} = props;
 
   return (
     <TouchableOpacity style={styles.root2} onPress={onPress}>

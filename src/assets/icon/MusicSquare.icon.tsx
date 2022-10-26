@@ -1,42 +1,43 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
+
+import {normalize} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
-function AddToPlaylistIcon({
-  width = 24,
-  height = 24,
+function MusicSquareIcon({
+  width = normalize(24),
+  height = normalize(24),
   fill = 'none',
   stroke = '#8794AD',
   style,
 }: SvgProps) {
   return (
     <View style={[{width: width, height: height}, style]}>
-      <Svg width={'100%'} height={'100%'} fill={fill}>
+      <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
         <Path
-          d="M17 22H7c-3 0-5-1.5-5-5v-5c0-3.5 2-5 5-5h10c3 0 5 1.5 5 5v5c0 3.5-2 5-5 5zM6 4.5h12M9 2h6"
-          stroke={stroke}
-          strokeWidth={1.5}
-          strokeMiterlimit={10}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <Path
-          d="M8.89 19.11a1.37 1.37 0 100-2.74 1.37 1.37 0 000 2.74z"
+          d="M22 15V9c0-5-2-7-7-7H9C4 2 2 4 2 9v6c0 5 2 7 7 7h6c5 0 7-2 7-7z"
           stroke={stroke}
           strokeWidth={1.5}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <Path
-          d="M15.28 16.83v-5.35c0-1.14-.71-1.3-1.44-1.1l-2.74.75c-.5.14-.84.53-.84 1.1v5.51"
+          d="M8.42 17.11a1.57 1.57 0 100-3.14 1.57 1.57 0 000 3.14z"
           stroke={stroke}
           strokeWidth={1.5}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <Path
-          d="M13.91 18.2a1.37 1.37 0 100-2.74 1.37 1.37 0 000 2.74zM10.26 13.83l5.02-1.37"
+          d="M15.75 14.49V8.35c0-1.31-.82-1.49-1.65-1.26l-3.14.86c-.57.16-.96.61-.96 1.26v6.34"
+          stroke={stroke}
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <Path
+          d="M14.18 16.06a1.57 1.57 0 100-3.14 1.57 1.57 0 000 3.14zM9.99 11.04l5.76-1.57"
           stroke={stroke}
           strokeWidth={1.5}
           strokeLinecap="round"
@@ -47,4 +48,4 @@ function AddToPlaylistIcon({
   );
 }
 
-export default AddToPlaylistIcon;
+export default MusicSquareIcon;

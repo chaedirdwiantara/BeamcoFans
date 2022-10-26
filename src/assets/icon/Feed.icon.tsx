@@ -1,17 +1,19 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
+
+import {normalize} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 const FeedIcon = ({
-  width = 24,
-  height = 24,
+  width = normalize(24),
+  height = normalize(24),
   fill = 'none',
   stroke = '#292D32',
   style,
 }: SvgProps) => (
   <View style={[{width: width, height: height}, style]}>
-    <Svg width={'100%'} height={'100%'} fill={fill}>
+    <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
       <Path
         d="M6 14.8901C5.59 14.8901 5.25 14.5501 5.25 14.1401V9.8501C5.25 9.4401 5.59 9.1001 6 9.1001C6.41 9.1001 6.75 9.4401 6.75 9.8501V14.1401C6.75 14.5601 6.41 14.8901 6 14.8901Z"
         fill={stroke}
