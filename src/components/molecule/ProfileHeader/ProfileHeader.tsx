@@ -31,7 +31,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: Color.Green,
+    backgroundColor: Color.Green[100],
     width: width,
     height: height * 0.3,
     justifyContent: 'center',
