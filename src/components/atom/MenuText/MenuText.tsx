@@ -75,18 +75,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingLeft: 10,
     color: Color.Neutral[10],
-    fontFamily: Font.MontserratMedium,
+    fontFamily: Font.InterMedium,
   },
   text2: {
     fontSize: 17,
     paddingLeft: 10,
     color: Color.Neutral[10],
-    fontFamily: Font.MontserratSemiBold,
+    fontFamily: Font.InterSemiBold,
   },
   subtitle: {
     fontSize: 12,
     paddingLeft: 10,
     color: Color.Dark[50],
-    fontFamily: Font.MontserratMedium,
+    fontFamily: Font.InterMedium,
   },
 });

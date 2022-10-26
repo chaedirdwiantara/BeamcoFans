@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {color} from '../../../theme';
+import {color, font} from '../../../theme';
 import {normalize} from '../../../utils';
 import {ms, mvs} from 'react-native-size-matters';
 
@@ -38,11 +38,17 @@ const Type1: React.FC<TabFilterProps> = ({
             <Text
               style={[
                 styles.TextStyle,
-                {
-                  fontWeight: selectedIndex == index ? '700' : '500',
-                  color:
-                    selectedIndex == index ? SelectedColor : UnSelectedColor,
-                },
+                selectedIndex == index
+                  ? {
+                      fontFamily: font.InterBold,
+                      fontWeight: '700',
+                      color: SelectedColor,
+                    }
+                  : {
+                      fontFamily: font.InterMedium,
+                      fontWeight: '500',
+                      color: UnSelectedColor,
+                    },
               ]}>
               {item.filterName}
             </Text>
@@ -69,6 +75,7 @@ const styles = StyleSheet.create({
     borderColor: SelectedColor,
   },
   TextStyle: {
+    fontWeight: '700',
     fontSize: normalize(13),
     lineHeight: mvs(20),
   },

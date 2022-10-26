@@ -1,6 +1,6 @@
 import {StyleSheet, View, Text} from 'react-native';
 import React from 'react';
-import {ListCard} from '../molecules';
+import {ListCard} from '../molecule';
 
 const MusicianListExample = () => {
   const onPressThreeDots = () => {

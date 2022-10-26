@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
     paddingLeft: 10,
     color: Color.Neutral[10],
-    fontFamily: Font.MontserratMedium,
+    fontFamily: Font.InterMedium,
   },
   description: {
     fontSize: 11,
     paddingLeft: 10,
     paddingTop: 4,
     color: Color.Dark[50],
-    fontFamily: Font.MontserratRegular,
+    fontFamily: Font.InterRegular,
   },
 });

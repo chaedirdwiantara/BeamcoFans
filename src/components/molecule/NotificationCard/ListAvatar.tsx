@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
     padding: 2,
     color: Color.Neutral[10],
     fontSize: 15,
-    fontFamily: Font.MontserratMedium,
+    fontFamily: Font.InterMedium,
   },
 });

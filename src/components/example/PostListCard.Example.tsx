@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import {ListCard} from '../molecules';
 import {SquareImage} from '../atom';
+import {ListCard} from '../molecule';
 
 const PostListCardExample = () => {
   const [likePressed, setLikePressed] = useState(false);

@@ -7,5 +7,6 @@ import SquareImage from "./SquareImage/SquareImage";
 import {Dropdown} from "./DropDown"
 import SearchBar from "./SearchBar";
 export {Button} from './Button/Button';
+import SsuStatusBar from "./StatusBar";
 
-export {Gap, Avatar, AvatarUsername, SsuInput, SsuText, TabFilter, SquareImage,Dropdown, SearchBar}
+export {Gap, Avatar, AvatarUsername, SsuInput, SsuText, TabFilter, SquareImage,Dropdown, SearchBar,SsuStatusBar}
