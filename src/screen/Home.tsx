@@ -18,13 +18,13 @@ export const HomeScreen: React.FC = () => {
       <ScrollView>
         {/* <Text>Home Screen</Text> */}
         <TopNavExample />
-        <DropDownExample />
+        {/* <DropDownExample />
         <InputExample />
         <SearchBar />
         <MusicianListExample />
         <MusicListCardExample />
         <PostListCardExample />
-        <TabFilterExample />
+        <TabFilterExample /> */}
       </ScrollView>
     </View>
   );

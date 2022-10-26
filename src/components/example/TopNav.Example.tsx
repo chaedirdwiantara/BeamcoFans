@@ -1,15 +1,13 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {TopNavigation} from '../molecules';
-import {HomeIcon, SearchIcon} from '../../assets/icon';
+import {SearchIcon} from '../../assets/icon';
 import {color} from '../../theme';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {mvs} from 'react-native-size-matters';
 
 const TopNavExample = () => {
   return (
     <View style={styles.container}>
-      <Text style={{color: 'green'}}>Type 1 Left back action with Title</Text>
+      {/* <Text style={{color: 'green'}}>Type 1 Left back action with Title</Text> */}
       <TopNavigation.Type1
         title="Type 1"
         leftIconAction={() => console.log('Left Icon Pressed')}
@@ -65,6 +63,5 @@ export default TopNavExample;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // width: widthPercentageToDP('100%'),
   },
 });
