@@ -1,11 +1,24 @@
-import Gap from "./Gap/Gap";
-import { Avatar, AvatarUsername} from "./Avatar/Avatar"
-import { SsuInput } from "./InputText/SsuInput";
-import { SsuText } from "./Text/SsuText";
-import { TabFilter } from "./TabFilter";
-import SquareImage from "./SquareImage/SquareImage";
-import {Dropdown} from "./DropDown"
-import SearchBar from "./SearchBar";
-export {Button} from './Button/Button';
+import {Avatar, AvatarUsername} from './Avatar/Avatar';
+import {Button} from './Button/Button';
+import {Dropdown} from './DropDown';
+import {Indicator} from './Indicator/Indicator';
+import Gap from './Gap/Gap';
+import SearchBar from './SearchBar';
+import {SsuText} from './Text/SsuText';
+import {SsuInput} from './InputText/SsuInput';
+import SquareImage from './SquareImage/SquareImage';
+import {TabFilter} from './TabFilter';
 
-export {Gap, Avatar, AvatarUsername, SsuInput, SsuText, TabFilter, SquareImage,Dropdown, SearchBar}
+export {
+  Avatar,
+  AvatarUsername,
+  Button,
+  Dropdown,
+  Gap,
+  Indicator,
+  SearchBar,
+  SsuInput,
+  SsuText,
+  SquareImage,
+  TabFilter,
+};
