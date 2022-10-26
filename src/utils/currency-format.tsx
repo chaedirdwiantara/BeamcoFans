@@ -22,9 +22,18 @@ const toCurrency = (nominal: number = 0, options: ToCurrencyOptions = {}) => {
 };
 
 const kFormatter = (num: number = 0) => {
+  let toK =
+    Math.abs(num) > 999
+      ? ((Math.sign(num) * Math.abs(num)) / 1000).toFixed() + 'K'
+      : Math.sign(num) * Math.abs(num);
+  const converted = `${toK.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+  return converted;
+};
+
+const kFormatter2 = (num: number = 0) => {
   return Math.abs(num) > 999
     ? ((Math.sign(num) * Math.abs(num)) / 1000).toFixed() + 'K'
     : Math.sign(num) * Math.abs(num);
 };
 
-export {toCurrency, kFormatter};
+export {toCurrency, kFormatter, kFormatter2};
