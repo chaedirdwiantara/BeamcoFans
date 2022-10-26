@@ -29,8 +29,10 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
       <Dropdown
         style={[styles.dropdown, isFocus && {borderColor: color.Success[500]}]}
         containerStyle={styles.containerStyle}
-        placeholderStyle={styles.fontAll}
+        placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.fontAll}
+        itemTextStyle={styles.fontAll}
+        itemContainerStyle={[styles.itemContainer]}
         iconStyle={styles.iconStyle}
         data={data}
         maxHeight={300}
@@ -44,12 +46,10 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
           setValue(item.value);
           setIsFocus(false);
         }}
-        fontFamily={font.MontserratRegular}
+        fontFamily={font.InterRegular}
         showsVerticalScrollIndicator={false}
         autoScroll={false}
         activeColor={color.Dark[500]}
-        itemContainerStyle={[styles.itemContainer]}
-        itemTextStyle={styles.fontAll}
       />
     </View>
   );
@@ -59,7 +59,7 @@ export default DropdownMenu;
 
 const styles = StyleSheet.create({
   container: {
-    width: ms(100),
+    // width: ms(100),
   },
   // Dropdown first view
   dropdown: {
@@ -76,14 +76,22 @@ const styles = StyleSheet.create({
     backgroundColor: itemBg,
     borderColor: itemBg,
   },
-  fontAll: {
-    fontSize: normalize(10),
+  placeholderStyle: {
+    fontFamily: font.InterRegular,
     fontWeight: '500',
-    color: color.Neutral[50],
+    fontSize: normalize(10),
+    lineHeight: mvs(12),
+    color: color.Dark[50],
+  },
+  fontAll: {
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(10),
+    color: color.Neutral[10],
   },
   iconStyle: {
     width: ms(20),
     height: ms(20),
-    tintColor: 'pink',
+    tintColor: color.Pink[200],
   },
 });

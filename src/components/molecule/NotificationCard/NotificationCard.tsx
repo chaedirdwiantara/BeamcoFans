@@ -59,12 +59,12 @@ const styles = StyleSheet.create({
   fullname: {
     fontSize: 14,
     color: Color.Neutral[10],
-    fontFamily: Font.MontserratMedium,
+    fontFamily: Font.InterMedium,
   },
   description: {
     marginTop: 5,
     fontSize: 13,
     color: Color.Neutral[10],
-    fontFamily: Font.MontserratRegular,
+    fontFamily: Font.InterRegular,
   },
 });

@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 20,
     color: Color.Neutral[10],
-    fontFamily: Font.MontserratSemiBold,
+    fontFamily: Font.InterSemiBold,
   },
   username: {
     marginTop: 5,
     fontSize: 14,
     color: Color.Neutral[10],
-    fontFamily: Font.MontserratMedium,
+    fontFamily: Font.InterMedium,
   },
   editIcon: {
     position: 'absolute',

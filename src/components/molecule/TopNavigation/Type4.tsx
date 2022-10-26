@@ -2,7 +2,8 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {HomeIcon} from '../../../assets/icon';
 import {elipsisText} from '../../../utils';
-import topNavstyles from './styles';
+import topNavstyles from './topNavstyles';
+import {font} from '../../../theme';
 
 /** === INTERFACE === */
 type Props = {
@@ -51,7 +52,10 @@ const Type4: React.FC<Props> = (props: Props) => {
         <View style={topNavstyles.centerContainer}>
           <Text
             numberOfLines={1}
-            style={[topNavstyles.centerTitle, {color: props.itemStrokeColor}]}>
+            style={[
+              topNavstyles.centerTitle,
+              {color: props.itemStrokeColor, fontFamily: font.InterSemiBold},
+            ]}>
             {elipsisText(props.title, props.maxLengthTitle ?? 20)}
           </Text>
         </View>

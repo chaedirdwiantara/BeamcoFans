@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   username: {
     color: Color.Pink[300],
     fontSize: 16,
-    fontFamily: Font.MontserratSemiBold,
+    fontFamily: Font.InterSemiBold,
     marginLeft: 10,
   },
 });

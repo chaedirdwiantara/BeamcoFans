@@ -60,6 +60,6 @@ const styles = StyleSheet.create<TypeStyle>({
   labelStyle: (color = '#FFF', fontSize = 16) => ({
     color: color,
     fontSize: fontSize,
-    fontFamily: Font.MontserratMedium,
+    fontFamily: Font.InterMedium,
   }),
 });

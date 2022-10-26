@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#FFF',
     fontSize: 18,
-    fontFamily: Font.MontserratBold,
+    fontFamily: Font.InterBold,
     padding: 5,
   },
 });

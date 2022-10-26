@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     lineHeight: mvs(12),
     marginRight: ms(10),
     color: color.Neutral[10],
+    fontFamily: font.InterMedium,
   },
   textContainer: {
     flex: 1,
@@ -63,13 +64,14 @@ const styles = StyleSheet.create({
     lineHeight: mvs(20),
     marginLeft: ms(12),
     color: color.Neutral[10],
+    fontFamily: font.InterMedium,
   },
   rightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   pointStyle: {
-    fontFamily: font.MontserratSemiBold,
+    fontFamily: font.InterSemiBold,
     fontWeight: '600',
     fontSize: normalize(10),
     lineHeight: mvs(12),

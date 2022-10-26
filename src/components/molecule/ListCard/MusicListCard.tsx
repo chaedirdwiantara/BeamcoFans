@@ -3,7 +3,7 @@ import React from 'react';
 import {LoveIcon, ThreeDotsIcon} from '../../../assets/icon';
 import {normalize} from '../../../utils';
 import {ms, mvs} from 'react-native-size-matters';
-import {color} from '../../../theme';
+import {color, font} from '../../../theme';
 import {SquareImage} from '../../atom';
 
 interface ListProps {
@@ -56,8 +56,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rankStyle: {
-    fontSize: normalize(10),
+    fontFamily: font.InterMedium,
     fontWeight: '600',
+    fontSize: normalize(10),
     lineHeight: mvs(12),
     marginRight: ms(10),
     color: color.Neutral[10],
@@ -69,14 +70,16 @@ const styles = StyleSheet.create({
     marginLeft: ms(12),
   },
   songTitle: {
-    fontSize: normalize(15),
+    fontFamily: font.InterSemiBold,
     fontWeight: '500',
+    fontSize: normalize(15),
     lineHeight: mvs(20),
     color: color.Neutral[10],
   },
   songDesc: {
-    fontSize: normalize(10),
+    fontFamily: font.InterRegular,
     fontWeight: '500',
+    fontSize: normalize(10),
     lineHeight: mvs(12),
     color: color.Dark[100],
   },

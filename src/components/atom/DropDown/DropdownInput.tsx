@@ -51,7 +51,7 @@ const InputDropdown: React.FC<InputDropdownProps> = (
           setValue(item.value);
           setIsFocus(false);
         }}
-        fontFamily={font.MontserratRegular}
+        fontFamily={font.InterRegular}
         showsVerticalScrollIndicator={false}
         autoScroll={false}
         activeColor={color.Dark[500]}

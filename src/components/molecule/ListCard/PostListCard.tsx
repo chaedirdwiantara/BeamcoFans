@@ -2,7 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Avatar, Gap} from '../../atom';
 import {LoveIcon} from '../../../assets/icon';
-import {color} from '../../../theme';
+import {color, font} from '../../../theme';
 import {normalize} from '../../../utils';
 import {ms, mvs} from 'react-native-size-matters';
 
@@ -52,7 +52,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
               <View style={[styles.category]}>
                 <Text style={styles.categoryText}>Daily Life</Text>
               </View>
-              <Text style={styles.songDesc}>{postDate}</Text>
+              <Text style={styles.regularText}>{postDate}</Text>
             </View>
           </View>
         </View>
@@ -87,7 +87,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                 stroke={likePressed ? 'none' : color.Dark[100]}
               />
               <Gap width={3} />
-              <Text style={{color: color.Dark[100], fontSize: 10}}>5000</Text>
+              <Text style={styles.regularText}>5000</Text>
             </TouchableOpacity>
           </View>
           {/* comment section */}
@@ -97,7 +97,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
               style={{flexDirection: 'row', alignItems: 'center'}}>
               <LoveIcon stroke={color.Dark[100]} />
               <Gap width={3} />
-              <Text style={{color: color.Dark[100], fontSize: 10}}>1000</Text>
+              <Text style={styles.regularText}>1000</Text>
             </TouchableOpacity>
           </View>
           {/* token section */}
@@ -143,14 +143,16 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   songTitle: {
-    fontSize: normalize(15),
+    fontFamily: font.InterMedium,
     fontWeight: '500',
-    lineHeight: mvs(20),
+    fontSize: normalize(13),
+    lineHeight: mvs(15),
     color: color.Neutral[10],
   },
   songDesc: {
-    fontSize: normalize(10),
+    fontFamily: font.InterMedium,
     fontWeight: '500',
+    fontSize: normalize(10),
     lineHeight: mvs(12),
     color: color.Dark[50],
   },
@@ -168,16 +170,18 @@ const styles = StyleSheet.create({
     marginBottom: mvs(4),
   },
   categoryText: {
-    color: color.Neutral[10],
+    fontFamily: font.InterMedium,
+    fontWeight: '500',
     fontSize: normalize(8),
-    fontWeight: '500',
     lineHeight: mvs(10),
+    color: color.Neutral[10],
   },
-  dateStyle: {
-    fontSize: normalize(10),
+  regularText: {
+    fontFamily: font.InterMedium,
     fontWeight: '500',
+    fontSize: normalize(10),
     lineHeight: mvs(12),
-    color: color.Dark[50],
+    color: color.Dark[100],
     marginTop: mvs(4),
   },
   bottomContainer: {

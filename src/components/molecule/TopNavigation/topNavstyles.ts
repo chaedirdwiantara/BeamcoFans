@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { mvs } from 'react-native-size-matters';
-import { color, font } from '../../../theme';
+import { color } from '../../../theme';
 import { normalize } from '../../../utils';
 
 const topNavstyles = StyleSheet.create({
@@ -32,11 +32,11 @@ const topNavstyles = StyleSheet.create({
         alignItems:'center',
       },
       centerTitle: {
-        fontfamily: font.MontserratRegular,
-        textAlign: 'center',
-        fontSize: normalize(16),
         fontWeight: '600',
+        fontSize: normalize(16),
         lineHeight: mvs(20),
+        letterSpacing:0.15,
+        textAlign: 'center',
       },
       iconLeftContainer: {
         alignItems: 'flex-start',

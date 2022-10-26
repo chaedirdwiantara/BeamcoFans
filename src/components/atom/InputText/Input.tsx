@@ -12,6 +12,7 @@ import {
   ViewProps,
   ViewStyle,
 } from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
 import {
   CloseIcon,
   ErrorIcon,
@@ -20,6 +21,7 @@ import {
   HomeIcon,
 } from '../../../assets/icon';
 import {color, font} from '../../../theme';
+import {normalize} from '../../../utils';
 import Gap from '../Gap/Gap';
 import {SsuText} from '../Text/SsuText';
 
@@ -72,7 +74,7 @@ const InputText: React.FC<InputProps> = ({
 
   const rightIconComp = () => {
     return (
-      <TouchableOpacity onPress={reset} style={{padding: 4}}>
+      <TouchableOpacity onPress={reset} style={{padding: ms(4)}}>
         <CloseIcon stroke={FontColor} fill={backgroundColor} />
       </TouchableOpacity>
     );
@@ -124,8 +126,8 @@ const InputText: React.FC<InputProps> = ({
         <View
           style={{
             flexDirection: 'row',
-            paddingTop: 4,
-            paddingHorizontal: 10,
+            paddingTop: mvs(4),
+            paddingHorizontal: ms(10),
           }}>
           <ErrorIcon fill={ErrorColor} />
           <Gap width={4} />
@@ -175,32 +177,32 @@ export default {InputText, TextArea};
 const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: ms(10),
     alignItems: 'center',
     flexDirection: 'row',
   },
   errorText: {
     color: ErrorColor,
-    fontSize: 13,
-    marginLeft: 10,
+    fontSize: normalize(13),
+    marginLeft: ms(10),
   },
   label: (fontSize: number) => ({
-    fontSize: fontSize ? fontSize : 18,
-    fontFamily: font.MontserratLight,
+    fontSize: fontSize ? fontSize : normalize(18),
+    fontFamily: font.InterLight,
   }),
   input: (fontSize: number) => ({
     flex: 1,
-    fontSize: fontSize ? fontSize : 13,
-    fontFamily: font.MontserratLight,
+    fontSize: fontSize ? fontSize : normalize(13),
+    fontFamily: font.InterLight,
     color: FontColor,
-    paddingLeft: 10,
+    paddingLeft: ms(10),
   }),
   inputTextArea: (fontSize: number) => ({
     flex: 1,
-    fontSize: fontSize ? fontSize : 13,
-    fontFamily: font.MontserratLight,
-    paddingVertical: 5,
-    paddingHorizontal: 5,
+    fontSize: fontSize ? fontSize : normalize(13),
+    fontFamily: font.InterLight,
+    paddingVertical: mvs(5),
+    paddingHorizontal: ms(5),
     textAlignVertical: 'top',
     color: FontColor,
   }),

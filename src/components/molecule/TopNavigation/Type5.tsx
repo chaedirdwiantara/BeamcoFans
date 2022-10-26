@@ -2,7 +2,8 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {elipsisText} from '../../../utils';
 import {Avatar, Gap} from '../../atom';
-import topNavstyles from './styles';
+import topNavstyles from './topNavstyles';
+import {font} from '../../../theme';
 
 /** === INTERFACE === */
 type Props = {
@@ -54,7 +55,10 @@ const Type5: React.FC<Props> = (props: Props) => {
           <Gap width={8} />
           <Text
             numberOfLines={1}
-            style={[topNavstyles.centerTitle, {color: props.itemStrokeColor}]}>
+            style={[
+              topNavstyles.centerTitle,
+              {color: props.itemStrokeColor, fontFamily: font.InterSemiBold},
+            ]}>
             {elipsisText(`Hi, ${props.name}`, props.maxLengthTitle ?? 20)}
           </Text>
         </View>
