@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 
 export const HomeScreen: React.FC = () => {
@@ -13,8 +13,8 @@ export const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'black',
     paddingHorizontal: mvs(12),
   },
