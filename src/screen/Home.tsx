@@ -1,11 +1,14 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {mvs} from 'react-native-size-matters';
+import {TabFilterExample} from '../components/example';
 
 export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
-      <ScrollView></ScrollView>
+      <ScrollView>
+        <TabFilterExample />
+      </ScrollView>
     </View>
   );
 };
