@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {LoveIcon, ThreeDotsIcon} from '../../../assets/icon';
 import {normalize} from '../../../utils';

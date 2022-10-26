@@ -1,8 +1,8 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {TopNavigation} from '../molecules';
 import {SearchIcon} from '../../assets/icon';
 import {color} from '../../theme';
+import {TopNavigation} from '../molecule';
 
 const TopNavExample = () => {
   return (

@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Avatar, Gap} from '../../atom';
-import {CommentIcon, LoveIcon, ThreeDotsIcon} from '../../../assets/icon';
+import {LoveIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
 import {normalize} from '../../../utils';
 import {ms, mvs} from 'react-native-size-matters';
