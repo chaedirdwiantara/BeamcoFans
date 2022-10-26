@@ -1,6 +1,7 @@
 import React, {FC, useRef, useEffect} from 'react';
 import {Dimensions, FlatList, Image, StyleSheet, View} from 'react-native';
 import Color from '../../../theme/Color';
+import {Indicator} from '../../atom';
 import {Button} from '../../atom/Button/Button';
 import DescriptionBoarding from '../../atom/DescriptionBoarding/DescriptionBoarding';
 
@@ -50,7 +51,7 @@ export const ImageSlider: FC<ImageSliderProps> = ({data, onPress}) => {
         pagingEnabled
         bounces={false}
         showsHorizontalScrollIndicator={false}
-        renderItem={({item}) => {
+        renderItem={({item, index}) => {
           return (
             <View style={{width, height}}>
               <Image source={item.uri} style={styles.itemImage} />
@@ -58,6 +59,11 @@ export const ImageSlider: FC<ImageSliderProps> = ({data, onPress}) => {
                 title={item.title}
                 subtitle={item.subtitle}
               />
+              <View style={styles.containerIndicator}>
+                {data.map((val, i) => (
+                  <Indicator activeIndex={index === i} />
+                ))}
+              </View>
             </View>
           );
         }}
@@ -79,11 +85,19 @@ export const ImageSlider: FC<ImageSliderProps> = ({data, onPress}) => {
 
 const styles = StyleSheet.create({
   itemImage: {
+    width: width,
     height: height * 0.55,
     resizeMode: 'cover',
   },
   footer: {
     marginBottom: 20,
     alignSelf: 'center',
+  },
+  containerIndicator: {
+    width: width * 0.2,
+    marginTop: 20,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    justifyContent: 'space-around',
   },
 });
