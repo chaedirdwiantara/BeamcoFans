@@ -9,6 +9,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {OnboardScreen} from './screen/Onboard';
 import {LoginScreen} from './screen/Login';
 import {SignupScreen} from './screen/Signup';
+import {SignInGuestScreen} from './screen/SignInGuest';
 import {HomeScreen} from './screen/Home';
 import {SearchScreen} from './screen/Search';
 import {FeedScreen} from './screen/Feed';
@@ -28,6 +29,7 @@ export type RootStackParams = {
   Login: undefined;
   Signup: undefined;
   MainTab: undefined;
+  SignInGuest: undefined;
   ModalConfirm: undefined;
 };
 
@@ -95,6 +97,7 @@ const RootStackScreen = () => (
       <RootStack.Screen name="Boarding" component={OnboardScreen} />
       <RootStack.Screen name="Login" component={LoginScreen} />
       <RootStack.Screen name="Signup" component={SignupScreen} />
+      <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
       <RootStack.Screen name="MainTab" component={TabScreen} />
     </RootStack.Group>
     <RootStack.Group
