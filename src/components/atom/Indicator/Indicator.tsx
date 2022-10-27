@@ -1,9 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, Dimensions, Animated} from 'react-native';
+import {View, StyleSheet} from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
 import Color from '../../../theme/Color';
-
-const {width} = Dimensions.get('screen');
-
 interface IndicatorProps {
   activeIndex?: boolean;
 }
@@ -22,15 +20,15 @@ export const Indicator: React.FC<IndicatorProps> = ({activeIndex}) => {
 
 const styles = StyleSheet.create({
   active: {
-    width: width * 0.1,
-    height: 8,
+    width: ms(32),
+    height: mvs(6),
     borderRadius: 4,
     backgroundColor: Color.Success[400],
   },
   nonActive: {
-    width: 9,
-    height: 9,
-    borderRadius: 5,
+    width: ms(6),
+    height: ms(6),
+    borderRadius: 4,
     backgroundColor: Color.Success[700],
   },
 });
