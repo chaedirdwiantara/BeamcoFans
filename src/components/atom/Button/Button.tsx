@@ -1,65 +1,60 @@
 import React from 'react';
-import {Text, Dimensions, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
 
 import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
-
-const {width} = Dimensions.get('screen');
+import {normalize} from '../../../utils';
 
 interface ButtonProps {
   label: string;
   type?: string;
-  buttonWidth?: number;
   labelColor?: string;
   borderColor?: string;
   fontSize?: number;
   backgroundColor?: string;
+  containerStyles?: ViewStyle;
+  textStyles?: TextStyle;
   onPress: () => void;
 }
 
-type TypeStyle = {
-  root: any;
-  labelStyle: any;
-};
-
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
-  const {
-    type,
-    label,
-    buttonWidth,
-    labelColor,
-    borderColor,
-    backgroundColor,
-    fontSize,
-    onPress,
-  } = props;
-  const size = buttonWidth ? buttonWidth : width * 0.8;
+  const {type, label, borderColor, containerStyles, textStyles, onPress} =
+    props;
+
   const withBorder = type === 'border' && {
-    borderWidth: 2,
-    borderColor: borderColor ? borderColor : Color.Pink,
+    borderWidth: ms(2),
+    borderColor: borderColor ? borderColor : Color.Pink.linear,
     backgroundColor: 'transparent',
   };
 
   return (
     <TouchableOpacity
-      style={[styles.root(backgroundColor), withBorder, {width: size}]}
+      style={[styles.root, withBorder, containerStyles]}
       onPress={onPress}>
-      <Text style={styles.labelStyle(labelColor, fontSize)}>{label}</Text>
+      <Text style={[styles.labelStyle, textStyles]}>{label}</Text>
     </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create<TypeStyle>({
-  root: (backgroundColor = Color.Pink) => ({
-    padding: 12,
-    borderRadius: 5,
-    backgroundColor: backgroundColor,
+const styles = StyleSheet.create({
+  root: {
+    width: ms(253),
+    height: mvs(40),
+    borderRadius: 4,
+    backgroundColor: Color.Pink.linear,
     alignItems: 'center',
     justifyContent: 'center',
-  }),
-  labelStyle: (color = '#FFF', fontSize = 16) => ({
-    color: color,
-    fontSize: fontSize,
+  },
+  labelStyle: {
+    color: '#FFF',
+    fontSize: normalize(12),
     fontFamily: Font.InterMedium,
-  }),
+  },
 });
