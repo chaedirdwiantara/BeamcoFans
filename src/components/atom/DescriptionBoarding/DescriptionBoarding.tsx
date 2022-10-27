@@ -1,9 +1,8 @@
 import React from 'react';
-import {Text, StyleSheet, Dimensions, View} from 'react-native';
+import {Text, StyleSheet, View} from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
 import Color from '../../../theme/Color';
-import Font from '../../../theme/Font';
-
-const {width} = Dimensions.get('screen');
+import Typography from '../../../theme/Typography';
 
 interface Props {
   title?: string;
@@ -13,8 +12,8 @@ interface Props {
 const DescriptionBoarding: React.FC<Props> = ({title, subtitle}) => {
   return (
     <View style={styles.root}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>{subtitle}</Text>
+      <Text style={[Typography.Heading4, styles.title]}>{title}</Text>
+      <Text style={[Typography.Body2, styles.subtitle]}>{subtitle}</Text>
     </View>
   );
 };
@@ -23,22 +22,18 @@ export default DescriptionBoarding;
 
 const styles = StyleSheet.create({
   root: {
-    width: width * 0.8,
+    width: ms(287),
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
   },
   title: {
     color: Color.Neutral[10],
-    fontSize: 20,
-    fontFamily: Font.InterSemiBold,
     textAlign: 'center',
-    marginVertical: 20,
+    marginVertical: mvs(25),
   },
   subtitle: {
     color: Color.Neutral[10],
-    fontSize: 13,
-    fontFamily: Font.InterLight,
     textAlign: 'center',
   },
 });
