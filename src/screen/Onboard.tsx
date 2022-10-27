@@ -14,7 +14,7 @@ export const OnboardScreen: React.FC = () => {
   const {setError} = useBaseHook();
 
   const handeOnpressText = () => {
-    navigation.push('Login');
+    navigation.push('SignInGuest');
     // example on calling action hook context
     setError({
       title: 'ini title',
@@ -26,21 +26,21 @@ export const OnboardScreen: React.FC = () => {
     {
       id: 0,
       uri: require('../assets/background/onboard-1.png'),
-      title: "Let's the fans grow\nwith their musician",
+      title: "Let's the fans grow with their musician",
       subtitle:
         'Lorem ipsum dolor sit amet, consectetur adispicing elit. Vestibulum porta ipsum Lorem ipsum dolor sit amet.',
     },
     {
       id: 1,
       uri: require('../assets/background/onboard-2.png'),
-      title: "Let's the fans grow\nwith their musician",
+      title: "Let's the fans grow with their musician",
       subtitle:
         'Lorem ipsum dolor sit amet, consectetur adispicing elit. Vestibulum porta ipsum Lorem ipsum dolor sit amet.',
     },
     {
       id: 2,
       uri: require('../assets/background/onboard-3.png'),
-      title: "Let's the fans grow\nwith their musician",
+      title: "Let's the fans grow with their musician",
       subtitle:
         'Lorem ipsum dolor sit amet, consectetur adispicing elit. Vestibulum porta ipsum Lorem ipsum dolor sit amet.',
     },
