@@ -1,18 +1,17 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path, Defs, Pattern, Use, Image} from 'react-native-svg';
-
-import {normalize} from '../../utils';
+import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
 function ProcessingIcon({
-  width = normalize(53),
-  height = normalize(60),
+  width = ms(53),
+  height = mvs(60),
   fill = 'none',
   style,
 }: SvgProps) {
   return (
-    <View style={[{width: width, height: height}, style]}>
+    <View style={[{width, height}, style]}>
       <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 53 60'}>
         <Path fill="url(#pattern0)" d="M0 0H53V60H0z" />
         <Defs>

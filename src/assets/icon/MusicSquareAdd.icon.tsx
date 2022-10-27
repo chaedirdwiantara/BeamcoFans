@@ -1,19 +1,18 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-
-import {normalize} from '../../utils';
+import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
 function MusicSquareAddIcon({
-  width = normalize(24),
-  height = normalize(24),
+  width = ms(24),
+  height = mvs(24),
   fill = 'none',
   stroke = '#8794AD',
   style,
 }: SvgProps) {
   return (
-    <View style={[{width: width, height: height}, style]}>
+    <View style={[{width, height}, style]}>
       <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
         <Path
           d="M14.35 21.75h-5.7c-5.19 0-7.4-2.21-7.4-7.4v-5.7c0-5.19 2.21-7.4 7.4-7.4h5.7c5.19 0 7.4 2.21 7.4 7.4v5.7c0 .36-.01.7-.03 1.03-.02.3-.22.56-.51.66-.29.1-.6.01-.81-.21-.6-.68-1.48-1.08-2.41-1.08-1.79 0-3.25 1.46-3.25 3.25 0 .59.16 1.17.47 1.67.16.28.37.53.61.74.23.2.32.52.22.8-.1.29-.36.49-.66.51-.32.02-.66.03-1.03.03zm-5.7-19c-4.36 0-5.9 1.54-5.9 5.9v5.7c0 4.36 1.54 5.9 5.9 5.9h5.17a4.7 4.7 0 01-.57-2.25c0-2.62 2.13-4.75 4.75-4.75.8 0 1.57.2 2.25.56V8.65c0-4.36-1.54-5.9-5.9-5.9h-5.7z"

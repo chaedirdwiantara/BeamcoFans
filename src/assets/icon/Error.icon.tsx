@@ -1,19 +1,17 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-
-import {normalize} from '../../utils';
+import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
 const ErrorIcon = ({
-  width = normalize(14),
-  height = normalize(12),
+  width = ms(14),
+  height = mvs(12),
   fill = 'none',
-  stroke = '#292D32',
   style,
 }: SvgProps) => {
   return (
-    <View style={[{width: width, height: height}, style]}>
+    <View style={[{width, height}, style]}>
       <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 14 12'}>
         <Path
           fill={fill}

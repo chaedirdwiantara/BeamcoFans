@@ -5,9 +5,11 @@ import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
 import EditIcon from './Edit.icon';
 import ErrorIcon from './Error.icon';
+import ExportIcon from './Export.icon';
 import EyeCloseIcon from './EyeClose.icon';
 import EyeOpenIcon from './EyeOpen.icon';
 import FeedIcon from './Feed.icon';
+import GalleryEditIcon from './GalleryEdit.icon';
 import HeartIcon from './Heart.icon';
 import HomeIcon from './Home.icon';
 import KeyIcon from './Key.icon';
@@ -19,6 +21,7 @@ import MusicSquareAddIcon from './MusicSquareAdd.icon';
 import NotificationIcon from './Notification.icon';
 import ProcessingIcon from './Processing.icon';
 import SearchIcon from './Search.icon';
+import SettingIcon from './Setting.icon';
 import ShareIcon from './Share.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
 import UserIcon from './User.icon';
@@ -31,9 +34,11 @@ export {
   CommentIcon,
   EditIcon,
   ErrorIcon,
+  ExportIcon,
   EyeCloseIcon,
   EyeOpenIcon,
   FeedIcon,
+  GalleryEditIcon,
   HeartIcon,
   HomeIcon,
   KeyIcon,
@@ -45,6 +50,7 @@ export {
   NotificationIcon,
   ProcessingIcon,
   SearchIcon,
+  SettingIcon,
   ShareIcon,
   UserIcon,
   ThreeDotsIcon,

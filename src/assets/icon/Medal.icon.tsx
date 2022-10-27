@@ -1,19 +1,18 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-
-import {normalize} from '../../utils';
+import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
 function MedalIcon({
-  width = normalize(24),
-  height = normalize(24),
+  width = ms(24),
+  height = mvs(24),
   fill = 'none',
   stroke = '#8794AD',
   style,
 }: SvgProps) {
   return (
-    <View style={[{width: width, height: height}, style]}>
+    <View style={[{width, height}, style]}>
       <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
         <Path
           d="M12 15.75c-4.14 0-7.5-3.25-7.5-7.25S7.86 1.25 12 1.25c4.14 0 7.5 3.25 7.5 7.25s-3.36 7.25-7.5 7.25zm0-13c-3.31 0-6 2.58-6 5.75s2.69 5.75 6 5.75 6-2.58 6-5.75-2.69-5.75-6-5.75z"

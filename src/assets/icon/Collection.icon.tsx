@@ -1,18 +1,17 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-
-import {normalize} from '../../utils';
+import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
 const CollectionIcon = ({
-  width = normalize(24),
-  height = normalize(24),
+  width = ms(24),
+  height = mvs(24),
   fill = 'none',
   stroke = '#292D32',
   style,
 }: SvgProps) => (
-  <View style={[{width: width, height: height}, style]}>
+  <View style={[{width, height}, style]}>
     <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
       <Path
         d="M15 22.75H9C3.57 22.75 1.25 20.43 1.25 15V9C1.25 3.57 3.57 1.25 9 1.25H15C20.43 1.25 22.75 3.57 22.75 9V15C22.75 20.43 20.43 22.75 15 22.75ZM9 2.75C4.39 2.75 2.75 4.39 2.75 9V15C2.75 19.61 4.39 21.25 9 21.25H15C19.61 21.25 21.25 19.61 21.25 15V9C21.25 4.39 19.61 2.75 15 2.75H9Z"

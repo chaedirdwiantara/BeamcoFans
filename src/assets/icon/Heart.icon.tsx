@@ -8,18 +8,17 @@ import Svg, {
   Stop,
   ClipPath,
 } from 'react-native-svg';
-
-import {normalize} from '../../utils';
+import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
 function HeartIcon({
-  width = normalize(16),
-  height = normalize(16),
+  width = ms(16),
+  height = mvs(16),
   fill = 'none',
   style,
 }: SvgProps) {
   return (
-    <View style={[{width: width, height: height}, style]}>
+    <View style={[{width, height}, style]}>
       <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 16 16'}>
         <G clipPath="url(#clip0_331_44502)">
           <Path

@@ -1,19 +1,18 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-
-import {normalize} from '../../utils';
+import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
 function MusicSquareIcon({
-  width = normalize(24),
-  height = normalize(24),
+  width = ms(24),
+  height = mvs(24),
   fill = 'none',
   stroke = '#8794AD',
   style,
 }: SvgProps) {
   return (
-    <View style={[{width: width, height: height}, style]}>
+    <View style={[{width, height}, style]}>
       <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
         <Path
           d="M22 15V9c0-5-2-7-7-7H9C4 2 2 4 2 9v6c0 5 2 7 7 7h6c5 0 7-2 7-7z"
