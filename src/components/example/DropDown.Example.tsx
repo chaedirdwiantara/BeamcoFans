@@ -32,6 +32,8 @@ const DropDownExample = () => {
         placeHolder={'Select Language'}
         dropdownLabel={'Language'}
       />
+      <Text style={{color: 'green'}}>Type 3 Dropdown Select Country</Text>
+      <Dropdown.Country />
     </View>
   );
 };
