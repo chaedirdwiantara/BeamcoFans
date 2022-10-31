@@ -8,6 +8,7 @@ import SearchBar from '../SearchBar';
 import {FlashList} from '@shopify/flash-list';
 import {normalize} from '../../../utils';
 import Gap from '../Gap/Gap';
+import regexNumber from '../../../utils/regexNumber';
 
 const DropdownSelectCountry = () => {
   const localData = [
@@ -90,9 +91,11 @@ const DropdownSelectCountry = () => {
     <View>
       <SsuInput.InputText
         value={state}
-        onChangeText={(newText: any) => setState(newText)}
+        onChangeText={(newText: any) =>
+          setState(newText.replace(regexNumber, ''))
+        }
         placeholder={'Phone Number'}
-        keyboardType={'phone-pad'}
+        keyboardType={'number-pad'}
         fontSize={normalize(12)}
         leftIcon={
           <View style={styles.leftIconContainer}>
