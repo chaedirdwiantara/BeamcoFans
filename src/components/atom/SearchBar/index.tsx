@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, TextInputProps, View} from 'react-native';
 import {SearchIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
@@ -14,26 +14,16 @@ interface SearchProps extends TextInputProps {
   backgroundColor?: string;
   rightIcon?: boolean;
   reset?: () => void;
+  onEndEditing?: () => void;
 }
 
-const SearchBar: React.FC<SearchProps> = ({onChangeText, value}) => {
-  const [state, setState] = useState('');
-  const [showIcon, setShowIcon] = useState(false);
-
-  const onEndEditing = () => {
-    console.log(state);
-  };
-
-  // const onChangeText = (text: string) => {
-  //   setState(text);
-  //   setShowIcon(true);
-  // };
-  const onReset = () => {
-    setState('');
-    setShowIcon(false);
-    console.log('works');
-  };
-
+const SearchBar: React.FC<SearchProps> = ({
+  onChangeText,
+  value,
+  rightIcon,
+  reset,
+  onEndEditing,
+}) => {
   return (
     <View style={styles.container}>
       <SsuInput.InputText
@@ -43,8 +33,8 @@ const SearchBar: React.FC<SearchProps> = ({onChangeText, value}) => {
         leftIcon={<SearchIcon stroke={color.Dark[50]} />}
         onEndEditing={onEndEditing}
         backgroundColor={color.Dark[600]}
-        rightIcon={showIcon}
-        reset={onReset}
+        rightIcon={rightIcon}
+        reset={reset}
       />
     </View>
   );

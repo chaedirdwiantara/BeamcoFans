@@ -1,13 +1,13 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {SsuInput} from '../InputText/SsuInput';
+import {SsuInput} from '../../atom/InputText/SsuInput';
 import {color, font} from '../../../theme';
 import {ms, mvs} from 'react-native-size-matters';
 import Modal from 'react-native-modal';
-import SearchBar from '../SearchBar';
+import SearchBar from '../../atom/SearchBar';
 import {FlashList} from '@shopify/flash-list';
 import {normalize} from '../../../utils';
-import Gap from '../Gap/Gap';
+import Gap from '../../atom/Gap/Gap';
 import regexNumber from '../../../utils/regexNumber';
 
 const DropdownSelectCountry = () => {
@@ -59,7 +59,7 @@ const DropdownSelectCountry = () => {
   const [query, setQuery] = useState('');
   const [fullData, setFullData] = useState<any>([]);
   const [value, setValue] = useState<any>('');
-  const [isFocus, setIsFocus] = useState(false);
+  const [showIcon, setShowIcon] = useState(false);
 
   useEffect(() => {
     setData(localData);
@@ -80,11 +80,22 @@ const DropdownSelectCountry = () => {
     });
     setData(filteredData);
     setQuery(text);
+    setShowIcon(true);
+  };
+
+  const onReset = () => {
+    setQuery('');
+    setShowIcon(false);
+    setData(localData);
   };
 
   const countryOnPress = (item: any) => {
     setValue(item);
     setModalVisible(false);
+  };
+
+  const onEndEditing = () => {
+    console.log('pressed end editing');
   };
 
   return (
@@ -122,6 +133,9 @@ const DropdownSelectCountry = () => {
             <SearchBar
               value={query}
               onChangeText={queryText => handleSearch(queryText)}
+              rightIcon={showIcon}
+              reset={onReset}
+              onEndEditing={onEndEditing}
             />
           </View>
           <FlashList
@@ -183,6 +197,7 @@ const styles = StyleSheet.create({
     lineHeight: mvs(14.5),
     marginLeft: ms(4),
     marginRight: ms(-6),
+    paddingTop: mvs(2),
   },
   modalContainer: {
     backgroundColor: color.Dark[700],

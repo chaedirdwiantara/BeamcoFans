@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Dropdown} from '../atom';
+import {Dropdown} from '../molecule';
 
 const DropDownExample = () => {
   const data = [

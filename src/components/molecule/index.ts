@@ -5,6 +5,8 @@ import {ProfileHeader} from './ProfileHeader/ProfileHeader';
 import { ModalConfirm } from './Modal/ModalConfirm';
 import { ListCard } from './ListCard';
 import {TopNavigation} from  './TopNavigation';
+import { Dropdown } from './DropDown';
+import { TabFilter } from './TabFilter';
 
 export {
   FollowingCard,
@@ -14,4 +16,6 @@ export {
   ModalConfirm,
   ListCard,
   TopNavigation,
+  Dropdown,
+  TabFilter
 };
