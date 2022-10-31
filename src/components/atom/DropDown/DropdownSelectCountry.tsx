@@ -93,7 +93,7 @@ const DropdownSelectCountry = () => {
         onChangeText={(newText: any) => setState(newText)}
         placeholder={'Phone Number'}
         keyboardType={'phone-pad'}
-        fontSize={12}
+        fontSize={normalize(12)}
         leftIcon={
           <View style={styles.leftIconContainer}>
             <TouchableOpacity
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   selectedCountryCode: {
     color: color.Dark[300],
     fontFamily: font.InterLight,
-    fontSize: normalize(11),
+    fontSize: normalize(12),
     lineHeight: mvs(14.5),
     marginLeft: ms(4),
     marginRight: ms(-6),
