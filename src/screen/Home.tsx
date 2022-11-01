@@ -4,6 +4,7 @@ import {mvs} from 'react-native-size-matters';
 import {TermAndConditions} from '../components';
 import {
   DropDownExample,
+  InputExample,
   MusicListCardExample,
   TabFilterExample,
   TncExample,
@@ -14,6 +15,7 @@ export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
       <DropDownExample />
+      <InputExample />
     </View>
   );
 };

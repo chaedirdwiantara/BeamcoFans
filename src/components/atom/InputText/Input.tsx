@@ -59,10 +59,11 @@ const InputText: React.FC<InputProps> = ({
   errorMsg,
   leftIcon,
   password,
-  onEndEditing,
   backgroundColor,
   rightIcon,
   reset,
+  onSubmitEditing,
+  onEndEditing,
 }) => {
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
@@ -84,8 +85,8 @@ const InputText: React.FC<InputProps> = ({
             backgroundColor: backgroundColor
               ? backgroundColor
               : color.Dark[900],
-            borderWidth: state === true ? 1 : 0,
-            borderColor: isError === true ? ErrorColor : color.Success[500],
+            borderWidth: isError === true ? 1 : 0,
+            borderColor: isError === true ? ErrorColor : '',
           },
         ]}>
         {leftIcon}
@@ -99,8 +100,8 @@ const InputText: React.FC<InputProps> = ({
           placeholder={placeholder}
           placeholderTextColor={FontColor}
           onFocus={() => setState(true)}
-          // onEndEditing={onEndEditing}
-          onSubmitEditing={onEndEditing}
+          onEndEditing={onEndEditing}
+          onSubmitEditing={onSubmitEditing}
         />
         {password ? (
           <TouchableOpacity
