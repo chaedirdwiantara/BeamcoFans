@@ -71,7 +71,7 @@ const DropdownSelectCountry: FC<SelectCountryProps> = ({
   };
 
   return (
-    <View>
+    <View style={{height: mvs(40), width: '100%'}}>
       <SsuInput.InputText
         value={state}
         onChangeText={(newText: any) =>
@@ -150,11 +150,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   selectCountryContainer: {
+    flexDirection: 'row',
     backgroundColor: color.Dark[700],
     width: ms(55),
     height: '100%',
     marginLeft: ms(-10),
-    paddingTop: mvs(12),
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 5,
   },
   leftLabel: {
