@@ -1,5 +1,5 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {SsuInput} from '../../atom/InputText/SsuInput';
 import {color, font} from '../../../theme';
 import {ms, mvs} from 'react-native-size-matters';
@@ -10,49 +10,21 @@ import {normalize} from '../../../utils';
 import Gap from '../../atom/Gap/Gap';
 import regexNumber from '../../../utils/regexNumber';
 
-const DropdownSelectCountry = () => {
-  const localData = [
-    {
-      value: '1',
-      label: 'US',
-      image: {
-        uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
-      },
-      code: '+1',
-    },
-    {
-      value: '2',
-      label: 'ID',
-      image: {
-        uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
-      },
-      code: '+62',
-    },
-    {
-      value: '3',
-      label: 'JP',
-      image: {
-        uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
-      },
-      code: '+81',
-    },
-    {
-      value: '4',
-      label: 'IN',
-      image: {
-        uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
-      },
-      code: '+91',
-    },
-    {
-      value: '5',
-      label: 'UK',
-      image: {
-        uri: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
-      },
-      code: '+44',
-    },
-  ];
+interface CountryData {
+  value: string;
+  label: string;
+  image: string;
+  code: string;
+}
+interface SelectCountryProps {
+  countryData: CountryData[];
+  numberTyped: (data: any) => void;
+}
+
+const DropdownSelectCountry: FC<SelectCountryProps> = ({
+  countryData,
+  numberTyped,
+}) => {
   const [state, setState] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState<any>([]);
@@ -62,8 +34,8 @@ const DropdownSelectCountry = () => {
   const [showIcon, setShowIcon] = useState(false);
 
   useEffect(() => {
-    setData(localData);
-    setFullData(localData);
+    setData(countryData);
+    setFullData(countryData);
   }, []);
 
   const contains = ({label}: any, query: any) => {
@@ -86,7 +58,7 @@ const DropdownSelectCountry = () => {
   const onReset = () => {
     setQuery('');
     setShowIcon(false);
-    setData(localData);
+    setData(countryData);
   };
 
   const countryOnPress = (item: any) => {
@@ -108,6 +80,7 @@ const DropdownSelectCountry = () => {
         placeholder={'Phone Number'}
         keyboardType={'number-pad'}
         fontSize={normalize(12)}
+        onEndEditing={() => numberTyped(value?.code + state)}
         leftIcon={
           <View style={styles.leftIconContainer}>
             <TouchableOpacity
@@ -149,7 +122,7 @@ const DropdownSelectCountry = () => {
                   onPress={() => countryOnPress(item)}>
                   <View style={styles.countryListContainer}>
                     <Image
-                      source={{uri: item.image.uri}}
+                      source={{uri: item.image}}
                       style={styles.imageStyle}
                     />
                     <Gap width={4} />
@@ -197,7 +170,7 @@ const styles = StyleSheet.create({
     lineHeight: mvs(14.5),
     marginLeft: ms(4),
     marginRight: ms(-6),
-    paddingTop: mvs(2),
+    marginTop: mvs(-1),
   },
   modalContainer: {
     backgroundColor: color.Dark[700],

@@ -13,7 +13,7 @@ import {color} from '../theme';
 export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
-      <TncExample />
+      <DropDownExample />
     </View>
   );
 };
