@@ -1,16 +1,19 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {mvs} from 'react-native-size-matters';
+import {TermAndConditions} from '../components';
 import {
   DropDownExample,
   MusicListCardExample,
   TabFilterExample,
+  TncExample,
 } from '../components/example';
+import {color} from '../theme';
 
 export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
-      <DropDownExample />
+      <TncExample />
     </View>
   );
 };
@@ -20,7 +23,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'black',
-    paddingHorizontal: mvs(12),
+    backgroundColor: color.Dark[800],
+    paddingHorizontal: mvs(48),
   },
 });

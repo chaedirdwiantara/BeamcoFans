@@ -5,6 +5,7 @@ import MusicListCardExample from './MusicListCard.Example';
 import MusicianListExample from './MusicianList.Example';
 import DropDownExample from './DropDown.Example';
 import TopNavExample from './TopNav.Example';
+import TncExample from './Tnc.Example';
 
 export {
   TextExample,
@@ -14,4 +15,5 @@ export {
   MusicianListExample,
   DropDownExample,
   TopNavExample,
+  TncExample
 };

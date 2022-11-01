@@ -7,6 +7,7 @@ import { ListCard } from './ListCard';
 import {TopNavigation} from  './TopNavigation';
 import { Dropdown } from './DropDown';
 import { TabFilter } from './TabFilter';
+import TermAndConditions from './Tnc';
 
 export {
   FollowingCard,
@@ -17,5 +18,6 @@ export {
   ListCard,
   TopNavigation,
   Dropdown,
-  TabFilter
+  TabFilter,
+  TermAndConditions,
 };
