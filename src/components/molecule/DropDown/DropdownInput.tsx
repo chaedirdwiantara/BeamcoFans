@@ -14,6 +14,7 @@ interface InputDropdownProps {
   data: dataProps[];
   placeHolder: string;
   dropdownLabel: string;
+  textTyped: (data: any) => void;
 }
 const borderColor = color.Dark[50];
 const itemBg = color.Dark[900];
@@ -22,7 +23,7 @@ const fontColorMain = color.Neutral[10];
 const InputDropdown: React.FC<InputDropdownProps> = (
   props: InputDropdownProps,
 ) => {
-  const {data, placeHolder, dropdownLabel} = props;
+  const {data, placeHolder, dropdownLabel, textTyped} = props;
 
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -49,6 +50,7 @@ const InputDropdown: React.FC<InputDropdownProps> = (
         onBlur={() => setIsFocus(false)}
         onChange={item => {
           setValue(item.value);
+          textTyped(item);
           setIsFocus(false);
         }}
         fontFamily={font.InterRegular}

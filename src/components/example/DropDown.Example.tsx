@@ -3,6 +3,7 @@ import React from 'react';
 import {Dropdown} from '../molecule';
 
 const DropDownExample = () => {
+  // ? Dropdown Menu Example
   const data = [
     {label: 'All', value: '1'},
     {label: 'Coming Up', value: '2'},
@@ -12,7 +13,11 @@ const DropDownExample = () => {
     {label: 'Highlight Post', value: '6'},
     {label: 'Backstage', value: '7'},
   ];
+  const resultDataMenu = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
+  };
 
+  // ? Dropdown Input Example
   const dataLanguage = [
     {label: 'Indonesia', value: '1'},
     {label: 'English', value: '2'},
@@ -22,6 +27,9 @@ const DropDownExample = () => {
     {label: 'Manise', value: '6'},
     {label: 'Plutonese', value: '7'},
   ];
+  const resultDataInput = (dataResult: any) => {
+    console.log(dataResult, 'resultDataInput');
+  };
 
   // ? Dropdown Select Country Example
   const countryData = [
@@ -64,12 +72,17 @@ const DropDownExample = () => {
   return (
     <View style={{width: '100%', marginBottom: 16}}>
       <Text style={{color: 'green'}}>Type 1 Dropdown menu</Text>
-      <Dropdown.Menu data={data} placeHolder={'Category'} />
+      <Dropdown.Menu
+        data={data}
+        placeHolder={'Category'}
+        selectedMenu={resultDataMenu}
+      />
       <Text style={{color: 'green'}}>Type 2 Dropdown input</Text>
       <Dropdown.Input
         data={dataLanguage}
         placeHolder={'Select Language'}
         dropdownLabel={'Language'}
+        textTyped={resultDataInput}
       />
       <Text style={{color: 'green'}}>Type 3 Dropdown Select Country</Text>
       <Dropdown.Country countryData={countryData} numberTyped={resultData} />
