@@ -7,5 +7,6 @@ import SearchBar from "./SearchBar";
 export {Button} from './Button/Button';
 import SsuStatusBar from "./StatusBar";
 import CheckBox from "./CheckBox";
+import SsuDivider from "./Divider";
 
-export {Gap, Avatar, AvatarUsername, SsuInput, SsuText, SquareImage, SearchBar,SsuStatusBar, CheckBox}
+export {Gap, Avatar, AvatarUsername, SsuInput, SsuText, SquareImage, SearchBar,SsuStatusBar, CheckBox, SsuDivider}

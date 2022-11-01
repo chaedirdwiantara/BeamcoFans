@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {TermAndConditions} from '../components';
+import {SsuDivider, TermAndConditions} from '../components';
 import {
   DropDownExample,
   InputExample,
@@ -14,8 +14,7 @@ import {color} from '../theme';
 export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
-      <DropDownExample />
-      <InputExample />
+      <SsuDivider text={'Or'} />
     </View>
   );
 };
