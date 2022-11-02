@@ -14,6 +14,8 @@ import globalStyles from './GlobalStyle';
 // import {SnbText} from '../../components/Typography/Typography';
 import {color, font} from '../../../theme';
 import {HomeIcon, SearchIcon} from '../../../assets/icon';
+import {ms, mvs} from 'react-native-size-matters';
+import {normalize} from '../../../utils';
 
 interface OTPInputProps {
   pinCount?: number;
@@ -222,7 +224,7 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
 
   return (
     <View
-      style={{...containerStyle, ...globalStyles.shadowStyle}}
+      style={{...containerStyle}}
       accessible
       accessibilityLabel={testID}
       testID={testID}>
@@ -241,7 +243,7 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
                   testID={`${testID}.otpInput${index}`}
                   accessibilityLabel={`${testID}.otpInput${index}`}
                   key={index}
-                  selectionColor={color.Error[500]}
+                  selectionColor={color.Success[500]}
                   style={[
                     inputStyle,
                     {
@@ -250,7 +252,8 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
                           ? color.Error[500]
                           : type === 'success'
                           ? color.Success[500]
-                          : color.Dark[50],
+                          : undefined,
+                      color: color.Neutral[10],
                     },
                   ]}
                   value={digits[index] || ''}
@@ -279,35 +282,39 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
 const styles = StyleSheet.create({
   defaultContainer: {
     width: '100%',
-    borderColor: color.Dark[50],
+    // borderColor: color.Dark[50],
     // margin: 12,
     // borderRadius: 24,
     // backgroundColor: color.Dark[300],
   },
   defaultBoxStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     // marginVertical: 48,
   },
   defaultInput: {
-    borderWidth: 1,
-    borderColor: color.Dark[50],
+    // borderWidth: 1,
+    // borderColor: color.Dark[50],
     textAlign: 'center',
-    borderRadius: 12,
-    paddingVertical: 12,
+    justifyContent: 'center',
+    borderRadius: 4,
+    // paddingVertical: mvs(12),
     fontFamily: font.InterMedium,
-    fontSize: 20,
-    width: 48,
+    fontSize: normalize(12),
+    width: ms(40),
+    height: mvs(40),
+    backgroundColor: color.Dark[600],
   },
   messageContainer: {
-    marginLeft: 16,
-    marginTop: -20,
-    marginBottom: 16,
+    marginLeft: ms(16),
+    marginTop: mvs(-20),
+    marginBottom: mvs(16),
     flexDirection: 'row',
   },
   messageIcon: {
     alignSelf: 'center',
-    marginRight: 4,
+    marginRight: ms(4),
   },
 });
 
