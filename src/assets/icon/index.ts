@@ -1,4 +1,6 @@
 import ArrowRightIcon from './ArrowRight.icon';
+import CheckBoxIcon from './CheckBox.icon';
+import ChevronDownIcon from './ChevronDown.icon';
 import CloseIcon from './Close.icon';
 import CoinIcon from './Coin.icon';
 import CollectionIcon from './Collection.icon';
@@ -28,6 +30,8 @@ import UserIcon from './User.icon';
 
 export {
   ArrowRightIcon,
+  CheckBoxIcon,
+  ChevronDownIcon,
   CloseIcon,
   CoinIcon,
   CollectionIcon,
