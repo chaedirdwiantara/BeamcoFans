@@ -8,6 +8,7 @@ import {TopNavigation} from  './TopNavigation';
 import { Dropdown } from './DropDown';
 import { TabFilter } from './TabFilter';
 import TermAndConditions from './Tnc';
+import SsuOTPInput from './OtpInput';
 
 export {
   FollowingCard,
@@ -20,4 +21,5 @@ export {
   Dropdown,
   TabFilter,
   TermAndConditions,
+  SsuOTPInput
 };

@@ -6,6 +6,7 @@ import MusicianListExample from './MusicianList.Example';
 import DropDownExample from './DropDown.Example';
 import TopNavExample from './TopNav.Example';
 import TncExample from './Tnc.Example';
+import OtpInputExample from './OtpInput.Example';
 
 export {
   TextExample,
@@ -15,5 +16,6 @@ export {
   MusicianListExample,
   DropDownExample,
   TopNavExample,
-  TncExample
+  TncExample,
+  OtpInputExample
 };
