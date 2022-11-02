@@ -4,5 +4,6 @@ export interface SvgProps {
   height?: number;
   fill?: string;
   stroke?: string;
+  active?: boolean;
   style?: ViewStyle;
 }

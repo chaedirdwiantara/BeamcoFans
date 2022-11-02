@@ -15,10 +15,7 @@ import {normalize} from '../../../utils';
 interface ButtonProps {
   label: string;
   type?: string;
-  labelColor?: string;
   borderColor?: string;
-  fontSize?: number;
-  backgroundColor?: string;
   containerStyles?: ViewStyle;
   textStyles?: TextStyle;
   onPress: () => void;

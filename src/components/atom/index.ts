@@ -1,4 +1,4 @@
-import {Avatar, AvatarUsername} from './Avatar/Avatar';
+import {Avatar} from './Avatar/Avatar';
 import {Button} from './Button/Button';
 import {Dropdown} from './DropDown';
 import {Indicator} from './Indicator/Indicator';
@@ -12,7 +12,6 @@ import SsuStatusBar from './StatusBar';
 
 export {
   Avatar,
-  AvatarUsername,
   Button,
   Dropdown,
   Gap,
