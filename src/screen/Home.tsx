@@ -6,6 +6,7 @@ import {
   InputExample,
   MusicListCardExample,
   OtpInputExample,
+  OTPTimerExample,
   TabFilterExample,
   TncExample,
 } from '../components/example';
@@ -15,6 +16,7 @@ export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
       <OtpInputExample />
+      <OTPTimerExample />
     </View>
   );
 };

@@ -7,6 +7,7 @@ import DropDownExample from './DropDown.Example';
 import TopNavExample from './TopNav.Example';
 import TncExample from './Tnc.Example';
 import OtpInputExample from './OtpInput.Example';
+import OTPTimerExample from './OtpTimer.Example';
 
 export {
   TextExample,
@@ -17,5 +18,6 @@ export {
   DropDownExample,
   TopNavExample,
   TncExample,
-  OtpInputExample
+  OtpInputExample,
+  OTPTimerExample
 };

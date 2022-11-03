@@ -9,6 +9,7 @@ import { Dropdown } from './DropDown';
 import { TabFilter } from './TabFilter';
 import TermAndConditions from './Tnc';
 import SsuOTPInput from './OtpInput';
+import SsuOTPTimer from './OtpTimer';
 
 export {
   FollowingCard,
@@ -21,5 +22,6 @@ export {
   Dropdown,
   TabFilter,
   TermAndConditions,
-  SsuOTPInput
+  SsuOTPInput,
+  SsuOTPTimer
 };
