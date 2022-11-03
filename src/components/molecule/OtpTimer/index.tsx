@@ -13,7 +13,7 @@ interface Props {
 
 const SsuOTPTimer: React.FC<Props> = props => {
   const [resend, setResend] = React.useState(false);
-  const [timer, setTimer] = React.useState(0);
+  const [timer, setTimer] = React.useState<any>(0);
 
   React.useEffect(() => {
     if (props.timer) {
@@ -29,7 +29,12 @@ const SsuOTPTimer: React.FC<Props> = props => {
       interval = setInterval(() => {
         temp += 1;
         if (timer) {
-          setTimer(timer - temp);
+          setTimer(
+            (timer - temp).toLocaleString('en-US', {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            }),
+          );
         }
       }, 1000);
     }
@@ -67,7 +72,7 @@ const SsuOTPTimer: React.FC<Props> = props => {
     return (
       <View style={styles.renderTimer}>
         <Text style={styles.renderTimeText}>
-          You can resend recovery code after <Text>{timer}</Text>
+          You can resend recovery code after <Text>00:{timer}</Text>
         </Text>
         <Button
           label={'Resend Code'}
