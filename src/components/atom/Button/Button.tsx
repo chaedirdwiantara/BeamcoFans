@@ -18,12 +18,20 @@ interface ButtonProps {
   borderColor?: string;
   containerStyles?: ViewStyle;
   textStyles?: TextStyle;
-  onPress: () => void;
+  onPress?: () => void;
+  disabled?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
-  const {type, label, borderColor, containerStyles, textStyles, onPress} =
-    props;
+  const {
+    type,
+    label,
+    borderColor,
+    containerStyles,
+    textStyles,
+    onPress,
+    disabled,
+  } = props;
 
   const withBorder = type === 'border' && {
     borderWidth: ms(2),
@@ -34,7 +42,8 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
     <TouchableOpacity
       style={[styles.root, withBorder, containerStyles]}
-      onPress={onPress}>
+      onPress={onPress}
+      disabled={disabled}>
       <Text style={[styles.labelStyle, textStyles]}>{label}</Text>
     </TouchableOpacity>
   );

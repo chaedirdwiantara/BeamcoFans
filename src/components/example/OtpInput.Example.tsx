@@ -7,6 +7,8 @@ const OtpInputExample = () => {
     <SsuOTPInput
       type={'default'}
       hideIcon
+      // showMessage
+      // otpSuccess={true}
       onCodeChanged={code => console.log(code)}
       onCodeFilled={(result, code) => {
         if (result) {

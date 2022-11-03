@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Alert} from 'react-native';
+import {mvs} from 'react-native-size-matters';
 import {color} from '../../../theme';
 import {Button} from '../../atom';
 // import { SnbButton } from '../Button/Button';
@@ -45,19 +46,18 @@ const SsuOTPTimer: React.FC<Props> = props => {
   const renderResend = () => {
     return (
       <View style={styles.resend}>
-        {/* <View>
-          <Text>Tidak menerima kode?</Text>
-        </View> */}
-
         <Button
           label="Resend Code"
           onPress={() => {
             setResend(true);
             props.action();
           }}
-          buttonWidth={'100%'}
           type="border"
-          backgroundColor={color.Pink[300]}
+          containerStyles={{
+            backgroundColor: color.Pink.linear,
+            width: '100%',
+            height: mvs(40),
+          }}
         />
       </View>
     );
@@ -65,10 +65,21 @@ const SsuOTPTimer: React.FC<Props> = props => {
 
   const renderTimer = () => {
     return (
-      <View style={{...styles.resend, paddingTop: 18}}>
-        <Text style={{alignItems: 'center'}}>
-          Mohon tunggu dalam <Text>{timer} detik</Text> untuk kirim ulang
+      <View style={styles.renderTimer}>
+        <Text style={styles.renderTimeText}>
+          You can resend recovery code after <Text>{timer}</Text>
         </Text>
+        <Button
+          label={'Resend Code'}
+          disabled={true}
+          type="border"
+          containerStyles={{
+            backgroundColor: color.Dark[50],
+            width: '100%',
+            height: mvs(40),
+            borderWidth: 0,
+          }}
+        />
       </View>
     );
   };
@@ -83,12 +94,17 @@ SsuOTPTimer.defaultProps = {
 const styles = StyleSheet.create({
   resend: {
     width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'center',
-    // marginVertical: 8,
-    // paddingVertical: 8,
-    // backgroundColor: 'grey',
+    marginTop: mvs(28),
+  },
+  renderTimer: {
+    width: '100%',
+    justifyContent: 'center',
+    marginTop: mvs(4),
+  },
+  renderTimeText: {
+    color: color.Success[400],
+    marginBottom: mvs(13),
   },
 });
 

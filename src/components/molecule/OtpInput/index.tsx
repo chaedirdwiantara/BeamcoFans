@@ -13,7 +13,7 @@ import globalStyles from './GlobalStyle';
 // import SnbSvgIcon from '../SvgIcon/SvgIcon';
 // import {SnbText} from '../../components/Typography/Typography';
 import {color, font} from '../../../theme';
-import {HomeIcon, SearchIcon} from '../../../assets/icon';
+import {ErrorIcon, HomeIcon, SearchIcon} from '../../../assets/icon';
 import {ms, mvs} from 'react-native-size-matters';
 import {normalize} from '../../../utils';
 
@@ -205,18 +205,22 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
     return (
       <View style={styles.messageContainer}>
         <View style={styles.messageIcon}>
-          <HomeIcon
-            // name={otpSuccess ? 'success_circle' : 'error_circle'}
-            width={12}
-          />
+          {!otpSuccess ?? (
+            <ErrorIcon width={16} height={16} fill={color.Error[400]} />
+          )}
         </View>
         <Text
-          style={{color: otpSuccess ? color.Success[500] : color.Error[500]}}>
+          style={[
+            styles.textMessage,
+            {
+              color: otpSuccess ? color.Success[500] : color.Error[400],
+            },
+          ]}>
           {valMessage
             ? valMessage
             : otpSuccess
-            ? 'Kode verifikasi diterima'
-            : 'Kode verifikasi tidak sesuai'}
+            ? 'Recovery code accepted'
+            : 'Please enter a valid recovery code'}
         </Text>
       </View>
     );
@@ -282,24 +286,16 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
 const styles = StyleSheet.create({
   defaultContainer: {
     width: '100%',
-    // borderColor: color.Dark[50],
-    // margin: 12,
-    // borderRadius: 24,
-    // backgroundColor: color.Dark[300],
   },
   defaultBoxStyle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // marginVertical: 48,
   },
   defaultInput: {
-    // borderWidth: 1,
-    // borderColor: color.Dark[50],
     textAlign: 'center',
     justifyContent: 'center',
     borderRadius: 4,
-    // paddingVertical: mvs(12),
     fontFamily: font.InterMedium,
     fontSize: normalize(12),
     width: ms(40),
@@ -307,14 +303,21 @@ const styles = StyleSheet.create({
     backgroundColor: color.Dark[600],
   },
   messageContainer: {
-    marginLeft: ms(16),
-    marginTop: mvs(-20),
+    marginTop: mvs(4),
     marginBottom: mvs(16),
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   messageIcon: {
     alignSelf: 'center',
     marginRight: ms(4),
+  },
+  textMessage: {
+    fontFamily: font.InterRegular,
+    fontWeight: '400',
+    fontSize: normalize(12),
+    lineHeight: mvs(14.52),
   },
 });
 
