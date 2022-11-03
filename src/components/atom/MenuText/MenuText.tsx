@@ -1,17 +1,12 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
 
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
-import ArrowRight from '../../../assets/icon/ArrowRight.icon';
-
-const {width} = Dimensions.get('screen');
+import {normalize} from '../../../utils';
+import Typography from '../../../theme/Typography';
+import {ArrowRightIcon} from '../../../assets/icon';
 
 interface Props {
   text?: string;
@@ -25,17 +20,17 @@ const LeftIcon: React.FC<Props> = (props: Props) => {
   return (
     <TouchableOpacity style={styles.root} onPress={onPress}>
       {icon}
-      <Text style={styles.text}>{text}</Text>
+      <Text style={[Typography.Button2, styles.text]}>{text}</Text>
     </TouchableOpacity>
   );
 };
 
 const RightIcon: React.FC<Props> = (props: Props) => {
-  const {icon = <ArrowRight />, text, onPress} = props;
+  const {icon = <ArrowRightIcon />, text, onPress} = props;
 
   return (
     <TouchableOpacity style={styles.root2} onPress={onPress}>
-      <Text style={styles.text}>{text}</Text>
+      <Text style={[Typography.Body2, styles.text]}>{text}</Text>
       {icon}
     </TouchableOpacity>
   );
@@ -62,31 +57,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   root2: {
-    width: width * 0.9,
+    width: ms(327),
+    height: mvs(28),
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
+    borderBottomWidth: mvs(1),
     borderBottomColor: Color.Dark[500],
-    paddingBottom: 20,
+    paddingBottom: mvs(8),
   },
   text: {
-    fontSize: 14,
-    paddingLeft: 10,
+    paddingLeft: ms(10),
     color: Color.Neutral[10],
-    fontFamily: Font.InterMedium,
   },
   text2: {
-    fontSize: 17,
-    paddingLeft: 10,
+    fontSize: normalize(17),
+    paddingLeft: ms(10),
+    marginBottom: mvs(2),
     color: Color.Neutral[10],
     fontFamily: Font.InterSemiBold,
+    lineHeight: mvs(24),
   },
   subtitle: {
-    fontSize: 12,
-    paddingLeft: 10,
+    fontSize: normalize(12),
+    paddingLeft: ms(10),
     color: Color.Dark[50],
     fontFamily: Font.InterMedium,
+    lineHeight: mvs(12),
   },
 });

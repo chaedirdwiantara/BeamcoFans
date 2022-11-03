@@ -1,17 +1,18 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
+import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
 const CloseIcon = ({
-  width = 12,
-  height = 12,
+  width = ms(12),
+  height = mvs(12),
   fill = 'none',
   stroke = '#292D32',
   style,
 }: SvgProps) => (
-  <View style={[{width: width, height: height}, style]}>
-    <Svg width={'100%'} height={'100%'} fill={fill}>
+  <View style={[{width, height}, style]}>
+    <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 12 12'}>
       <Path
         fill={fill}
         stroke={stroke}

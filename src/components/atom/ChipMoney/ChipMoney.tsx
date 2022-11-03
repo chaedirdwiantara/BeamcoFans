@@ -1,10 +1,11 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
 
-import CoinIcon from '../../../assets/icon/Coin.icon';
-import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
-import {kFormatter} from '../../../utils';
+import Color from '../../../theme/Color';
+import CoinIcon from '../../../assets/icon/Coin.icon';
+import {kFormatter, normalize} from '../../../utils';
 
 interface ChipMoneyProps {
   balance: number;
@@ -26,14 +27,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Color.Pink[300],
-    borderRadius: 5,
-    padding: 5,
+    backgroundColor: Color.Pink.linear,
+    borderRadius: 4,
+    paddingHorizontal: ms(10),
+    paddingVertical: mvs(5),
   },
   text: {
     color: '#FFF',
-    fontSize: 18,
-    fontFamily: Font.InterBold,
-    padding: 5,
+    fontSize: normalize(12),
+    fontFamily: Font.InterSemiBold,
+    paddingLeft: ms(6),
   },
 });
