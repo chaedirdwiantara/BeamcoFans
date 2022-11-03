@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
+import {color} from '../../../theme';
 import {Button} from '../../atom';
 // import { SnbButton } from '../Button/Button';
 // import { SnbText } from '../Typography/Typography';
@@ -44,19 +45,19 @@ const SsuOTPTimer: React.FC<Props> = props => {
   const renderResend = () => {
     return (
       <View style={styles.resend}>
-        <View>
+        {/* <View>
           <Text>Tidak menerima kode?</Text>
-        </View>
+        </View> */}
 
         <Button
-          label="Kirim Ulang"
+          label="Resend Code"
           onPress={() => {
             setResend(true);
             props.action();
           }}
-          buttonWidth={130}
+          buttonWidth={'100%'}
           type="border"
-          //   backgroundColor="blue"
+          backgroundColor={color.Pink[300]}
         />
       </View>
     );
@@ -81,12 +82,13 @@ SsuOTPTimer.defaultProps = {
 
 const styles = StyleSheet.create({
   resend: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 8,
-    paddingVertical: 8,
-    backgroundColor: 'grey',
+    // marginVertical: 8,
+    // paddingVertical: 8,
+    // backgroundColor: 'grey',
   },
 });
 
