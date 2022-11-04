@@ -1,6 +1,6 @@
 
 
-import {Avatar,AvatarUsername} from './Avatar/Avatar';
+import {Avatar} from './Avatar/Avatar';
 import {Button} from './Button/Button';
 import CheckBox from "./CheckBox";
 import {Indicator} from './Indicator/Indicator';
@@ -11,10 +11,10 @@ import {SsuText} from './Text/SsuText';
 import {SsuInput} from './InputText/SsuInput';
 import SquareImage from './SquareImage/SquareImage';
 import SsuStatusBar from './StatusBar';
+import SsuToast from './Toast';
 
 export {
   Avatar,
-  AvatarUsername,
   Button,CheckBox,
   Gap,
   Indicator,
@@ -23,4 +23,5 @@ export {
   SsuText,
   SquareImage,
   SsuStatusBar,
+  SsuToast,
 };

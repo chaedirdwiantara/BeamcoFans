@@ -1,27 +1,27 @@
-import React from 'react';
-import {View, StyleSheet, Text, Alert} from 'react-native';
-import {mvs} from 'react-native-size-matters';
-import {color} from '../../../theme';
-import {Button} from '../../atom';
-// import { SnbButton } from '../Button/Button';
-// import { SnbText } from '../Typography/Typography';
+import React, {useState, useEffect, FC} from 'react';
+import {View, StyleSheet, Text} from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
+import {color, font} from '../../../theme';
+import {normalize} from '../../../utils';
+import {Button, SsuToast} from '../../atom';
 
 interface Props {
   action: () => void;
   timer?: number;
 }
 
-const SsuOTPTimer: React.FC<Props> = props => {
-  const [resend, setResend] = React.useState(false);
-  const [timer, setTimer] = React.useState<any>(0);
+const SsuOTPTimer: FC<Props> = props => {
+  const [resend, setResend] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [timer, setTimer] = useState<any>(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (props.timer) {
       setTimer(props.timer);
     }
   }, [props.timer]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let temp = 0;
     let interval: any = null;
     if (resend) {
@@ -48,12 +48,21 @@ const SsuOTPTimer: React.FC<Props> = props => {
     return () => clearInterval(interval);
   }, [resend, timer, props.timer]);
 
+  // ? setTimeout for modal Visibility
+  const setVisibility = () => {
+    setModalVisible(false);
+  };
+  useEffect(() => {
+    setTimeout(setVisibility, 2000);
+  }, [modalVisible]);
+
   const renderResend = () => {
     return (
       <View style={styles.resend}>
         <Button
           label="Resend Code"
           onPress={() => {
+            setModalVisible(true);
             setResend(true);
             props.action();
           }}
@@ -85,6 +94,18 @@ const SsuOTPTimer: React.FC<Props> = props => {
             borderWidth: 0,
           }}
         />
+        <SsuToast
+          modalVisible={modalVisible}
+          onBackPressed={() => setModalVisible(false)}
+          children={
+            <View style={[styles.modalContainer]}>
+              <Text style={[styles.textStyle]}>
+                We've just resend a new code!
+              </Text>
+            </View>
+          }
+          modalStyle={{marginHorizontal: ms(24)}}
+        />
       </View>
     );
   };
@@ -110,6 +131,24 @@ const styles = StyleSheet.create({
   renderTimeText: {
     color: color.Success[400],
     marginBottom: mvs(13),
+  },
+  modalContainer: {
+    backgroundColor: color.Success[400],
+    paddingVertical: mvs(16),
+    paddingHorizontal: ms(12),
+    borderRadius: 4,
+    height: mvs(48),
+    width: '100%',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: mvs(22),
+  },
+  textStyle: {
+    color: color.Neutral[10],
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(13),
+    lineHeight: mvs(15),
   },
 });
 
