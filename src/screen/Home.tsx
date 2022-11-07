@@ -1,14 +1,22 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {TabFilterExample} from '../components/example';
+import {
+  DropDownExample,
+  InputExample,
+  MusicListCardExample,
+  OtpInputExample,
+  OTPTimerExample,
+  TabFilterExample,
+  TncExample,
+} from '../components/example';
+import {color} from '../theme';
 
 export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
-      <ScrollView>
-        <TabFilterExample />
-      </ScrollView>
+      <OtpInputExample />
+      <OTPTimerExample />
     </View>
   );
 };
@@ -18,7 +26,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
-    paddingHorizontal: mvs(12),
+    backgroundColor: color.Dark[800],
+    paddingHorizontal: mvs(48),
   },
 });

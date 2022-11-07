@@ -170,6 +170,7 @@
 				D5F0A31E25664F09B986B067 /* Inter-Thin.ttf */,
 			);
 			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {

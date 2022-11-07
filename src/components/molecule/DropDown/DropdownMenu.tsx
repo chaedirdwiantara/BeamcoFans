@@ -13,6 +13,7 @@ interface dataProps {
 interface DropdownMenuProps {
   data: dataProps[];
   placeHolder: string;
+  selectedMenu: (data: any) => void;
 }
 
 const itemBg = color.Dark[900];
@@ -20,7 +21,7 @@ const itemBg = color.Dark[900];
 const DropdownMenu: React.FC<DropdownMenuProps> = (
   props: DropdownMenuProps,
 ) => {
-  const {data, placeHolder} = props;
+  const {data, placeHolder, selectedMenu} = props;
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -44,6 +45,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
         onBlur={() => setIsFocus(false)}
         onChange={item => {
           setValue(item.value);
+          selectedMenu(item);
           setIsFocus(false);
         }}
         fontFamily={font.InterRegular}

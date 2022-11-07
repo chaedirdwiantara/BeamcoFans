@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, FlatList} from 'react-native';
 import React, {useState} from 'react';
-import {TabFilter} from '../atom';
+import {TabFilter} from '../molecule';
 
 const TabFilterExample = () => {
   const [data, setData] = useState([
