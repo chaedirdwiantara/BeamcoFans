@@ -48,7 +48,7 @@ export const OnboardScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <ImageSlider data={data} onPress={handeOnpressText} />
+      <ImageSlider.Boarding data={data} onPress={handeOnpressText} />
     </View>
   );
 };
