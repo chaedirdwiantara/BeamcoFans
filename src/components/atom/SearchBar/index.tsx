@@ -1,38 +1,40 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Dimensions} from 'react-native';
+import React from 'react';
+import {StyleSheet, TextInputProps, View} from 'react-native';
 import {SearchIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
 import {SsuInput} from '../InputText/SsuInput';
 
-const SearchBar = () => {
-  const [state, setState] = useState('');
-  const [showIcon, setShowIcon] = useState(false);
+interface SearchProps extends TextInputProps {
+  fontSize?: number;
+  disabled?: boolean;
+  leftIcon?: React.ReactNode;
+  isError?: boolean;
+  errorMsg?: string;
+  password?: boolean;
+  backgroundColor?: string;
+  rightIcon?: boolean;
+  reset?: () => void;
+  onEndEditing?: () => void;
+}
 
-  const onEndEditing = () => {
-    console.log(state);
-  };
-
-  const onChangeText = (text: string) => {
-    setState(text);
-    setShowIcon(true);
-  };
-  const onReset = () => {
-    setState('');
-    setShowIcon(false);
-    console.log('works');
-  };
-
+const SearchBar: React.FC<SearchProps> = ({
+  onChangeText,
+  value,
+  rightIcon,
+  reset,
+  onEndEditing,
+}) => {
   return (
     <View style={styles.container}>
       <SsuInput.InputText
-        value={state}
+        value={value}
         onChangeText={onChangeText}
         placeholder={'Search'}
         leftIcon={<SearchIcon stroke={color.Dark[50]} />}
         onEndEditing={onEndEditing}
         backgroundColor={color.Dark[600]}
-        rightIcon={showIcon}
-        reset={onReset}
+        rightIcon={rightIcon}
+        reset={reset}
       />
     </View>
   );

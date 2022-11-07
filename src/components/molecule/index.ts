@@ -8,7 +8,12 @@ import {ModalConfirm} from './Modal/ModalConfirm';
 import {NotificationCard} from './NotificationCard/NotificationCard';
 import {PreferenceContent} from './PreferenceContent/PreferenceContent';
 import {ProfileHeader} from './ProfileHeader/ProfileHeader';
-import {TopNavigation} from './TopNavigation';
+import {TopNavigation} from  './TopNavigation';
+import { Dropdown } from './DropDown';
+import { TabFilter } from './TabFilter';
+import TermAndConditions from './Tnc';
+import SsuOTPInput from './OtpInput';
+import SsuOTPTimer from './OtpTimer';
 
 export {
   AvatarUsername,
@@ -22,4 +27,9 @@ export {
   PreferenceContent,
   ProfileHeader,
   TopNavigation,
+  Dropdown,
+  TabFilter,
+  TermAndConditions,
+  SsuOTPInput,
+  SsuOTPTimer
 };

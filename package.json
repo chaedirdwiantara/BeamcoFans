@@ -17,6 +17,7 @@
     "react": "18.1.0",
     "react-native": "0.70.2",
     "react-native-element-dropdown": "^2.3.0",
+    "react-native-modal": "^13.0.1",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^4.4.1",
     "react-native-screens": "^3.18.0",
@@ -27,6 +28,8 @@
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@testing-library/jest-native": "^5.1.2",
+    "@testing-library/react-native": "^11.4.0",
     "@tsconfig/react-native": "^2.0.2",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.70.4",
@@ -42,6 +45,9 @@
   },
   "jest": {
     "preset": "react-native",
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -49,6 +55,9 @@
       "jsx",
       "json",
       "node"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?@?react-native|@react-native-community|@react-navigation|react-native-size-matters)"
     ]
   }
 }

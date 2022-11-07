@@ -1,15 +1,11 @@
 import React, {useState} from 'react';
 import {
-  ImageStyle,
-  KeyboardTypeOptions,
   StyleSheet,
-  Text,
   TextInput,
   TextInputProps,
   TextStyle,
   TouchableOpacity,
   View,
-  ViewProps,
   ViewStyle,
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
@@ -18,7 +14,6 @@ import {
   ErrorIcon,
   EyeCloseIcon,
   EyeOpenIcon,
-  HomeIcon,
 } from '../../../assets/icon';
 import {color, font} from '../../../theme';
 import {normalize} from '../../../utils';
@@ -51,7 +46,7 @@ type TypeStyle = {
 };
 
 const ErrorColor = color.Error[900];
-const FontColor = color.Dark[50];
+const FontColor = color.Dark[300];
 
 const InputText: React.FC<InputProps> = ({
   fontSize,
@@ -64,10 +59,11 @@ const InputText: React.FC<InputProps> = ({
   errorMsg,
   leftIcon,
   password,
-  onEndEditing,
   backgroundColor,
   rightIcon,
   reset,
+  onSubmitEditing,
+  onEndEditing,
 }) => {
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
@@ -89,8 +85,8 @@ const InputText: React.FC<InputProps> = ({
             backgroundColor: backgroundColor
               ? backgroundColor
               : color.Dark[900],
-            borderWidth: state === true ? 1 : 0,
-            borderColor: isError === true ? ErrorColor : color.Success[500],
+            borderWidth: isError === true ? 1 : 0,
+            borderColor: isError === true ? ErrorColor : '',
           },
         ]}>
         {leftIcon}
@@ -104,8 +100,8 @@ const InputText: React.FC<InputProps> = ({
           placeholder={placeholder}
           placeholderTextColor={FontColor}
           onFocus={() => setState(true)}
-          // onEndEditing={onEndEditing}
-          onSubmitEditing={onEndEditing}
+          onEndEditing={onEndEditing}
+          onSubmitEditing={onSubmitEditing}
         />
         {password ? (
           <TouchableOpacity
@@ -195,6 +191,7 @@ const styles = StyleSheet.create<TypeStyle>({
     fontSize: fontSize ? fontSize : normalize(13),
     fontFamily: font.InterLight,
     color: FontColor,
+    lineHeight: mvs(14.5),
     paddingLeft: ms(10),
   }),
   inputTextArea: (fontSize: number) => ({
