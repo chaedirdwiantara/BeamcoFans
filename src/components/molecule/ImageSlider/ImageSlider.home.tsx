@@ -7,14 +7,15 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
+import Color from '../../../theme/Color';
+import Font from '../../../theme/Font';
+import {normalize} from '../../../utils';
 
 const {width} = Dimensions.get('window');
 
-const SPACING = 5;
-const ITEM_LENGTH = width * 0.8; // Item is a square. Therefore, its height and width are of the same length.
+const ITEM_LENGTH = width * 0.8;
 const EMPTY_ITEM_LENGTH = (width - ITEM_LENGTH) / 2;
-const BORDER_RADIUS = 20;
-const CURRENT_ITEM_TRANSLATE_Y = 48;
 
 interface ImageSliderItem {
   id?: number;
@@ -27,7 +28,7 @@ interface ImageSliderProps {
   data: ImageSliderItem[];
 }
 
-const ImageSlider: FC<ImageSliderProps> = ({data}) => {
+export const ImageSlider: FC<ImageSliderProps> = ({data}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const [dataWithPlaceholders, setDataWithPlaceholders] = useState<
     ImageSliderItem[]
@@ -40,7 +41,6 @@ const ImageSlider: FC<ImageSliderProps> = ({data}) => {
     currentIndex.current = 1;
   }, [data]);
 
-  // `data` perameter is not used. Therefore, it is annotated with the `any` type to merely satisfy the linter.
   const getItemLayout = (_data: any, index: number) => ({
     length: ITEM_LENGTH,
     offset: ITEM_LENGTH * (index - 1),
@@ -118,51 +118,37 @@ const ImageSlider: FC<ImageSliderProps> = ({data}) => {
   );
 };
 
-export default ImageSlider;
-
 const styles = StyleSheet.create({
   container: {},
-  arrowBtn: {},
-  arrowBtnText: {
-    fontSize: 42,
-    fontWeight: '600',
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 10,
-  },
   flatListContent: {
-    height: CURRENT_ITEM_TRANSLATE_Y * 2 + ITEM_LENGTH,
-    alignItems: 'center',
-    marginBottom: CURRENT_ITEM_TRANSLATE_Y,
+    marginTop: mvs(30),
   },
-  item: {},
   itemContent: {
-    marginHorizontal: SPACING * 3,
+    marginHorizontal: ms(15),
     alignItems: 'center',
     backgroundColor: 'white',
-    borderRadius: BORDER_RADIUS + SPACING * 2,
+    borderRadius: 20,
   },
   itemText: {
-    fontSize: 22,
+    fontSize: normalize(15),
     position: 'absolute',
-    bottom: SPACING * 11,
-    left: SPACING * 2,
-    color: 'white',
-    fontWeight: 'bold',
+    bottom: mvs(45),
+    left: ms(10),
+    color: Color.Neutral[10],
+    fontFamily: Font.InterBold,
   },
   itemSubtitle: {
-    fontSize: 16,
+    fontSize: normalize(12),
     position: 'absolute',
-    bottom: SPACING * 2,
-    left: SPACING * 2,
-    color: 'white',
+    bottom: ms(14),
+    left: ms(10),
+    color: Color.Neutral[10],
+    fontFamily: Font.InterRegular,
   },
   itemImage: {
     width: '100%',
-    height: ITEM_LENGTH,
-    borderRadius: BORDER_RADIUS,
+    height: mvs(159),
     resizeMode: 'cover',
+    borderRadius: 20,
   },
 });
