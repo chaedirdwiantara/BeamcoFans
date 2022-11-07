@@ -52,7 +52,7 @@ const TopNavExample = () => {
         rightIconAction={() => console.log('Right Icon Pressed')}
         maxLengthTitle={20}
         itemStrokeColor={color.Pink[100]}
-        points={'100000'}
+        points={100000}
       />
     </View>
   );

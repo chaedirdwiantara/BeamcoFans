@@ -1,20 +1,22 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../App';
+import {PreferenceContent} from '../components';
+import Color from '../theme/Color';
 
-export const LoginScreen: React.FC = () => {
+export const PreferenceScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const handeOnpressText = () => {
-    navigation.push('Preference');
+    navigation.push('MainTab');
   };
 
   return (
     <View style={styles.root}>
-      <Text onPress={handeOnpressText}>This is login screen</Text>
+      <PreferenceContent onPress={handeOnpressText} />
     </View>
   );
 };
@@ -24,5 +26,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Color.Dark[800],
   },
 });
