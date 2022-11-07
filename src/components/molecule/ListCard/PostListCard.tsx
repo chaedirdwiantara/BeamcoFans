@@ -1,10 +1,16 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {Avatar, Gap} from '../../atom';
-import {LoveIcon} from '../../../assets/icon';
-import {color, font} from '../../../theme';
-import {normalize} from '../../../utils';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
+import {Avatar, Gap} from '../../atom';
+import {normalize} from '../../../utils';
+import {color, font} from '../../../theme';
+import {LoveIcon} from '../../../assets/icon';
 
 interface ListProps {
   imgUri: string;
@@ -17,6 +23,7 @@ interface ListProps {
   tokenOnPress: () => void;
   shareOnPress: () => void;
   likePressed: boolean;
+  containerStyles?: ViewStyle;
 }
 
 const PostListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -31,10 +38,11 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
     tokenOnPress,
     shareOnPress,
     likePressed,
+    containerStyles,
   } = props;
   return (
     <>
-      <View style={styles.topContainer}>
+      <View style={[styles.topContainer, containerStyles]}>
         <View>
           <Avatar imgUri={imgUri} size={44} />
         </View>
