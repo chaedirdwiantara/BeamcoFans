@@ -9,7 +9,7 @@ export const LoginScreen: React.FC = () => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const handeOnpressText = () => {
-    navigation.push('MainTab');
+    navigation.push('Preference');
   };
 
   return (
