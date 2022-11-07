@@ -4,6 +4,7 @@ import {elipsisText} from '../../../utils';
 import {Avatar, Gap} from '../../atom';
 import topNavstyles from './topNavstyles';
 import {font} from '../../../theme';
+import {ChipMoney} from '../../atom/ChipMoney/ChipMoney';
 
 /** === INTERFACE === */
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
   rightIcon: React.ReactNode;
   rightIconAction?: () => void;
   profileUri: string;
-  points: string;
+  points: number;
 };
 
 /** == COMPONENT === */
@@ -63,12 +64,7 @@ const Type5: React.FC<Props> = (props: Props) => {
           </Text>
         </View>
         <View style={topNavstyles.rightContainer}>
-          {/* Need to change this text into chip money component */}
-          <Text
-            numberOfLines={1}
-            style={[topNavstyles.centerTitle, {color: props.itemStrokeColor}]}>
-            {props.points}
-          </Text>
+          <ChipMoney balance={props.points} />
           <Gap width={12} />
           {iconRight()}
         </View>
