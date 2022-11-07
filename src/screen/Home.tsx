@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {mvs} from 'react-native-size-matters';
+import {SsuSheet} from '../components';
 import {
   DropDownExample,
   InputExample,
@@ -15,8 +16,14 @@ import {color} from '../theme';
 export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.root}>
-      <OtpInputExample />
-      <OTPTimerExample />
+      <SsuSheet
+        children={
+          <>
+            <OtpInputExample />
+            <OTPTimerExample />
+          </>
+        }
+      />
     </View>
   );
 };
@@ -26,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: color.Dark[800],
-    paddingHorizontal: mvs(48),
+    // backgroundColor: color.Dark[800],
+    // paddingHorizontal: mvs(48),
   },
 });
