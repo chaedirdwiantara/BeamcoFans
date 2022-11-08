@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {color, font} from '../../../theme';
@@ -6,12 +6,19 @@ import {normalize} from '../../../utils';
 import countDownFunction from '../../../utils/countDownFunction';
 import {Button, SsuToast} from '../../atom';
 
-export const SsuOTPTimer = ({targetDate}: any) => {
+interface OtpTimerProps {
+  targetDate: number;
+}
+
+export const SsuOTPTimer: FC<OtpTimerProps> = (props: OtpTimerProps) => {
+  const {targetDate} = props;
   const [resend, setResend] = useState(false);
-  const [timer, setTimer] = useState<any>(0);
+  const [timer, setTimer] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [minutes, seconds] = countDownFunction(timer);
+
+  // ? set to change render when time is up
   useEffect(() => {
     minutes + seconds <= 0 ? setResend(false) : null;
   }, [minutes, seconds]);
@@ -24,6 +31,7 @@ export const SsuOTPTimer = ({targetDate}: any) => {
     modalVisible && setTimeout(setVisibility, 2000);
   }, [modalVisible]);
 
+  // ? set new timer for countdown event
   useEffect(() => {
     if (resend) {
       setTimer(new Date().getTime() + targetDate * 1000);
