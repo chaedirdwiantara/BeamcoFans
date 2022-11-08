@@ -29,6 +29,8 @@ interface ListProps {
   tokenOnPress: () => void;
   shareOnPress: () => void;
   likePressed: boolean;
+  likeTotal?: number;
+  commentTotal?: number;
   containerStyles?: ViewStyle;
 }
 
@@ -45,6 +47,8 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
     shareOnPress,
     likePressed,
     containerStyles,
+    likeTotal,
+    commentTotal,
   } = props;
   return (
     <>
@@ -99,7 +103,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                 stroke={likePressed ? 'none' : color.Dark[100]}
               />
               <Gap width={3} />
-              <Text style={styles.regularText}>5000</Text>
+              <Text style={styles.regularText}>{likeTotal}</Text>
             </TouchableOpacity>
           </View>
           {/* comment section */}
@@ -118,7 +122,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                 }}
               />
               <Gap width={3} />
-              <Text style={styles.regularText}>1000</Text>
+              <Text style={styles.regularText}>{commentTotal}</Text>
             </TouchableOpacity>
           </View>
           {/* token section */}
