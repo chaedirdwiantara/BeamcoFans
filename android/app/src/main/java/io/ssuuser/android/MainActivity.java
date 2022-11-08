@@ -1,4 +1,4 @@
-package com.ssuuser;
+package io.ssuuser.android;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

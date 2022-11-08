@@ -1,10 +1,16 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {LoveIcon, ThreeDotsIcon} from '../../../assets/icon';
-import {normalize} from '../../../utils';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
-import {color, font} from '../../../theme';
 import {SquareImage} from '../../atom';
+import {normalize} from '../../../utils';
+import {color, font} from '../../../theme';
+import {LoveIcon, ThreeDotsIcon} from '../../../assets/icon';
 
 interface ListProps {
   imgUri: string;
@@ -14,6 +20,7 @@ interface ListProps {
   musicTitle: string;
   musicDesc: string;
   likePressed: boolean;
+  containerStyles?: ViewStyle;
 }
 
 const MusicListCard: React.FC<ListProps> = ({
@@ -24,9 +31,10 @@ const MusicListCard: React.FC<ListProps> = ({
   musicTitle,
   musicDesc,
   likePressed,
+  containerStyles,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyles]}>
       <Text style={styles.rankStyle}>{musicNum}</Text>
       <SquareImage imgUri={imgUri} size={44} />
       <View style={styles.textContainer}>

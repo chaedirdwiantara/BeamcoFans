@@ -3,6 +3,7 @@ import InputExample from './Input.Example';
 import TabFilterExample from './TabFilter.Example';
 import MusicListCardExample from './MusicListCard.Example';
 import MusicianListExample from './MusicianList.Example';
+import PostListCardExample from './PostListCard.Example';
 import DropDownExample from './DropDown.Example';
 import TopNavExample from './TopNav.Example';
 import TncExample from './Tnc.Example';
@@ -15,6 +16,7 @@ export {
   TabFilterExample,
   MusicListCardExample,
   MusicianListExample,
+  PostListCardExample,
   DropDownExample,
   TopNavExample,
   TncExample,

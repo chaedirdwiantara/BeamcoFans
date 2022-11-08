@@ -1,10 +1,16 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {Avatar} from '../../atom';
-import {ThreeDotsIcon} from '../../../assets/icon';
-import {color, font} from '../../../theme';
-import {normalize} from '../../../utils';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
+import {Avatar} from '../../atom';
+import {normalize} from '../../../utils';
+import {color, font} from '../../../theme';
+import {ThreeDotsIcon} from '../../../assets/icon';
 
 interface ListProps {
   musicNum: string;
@@ -12,12 +18,20 @@ interface ListProps {
   musicTitle: string;
   imgUri: string;
   point?: string;
+  containerStyles?: ViewStyle;
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
-  const {musicNum, onPressThreeDots, musicTitle, imgUri, point} = props;
+  const {
+    musicNum,
+    onPressThreeDots,
+    musicTitle,
+    imgUri,
+    point,
+    containerStyles,
+  } = props;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyles]}>
       <Text style={styles.rankStyle}>{musicNum}</Text>
       <Avatar imgUri={imgUri} size={44} />
       <View style={styles.textContainer}>

@@ -10,7 +10,13 @@ interface AvatarProps {
 
 export const Avatar: React.FC<AvatarProps> = (props: AvatarProps) => {
   const {imgUri, size = ms(32)} = props;
-  return <Image source={{uri: imgUri}} style={[styles.root, {width: size}]} />;
+  return (
+    <Image
+      source={{uri: imgUri}}
+      style={[styles.root, {width: size}]}
+      testID={'ssu-avatar'}
+    />
+  );
 };
 
 const styles = StyleSheet.create({

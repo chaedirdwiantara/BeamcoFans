@@ -18,8 +18,8 @@ interface ButtonProps {
   borderColor?: string;
   containerStyles?: ViewStyle;
   textStyles?: TextStyle;
-  onPress?: () => void;
   disabled?: boolean;
+  onPress?: () => void;
 }
 
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
@@ -29,12 +29,12 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
     borderColor,
     containerStyles,
     textStyles,
-    onPress,
     disabled,
+    onPress,
   } = props;
 
   const withBorder = type === 'border' && {
-    borderWidth: ms(2),
+    borderWidth: ms(1),
     borderColor: borderColor ? borderColor : Color.Pink.linear,
     backgroundColor: 'transparent',
   };
@@ -42,8 +42,8 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
   return (
     <TouchableOpacity
       style={[styles.root, withBorder, containerStyles]}
-      onPress={onPress}
-      disabled={disabled}>
+      disabled={disabled}
+      onPress={onPress}>
       <Text style={[styles.labelStyle, textStyles]}>{label}</Text>
     </TouchableOpacity>
   );
