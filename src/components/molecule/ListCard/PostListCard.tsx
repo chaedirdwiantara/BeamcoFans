@@ -10,7 +10,13 @@ import {ms, mvs} from 'react-native-size-matters';
 import {Avatar, Gap} from '../../atom';
 import {normalize} from '../../../utils';
 import {color, font} from '../../../theme';
-import {LoveIcon} from '../../../assets/icon';
+import {
+  CoinB,
+  CoinIcon,
+  CommentIcon,
+  LoveIcon,
+  ShareIcon,
+} from '../../../assets/icon';
 
 interface ListProps {
   imgUri: string;
@@ -51,28 +57,22 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
             flex: 1,
             marginLeft: 12,
           }}>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <View style={styles.textContainer}>
+          <View style={{flex: 1}}>
+            <View style={styles.topPostSection}>
               <Text style={styles.songTitle}>{musicianName}</Text>
-              <Text style={styles.songDesc}>{musicianId}</Text>
-            </View>
-            <View style={styles.rightComponent}>
               <View style={[styles.category]}>
                 <Text style={styles.categoryText}>Daily Life</Text>
               </View>
+            </View>
+            <View style={styles.buttomPostSection}>
+              <Text style={styles.songDesc}>{musicianId}</Text>
               <Text style={styles.regularText}>{postDate}</Text>
             </View>
           </View>
         </View>
       </View>
       {/* BODY SECTION */}
-      <View
-        style={{
-          width: '100%',
-          flexDirection: 'row',
-          marginTop: 8,
-          marginBottom: 12,
-        }}>
+      <View style={styles.bodyContainer}>
         <Gap width={57} />
         {children}
       </View>
@@ -89,7 +89,11 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
           <View>
             <TouchableOpacity
               onPress={likeOnPress}
-              style={{flexDirection: 'row', alignItems: 'center'}}>
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
               <LoveIcon
                 fill={likePressed ? color.Pink[100] : 'none'}
                 stroke={likePressed ? 'none' : color.Dark[100]}
@@ -102,8 +106,17 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
           <View>
             <TouchableOpacity
               onPress={commentOnPress}
-              style={{flexDirection: 'row', alignItems: 'center'}}>
-              <LoveIcon stroke={color.Dark[100]} />
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <CommentIcon
+                stroke={color.Dark[100]}
+                style={{
+                  padding: 2,
+                }}
+              />
               <Gap width={3} />
               <Text style={styles.regularText}>1000</Text>
             </TouchableOpacity>
@@ -111,7 +124,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
           {/* token section */}
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity onPress={tokenOnPress}>
-              <LoveIcon stroke={color.Dark[100]} />
+              <CoinB stroke={color.Dark[100]} />
             </TouchableOpacity>
           </View>
         </View>
@@ -120,7 +133,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
           style={{flex: 1, justifyContent: 'center', alignItems: 'flex-end'}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <TouchableOpacity onPress={shareOnPress}>
-              <LoveIcon stroke={color.Dark[100]} />
+              <ShareIcon stroke={color.Dark[100]} />
             </TouchableOpacity>
           </View>
         </View>
@@ -145,10 +158,23 @@ const styles = StyleSheet.create({
     marginRight: ms(10),
     color: color.Neutral[10],
   },
-  textContainer: {
+  bodyContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    marginTop: mvs(8),
+    marginBottom: mvs(12),
+  },
+  topPostSection: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  buttomPostSection: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   songTitle: {
     fontFamily: font.InterMedium,
@@ -164,18 +190,12 @@ const styles = StyleSheet.create({
     lineHeight: mvs(12),
     color: color.Dark[50],
   },
-  rightComponent: {
-    width: ms(90),
-    alignItems: 'flex-end',
-    justifyContent: 'space-evenly',
-  },
   category: {
     backgroundColor: color.Pink[100],
     paddingHorizontal: ms(4),
     paddingVertical: mvs(3),
     borderRadius: 2,
     alignItems: 'center',
-    marginBottom: mvs(4),
   },
   categoryText: {
     fontFamily: font.InterMedium,
@@ -190,7 +210,7 @@ const styles = StyleSheet.create({
     fontSize: normalize(10),
     lineHeight: mvs(12),
     color: color.Dark[100],
-    marginTop: mvs(4),
+    // marginTop: mvs(4),
   },
   bottomContainer: {
     flexDirection: 'row',
