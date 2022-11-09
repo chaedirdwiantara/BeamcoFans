@@ -1,5 +1,6 @@
 import ArrowRightIcon from './ArrowRight.icon';
 import CheckBoxIcon from './CheckBox.icon';
+import CheckCircleIcon from './CheckCircle.icon';
 import ChevronDownIcon from './ChevronDown.icon';
 import CloseIcon from './Close.icon';
 import CoinIcon from './Coin.icon';
@@ -12,6 +13,7 @@ import EyeCloseIcon from './EyeClose.icon';
 import EyeOpenIcon from './EyeOpen.icon';
 import FeedIcon from './Feed.icon';
 import GalleryEditIcon from './GalleryEdit.icon';
+import GiftIcon from './Gift.icon';
 import HeartIcon from './Heart.icon';
 import HomeIcon from './Home.icon';
 import KeyIcon from './Key.icon';
@@ -22,15 +24,18 @@ import MusicSquareIcon from './MusicSquare.icon';
 import MusicSquareAddIcon from './MusicSquareAdd.icon';
 import NotificationIcon from './Notification.icon';
 import ProcessingIcon from './Processing.icon';
+import ReferralIcon from './Referral.icon';
 import SearchIcon from './Search.icon';
 import SettingIcon from './Setting.icon';
 import ShareIcon from './Share.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
+import TickCircleIcon from './TickCircle.icon';
 import UserIcon from './User.icon';
 
 export {
   ArrowRightIcon,
   CheckBoxIcon,
+  CheckCircleIcon,
   ChevronDownIcon,
   CloseIcon,
   CoinIcon,
@@ -43,6 +48,7 @@ export {
   EyeOpenIcon,
   FeedIcon,
   GalleryEditIcon,
+  GiftIcon,
   HeartIcon,
   HomeIcon,
   KeyIcon,
@@ -53,9 +59,11 @@ export {
   MusicSquareAddIcon,
   NotificationIcon,
   ProcessingIcon,
+  ReferralIcon,
   SearchIcon,
   SettingIcon,
   ShareIcon,
-  UserIcon,
   ThreeDotsIcon,
+  TickCircleIcon,
+  UserIcon,
 };
