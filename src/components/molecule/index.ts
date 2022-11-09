@@ -2,7 +2,7 @@ import {AvatarUsername} from './AvatarUsername/AvatarUsername';
 import {Dropdown} from './DropDown';
 import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
 import {FollowingCard} from './FollowingCard/FollowingCard';
-import IconNotif from './IconNotif';
+import {IconNotif} from './IconNotif';
 import {ImageSlider} from './ImageSlider';
 import {ListCard} from './ListCard';
 import {LoginDescription} from './LoginDescription/LoginDescription';

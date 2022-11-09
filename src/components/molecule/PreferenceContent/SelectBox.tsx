@@ -23,14 +23,12 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
       {favorites.map((val, i) => {
         const activeBtn = val === selected && styles.activeBtn;
         return (
-          <View style={{marginLeft: ms(8), marginBottom: mvs(8)}}>
-            <Button
-              key={i}
-              label={val}
-              containerStyles={[styles.btnContainer, activeBtn]}
-              onPress={() => setSelected(val)}
-            />
-          </View>
+          <Button
+            key={i}
+            label={val}
+            containerStyles={[styles.btnContainer, activeBtn]}
+            onPress={() => setSelected(val)}
+          />
         );
       })}
     </View>
@@ -41,7 +39,7 @@ const styles = StyleSheet.create({
   root: {
     flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'baseline',
     maxWidth: ms(320),
   },
