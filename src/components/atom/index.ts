@@ -12,6 +12,7 @@ import {SsuInput} from './InputText/SsuInput';
 import SquareImage from './SquareImage/SquareImage';
 import SsuStatusBar from './StatusBar';
 import SsuToast from './Toast';
+import SsuSheet from './SsuSheet';
 
 export {
   Avatar,
@@ -24,4 +25,5 @@ export {
   SquareImage,
   SsuStatusBar,
   SsuToast,
+  SsuSheet
 };
