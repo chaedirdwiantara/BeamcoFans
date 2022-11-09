@@ -27,7 +27,6 @@ import SettingIcon from './Setting.icon';
 import ShareIcon from './Share.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
 import UserIcon from './User.icon';
-import CoinB from './CoinB.icon'
 
 export {
   ArrowRightIcon,
@@ -59,5 +58,4 @@ export {
   ShareIcon,
   UserIcon,
   ThreeDotsIcon,
-  CoinB
 };
