@@ -16,6 +16,7 @@ import SsuOTPTimer from './OtpTimer';
 import {TabFilter} from './TabFilter';
 import TermAndConditions from './Tnc';
 import {TopNavigation} from './TopNavigation';
+import IconNotif from './IconNotif';
 
 export {
   AvatarUsername,
@@ -36,4 +37,5 @@ export {
   TabFilter,
   TermAndConditions,
   TopNavigation,
+  IconNotif,
 };

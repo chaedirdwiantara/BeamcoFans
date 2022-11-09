@@ -4,7 +4,8 @@ import {SafeAreaView} from 'react-native';
 import {SsuOTPTimer} from '../molecule';
 
 const OTPTimerExample = () => {
-  return <SsuOTPTimer action={() => {}} timer={12} />;
+  const timeToMs = 300;
+  return <SsuOTPTimer targetDate={timeToMs} />;
 };
 
 export default OTPTimerExample;

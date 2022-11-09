@@ -1,7 +1,12 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import {mvs} from 'react-native-size-matters';
-
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
 import {
   MusicianListExample,
   MusicListCardExample,
@@ -9,7 +14,15 @@ import {
 } from '../components/example';
 import Color from '../theme/Color';
 import {NotificationIcon} from '../assets/icon';
-import {TopNavigation, SearchBar, ImageSlider, TabFilter} from '../components';
+import {
+  TopNavigation,
+  SearchBar,
+  ImageSlider,
+  TabFilter,
+  IconNotif,
+} from '../components';
+import {color, font} from '../theme';
+import {normalize} from '../utils';
 
 const dataSlider = [
   {
@@ -69,7 +82,12 @@ export const HomeScreen: React.FC = () => {
           'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
         }
         leftIconAction={() => console.log('Left Icon Pressed')}
-        rightIcon={<NotificationIcon stroke={'white'} />}
+        rightIcon={
+          <IconNotif
+            onPress={() => console.log('IconNotif Pressed')}
+            label={12}
+          />
+        }
         rightIconAction={() => console.log('Right Icon Pressed')}
         maxLengthTitle={20}
         itemStrokeColor={Color.Pink[100]}
