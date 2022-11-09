@@ -2,6 +2,7 @@ import {AvatarUsername} from './AvatarUsername/AvatarUsername';
 import {Dropdown} from './DropDown';
 import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
 import {FollowingCard} from './FollowingCard/FollowingCard';
+import IconNotif from './IconNotif';
 import {ImageSlider} from './ImageSlider';
 import {ListCard} from './ListCard';
 import {LoginDescription} from './LoginDescription/LoginDescription';
@@ -16,13 +17,13 @@ import SsuOTPTimer from './OtpTimer';
 import {TabFilter} from './TabFilter';
 import TermAndConditions from './Tnc';
 import {TopNavigation} from './TopNavigation';
-import IconNotif from './IconNotif';
 
 export {
   AvatarUsername,
   Dropdown,
   FollowArtistCard,
   FollowingCard,
+  IconNotif,
   ImageSlider,
   ListCard,
   LoginDescription,
@@ -37,5 +38,4 @@ export {
   TabFilter,
   TermAndConditions,
   TopNavigation,
-  IconNotif,
 };
