@@ -76,27 +76,30 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <TopNavigation.Type5
-        name="Type 5"
-        profileUri={
-          'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
-        }
-        leftIconAction={() => console.log('Left Icon Pressed')}
-        rightIcon={
-          <IconNotif
-            onPress={() => console.log('IconNotif Pressed')}
-            label={12}
-          />
-        }
-        rightIconAction={() => console.log('Right Icon Pressed')}
-        maxLengthTitle={20}
-        itemStrokeColor={Color.Pink[100]}
-        points={100000}
-      />
-      <SearchBar />
+      <View style={{paddingHorizontal: ms(12)}}>
+        <TopNavigation.Type5
+          name="Type 5"
+          profileUri={
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
+          }
+          leftIconAction={() => console.log('Left Icon Pressed')}
+          rightIcon={
+            <IconNotif
+              onPress={() => console.log('IconNotif Pressed')}
+              label={12}
+            />
+          }
+          rightIconAction={() => console.log('Right Icon Pressed')}
+          maxLengthTitle={20}
+          itemStrokeColor={Color.Pink[100]}
+          points={100000}
+        />
+      </View>
+
+      <SearchBar containerStyle={{paddingHorizontal: ms(12)}} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageSlider.Home data={dataSlider} />
-        <View style={{marginTop: mvs(20)}}>
+        <View style={{marginTop: mvs(20), paddingHorizontal: ms(12)}}>
           <TabFilter.Type1
             filterData={filter}
             onPress={filterData}
@@ -119,6 +122,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: Color.Dark[800],
-    paddingHorizontal: mvs(12),
+    // paddingHorizontal: ms(12),
   },
 });

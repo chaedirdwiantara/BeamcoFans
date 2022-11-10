@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {color} from '../../../theme';
 import {normalize} from '../../../utils';
@@ -9,7 +9,7 @@ const topNavstyles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: mvs(1),
     borderBottomColor: color.Dark[300],
-    paddingTop: mvs(25),
+    paddingTop: Platform.OS === 'ios' ? mvs(40) :  mvs(25),
     paddingBottom: mvs(24),
   },
   leftContainer: {
