@@ -8,9 +8,11 @@ import {
   Dimensions,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import LinearGradient from 'react-native-linear-gradient';
 import {RootStackParams} from '../App';
 import {useBaseHook} from '../hooks/use-base.hook';
 
@@ -35,6 +37,10 @@ export const OnboardScreen: React.FC = () => {
       title: 'ini title',
       message: 'ini message',
     });
+  };
+
+  const handleNextSlide = () => {
+    setActiveIndexSlide(activeIndexSlide + 1);
   };
 
   const Indicator = ({
@@ -142,6 +148,32 @@ export const OnboardScreen: React.FC = () => {
           activeColor={Color.Success[400]}
           inActiveColor={Color.Success[700]}
         />
+        <TouchableOpacity onPress={handleNextSlide}>
+          <LinearGradient
+            colors={['#F98FD9', '#FF70D4']}
+            useAngle={true}
+            angle={95.44}
+            style={{
+              width: width * 0.675,
+              height: undefined,
+              aspectRatio: 253 / 40,
+              borderRadius: 4,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontSize: 18,
+                textAlign: 'center',
+                color: '#ffffff',
+              }}>
+              Next
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <Text style={{color: 'white'}} onPress={handeOnpressText}>
+          Skip
+        </Text>
       </View>
     </View>
   );
