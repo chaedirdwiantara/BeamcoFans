@@ -1,6 +1,12 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import {mvs} from 'react-native-size-matters';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  KeyboardAvoidingView,
+} from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
 
 import {
   MusicianListExample,
@@ -62,7 +68,7 @@ export const HomeScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.root}>
+    <SafeAreaView style={styles.root}>
       <TopNavigation.Type5
         name="Type 5"
         profileUri={
@@ -78,7 +84,7 @@ export const HomeScreen: React.FC = () => {
       <SearchBar />
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageSlider.Home data={dataSlider} />
-        <View style={{marginTop: mvs(20)}}>
+        <View style={{marginTop: mvs(20), paddingHorizontal: ms(12)}}>
           <TabFilter.Type1
             filterData={filter}
             onPress={filterData}
@@ -93,7 +99,7 @@ export const HomeScreen: React.FC = () => {
           )}
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -101,6 +107,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: Color.Dark[800],
-    paddingHorizontal: mvs(12),
+    // paddingHorizontal: ms(12),
   },
 });
