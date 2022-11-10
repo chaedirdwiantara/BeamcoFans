@@ -27,6 +27,9 @@ import SettingIcon from './Setting.icon';
 import ShareIcon from './Share.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
 import UserIcon from './User.icon';
+import FullNameIcon from './FullName.icon';
+import EmailIcon from './Email.icon';
+import LockIcon from './Lock.icon.';
 
 export {
   ArrowRightIcon,
@@ -58,4 +61,7 @@ export {
   ShareIcon,
   UserIcon,
   ThreeDotsIcon,
+  FullNameIcon,
+  EmailIcon,
+  LockIcon
 };

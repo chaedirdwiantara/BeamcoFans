@@ -5,7 +5,7 @@ import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
 const UserIcon = ({
-  width = ms(24),
+  width = ms(20),
   height = mvs(24),
   fill = 'none',
   stroke = '#292D32',

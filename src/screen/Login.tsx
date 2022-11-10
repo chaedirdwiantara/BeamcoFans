@@ -26,11 +26,18 @@ export const LoginScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const handeOnpressText = () => {
+  const handleOnPressButton = () => {
     navigation.navigate('Preference');
   };
+  const handleOnPressBack = () => {
+    navigation.goBack();
+  };
+  const handleOnPressSignUp = () => {
+    navigation.navigate('Signup');
+  };
 
-  const [state, setState] = useState('');
+  const [user, setUser] = useState('');
+  const [pass, setPass] = useState('');
   const [error, setError] = useState(false);
 
   const resultData = (dataResult: any) => {
@@ -38,7 +45,7 @@ export const LoginScreen: React.FC = () => {
   };
 
   const [term, setTerm] = useState(false);
-  const handleOnPress = () => {
+  const handleOnPressTnc = () => {
     setTerm(!term);
   };
 
@@ -48,15 +55,15 @@ export const LoginScreen: React.FC = () => {
         <Text style={styles.titleStyle}>Sign In</Text>
         <Gap height={20} />
         <SsuInput.InputText
-          value={state}
-          onChangeText={(newText: any) => setState(newText)}
+          value={user}
+          onChangeText={(newText: any) => setUser(newText)}
           placeholder={'Email or Username'}
           leftIcon={<UserIcon stroke={color.Dark[50]} />}
         />
         <Gap height={8} />
         <SsuInput.InputText
-          value={state}
-          onChangeText={(newText: any) => setState(newText)}
+          value={pass}
+          onChangeText={(newText: any) => setPass(newText)}
           placeholder={'Password'}
           isError={error}
           errorMsg={'Incorrect username or password'}
@@ -68,13 +75,13 @@ export const LoginScreen: React.FC = () => {
         <Gap height={8} />
         <Dropdown.Country countryData={countryData} numberTyped={resultData} />
         <Gap height={14} />
-        <TermAndConditions handleOnPress={handleOnPress} active={term} />
+        <TermAndConditions handleOnPress={handleOnPressTnc} active={term} />
         <Gap height={20} />
         <Button
           label="Submit"
           textStyles={{fontSize: normalize(14)}}
           containerStyles={{width: '100%'}}
-          onPress={handeOnpressText}
+          onPress={handleOnPressButton}
         />
         <Gap height={4} />
         <Button
@@ -83,10 +90,10 @@ export const LoginScreen: React.FC = () => {
           borderColor="transparent"
           textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
           containerStyles={{width: '100%'}}
-          onPress={handeOnpressText}
+          onPress={handleOnPressBack}
         />
         <Gap height={8} />
-        <SsuDivider text={'or signup with'} />
+        <SsuDivider text={'or'} />
         <Gap height={14} />
         <View
           style={{
@@ -102,6 +109,24 @@ export const LoginScreen: React.FC = () => {
           <AppleLogo />
         </View>
         <Gap height={24} />
+        <Text
+          style={styles.forgotPassStyle}
+          onPress={() => {
+            console.log('forgot pass pressed');
+          }}>
+          Dont Have an Account?{' '}
+          <Text
+            onPress={() => handleOnPressSignUp()}
+            style={{
+              fontFamily: font.InterRegular,
+              fontWeight: '700',
+              fontSize: normalize(12),
+              lineHeight: mvs(16),
+            }}>
+            Sign Up
+          </Text>
+        </Text>
+        <Gap height={8} />
         <Text
           style={styles.forgotPassStyle}
           onPress={() => {

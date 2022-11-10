@@ -18,6 +18,10 @@ export const SignInGuestScreen: React.FC = () => {
     navigation.push('Login');
   };
 
+  const handleOnpressSignUp = () => {
+    navigation.push('Signup');
+  };
+
   return (
     <View style={styles.root}>
       <ImageBackground
@@ -41,7 +45,7 @@ export const SignInGuestScreen: React.FC = () => {
           label="Sign Up"
           textStyles={{fontSize: normalize(14)}}
           containerStyles={{width: ms(279), marginVertical: mvs(8)}}
-          onPress={handeOnpressText}
+          onPress={handleOnpressSignUp}
         />
         <Button
           type="border"
