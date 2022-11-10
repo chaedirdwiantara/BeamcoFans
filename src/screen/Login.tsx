@@ -35,6 +35,9 @@ export const LoginScreen: React.FC = () => {
   const handleOnPressSignUp = () => {
     navigation.navigate('Signup');
   };
+  const handleOnPressForgotPass = () => {
+    navigation.navigate('ForgotPassword');
+  };
 
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
@@ -109,11 +112,7 @@ export const LoginScreen: React.FC = () => {
           <AppleLogo />
         </View>
         <Gap height={24} />
-        <Text
-          style={styles.forgotPassStyle}
-          onPress={() => {
-            console.log('forgot pass pressed');
-          }}>
+        <Text style={styles.forgotPassStyle}>
           Dont Have an Account?{' '}
           <Text
             onPress={() => handleOnPressSignUp()}
@@ -127,11 +126,7 @@ export const LoginScreen: React.FC = () => {
           </Text>
         </Text>
         <Gap height={8} />
-        <Text
-          style={styles.forgotPassStyle}
-          onPress={() => {
-            console.log('forgot pass pressed');
-          }}>
+        <Text style={styles.forgotPassStyle} onPress={handleOnPressForgotPass}>
           I forgot my Password
         </Text>
       </>

@@ -199,11 +199,7 @@ export const SignupScreen: React.FC = () => {
           <AppleLogo />
         </View>
         <Gap height={24} />
-        <Text
-          style={styles.forgotPassStyle}
-          onPress={() => {
-            console.log('forgot pass pressed');
-          }}>
+        <Text style={styles.forgotPassStyle}>
           Already have an Account?{' '}
           <Text
             onPress={() => handleOnPressSignIn()}
