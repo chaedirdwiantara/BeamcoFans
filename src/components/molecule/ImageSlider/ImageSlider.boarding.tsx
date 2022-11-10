@@ -8,6 +8,8 @@ import {
   Animated,
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
+import {DataOnboardType} from '../../../data/onboard';
+import {DataFavouritesType} from '../../../data/preference';
 import Color from '../../../theme/Color';
 import {Indicator} from '../../atom';
 import {Button} from '../../atom/Button/Button';
@@ -20,6 +22,7 @@ export interface ImageSliderItem {
   uri?: any;
   title?: string;
   subtitle?: string;
+  data: DataOnboardType[] | DataFavouritesType[];
 }
 
 interface ImageSliderProps {
@@ -103,8 +106,9 @@ export const ImageSlider: FC<ImageSliderProps> = ({data, onPress}) => {
 
 const styles = StyleSheet.create({
   itemImage: {
-    width: ms(375),
-    height: mvs(360),
+    width: width,
+    height: undefined,
+    aspectRatio: 375 / 460,
     resizeMode: 'cover',
   },
   footer: {
