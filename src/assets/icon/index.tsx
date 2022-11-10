@@ -3,7 +3,6 @@ import CheckBoxIcon from './CheckBox.icon';
 import CheckCircleIcon from './CheckCircle.icon';
 import ChevronDownIcon from './ChevronDown.icon';
 import CloseIcon from './Close.icon';
-import CoinB from './CoinB.icon';
 import CoinIcon from './Coin.icon';
 import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
@@ -25,7 +24,6 @@ import MusicSquareIcon from './MusicSquare.icon';
 import MusicSquareAddIcon from './MusicSquareAdd.icon';
 import NotificationIcon from './Notification.icon';
 import ProcessingIcon from './Processing.icon';
-import ReferralIcon from './Referral.icon';
 import SearchIcon from './Search.icon';
 import SettingIcon from './Setting.icon';
 import ShareIcon from './Share.icon';
@@ -39,7 +37,6 @@ export {
   CheckCircleIcon,
   ChevronDownIcon,
   CloseIcon,
-  CoinB,
   CoinIcon,
   CollectionIcon,
   CommentIcon,
@@ -61,7 +58,6 @@ export {
   MusicSquareAddIcon,
   NotificationIcon,
   ProcessingIcon,
-  ReferralIcon,
   SearchIcon,
   SettingIcon,
   ShareIcon,
