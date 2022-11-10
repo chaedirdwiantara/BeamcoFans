@@ -83,7 +83,7 @@ const InputText: React.FC<InputProps> = props => {
   };
 
   return (
-    <View>
+    <>
       <View
         style={[
           styles.container,
@@ -137,7 +137,7 @@ const InputText: React.FC<InputProps> = props => {
           <SsuText.Body.Small color={ErrorColor}>{errorMsg}</SsuText.Body.Small>
         </View>
       ) : null}
-    </View>
+    </>
   );
 };
 
@@ -181,7 +181,7 @@ const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
     paddingHorizontal: widhtPercentage(12),
-    paddingVertical: Platform.OS === 'ios' ? heightPercentage(8) : 0,
+    paddingVertical: Platform.OS === 'ios' ? heightPercentage(12.5) : 0,
     alignItems: 'center',
     flexDirection: 'row',
     width: '100%',

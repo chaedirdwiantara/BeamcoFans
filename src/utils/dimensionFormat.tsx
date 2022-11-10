@@ -6,11 +6,8 @@ import {
 
 export const heightPercentage = (value: number = 0) => {
   const {height} = Dimensions.get('screen');
-  console.log(height, 'height');
-  console.log(value, 'value');
 
   const heightPercentage = heightPercentageToDP((value / height) * 100);
-  console.log(heightPercentage, 'heightPercentage');
 
   return heightPercentage;
 };

@@ -3,9 +3,13 @@ import React, {Children, FC} from 'react';
 import {color} from '../../../theme';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {ms, mvs} from 'react-native-size-matters';
+import {
+  heightPercentage,
+  widhtPercentage,
+} from '../../../utils/dimensionFormat';
 
 interface SheetProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   containerStyle?: ViewStyle;
 }
 
@@ -23,7 +27,9 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP('100%'),
     position: 'absolute',
     bottom: 0,
-    padding: ms(44),
+    paddingHorizontal: widhtPercentage(48),
+    paddingTop: heightPercentage(32),
+    paddingBottom: heightPercentage(24),
     borderTopStartRadius: 24,
     borderTopEndRadius: 24,
   },

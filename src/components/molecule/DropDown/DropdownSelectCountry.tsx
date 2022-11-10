@@ -9,6 +9,7 @@ import {FlashList} from '@shopify/flash-list';
 import {normalize} from '../../../utils';
 import Gap from '../../atom/Gap/Gap';
 import regexNumber from '../../../utils/regexNumber';
+import {ChevronDownIcon} from '../../../assets/icon';
 
 interface CountryData {
   value: string;
@@ -88,8 +89,8 @@ const DropdownSelectCountry: FC<SelectCountryProps> = ({
               onPress={() => {
                 setModalVisible(true);
               }}>
-              {/* add Icon */}
               <Text style={styles.leftLabel}>{value?.label}</Text>
+              <ChevronDownIcon />
             </TouchableOpacity>
             <Text style={styles.selectedCountryCode}>{value?.code}</Text>
           </View>
