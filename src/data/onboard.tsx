@@ -1,6 +1,8 @@
+import {ImageSourcePropType} from 'react-native';
+
 export interface DataOnboardType {
   id: number;
-  uri: string;
+  uri: ImageSourcePropType;
   title: string;
   subtitle: string;
 }
