@@ -3,11 +3,11 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Text,
-  TouchableOpacity,
   SafeAreaView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
+
 import {
   MusicianListExample,
   MusicListCardExample,
@@ -15,15 +15,7 @@ import {
 } from '../components/example';
 import Color from '../theme/Color';
 import {NotificationIcon} from '../assets/icon';
-import {
-  TopNavigation,
-  SearchBar,
-  ImageSlider,
-  TabFilter,
-  IconNotif,
-} from '../components';
-import {color, font} from '../theme';
-import {normalize} from '../utils';
+import {TopNavigation, SearchBar, ImageSlider, TabFilter} from '../components';
 
 const dataSlider = [
   {
@@ -77,27 +69,19 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <View style={{paddingHorizontal: ms(12)}}>
-        <TopNavigation.Type5
-          name="Type 5"
-          profileUri={
-            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
-          }
-          leftIconAction={() => console.log('Left Icon Pressed')}
-          rightIcon={
-            <IconNotif
-              onPress={() => console.log('IconNotif Pressed')}
-              label={12}
-            />
-          }
-          rightIconAction={() => console.log('Right Icon Pressed')}
-          maxLengthTitle={20}
-          itemStrokeColor={Color.Pink[100]}
-          points={100000}
-        />
-      </View>
-
-      <SearchBar containerStyle={{paddingHorizontal: ms(12)}} />
+      <TopNavigation.Type5
+        name="Type 5"
+        profileUri={
+          'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
+        }
+        leftIconAction={() => console.log('Left Icon Pressed')}
+        rightIcon={<NotificationIcon stroke={'white'} />}
+        rightIconAction={() => console.log('Right Icon Pressed')}
+        maxLengthTitle={20}
+        itemStrokeColor={Color.Pink[100]}
+        points={100000}
+      />
+      <SearchBar />
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageSlider.Home data={dataSlider} />
         <View style={{marginTop: mvs(20), paddingHorizontal: ms(12)}}>

@@ -6,6 +6,7 @@
 
     /* Completeness */
     "skipLibCheck": true,
-    "jsx": "react"                              /* Skip type checking all .d.ts files. */
+    "jsx": "react",
+    "esModuleInterop":true
   }
 }
