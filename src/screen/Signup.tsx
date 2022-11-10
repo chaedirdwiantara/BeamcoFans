@@ -145,8 +145,6 @@ export const SignupScreen: React.FC = () => {
           value={password}
           onChangeText={(newText: any) => setPassword(newText)}
           placeholder={'Password'}
-          isError={error}
-          errorMsg={'Incorrect username or password'}
           leftIcon={<LockIcon stroke={color.Dark[50]} />}
           password
         />
