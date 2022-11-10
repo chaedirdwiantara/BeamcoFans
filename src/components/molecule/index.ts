@@ -2,7 +2,6 @@ import {AvatarUsername} from './AvatarUsername/AvatarUsername';
 import {Dropdown} from './DropDown';
 import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
 import {FollowingCard} from './FollowingCard/FollowingCard';
-import {IconNotif} from './IconNotif';
 import {ImageSlider} from './ImageSlider';
 import {ListCard} from './ListCard';
 import {LoginDescription} from './LoginDescription/LoginDescription';
@@ -12,6 +11,7 @@ import {NotificationCard} from './NotificationCard/NotificationCard';
 import {PreferenceContent} from './PreferenceContent/PreferenceContent';
 import {ProfileHeader} from './ProfileHeader/ProfileHeader';
 import {ReferralContent} from './ReferralContent/ReferralContent';
+import {SignInGuestContent} from './SignInGuestContent/SignInGuestContent';
 import SsuOTPInput from './OtpInput';
 import SsuOTPTimer from './OtpTimer';
 import {TabFilter} from './TabFilter';
@@ -23,7 +23,6 @@ export {
   Dropdown,
   FollowArtistCard,
   FollowingCard,
-  IconNotif,
   ImageSlider,
   ListCard,
   LoginDescription,
@@ -33,6 +32,7 @@ export {
   PreferenceContent,
   ProfileHeader,
   ReferralContent,
+  SignInGuestContent,
   SsuOTPInput,
   SsuOTPTimer,
   TabFilter,
