@@ -1,17 +1,32 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  Image,
+  Dimensions,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../App';
 import {useBaseHook} from '../hooks/use-base.hook';
 
 import Color from '../theme/Color';
-import {ImageSlider} from '../components';
+import {dataOnboard} from '../data/onboard';
+
+const {width} = Dimensions.get('screen');
+type OnScrollEventHandler = (
+  event: NativeSyntheticEvent<NativeScrollEvent>,
+) => void;
 
 export const OnboardScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {setError} = useBaseHook();
+  const [activeIndexSlide, setActiveIndexSlide] = useState(0);
 
   const handeOnpressText = () => {
     navigation.push('SignInGuest');
@@ -22,33 +37,112 @@ export const OnboardScreen: React.FC = () => {
     });
   };
 
-  const data = [
-    {
-      id: 0,
-      uri: require('../assets/background/onboard-1.png'),
-      title: "Let's the fans grow with their musician",
-      subtitle:
-        'Lorem ipsum dolor sit amet, consectetur adispicing elit. Vestibulum porta ipsum Lorem ipsum dolor sit amet.',
-    },
-    {
-      id: 1,
-      uri: require('../assets/background/onboard-2.png'),
-      title: "Let's the fans grow with their musician",
-      subtitle:
-        'Lorem ipsum dolor sit amet, consectetur adispicing elit. Vestibulum porta ipsum Lorem ipsum dolor sit amet.',
-    },
-    {
-      id: 2,
-      uri: require('../assets/background/onboard-3.png'),
-      title: "Let's the fans grow with their musician",
-      subtitle:
-        'Lorem ipsum dolor sit amet, consectetur adispicing elit. Vestibulum porta ipsum Lorem ipsum dolor sit amet.',
-    },
-  ];
+  const Indicator = ({
+    activeIndex,
+    totalIndex,
+    activeColor,
+    inActiveColor,
+  }: {
+    activeIndex: number;
+    totalIndex: number;
+    activeColor?: string;
+    inActiveColor?: string;
+  }) => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '5%',
+        }}>
+        {Array.from(Array(totalIndex).keys()).map(item => {
+          return (
+            <View
+              style={{
+                width: item === activeIndex ? '8.5%' : '1.6%',
+                height: undefined,
+                aspectRatio: item === activeIndex ? 32 / 6 : 1 / 1,
+                borderRadius: 10,
+                backgroundColor:
+                  item === activeIndex ? activeColor : inActiveColor,
+                marginRight: 4,
+              }}
+            />
+          );
+        })}
+      </View>
+    );
+  };
+
+  const handleScroll: OnScrollEventHandler = event => {
+    let offsetX = event.nativeEvent.contentOffset.x;
+    if (offsetX < width) {
+      setActiveIndexSlide(0);
+    } else {
+      setActiveIndexSlide(Math.ceil(offsetX / width));
+    }
+  };
 
   return (
     <View style={styles.root}>
-      <ImageSlider.Boarding data={data} onPress={handeOnpressText} />
+      <ScrollView
+        pagingEnabled={true}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{
+          height: 500,
+        }}
+        scrollEventThrottle={200}
+        decelerationRate="fast"
+        snapToInterval={width}
+        snapToAlignment={'center'}
+        onScroll={handleScroll}>
+        {dataOnboard.map(item => {
+          if ('uri' in item) {
+            return (
+              <Image
+                source={item.uri}
+                style={{
+                  width: width,
+                  height: '100%',
+                }}
+                resizeMode={'cover'}
+              />
+            );
+          } else if ('favorites' in item) {
+            // TODO: render list of the favourites
+          }
+        })}
+      </ScrollView>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: width,
+          height: 400,
+        }}>
+        {dataOnboard.map((item, index) => {
+          if (index === activeIndexSlide) {
+            return (
+              <View>
+                <Text style={{color: 'white'}}>{item.title}</Text>
+                <Text>{item.subtitle}</Text>
+              </View>
+            );
+          }
+        })}
+        <Indicator
+          activeIndex={activeIndexSlide}
+          totalIndex={dataOnboard.length}
+          activeColor={Color.Success[400]}
+          inActiveColor={Color.Success[700]}
+        />
+      </View>
     </View>
   );
 };
