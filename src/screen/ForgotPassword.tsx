@@ -13,12 +13,13 @@ import {EmailIcon, LockIcon} from '../assets/icon';
 const {width, height} = Dimensions.get('screen');
 interface ForgotPasswordProps {
   userCredentials?: string;
+  timer?: number;
 }
 
 export const ForgotPassword: FC<ForgotPasswordProps> = (
   props: ForgotPasswordProps,
 ) => {
-  const {userCredentials = 'name@domain.com'} = props;
+  const {userCredentials = 'name@domain.com', timer = 12} = props;
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -127,7 +128,7 @@ export const ForgotPassword: FC<ForgotPasswordProps> = (
           }}
         />
         {/* <Gap height={24} /> */}
-        <SsuOTPTimer action={() => {}} timer={12} />
+        <SsuOTPTimer action={() => {}} timer={timer} />
         <Gap height={4} />
         <Button
           type="border"
