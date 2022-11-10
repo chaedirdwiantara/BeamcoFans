@@ -5,6 +5,7 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {
@@ -75,7 +76,7 @@ export const HomeScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.root}>
+    <SafeAreaView style={styles.root}>
       <View style={{paddingHorizontal: ms(12)}}>
         <TopNavigation.Type5
           name="Type 5"
@@ -114,7 +115,7 @@ export const HomeScreen: React.FC = () => {
           )}
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

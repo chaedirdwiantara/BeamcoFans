@@ -18,6 +18,10 @@ import {
 } from '../../../assets/icon';
 import {color, font} from '../../../theme';
 import {normalize} from '../../../utils';
+import {
+  heightPercentage,
+  widhtPercentage,
+} from '../../../utils/dimensionFormat';
 import Gap from '../Gap/Gap';
 import {SsuText} from '../Text/SsuText';
 
@@ -176,8 +180,8 @@ export default {InputText, TextArea};
 const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
-    paddingHorizontal: ms(12),
-    paddingVertical: Platform.OS === 'ios' ? mvs(8) : 0,
+    paddingHorizontal: widhtPercentage(12),
+    paddingVertical: Platform.OS === 'ios' ? heightPercentage(8) : 0,
     alignItems: 'center',
     flexDirection: 'row',
     width: '100%',
