@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Platform,
   StyleSheet,
   TextInput,
   TextInputProps,
@@ -17,6 +18,10 @@ import {
 } from '../../../assets/icon';
 import {color, font} from '../../../theme';
 import {normalize} from '../../../utils';
+import {
+  heightPercentage,
+  widhtPercentage,
+} from '../../../utils/dimensionFormat';
 import Gap from '../Gap/Gap';
 import {SsuText} from '../Text/SsuText';
 
@@ -48,23 +53,24 @@ type TypeStyle = {
 const ErrorColor = color.Error[900];
 const FontColor = color.Dark[300];
 
-const InputText: React.FC<InputProps> = ({
-  fontSize,
-  value,
-  keyboardType,
-  onChangeText,
-  disabled,
-  placeholder,
-  isError,
-  errorMsg,
-  leftIcon,
-  password,
-  backgroundColor,
-  rightIcon,
-  reset,
-  onSubmitEditing,
-  onEndEditing,
-}) => {
+const InputText: React.FC<InputProps> = props => {
+  const {
+    fontSize,
+    value,
+    keyboardType,
+    onChangeText,
+    disabled,
+    // placeholder,
+    isError,
+    errorMsg,
+    leftIcon,
+    password,
+    backgroundColor,
+    rightIcon,
+    reset,
+    onSubmitEditing,
+    onEndEditing,
+  } = props;
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
 
@@ -97,11 +103,12 @@ const InputText: React.FC<InputProps> = ({
           keyboardType={keyboardType}
           onChangeText={onChangeText}
           editable={disabled ? false : true}
-          placeholder={placeholder}
+          // placeholder={placeholder}
           placeholderTextColor={FontColor}
           onFocus={() => setState(true)}
           onEndEditing={onEndEditing}
           onSubmitEditing={onSubmitEditing}
+          {...props}
         />
         {password ? (
           <TouchableOpacity
@@ -173,9 +180,11 @@ export default {InputText, TextArea};
 const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
-    paddingHorizontal: ms(10),
+    paddingHorizontal: widhtPercentage(12),
+    paddingVertical: Platform.OS === 'ios' ? heightPercentage(8) : 0,
     alignItems: 'center',
     flexDirection: 'row',
+    width: '100%',
   },
   errorText: {
     color: ErrorColor,

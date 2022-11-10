@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TextInputProps, View} from 'react-native';
+import {StyleSheet, TextInputProps, View, ViewStyle} from 'react-native';
 import {SearchIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
 import {SsuInput} from '../InputText/SsuInput';
@@ -15,17 +15,14 @@ interface SearchProps extends TextInputProps {
   rightIcon?: boolean;
   reset?: () => void;
   onEndEditing?: () => void;
+  containerStyle?: ViewStyle;
 }
 
-const SearchBar: React.FC<SearchProps> = ({
-  onChangeText,
-  value,
-  rightIcon,
-  reset,
-  onEndEditing,
-}) => {
+const SearchBar: React.FC<SearchProps> = props => {
+  const {onChangeText, value, rightIcon, reset, onEndEditing, containerStyle} =
+    props;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <SsuInput.InputText
         value={value}
         onChangeText={onChangeText}
@@ -35,6 +32,7 @@ const SearchBar: React.FC<SearchProps> = ({
         backgroundColor={color.Dark[600]}
         rightIcon={rightIcon}
         reset={reset}
+        {...props}
       />
     </View>
   );
@@ -43,7 +41,5 @@ const SearchBar: React.FC<SearchProps> = ({
 export default SearchBar;
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-  },
+  container: {},
 });

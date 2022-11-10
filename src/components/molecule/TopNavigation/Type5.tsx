@@ -49,6 +49,7 @@ const Type5: React.FC<Props> = (props: Props) => {
           topNavstyles.headerContainer,
           {
             backgroundColor: props.bgColor,
+            borderBottomWidth: 0,
           },
         ]}>
         <View style={topNavstyles.leftContainer}>
