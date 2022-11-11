@@ -5,8 +5,8 @@ import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
 const EyeCloseIcon = ({
-  width = ms(24),
-  height = mvs(24),
+  width = ms(20),
+  height = mvs(20),
   fill = 'none',
   stroke = '#292D32',
   style,
@@ -14,14 +14,14 @@ const EyeCloseIcon = ({
   <View style={[{width, height}, style]}>
     <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
       <Path
-        fill={stroke}
+        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
         d="M14.53 9.47l-5.06 5.06a3.576 3.576 0 115.06-5.06z"
       />
       <Path
-        fill={stroke}
+        stroke={stroke}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"

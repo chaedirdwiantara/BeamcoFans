@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {
   Platform,
   StyleSheet,
+  Text,
   TextInput,
   TextInputProps,
   TextStyle,
@@ -50,7 +51,7 @@ type TypeStyle = {
   inputTextArea: any;
 };
 
-const ErrorColor = color.Error[900];
+const ErrorColor = color.Error[400];
 const FontColor = color.Dark[300];
 
 const InputText: React.FC<InputProps> = props => {
@@ -83,7 +84,7 @@ const InputText: React.FC<InputProps> = props => {
   };
 
   return (
-    <View>
+    <>
       <View
         style={[
           styles.container,
@@ -91,8 +92,6 @@ const InputText: React.FC<InputProps> = props => {
             backgroundColor: backgroundColor
               ? backgroundColor
               : color.Dark[900],
-            borderWidth: isError === true ? 1 : 0,
-            borderColor: isError === true ? ErrorColor : '',
           },
         ]}>
         {leftIcon}
@@ -125,19 +124,30 @@ const InputText: React.FC<InputProps> = props => {
         <View>{rightIcon ? rightIconComp() : null}</View>
       </View>
 
-      {isError === true && state === true ? (
+      {isError === true ? (
         <View
           style={{
+            width: '100%',
             flexDirection: 'row',
             paddingTop: mvs(4),
-            paddingHorizontal: ms(10),
+            alignItems: 'flex-end',
           }}>
-          <ErrorIcon fill={ErrorColor} />
+          <ErrorIcon fill={ErrorColor} style={{marginBottom: mvs(-1)}} />
           <Gap width={4} />
-          <SsuText.Body.Small color={ErrorColor}>{errorMsg}</SsuText.Body.Small>
+          <Text
+            style={{
+              fontFamily: font.InterRegular,
+              fontWeight: '400',
+              fontSize: normalize(10),
+              lineHeight: mvs(12),
+              color: ErrorColor,
+              maxWidth: '90%',
+            }}>
+            {errorMsg}
+          </Text>
         </View>
       ) : null}
-    </View>
+    </>
   );
 };
 
@@ -181,7 +191,6 @@ const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
     paddingHorizontal: widhtPercentage(12),
-    paddingVertical: Platform.OS === 'ios' ? heightPercentage(8) : 0,
     alignItems: 'center',
     flexDirection: 'row',
     width: '100%',
@@ -199,9 +208,11 @@ const styles = StyleSheet.create<TypeStyle>({
     flex: 1,
     fontSize: fontSize ? fontSize : normalize(13),
     fontFamily: font.InterLight,
+    fontWeight: '400',
     color: FontColor,
     lineHeight: mvs(14.5),
     paddingLeft: ms(10),
+    marginVertical: Platform.OS === 'ios' ? heightPercentage(12.5) : 0,
   }),
   inputTextArea: (fontSize: number) => ({
     flex: 1,

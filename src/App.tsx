@@ -16,6 +16,8 @@ import {FeedScreen} from './screen/Feed';
 import {CollectionScreen} from './screen/Collection';
 import {PreferenceScreen} from './screen/Preference';
 import {ModalConfirm} from './components';
+import {ForgotPassword} from './screen/ForgotPassword';
+import {Otp} from './screen/Otp';
 
 import HomeIcon from './assets/icon/Home.icon';
 import SearchIcon from './assets/icon/Search.icon';
@@ -33,6 +35,8 @@ export type RootStackParams = {
   SignInGuest: undefined;
   Preference: undefined;
   ModalConfirm: undefined;
+  ForgotPassword: undefined;
+  Otp: undefined;
 };
 
 export type MainTabParams = {
@@ -102,6 +106,8 @@ const RootStackScreen = () => (
       <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
       <RootStack.Screen name="Preference" component={PreferenceScreen} />
       <RootStack.Screen name="MainTab" component={TabScreen} />
+      <RootStack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <RootStack.Screen name="Otp" component={Otp} />
     </RootStack.Group>
     <RootStack.Group
       screenOptions={({}) => ({
