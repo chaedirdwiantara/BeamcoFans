@@ -15,6 +15,7 @@ import {SearchScreen} from './screen/Search';
 import {FeedScreen} from './screen/Feed';
 import {CollectionScreen} from './screen/Collection';
 import {PreferenceScreen} from './screen/Preference';
+import {ReferralScreen} from './screen/Referral';
 import {ModalConfirm} from './components';
 
 import HomeIcon from './assets/icon/Home.icon';
@@ -32,6 +33,7 @@ export type RootStackParams = {
   MainTab: undefined;
   SignInGuest: undefined;
   Preference: undefined;
+  Referral: undefined;
   ModalConfirm: undefined;
 };
 
@@ -101,6 +103,7 @@ const RootStackScreen = () => (
       <RootStack.Screen name="Signup" component={SignupScreen} />
       <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
       <RootStack.Screen name="Preference" component={PreferenceScreen} />
+      <RootStack.Screen name="Referral" component={ReferralScreen} />
       <RootStack.Screen name="MainTab" component={TabScreen} />
     </RootStack.Group>
     <RootStack.Group
