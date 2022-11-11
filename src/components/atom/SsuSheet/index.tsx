@@ -5,7 +5,7 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {ms, mvs} from 'react-native-size-matters';
 import {
   heightPercentage,
-  widhtPercentage,
+  widthPercentage,
 } from '../../../utils/dimensionFormat';
 
 interface SheetProps {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: color.Dark[800],
     width: widthPercentageToDP('100%'),
-    paddingHorizontal: widhtPercentage(48),
+    paddingHorizontal: widthPercentage(48),
     paddingTop: heightPercentage(32),
     paddingBottom: heightPercentage(24),
     borderTopStartRadius: 24,
