@@ -23,7 +23,7 @@ import {Dropdown, TermAndConditions} from '../components';
 import {countryData} from '../data/dropdown';
 import {normalize} from '../utils';
 import {AppleLogo, FacebookLogo, GoogleLogo} from '../assets/logo';
-import {mvs} from 'react-native-size-matters';
+import {ms, mvs} from 'react-native-size-matters';
 
 interface RegisterInput {
   fullname: string;
@@ -124,7 +124,12 @@ export const SignupScreen: React.FC = () => {
           value={fullName}
           onChangeText={(newText: any) => setFullName(newText)}
           placeholder={'Full Name'}
-          leftIcon={<FullNameIcon stroke={color.Dark[50]} />}
+          leftIcon={
+            <FullNameIcon
+              stroke={color.Dark[50]}
+              style={{marginLeft: ms(-2), marginRight: ms(-3)}}
+            />
+          }
         />
         <Gap height={8} />
         <SsuInput.InputText
@@ -138,7 +143,12 @@ export const SignupScreen: React.FC = () => {
           value={userName}
           onChangeText={(newText: any) => setUserName(newText)}
           placeholder={'Username'}
-          leftIcon={<UserIcon stroke={color.Dark[50]} />}
+          leftIcon={
+            <UserIcon
+              stroke={color.Dark[50]}
+              style={{marginLeft: ms(-1), marginRight: ms(-4)}}
+            />
+          }
         />
         <Gap height={8} />
         <SsuInput.InputText

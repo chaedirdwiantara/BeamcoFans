@@ -6,7 +6,7 @@ import {RootStackParams} from '../App';
 import SsuSheet from '../components/atom/SsuSheet';
 import {color, font} from '../theme';
 import {normalize} from '../utils';
-import {mvs} from 'react-native-size-matters';
+import {ms, mvs} from 'react-native-size-matters';
 import {
   Avatar,
   Button,
@@ -65,7 +65,12 @@ export const LoginScreen: React.FC = () => {
           value={user}
           onChangeText={(newText: any) => setUser(newText)}
           placeholder={'Email or Username'}
-          leftIcon={<UserIcon stroke={color.Dark[50]} />}
+          leftIcon={
+            <UserIcon
+              stroke={color.Dark[50]}
+              style={{marginLeft: ms(-1), marginRight: ms(-5)}}
+            />
+          }
         />
         <Gap height={8} />
         <SsuInput.InputText
