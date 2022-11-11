@@ -3,7 +3,7 @@ import React from 'react';
 import {ms, mvs} from 'react-native-size-matters';
 import {
   heightPercentage,
-  widhtPercentage,
+  widthPercentage,
 } from '../../../utils/dimensionFormat';
 
 interface GapProps {
@@ -16,7 +16,7 @@ const Gap: React.FC<GapProps> = ({height, width}) => {
     <View
       style={{
         height: height && heightPercentage(height),
-        width: width && widhtPercentage(width),
+        width: width && widthPercentage(width),
       }}
     />
   );

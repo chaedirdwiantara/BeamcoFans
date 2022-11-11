@@ -1,5 +1,6 @@
 import ArrowRightIcon from './ArrowRight.icon';
 import CheckBoxIcon from './CheckBox.icon';
+import CheckCircleIcon from './CheckCircle.icon';
 import ChevronDownIcon from './ChevronDown.icon';
 import CloseIcon from './Close.icon';
 import CoinIcon from './Coin.icon';
@@ -12,6 +13,7 @@ import EyeCloseIcon from './EyeClose.icon';
 import EyeOpenIcon from './EyeOpen.icon';
 import FeedIcon from './Feed.icon';
 import GalleryEditIcon from './GalleryEdit.icon';
+import GiftIcon from './Gift.icon';
 import HeartIcon from './Heart.icon';
 import HomeIcon from './Home.icon';
 import KeyIcon from './Key.icon';
@@ -26,6 +28,7 @@ import SearchIcon from './Search.icon';
 import SettingIcon from './Setting.icon';
 import ShareIcon from './Share.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
+import TickCircleIcon from './TickCircle.icon';
 import UserIcon from './User.icon';
 import FullNameIcon from './FullName.icon';
 import EmailIcon from './Email.icon';
@@ -34,6 +37,7 @@ import LockIcon from './Lock.icon.';
 export {
   ArrowRightIcon,
   CheckBoxIcon,
+  CheckCircleIcon,
   ChevronDownIcon,
   CloseIcon,
   CoinIcon,
@@ -46,6 +50,7 @@ export {
   EyeOpenIcon,
   FeedIcon,
   GalleryEditIcon,
+  GiftIcon,
   HeartIcon,
   HomeIcon,
   KeyIcon,
@@ -59,9 +64,10 @@ export {
   SearchIcon,
   SettingIcon,
   ShareIcon,
-  UserIcon,
   ThreeDotsIcon,
+  TickCircleIcon,
+  UserIcon,
   FullNameIcon,
   EmailIcon,
-  LockIcon
+  LockIcon,
 };

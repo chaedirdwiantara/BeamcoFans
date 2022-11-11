@@ -6,61 +6,65 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
-import {ms} from 'react-native-size-matters';
+import LinearGradient from 'react-native-linear-gradient';
 
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
-interface ButtonProps {
+interface ButtonGradientProps {
   label: string;
-  type?: string;
-  borderColor?: string;
-  containerStyles?: ViewStyle;
-  textStyles?: TextStyle;
+  angle?: number;
+  colors?: string[];
   disabled?: boolean;
   onPress?: () => void;
+  textStyles?: TextStyle;
+  gradientStyles?: ViewStyle;
+  containerStyles?: ViewStyle;
 }
 
-export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
+export const ButtonGradient: React.FC<ButtonGradientProps> = (
+  props: ButtonGradientProps,
+) => {
   const {
-    type,
     label,
-    borderColor,
-    containerStyles,
-    textStyles,
+    angle = 95.44,
+    colors = ['#F98FD9', '#FF70D4'],
     disabled,
     onPress,
+    textStyles,
+    gradientStyles,
+    containerStyles,
   } = props;
-
-  const withBorder = type === 'border' && {
-    borderWidth: ms(1),
-    borderColor: borderColor ? borderColor : Color.Pink.linear,
-    backgroundColor: 'transparent',
-  };
 
   return (
     <TouchableOpacity
-      style={[styles.root, withBorder, containerStyles]}
+      style={containerStyles}
       disabled={disabled}
-      testID={'ssu-button'}
+      testID={'ssu-button-gradient'}
       onPress={onPress}>
-      <Text style={[styles.labelStyle, textStyles]}>{label}</Text>
+      <LinearGradient
+        useAngle
+        colors={colors}
+        angle={angle}
+        style={[styles.gradient, gradientStyles]}>
+        <Text style={[styles.text, textStyles]}>{label}</Text>
+      </LinearGradient>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  root: {
+  gradient: {
     width: widthPercentage(279),
     height: undefined,
     aspectRatio: heightPercentage(279 / 40),
     borderRadius: 4,
-    alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Color.Pink.linear,
+    alignItems: 'center',
   },
-  labelStyle: {
+  text: {
+    textAlign: 'center',
     fontSize: normalize(12),
     color: Color.Neutral[10],
     fontFamily: Font.InterMedium,

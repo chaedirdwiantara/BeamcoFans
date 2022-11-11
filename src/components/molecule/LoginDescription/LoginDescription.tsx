@@ -1,9 +1,10 @@
 import React from 'react';
 import {Text, View, StyleSheet, ViewStyle} from 'react-native';
-import {ms, mvs} from 'react-native-size-matters';
+import {mvs} from 'react-native-size-matters';
 
-import {SSULogo} from '../../../assets/logo';
+import {width} from '../../../utils';
 import Color from '../../../theme/Color';
+import {SSULogo} from '../../../assets/logo';
 import Typography from '../../../theme/Typography';
 
 interface LoginDescriptionProps {
@@ -30,7 +31,9 @@ export const LoginDescription: React.FC<LoginDescriptionProps> = ({
 
 const styles = StyleSheet.create({
   root: {
+    width,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     color: Color.Neutral[10],
@@ -40,6 +43,6 @@ const styles = StyleSheet.create({
     color: Color.Neutral[10],
     textAlign: 'center',
     marginTop: mvs(15),
-    width: ms(293),
+    maxWidth: width * 0.8,
   },
 });

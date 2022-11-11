@@ -21,10 +21,9 @@ import {color, font} from '../../../theme';
 import {normalize} from '../../../utils';
 import {
   heightPercentage,
-  widhtPercentage,
+  widthPercentage,
 } from '../../../utils/dimensionFormat';
 import Gap from '../Gap/Gap';
-import {SsuText} from '../Text/SsuText';
 
 interface InputProps extends TextInputProps {
   fontSize?: number;
@@ -34,6 +33,8 @@ interface InputProps extends TextInputProps {
   errorMsg?: string;
   password?: boolean;
   backgroundColor?: string;
+  borderColor?: string;
+  fontColor?: string;
   rightIcon?: boolean;
   reset?: () => void;
 }
@@ -67,6 +68,8 @@ const InputText: React.FC<InputProps> = props => {
     leftIcon,
     password,
     backgroundColor,
+    borderColor,
+    fontColor,
     rightIcon,
     reset,
     onSubmitEditing,
@@ -74,6 +77,10 @@ const InputText: React.FC<InputProps> = props => {
   } = props;
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
+
+  const newBorderWidth = isError === true || borderColor ? 1 : 0;
+  const newBorderColor =
+    isError === true ? ErrorColor : borderColor && state ? borderColor : '';
 
   const rightIconComp = () => {
     return (
@@ -92,11 +99,13 @@ const InputText: React.FC<InputProps> = props => {
             backgroundColor: backgroundColor
               ? backgroundColor
               : color.Dark[900],
+            borderWidth: newBorderWidth,
+            borderColor: newBorderColor,
           },
         ]}>
         {leftIcon}
         <TextInput
-          style={[styles.input(fontSize)]}
+          style={[styles.input(fontSize, fontColor)]}
           value={value}
           secureTextEntry={password ? secure : false}
           keyboardType={keyboardType}
@@ -190,7 +199,7 @@ export default {InputText, TextArea};
 const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
-    paddingHorizontal: widhtPercentage(12),
+    paddingHorizontal: widthPercentage(12),
     alignItems: 'center',
     flexDirection: 'row',
     width: '100%',
@@ -204,12 +213,12 @@ const styles = StyleSheet.create<TypeStyle>({
     fontSize: fontSize ? fontSize : normalize(18),
     fontFamily: font.InterLight,
   }),
-  input: (fontSize: number) => ({
+  input: (fontSize: number, fontColor: string) => ({
     flex: 1,
     fontSize: fontSize ? fontSize : normalize(13),
     fontFamily: font.InterLight,
     fontWeight: '400',
-    color: FontColor,
+    color: fontColor ? fontColor : FontColor,
     lineHeight: mvs(14.5),
     paddingLeft: ms(10),
     marginVertical: Platform.OS === 'ios' ? heightPercentage(12.5) : 0,

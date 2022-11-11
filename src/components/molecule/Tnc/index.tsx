@@ -5,7 +5,7 @@ import {normalize} from '../../../utils';
 import {ms, mvs} from 'react-native-size-matters';
 import {CheckBox} from '../../atom';
 import {CheckBoxProps} from '../../../interface/checkbox.interface';
-import {widhtPercentage} from '../../../utils/dimensionFormat';
+import {widthPercentage} from '../../../utils/dimensionFormat';
 
 const TermAndConditions: React.FC<CheckBoxProps> = ({
   handleOnPress,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textStyle: {
-    // maxWidth: widhtPercentage(251),
+    // maxWidth: widthPercentage(251),
     maxWidth: '90%',
     fontFamily: font.InterRegular,
     fontWeight: '400',
