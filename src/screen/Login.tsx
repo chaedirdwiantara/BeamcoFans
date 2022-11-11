@@ -73,7 +73,7 @@ export const LoginScreen: React.FC = () => {
           onChangeText={(newText: any) => setPass(newText)}
           placeholder={'Password'}
           isError={error}
-          errorMsg={'Incorrect username or password'}
+          errorMsg={'Your Account or Password is incorrect'}
           leftIcon={<LockIcon stroke={color.Dark[50]} />}
           password
         />
