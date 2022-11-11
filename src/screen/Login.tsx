@@ -16,7 +16,7 @@ import {
   SsuInput,
   TermAndConditions,
 } from '../components';
-import {UserIcon} from '../assets/icon';
+import {LockIcon, UserIcon} from '../assets/icon';
 import {countryData} from '../data/dropdown';
 import {AppleLogo, FacebookLogo, GoogleLogo} from '../assets/logo';
 
@@ -26,8 +26,15 @@ export const LoginScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
+  const [user, setUser] = useState('');
+  const [pass, setPass] = useState('');
+  const [error, setError] = useState(false);
+  const [phoneNum, setPhoneNum] = useState('');
+
   const handleOnPressButton = () => {
-    navigation.navigate('Preference');
+    phoneNum !== ''
+      ? navigation.navigate('Otp')
+      : navigation.navigate('Preference');
   };
   const handleOnPressBack = () => {
     navigation.goBack();
@@ -39,12 +46,9 @@ export const LoginScreen: React.FC = () => {
     navigation.navigate('ForgotPassword');
   };
 
-  const [user, setUser] = useState('');
-  const [pass, setPass] = useState('');
-  const [error, setError] = useState(false);
-
   const resultData = (dataResult: any) => {
     console.log(dataResult, 'dataResult Select Country');
+    setPhoneNum(dataResult);
   };
 
   const [term, setTerm] = useState(false);
@@ -70,11 +74,11 @@ export const LoginScreen: React.FC = () => {
           placeholder={'Password'}
           isError={error}
           errorMsg={'Incorrect username or password'}
-          leftIcon={<UserIcon stroke={color.Dark[50]} />}
+          leftIcon={<LockIcon stroke={color.Dark[50]} />}
           password
         />
         <Gap height={12} />
-        <SsuDivider text={'or'} />
+        <SsuDivider text={'Or'} />
         <Gap height={8} />
         <Dropdown.Country countryData={countryData} numberTyped={resultData} />
         <Gap height={14} />
@@ -96,7 +100,7 @@ export const LoginScreen: React.FC = () => {
           onPress={handleOnPressBack}
         />
         <Gap height={8} />
-        <SsuDivider text={'or'} />
+        <SsuDivider text={'Or'} />
         <Gap height={14} />
         <View
           style={{

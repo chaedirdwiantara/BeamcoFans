@@ -181,7 +181,6 @@ const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
     paddingHorizontal: widhtPercentage(12),
-    paddingVertical: Platform.OS === 'ios' ? heightPercentage(12.5) : 0,
     alignItems: 'center',
     flexDirection: 'row',
     width: '100%',
@@ -199,9 +198,11 @@ const styles = StyleSheet.create<TypeStyle>({
     flex: 1,
     fontSize: fontSize ? fontSize : normalize(13),
     fontFamily: font.InterLight,
+    fontWeight: '400',
     color: FontColor,
     lineHeight: mvs(14.5),
     paddingLeft: ms(10),
+    marginVertical: Platform.OS === 'ios' ? heightPercentage(12.5) : 0,
   }),
   inputTextArea: (fontSize: number) => ({
     flex: 1,

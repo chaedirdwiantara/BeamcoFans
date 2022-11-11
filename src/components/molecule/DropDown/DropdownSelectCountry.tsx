@@ -165,6 +165,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontFamily: font.InterLight,
     fontSize: normalize(12),
+    fontWeight: '400',
+    lineHeight: mvs(14.5),
   },
   selectedCountryCode: {
     color: color.Dark[300],
