@@ -1,38 +1,54 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {ms, mvs} from 'react-native-size-matters';
-import Color from '../../../theme/Color';
+import {View, StyleSheet, SafeAreaView} from 'react-native';
+import {mvs} from 'react-native-size-matters';
+
 interface IndicatorProps {
-  activeIndex?: boolean;
-  type?: string;
+  activeIndex: number;
+  totalIndex: number;
+  activeColor?: string;
+  inActiveColor?: string;
 }
 
-export const Indicator: React.FC<IndicatorProps> = ({activeIndex, type}) => {
-  const bgActvButton =
-    type === 'preference' ? Color.Dark[100] : Color.Success[400];
-  const bgNonActvButton =
-    type === 'preference' ? Color.Dark[300] : Color.Success[400];
-
+export const Indicator: React.FC<IndicatorProps> = ({
+  activeIndex,
+  totalIndex,
+  activeColor,
+  inActiveColor,
+}) => {
   return (
-    <View>
-      {activeIndex ? (
-        <View style={[styles.active, {backgroundColor: bgActvButton}]} />
-      ) : (
-        <View style={[styles.nonActive, {backgroundColor: bgNonActvButton}]} />
-      )}
-    </View>
+    <SafeAreaView style={styles.root}>
+      {Array.from(Array(totalIndex).keys()).map((item, index) => {
+        return (
+          <View
+            key={index}
+            style={[
+              styles.indicator,
+              // eslint-disable-next-line react-native/no-inline-styles
+              {
+                width: item === activeIndex ? '8.5%' : '1.6%',
+                aspectRatio: item === activeIndex ? 32 / 6 : 1 / 1,
+                backgroundColor:
+                  item === activeIndex ? activeColor : inActiveColor,
+              },
+            ]}
+          />
+        );
+      })}
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  active: {
-    width: ms(32),
-    height: mvs(6),
-    borderRadius: 4,
+  root: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: '5%',
   },
-  nonActive: {
-    width: ms(6),
-    height: ms(6),
-    borderRadius: 4,
+  indicator: {
+    height: undefined,
+    borderRadius: 10,
+    marginRight: mvs(4),
   },
 });

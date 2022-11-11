@@ -1,14 +1,14 @@
 import {AvatarUsername} from './AvatarUsername/AvatarUsername';
+import {Carousel} from './Carousel/Carousel';
 import {Dropdown} from './DropDown';
 import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
 import {FollowingCard} from './FollowingCard/FollowingCard';
-import {ImageSlider} from './ImageSlider';
+import {ImageSlider} from './ImageSlider/ImageSlider';
 import {ListCard} from './ListCard';
 import {LoginDescription} from './LoginDescription/LoginDescription';
 import {ModalConfirm} from './Modal/ModalConfirm';
 import {NoMoreFeeds} from './NoMoreFeeds/NoMoreFeeds';
 import {NotificationCard} from './NotificationCard/NotificationCard';
-import {PreferenceContent} from './PreferenceContent/PreferenceContent';
 import {ProfileHeader} from './ProfileHeader/ProfileHeader';
 import {ReferralContent} from './ReferralContent/ReferralContent';
 import {SignInGuestContent} from './SignInGuestContent/SignInGuestContent';
@@ -20,6 +20,7 @@ import {TopNavigation} from './TopNavigation';
 
 export {
   AvatarUsername,
+  Carousel,
   Dropdown,
   FollowArtistCard,
   FollowingCard,
@@ -29,7 +30,6 @@ export {
   ModalConfirm,
   NoMoreFeeds,
   NotificationCard,
-  PreferenceContent,
   ProfileHeader,
   ReferralContent,
   SignInGuestContent,

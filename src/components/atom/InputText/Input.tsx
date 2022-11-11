@@ -20,7 +20,7 @@ import {color, font} from '../../../theme';
 import {normalize} from '../../../utils';
 import {
   heightPercentage,
-  widhtPercentage,
+  widthPercentage,
 } from '../../../utils/dimensionFormat';
 import Gap from '../Gap/Gap';
 import {SsuText} from '../Text/SsuText';
@@ -55,25 +55,26 @@ type TypeStyle = {
 const ErrorColor = color.Error[900];
 const FontColor = color.Dark[300];
 
-const InputText: React.FC<InputProps> = ({
-  fontSize,
-  value,
-  keyboardType,
-  onChangeText,
-  disabled,
-  // placeholder,
-  isError,
-  errorMsg,
-  leftIcon,
-  password,
-  backgroundColor,
-  borderColor,
-  fontColor,
-  rightIcon,
-  reset,
-  onSubmitEditing,
-  onEndEditing,
-}) => {
+const InputText: React.FC<InputProps> = props => {
+  const {
+    fontSize,
+    value,
+    keyboardType,
+    onChangeText,
+    disabled,
+    // placeholder,
+    isError,
+    errorMsg,
+    leftIcon,
+    password,
+    backgroundColor,
+    borderColor,
+    fontColor,
+    rightIcon,
+    reset,
+    onSubmitEditing,
+    onEndEditing,
+  } = props;
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
 
@@ -187,7 +188,7 @@ export default {InputText, TextArea};
 const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
-    paddingHorizontal: widhtPercentage(12),
+    paddingHorizontal: widthPercentage(12),
     paddingVertical: Platform.OS === 'ios' ? heightPercentage(8) : 0,
     alignItems: 'center',
     flexDirection: 'row',

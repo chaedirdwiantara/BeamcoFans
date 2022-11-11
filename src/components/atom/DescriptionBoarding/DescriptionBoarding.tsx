@@ -1,7 +1,8 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
-import {ms, mvs} from 'react-native-size-matters';
+import {mvs} from 'react-native-size-matters';
 import Color from '../../../theme/Color';
+import {widthPercentage} from '../../../utils';
 import Typography from '../../../theme/Typography';
 
 interface Props {
@@ -22,7 +23,7 @@ export default DescriptionBoarding;
 
 const styles = StyleSheet.create({
   root: {
-    width: ms(287),
+    maxWidth: widthPercentage(287),
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -30,10 +31,12 @@ const styles = StyleSheet.create({
   title: {
     color: Color.Neutral[10],
     textAlign: 'center',
-    marginVertical: mvs(25),
+    marginTop: mvs(10),
   },
   subtitle: {
     color: Color.Neutral[10],
     textAlign: 'center',
+    marginTop: mvs(10),
+    marginVertical: mvs(15),
   },
 });
