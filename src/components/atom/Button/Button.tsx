@@ -6,11 +6,11 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
-import {ms, mvs} from 'react-native-size-matters';
+import {ms} from 'react-native-size-matters';
 
-import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
-import {normalize} from '../../../utils';
+import Color from '../../../theme/Color';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface ButtonProps {
   label: string;
@@ -43,6 +43,7 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
     <TouchableOpacity
       style={[styles.root, withBorder, containerStyles]}
       disabled={disabled}
+      testID={'ssu-button'}
       onPress={onPress}>
       <Text style={[styles.labelStyle, textStyles]}>{label}</Text>
     </TouchableOpacity>
@@ -51,16 +52,17 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
 
 const styles = StyleSheet.create({
   root: {
-    width: ms(253),
-    height: mvs(40),
+    width: widthPercentage(279),
+    height: undefined,
+    aspectRatio: heightPercentage(279 / 40),
     borderRadius: 4,
-    backgroundColor: Color.Pink.linear,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: Color.Pink.linear,
   },
   labelStyle: {
-    color: '#FFF',
     fontSize: normalize(12),
+    color: Color.Neutral[10],
     fontFamily: Font.InterMedium,
   },
 });
