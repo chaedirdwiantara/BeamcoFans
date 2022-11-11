@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Platform,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../App';
@@ -18,7 +25,8 @@ import {
 } from '../components';
 import {LockIcon, UserIcon} from '../assets/icon';
 import {countryData} from '../data/dropdown';
-import {AppleLogo, FacebookLogo, GoogleLogo} from '../assets/logo';
+import {AppleLogo, FacebookLogo, GoogleLogo, SSULogo} from '../assets/logo';
+import {heightPercentage} from '../utils/dimensionFormat';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -142,13 +150,39 @@ export const LoginScreen: React.FC = () => {
     );
   };
 
+  const topChild = () => {
+    return (
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <SSULogo />
+        {Platform.OS === 'ios' ? (
+          <>
+            <Text style={styles.titleStyle}>Begin Today</Text>
+            <Gap height={12} />
+            <Text style={styles.descStyle}>
+              Sign in or Register to explore full features and support the
+              musician
+            </Text>
+            <Gap height={30} />
+          </>
+        ) : (
+          <Gap height={35} />
+        )}
+      </View>
+    );
+  };
+
   return (
     <View style={styles.root}>
       <Image
         source={require('../assets/background/signin-guest.png')}
         style={styles.image}
       />
-      <SsuSheet children={children()} />
+
+      <SsuSheet children={children()} topChild={topChild()} />
     </View>
   );
 };
@@ -178,6 +212,13 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: normalize(12),
-    lineHeight: mvs(12),
+  },
+  descStyle: {
+    color: color.Neutral[10],
+    fontFamily: font.InterMedium,
+    fontWeight: '500',
+    fontSize: normalize(12),
+    maxWidth: '80%',
+    textAlign: 'center',
   },
 });

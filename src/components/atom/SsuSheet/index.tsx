@@ -10,23 +10,32 @@ import {
 
 interface SheetProps {
   children?: React.ReactNode;
+  topChild?: React.ReactNode;
   containerStyle?: ViewStyle;
 }
 
 const SsuSheet: FC<SheetProps> = (props: SheetProps) => {
-  const {children, containerStyle} = props;
-  return <View style={[styles.container, containerStyle]}>{children}</View>;
+  const {children, topChild, containerStyle} = props;
+
+  return (
+    <View style={[styles.container, containerStyle]}>
+      {topChild}
+      <View style={[styles.childrenContainer, containerStyle]}>{children}</View>
+    </View>
+  );
 };
 
 export default SsuSheet;
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    bottom: 0,
+  },
+  childrenContainer: {
     alignItems: 'center',
     backgroundColor: color.Dark[800],
     width: widthPercentageToDP('100%'),
-    position: 'absolute',
-    bottom: 0,
     paddingHorizontal: widhtPercentage(48),
     paddingTop: heightPercentage(32),
     paddingBottom: heightPercentage(24),
