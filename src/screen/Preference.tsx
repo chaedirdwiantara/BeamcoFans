@@ -3,20 +3,25 @@ import {View, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../App';
-import {PreferenceContent} from '../components';
+import {ImageSlider} from '../components';
 import Color from '../theme/Color';
+import {dataFavourites} from '../data/preference';
 
 export const PreferenceScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const handeOnpressText = () => {
-    navigation.push('MainTab');
+  const goToScreenReferral = () => {
+    navigation.navigate('Referral');
   };
 
   return (
     <View style={styles.root}>
-      <PreferenceContent onPress={handeOnpressText} />
+      <ImageSlider
+        type="Preference"
+        data={dataFavourites}
+        onPress={goToScreenReferral}
+      />
     </View>
   );
 };
