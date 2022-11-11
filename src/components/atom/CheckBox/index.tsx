@@ -1,28 +1,16 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {ms, mvs} from 'react-native-size-matters';
-import {color} from '../../../theme';
 import {CheckBoxProps} from '../../../interface/checkbox.interface';
+import {CheckBoxIcon} from '../../../assets/icon';
 
 const CheckBox: React.FC<CheckBoxProps> = ({handleOnPress, active}) => {
   return (
-    <TouchableOpacity
-      style={[
-        styles.checkbox,
-        {backgroundColor: active ? color.Success[500] : undefined},
-      ]}
-      onPress={handleOnPress}></TouchableOpacity>
+    <TouchableOpacity onPress={handleOnPress}>
+      <CheckBoxIcon active={active} />
+    </TouchableOpacity>
   );
 };
 
 export default CheckBox;
 
-const styles = StyleSheet.create({
-  checkbox: {
-    width: ms(20),
-    height: mvs(20),
-    borderWidth: 1,
-    borderColor: color.Dark[500],
-    borderRadius: 6,
-  },
-});
+const styles = StyleSheet.create({});
