@@ -4,8 +4,13 @@ import {ms, mvs} from 'react-native-size-matters';
 
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
-import {normalize} from '../../../utils';
-import {Avatar, Button} from '../../atom';
+import {
+  heightPercentage,
+  normalize,
+  width,
+  widthPercentage,
+} from '../../../utils';
+import {Avatar, ButtonGradient} from '../../atom';
 import Typography from '../../../theme/Typography';
 
 interface Props {
@@ -27,9 +32,9 @@ export const FollowArtistCard: React.FC<Props> = (props: Props) => {
           <Text style={styles.subtitle}>{listener + ' listener'}</Text>
         </View>
       </View>
-      <Button
+      <ButtonGradient
         label={'Follow'}
-        containerStyles={styles.btnContainer}
+        gradientStyles={styles.btnContainer}
         onPress={onPress}
       />
     </View>
@@ -38,17 +43,19 @@ export const FollowArtistCard: React.FC<Props> = (props: Props) => {
 
 const styles = StyleSheet.create({
   root: {
-    width: ms(328),
+    width,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: widthPercentage(15),
   },
   containerContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
-    paddingLeft: ms(10),
+    paddingLeft: widthPercentage(10),
     marginBottom: mvs(2),
     color: Color.Neutral[10],
     fontSize: normalize(15),
@@ -62,8 +69,10 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     width: undefined,
-    paddingHorizontal: ms(10),
-    height: mvs(31),
-    backgroundColor: Color.Pink[200],
+    aspectRatio: undefined,
+    height: heightPercentage(35),
+    paddingHorizontal: widthPercentage(10),
+    marginVertical: heightPercentage(2),
+    marginHorizontal: widthPercentage(2),
   },
 });

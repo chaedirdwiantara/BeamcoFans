@@ -7,31 +7,25 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import {ms, mvs} from 'react-native-size-matters';
-import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
-import {normalize} from '../../../utils';
+import Color from '../../../theme/Color';
+import {ms} from 'react-native-size-matters';
+import {DataSliderType} from '../../../data/home';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 const {width} = Dimensions.get('window');
 
 const ITEM_LENGTH = width * 0.8;
 const EMPTY_ITEM_LENGTH = (width - ITEM_LENGTH) / 2;
 
-interface ImageSliderItem {
-  id?: number;
-  uri?: string;
-  title?: string;
-  subtitle?: string;
+interface CarouselProps {
+  data: DataSliderType[];
 }
 
-interface ImageSliderProps {
-  data: ImageSliderItem[];
-}
-
-export const ImageSlider: FC<ImageSliderProps> = ({data}) => {
+export const Carousel: FC<CarouselProps> = ({data}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const [dataWithPlaceholders, setDataWithPlaceholders] = useState<
-    ImageSliderItem[]
+    DataSliderType[]
   >([]);
   const currentIndex = useRef<number>(0);
   const flatListRef = useRef<FlatList<any>>(null);
@@ -48,7 +42,7 @@ export const ImageSlider: FC<ImageSliderProps> = ({data}) => {
   });
 
   return (
-    <View style={styles.container}>
+    <View>
       <Animated.FlatList
         ref={flatListRef}
         data={dataWithPlaceholders}
@@ -70,7 +64,7 @@ export const ImageSlider: FC<ImageSliderProps> = ({data}) => {
 
           const scale = scrollX.interpolate({
             inputRange,
-            outputRange: [0.95, 1.1, 0.95],
+            outputRange: [0.9, 1.2, 0.9],
           });
 
           return (
@@ -119,35 +113,34 @@ export const ImageSlider: FC<ImageSliderProps> = ({data}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
   flatListContent: {
-    marginTop: mvs(30),
+    marginTop: heightPercentage(30),
   },
   itemContent: {
-    marginHorizontal: ms(15),
+    marginHorizontal: widthPercentage(15),
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 20,
   },
   itemText: {
-    fontSize: normalize(15),
+    fontSize: normalize(14),
     position: 'absolute',
-    bottom: mvs(45),
-    left: ms(10),
+    bottom: heightPercentage(52),
+    left: widthPercentage(10),
     color: Color.Neutral[10],
     fontFamily: Font.InterBold,
   },
   itemSubtitle: {
-    fontSize: normalize(12),
+    fontSize: normalize(11.5),
     position: 'absolute',
-    bottom: ms(14),
+    bottom: ms(17),
     left: ms(10),
     color: Color.Neutral[10],
     fontFamily: Font.InterRegular,
   },
   itemImage: {
     width: '100%',
-    height: mvs(159),
+    height: heightPercentage(159),
     resizeMode: 'cover',
     borderRadius: 20,
   },
