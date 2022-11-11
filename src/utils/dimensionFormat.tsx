@@ -4,20 +4,16 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 
+export const {height, width} = Dimensions.get('screen');
+
 export const heightPercentage = (value: number = 0) => {
-  const {height} = Dimensions.get('screen');
-  console.log(height, 'height');
-  console.log(value, 'value');
+  const heightPercent = heightPercentageToDP((value / height) * 100);
 
-  const heightPercentage = heightPercentageToDP((value / height) * 100);
-  console.log(heightPercentage, 'heightPercentage');
-
-  return heightPercentage;
+  return heightPercent;
 };
 
-export const widhtPercentage = (value: number = 0) => {
-  const {width, scale, fontScale} = Dimensions.get('screen');
-  const widthPercentage = widthPercentageToDP((value / width) * 100);
+export const widthPercentage = (value: number = 0) => {
+  const widthPercent = widthPercentageToDP((value / width) * 100);
 
-  return widthPercentage;
+  return widthPercent;
 };
