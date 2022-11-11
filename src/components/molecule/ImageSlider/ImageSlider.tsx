@@ -120,7 +120,6 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                     selected={selected}
                     setSelected={setSelected}
                     favorites={item.favorites}
-                    // containerStyle={{paddingVertical: mvs(30)}}
                   />
                 </View>
               );

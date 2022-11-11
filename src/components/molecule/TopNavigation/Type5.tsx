@@ -1,4 +1,4 @@
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View, ViewStyle} from 'react-native';
 import React from 'react';
 import {elipsisText} from '../../../utils';
 import {Avatar, Gap} from '../../atom';
@@ -17,6 +17,7 @@ type Props = {
   rightIconAction?: () => void;
   profileUri: string;
   points: number;
+  containerStyles?: ViewStyle;
 };
 
 /** == COMPONENT === */
@@ -51,6 +52,7 @@ const Type5: React.FC<Props> = (props: Props) => {
             backgroundColor: props.bgColor,
             borderBottomWidth: 0,
           },
+          props.containerStyles,
         ]}>
         <View style={topNavstyles.leftContainer}>
           {iconLeft()}

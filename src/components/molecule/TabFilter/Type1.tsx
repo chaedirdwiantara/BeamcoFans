@@ -1,8 +1,7 @@
-import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
+import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import {color, font} from '../../../theme';
-import {normalize} from '../../../utils';
-import {ms, mvs} from 'react-native-size-matters';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface filterData {
   filterName: string;
@@ -28,6 +27,7 @@ const Type1: React.FC<TabFilterProps> = ({
         horizontal
         data={filterData}
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.containerFlatlist}
         renderItem={({item, index}) => (
           <TouchableOpacity
             style={[
@@ -38,7 +38,7 @@ const Type1: React.FC<TabFilterProps> = ({
             <Text
               style={[
                 styles.TextStyle,
-                selectedIndex == index
+                selectedIndex === index
                   ? {
                       fontFamily: font.InterBold,
                       fontWeight: '700',
@@ -66,10 +66,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  containerFlatlist: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   tabStyle: {
-    height: mvs(40),
-    paddingHorizontal: ms(10),
-    paddingVertical: mvs(8),
+    height: heightPercentage(40),
+    paddingVertical: heightPercentage(8),
+    paddingHorizontal: widthPercentage(15),
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: SelectedColor,
@@ -77,6 +81,6 @@ const styles = StyleSheet.create({
   TextStyle: {
     fontWeight: '700',
     fontSize: normalize(13),
-    lineHeight: mvs(20),
+    lineHeight: heightPercentage(20),
   },
 });
