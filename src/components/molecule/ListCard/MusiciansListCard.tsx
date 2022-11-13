@@ -13,9 +13,9 @@ import {color, font} from '../../../theme';
 import {ThreeDotsIcon} from '../../../assets/icon';
 
 interface ListProps {
-  musicNum: string;
+  musicNum: number;
   onPressThreeDots: () => void;
-  musicTitle: string;
+  musicianName: string;
   imgUri: string;
   point?: string;
   containerStyles?: ViewStyle;
@@ -25,17 +25,22 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
   const {
     musicNum,
     onPressThreeDots,
-    musicTitle,
+    musicianName,
     imgUri,
     point,
     containerStyles,
   } = props;
   return (
     <View style={[styles.container, containerStyles]}>
-      <Text style={styles.rankStyle}>{musicNum}</Text>
+      <Text style={styles.rankStyle}>
+        {musicNum.toLocaleString('en-US', {
+          minimumIntegerDigits: 2,
+          useGrouping: false,
+        })}
+      </Text>
       <Avatar imgUri={imgUri} size={44} />
       <View style={styles.textContainer}>
-        <Text style={styles.songTitle}>{musicTitle}</Text>
+        <Text style={styles.songTitle}>{musicianName}</Text>
       </View>
       <View style={styles.rightContainer}>
         {point ? <Text style={styles.pointStyle}>{`${point} pts`}</Text> : null}

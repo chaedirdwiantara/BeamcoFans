@@ -1,9 +1,11 @@
 import {FlashList} from '@shopify/flash-list';
 import React, {useState} from 'react';
-import {Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {ListCard, SquareImage} from '../../components';
+import {Gap, ListCard, SquareImage} from '../../components';
 import {PostlistData} from '../../data/postlist';
+import {color, font} from '../../theme';
+import {normalize} from '../../utils';
 
 const PostList = () => {
   const [likePressed, setLikePressed] = useState(false);
@@ -29,7 +31,7 @@ const PostList = () => {
     <FlashList
       data={PostlistData}
       showsVerticalScrollIndicator={false}
-      // keyExtractor={}
+      keyExtractor={item => item.id}
       renderItem={({item}: any) => (
         <ListCard.PostList
           musicianName={item.musicianName}
@@ -37,11 +39,20 @@ const PostList = () => {
           imgUri={item.imgUri}
           postDate={item.postDate}
           children={
-            <View style={{flexDirection: 'column'}}>
-              <Text>{item?.post.postTitle}</Text>
-              <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'column', width: '100%'}}>
+              <Text style={styles.childrenPostTitle}>
+                {item?.post.postTitle}
+              </Text>
+              <Gap height={4} />
+              <View
+                style={{
+                  flexDirection: 'row',
+                }}>
                 {item.post.postPicture.map((postUri: any) => (
-                  <SquareImage imgUri={postUri} size={100} />
+                  <>
+                    <SquareImage imgUri={postUri} size={143} />
+                    <Gap width={3} />
+                  </>
                 ))}
               </View>
             </View>
@@ -56,9 +67,19 @@ const PostList = () => {
           commentCount={67}
         />
       )}
-      estimatedItemSize={31}
+      estimatedItemSize={15}
     />
   );
 };
 
 export default PostList;
+
+const styles = StyleSheet.create({
+  childrenPostTitle: {
+    fontFamily: font.InterRegular,
+    fontWeight: '400',
+    fontSize: normalize(13),
+    lineHeight: mvs(20),
+    color: color.Neutral[10],
+  },
+});

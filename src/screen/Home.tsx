@@ -8,6 +8,7 @@ import {NotificationIcon} from '../assets/icon';
 import {heightPercentage, widthPercentage} from '../utils';
 import {TopNavigation, SearchBar, TabFilter, Carousel} from '../components';
 import PostList from './ListCard/PostList';
+import TopMusician from './ListCard/TopMusician';
 
 export const HomeScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(-0);
@@ -42,6 +43,8 @@ export const HomeScreen: React.FC = () => {
           style={{
             marginTop: heightPercentage(20),
             paddingHorizontal: widthPercentage(20),
+            width: '100%',
+            height: '100%',
           }}>
           <TabFilter.Type1
             filterData={filter}
@@ -49,7 +52,7 @@ export const HomeScreen: React.FC = () => {
             selectedIndex={selectedIndex}
           />
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
-            <MusicianListExample />
+            <TopMusician />
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
             <MusicListCardExample />
           ) : (

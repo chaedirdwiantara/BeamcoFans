@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   bodyContainer: {
     width: '100%',
     flexDirection: 'row',
-    marginTop: heightPercentage(16),
+    marginTop: heightPercentage(8),
     marginBottom: heightPercentage(12),
   },
   category: {
