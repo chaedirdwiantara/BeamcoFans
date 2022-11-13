@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 
-import {MusicianListExample, MusicListCardExample} from '../components/example';
+import {MusicListCardExample} from '../components/example';
 import Color from '../theme/Color';
 import {dataSlider} from '../data/home';
 import {NotificationIcon} from '../assets/icon';
@@ -9,6 +9,7 @@ import {heightPercentage, widthPercentage} from '../utils';
 import {TopNavigation, SearchBar, TabFilter, Carousel} from '../components';
 import PostList from './ListCard/PostList';
 import TopMusician from './ListCard/TopMusician';
+import TopSong from './ListCard/TopSong';
 
 export const HomeScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(-0);
@@ -54,7 +55,7 @@ export const HomeScreen: React.FC = () => {
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
             <TopMusician />
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
-            <MusicListCardExample />
+            <TopSong />
           ) : (
             <PostList />
           )}

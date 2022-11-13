@@ -18,7 +18,7 @@ interface ListProps {
   onPressThreeDots: () => void;
   musicNum: string;
   musicTitle: string;
-  musicDesc: string;
+  singerName: string;
   likePressed: boolean;
   containerStyles?: ViewStyle;
 }
@@ -29,7 +29,7 @@ const MusicListCard: React.FC<ListProps> = ({
   onPressThreeDots,
   musicNum,
   musicTitle,
-  musicDesc,
+  singerName,
   likePressed,
   containerStyles,
 }) => {
@@ -39,7 +39,7 @@ const MusicListCard: React.FC<ListProps> = ({
       <SquareImage imgUri={imgUri} size={44} />
       <View style={styles.textContainer}>
         <Text style={styles.songTitle}>{musicTitle}</Text>
-        <Text style={styles.songDesc}>{musicDesc}</Text>
+        <Text style={styles.songDesc}>{singerName}</Text>
       </View>
       <TouchableOpacity onPress={onPressLikeIcon} style={[styles.likeButton]}>
         <LoveIcon

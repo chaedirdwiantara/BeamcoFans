@@ -1,26 +1,36 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
-import {MusicianListData} from '../../data/topMusician';
+import {TopSongListData} from '../../data/topSong';
 import {elipsisText} from '../../utils';
 
-const TopMusician = () => {
+const TopSong = () => {
+  const [likePressed, setLikePressed] = useState(false);
+
+  const onPressLikeIcon = () => {
+    console.log('likey');
+    setLikePressed(!likePressed);
+  };
+
   const onPressThreeDots = () => {
     console.log('dowtey');
   };
   return (
     <FlashList
-      data={MusicianListData}
+      data={TopSongListData}
       showsVerticalScrollIndicator={false}
       keyExtractor={item => item.id}
       renderItem={({item}: any) => (
-        <ListCard.MusicianList
-          musicNum={item.musicNum}
-          musicianName={elipsisText(item.musicianName, 22)}
+        <ListCard.MusicList
           imgUri={item.imgUri}
+          musicNum={item.musicNum}
+          musicTitle={elipsisText(item.musicTitle, 22)}
+          singerName={item.singerName}
+          onPressLikeIcon={onPressLikeIcon}
           onPressThreeDots={onPressThreeDots}
+          likePressed={likePressed}
           containerStyles={{marginTop: mvs(20)}}
         />
       )}
@@ -29,6 +39,6 @@ const TopMusician = () => {
   );
 };
 
-export default TopMusician;
+export default TopSong;
 
 const styles = StyleSheet.create({});
