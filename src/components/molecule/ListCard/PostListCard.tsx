@@ -70,26 +70,14 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
         </View>
       </View>
       {/* BODY SECTION */}
-      <View
-        style={{
-          width: '100%',
-          flexDirection: 'row',
-          marginTop: heightPercentage(16),
-          marginBottom: heightPercentage(12),
-        }}>
+      <View style={styles.bodyContainer}>
         <Gap width={57} />
         {children}
       </View>
       {/* BOTTOM SECTION */}
       <View style={styles.bottomContainer}>
         <Gap width={55} />
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
+        <View style={styles.socialContainer}>
           {/* like section */}
           <View>
             <TouchableOpacity onPress={likeOnPress} style={styles.socialIcon}>
@@ -178,6 +166,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'space-between',
   },
+  bodyContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    marginTop: heightPercentage(16),
+    marginBottom: heightPercentage(12),
+  },
   category: {
     backgroundColor: color.Pink[100],
     paddingHorizontal: ms(4),
@@ -201,6 +195,12 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
+  },
+  socialContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   socialIcon: {
