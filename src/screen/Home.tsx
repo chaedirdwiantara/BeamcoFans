@@ -16,8 +16,13 @@ import {
 import PostList from './ListCard/PostList';
 import TopMusician from './ListCard/TopMusician';
 import TopSong from './ListCard/TopSong';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../App';
 
 export const HomeScreen: React.FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [selectedIndex, setSelectedIndex] = useState(-0);
   const [filter] = useState([
     {filterName: 'TOP MUSICIAN'},
@@ -37,7 +42,7 @@ export const HomeScreen: React.FC = () => {
         }
         leftIconAction={() => console.log('Left Icon Pressed')}
         rightIcon={<IconNotif label={14} />}
-        rightIconAction={() => console.log('Right Icon Pressed')}
+        rightIconAction={() => navigation.navigate('Notification')}
         maxLengthTitle={20}
         itemStrokeColor={Color.Pink[100]}
         points={100000}

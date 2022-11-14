@@ -4,62 +4,59 @@ import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
 import {ListAvatar} from './ListAvatar';
 import HeartIcon from '../../../assets/icon/Heart.icon';
+import {BellNotif} from '../../../assets/icon';
+import {heightPercentage, widthPercentage} from '../../../utils';
+import {Gap} from '../../atom';
+import {dataNotification, NotifDataType} from '../../../data/notification';
+import {FlashList} from '@shopify/flash-list';
 
 interface NotificationCardProps {
-  title?: string;
-  description?: string;
+  data: NotifDataType[];
 }
 
 export const NotificationCard: React.FC<NotificationCardProps> = (
   props: NotificationCardProps,
 ) => {
-  const {title, description} = props;
-  const data = [
-    {
-      uri: 'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
-    },
-    {
-      uri: 'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
-    },
-    {
-      uri: 'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
-    },
-    {
-      uri: 'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
-    },
-    {
-      uri: 'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
-    },
-  ];
-
+  const {data} = props;
   return (
-    <View style={styles.root}>
-      <HeartIcon style={styles.icon} />
-      <View>
-        <ListAvatar data={data} />
-        <Text style={styles.fullname}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
-      </View>
-    </View>
+    <FlashList
+      data={data}
+      showsVerticalScrollIndicator={false}
+      keyExtractor={(_, index) => index.toString()}
+      renderItem={({item}: any) => (
+        <View style={styles.root}>
+          {item.type === 'like' ? (
+            <HeartIcon style={styles.icon} />
+          ) : (
+            <BellNotif style={styles.icon} />
+          )}
+
+          <View>
+            <ListAvatar data={item.data} size={32} desc={item.desc} />
+          </View>
+        </View>
+      )}
+      estimatedItemSize={15}
+    />
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 5,
-    borderWidth: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    borderBottomWidth: 1,
     borderColor: Color.Dark[500],
+    paddingTop: heightPercentage(16),
+    paddingBottom: heightPercentage(12),
+    paddingLeft: widthPercentage(40),
+    paddingRight: widthPercentage(24),
   },
   icon: {
-    marginRight: 10,
-    marginTop: 10,
-  },
-  fullname: {
-    fontSize: 14,
-    color: Color.Neutral[10],
-    fontFamily: Font.InterMedium,
+    marginRight: widthPercentage(16),
+    marginTop: heightPercentage(6),
+    alignSelf: 'flex-start',
   },
   description: {
     marginTop: 5,
