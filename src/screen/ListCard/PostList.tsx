@@ -1,14 +1,25 @@
 import {FlashList} from '@shopify/flash-list';
-import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {Dropdown, Gap, ListCard, SquareImage} from '../../components';
 import {dropDownDataCategory, dropDownDataFilter} from '../../data/dropdown';
 import {PostlistData, PostListType} from '../../data/postlist';
 import {color, font} from '../../theme';
-import {heightPercentage, normalize, widthPercentage} from '../../utils';
+import {
+  heightPercentage,
+  normalize,
+  widthLeft,
+  widthPercentage,
+} from '../../utils';
+import {LogBox} from 'react-native';
 
 const PostList = () => {
+  // ignore warning
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   const [likePressed, setLikePressed] = useState(false);
   const [dataFilter, setDataFilter] = useState('');
   const [dataCategory, setDataCategory] =
@@ -103,16 +114,29 @@ const PostList = () => {
                   style={{
                     flexDirection: 'row',
                   }}>
-                  {item.post.postPicture.map((item: any) => (
-                    <View key={item.id}>
-                      <SquareImage
-                        imgUri={item.postUri}
-                        size={143}
-                        id={item.id}
-                      />
-                      <Gap width={4} />
-                    </View>
-                  ))}
+                  <SafeAreaView style={{flex: 1}}>
+                    <FlatList
+                      scrollEnabled={false}
+                      style={{
+                        width: widthLeft(55),
+                      }}
+                      columnWrapperStyle={{justifyContent: 'flex-start'}}
+                      keyExtractor={(_, index) => index.toString()}
+                      numColumns={2}
+                      data={item.post.postPicture}
+                      renderItem={({item}: any) => (
+                        <SquareImage
+                          imgUri={item.postUri}
+                          size={143}
+                          id={item.id}
+                          containerStyle={{
+                            marginRight: widthPercentage(3),
+                            marginBottom: heightPercentage(4),
+                          }}
+                        />
+                      )}
+                    />
+                  </SafeAreaView>
                 </View>
               </View>
             }

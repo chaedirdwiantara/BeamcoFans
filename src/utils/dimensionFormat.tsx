@@ -17,3 +17,10 @@ export const widthPercentage = (value: number = 0) => {
 
   return widthPercent;
 };
+
+export const widthLeft = (value: number = 0) => {
+  const widthLeft = width - value;
+  const widthPercent = widthPercentageToDP((widthLeft / width) * 100);
+
+  return widthPercent;
+};
