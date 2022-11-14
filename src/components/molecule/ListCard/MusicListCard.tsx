@@ -16,7 +16,7 @@ interface ListProps {
   imgUri: string;
   onPressLikeIcon: () => void;
   onPressThreeDots: () => void;
-  musicNum: string;
+  musicNum: number;
   musicTitle: string;
   singerName: string;
   // likePressed: boolean;
@@ -35,7 +35,12 @@ const MusicListCard: React.FC<ListProps> = ({
 }) => {
   return (
     <View style={[styles.container, containerStyles]}>
-      <Text style={styles.rankStyle}>{musicNum}</Text>
+      <Text style={styles.rankStyle}>
+        {musicNum.toLocaleString('en-US', {
+          minimumIntegerDigits: 2,
+          useGrouping: false,
+        })}
+      </Text>
       <SquareImage imgUri={imgUri} size={44} />
       <View style={styles.textContainer}>
         <Text style={styles.songTitle}>{musicTitle}</Text>
