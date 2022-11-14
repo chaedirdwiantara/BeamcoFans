@@ -19,7 +19,7 @@ interface ListProps {
   musicNum: string;
   musicTitle: string;
   singerName: string;
-  likePressed: boolean;
+  // likePressed: boolean;
   containerStyles?: ViewStyle;
 }
 
@@ -30,7 +30,7 @@ const MusicListCard: React.FC<ListProps> = ({
   musicNum,
   musicTitle,
   singerName,
-  likePressed,
+  // likePressed,
   containerStyles,
 }) => {
   return (
@@ -41,12 +41,12 @@ const MusicListCard: React.FC<ListProps> = ({
         <Text style={styles.songTitle}>{musicTitle}</Text>
         <Text style={styles.songDesc}>{singerName}</Text>
       </View>
-      <TouchableOpacity onPress={onPressLikeIcon} style={[styles.likeButton]}>
+      {/* <TouchableOpacity onPress={onPressLikeIcon} style={[styles.likeButton]}>
         <LoveIcon
           fill={likePressed ? color.Pink[100] : 'none'}
           stroke={likePressed ? 'none' : color.Neutral[10]}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity onPress={onPressThreeDots} style={[styles.dotsButton]}>
         <ThreeDotsIcon fill={color.Neutral[20]} />
       </TouchableOpacity>

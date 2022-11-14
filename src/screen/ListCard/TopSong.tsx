@@ -30,7 +30,7 @@ const TopSong = () => {
           singerName={item.singerName}
           onPressLikeIcon={onPressLikeIcon}
           onPressThreeDots={onPressThreeDots}
-          likePressed={likePressed}
+          // likePressed={likePressed}
           containerStyles={{marginTop: mvs(20)}}
         />
       )}
