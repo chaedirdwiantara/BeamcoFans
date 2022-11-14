@@ -62,6 +62,9 @@ const PostList = () => {
             data={dropDownDataFilter}
             placeHolder={'Filter by'}
             selectedMenu={resultDataFilter}
+            containerStyle={{
+              width: widthPercentage(138),
+            }}
           />
         </View>
         <View
@@ -72,6 +75,10 @@ const PostList = () => {
             data={dropDownDataCategory}
             placeHolder={'Category'}
             selectedMenu={resultDataCategory}
+            containerStyle={{
+              width: widthPercentage(138),
+              marginLeft: widthPercentage(-57),
+            }}
           />
         </View>
       </View>

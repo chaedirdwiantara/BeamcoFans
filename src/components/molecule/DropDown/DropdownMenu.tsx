@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {ms, mvs} from 'react-native-size-matters';
 import {color, font} from '../../../theme';
-import {normalize} from '../../../utils';
+import {normalize, widthPercentage} from '../../../utils';
 
 interface dataProps {
   label: string;
@@ -14,6 +14,7 @@ interface DropdownMenuProps {
   data: dataProps[];
   placeHolder: string;
   selectedMenu: (data: any) => void;
+  containerStyle?: ViewStyle;
 }
 
 const itemBg = color.Dark[900];
@@ -21,7 +22,7 @@ const itemBg = color.Dark[900];
 const DropdownMenu: React.FC<DropdownMenuProps> = (
   props: DropdownMenuProps,
 ) => {
-  const {data, placeHolder, selectedMenu} = props;
+  const {data, placeHolder, selectedMenu, containerStyle} = props;
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -29,7 +30,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
     <View style={styles.container}>
       <Dropdown
         style={[styles.dropdown, isFocus && {borderColor: color.Success[500]}]}
-        containerStyle={styles.containerStyle}
+        containerStyle={[styles.containerStyle, containerStyle]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.fontAll}
         itemTextStyle={styles.fontAll}
@@ -71,6 +72,8 @@ const styles = StyleSheet.create({
   containerStyle: {
     borderWidth: 0,
     backgroundColor: itemBg,
+    // width: widthPercentage(138),
+    // marginLeft: widthPercentage(-57),
   },
   // Item container in modal container
   itemContainer: {
