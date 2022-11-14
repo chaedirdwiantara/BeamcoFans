@@ -10,6 +10,9 @@ export interface PostListType {
   imgUri: string;
   postDate: string;
   post: PostProps;
+  likeCount: number;
+  commentCount: number;
+  category: string;
 }
 export const PostlistData: PostListType[] = [
   {
@@ -28,6 +31,9 @@ export const PostlistData: PostListType[] = [
         'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
       ],
     },
+    category: 'Coming Up',
+    likeCount: 120,
+    commentCount: 80,
   },
   {
     id: '2',
@@ -43,6 +49,9 @@ export const PostlistData: PostListType[] = [
         'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
       ],
     },
+    category: 'Tour',
+    likeCount: 120,
+    commentCount: 80,
   },
   {
     id: '3',
@@ -58,6 +67,9 @@ export const PostlistData: PostListType[] = [
         'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
       ],
     },
+    category: 'Daily Life',
+    likeCount: 120,
+    commentCount: 80,
   },
   {
     id: '4',
@@ -74,6 +86,9 @@ export const PostlistData: PostListType[] = [
         'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
       ],
     },
+    category: 'Backstage',
+    likeCount: 120,
+    commentCount: 80,
   },
   {
     id: '5',
@@ -89,5 +104,8 @@ export const PostlistData: PostListType[] = [
         'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
       ],
     },
+    category: 'Coming Up',
+    likeCount: 120,
+    commentCount: 80,
   },
 ];

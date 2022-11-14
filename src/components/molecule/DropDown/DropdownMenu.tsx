@@ -39,7 +39,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? placeHolder : '...'}
+        placeholder={!isFocus ? placeHolder : '  ...'}
         value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
