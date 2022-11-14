@@ -87,7 +87,7 @@ const PostList = () => {
             postDate={item.postDate}
             category={item.category}
             children={
-              <View style={{flexDirection: 'column', width: '100%'}}>
+              <View style={{width: '100%'}}>
                 <Text style={styles.childrenPostTitle}>
                   {item?.post.postTitle}
                 </Text>
@@ -129,6 +129,7 @@ export default PostList;
 
 const styles = StyleSheet.create({
   childrenPostTitle: {
+    flexShrink: 1,
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: normalize(13),

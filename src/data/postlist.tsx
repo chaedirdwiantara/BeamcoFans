@@ -23,7 +23,8 @@ export const PostlistData: PostListType[] = [
       'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
     postDate: '14-07-2022',
     post: {
-      postTitle: 'hey guys its me goku',
+      postTitle:
+        'hey guys its me gokuN hey guys its me goku gokuN hey guys its me goku',
       postPicture: [
         {
           id: 0,
@@ -84,6 +85,16 @@ export const PostlistData: PostListType[] = [
         },
         {
           id: 1,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
+        {
+          id: 3,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
+        {
+          id: 4,
           postUri:
             'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
         },
