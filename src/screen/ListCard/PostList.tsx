@@ -96,11 +96,15 @@ const PostList = () => {
                   style={{
                     flexDirection: 'row',
                   }}>
-                  {item.post.postPicture.map((postUri: any) => (
-                    <>
-                      <SquareImage imgUri={postUri} size={143} />
+                  {item.post.postPicture.map((item: any) => (
+                    <View>
+                      <SquareImage
+                        imgUri={item.postUri}
+                        size={143}
+                        id={item.id}
+                      />
                       <Gap width={3} />
-                    </>
+                    </View>
                   ))}
                 </View>
               </View>

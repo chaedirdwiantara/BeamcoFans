@@ -25,10 +25,16 @@ export const PostlistData: PostListType[] = [
     post: {
       postTitle: 'hey guys its me goku',
       postPicture: [
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        {
+          id: 0,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
+        {
+          id: 1,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
       ],
     },
     category: 'Coming Up',
@@ -45,8 +51,16 @@ export const PostlistData: PostListType[] = [
     post: {
       postTitle: 'hey guys its me goku',
       postPicture: [
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        {
+          id: 0,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
+        {
+          id: 1,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
       ],
     },
     category: 'Tour',
@@ -63,8 +77,16 @@ export const PostlistData: PostListType[] = [
     post: {
       postTitle: 'hey guys its me goku',
       postPicture: [
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        {
+          id: 0,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
+        {
+          id: 1,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
       ],
     },
     category: 'Daily Life',
@@ -81,9 +103,16 @@ export const PostlistData: PostListType[] = [
     post: {
       postTitle: 'hey guys its me goku',
       postPicture: [
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        {
+          id: 0,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
+        {
+          id: 1,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
       ],
     },
     category: 'Backstage',
@@ -100,8 +129,16 @@ export const PostlistData: PostListType[] = [
     post: {
       postTitle: 'ereeeeeeehhhh....',
       postPicture: [
-        'https://dafunda.com/wp-content/uploads/2022/02/Inilah-Alasan-Kuat-Kenapa-Eren-Yeager-Menjadi-Jahat-di-Attack-on-Titan.jpg',
-        'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        {
+          id: 0,
+          postUri:
+            'https://dafunda.com/wp-content/uploads/2022/02/Inilah-Alasan-Kuat-Kenapa-Eren-Yeager-Menjadi-Jahat-di-Attack-on-Titan.jpg',
+        },
+        {
+          id: 1,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
       ],
     },
     category: 'Coming Up',
