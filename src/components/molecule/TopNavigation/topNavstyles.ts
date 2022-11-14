@@ -10,8 +10,8 @@ const topNavstyles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: mvs(1),
     borderBottomColor: color.Dark[300],
-    paddingTop: Platform.OS === 'ios' ? 0 :  heightPercentage(25),
-    paddingBottom: mvs(24),
+    paddingTop: Platform.OS === 'ios' ? 0 :  heightPercentage(24),
+    paddingBottom: heightPercentage(24),
   },
   leftContainer: {
     flex: 1,

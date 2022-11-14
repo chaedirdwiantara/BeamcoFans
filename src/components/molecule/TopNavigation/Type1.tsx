@@ -1,9 +1,9 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {HomeIcon} from '../../../assets/icon';
-import {elipsisText} from '../../../utils';
+import {ArrowRightIcon, HomeIcon} from '../../../assets/icon';
+import {elipsisText, widthPercentage} from '../../../utils';
 import topNavstyles from './topNavstyles';
-import {font} from '../../../theme';
+import {color, font} from '../../../theme';
 
 /** === INTERFACE === */
 type Props = {
@@ -22,7 +22,10 @@ const Type1: React.FC<Props> = (props: Props) => {
       <TouchableOpacity
         style={topNavstyles.iconLeftContainer}
         onPress={props.leftIconAction}>
-        <HomeIcon stroke={'white'} />
+        <ArrowRightIcon
+          stroke={color.Neutral[10]}
+          style={{marginLeft: widthPercentage(24)}}
+        />
       </TouchableOpacity>
     );
   };

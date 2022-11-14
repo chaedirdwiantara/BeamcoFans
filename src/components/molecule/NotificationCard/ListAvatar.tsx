@@ -29,7 +29,7 @@ export const ListAvatar: React.FC<ListAvatarProps> = (
         {data?.map((val, i) => {
           if (i < 3) {
             return (
-              <View style={styles.root}>
+              <View style={styles.root} key={i}>
                 <Avatar key={i} size={size} imgUri={val.uri || ''} />
               </View>
             );
@@ -43,7 +43,7 @@ export const ListAvatar: React.FC<ListAvatarProps> = (
           if (val.name)
             if (i < 3) {
               return (
-                <Text style={styles.fullname}>
+                <Text style={styles.fullname} key={i}>
                   {val.name} {data.length > 1 ? ', ' : ''}
                 </Text>
               );
