@@ -1,18 +1,25 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
-
-import {
-  MusicianListExample,
-  MusicListCardExample,
-  PostListCardExample,
-} from '../components/example';
 import Color from '../theme/Color';
 import {dataSlider} from '../data/home';
-import {NotificationIcon} from '../assets/icon';
 import {heightPercentage, widthPercentage} from '../utils';
-import {TopNavigation, SearchBar, TabFilter, Carousel} from '../components';
+import {
+  TopNavigation,
+  SearchBar,
+  TabFilter,
+  Carousel,
+  IconNotif,
+} from '../components';
+import PostList from './ListCard/PostList';
+import TopMusician from './ListCard/TopMusician';
+import TopSong from './ListCard/TopSong';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../App';
 
 export const HomeScreen: React.FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [selectedIndex, setSelectedIndex] = useState(-0);
   const [filter] = useState([
     {filterName: 'TOP MUSICIAN'},
@@ -31,8 +38,8 @@ export const HomeScreen: React.FC = () => {
           'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
         }
         leftIconAction={() => console.log('Left Icon Pressed')}
-        rightIcon={<NotificationIcon stroke={'white'} />}
-        rightIconAction={() => console.log('Right Icon Pressed')}
+        rightIcon={<IconNotif label={14} />}
+        rightIconAction={() => navigation.navigate('Notification')}
         maxLengthTitle={20}
         itemStrokeColor={Color.Pink[100]}
         points={100000}
@@ -45,6 +52,8 @@ export const HomeScreen: React.FC = () => {
           style={{
             marginTop: heightPercentage(20),
             paddingHorizontal: widthPercentage(20),
+            width: '100%',
+            height: '100%',
           }}>
           <TabFilter.Type1
             filterData={filter}
@@ -52,11 +61,11 @@ export const HomeScreen: React.FC = () => {
             selectedIndex={selectedIndex}
           />
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
-            <MusicianListExample />
+            <TopMusician />
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
-            <MusicListCardExample />
+            <TopSong />
           ) : (
-            <PostListCardExample />
+            <PostList />
           )}
         </View>
       </ScrollView>

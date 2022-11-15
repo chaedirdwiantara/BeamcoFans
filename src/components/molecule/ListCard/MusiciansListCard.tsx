@@ -8,14 +8,15 @@ import {
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {Avatar} from '../../atom';
-import {normalize} from '../../../utils';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 import {color, font} from '../../../theme';
 import {ThreeDotsIcon} from '../../../assets/icon';
+import {Dropdown} from '../DropDown';
 
 interface ListProps {
-  musicNum: string;
+  musicNum: number;
   onPressThreeDots: () => void;
-  musicTitle: string;
+  musicianName: string;
   imgUri: string;
   point?: string;
   containerStyles?: ViewStyle;
@@ -25,24 +26,48 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
   const {
     musicNum,
     onPressThreeDots,
-    musicTitle,
+    musicianName,
     imgUri,
     point,
     containerStyles,
   } = props;
+
+  // ? Dropdown Menu Example
+  const dataMore = [
+    {label: 'Follow', value: '1'},
+    {label: 'Send Donation', value: '2'},
+    {label: 'Go To Musician', value: '3'},
+  ];
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
+  };
   return (
     <View style={[styles.container, containerStyles]}>
-      <Text style={styles.rankStyle}>{musicNum}</Text>
+      <Text style={styles.rankStyle}>
+        {musicNum.toLocaleString('en-US', {
+          minimumIntegerDigits: 2,
+          useGrouping: false,
+        })}
+      </Text>
       <Avatar imgUri={imgUri} size={44} />
       <View style={styles.textContainer}>
-        <Text style={styles.songTitle}>{musicTitle}</Text>
+        <Text style={styles.songTitle}>{musicianName}</Text>
       </View>
       <View style={styles.rightContainer}>
         {point ? <Text style={styles.pointStyle}>{`${point} pts`}</Text> : null}
         <TouchableOpacity
           onPress={onPressThreeDots}
           style={[styles.dotsButton]}>
-          <ThreeDotsIcon fill={color.Neutral[10]} />
+          {/* <ThreeDotsIcon fill={color.Neutral[10]} /> */}
+          <Dropdown.More
+            data={dataMore}
+            selectedMenu={resultDataMore}
+            containerStyle={{
+              width: widthPercentage(123),
+              marginLeft: widthPercentage(-113),
+              marginTop: heightPercentage(-8),
+            }}
+          />
         </TouchableOpacity>
       </View>
     </View>
