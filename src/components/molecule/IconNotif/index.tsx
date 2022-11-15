@@ -6,19 +6,18 @@ import {ms, mvs} from 'react-native-size-matters';
 import {normalize} from '../../../utils';
 
 interface IconNotifProps {
-  onPress: () => void;
   label: number;
 }
 
 const IconNotif: FC<IconNotifProps> = (props: IconNotifProps) => {
-  const {onPress, label} = props;
+  const {label} = props;
   return (
-    <TouchableOpacity onPress={onPress}>
+    <View>
       <NotificationIcon stroke={color.Dark[100]} />
       <View style={styles.notifContainer}>
         <Text style={styles.notifText}>{label}</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -28,6 +27,7 @@ const styles = StyleSheet.create({
   notifContainer: {
     backgroundColor: color.Error[400],
     alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 50,
     width: ms(18),
     height: mvs(18),
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   notifText: {
     color: color.Neutral[10],
-    fontSize: normalize(10),
+    fontSize: normalize(9),
     fontFamily: font.InterSemiBold,
     fontWeight: '600',
     lineHeight: mvs(12),

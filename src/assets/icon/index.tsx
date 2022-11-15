@@ -1,4 +1,6 @@
 import ArrowRightIcon from './ArrowRight.icon';
+import ArrowLeftIcon from './ArrowLeft.icon';
+import BellNotif from './BellNotif.icon';
 import CheckBoxIcon from './CheckBox.icon';
 import CheckCircleIcon from './CheckCircle.icon';
 import ChevronDownIcon from './ChevronDown.icon';
@@ -36,6 +38,8 @@ import LockIcon from './Lock.icon.';
 
 export {
   ArrowRightIcon,
+  ArrowLeftIcon,
+  BellNotif,
   CheckBoxIcon,
   CheckCircleIcon,
   ChevronDownIcon,

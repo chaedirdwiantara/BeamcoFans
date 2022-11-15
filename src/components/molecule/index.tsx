@@ -3,6 +3,7 @@ import {Carousel} from './Carousel/Carousel';
 import {Dropdown} from './DropDown';
 import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
 import {FollowingCard} from './FollowingCard/FollowingCard';
+import IconNotif from './IconNotif';
 import {ImageSlider} from './ImageSlider/ImageSlider';
 import {ListCard} from './ListCard';
 import {LoginDescription} from './LoginDescription/LoginDescription';
@@ -24,6 +25,7 @@ export {
   Dropdown,
   FollowArtistCard,
   FollowingCard,
+  IconNotif,
   ImageSlider,
   ListCard,
   LoginDescription,
