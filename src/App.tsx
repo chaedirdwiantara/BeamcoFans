@@ -1,51 +1,61 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {View, Text, StyleSheet} from 'react-native';
 import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
 } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {OnboardScreen} from './screen/Onboard';
-import {LoginScreen} from './screen/Login';
-import {SignupScreen} from './screen/Signup';
-import {SignInGuestScreen} from './screen/SignInGuest';
-import {HomeScreen} from './screen/Home';
-import {SearchScreen} from './screen/Search';
+// Screen
+import {EventScreen} from './screen/Event';
 import {FeedScreen} from './screen/Feed';
-import {CollectionScreen} from './screen/Collection';
-import {PreferenceScreen} from './screen/Preference';
-import {ReferralScreen} from './screen/Referral';
-import {ModalConfirm} from './components';
 import {ForgotPassword} from './screen/ForgotPassword';
+import {HomeScreen} from './screen/Home';
+import {LoginScreen} from './screen/Login';
+import {OnboardScreen} from './screen/Onboard';
 import {Otp} from './screen/Otp';
+import {PreferenceScreen} from './screen/Preference';
+import {EditProfileScreen} from './screen/Profile/EditProfile';
+import {ProfileScreen} from './screen/Profile/Profile';
+import {ReferralScreen} from './screen/Referral';
+import {SettingScreen} from './screen/Setting/SettingScreen';
+import {SignInGuestScreen} from './screen/SignInGuest';
+import {SignupScreen} from './screen/Signup';
 
-import HomeIcon from './assets/icon/Home.icon';
-import SearchIcon from './assets/icon/Search.icon';
-import FeedIcon from './assets/icon/Feed.icon';
-import CollectionIcon from './assets/icon/Collection.icon';
+// Modal
+import {ModalConfirm} from './components';
+
+// Icon
+import {CrownIcon, FeedIcon, HomeIcon, UserProfileIcon} from './assets/icon';
+
+import Font from './theme/Font';
 import Color from './theme/Color';
-
+import {normalize} from './utils';
 import {AppProvider} from './context/app.context';
 
 export type RootStackParams = {
   Boarding: undefined;
+  EditProfile: undefined;
+  ForgotPassword: undefined;
   Login: undefined;
-  Signup: undefined;
   MainTab: undefined;
-  SignInGuest: undefined;
+  ModalConfirm: undefined;
+  Otp: undefined;
   Preference: undefined;
   Referral: undefined;
-  ModalConfirm: undefined;
-  ForgotPassword: undefined;
-  Otp: undefined;
+  Setting: undefined;
+  Signup: undefined;
+  SignInGuest: undefined;
 };
 
 export type MainTabParams = {
-  Home: undefined;
-  Search: undefined;
-  Feed: undefined;
   Collection: undefined;
+  Event: undefined;
+  Feed: undefined;
+  Home: undefined;
+  Profile: undefined;
+  Search: undefined;
 };
 
 const screenOption: NativeStackNavigationOptions = {
@@ -57,7 +67,7 @@ const MainTab = createBottomTabNavigator<MainTabParams>();
 const TabScreen = () => (
   <MainTab.Navigator
     screenOptions={{
-      tabBarActiveTintColor: Color.Success[700],
+      tabBarActiveTintColor: Color.Pink[200],
       tabBarInactiveTintColor: Color.Dark[300],
       tabBarShowLabel: false,
       headerShown: false,
@@ -71,28 +81,48 @@ const TabScreen = () => (
       name="Home"
       component={HomeScreen}
       options={{
-        tabBarIcon: ({color}) => <HomeIcon stroke={color} />,
-      }}
-    />
-    <MainTab.Screen
-      name="Search"
-      component={SearchScreen}
-      options={{
-        tabBarIcon: ({color}) => <SearchIcon stroke={color} />,
+        tabBarIcon: ({color}) => (
+          <View style={styles.root}>
+            <HomeIcon stroke={color} />
+            <Text style={[styles.label, {color}]}>{'Home'}</Text>
+          </View>
+        ),
       }}
     />
     <MainTab.Screen
       name="Feed"
       component={FeedScreen}
       options={{
-        tabBarIcon: ({color}) => <FeedIcon stroke={color} />,
+        tabBarIcon: ({color}) => (
+          <View style={styles.root}>
+            <FeedIcon stroke={color} />
+            <Text style={[styles.label, {color}]}>{'Feed'}</Text>
+          </View>
+        ),
       }}
     />
     <MainTab.Screen
-      name="Collection"
-      component={CollectionScreen}
+      name="Event"
+      component={EventScreen}
       options={{
-        tabBarIcon: ({color}) => <CollectionIcon stroke={color} />,
+        tabBarIcon: ({color}) => (
+          <View style={styles.root}>
+            <CrownIcon stroke={color} />
+            <Text style={[styles.label, {color}]}>{'Event'}</Text>
+          </View>
+        ),
+      }}
+    />
+    <MainTab.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{
+        tabBarIcon: ({color}) => (
+          <View style={styles.root}>
+            <UserProfileIcon stroke={color} />
+            <Text style={[styles.label, {color}]}>{'Profile'}</Text>
+          </View>
+        ),
       }}
     />
   </MainTab.Navigator>
@@ -103,14 +133,16 @@ const RootStackScreen = () => (
   <RootStack.Navigator screenOptions={screenOption}>
     <RootStack.Group>
       <RootStack.Screen name="Boarding" component={OnboardScreen} />
+      <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
+      <RootStack.Screen name="ForgotPassword" component={ForgotPassword} />
       <RootStack.Screen name="Login" component={LoginScreen} />
-      <RootStack.Screen name="Signup" component={SignupScreen} />
-      <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
+      <RootStack.Screen name="Otp" component={Otp} />
       <RootStack.Screen name="Preference" component={PreferenceScreen} />
       <RootStack.Screen name="Referral" component={ReferralScreen} />
+      <RootStack.Screen name="Setting" component={SettingScreen} />
+      <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
+      <RootStack.Screen name="Signup" component={SignupScreen} />
       <RootStack.Screen name="MainTab" component={TabScreen} />
-      <RootStack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <RootStack.Screen name="Otp" component={Otp} />
     </RootStack.Group>
     <RootStack.Group
       screenOptions={({}) => ({
@@ -158,5 +190,17 @@ const App = () => {
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  label: {
+    fontFamily: Font.InterMedium,
+    fontSize: normalize(12),
+    marginTop: 2,
+  },
+});
 
 export default App;
