@@ -14,19 +14,10 @@ import SsuSheet from '../components/atom/SsuSheet';
 import {color, font} from '../theme';
 import {normalize} from '../utils';
 import {ms, mvs} from 'react-native-size-matters';
-import {
-  Avatar,
-  Button,
-  Dropdown,
-  Gap,
-  SsuDivider,
-  SsuInput,
-  TermAndConditions,
-} from '../components';
+import {Button, Dropdown, Gap, SsuDivider, SsuInput} from '../components';
 import {LockIcon, UserIcon} from '../assets/icon';
 import {countryData} from '../data/dropdown';
 import {AppleLogo, FacebookLogo, GoogleLogo, SSULogo} from '../assets/logo';
-import {heightPercentage} from '../utils/dimensionFormat';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -38,6 +29,7 @@ export const LoginScreen: React.FC = () => {
   const [pass, setPass] = useState('');
   const [error, setError] = useState(false);
   const [phoneNum, setPhoneNum] = useState('');
+  const [focusInput, setFocusInput] = useState<'email' | 'phone' | null>(null);
 
   const handleOnPressButton = () => {
     phoneNum !== ''
@@ -45,7 +37,11 @@ export const LoginScreen: React.FC = () => {
       : navigation.navigate('Preference');
   };
   const handleOnPressBack = () => {
-    navigation.goBack();
+    if (focusInput === null) {
+      navigation.goBack();
+    } else {
+      handleFocusInput(null);
+    }
   };
   const handleOnPressSignUp = () => {
     navigation.navigate('Signup');
@@ -55,13 +51,11 @@ export const LoginScreen: React.FC = () => {
   };
 
   const resultData = (dataResult: any) => {
-    console.log(dataResult, 'dataResult Select Country');
     setPhoneNum(dataResult);
   };
 
-  const [term, setTerm] = useState(false);
-  const handleOnPressTnc = () => {
-    setTerm(!term);
+  const handleFocusInput = (focus: 'email' | 'phone' | null) => {
+    setFocusInput(focus);
   };
 
   const children = () => {
@@ -69,33 +63,46 @@ export const LoginScreen: React.FC = () => {
       <>
         <Text style={styles.titleStyle}>Sign In</Text>
         <Gap height={20} />
-        <SsuInput.InputText
-          value={user}
-          onChangeText={(newText: any) => setUser(newText)}
-          placeholder={'Email or Username'}
-          leftIcon={
-            <UserIcon
-              stroke={color.Dark[50]}
-              style={{marginLeft: ms(-1), marginRight: ms(-5)}}
+        {(focusInput === 'email' || focusInput === null) && (
+          <View>
+            <SsuInput.InputText
+              value={user}
+              onChangeText={(newText: any) => setUser(newText)}
+              placeholder={'Email or Username'}
+              leftIcon={
+                <UserIcon
+                  stroke={color.Dark[50]}
+                  style={{marginLeft: ms(-1), marginRight: ms(-5)}}
+                />
+              }
+              onFocus={() => {
+                handleFocusInput('email');
+              }}
             />
-          }
-        />
-        <Gap height={8} />
-        <SsuInput.InputText
-          value={pass}
-          onChangeText={(newText: any) => setPass(newText)}
-          placeholder={'Password'}
-          isError={error}
-          errorMsg={'Your Account or Password is incorrect'}
-          leftIcon={<LockIcon stroke={color.Dark[50]} />}
-          password
-        />
-        <Gap height={12} />
-        <SsuDivider text={'Or'} />
-        <Gap height={8} />
-        <Dropdown.Country countryData={countryData} numberTyped={resultData} />
-        <Gap height={14} />
-        <TermAndConditions handleOnPress={handleOnPressTnc} active={term} />
+            <Gap height={8} />
+            <SsuInput.InputText
+              value={pass}
+              onChangeText={(newText: any) => setPass(newText)}
+              placeholder={'Password'}
+              isError={error}
+              errorMsg={'Your Account or Password is incorrect'}
+              leftIcon={<LockIcon stroke={color.Dark[50]} />}
+              password
+            />
+            <Gap height={12} />
+          </View>
+        )}
+        {focusInput === null && <SsuDivider text={'Or'} />}
+        {(focusInput === 'phone' || focusInput === null) && (
+          <View>
+            <Gap height={8} />
+            <Dropdown.Country
+              countryData={countryData}
+              numberTyped={resultData}
+              onFocus={() => handleFocusInput('phone')}
+            />
+          </View>
+        )}
         <Gap height={20} />
         <Button
           label="Submit"
