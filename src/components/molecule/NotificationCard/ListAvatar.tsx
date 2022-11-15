@@ -49,13 +49,14 @@ export const ListAvatar: React.FC<ListAvatarProps> = (
               );
             }
         })}
-        {data.length > 3 ? (
+        {/* {data.length > 3 ? (
           <Text style={styles.fullname}>
             and {moreThanThree} {desc}
           </Text>
         ) : (
           <Text style={styles.fullname}>{desc}</Text>
-        )}
+        )} */}
+        <Text style={styles.fullname}>{desc}</Text>
       </View>
     </>
   );
