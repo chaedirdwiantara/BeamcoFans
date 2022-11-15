@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
-
-import {MusicListCardExample} from '../components/example';
 import Color from '../theme/Color';
 import {dataSlider} from '../data/home';
-import {NotificationIcon} from '../assets/icon';
 import {heightPercentage, widthPercentage} from '../utils';
 import {
   TopNavigation,

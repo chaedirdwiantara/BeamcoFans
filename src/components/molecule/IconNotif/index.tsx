@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   notifContainer: {
     backgroundColor: color.Error[400],
     alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 50,
     width: ms(18),
     height: mvs(18),

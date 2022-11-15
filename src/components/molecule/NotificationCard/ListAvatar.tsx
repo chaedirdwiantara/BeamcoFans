@@ -39,7 +39,7 @@ export const ListAvatar: React.FC<ListAvatarProps> = (
       </View>
       <Gap height={8} />
       <View style={[styles.root, {flexWrap: 'wrap'}]}>
-        {data?.map((val, i) => {
+        {/* {data?.map((val, i) => {
           if (val.name)
             if (i < 3) {
               return (
@@ -48,7 +48,7 @@ export const ListAvatar: React.FC<ListAvatarProps> = (
                 </Text>
               );
             }
-        })}
+        })} */}
         {/* {data.length > 3 ? (
           <Text style={styles.fullname}>
             and {moreThanThree} {desc}

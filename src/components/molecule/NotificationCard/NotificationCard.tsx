@@ -1,13 +1,12 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
 import {ListAvatar} from './ListAvatar';
 import HeartIcon from '../../../assets/icon/Heart.icon';
 import {BellNotif} from '../../../assets/icon';
 import {heightPercentage, widthPercentage} from '../../../utils';
-import {Gap} from '../../atom';
-import {dataNotification, NotifDataType} from '../../../data/notification';
+import {NotifDataType} from '../../../data/notification';
 import {FlashList} from '@shopify/flash-list';
 
 interface NotificationCardProps {
