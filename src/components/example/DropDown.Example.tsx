@@ -69,6 +69,15 @@ const DropDownExample = () => {
     console.log(dataResult, 'dataTyped');
   };
 
+  // ? Dropdown Menu Example
+  const dataMore = [
+    {label: 'Edit Reply', value: '1'},
+    {label: 'Delete Reply', value: '2'},
+  ];
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
+  };
+
   return (
     <View style={{width: '100%', marginBottom: 16}}>
       <Text style={{color: 'green'}}>Type 1 Dropdown menu</Text>
@@ -86,6 +95,8 @@ const DropDownExample = () => {
       />
       <Text style={{color: 'green'}}>Type 3 Dropdown Select Country</Text>
       <Dropdown.Country countryData={countryData} numberTyped={resultData} />
+      <Text style={{color: 'green'}}>Type 4 Dropdown More</Text>
+      <Dropdown.More data={dataMore} selectedMenu={resultDataMore} />
     </View>
   );
 };

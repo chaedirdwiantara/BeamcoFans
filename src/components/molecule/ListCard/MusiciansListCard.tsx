@@ -8,9 +8,10 @@ import {
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {Avatar} from '../../atom';
-import {normalize} from '../../../utils';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 import {color, font} from '../../../theme';
 import {ThreeDotsIcon} from '../../../assets/icon';
+import {Dropdown} from '../DropDown';
 
 interface ListProps {
   musicNum: number;
@@ -30,6 +31,16 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     point,
     containerStyles,
   } = props;
+
+  // ? Dropdown Menu Example
+  const dataMore = [
+    {label: 'Follow', value: '1'},
+    {label: 'Send Donation', value: '2'},
+    {label: 'Go To Musician', value: '3'},
+  ];
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
+  };
   return (
     <View style={[styles.container, containerStyles]}>
       <Text style={styles.rankStyle}>
@@ -47,7 +58,16 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
         <TouchableOpacity
           onPress={onPressThreeDots}
           style={[styles.dotsButton]}>
-          <ThreeDotsIcon fill={color.Neutral[10]} />
+          {/* <ThreeDotsIcon fill={color.Neutral[10]} /> */}
+          <Dropdown.More
+            data={dataMore}
+            selectedMenu={resultDataMore}
+            containerStyle={{
+              width: widthPercentage(123),
+              marginLeft: widthPercentage(-113),
+              marginTop: heightPercentage(-8),
+            }}
+          />
         </TouchableOpacity>
       </View>
     </View>

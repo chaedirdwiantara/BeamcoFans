@@ -8,9 +8,10 @@ import {
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {SquareImage} from '../../atom';
-import {normalize} from '../../../utils';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 import {color, font} from '../../../theme';
 import {LoveIcon, ThreeDotsIcon} from '../../../assets/icon';
+import {Dropdown} from '../DropDown';
 
 interface ListProps {
   imgUri: string;
@@ -25,7 +26,7 @@ interface ListProps {
 
 const MusicListCard: React.FC<ListProps> = ({
   imgUri,
-  onPressLikeIcon,
+  // onPressLikeIcon,
   onPressThreeDots,
   musicNum,
   musicTitle,
@@ -33,6 +34,18 @@ const MusicListCard: React.FC<ListProps> = ({
   // likePressed,
   containerStyles,
 }) => {
+  // ? Dropdown Menu Example
+  const dataMore = [
+    {label: 'Add to Playlist', value: '1'},
+    {label: 'Send Donation', value: '2'},
+    {label: 'Add to Queue', value: '3'},
+    {label: 'Share Music', value: '4'},
+    {label: 'Show Credits', value: '25'},
+  ];
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
+  };
+
   return (
     <View style={[styles.container, containerStyles]}>
       <Text style={styles.rankStyle}>
@@ -53,7 +66,15 @@ const MusicListCard: React.FC<ListProps> = ({
         />
       </TouchableOpacity> */}
       <TouchableOpacity onPress={onPressThreeDots} style={[styles.dotsButton]}>
-        <ThreeDotsIcon fill={color.Neutral[20]} />
+        <Dropdown.More
+          data={dataMore}
+          selectedMenu={resultDataMore}
+          containerStyle={{
+            width: widthPercentage(120),
+            marginLeft: widthPercentage(-110),
+            marginTop: heightPercentage(-8),
+          }}
+        />
       </TouchableOpacity>
     </View>
   );
