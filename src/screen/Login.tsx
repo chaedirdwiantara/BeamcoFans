@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,10 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useForm, SubmitHandler, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import {useAuthHook} from '../hooks/use-auth.hook';
 import {RootStackParams} from '../App';
 import SsuSheet from '../components/atom/SsuSheet';
 import {color, font} from '../theme';
@@ -21,21 +25,56 @@ import {AppleLogo, FacebookLogo, GoogleLogo, SSULogo} from '../assets/logo';
 
 const {width, height} = Dimensions.get('screen');
 
+interface LoginInput {
+  user: string;
+  password: string;
+}
+
+const loginValidation = yup.object({
+  user: yup.string().required('This field is required'),
+  password: yup.string().required('This field is required'),
+});
+
 export const LoginScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const [user, setUser] = useState('');
-  const [pass, setPass] = useState('');
-  const [error, setError] = useState(false);
-  const [phoneNum, setPhoneNum] = useState('');
+  const {onLoginUser, isLoading, isError, loginResult, errorMsg} =
+    useAuthHook();
+
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+    setError,
+  } = useForm<LoginInput>({
+    resolver: yupResolver(loginValidation),
+    defaultValues: {
+      user: '',
+      password: '',
+    },
+  });
+
   const [focusInput, setFocusInput] = useState<'email' | 'phone' | null>(null);
 
-  const handleOnPressButton = () => {
-    phoneNum !== ''
-      ? navigation.navigate('Otp')
-      : navigation.navigate('Preference');
+  const handleOnLogin: SubmitHandler<LoginInput> = data => {
+    onLoginUser({
+      user: data.user,
+      password: data.password,
+    });
   };
+
+  useEffect(() => {
+    if (!isLoading && !isError && loginResult !== null) {
+      navigation.replace('Preference');
+    } else if (!isLoading && isError) {
+      setError('password', {
+        type: 'value',
+        message: errorMsg,
+      });
+    }
+  }, [isLoading, isError, loginResult]);
+
   const handleOnPressBack = () => {
     if (focusInput === null) {
       navigation.goBack();
@@ -43,15 +82,17 @@ export const LoginScreen: React.FC = () => {
       handleFocusInput(null);
     }
   };
+
   const handleOnPressSignUp = () => {
     navigation.navigate('Signup');
   };
+
   const handleOnPressForgotPass = () => {
     navigation.navigate('ForgotPassword');
   };
 
   const resultData = (dataResult: any) => {
-    setPhoneNum(dataResult);
+    // setPhoneNum(dataResult);
   };
 
   const handleFocusInput = (focus: 'email' | 'phone' | null) => {
@@ -65,29 +106,43 @@ export const LoginScreen: React.FC = () => {
         <Gap height={20} />
         {(focusInput === 'email' || focusInput === null) && (
           <View>
-            <SsuInput.InputText
-              value={user}
-              onChangeText={(newText: any) => setUser(newText)}
-              placeholder={'Email or Username'}
-              leftIcon={
-                <UserIcon
-                  stroke={color.Dark[50]}
-                  style={{marginLeft: ms(-1), marginRight: ms(-5)}}
+            <Controller
+              name="user"
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <SsuInput.InputText
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder={'Email or Username'}
+                  leftIcon={
+                    <UserIcon
+                      stroke={color.Dark[50]}
+                      style={{marginLeft: ms(-1), marginRight: ms(-5)}}
+                    />
+                  }
+                  onFocus={() => {
+                    handleFocusInput('email');
+                  }}
+                  isError={errors?.user ? true : false}
+                  errorMsg={errors?.user?.message}
                 />
-              }
-              onFocus={() => {
-                handleFocusInput('email');
-              }}
+              )}
             />
             <Gap height={8} />
-            <SsuInput.InputText
-              value={pass}
-              onChangeText={(newText: any) => setPass(newText)}
-              placeholder={'Password'}
-              isError={error}
-              errorMsg={'Your Account or Password is incorrect'}
-              leftIcon={<LockIcon stroke={color.Dark[50]} />}
-              password
+            <Controller
+              name="password"
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <SsuInput.InputText
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder={'Password'}
+                  leftIcon={<LockIcon stroke={color.Dark[50]} />}
+                  password
+                  isError={errors?.password ? true : false}
+                  errorMsg={errors?.password?.message}
+                />
+              )}
             />
             <Gap height={12} />
           </View>
@@ -108,7 +163,7 @@ export const LoginScreen: React.FC = () => {
           label="Submit"
           textStyles={{fontSize: normalize(14)}}
           containerStyles={{width: '100%'}}
-          onPress={handleOnPressButton}
+          onPress={handleSubmit(handleOnLogin)}
         />
         <Gap height={4} />
         <Button

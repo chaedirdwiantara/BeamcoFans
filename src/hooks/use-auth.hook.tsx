@@ -1,6 +1,8 @@
 import {useState} from 'react';
-import {registerUser} from '../api/auth.api';
+import {loginUser, registerUser} from '../api/auth.api';
 import {
+  LoginPropsType,
+  LoginResponseType,
   RegisterPropsType,
   RegisterResponseType,
 } from '../interface/auth.interface';
@@ -11,6 +13,9 @@ export const useAuthHook = () => {
   const [isError, setIsError] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [authResult, setAuthResult] = useState<RegisterResponseType | null>(
+    null,
+  );
+  const [loginResult, setLoginResult] = useState<LoginResponseType | null>(
     null,
   );
 
@@ -33,11 +38,32 @@ export const useAuthHook = () => {
     }
   };
 
+  const onLoginUser = async (props: LoginPropsType) => {
+    setIsLoading(true);
+    try {
+      const response = await loginUser(props);
+      setLoginResult(response);
+      // TODO: add token into localstorage
+      // TODO: add profile info to localstorage
+    } catch (error) {
+      setIsError(true);
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        setErrorMsg(error.response?.data?.data);
+      } else if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     isError,
     authResult,
+    loginResult,
     errorMsg,
     onRegisterUser,
+    onLoginUser,
   };
 };
