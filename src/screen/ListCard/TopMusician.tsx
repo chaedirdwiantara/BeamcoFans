@@ -24,7 +24,7 @@ const TopMusician = () => {
           containerStyles={{marginTop: mvs(20)}}
         />
       )}
-      estimatedItemSize={15}
+      estimatedItemSize={MusicianListData.length}
     />
   );
 };

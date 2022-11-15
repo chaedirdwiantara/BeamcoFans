@@ -150,7 +150,7 @@ const PostList = () => {
             commentCount={item.commentCount}
           />
         )}
-        estimatedItemSize={15}
+        estimatedItemSize={dataCategory.length}
       />
     </>
   );
