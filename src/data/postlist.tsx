@@ -21,7 +21,7 @@ export const PostlistData: PostListType[] = [
     musicianId: '@franky',
     imgUri:
       'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-    postDate: '14-07-2022',
+    postDate: '2022-11-15',
     post: {
       postTitle:
         'hey guys its me gokuN hey guys its me goku gokuN hey guys its me goku',
@@ -48,7 +48,7 @@ export const PostlistData: PostListType[] = [
     musicianId: '@theRocky',
     imgUri:
       'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-    postDate: '14-07-2022',
+    postDate: '2022-11-13',
     post: {
       postTitle: 'hey guys its me goku',
       postPicture: [
@@ -74,7 +74,7 @@ export const PostlistData: PostListType[] = [
     musicianId: '@phutinyKawaiii',
     imgUri:
       'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-    postDate: '14-07-2022',
+    postDate: '2022-10-29',
     post: {
       postTitle: 'hey guys its me goku',
       postPicture: [
@@ -110,7 +110,7 @@ export const PostlistData: PostListType[] = [
     musicianId: '@arassooo',
     imgUri:
       'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-    postDate: '14-07-2022',
+    postDate: '2022-07-14',
     post: {
       postTitle: 'hey guys its me goku',
       postPicture: [
@@ -136,7 +136,7 @@ export const PostlistData: PostListType[] = [
     musicianId: '@ereeee',
     imgUri:
       'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-    postDate: '14-07-2022',
+    postDate: '2022-07-14',
     post: {
       postTitle: 'ereeeeeeehhhh....',
       postPicture: [

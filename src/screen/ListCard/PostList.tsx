@@ -21,12 +21,15 @@ const PostList = () => {
   }, []);
 
   const [likePressed, setLikePressed] = useState(false);
-  const [dataFilter, setDataFilter] = useState('');
   const [dataCategory, setDataCategory] =
     useState<PostListType[]>(PostlistData);
 
   const resultDataFilter = (dataResultFilter: any) => {
-    setDataFilter(dataResultFilter);
+    const dates = new Date();
+    dates.setDate(dates.getDate() - Number(dataResultFilter.value));
+    let dataFilter = [...PostlistData];
+    dataFilter = dataFilter.filter(x => new Date(x.postDate) > dates);
+    setDataCategory(dataFilter);
   };
   const resultDataCategory = (dataResultCategory: any) => {
     let dataFilter = [...PostlistData];
@@ -35,7 +38,6 @@ const PostList = () => {
         ? dataFilter
         : dataFilter.filter(x => x.category == dataResultCategory.label);
     setDataCategory(dataFilter);
-    console.log(dataFilter);
   };
 
   // List Area

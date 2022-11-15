@@ -52,13 +52,13 @@ export const dropDownDataCategory: DataDropDownProps[] = [
   {label: 'Backstage', value: '7'},
 ];
 
-export interface DataDropDownProps {
+export interface DataDropDownDateProps {
   label: string;
   value: string;
 }
 
-export const dropDownDataFilter: DataDropDownProps[] = [
+export const dropDownDataFilter: DataDropDownDateProps[] = [
   {label: 'Today', value: '1'},
-  {label: 'Last Week', value: '2'},
-  {label: 'This Month', value: '3'},
+  {label: 'Last Week', value: '7'},
+  {label: 'This Month', value: '30'},
 ];
