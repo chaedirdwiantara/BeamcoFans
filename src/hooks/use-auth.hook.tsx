@@ -4,10 +4,12 @@ import {
   RegisterPropsType,
   RegisterResponseType,
 } from '../interface/auth.interface';
+import axios from 'axios';
 
 export const useAuthHook = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const [authResult, setAuthResult] = useState<RegisterResponseType | null>(
     null,
   );
@@ -19,9 +21,13 @@ export const useAuthHook = () => {
       setAuthResult(response);
       // TODO: add token into localstorage
       // TODO: add profile info to localstorage
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
       setIsError(true);
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        setErrorMsg(error.response?.data?.data);
+      } else if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -31,6 +37,7 @@ export const useAuthHook = () => {
     isLoading,
     isError,
     authResult,
+    errorMsg,
     onRegisterUser,
   };
 };
