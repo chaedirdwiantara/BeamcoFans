@@ -45,26 +45,8 @@ const PostListCardExample = () => {
         shareOnPress={shareOnPress}
         likePressed={likePressed}
         containerStyles={{marginTop: mvs(20)}}
-      />
-      <ListCard.PostList
-        musicianName={'Sikok Bagi Tigo'}
-        musicianId={'@frankocean'}
-        imgUri={
-          'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
-        }
-        postDate={'11 Sept 2022'}
-        children={
-          <SquareImage
-            imgUri="https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp"
-            size={100}
-          />
-        }
-        likeOnPress={likeOnPress}
-        commentOnPress={commentOnPress}
-        tokenOnPress={tokenOnPress}
-        shareOnPress={shareOnPress}
-        likePressed={likePressed}
-        containerStyles={{marginTop: mvs(20)}}
+        likeCount={120}
+        commentCount={67}
       />
     </View>
   );

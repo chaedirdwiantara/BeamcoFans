@@ -22,6 +22,7 @@ import {ReferralScreen} from './screen/Referral';
 import {SettingScreen} from './screen/Setting/SettingScreen';
 import {SignInGuestScreen} from './screen/SignInGuest';
 import {SignupScreen} from './screen/Signup';
+import {Notification} from './screen/Notification';
 
 // Modal
 import {ModalConfirm} from './components';
@@ -47,6 +48,7 @@ export type RootStackParams = {
   Setting: undefined;
   Signup: undefined;
   SignInGuest: undefined;
+  Notification: undefined;
 };
 
 export type MainTabParams = {
@@ -143,6 +145,7 @@ const RootStackScreen = () => (
       <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
       <RootStack.Screen name="Signup" component={SignupScreen} />
       <RootStack.Screen name="MainTab" component={TabScreen} />
+      <RootStack.Screen name="Notification" component={Notification} />
     </RootStack.Group>
     <RootStack.Group
       screenOptions={({}) => ({

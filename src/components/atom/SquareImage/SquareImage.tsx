@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View, ViewStyle} from 'react-native';
 import {width} from '../../../utils';
 import Color from '../../../theme/Color';
 import {AddIcon} from '../../../assets/icon';
@@ -8,10 +8,12 @@ interface SquareImageProps {
   imgUri?: string;
   size?: number;
   type?: string;
+  id?: number;
+  containerStyle?: ViewStyle;
 }
 
 const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
-  const {imgUri, size = width * 0.15, type} = props;
+  const {imgUri, size = width * 0.15, type, id, containerStyle} = props;
   if (type === 'add') {
     return (
       <View style={[styles.root2, {width: size}]}>
@@ -20,7 +22,13 @@ const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
     );
   } else {
     return (
-      <Image source={{uri: imgUri}} style={[styles.root, {width: size}]} />
+      <View style={containerStyle}>
+        <Image
+          source={{uri: imgUri}}
+          style={[styles.root, {width: size}]}
+          testID={`Image ${id}`}
+        />
+      </View>
     );
   }
 };
@@ -31,6 +39,7 @@ const styles = StyleSheet.create({
   root: {
     height: undefined,
     aspectRatio: 1 / 1,
+    borderRadius: 4,
   },
   root2: {
     height: undefined,

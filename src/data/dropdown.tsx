@@ -1,4 +1,3 @@
-import {ImageSourcePropType} from 'react-native';
 export interface DataCountryType {
   value: string;
   label: string;
@@ -36,4 +35,30 @@ export const countryData: DataCountryType[] = [
     image: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
     code: '+44',
   },
+];
+
+export interface DataDropDownProps {
+  label: string;
+  value: string;
+}
+
+export const dropDownDataCategory: DataDropDownProps[] = [
+  {label: 'All', value: '1'},
+  {label: 'Coming Up', value: '2'},
+  {label: 'Tour', value: '3'},
+  {label: 'Daily Life', value: '4'},
+  {label: 'Behind The Scene', value: '5'},
+  {label: 'Highlight Post', value: '6'},
+  {label: 'Backstage', value: '7'},
+];
+
+export interface DataDropDownDateProps {
+  label: string;
+  value: string;
+}
+
+export const dropDownDataFilter: DataDropDownDateProps[] = [
+  {label: 'Today', value: '1'},
+  {label: 'Last Week', value: '7'},
+  {label: 'This Month', value: '30'},
 ];

@@ -4,6 +4,7 @@ import {CreateNewCard} from './CreateNewCard/CreateNewCard';
 import {Dropdown} from './DropDown';
 import {EditProfile} from './ProfileContent/EditProfile';
 import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
+import IconNotif from './IconNotif';
 import {ImageSlider} from './ImageSlider/ImageSlider';
 import {ListCard} from './ListCard';
 import {LoginDescription} from './LoginDescription/LoginDescription';
@@ -29,6 +30,7 @@ export {
   Dropdown,
   EditProfile,
   FollowArtistCard,
+  IconNotif,
   ImageSlider,
   ListCard,
   LoginDescription,

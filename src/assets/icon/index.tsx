@@ -1,6 +1,7 @@
 import AddIcon from './Add.icon';
 import ArrowLeftIcon from './ArrowLeft.icon';
 import ArrowRightIcon from './ArrowRight.icon';
+import BellNotif from './BellNotif.icon';
 import CameraIcon from './Camera';
 import CheckBoxIcon from './CheckBox.icon';
 import CheckCircleIcon from './CheckCircle.icon';
@@ -45,6 +46,7 @@ export {
   AddIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
+  BellNotif,
   CameraIcon,
   CheckBoxIcon,
   CheckCircleIcon,

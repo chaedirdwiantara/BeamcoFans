@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {ms, mvs} from 'react-native-size-matters';
+import {HomeIcon, ThreeDotsIcon} from '../../../assets/icon';
 import {color, font} from '../../../theme';
 import {normalize, widthPercentage} from '../../../utils';
 
@@ -10,19 +11,18 @@ interface dataProps {
   value?: string;
 }
 
-interface DropdownMenuProps {
+interface DropdownMoreProps {
   data: dataProps[];
-  placeHolder: string;
   selectedMenu: (data: any) => void;
   containerStyle?: ViewStyle;
 }
 
 const itemBg = color.Dark[900];
 
-const DropdownMenu: React.FC<DropdownMenuProps> = (
-  props: DropdownMenuProps,
+const DropdownMore: React.FC<DropdownMoreProps> = (
+  props: DropdownMoreProps,
 ) => {
-  const {data, placeHolder, selectedMenu, containerStyle} = props;
+  const {data, selectedMenu, containerStyle} = props;
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -31,17 +31,17 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
       <Dropdown
         style={[styles.dropdown, isFocus && {borderColor: color.Success[500]}]}
         containerStyle={[styles.containerStyle, containerStyle]}
-        placeholderStyle={styles.placeholderStyle}
+        // placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.fontAll}
         itemTextStyle={styles.fontAll}
         itemContainerStyle={[styles.itemContainer]}
-        iconStyle={styles.iconStyle}
+        // iconStyle={styles.iconStyle}
         data={data}
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? placeHolder : '  ...'}
-        value={value}
+        // placeholder={!isFocus ? placeHolder : '  ...'}
+        // value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={item => {
@@ -53,16 +53,19 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
         showsVerticalScrollIndicator={false}
         autoScroll={false}
         activeColor={color.Dark[500]}
+        renderLeftIcon={() => (
+          <ThreeDotsIcon fill={color.Neutral[10]} style={{marginLeft: -5}} />
+        )}
       />
     </View>
   );
 };
 
-export default DropdownMenu;
+export default DropdownMore;
 
 const styles = StyleSheet.create({
   container: {
-    // width: ms(100),
+    width: widthPercentage(15),
   },
   // Dropdown first view
   dropdown: {
@@ -72,7 +75,6 @@ const styles = StyleSheet.create({
   containerStyle: {
     borderWidth: 0,
     backgroundColor: itemBg,
-    // width: widthPercentage(138),
     // marginLeft: widthPercentage(-57),
   },
   // Item container in modal container
