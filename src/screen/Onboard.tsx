@@ -13,7 +13,7 @@ export const OnboardScreen: React.FC = () => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const goToScreenGuest = () => {
-    navigation.navigate('SignInGuest');
+    navigation.replace('SignInGuest');
   };
 
   return (
