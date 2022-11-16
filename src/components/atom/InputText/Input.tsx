@@ -57,7 +57,7 @@ const FontColor = color.Dark[300];
 
 const InputText: React.FC<InputProps> = props => {
   const {
-    fontSize,
+    fontSize = normalize(12),
     value,
     keyboardType,
     onChangeText,
