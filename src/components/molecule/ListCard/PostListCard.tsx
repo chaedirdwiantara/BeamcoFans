@@ -8,7 +8,12 @@ import {
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {Avatar, Gap} from '../../atom';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {
+  heightPercentage,
+  normalize,
+  widthPercentage,
+  widthResponsive,
+} from '../../../utils';
 import {color, font} from '../../../theme';
 import {CommentIcon, LoveIcon, ShareIcon} from '../../../assets/icon';
 import CoinB from '../../../assets/icon/CoinB.icon';
@@ -51,21 +56,22 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
     <>
       <View style={[styles.topContainer, containerStyles]}>
         <View>
-          <Avatar imgUri={imgUri} size={44} />
+          <Avatar imgUri={imgUri} size={widthResponsive(32)} />
         </View>
         <View
           style={{
             flex: 1,
-            marginLeft: widthPercentage(12),
+            marginLeft: widthResponsive(6),
             paddingBottom: heightPercentage(2),
           }}>
-          <View style={styles.textContainer}>
+          <View style={styles.topSection}>
             <Text style={styles.songTitle}>{musicianName}</Text>
             <View style={[styles.category]}>
               <Text style={styles.categoryText}>{category}</Text>
             </View>
           </View>
-          <View style={styles.rightComponent}>
+          <Gap height={4} />
+          <View style={styles.bottomSection}>
             <Text style={styles.songDesc}>{musicianId}</Text>
             <Text style={styles.regularText}>{postDate}</Text>
           </View>
@@ -73,12 +79,12 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
       </View>
       {/* BODY SECTION */}
       <View style={styles.bodyContainer}>
-        <Gap width={57} />
+        <Gap width={38} />
         {children}
       </View>
       {/* BOTTOM SECTION */}
       <View style={styles.bottomContainer}>
-        <Gap width={55} />
+        <Gap width={38} />
         <View style={styles.socialContainer}>
           {/* like section */}
           <View>
@@ -142,31 +148,31 @@ const styles = StyleSheet.create({
     marginRight: ms(10),
     color: color.Neutral[10],
   },
-  textContainer: {
+  topSection: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  bottomSection: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+  },
   songTitle: {
     fontFamily: font.InterMedium,
     fontWeight: '500',
     fontSize: normalize(13),
-    lineHeight: mvs(15),
+    lineHeight: mvs(15.73),
     color: color.Neutral[10],
   },
   songDesc: {
     fontFamily: font.InterMedium,
     fontWeight: '500',
     fontSize: normalize(10),
-    lineHeight: mvs(12),
+    lineHeight: mvs(12.1),
     color: color.Dark[50],
-  },
-  rightComponent: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
   },
   bodyContainer: {
     width: '100%',
@@ -176,7 +182,7 @@ const styles = StyleSheet.create({
   },
   category: {
     backgroundColor: color.Pink[100],
-    paddingHorizontal: ms(4),
+    paddingHorizontal: widthResponsive(4),
     paddingVertical: mvs(3),
     borderRadius: 2,
     alignItems: 'center',
@@ -192,7 +198,7 @@ const styles = StyleSheet.create({
     fontFamily: font.InterMedium,
     fontWeight: '500',
     fontSize: normalize(10),
-    lineHeight: mvs(12),
+    lineHeight: mvs(12.1),
     color: color.Dark[100],
   },
   bottomContainer: {

@@ -1,20 +1,64 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {DropDownExample} from '../components/example';
+import {widthPercentageToDP} from 'react-native-responsive-screen';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {TabFilter, TopNavigation} from '../components';
+import {dropDownDataCategory, dropDownDataSort} from '../data/dropdown';
+import {PostlistData} from '../data/postlist';
+import {color} from '../theme';
+import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
+import PostList from './ListCard/PostList';
+import TopSong from './ListCard/TopSong';
 
 export const FeedScreen: React.FC = () => {
+  const [selectedIndex, setSelectedIndex] = useState(-0);
+  const [filter] = useState([
+    {filterName: 'Public'},
+    {filterName: 'Exclusive'},
+  ]);
+  const filterData = (item: any, index: any) => {
+    setSelectedIndex(index);
+  };
   return (
-    <View style={styles.root}>
-      <DropDownExample />
-    </View>
+    <SafeAreaView style={styles.root}>
+      <TopNavigation.Type2
+        title="FEED"
+        maxLengthTitle={20}
+        itemStrokeColor={'white'}
+      />
+      <View
+        style={{
+          marginTop: heightPercentage(8),
+          paddingHorizontal: widthResponsive(24),
+          width: '100%',
+          height: '100%',
+        }}>
+        <TabFilter.Type1
+          filterData={filter}
+          onPress={filterData}
+          selectedIndex={selectedIndex}
+          flatlistContainerStyle={{
+            justifyContent: 'space-between',
+          }}
+          TouchableStyle={{width: widthPercentageToDP(45)}}
+        />
+        {filter[selectedIndex].filterName === 'Public' ? (
+          <PostList
+            dataRightDropdown={dropDownDataCategory}
+            dataLeftDropdown={dropDownDataSort}
+            data={PostlistData}
+          />
+        ) : (
+          <TopSong />
+        )}
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'grey',
+    backgroundColor: color.Dark[800],
   },
 });

@@ -1,38 +1,48 @@
 import {FlashList} from '@shopify/flash-list';
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {Dropdown, Gap, ListCard, SquareImage} from '../../components';
-import {dropDownDataCategory, dropDownDataFilter} from '../../data/dropdown';
+import {
+  DataDropDownType,
+  DropDownFilterType,
+  DropDownSortType,
+} from '../../data/dropdown';
 import {PostlistData, PostListType} from '../../data/postlist';
 import {color, font} from '../../theme';
 import {
   heightPercentage,
   normalize,
-  widthLeft,
   widthPercentage,
+  widthResponsive,
 } from '../../utils';
 import {LogBox} from 'react-native';
 
-const PostList = () => {
+interface PostListProps {
+  dataRightDropdown: DataDropDownType[];
+  dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
+  data: PostListType[];
+}
+
+const PostList: FC<PostListProps> = (props: PostListProps) => {
+  const {dataRightDropdown, dataLeftDropdown, data} = props;
   // ignore warning
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
   const [likePressed, setLikePressed] = useState(false);
-  const [dataCategory, setDataCategory] =
-    useState<PostListType[]>(PostlistData);
+  const [dataCategory, setDataCategory] = useState<PostListType[]>(data);
 
   const resultDataFilter = (dataResultFilter: any) => {
     const dates = new Date();
     dates.setDate(dates.getDate() - Number(dataResultFilter.value));
-    let dataFilter = [...PostlistData];
+    let dataFilter = [...data];
     dataFilter = dataFilter.filter(x => new Date(x.postDate) > dates);
     setDataCategory(dataFilter);
   };
   const resultDataCategory = (dataResultCategory: any) => {
-    let dataFilter = [...PostlistData];
+    let dataFilter = [...data];
     dataFilter =
       dataResultCategory.label == 'All'
         ? dataFilter
@@ -72,7 +82,7 @@ const PostList = () => {
             width: widthPercentage(70),
           }}>
           <Dropdown.Menu
-            data={dropDownDataFilter}
+            data={dataLeftDropdown}
             placeHolder={'Filter by'}
             selectedMenu={resultDataFilter}
             containerStyle={{
@@ -85,7 +95,7 @@ const PostList = () => {
             width: widthPercentage(80),
           }}>
           <Dropdown.Menu
-            data={dropDownDataCategory}
+            data={dataRightDropdown}
             placeHolder={'Category'}
             selectedMenu={resultDataCategory}
             containerStyle={{
@@ -119,9 +129,6 @@ const PostList = () => {
                   <SafeAreaView style={{flex: 1}}>
                     <FlatList
                       scrollEnabled={false}
-                      style={{
-                        width: widthLeft(55),
-                      }}
                       columnWrapperStyle={{justifyContent: 'flex-start'}}
                       keyExtractor={(_, index) => index.toString()}
                       numColumns={2}
@@ -129,10 +136,10 @@ const PostList = () => {
                       renderItem={({item}: any) => (
                         <SquareImage
                           imgUri={item.postUri}
-                          size={143}
+                          size={widthResponsive(143, 375)}
                           id={item.id}
                           containerStyle={{
-                            marginRight: widthPercentage(3),
+                            marginRight: widthResponsive(3),
                             marginBottom: heightPercentage(4),
                           }}
                         />
@@ -163,6 +170,7 @@ export default PostList;
 const styles = StyleSheet.create({
   childrenPostTitle: {
     flexShrink: 1,
+    maxWidth: widthResponsive(288),
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: normalize(13),

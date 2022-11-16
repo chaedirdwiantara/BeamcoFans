@@ -1,5 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 import {color, font} from '../../../theme';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
@@ -11,6 +18,9 @@ interface TabFilterProps {
   filterData: Array<filterData>;
   onPress: (params: string, index: number) => void;
   selectedIndex: number;
+  containerStyle?: ViewStyle;
+  flatlistContainerStyle?: ViewStyle;
+  TouchableStyle?: ViewStyle;
 }
 
 const SelectedColor = color.Pink[100];
@@ -20,19 +30,26 @@ const Type1: React.FC<TabFilterProps> = ({
   filterData,
   onPress,
   selectedIndex,
+  containerStyle,
+  flatlistContainerStyle,
+  TouchableStyle,
 }) => {
   return (
-    <View style={styles.tab}>
+    <View style={[styles.tab, containerStyle]}>
       <FlatList
         horizontal
         data={filterData}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.containerFlatlist}
+        contentContainerStyle={[
+          styles.containerFlatlist,
+          flatlistContainerStyle,
+        ]}
         renderItem={({item, index}) => (
           <TouchableOpacity
             style={[
               styles.tabStyle,
               {borderBottomWidth: selectedIndex == index ? 2 : 0},
+              TouchableStyle,
             ]}
             onPress={() => onPress(item.filterName, index)}>
             <Text
@@ -63,11 +80,12 @@ export default Type1;
 
 const styles = StyleSheet.create({
   tab: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
   },
   containerFlatlist: {
-    flex: 1,
+    width: '100%',
     justifyContent: 'center',
   },
   tabStyle: {
