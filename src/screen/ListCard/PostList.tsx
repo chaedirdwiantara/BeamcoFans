@@ -24,6 +24,9 @@ import {
   widthResponsive,
 } from '../../utils';
 import {LogBox} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../../App';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -32,6 +35,8 @@ interface PostListProps {
 }
 
 const PostList: FC<PostListProps> = (props: PostListProps) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, data} = props;
   // ignore warning
   useEffect(() => {
@@ -58,6 +63,9 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
   };
 
   // List Area
+  const cardOnPress = (name: any) => {
+    navigation.navigate<any>('PostDetail', {name});
+  };
   const likeOnPress = () => {
     console.log('likey');
     setLikePressed(!likePressed);
@@ -127,6 +135,15 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
             imgUri={item.imgUri}
             postDate={item.postDate}
             category={item.category}
+            onPress={() => cardOnPress({name: item.musicianName})}
+            likeOnPress={likeOnPress}
+            commentOnPress={commentOnPress}
+            tokenOnPress={tokenOnPress}
+            shareOnPress={shareOnPress}
+            likePressed={likePressed}
+            containerStyles={{marginTop: mvs(16)}}
+            likeCount={item.likeCount}
+            commentCount={item.commentCount}
             children={
               <View style={{width: '100%'}}>
                 <Text style={styles.childrenPostTitle}>
@@ -175,14 +192,6 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
                 </View>
               </View>
             }
-            likeOnPress={likeOnPress}
-            commentOnPress={commentOnPress}
-            tokenOnPress={tokenOnPress}
-            shareOnPress={shareOnPress}
-            likePressed={likePressed}
-            containerStyles={{marginTop: mvs(16)}}
-            likeCount={item.likeCount}
-            commentCount={item.commentCount}
           />
         )}
         estimatedItemSize={dataCategory.length}

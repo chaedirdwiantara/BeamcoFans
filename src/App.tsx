@@ -20,6 +20,7 @@ import {ModalConfirm} from './components';
 import {ForgotPassword} from './screen/ForgotPassword';
 import {Otp} from './screen/Otp';
 import {Notification} from './screen/Notification';
+import {PostDetail} from './screen/Detail/PostDetail';
 
 import HomeIcon from './assets/icon/Home.icon';
 import SearchIcon from './assets/icon/Search.icon';
@@ -41,6 +42,7 @@ export type RootStackParams = {
   ForgotPassword: undefined;
   Otp: undefined;
   Notification: undefined;
+  PostDetail: undefined;
 };
 
 export type MainTabParams = {
@@ -114,6 +116,7 @@ const RootStackScreen = () => (
       <RootStack.Screen name="ForgotPassword" component={ForgotPassword} />
       <RootStack.Screen name="Otp" component={Otp} />
       <RootStack.Screen name="Notification" component={Notification} />
+      <RootStack.Screen name="PostDetail" component={PostDetail} />
     </RootStack.Group>
     <RootStack.Group
       screenOptions={({}) => ({

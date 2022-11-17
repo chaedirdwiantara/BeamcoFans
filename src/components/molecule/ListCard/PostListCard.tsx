@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableOpacityProps,
   View,
   ViewStyle,
 } from 'react-native';
@@ -18,7 +19,7 @@ import {color, font} from '../../../theme';
 import {CommentIcon, LoveIcon, ShareIcon} from '../../../assets/icon';
 import CoinB from '../../../assets/icon/CoinB.icon';
 
-interface ListProps {
+interface ListProps extends TouchableOpacityProps {
   imgUri: string;
   musicianName: string;
   musicianId: string;
@@ -54,34 +55,37 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
   } = props;
   return (
     <>
-      <View style={[styles.topContainer, containerStyles]}>
-        <View>
-          <Avatar imgUri={imgUri} size={widthResponsive(32)} />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            marginLeft: widthResponsive(6),
-            paddingBottom: heightPercentage(2),
-          }}>
-          <View style={styles.topSection}>
-            <Text style={styles.songTitle}>{musicianName}</Text>
-            <View style={[styles.category]}>
-              <Text style={styles.categoryText}>{category}</Text>
+      <TouchableOpacity {...props}>
+        <View style={[styles.topContainer, containerStyles]}>
+          <View>
+            <Avatar imgUri={imgUri} size={widthResponsive(32)} />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              marginLeft: widthResponsive(6),
+              paddingBottom: heightPercentage(2),
+            }}>
+            <View style={styles.topSection}>
+              <Text style={styles.songTitle}>{musicianName}</Text>
+              <View style={[styles.category]}>
+                <Text style={styles.categoryText}>{category}</Text>
+              </View>
+            </View>
+            <Gap height={4} />
+            <View style={styles.bottomSection}>
+              <Text style={styles.songDesc}>{musicianId}</Text>
+              <Text style={styles.regularText}>{postDate}</Text>
             </View>
           </View>
-          <Gap height={4} />
-          <View style={styles.bottomSection}>
-            <Text style={styles.songDesc}>{musicianId}</Text>
-            <Text style={styles.regularText}>{postDate}</Text>
-          </View>
         </View>
-      </View>
-      {/* BODY SECTION */}
-      <View style={styles.bodyContainer}>
-        <Gap width={38} />
-        {children}
-      </View>
+        {/* BODY SECTION */}
+        <View style={styles.bodyContainer}>
+          <Gap width={38} />
+          {children}
+        </View>
+      </TouchableOpacity>
+
       {/* BOTTOM SECTION */}
       <View style={styles.bottomContainer}>
         <Gap width={38} />
