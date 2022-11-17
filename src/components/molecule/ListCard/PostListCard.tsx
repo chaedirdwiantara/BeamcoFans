@@ -186,12 +186,12 @@ const styles = StyleSheet.create({
     paddingVertical: mvs(3),
     borderRadius: 2,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   categoryText: {
     fontFamily: font.InterMedium,
     fontWeight: '500',
     fontSize: normalize(8),
-    lineHeight: mvs(10),
     color: color.Neutral[10],
   },
   regularText: {

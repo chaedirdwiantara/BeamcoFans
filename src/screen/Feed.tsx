@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {TabFilter, TopNavigation} from '../components';
 import {dropDownDataCategory, dropDownDataSort} from '../data/dropdown';
-import {PostlistData} from '../data/postlist';
+import {PostlistData, PostlistDataExclusive} from '../data/postlist';
 import {color} from '../theme';
-import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
-import PostList from './ListCard/PostList';
-import TopSong from './ListCard/TopSong';
+import {heightPercentage, widthResponsive} from '../utils';
+import PostListExclusive from './ListCard/PostListExclusive';
+import PostListPublic from './ListCard/PostListPublic';
 
 export const FeedScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(-0);
@@ -43,13 +43,17 @@ export const FeedScreen: React.FC = () => {
           TouchableStyle={{width: widthPercentageToDP(45)}}
         />
         {filter[selectedIndex].filterName === 'Public' ? (
-          <PostList
+          <PostListPublic
             dataRightDropdown={dropDownDataCategory}
             dataLeftDropdown={dropDownDataSort}
             data={PostlistData}
           />
         ) : (
-          <TopSong />
+          <PostListExclusive
+            dataRightDropdown={dropDownDataCategory}
+            dataLeftDropdown={dropDownDataSort}
+            data={PostlistDataExclusive}
+          />
         )}
       </View>
     </SafeAreaView>
