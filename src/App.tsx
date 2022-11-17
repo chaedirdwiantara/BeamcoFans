@@ -116,6 +116,7 @@ const RootStackScreen = () => (
       <RootStack.Screen name="ForgotPassword" component={ForgotPassword} />
       <RootStack.Screen name="Otp" component={Otp} />
       <RootStack.Screen name="Notification" component={Notification} />
+      {/* @ts-ignore */}
       <RootStack.Screen name="PostDetail" component={PostDetail} />
     </RootStack.Group>
     <RootStack.Group
