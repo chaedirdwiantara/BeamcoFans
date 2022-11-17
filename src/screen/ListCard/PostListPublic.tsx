@@ -1,6 +1,13 @@
 import {FlashList} from '@shopify/flash-list';
 import React, {FC, useEffect, useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {Dropdown, Gap, ListCard, SquareImage} from '../../components';
 import {
@@ -105,6 +112,12 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
         data={dataDropdown}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item: PostListType) => item.id}
+        contentContainerStyle={{
+          paddingBottom:
+            Platform.OS === 'ios'
+              ? heightPercentage(130)
+              : heightPercentage(180),
+        }}
         renderItem={({item}: any) => (
           <ListCard.PostList
             musicianName={item.musicianName}
@@ -129,17 +142,32 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                       keyExtractor={(_, index) => index.toString()}
                       numColumns={2}
                       data={item.post.postPicture}
-                      renderItem={({item}: any) => (
-                        <SquareImage
-                          imgUri={item.postUri}
-                          size={widthResponsive(143, 375)}
-                          id={item.id}
-                          containerStyle={{
-                            marginRight: widthResponsive(3),
-                            marginBottom: heightPercentage(4),
-                          }}
-                        />
-                      )}
+                      renderItem={
+                        item.post.postPicture.length > 2
+                          ? ({item}: any) => (
+                              <SquareImage
+                                imgUri={item.postUri}
+                                size={widthResponsive(143, 375)}
+                                height={heightPercentage(71)}
+                                id={item.id}
+                                containerStyle={{
+                                  marginRight: widthResponsive(3),
+                                  marginBottom: heightPercentage(4),
+                                }}
+                              />
+                            )
+                          : ({item}: any) => (
+                              <SquareImage
+                                imgUri={item.postUri}
+                                size={widthResponsive(143, 375)}
+                                id={item.id}
+                                containerStyle={{
+                                  marginRight: widthResponsive(3),
+                                  marginBottom: heightPercentage(4),
+                                }}
+                              />
+                            )
+                      }
                     />
                   </SafeAreaView>
                 </View>

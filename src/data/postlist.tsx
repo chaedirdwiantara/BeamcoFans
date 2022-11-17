@@ -1,6 +1,11 @@
-interface PostProps {
+export interface PostPictureType {
+  id: number;
+  postUri: string;
+}
+
+export interface PostProps {
   postTitle?: string;
-  postPicture?: any;
+  postPicture: PostPictureType[];
 }
 
 export interface PostListType {
@@ -24,7 +29,7 @@ export const PostlistData: PostListType[] = [
     postDate: '2022-11-15',
     post: {
       postTitle:
-        'hey guys its me gokuN hey guys its me goku gokuN hey guys its me goku',
+        'hey guys its me goku hey guys its me goku goku hey guys its me goku',
       postPicture: [
         {
           id: 0,

@@ -62,7 +62,7 @@ export const FeedScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: color.Dark[800],
   },
 });
