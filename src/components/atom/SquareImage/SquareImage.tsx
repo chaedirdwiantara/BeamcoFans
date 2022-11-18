@@ -1,5 +1,6 @@
 import React from 'react';
-import {Image, StyleSheet, Dimensions, ViewStyle, View} from 'react-native';
+import {StyleSheet, Dimensions, ViewStyle, View} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 const {width} = Dimensions.get('screen');
 
@@ -21,7 +22,7 @@ const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
   } = props;
   return (
     <View style={containerStyle}>
-      <Image
+      <FastImage
         source={{uri: imgUri}}
         style={[
           styles.root,

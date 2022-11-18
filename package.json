@@ -20,6 +20,7 @@
     "react-hook-form": "^7.39.1",
     "react-native": "0.70.2",
     "react-native-element-dropdown": "^2.3.0",
+    "react-native-fast-image": "^8.6.3",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-modal": "^13.0.1",
     "react-native-responsive-screen": "^1.4.2",
