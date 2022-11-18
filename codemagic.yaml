@@ -1,6 +1,18 @@
 workflows:
   android:
-     name: Android workflow 
+     name: Android workflow
+     scripts:
+       - name: Build Android APK
+         working_directory: android
+         script: ./gradlew assembleRelease
+     artifacts:
+        - app/build/outputs/**/**/*.apk
+     publishing:
+      google_play:
+        credentials: $GCLOUD_KEY_FILE
+        track: alpha
+        in_app_update_priority: 0
+        changes_not_sent_for_review: false
   ios:
     name: iOS Workflow
     scripts:
@@ -40,4 +52,12 @@ workflows:
                     --scheme "${XCODE_SCHEME?}"
     artifacts:
       - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        beta_groups:
+          - Beta Testers
       
