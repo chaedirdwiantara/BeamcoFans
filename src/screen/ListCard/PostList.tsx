@@ -1,5 +1,4 @@
-import {FlashList} from '@shopify/flash-list';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -39,11 +38,11 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, data} = props;
   // ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
+  // useEffect(() => {
+  //   LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  // }, []);
 
-  const [likePressed, setLikePressed] = useState(false);
+  const [selectedId, setSelectedId] = useState<any>([]);
   const [dataCategory, setDataCategory] = useState<PostListType[]>(data);
 
   const resultDataFilter = (dataResultFilter: any) => {
@@ -66,9 +65,10 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
   const cardOnPress = (name: any) => {
     navigation.navigate<any>('PostDetail', {name});
   };
-  const likeOnPress = () => {
-    console.log('likey');
-    setLikePressed(!likePressed);
+  const likeOnPress = (id: string) => {
+    selectedId.includes(id)
+      ? setSelectedId(selectedId.filter((x: string) => x !== id))
+      : setSelectedId([...selectedId, id]);
   };
 
   const commentOnPress = () => {
@@ -120,7 +120,7 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      <FlashList
+      <FlatList
         data={dataCategory}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item: PostListType) => item.id}
@@ -128,7 +128,7 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
           paddingBottom:
             Platform.OS === 'ios' ? heightPercentage(25) : heightPercentage(40),
         }}
-        renderItem={({item}: any) => (
+        renderItem={({item, index}: any) => (
           <ListCard.PostList
             musicianName={item.musicianName}
             musicianId={item.musicianId}
@@ -136,11 +136,11 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
             postDate={item.postDate}
             category={item.category}
             onPress={() => cardOnPress({name: item.musicianName})}
-            likeOnPress={likeOnPress}
+            likeOnPress={() => likeOnPress(index)}
             commentOnPress={commentOnPress}
             tokenOnPress={tokenOnPress}
             shareOnPress={shareOnPress}
-            likePressed={likePressed}
+            likePressed={selectedId.includes(index) ? true : false}
             containerStyles={{marginTop: mvs(16)}}
             likeCount={item.likeCount}
             commentCount={item.commentCount}
@@ -194,7 +194,7 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
             }
           />
         )}
-        estimatedItemSize={dataCategory.length}
+        // estimatedItemSize={dataCategory.length}
       />
     </>
   );

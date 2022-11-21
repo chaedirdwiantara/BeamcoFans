@@ -1,5 +1,4 @@
-import {FlashList} from '@shopify/flash-list';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -63,9 +62,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const cardOnPress = (name: any) => {
     navigation.navigate<any>('PostDetail', {name});
   };
-  const likeOnPress = (id: any) => {
+  const likeOnPress = (id: string) => {
     selectedId.includes(id)
-      ? setSelectedId(selectedId.filter((x: []) => x !== id))
+      ? setSelectedId(selectedId.filter((x: string) => x !== id))
       : setSelectedId([...selectedId, id]);
   };
 
