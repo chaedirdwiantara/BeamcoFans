@@ -53,7 +53,7 @@ export const PostlistData: PostListType[] = [
     musicianId: '@theRocky',
     imgUri:
       'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-    postDate: '2022-11-13',
+    postDate: '2022-11-17',
     post: {
       postTitle: 'hey guys its me goku',
       postPicture: [
@@ -71,7 +71,7 @@ export const PostlistData: PostListType[] = [
     },
     category: 'Tour',
     likeCount: 120,
-    commentCount: 80,
+    commentCount: 180,
   },
   {
     id: '3',
@@ -133,7 +133,7 @@ export const PostlistData: PostListType[] = [
     },
     category: 'Backstage',
     likeCount: 120,
-    commentCount: 80,
+    commentCount: 90,
   },
   {
     id: '5',
@@ -159,7 +159,7 @@ export const PostlistData: PostListType[] = [
     },
     category: 'Coming Up',
     likeCount: 120,
-    commentCount: 80,
+    commentCount: 101,
   },
 ];
 
@@ -189,7 +189,7 @@ export const PostlistDataExclusive: PostListType[] = [
     },
     category: 'Coming Up',
     likeCount: 120,
-    commentCount: 80,
+    commentCount: 60,
   },
   {
     id: '2',
@@ -215,7 +215,7 @@ export const PostlistDataExclusive: PostListType[] = [
     },
     category: 'Tour',
     likeCount: 120,
-    commentCount: 80,
+    commentCount: 9,
   },
   {
     id: '3',
@@ -251,7 +251,7 @@ export const PostlistDataExclusive: PostListType[] = [
     },
     category: 'Daily Life',
     likeCount: 120,
-    commentCount: 80,
+    commentCount: 6,
   },
   {
     id: '4',
@@ -277,7 +277,7 @@ export const PostlistDataExclusive: PostListType[] = [
     },
     category: 'Backstage',
     likeCount: 120,
-    commentCount: 80,
+    commentCount: 31,
   },
   {
     id: '5',
@@ -302,6 +302,6 @@ export const PostlistDataExclusive: PostListType[] = [
     },
     category: 'Coming Up',
     likeCount: 120,
-    commentCount: 80,
+    commentCount: 1,
   },
 ];

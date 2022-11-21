@@ -26,6 +26,7 @@ import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
+import {string} from 'yup';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -46,7 +47,18 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
 
   const resultDataFilter = (dataResultFilter: any) => {
-    console.log('resultDataFilterPublic', dataResultFilter);
+    let dataFilter = [...data];
+    dataFilter =
+      dataResultFilter.label == 'Latest'
+        ? dataFilter
+            // @ts-ignore
+            .sort((a, b) => new Date(a.postDate) - new Date(b.postDate))
+            .reverse()
+        : dataFilter // @ts-ignore
+            .sort((a, b) => a.commentCount - b.commentCount)
+            .reverse();
+
+    setDataDropdown(dataFilter);
   };
   const resultDataCategory = (dataResultCategory: any) => {
     let dataFilter = [...data];
@@ -54,6 +66,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       dataResultCategory.label == 'All'
         ? dataFilter
         : dataFilter.filter(x => x.category == dataResultCategory.label);
+
     setDataDropdown(dataFilter);
   };
 

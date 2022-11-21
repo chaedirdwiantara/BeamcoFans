@@ -46,7 +46,18 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
 
   const resultDataFilter = (dataResultFilter: any) => {
-    console.log('resultDataFilterExclusive', dataResultFilter);
+    let dataFilter = [...data];
+    dataFilter =
+      dataResultFilter.label == 'Latest'
+        ? dataFilter
+            // @ts-ignore
+            .sort((a, b) => new Date(a.postDate) - new Date(b.postDate))
+            .reverse()
+        : dataFilter // @ts-ignore
+            .sort((a, b) => a.commentCount - b.commentCount)
+            .reverse();
+
+    setDataDropdown(dataFilter);
   };
   const resultDataCategory = (dataResultCategory: any) => {
     let dataFilter = [...data];
