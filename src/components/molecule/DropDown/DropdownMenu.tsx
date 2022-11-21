@@ -61,19 +61,15 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
 export default DropdownMenu;
 
 const styles = StyleSheet.create({
-  container: {
-    // width: ms(100),
-  },
+  container: {},
   // Dropdown first view
   dropdown: {
-    // paddingHorizontal: 8,
+    marginRight: ms(-5),
   },
   // Dropdown modal container
   containerStyle: {
     borderWidth: 0,
     backgroundColor: itemBg,
-    // width: widthPercentage(138),
-    // marginLeft: widthPercentage(-57),
   },
   // Item container in modal container
   itemContainer: {
