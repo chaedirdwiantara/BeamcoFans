@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -38,9 +38,9 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, data} = props;
   // ignore warning
-  // useEffect(() => {
-  //   LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  // }, []);
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
 
   const [selectedId, setSelectedId] = useState<any>([]);
   const [dataCategory, setDataCategory] = useState<PostListType[]>(data);
@@ -62,8 +62,8 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
   };
 
   // List Area
-  const cardOnPress = (name: any) => {
-    navigation.navigate<any>('PostDetail', {name});
+  const cardOnPress = (data: any) => {
+    navigation.navigate<any>('PostDetail', {data});
   };
   const likeOnPress = (id: string) => {
     selectedId.includes(id)
@@ -71,8 +71,8 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
       : setSelectedId([...selectedId, id]);
   };
 
-  const commentOnPress = () => {
-    console.log('comment');
+  const commentOnPress = (data: any) => {
+    navigation.navigate<any>('PostDetail', {data});
   };
 
   const tokenOnPress = () => {
@@ -135,9 +135,9 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
             imgUri={item.imgUri}
             postDate={item.postDate}
             category={item.category}
-            onPress={() => cardOnPress({name: item.musicianName})}
+            onPress={() => cardOnPress({item})}
             likeOnPress={() => likeOnPress(index)}
-            commentOnPress={commentOnPress}
+            commentOnPress={() => commentOnPress({item})}
             tokenOnPress={tokenOnPress}
             shareOnPress={shareOnPress}
             likePressed={selectedId.includes(index) ? true : false}

@@ -13,7 +13,9 @@ interface PostDetail {
 }
 
 export const PostDetail: FC<PostDetail> = props => {
-  const musicianName = props.route.params.name.name;
+  // const musicianName = props.route.params.name.name;
+  const data = props.route.params.data.item;
+  const musicianName = data.musicianName;
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
