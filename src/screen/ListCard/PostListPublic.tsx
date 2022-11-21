@@ -17,6 +17,7 @@ import {
 import {PostListType} from '../../data/postlist';
 import {color, font} from '../../theme';
 import {
+  elipsisText,
   heightPercentage,
   normalize,
   widthPercentage,
@@ -159,7 +160,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             children={
               <View style={{width: '100%'}}>
                 <Text style={styles.childrenPostTitle}>
-                  {item?.post.postTitle}
+                  {elipsisText(item?.post.postTitle, 600)}
                 </Text>
                 <Gap height={4} />
                 <View
