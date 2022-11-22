@@ -7,6 +7,7 @@ import Color from '../theme/Color';
 import {RootStackParams} from '../App';
 import {ImageSlider} from '../components';
 import {dataOnboard} from '../data/onboard';
+import {storage} from '../hooks/use-storage.hook';
 
 export const OnboardScreen: React.FC = () => {
   const navigation =
@@ -14,6 +15,7 @@ export const OnboardScreen: React.FC = () => {
 
   const goToScreenGuest = () => {
     navigation.replace('SignInGuest');
+    storage.set('isOnboard', true);
   };
 
   return (

@@ -26,6 +26,7 @@ import SearchIcon from './assets/icon/Search.icon';
 import FeedIcon from './assets/icon/Feed.icon';
 import CollectionIcon from './assets/icon/Collection.icon';
 import Color from './theme/Color';
+import {storage} from './hooks/use-storage.hook';
 
 import {AppProvider} from './context/app.context';
 
@@ -102,7 +103,11 @@ const TabScreen = () => (
 
 const RootStack = createNativeStackNavigator<RootStackParams>();
 const RootStackScreen = () => (
-  <RootStack.Navigator screenOptions={screenOption}>
+  <RootStack.Navigator
+    screenOptions={screenOption}
+    initialRouteName={
+      storage.getBoolean('isOnboard') ? 'SignInGuest' : 'Boarding'
+    }>
     <RootStack.Group>
       <RootStack.Screen name="Boarding" component={OnboardScreen} />
       <RootStack.Screen name="Login" component={LoginScreen} />
