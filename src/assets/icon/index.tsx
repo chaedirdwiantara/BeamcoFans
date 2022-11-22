@@ -10,6 +10,7 @@ import CloseIcon from './Close.icon';
 import CoinIcon from './Coin.icon';
 import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
+import CrackEggIcon from './CrackEgg.icon';
 import CrownIcon from './Crown.icon';
 import EditIcon from './Edit.icon';
 import EmailIcon from './Email.icon';
@@ -19,6 +20,7 @@ import EyeCloseIcon from './EyeClose.icon';
 import EyeOpenIcon from './EyeOpen.icon';
 import FeedIcon from './Feed.icon';
 import FullNameIcon from './FullName.icon';
+import GalleryAddIcon from './GalleryAdd.icon';
 import GalleryEditIcon from './GalleryEdit.icon';
 import GiftIcon from './Gift.icon';
 import HeartIcon from './Heart.icon';
@@ -55,6 +57,7 @@ export {
   CoinIcon,
   CollectionIcon,
   CommentIcon,
+  CrackEggIcon,
   CrownIcon,
   EditIcon,
   EmailIcon,
@@ -64,6 +67,7 @@ export {
   EyeOpenIcon,
   FeedIcon,
   FullNameIcon,
+  GalleryAddIcon,
   GalleryEditIcon,
   GiftIcon,
   HeartIcon,
