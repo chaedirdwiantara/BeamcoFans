@@ -4,23 +4,26 @@ import Svg, {Path} from 'react-native-svg';
 import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
-function ArrowLeftIcon({
+function CrownIcon({
   width = ms(24),
   height = mvs(24),
   fill = 'none',
-  stroke = '#fff',
+  stroke = '#48546A',
   style,
 }: SvgProps) {
   return (
     <View style={[{width, height}, style]}>
       <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
         <Path
-          d="M15.001 20.67c-.19 0-.38-.07-.53-.22l-6.52-6.52a2.74 2.74 0 010-3.86l6.52-6.52c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06l-6.52 6.52c-.48.48-.48 1.26 0 1.74l6.52 6.52c.29.29.29.77 0 1.06-.15.14-.34.22-.53.22z"
-          fill={stroke}
+          d="M16.7 18.98H7.3c-.42 0-.89-.33-1.03-.73L2.13 6.67c-.59-1.66.1-2.17 1.52-1.15l3.9 2.79c.65.45 1.39.22 1.67-.51l1.76-4.69c.56-1.5 1.49-1.5 2.05 0l1.76 4.69c.28.73 1.02.96 1.66.51l3.66-2.61c1.56-1.12 2.31-.55 1.67 1.26l-4.04 11.31c-.15.38-.62.71-1.04.71zM6.5 22h11M9.5 14h5"
+          stroke={stroke}
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </Svg>
     </View>
   );
 }
 
-export default ArrowLeftIcon;
+export default CrownIcon;

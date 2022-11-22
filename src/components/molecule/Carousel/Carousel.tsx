@@ -68,7 +68,11 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
           });
 
           return (
-            <View style={{width: ITEM_LENGTH}}>
+            <View
+              style={{
+                width: ITEM_LENGTH,
+                marginVertical: heightPercentage(15),
+              }}>
               <Animated.View
                 style={[
                   {

@@ -1,7 +1,14 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, ViewStyle} from 'react-native';
+import {mvs} from 'react-native-size-matters';
+import {
+  infoProfileArtist,
+  InfoProfileType,
+  infoProfileUser,
+} from '../../../data/profile';
 import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -15,6 +22,7 @@ interface UserInfoCardProps {
   release?: number;
   playlist?: number;
   rank?: number;
+  containerStyles?: ViewStyle;
 }
 
 type Props = {
@@ -32,53 +40,17 @@ const Item: FC<Props> = ({point, title}) => {
 };
 
 const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
-  const {type = ''} = props;
-  const listItem =
-    type === 'self'
-      ? [
-          {
-            point: 4100,
-            title: 'FOLLOWING',
-          },
-          {
-            point: 1600,
-            title: 'FAV SONGS',
-          },
-          {
-            point: 2100,
-            title: 'POINTS',
-          },
-        ]
-      : [
-          {
-            point: 4100,
-            title: 'FANS',
-          },
-          {
-            point: 18300,
-            title: 'FOLLOWERS',
-          },
-          {
-            point: 44,
-            title: 'RELEASE',
-          },
-          {
-            point: 4,
-            title: 'PLAYLIST',
-          },
-          {
-            point: 11,
-            title: 'RANK',
-          },
-        ];
+  const {type = '', containerStyles} = props;
+  const listItem: InfoProfileType[] =
+    type === 'self' ? infoProfileUser : infoProfileArtist;
 
   const newStyles = type !== 'self' && {
     backgroundColor: 'transparent',
-    marginHorizontal: 5,
+    marginHorizontal: widthPercentage(5),
   };
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, containerStyles]}>
       {listItem.map((val, i) => (
         <View key={i} style={styles.containerItem}>
           <Item point={val.point} title={val.title} />
@@ -92,28 +64,29 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
   );
 };
 
-export default UserInfoCard;
+export {UserInfoCard};
 
 const styles = StyleSheet.create({
   root: {
     width: width * 0.9,
     height: height * 0.1,
-    padding: 12,
-    borderRadius: 12,
     backgroundColor: Color.Dark[600],
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    borderRadius: 12,
+    // justifyContent: 'space-around',
   },
   containerItem: {
     alignItems: 'center',
+    justifyContent: 'space-between',
     flexDirection: 'row',
   },
   separator: {
-    width: 1.5,
-    height: 18,
+    width: mvs(1),
+    height: heightPercentage(18),
     backgroundColor: '#D1D1D1',
-    marginHorizontal: 12,
+    marginHorizontal: widthPercentage(15),
   },
   itemStyle: {
     alignItems: 'center',
@@ -121,12 +94,12 @@ const styles = StyleSheet.create({
   },
   pointStyle: {
     fontFamily: Font.InterSemiBold,
-    fontSize: 17,
-    color: '#FFF',
+    fontSize: normalize(16),
+    color: Color.Neutral[10],
   },
   titleStyle: {
     fontFamily: Font.InterMedium,
-    fontSize: 11,
+    fontSize: normalize(11),
     color: Color.Dark[50],
   },
 });

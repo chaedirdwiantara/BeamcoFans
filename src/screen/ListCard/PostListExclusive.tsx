@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -34,24 +34,31 @@ interface PostListProps {
   data: PostListType[];
 }
 
-const PostList: FC<PostListProps> = (props: PostListProps) => {
+const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, data} = props;
   // ignore warning
-  useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
+  // useEffect(() => {
+  //   LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  // }, []);
 
   const [selectedId, setSelectedId] = useState<any>([]);
-  const [dataCategory, setDataCategory] = useState<PostListType[]>(data);
+  const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
 
   const resultDataFilter = (dataResultFilter: any) => {
-    const dates = new Date();
-    dates.setDate(dates.getDate() - Number(dataResultFilter.value));
     let dataFilter = [...data];
-    dataFilter = dataFilter.filter(x => new Date(x.postDate) > dates);
-    setDataCategory(dataFilter);
+    dataFilter =
+      dataResultFilter.label == 'Latest'
+        ? dataFilter
+            // @ts-ignore
+            .sort((a, b) => new Date(a.postDate) - new Date(b.postDate))
+            .reverse()
+        : dataFilter // @ts-ignore
+            .sort((a, b) => a.commentCount - b.commentCount)
+            .reverse();
+
+    setDataDropdown(dataFilter);
   };
   const resultDataCategory = (dataResultCategory: any) => {
     let dataFilter = [...data];
@@ -59,7 +66,7 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
       dataResultCategory.label == 'All'
         ? dataFilter
         : dataFilter.filter(x => x.category == dataResultCategory.label);
-    setDataCategory(dataFilter);
+    setDataDropdown(dataFilter);
   };
 
   // List Area
@@ -122,12 +129,14 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
         </View>
       </View>
       <FlatList
-        data={dataCategory}
+        data={dataDropdown}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item: PostListType) => item.id}
         contentContainerStyle={{
           paddingBottom:
-            Platform.OS === 'ios' ? heightPercentage(25) : heightPercentage(40),
+            Platform.OS === 'ios'
+              ? heightPercentage(130)
+              : heightPercentage(180),
         }}
         renderItem={({item, index}: any) => (
           <ListCard.PostList
@@ -195,13 +204,13 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
             }
           />
         )}
-        // estimatedItemSize={dataCategory.length}
+        // estimatedItemSize={dataDropdown.length}
       />
     </>
   );
 };
 
-export default PostList;
+export default PostListExclusive;
 
 const styles = StyleSheet.create({
   childrenPostTitle: {

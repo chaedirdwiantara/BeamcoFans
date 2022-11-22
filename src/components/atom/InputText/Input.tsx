@@ -43,6 +43,7 @@ interface InputProps extends TextInputProps {
 interface TextAreaProps extends TextInputProps {
   fontSize?: number;
   backgroundColor?: string;
+  containerStyles?: ViewStyle;
 }
 
 type TypeStyle = {
@@ -170,6 +171,8 @@ const TextArea: React.FC<TextAreaProps> = ({
   editable,
   placeholder,
   backgroundColor,
+  containerStyles,
+  maxLength,
 }) => {
   const [state, setState] = useState<boolean>(false);
   return (
@@ -177,10 +180,11 @@ const TextArea: React.FC<TextAreaProps> = ({
       style={[
         styles.container,
         {
-          borderWidth: state === true ? 1 : 0,
-          borderColor: color.Success[500],
+          borderBottomWidth: state === true ? 1 : 0,
+          borderBottomColor: color.Pink[200],
           backgroundColor: backgroundColor ? backgroundColor : color.Dark[900],
         },
+        containerStyles,
       ]}>
       <TextInput
         style={styles.inputTextArea(fontSize)}
@@ -192,6 +196,7 @@ const TextArea: React.FC<TextAreaProps> = ({
         placeholder={placeholder}
         placeholderTextColor={FontColor}
         onFocus={() => setState(true)}
+        maxLength={maxLength}
       />
     </View>
   );
@@ -233,6 +238,6 @@ const styles = StyleSheet.create<TypeStyle>({
     paddingVertical: mvs(5),
     paddingHorizontal: ms(5),
     textAlignVertical: 'top',
-    color: FontColor,
+    color: color.Neutral[10],
   }),
 });
