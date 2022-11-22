@@ -40,6 +40,8 @@ export const useAuthHook = () => {
 
   const onLoginUser = async (props: LoginPropsType) => {
     setIsLoading(true);
+    setIsError(false);
+    setErrorMsg('');
     try {
       const response = await loginUser(props);
       setLoginResult(response);
