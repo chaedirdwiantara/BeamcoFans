@@ -9,12 +9,7 @@ import {
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {Avatar, Gap} from '../../atom';
-import {
-  heightPercentage,
-  normalize,
-  widthPercentage,
-  widthResponsive,
-} from '../../../utils';
+import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
 import {CommentIcon, LoveIcon, ShareIcon} from '../../../assets/icon';
 import CoinB from '../../../assets/icon/CoinB.icon';
@@ -187,7 +182,7 @@ const styles = StyleSheet.create({
   category: {
     backgroundColor: color.Pink[100],
     paddingHorizontal: widthResponsive(4),
-    paddingVertical: mvs(3),
+    height: heightPercentage(16),
     borderRadius: 2,
     alignItems: 'center',
     justifyContent: 'center',

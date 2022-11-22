@@ -23,11 +23,9 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../utils';
-import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
-import {string} from 'yup';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
