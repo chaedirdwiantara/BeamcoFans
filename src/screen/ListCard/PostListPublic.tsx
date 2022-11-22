@@ -72,7 +72,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   };
 
   // List Area
-
   const cardOnPress = (data: any) => {
     navigation.navigate<any>('PostDetail', {data});
   };
