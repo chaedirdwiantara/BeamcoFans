@@ -4,7 +4,7 @@ import Svg, {Path} from 'react-native-svg';
 import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
-function ArrowLeftIcon({
+function AddIcon({
   width = ms(24),
   height = mvs(24),
   fill = 'none',
@@ -15,7 +15,11 @@ function ArrowLeftIcon({
     <View style={[{width, height}, style]}>
       <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
         <Path
-          d="M15.001 20.67c-.19 0-.38-.07-.53-.22l-6.52-6.52a2.74 2.74 0 010-3.86l6.52-6.52c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06l-6.52 6.52c-.48.48-.48 1.26 0 1.74l6.52 6.52c.29.29.29.77 0 1.06-.15.14-.34.22-.53.22z"
+          d="M18 12.75H6c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h12c.41 0 .75.34.75.75s-.34.75-.75.75z"
+          fill={stroke}
+        />
+        <Path
+          d="M12 18.75c-.41 0-.75-.34-.75-.75V6c0-.41.34-.75.75-.75s.75.34.75.75v12c0 .41-.34.75-.75.75z"
           fill={stroke}
         />
       </Svg>
@@ -23,4 +27,4 @@ function ArrowLeftIcon({
   );
 }
 
-export default ArrowLeftIcon;
+export default AddIcon;

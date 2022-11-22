@@ -4,7 +4,7 @@ import Svg, {Path} from 'react-native-svg';
 import {ms, mvs} from 'react-native-size-matters';
 import {SvgProps} from '../../interface/svg.interface';
 
-function ArrowLeftIcon({
+function SaveIcon({
   width = ms(24),
   height = mvs(24),
   fill = 'none',
@@ -15,12 +15,18 @@ function ArrowLeftIcon({
     <View style={[{width, height}, style]}>
       <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
         <Path
-          d="M15.001 20.67c-.19 0-.38-.07-.53-.22l-6.52-6.52a2.74 2.74 0 010-3.86l6.52-6.52c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06l-6.52 6.52c-.48.48-.48 1.26 0 1.74l6.52 6.52c.29.29.29.77 0 1.06-.15.14-.34.22-.53.22z"
-          fill={stroke}
+          d="M3 19V5a2 2 0 012-2h11.172a2 2 0 011.414.586l2.828 2.828A2 2 0 0121 7.828V19a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+          stroke={stroke}
+          strokeWidth={1.5}
+        />
+        <Path
+          d="M8.6 9h6.8a.6.6 0 00.6-.6V3.6a.6.6 0 00-.6-.6H8.6a.6.6 0 00-.6.6v4.8a.6.6 0 00.6.6v0zM6 13.6V21h12v-7.4a.6.6 0 00-.6-.6H6.6a.6.6 0 00-.6.6v0z"
+          stroke={stroke}
+          strokeWidth={1.5}
         />
       </Svg>
     </View>
   );
 }
 
-export default ArrowLeftIcon;
+export default SaveIcon;

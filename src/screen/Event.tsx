@@ -1,24 +1,21 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-
 import Color from '../theme/Color';
 import {RootStackParams} from '../App';
-import {ImageSlider} from '../components';
-import {dataOnboard} from '../data/onboard';
 
-export const OnboardScreen: React.FC = () => {
+export const EventScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const goToScreenGuest = () => {
-    navigation.replace('SignInGuest');
+  const goToScreenReferral = () => {
+    navigation.navigate('Referral');
   };
 
   return (
     <View style={styles.root}>
-      <ImageSlider data={dataOnboard} onPress={goToScreenGuest} />
+      <Text>Event Screen</Text>
     </View>
   );
 };
@@ -26,8 +23,8 @@ export const OnboardScreen: React.FC = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: Color.Dark[800],
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Color.Dark[800],
   },
 });

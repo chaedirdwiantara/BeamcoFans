@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 const {width} = Dimensions.get('screen');
 
 interface SquareImageProps {
-  imgUri: string;
+  imgUri?: string;
   size?: number;
   height?: number;
   id?: number;
@@ -45,5 +45,12 @@ const styles = StyleSheet.create({
     height: undefined,
     aspectRatio: 1 / 1,
     borderRadius: 4,
+  },
+  root2: {
+    height: undefined,
+    aspectRatio: 1 / 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Color.Success[400],
   },
 });

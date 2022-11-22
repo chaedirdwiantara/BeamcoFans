@@ -1,9 +1,9 @@
-import {Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {HomeIcon} from '../../../assets/icon';
-import {elipsisText} from '../../../utils';
-import topNavstyles from './topNavstyles';
+import {Text, TouchableOpacity, View, ViewStyle} from 'react-native';
 import {font} from '../../../theme';
+import topNavstyles from './topNavstyles';
+import {elipsisText} from '../../../utils';
+import {HomeIcon} from '../../../assets/icon';
 
 /** === INTERFACE === */
 type Props = {
@@ -12,8 +12,10 @@ type Props = {
   bgColor?: string;
   itemStrokeColor?: string;
   leftIconAction: () => void;
+  leftIcon?: React.ReactNode;
   rightIcon: React.ReactNode;
   rightIconAction?: () => void;
+  containerStyles?: ViewStyle;
 };
 
 /** == COMPONENT === */
@@ -24,7 +26,7 @@ const Type4: React.FC<Props> = (props: Props) => {
       <TouchableOpacity
         style={topNavstyles.iconLeftContainer}
         onPress={props.leftIconAction}>
-        <HomeIcon stroke={'white'} />
+        {props.leftIcon ? props.leftIcon : <HomeIcon stroke={'white'} />}
       </TouchableOpacity>
     );
   };
@@ -47,6 +49,7 @@ const Type4: React.FC<Props> = (props: Props) => {
           {
             backgroundColor: props.bgColor,
           },
+          props.containerStyles,
         ]}>
         <View style={topNavstyles.leftContainer}>{iconLeft()}</View>
         <View style={topNavstyles.centerContainer}>
