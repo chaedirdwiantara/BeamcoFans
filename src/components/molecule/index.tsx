@@ -1,6 +1,7 @@
 import {AvatarUsername} from './AvatarUsername/AvatarUsername';
 import {Carousel} from './Carousel/Carousel';
 import {Dropdown} from './DropDown';
+import DetailPost from './DetailPost';
 import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
 import {FollowingCard} from './FollowingCard/FollowingCard';
 import IconNotif from './IconNotif';
@@ -40,4 +41,5 @@ export {
   TabFilter,
   TermAndConditions,
   TopNavigation,
+  DetailPost,
 };

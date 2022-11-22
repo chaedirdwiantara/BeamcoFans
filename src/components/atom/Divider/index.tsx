@@ -1,18 +1,19 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import React, {FC} from 'react';
 import {ms, mvs} from 'react-native-size-matters';
 import {color, font} from '../../../theme';
 import {normalize} from '../../../utils';
 
 interface DividerProps {
-  text: string;
+  text?: string;
+  containerStyle?: ViewStyle;
 }
 
-const SsuDivider: FC<DividerProps> = ({text}) => {
+const SsuDivider: FC<DividerProps> = ({text, containerStyle}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <View style={styles.lineStyle} />
-      <Text style={styles.textStyle}>{text}</Text>
+      {text ? <Text style={styles.textStyle}>{text}</Text> : null}
       <View style={styles.lineStyle} />
     </View>
   );
