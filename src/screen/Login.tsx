@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -277,12 +278,16 @@ export const LoginScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <Image
-        source={require('../assets/background/signin-guest.png')}
-        style={styles.image}
-      />
-      <SsuSheet children={children()} topChild={topChild()} />
-      <ModalLoading visible={isLoading} />
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <Image
+          source={require('../assets/background/signin-guest.png')}
+          style={styles.image}
+        />
+        <SsuSheet children={children()} topChild={topChild()} />
+        <ModalLoading visible={isLoading} />
+      </KeyboardAvoidingView>
     </View>
   );
 };

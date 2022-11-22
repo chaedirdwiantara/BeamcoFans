@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import {useForm, SubmitHandler, Controller} from 'react-hook-form';
 import {Button, Gap, SsuDivider, SsuInput} from '../components/atom';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -129,174 +136,178 @@ export const SignupScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <Text style={styles.titleStyle}>Create Account</Text>
-      <Gap height={32} />
-      <Controller
-        name="fullname"
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <SsuInput.InputText
-            value={value}
-            onChangeText={onChange}
-            placeholder={'Full Name'}
-            leftIcon={
-              <FullNameIcon
-                stroke={color.Dark[50]}
-                style={{marginLeft: ms(-2), marginRight: ms(-3)}}
-              />
-            }
-            isError={errors?.fullname ? true : false}
-            errorMsg={errors?.fullname?.message}
-          />
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <Text style={styles.titleStyle}>Create Account</Text>
+        <Gap height={32} />
+        <Controller
+          name="fullname"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <SsuInput.InputText
+              value={value}
+              onChangeText={onChange}
+              placeholder={'Full Name'}
+              leftIcon={
+                <FullNameIcon
+                  stroke={color.Dark[50]}
+                  style={{marginLeft: ms(-2), marginRight: ms(-3)}}
+                />
+              }
+              isError={errors?.fullname ? true : false}
+              errorMsg={errors?.fullname?.message}
+            />
+          )}
+        />
+        {(focusInput === 'email' || focusInput === null) && (
+          <>
+            <Gap height={8} />
+            <Controller
+              name="email"
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <SsuInput.InputText
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder={'Email'}
+                  leftIcon={<EmailIcon stroke={color.Dark[50]} />}
+                  onFocus={() => handleFocusInput('email')}
+                  isError={errors?.email ? true : false}
+                  errorMsg={errors?.email?.message}
+                />
+              )}
+            />
+          </>
         )}
-      />
-      {(focusInput === 'email' || focusInput === null) && (
-        <>
-          <Gap height={8} />
-          <Controller
-            name="email"
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <SsuInput.InputText
-                value={value}
-                onChangeText={onChange}
-                placeholder={'Email'}
-                leftIcon={<EmailIcon stroke={color.Dark[50]} />}
-                onFocus={() => handleFocusInput('email')}
-                isError={errors?.email ? true : false}
-                errorMsg={errors?.email?.message}
-              />
-            )}
-          />
-        </>
-      )}
-      <Gap height={8} />
-      <Controller
-        name="username"
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <SsuInput.InputText
-            value={value}
-            onChangeText={onChange}
-            placeholder={'Username'}
-            leftIcon={
-              <UserIcon
-                stroke={color.Dark[50]}
-                style={{marginLeft: ms(-1), marginRight: ms(-4)}}
-              />
-            }
-            isError={errors?.username ? true : false}
-            errorMsg={errors?.username?.message}
-          />
-        )}
-      />
-      <Gap height={8} />
-      <Controller
-        name="password"
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <SsuInput.InputText
-            value={value}
-            onChangeText={onChange}
-            placeholder={'Password'}
-            leftIcon={<LockIcon stroke={color.Dark[50]} />}
-            password
-            isError={errors?.password ? true : false}
-            errorMsg={errors?.password?.message}
-          />
-        )}
-      />
-      <Gap height={8} />
-      <Controller
-        name="confirmPassword"
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <SsuInput.InputText
-            value={value}
-            onChangeText={onChange}
-            placeholder={'Repeat Password'}
-            leftIcon={<LockIcon stroke={color.Dark[50]} />}
-            password
-            isError={errors?.confirmPassword ? true : false}
-            errorMsg={errors?.confirmPassword?.message}
-          />
-        )}
-      />
+        <Gap height={8} />
+        <Controller
+          name="username"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <SsuInput.InputText
+              value={value}
+              onChangeText={onChange}
+              placeholder={'Username'}
+              leftIcon={
+                <UserIcon
+                  stroke={color.Dark[50]}
+                  style={{marginLeft: ms(-1), marginRight: ms(-4)}}
+                />
+              }
+              isError={errors?.username ? true : false}
+              errorMsg={errors?.username?.message}
+            />
+          )}
+        />
+        <Gap height={8} />
+        <Controller
+          name="password"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <SsuInput.InputText
+              value={value}
+              onChangeText={onChange}
+              placeholder={'Password'}
+              leftIcon={<LockIcon stroke={color.Dark[50]} />}
+              password
+              isError={errors?.password ? true : false}
+              errorMsg={errors?.password?.message}
+            />
+          )}
+        />
+        <Gap height={8} />
+        <Controller
+          name="confirmPassword"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <SsuInput.InputText
+              value={value}
+              onChangeText={onChange}
+              placeholder={'Repeat Password'}
+              leftIcon={<LockIcon stroke={color.Dark[50]} />}
+              password
+              isError={errors?.confirmPassword ? true : false}
+              errorMsg={errors?.confirmPassword?.message}
+            />
+          )}
+        />
 
-      {focusInput === null && (
-        <>
-          <Gap height={12} />
-          <SsuDivider text={'or'} />
-        </>
-      )}
-      {(focusInput === 'phone' || focusInput === null) && (
-        <>
-          <Gap height={8} />
-          <Dropdown.Country
-            countryData={countryData}
-            numberTyped={resultData}
-            onFocus={() => handleFocusInput('phone')}
-          />
-        </>
-      )}
-      <Gap height={14} />
-      <Controller
-        name="termsCondition"
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <TermAndConditions
-            handleOnPress={() => onChange(!value)}
-            active={value}
-            errorMsg={errors?.termsCondition?.message}
-          />
+        {focusInput === null && (
+          <>
+            <Gap height={12} />
+            <SsuDivider text={'or'} />
+          </>
         )}
-      />
-      <Gap height={20} />
-      <Button
-        label="Submit"
-        textStyles={{fontSize: normalize(14)}}
-        containerStyles={{width: '100%'}}
-        onPress={handleSubmit(handleRegisterUser)}
-      />
-      <Gap height={4} />
-      <Button
-        type="border"
-        label="Back"
-        borderColor="transparent"
-        textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
-        containerStyles={{width: '100%'}}
-        onPress={handleOnPressBack}
-      />
-      <Gap height={8} />
-      <SsuDivider text={'or signup with'} />
-      <Gap height={14} />
-      <View
-        style={{
-          flexDirection: 'row',
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <GoogleLogo />
-        <Gap width={24} />
-        <FacebookLogo />
-        <Gap width={24} />
-        <AppleLogo />
-      </View>
-      <Gap height={24} />
-      <Text style={styles.forgotPassStyle}>
-        Already have an Account?{' '}
-        <Text
-          onPress={() => handleOnPressSignIn()}
+        {(focusInput === 'phone' || focusInput === null) && (
+          <>
+            <Gap height={8} />
+            <Dropdown.Country
+              countryData={countryData}
+              numberTyped={resultData}
+              onFocus={() => handleFocusInput('phone')}
+            />
+          </>
+        )}
+        <Gap height={14} />
+        <Controller
+          name="termsCondition"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <TermAndConditions
+              handleOnPress={() => onChange(!value)}
+              active={value}
+              errorMsg={errors?.termsCondition?.message}
+            />
+          )}
+        />
+        <Gap height={20} />
+        <Button
+          label="Submit"
+          textStyles={{fontSize: normalize(14)}}
+          containerStyles={{width: '100%'}}
+          onPress={handleSubmit(handleRegisterUser)}
+        />
+        <Gap height={4} />
+        <Button
+          type="border"
+          label="Back"
+          borderColor="transparent"
+          textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
+          containerStyles={{width: '100%'}}
+          onPress={handleOnPressBack}
+        />
+        <Gap height={8} />
+        <SsuDivider text={'or signup with'} />
+        <Gap height={14} />
+        <View
           style={{
-            fontFamily: font.InterRegular,
-            fontWeight: '700',
-            fontSize: normalize(12),
-            lineHeight: mvs(16),
+            flexDirection: 'row',
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          Sign In
+          <GoogleLogo />
+          <Gap width={24} />
+          <FacebookLogo />
+          <Gap width={24} />
+          <AppleLogo />
+        </View>
+        <Gap height={24} />
+        <Text style={styles.forgotPassStyle}>
+          Already have an Account?{' '}
+          <Text
+            onPress={() => handleOnPressSignIn()}
+            style={{
+              fontFamily: font.InterRegular,
+              fontWeight: '700',
+              fontSize: normalize(12),
+              lineHeight: mvs(16),
+            }}>
+            Sign In
+          </Text>
         </Text>
-      </Text>
+      </KeyboardAvoidingView>
     </View>
   );
 };
