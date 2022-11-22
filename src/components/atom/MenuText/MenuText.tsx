@@ -12,7 +12,7 @@ import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
 import Typography from '../../../theme/Typography';
 import {ArrowRightIcon} from '../../../assets/icon';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {heightPercentage, normalize, width} from '../../../utils';
 
 interface Props {
   text?: string;
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     marginTop: heightPercentage(12),
   },
   root2: {
-    width: widthPercentage(327),
+    width: width * 0.9,
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
