@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width,
-    height: heightPercentage(300),
-    marginBottom: Platform.OS === 'ios' ? heightPercentage(40) : 0,
+    height: undefined,
+    aspectRatio: 375 / 352,
   },
   footer: {
     width: widthPercentage(327),

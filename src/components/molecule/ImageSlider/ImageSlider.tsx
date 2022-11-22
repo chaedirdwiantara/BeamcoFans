@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
   containerScrollView: {
     justifyContent: 'center',
     alignItems: 'center',
+    height: '100%',
   },
   image: {
     width,
