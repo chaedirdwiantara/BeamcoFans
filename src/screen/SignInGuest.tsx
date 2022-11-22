@@ -11,13 +11,13 @@ export const SignInGuestScreen: React.FC = ({}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const goToScreen = (screenName: string) => {
+  const goToScreen = (screenName: 'Login' | 'Signup' | 'MainTab') => {
     navigation.navigate(screenName);
   };
 
   return (
     <View style={styles.root}>
-      <SignInGuestContent onPress={goToScreen} />
+      <SignInGuestContent onPress={screenName => goToScreen(screenName)} />
     </View>
   );
 };
