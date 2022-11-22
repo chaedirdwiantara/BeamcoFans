@@ -14,7 +14,7 @@ export const ModalLoading = (props: ModalLoadingProps) => {
   return (
     <Modal isVisible={visible} style={styles.root}>
       <Lottie
-        source={require('../../../assets/animation/sample-loading.json')}
+        source={require('../../../assets/animation/ssu-loading.json')}
         autoPlay
         loop
         style={{
