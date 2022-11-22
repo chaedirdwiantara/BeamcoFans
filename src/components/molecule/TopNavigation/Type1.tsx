@@ -48,7 +48,7 @@ const Type1: React.FC<Props> = (props: Props) => {
           props.containerStyles,
         ]}>
         <View style={topNavstyles.leftContainer}>{iconLeft()}</View>
-        <View style={topNavstyles.centerContainer}>
+        <View style={[topNavstyles.centerContainer, {flex: 5}]}>
           <Text
             numberOfLines={1}
             style={[

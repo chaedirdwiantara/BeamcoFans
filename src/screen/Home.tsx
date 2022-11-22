@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 import Color from '../theme/Color';
 import {dataSlider} from '../data/home';
-import {heightPercentage, widthPercentage} from '../utils';
+import {heightPercentage, widthResponsive} from '../utils';
 import {
   TopNavigation,
   SearchBar,
@@ -16,6 +16,8 @@ import TopSong from './ListCard/TopSong';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../App';
+import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
+import {PostlistData} from '../data/postlist';
 
 export const HomeScreen: React.FC = () => {
   const navigation =
@@ -43,15 +45,15 @@ export const HomeScreen: React.FC = () => {
         maxLengthTitle={20}
         itemStrokeColor={Color.Pink[100]}
         points={100000}
-        containerStyles={{paddingHorizontal: widthPercentage(20)}}
+        containerStyles={{paddingHorizontal: widthResponsive(24)}}
       />
-      <SearchBar containerStyle={{paddingHorizontal: widthPercentage(20)}} />
+      <SearchBar containerStyle={{paddingHorizontal: widthResponsive(24)}} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Carousel data={dataSlider} />
         <View
           style={{
             marginTop: heightPercentage(20),
-            paddingHorizontal: widthPercentage(20),
+            paddingHorizontal: widthResponsive(24),
             width: '100%',
             height: '100%',
           }}>
@@ -65,7 +67,11 @@ export const HomeScreen: React.FC = () => {
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
             <TopSong />
           ) : (
-            <PostList />
+            <PostList
+              dataRightDropdown={dropDownDataCategory}
+              dataLeftDropdown={dropDownDataFilter}
+              data={PostlistData}
+            />
           )}
         </View>
       </ScrollView>

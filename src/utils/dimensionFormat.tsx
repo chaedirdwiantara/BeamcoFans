@@ -18,9 +18,8 @@ export const widthPercentage = (value: number = 0) => {
   return widthPercent;
 };
 
-export const widthLeft = (value: number = 0) => {
-  const widthLeft = width - value;
-  const widthPercent = widthPercentageToDP((widthLeft / width) * 100);
+export const widthResponsive = (value: number = 0, maxValue: number = 375) => {
+  const widthPercent = widthPercentageToDP((value / maxValue) * 100);
 
   return widthPercent;
 };
