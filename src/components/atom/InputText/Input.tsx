@@ -24,6 +24,7 @@ import {
   widthPercentage,
 } from '../../../utils/dimensionFormat';
 import Gap from '../Gap/Gap';
+import InputLabel from './InputLabel';
 
 interface InputProps extends TextInputProps {
   fontSize?: number;
@@ -37,6 +38,7 @@ interface InputProps extends TextInputProps {
   fontColor?: string;
   rightIcon?: boolean;
   reset?: () => void;
+  containerStyles?: ViewStyle;
 }
 
 interface TextAreaProps extends TextInputProps {
@@ -75,6 +77,7 @@ const InputText: React.FC<InputProps> = props => {
     reset,
     onSubmitEditing,
     onEndEditing,
+    containerStyles,
   } = props;
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
@@ -103,6 +106,7 @@ const InputText: React.FC<InputProps> = props => {
             borderWidth: newBorderWidth,
             borderColor: newBorderColor,
           },
+          containerStyles,
         ]}>
         {leftIcon}
         <TextInput
@@ -199,7 +203,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   );
 };
 
-export default {InputText, TextArea};
+export default {InputText, TextArea, InputLabel};
 
 const styles = StyleSheet.create<TypeStyle>({
   container: {
