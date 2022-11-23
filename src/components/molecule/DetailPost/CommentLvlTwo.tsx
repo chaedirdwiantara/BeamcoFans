@@ -10,44 +10,46 @@ import React from 'react';
 import {Avatar, Gap} from '../../atom';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
-import {CommentIcon, LoveIcon} from '../../../assets/icon';
+import {mvs} from 'react-native-size-matters';
+import {CommentIcon, LoveIcon, ShareIcon} from '../../../assets/icon';
+import CoinB from '../../../assets/icon/CoinB.icon';
 
 interface ListProps extends TouchableOpacityProps {
-  imgUri: string;
-  userName: string;
-  userId: string;
-  postDate: string;
-  artistPostId: string;
-  commentCaption: string;
-  likeOnPress: () => void;
-  commentOnPress: () => void;
-  likePressed: boolean;
-  likeCount: number;
-  commentCount: number;
-  containerStyles?: ViewStyle;
-  children: React.ReactNode;
+  imgUriLvl2: string;
+  userNameLvl2: string;
+  userIdLvl2: string;
+  postDateLvl2: string;
+  userCommentedId: string;
+  commentCaptionLvl2: string;
+  likeOnPressLvl2: () => void;
+  commentOnPressLvl2: () => void;
+  likePressedLvl2: boolean;
+  likeCountLvl2: number;
+  commentCountLvl2: number;
+  containerStylesLvl2?: ViewStyle;
+  childrenLvl2?: React.ReactNode;
 }
 
-const PostComment: React.FC<ListProps> = (props: ListProps) => {
+const CommentLvlTwo: React.FC<ListProps> = (props: ListProps) => {
   const {
-    imgUri,
-    userName,
-    userId,
-    postDate,
-    artistPostId,
-    commentCaption,
-    likeOnPress,
-    commentOnPress,
-    likePressed,
-    likeCount,
-    commentCount,
-    containerStyles,
-    children,
+    imgUriLvl2,
+    userNameLvl2,
+    userIdLvl2,
+    postDateLvl2,
+    userCommentedId,
+    commentCaptionLvl2,
+    likeOnPressLvl2,
+    commentOnPressLvl2,
+    likePressedLvl2,
+    likeCountLvl2,
+    commentCountLvl2,
+    containerStylesLvl2,
+    childrenLvl2,
   } = props;
   return (
-    <View style={[styles.root, containerStyles]}>
+    <View style={[styles.root, containerStylesLvl2]}>
       <View>
-        <Avatar imgUri={imgUri} size={widthResponsive(32)} />
+        <Avatar imgUri={imgUriLvl2} size={widthResponsive(32)} />
       </View>
       <View
         style={{
@@ -56,23 +58,23 @@ const PostComment: React.FC<ListProps> = (props: ListProps) => {
         }}>
         <View style={styles.topSection}>
           <Text style={styles.userName}>
-            {userName}
-            <Text style={styles.regularText}> {userId}</Text>
+            {userNameLvl2}
+            <Text style={styles.regularText}> {userIdLvl2}</Text>
           </Text>
-          <Text style={styles.postDateStyle}>{postDate}</Text>
+          <Text style={styles.postDateStyle}>{postDateLvl2}</Text>
         </View>
         <Gap height={2} />
         <View style={styles.bottomSection}>
           <Text style={styles.reply}>
             {'replied to '}{' '}
             <Text style={[styles.reply, {color: color.Pink[100]}]}>
-              {artistPostId}
+              {userCommentedId}
             </Text>
           </Text>
         </View>
         <Gap height={7} />
         <View>
-          <Text style={styles.commentCaption}>{commentCaption}</Text>
+          <Text style={styles.commentCaption}>{commentCaptionLvl2}</Text>
         </View>
         <Gap height={6} />
         {/* SOCIAL SECTION */}
@@ -80,23 +82,25 @@ const PostComment: React.FC<ListProps> = (props: ListProps) => {
           <View style={styles.socialContainer}>
             {/* like section */}
             <View>
-              <TouchableOpacity onPress={likeOnPress} style={styles.socialIcon}>
+              <TouchableOpacity
+                onPress={likeOnPressLvl2}
+                style={styles.socialIcon}>
                 <LoveIcon
-                  fill={likePressed ? color.Pink[100] : 'none'}
-                  stroke={likePressed ? 'none' : color.Dark[100]}
+                  fill={likePressedLvl2 ? color.Pink[100] : 'none'}
+                  stroke={likePressedLvl2 ? 'none' : color.Dark[100]}
                   width={17}
                   height={17}
                   style={{marginBottom: heightPercentage(4)}}
                 />
                 <Gap width={3} />
-                <Text style={styles.regularText}>{likeCount}</Text>
+                <Text style={styles.regularText}>{likeCountLvl2}</Text>
               </TouchableOpacity>
             </View>
             <Gap width={15} />
             {/* comment section */}
             <View>
               <TouchableOpacity
-                onPress={commentOnPress}
+                onPress={commentOnPressLvl2}
                 style={styles.socialIcon}>
                 <CommentIcon
                   stroke={color.Dark[100]}
@@ -105,19 +109,20 @@ const PostComment: React.FC<ListProps> = (props: ListProps) => {
                   style={{marginBottom: heightPercentage(4)}}
                 />
                 <Gap width={3} />
-                <Text style={styles.regularText}>{commentCount}</Text>
+                <Text style={styles.regularText}>{commentCountLvl2}</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
         {/* COMMENT LVL 2 SECTION */}
-        {children}
+        {/* <Gap height={12} /> */}
+        {childrenLvl2}
       </View>
     </View>
   );
 };
 
-export default PostComment;
+export default CommentLvlTwo;
 
 const styles = StyleSheet.create({
   root: {

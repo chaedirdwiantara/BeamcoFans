@@ -1,12 +1,13 @@
 import {
   FlatList,
+  LogBox,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {color, font} from '../../theme';
 import {
   DetailPost,
@@ -28,6 +29,7 @@ import {
 } from '../../utils';
 import {mvs} from 'react-native-size-matters';
 import {commentData} from '../../data/comment';
+import CommentLvlTwo from '../../components/molecule/DetailPost/CommentLvlTwo';
 
 interface PostDetail {
   props: {};
@@ -35,6 +37,11 @@ interface PostDetail {
 }
 
 export const PostDetail: FC<PostDetail> = props => {
+  // ignore warning
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   const data = props.route.params.data.item;
   const musicianName = data.musicianName;
   const caption = data.post.postTitle;
@@ -69,12 +76,14 @@ export const PostDetail: FC<PostDetail> = props => {
   return (
     <SafeAreaView style={styles.root}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Header Section */}
         <TopNavigation.Type1
           title={`${musicianName} Post`}
           leftIconAction={() => navigation.goBack()}
           maxLengthTitle={40}
           itemStrokeColor={color.Neutral[10]}
         />
+        {/* Post Detail Section */}
         <View style={styles.bodyContainer}>
           <DetailPost
             musicianName={data.musicianName}
@@ -161,7 +170,8 @@ export const PostDetail: FC<PostDetail> = props => {
         </View>
         <Gap height={12} />
         <SsuDivider />
-        <Gap height={14} />
+        <Gap height={20} />
+        {/* Comment Section */}
         <View style={styles.commentContainer}>
           <FlatList
             data={commentData}
@@ -174,11 +184,11 @@ export const PostDetail: FC<PostDetail> = props => {
                   ? heightPercentage(25)
                   : heightPercentage(40),
             }}
-            renderItem={({item, index}: any) => (
+            renderItem={({item, index}) => (
               <PostComment
                 imgUri={item.imgUri}
                 userName={item.userName}
-                userId={item.musicianId}
+                userId={item.userId}
                 postDate={item.postDate}
                 artistPostId={data.musicianId}
                 commentCaption={item.commentCaption}
@@ -188,12 +198,41 @@ export const PostDetail: FC<PostDetail> = props => {
                 likeCount={item.likeCount}
                 commentCount={item.commentCount}
                 containerStyles={{
-                  marginTop: mvs(16),
+                  marginBottom: mvs(20),
                 }}
                 children={
-                  <View style={{width: '100%'}}>
-                    <Text style={{color: 'red'}}>anyong</Text>
-                  </View>
+                  <>
+                    <Gap height={12} />
+                    <FlatList
+                      data={item.reply}
+                      showsVerticalScrollIndicator={false}
+                      scrollEnabled={false}
+                      keyExtractor={(_, index) => index.toString()}
+                      contentContainerStyle={{
+                        paddingBottom:
+                          Platform.OS === 'ios'
+                            ? heightPercentage(25)
+                            : heightPercentage(40),
+                      }}
+                      renderItem={({item, index}) => (
+                        <CommentLvlTwo
+                          imgUriLvl2={item.imgUri}
+                          userNameLvl2={item.userName}
+                          userIdLvl2={item.userId}
+                          postDateLvl2={item.postDate}
+                          userCommentedId={item.userCommentedId}
+                          commentCaptionLvl2={item.commentCaption}
+                          likeOnPressLvl2={likeOnPress}
+                          commentOnPressLvl2={commentOnPress}
+                          likePressedLvl2={likePressed}
+                          likeCountLvl2={item.likeCount}
+                          commentCountLvl2={item.commentCount}
+                          // containerStylesLvl2={{}}
+                          // childrenLvl2={}
+                        />
+                      )}
+                    />
+                  </>
                 }
               />
             )}
