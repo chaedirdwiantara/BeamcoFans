@@ -16,40 +16,38 @@ import CoinB from '../../../assets/icon/CoinB.icon';
 
 interface ListProps extends TouchableOpacityProps {
   imgUri: string;
-  musicianName: string;
-  musicianId: string;
+  userName: string;
+  userId: string;
   postDate: string;
-  children: React.ReactNode;
+  artistPostId: string;
+  commentCaption: string;
   likeOnPress: () => void;
   commentOnPress: () => void;
-  tokenOnPress: () => void;
-  shareOnPress: () => void;
   likePressed: boolean;
   likeCount: number;
   commentCount: number;
   containerStyles?: ViewStyle;
-  category: string;
+  children: React.ReactNode;
 }
 
 const PostComment: React.FC<ListProps> = (props: ListProps) => {
   const {
     imgUri,
-    musicianName,
-    musicianId,
+    userName,
+    userId,
     postDate,
-    children,
+    artistPostId,
+    commentCaption,
     likeOnPress,
     commentOnPress,
-    tokenOnPress,
-    shareOnPress,
     likePressed,
     likeCount,
     commentCount,
     containerStyles,
-    category,
+    children,
   } = props;
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, containerStyles]}>
       <View>
         <Avatar imgUri={imgUri} size={widthResponsive(32)} />
       </View>
@@ -61,27 +59,23 @@ const PostComment: React.FC<ListProps> = (props: ListProps) => {
         }}>
         <View style={styles.topSection}>
           <Text style={styles.userName}>
-            {'Carmila'}
-            <Text style={styles.regularText}> {'@Carmilya'}</Text>
+            {userName}
+            <Text style={styles.regularText}> {userId}</Text>
           </Text>
-          <Text style={styles.categoryText}>{'1 hours'}</Text>
+          <Text style={styles.postDateStyle}>{postDate}</Text>
         </View>
         <Gap height={2} />
         <View style={styles.bottomSection}>
           <Text style={styles.reply}>
             {'replied to '}{' '}
             <Text style={[styles.reply, {color: color.Pink[100]}]}>
-              {'@franky'}
+              {artistPostId}
             </Text>
           </Text>
         </View>
         <Gap height={7} />
         <View>
-          <Text style={styles.replyCaption}>
-            {
-              'Sup Folk way way heh hehe he release coy ah ha ha ha ha ha ha ha ha ha ha ha'
-            }
-          </Text>
+          <Text style={styles.commentCaption}>{commentCaption}</Text>
         </View>
         <Gap height={6} />
         {/* SOCIAL SECTION */}
@@ -98,7 +92,7 @@ const PostComment: React.FC<ListProps> = (props: ListProps) => {
                   style={{marginBottom: heightPercentage(4)}}
                 />
                 <Gap width={3} />
-                <Text style={styles.regularText}>{'100'}</Text>
+                <Text style={styles.regularText}>{likeCount}</Text>
               </TouchableOpacity>
             </View>
             <Gap width={15} />
@@ -117,35 +111,6 @@ const PostComment: React.FC<ListProps> = (props: ListProps) => {
                 <Text style={styles.regularText}>{commentCount}</Text>
               </TouchableOpacity>
             </View>
-            <Gap width={15} />
-            {/* token section */}
-            <View style={styles.socialIcon}>
-              <TouchableOpacity onPress={tokenOnPress}>
-                <CoinB
-                  stroke={color.Dark[100]}
-                  width={16}
-                  height={15}
-                  style={{marginBottom: heightPercentage(4)}}
-                />
-              </TouchableOpacity>
-            </View>
-            <Gap width={15} />
-          </View>
-          {/* share section */}
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'flex-end',
-            }}>
-            <TouchableOpacity onPress={shareOnPress}>
-              <ShareIcon
-                stroke={color.Dark[100]}
-                width={16}
-                height={15}
-                style={{marginBottom: heightPercentage(4)}}
-              />
-            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -186,7 +151,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  categoryText: {
+  postDateStyle: {
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: normalize(10),
@@ -204,7 +169,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: normalize(10),
   },
-  replyCaption: {
+  commentCaption: {
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: normalize(12),

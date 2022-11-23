@@ -1,4 +1,11 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {FC, useState} from 'react';
 import {color, font} from '../../theme';
 import {
@@ -20,6 +27,7 @@ import {
   widthResponsive,
 } from '../../utils';
 import {mvs} from 'react-native-size-matters';
+import {commentData} from '../../data/comment';
 
 interface PostDetail {
   props: {};
@@ -60,124 +68,138 @@ export const PostDetail: FC<PostDetail> = props => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <TopNavigation.Type1
-        title={`${musicianName} Post`}
-        leftIconAction={() => navigation.goBack()}
-        maxLengthTitle={40}
-        itemStrokeColor={color.Neutral[10]}
-      />
-      <View style={styles.bodyContainer}>
-        <DetailPost
-          musicianName={data.musicianName}
-          musicianId={data.musicianId}
-          imgUri={data.imgUri}
-          postDate={data.postDate}
-          category={data.category}
-          likeOnPress={likeOnPress}
-          commentOnPress={commentOnPress}
-          tokenOnPress={tokenOnPress}
-          shareOnPress={shareOnPress}
-          likePressed={likePressed}
-          containerStyles={{
-            marginTop: mvs(16),
-            height: heightPercentage(40),
-          }}
-          likeCount={data.likeCount}
-          commentCount={data.commentCount}
-          disabled={true}
-          children={
-            <View style={{width: '100%'}}>
-              {caption.length >= 250 && readMore == false ? (
-                <Text style={styles.childrenPostTitle}>
-                  {elipsisText(caption, 250)}
-                  {/* {caption.substring(0, 10)}... */}
-                  <Text style={styles.readMore} onPress={readMoreOnPress}>
-                    {' '}
-                    Read More
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <TopNavigation.Type1
+          title={`${musicianName} Post`}
+          leftIconAction={() => navigation.goBack()}
+          maxLengthTitle={40}
+          itemStrokeColor={color.Neutral[10]}
+        />
+        <View style={styles.bodyContainer}>
+          <DetailPost
+            musicianName={data.musicianName}
+            musicianId={data.musicianId}
+            imgUri={data.imgUri}
+            postDate={data.postDate}
+            category={data.category}
+            likeOnPress={likeOnPress}
+            commentOnPress={commentOnPress}
+            tokenOnPress={tokenOnPress}
+            shareOnPress={shareOnPress}
+            likePressed={likePressed}
+            containerStyles={{
+              marginTop: mvs(16),
+              height: heightPercentage(40),
+            }}
+            likeCount={data.likeCount}
+            commentCount={data.commentCount}
+            disabled={true}
+            children={
+              <View style={{width: '100%'}}>
+                {caption.length >= 250 && readMore == false ? (
+                  <Text style={styles.childrenPostTitle}>
+                    {elipsisText(caption, 250)}
+                    {/* {caption.substring(0, 10)}... */}
+                    <Text style={styles.readMore} onPress={readMoreOnPress}>
+                      {' '}
+                      Read More
+                    </Text>
                   </Text>
-                </Text>
-              ) : caption.length < 250 ? (
-                <Text style={styles.childrenPostTitle}>{caption}</Text>
-              ) : (
-                <Text style={styles.childrenPostTitle}>
-                  {caption}
-                  <Text style={styles.readMore} onPress={readMoreOnPress}>
-                    {'\n'}
-                    Read Less
+                ) : caption.length < 250 ? (
+                  <Text style={styles.childrenPostTitle}>{caption}</Text>
+                ) : (
+                  <Text style={styles.childrenPostTitle}>
+                    {caption}
+                    <Text style={styles.readMore} onPress={readMoreOnPress}>
+                      {'\n'}
+                      Read Less
+                    </Text>
                   </Text>
-                </Text>
-              )}
-              <Gap height={4} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                }}>
-                <FlatList
-                  scrollEnabled={false}
-                  columnWrapperStyle={{justifyContent: 'flex-start'}}
-                  keyExtractor={(_, index) => index.toString()}
-                  numColumns={2}
-                  data={data.post.postPicture}
-                  renderItem={
-                    data.post.postPicture.length > 2
-                      ? ({item}: any) => (
-                          <SquareImage
-                            imgUri={item.postUri}
-                            size={widthResponsive(162, 375)}
-                            height={heightPercentage(71)}
-                            id={item.id}
-                            containerStyle={{
-                              marginRight: widthResponsive(3),
-                              marginBottom: heightPercentage(4),
-                            }}
-                          />
-                        )
-                      : ({item}: any) => (
-                          <SquareImage
-                            imgUri={item.postUri}
-                            size={widthResponsive(162, 375)}
-                            id={item.id}
-                            containerStyle={{
-                              marginRight: widthResponsive(3),
-                              marginBottom: heightPercentage(4),
-                            }}
-                          />
-                        )
-                  }
-                />
+                )}
+                <Gap height={4} />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}>
+                  <FlatList
+                    scrollEnabled={false}
+                    columnWrapperStyle={{justifyContent: 'flex-start'}}
+                    keyExtractor={(_, index) => index.toString()}
+                    numColumns={2}
+                    data={data.post.postPicture}
+                    renderItem={
+                      data.post.postPicture.length > 2
+                        ? ({item}: any) => (
+                            <SquareImage
+                              imgUri={item.postUri}
+                              size={widthResponsive(162, 375)}
+                              height={heightPercentage(71)}
+                              id={item.id}
+                              containerStyle={{
+                                marginRight: widthResponsive(3),
+                                marginBottom: heightPercentage(4),
+                              }}
+                            />
+                          )
+                        : ({item}: any) => (
+                            <SquareImage
+                              imgUri={item.postUri}
+                              size={widthResponsive(162, 375)}
+                              id={item.id}
+                              containerStyle={{
+                                marginRight: widthResponsive(3),
+                                marginBottom: heightPercentage(4),
+                              }}
+                            />
+                          )
+                    }
+                  />
+                </View>
               </View>
-            </View>
-          }
-        />
-      </View>
-      <Gap height={12} />
-      <SsuDivider />
-      <Gap height={20} />
-      <View style={styles.commentContainer}>
-        <PostComment
-          musicianName={data.musicianName}
-          musicianId={data.musicianId}
-          imgUri={data.imgUri}
-          postDate={data.postDate}
-          category={data.category}
-          likeOnPress={likeOnPress}
-          commentOnPress={commentOnPress}
-          tokenOnPress={tokenOnPress}
-          shareOnPress={shareOnPress}
-          likePressed={likePressed}
-          containerStyles={{
-            marginTop: mvs(16),
-            height: heightPercentage(40),
-          }}
-          likeCount={data.likeCount}
-          commentCount={data.commentCount}
-          children={
-            <View style={{width: '100%'}}>
-              <Text style={{color: 'red'}}>anyong</Text>
-            </View>
-          }
-        />
-      </View>
+            }
+          />
+        </View>
+        <Gap height={12} />
+        <SsuDivider />
+        <Gap height={14} />
+        <View style={styles.commentContainer}>
+          <FlatList
+            data={commentData}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={false}
+            keyExtractor={(_, index) => index.toString()}
+            contentContainerStyle={{
+              paddingBottom:
+                Platform.OS === 'ios'
+                  ? heightPercentage(25)
+                  : heightPercentage(40),
+            }}
+            renderItem={({item, index}: any) => (
+              <PostComment
+                imgUri={item.imgUri}
+                userName={item.userName}
+                userId={item.musicianId}
+                postDate={item.postDate}
+                artistPostId={data.musicianId}
+                commentCaption={item.commentCaption}
+                likeOnPress={likeOnPress}
+                commentOnPress={commentOnPress}
+                likePressed={likePressed}
+                likeCount={item.likeCount}
+                commentCount={item.commentCount}
+                containerStyles={{
+                  marginTop: mvs(16),
+                }}
+                children={
+                  <View style={{width: '100%'}}>
+                    <Text style={{color: 'red'}}>anyong</Text>
+                  </View>
+                }
+              />
+            )}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
