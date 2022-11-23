@@ -51,6 +51,7 @@ export const PostDetail: FC<PostDetail> = props => {
 
   const [likePressed, setLikePressed] = useState<boolean>(false);
   const [readMore, setReadMore] = useState<boolean>(false);
+  const [showMore, setShowMore] = useState<boolean>(false);
 
   const likeOnPress = () => {
     setLikePressed(!likePressed);
@@ -203,30 +204,82 @@ export const PostDetail: FC<PostDetail> = props => {
                   <>
                     {/* Comment Section Lvl 2 */}
                     <Gap height={12} />
-                    <FlatList
-                      data={item.reply}
-                      showsVerticalScrollIndicator={false}
-                      scrollEnabled={false}
-                      keyExtractor={(_, index) => index.toString()}
-                      renderItem={({item, index}) => (
+                    {item.reply?.length != undefined &&
+                    item.reply?.length > 1 &&
+                    showMore == true ? (
+                      <FlatList
+                        data={item.reply}
+                        showsVerticalScrollIndicator={false}
+                        scrollEnabled={false}
+                        keyExtractor={(_, index) => index.toString()}
+                        renderItem={({item, index}) => (
+                          <CommentLvlTwo
+                            imgUriLvl2={item.imgUri}
+                            userNameLvl2={item.userName}
+                            userIdLvl2={item.userId}
+                            postDateLvl2={item.postDate}
+                            userCommentedId={item.commentedToId}
+                            commentCaptionLvl2={item.commentCaption}
+                            likeOnPressLvl2={likeOnPress}
+                            commentOnPressLvl2={commentOnPress}
+                            likePressedLvl2={likePressed}
+                            likeCountLvl2={item.likeCount}
+                            commentCountLvl2={item.commentCount}
+                            childrenLvl2={
+                              <>
+                                {/* Comment Section Lvl 3 */}
+                                <Gap height={12} />
+                                <FlatList
+                                  data={item.reply}
+                                  showsVerticalScrollIndicator={false}
+                                  scrollEnabled={false}
+                                  keyExtractor={(_, index) => index.toString()}
+                                  renderItem={({item, index}) => (
+                                    <>
+                                      <CommentLvlThree
+                                        imgUriLvl3={item.imgUri}
+                                        userNameLvl3={item.userName}
+                                        userIdLvl3={item.userId}
+                                        postDateLvl3={item.postDate}
+                                        userCommentedIdLvl3={item.commentedToId}
+                                        commentCaptionLvl3={item.commentCaption}
+                                        likeOnPressLvl3={likeOnPress}
+                                        commentOnPressLvl3={commentOnPress}
+                                        likePressedLvl3={likePressed}
+                                        likeCountLvl3={item.likeCount}
+                                        commentCountLvl3={item.commentCount}
+                                      />
+                                      <Gap height={12} />
+                                    </>
+                                  )}
+                                />
+                              </>
+                            }
+                          />
+                        )}
+                      />
+                    ) : item.reply?.length != undefined &&
+                      item.reply?.length > 1 &&
+                      showMore == false ? (
+                      <>
                         <CommentLvlTwo
-                          imgUriLvl2={item.imgUri}
-                          userNameLvl2={item.userName}
-                          userIdLvl2={item.userId}
-                          postDateLvl2={item.postDate}
-                          userCommentedId={item.commentedToId}
-                          commentCaptionLvl2={item.commentCaption}
+                          imgUriLvl2={item.reply[0]?.imgUri}
+                          userNameLvl2={item.reply[0].userName}
+                          userIdLvl2={item.reply[0].userId}
+                          postDateLvl2={item.reply[0].postDate}
+                          userCommentedId={item.reply[0].commentedToId}
+                          commentCaptionLvl2={item.reply[0].commentCaption}
                           likeOnPressLvl2={likeOnPress}
                           commentOnPressLvl2={commentOnPress}
                           likePressedLvl2={likePressed}
-                          likeCountLvl2={item.likeCount}
-                          commentCountLvl2={item.commentCount}
+                          likeCountLvl2={item.reply[0].likeCount}
+                          commentCountLvl2={item.reply[0].commentCount}
                           childrenLvl2={
                             <>
                               {/* Comment Section Lvl 3 */}
                               <Gap height={12} />
                               <FlatList
-                                data={item.reply}
+                                data={item.reply[0].reply}
                                 showsVerticalScrollIndicator={false}
                                 scrollEnabled={false}
                                 keyExtractor={(_, index) => index.toString()}
@@ -252,8 +305,55 @@ export const PostDetail: FC<PostDetail> = props => {
                             </>
                           }
                         />
-                      )}
-                    />
+                        {/* // ? ADD ONPRESS TO CHANGE showMore state */}
+                        <Text style={{color: 'red'}}>View more reply</Text>
+                      </>
+                    ) : item.reply?.length != undefined &&
+                      item.reply?.length == 1 ? (
+                      <CommentLvlTwo
+                        imgUriLvl2={item.reply[0]?.imgUri}
+                        userNameLvl2={item.reply[0].userName}
+                        userIdLvl2={item.reply[0].userId}
+                        postDateLvl2={item.reply[0].postDate}
+                        userCommentedId={item.reply[0].commentedToId}
+                        commentCaptionLvl2={item.reply[0].commentCaption}
+                        likeOnPressLvl2={likeOnPress}
+                        commentOnPressLvl2={commentOnPress}
+                        likePressedLvl2={likePressed}
+                        likeCountLvl2={item.reply[0].likeCount}
+                        commentCountLvl2={item.reply[0].commentCount}
+                        childrenLvl2={
+                          <>
+                            {/* Comment Section Lvl 3 */}
+                            <Gap height={12} />
+                            <FlatList
+                              data={item.reply[0].reply}
+                              showsVerticalScrollIndicator={false}
+                              scrollEnabled={false}
+                              keyExtractor={(_, index) => index.toString()}
+                              renderItem={({item, index}) => (
+                                <>
+                                  <CommentLvlThree
+                                    imgUriLvl3={item.imgUri}
+                                    userNameLvl3={item.userName}
+                                    userIdLvl3={item.userId}
+                                    postDateLvl3={item.postDate}
+                                    userCommentedIdLvl3={item.commentedToId}
+                                    commentCaptionLvl3={item.commentCaption}
+                                    likeOnPressLvl3={likeOnPress}
+                                    commentOnPressLvl3={commentOnPress}
+                                    likePressedLvl3={likePressed}
+                                    likeCountLvl3={item.likeCount}
+                                    commentCountLvl3={item.commentCount}
+                                  />
+                                  <Gap height={12} />
+                                </>
+                              )}
+                            />
+                          </>
+                        }
+                      />
+                    ) : null}
                   </>
                 }
               />
