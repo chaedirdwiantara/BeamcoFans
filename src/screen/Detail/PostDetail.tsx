@@ -30,6 +30,7 @@ import {
 import {mvs} from 'react-native-size-matters';
 import {commentData} from '../../data/comment';
 import CommentLvlTwo from '../../components/molecule/DetailPost/CommentLvlTwo';
+import CommentLvlThree from '../../components/molecule/DetailPost/CommentLvlThree';
 
 interface PostDetail {
   props: {};
@@ -45,8 +46,6 @@ export const PostDetail: FC<PostDetail> = props => {
   const data = props.route.params.data.item;
   const musicianName = data.musicianName;
   const caption = data.post.postTitle;
-  // const caption =
-  //   'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo, vel fringilla est ullamcorper eget nulla facilisi etiam urna, porttitor rhoncus dolor,vel fringilla est ullamcorper eget nulla facilisi etiam urna, porttitor rhoncus dolor';
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -171,7 +170,7 @@ export const PostDetail: FC<PostDetail> = props => {
         <Gap height={12} />
         <SsuDivider />
         <Gap height={20} />
-        {/* Comment Section */}
+        {/* Comment Section Lvl 1 */}
         <View style={styles.commentContainer}>
           <FlatList
             data={commentData}
@@ -202,33 +201,56 @@ export const PostDetail: FC<PostDetail> = props => {
                 }}
                 children={
                   <>
+                    {/* Comment Section Lvl 2 */}
                     <Gap height={12} />
                     <FlatList
                       data={item.reply}
                       showsVerticalScrollIndicator={false}
                       scrollEnabled={false}
                       keyExtractor={(_, index) => index.toString()}
-                      contentContainerStyle={{
-                        paddingBottom:
-                          Platform.OS === 'ios'
-                            ? heightPercentage(25)
-                            : heightPercentage(40),
-                      }}
                       renderItem={({item, index}) => (
                         <CommentLvlTwo
                           imgUriLvl2={item.imgUri}
                           userNameLvl2={item.userName}
                           userIdLvl2={item.userId}
                           postDateLvl2={item.postDate}
-                          userCommentedId={item.userCommentedId}
+                          userCommentedId={item.commentedToId}
                           commentCaptionLvl2={item.commentCaption}
                           likeOnPressLvl2={likeOnPress}
                           commentOnPressLvl2={commentOnPress}
                           likePressedLvl2={likePressed}
                           likeCountLvl2={item.likeCount}
                           commentCountLvl2={item.commentCount}
-                          // containerStylesLvl2={{}}
-                          // childrenLvl2={}
+                          childrenLvl2={
+                            <>
+                              {/* Comment Section Lvl 3 */}
+                              <Gap height={12} />
+                              <FlatList
+                                data={item.reply}
+                                showsVerticalScrollIndicator={false}
+                                scrollEnabled={false}
+                                keyExtractor={(_, index) => index.toString()}
+                                renderItem={({item, index}) => (
+                                  <>
+                                    <CommentLvlThree
+                                      imgUriLvl3={item.imgUri}
+                                      userNameLvl3={item.userName}
+                                      userIdLvl3={item.userId}
+                                      postDateLvl3={item.postDate}
+                                      userCommentedIdLvl3={item.commentedToId}
+                                      commentCaptionLvl3={item.commentCaption}
+                                      likeOnPressLvl3={likeOnPress}
+                                      commentOnPressLvl3={commentOnPress}
+                                      likePressedLvl3={likePressed}
+                                      likeCountLvl3={item.likeCount}
+                                      commentCountLvl3={item.commentCount}
+                                    />
+                                    <Gap height={12} />
+                                  </>
+                                )}
+                              />
+                            </>
+                          }
                         />
                       )}
                     />
