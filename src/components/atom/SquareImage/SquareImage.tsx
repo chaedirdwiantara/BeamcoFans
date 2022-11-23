@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Dimensions, ViewStyle, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {color} from '../../../theme';
 
 const {width} = Dimensions.get('screen');
 
@@ -51,6 +52,6 @@ const styles = StyleSheet.create({
     aspectRatio: 1 / 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Color.Success[400],
+    backgroundColor: color.Success[400],
   },
 });

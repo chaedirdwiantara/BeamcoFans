@@ -1,6 +1,6 @@
 import React from 'react';
 import FastImage from 'react-native-fast-image';
-import { StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {ms} from 'react-native-size-matters';
 
 interface AvatarProps {
@@ -24,14 +24,9 @@ export const Avatar: React.FC<AvatarProps> = (props: AvatarProps) => {
   };
 
   return (
-    <FastImage
-      source={{uri: imgUri}}
-      style={[styles.root, {width: size}]}
-      testID={'ssu-avatar'}
-    />
     <View>
       {showIcon && iconComp()}
-      <Image
+      <FastImage
         source={{uri: imgUri}}
         style={[styles.root, {width: size}]}
         testID={'ssu-avatar'}
