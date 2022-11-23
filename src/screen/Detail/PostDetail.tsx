@@ -4,7 +4,7 @@ import {color, font} from '../../theme';
 import {
   DetailPost,
   Gap,
-  ListCard,
+  PostComment,
   SquareImage,
   SsuDivider,
   TopNavigation,
@@ -152,6 +152,32 @@ export const PostDetail: FC<PostDetail> = props => {
       </View>
       <Gap height={12} />
       <SsuDivider />
+      <Gap height={20} />
+      <View style={styles.commentContainer}>
+        <PostComment
+          musicianName={data.musicianName}
+          musicianId={data.musicianId}
+          imgUri={data.imgUri}
+          postDate={data.postDate}
+          category={data.category}
+          likeOnPress={likeOnPress}
+          commentOnPress={commentOnPress}
+          tokenOnPress={tokenOnPress}
+          shareOnPress={shareOnPress}
+          likePressed={likePressed}
+          containerStyles={{
+            marginTop: mvs(16),
+            height: heightPercentage(40),
+          }}
+          likeCount={data.likeCount}
+          commentCount={data.commentCount}
+          children={
+            <View style={{width: '100%'}}>
+              <Text style={{color: 'red'}}>anyong</Text>
+            </View>
+          }
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -176,5 +202,9 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: normalize(13),
+  },
+  commentContainer: {
+    width: '100%',
+    paddingHorizontal: widthResponsive(24),
   },
 });
