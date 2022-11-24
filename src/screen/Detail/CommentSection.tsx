@@ -1,6 +1,6 @@
 import {FlatList, Platform, StyleSheet, Text, View} from 'react-native';
 import React, {FC, useState} from 'react';
-import {CommentType} from '../../data/comment';
+import {CommentLvl3Type, CommentType} from '../../data/comment';
 import {heightPercentage, normalize, widthResponsive} from '../../utils';
 import {Gap, PostComment} from '../../components';
 import {mvs} from 'react-native-size-matters';
@@ -10,6 +10,10 @@ import {color, font} from '../../theme';
 
 interface CommentSectionType {
   data: CommentType[];
+}
+
+interface CommentChildrenLvl3Type {
+  data: CommentLvl3Type;
 }
 
 const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
@@ -25,6 +29,27 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
 
   const commentOnPress = () => {
     // navigation.navigate<any>('PostDetail', {data});
+  };
+
+  const CommentChildrenLvl3 = (props: CommentChildrenLvl3Type) => {
+    const {data} = props;
+    // console.log(data.data, 'data');
+
+    return (
+      <CommentLvlThree
+        imgUriLvl3={data.imgUri}
+        userNameLvl3={data.userName}
+        userIdLvl3={data.userId}
+        postDateLvl3={data.postDate}
+        userCommentedIdLvl3={data.commentedToId}
+        commentCaptionLvl3={data.commentCaption}
+        likeOnPressLvl3={likeOnPress}
+        commentOnPressLvl3={commentOnPress}
+        likePressedLvl3={likePressed}
+        likeCountLvl3={data.likeCount}
+        commentCountLvl3={data.commentCount}
+      />
+    );
   };
 
   return (
@@ -99,23 +124,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                                     }
                                     renderItem={({item, index}) => (
                                       <>
-                                        <CommentLvlThree
-                                          imgUriLvl3={item.imgUri}
-                                          userNameLvl3={item.userName}
-                                          userIdLvl3={item.userId}
-                                          postDateLvl3={item.postDate}
-                                          userCommentedIdLvl3={
-                                            item.commentedToId
-                                          }
-                                          commentCaptionLvl3={
-                                            item.commentCaption
-                                          }
-                                          likeOnPressLvl3={likeOnPress}
-                                          commentOnPressLvl3={commentOnPress}
-                                          likePressedLvl3={likePressed}
-                                          likeCountLvl3={item.likeCount}
-                                          commentCountLvl3={item.commentCount}
-                                        />
+                                        <CommentChildrenLvl3 data={item} />
                                         <Gap height={12} />
                                       </>
                                     )}
@@ -125,25 +134,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                                   item.reply?.length > 1 &&
                                   showMoreLvl3 == false ? (
                                   <>
-                                    <CommentLvlThree
-                                      imgUriLvl3={item.reply[0].imgUri}
-                                      userNameLvl3={item.reply[0].userName}
-                                      userIdLvl3={item.reply[0].userId}
-                                      postDateLvl3={item.reply[0].postDate}
-                                      userCommentedIdLvl3={
-                                        item.reply[0].commentedToId
-                                      }
-                                      commentCaptionLvl3={
-                                        item.reply[0].commentCaption
-                                      }
-                                      likeOnPressLvl3={likeOnPress}
-                                      commentOnPressLvl3={commentOnPress}
-                                      likePressedLvl3={likePressed}
-                                      likeCountLvl3={item.reply[0].likeCount}
-                                      commentCountLvl3={
-                                        item.reply[0].commentCount
-                                      }
-                                    />
+                                    <CommentChildrenLvl3 data={item.reply[0]} />
                                     <Gap height={12} />
                                     <Text
                                       style={styles.viewMore}
@@ -156,25 +147,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                                 item.reply?.length != undefined &&
                                   item.reply?.length == 1 ? (
                                   <>
-                                    <CommentLvlThree
-                                      imgUriLvl3={item.reply[0].imgUri}
-                                      userNameLvl3={item.reply[0].userName}
-                                      userIdLvl3={item.reply[0].userId}
-                                      postDateLvl3={item.reply[0].postDate}
-                                      userCommentedIdLvl3={
-                                        item.reply[0].commentedToId
-                                      }
-                                      commentCaptionLvl3={
-                                        item.reply[0].commentCaption
-                                      }
-                                      likeOnPressLvl3={likeOnPress}
-                                      commentOnPressLvl3={commentOnPress}
-                                      likePressedLvl3={likePressed}
-                                      likeCountLvl3={item.reply[0].likeCount}
-                                      commentCountLvl3={
-                                        item.reply[0].commentCount
-                                      }
-                                    />
+                                    <CommentChildrenLvl3 data={item.reply[0]} />
                                     <Gap height={12} />
                                   </>
                                 ) : null
@@ -217,19 +190,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                                   keyExtractor={(_, index) => index.toString()}
                                   renderItem={({item, index}) => (
                                     <>
-                                      <CommentLvlThree
-                                        imgUriLvl3={item.imgUri}
-                                        userNameLvl3={item.userName}
-                                        userIdLvl3={item.userId}
-                                        postDateLvl3={item.postDate}
-                                        userCommentedIdLvl3={item.commentedToId}
-                                        commentCaptionLvl3={item.commentCaption}
-                                        likeOnPressLvl3={likeOnPress}
-                                        commentOnPressLvl3={commentOnPress}
-                                        likePressedLvl3={likePressed}
-                                        likeCountLvl3={item.likeCount}
-                                        commentCountLvl3={item.commentCount}
-                                      />
+                                      <CommentChildrenLvl3 data={item} />
                                       <Gap height={12} />
                                     </>
                                   )}
@@ -239,30 +200,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                                 item.reply[0]?.reply?.length > 1 &&
                                 showMoreLvl3 == false ? (
                                 <>
-                                  <CommentLvlThree
-                                    imgUriLvl3={item.reply[0].reply[0].imgUri}
-                                    userNameLvl3={
-                                      item.reply[0].reply[0].userName
-                                    }
-                                    userIdLvl3={item.reply[0].reply[0].userId}
-                                    postDateLvl3={
-                                      item.reply[0].reply[0].postDate
-                                    }
-                                    userCommentedIdLvl3={
-                                      item.reply[0].reply[0].commentedToId
-                                    }
-                                    commentCaptionLvl3={
-                                      item.reply[0].reply[0].commentCaption
-                                    }
-                                    likeOnPressLvl3={likeOnPress}
-                                    commentOnPressLvl3={commentOnPress}
-                                    likePressedLvl3={likePressed}
-                                    likeCountLvl3={
-                                      item.reply[0].reply[0].likeCount
-                                    }
-                                    commentCountLvl3={
-                                      item.reply[0].reply[0].commentCount
-                                    }
+                                  <CommentChildrenLvl3
+                                    data={item.reply[0].reply[0]}
                                   />
                                   <Gap height={12} />
                                   <Text
@@ -276,30 +215,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                               item.reply[0]?.reply?.length != undefined &&
                                 item.reply[0]?.reply?.length == 1 ? (
                                 <>
-                                  <CommentLvlThree
-                                    imgUriLvl3={item.reply[0].reply[0].imgUri}
-                                    userNameLvl3={
-                                      item.reply[0].reply[0].userName
-                                    }
-                                    userIdLvl3={item.reply[0].reply[0].userId}
-                                    postDateLvl3={
-                                      item.reply[0].reply[0].postDate
-                                    }
-                                    userCommentedIdLvl3={
-                                      item.reply[0].reply[0].commentedToId
-                                    }
-                                    commentCaptionLvl3={
-                                      item.reply[0].reply[0].commentCaption
-                                    }
-                                    likeOnPressLvl3={likeOnPress}
-                                    commentOnPressLvl3={commentOnPress}
-                                    likePressedLvl3={likePressed}
-                                    likeCountLvl3={
-                                      item.reply[0].reply[0].likeCount
-                                    }
-                                    commentCountLvl3={
-                                      item.reply[0].reply[0].commentCount
-                                    }
+                                  <CommentChildrenLvl3
+                                    data={item.reply[0].reply[0]}
                                   />
                                   <Gap height={12} />
                                 </>
@@ -344,19 +261,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                                 keyExtractor={(_, index) => index.toString()}
                                 renderItem={({item, index}) => (
                                   <>
-                                    <CommentLvlThree
-                                      imgUriLvl3={item.imgUri}
-                                      userNameLvl3={item.userName}
-                                      userIdLvl3={item.userId}
-                                      postDateLvl3={item.postDate}
-                                      userCommentedIdLvl3={item.commentedToId}
-                                      commentCaptionLvl3={item.commentCaption}
-                                      likeOnPressLvl3={likeOnPress}
-                                      commentOnPressLvl3={commentOnPress}
-                                      likePressedLvl3={likePressed}
-                                      likeCountLvl3={item.likeCount}
-                                      commentCountLvl3={item.commentCount}
-                                    />
+                                    <CommentChildrenLvl3 data={item} />
                                     <Gap height={12} />
                                   </>
                                 )}
@@ -366,26 +271,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                               item.reply[0]?.reply?.length > 1 &&
                               showMoreLvl3 == false ? (
                               <>
-                                <CommentLvlThree
-                                  imgUriLvl3={item.reply[0].reply[0].imgUri}
-                                  userNameLvl3={item.reply[0].reply[0].userName}
-                                  userIdLvl3={item.reply[0].reply[0].userId}
-                                  postDateLvl3={item.reply[0].reply[0].postDate}
-                                  userCommentedIdLvl3={
-                                    item.reply[0].reply[0].commentedToId
-                                  }
-                                  commentCaptionLvl3={
-                                    item.reply[0].reply[0].commentCaption
-                                  }
-                                  likeOnPressLvl3={likeOnPress}
-                                  commentOnPressLvl3={commentOnPress}
-                                  likePressedLvl3={likePressed}
-                                  likeCountLvl3={
-                                    item.reply[0].reply[0].likeCount
-                                  }
-                                  commentCountLvl3={
-                                    item.reply[0].reply[0].commentCount
-                                  }
+                                <CommentChildrenLvl3
+                                  data={item.reply[0].reply[0]}
                                 />
                                 <Gap height={12} />
                                 <Text
@@ -399,26 +286,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                             item.reply[0]?.reply?.length != undefined &&
                               item.reply[0]?.reply?.length == 1 ? (
                               <>
-                                <CommentLvlThree
-                                  imgUriLvl3={item.reply[0].reply[0].imgUri}
-                                  userNameLvl3={item.reply[0].reply[0].userName}
-                                  userIdLvl3={item.reply[0].reply[0].userId}
-                                  postDateLvl3={item.reply[0].reply[0].postDate}
-                                  userCommentedIdLvl3={
-                                    item.reply[0].reply[0].commentedToId
-                                  }
-                                  commentCaptionLvl3={
-                                    item.reply[0].reply[0].commentCaption
-                                  }
-                                  likeOnPressLvl3={likeOnPress}
-                                  commentOnPressLvl3={commentOnPress}
-                                  likePressedLvl3={likePressed}
-                                  likeCountLvl3={
-                                    item.reply[0].reply[0].likeCount
-                                  }
-                                  commentCountLvl3={
-                                    item.reply[0].reply[0].commentCount
-                                  }
+                                <CommentChildrenLvl3
+                                  data={item.reply[0].reply[0]}
                                 />
                                 <Gap height={12} />
                               </>
