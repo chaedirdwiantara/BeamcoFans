@@ -18,6 +18,7 @@ interface CommentSectionType {
 
 interface CommentChildrenLvl2Type {
   data: CommentLvl2Type;
+  id: string;
 }
 
 interface CommentChildrenLvl3Type {
@@ -27,12 +28,29 @@ interface CommentChildrenLvl3Type {
 const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   const {data} = props;
   const [likePressed, setLikePressed] = useState<boolean>(false);
+  const [selectedId, setSelectedId] = useState<number[]>([]);
+  const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>([]);
+  const [selectedIdLvl3, setSelectedIdLvl3] = useState<number[]>([]);
   const [showMore, setShowMore] = useState<boolean>(false);
   const [showMoreLvl2, setShowMoreLvl2] = useState<boolean>(false);
   const [showMoreLvl3, setShowMoreLvl3] = useState<boolean>(false);
 
-  const likeOnPress = () => {
-    setLikePressed(!likePressed);
+  const likeOnPressLvl1 = (id: number) => {
+    selectedId.includes(id)
+      ? setSelectedId(selectedId.filter((x: number) => x !== id))
+      : setSelectedId([...selectedId, id]);
+  };
+
+  const likeOnPressLvl2 = (id: string) => {
+    selectedIdLvl2.includes(id)
+      ? setSelectedIdLvl2(selectedIdLvl2.filter((x: string) => x !== id))
+      : setSelectedIdLvl2([...selectedIdLvl2, id]);
+  };
+
+  const likeOnPressLvl3 = (id: number) => {
+    selectedIdLvl3.includes(id)
+      ? setSelectedIdLvl3(selectedIdLvl3.filter((x: number) => x !== id))
+      : setSelectedIdLvl3([...selectedIdLvl3, id]);
   };
 
   const commentOnPress = () => {
@@ -49,7 +67,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         postDateLvl3={data.postDate}
         userCommentedIdLvl3={data.commentedToId}
         commentCaptionLvl3={data.commentCaption}
-        likeOnPressLvl3={likeOnPress}
+        likeOnPressLvl3={() => likeOnPressLvl3}
         commentOnPressLvl3={commentOnPress}
         likePressedLvl3={likePressed}
         likeCountLvl3={data.likeCount}
@@ -59,18 +77,18 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   };
 
   const CommentChildrenLvl2 = (props: CommentChildrenLvl2Type) => {
-    const {data} = props;
+    const {data, id} = props;
     return (
       <CommentLvlTwo
-        imgUriLvl2={data?.imgUri}
+        imgUriLvl2={data.imgUri}
         userNameLvl2={data.userName}
         userIdLvl2={data.userId}
         postDateLvl2={data.postDate}
         userCommentedId={data.commentedToId}
         commentCaptionLvl2={data.commentCaption}
-        likeOnPressLvl2={likeOnPress}
+        likeOnPressLvl2={() => likeOnPressLvl2(id)}
         commentOnPressLvl2={commentOnPress}
-        likePressedLvl2={likePressed}
+        likePressedLvl2={selectedIdLvl2.includes(id) ? true : false}
         likeCountLvl2={data.likeCount}
         commentCountLvl2={data.commentCount}
         childrenLvl2={
@@ -129,10 +147,6 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         showsVerticalScrollIndicator={false}
         scrollEnabled={false}
         keyExtractor={(_, index) => index.toString()}
-        contentContainerStyle={{
-          paddingBottom:
-            Platform.OS === 'ios' ? heightPercentage(25) : heightPercentage(40),
-        }}
         renderItem={({item, index}) => (
           <PostComment
             imgUri={item.imgUri}
@@ -141,9 +155,9 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             postDate={item.postDate}
             artistPostId={item.artistPostId}
             commentCaption={item.commentCaption}
-            likeOnPress={likeOnPress}
+            likeOnPress={() => likeOnPressLvl1(index)}
             commentOnPress={commentOnPress}
-            likePressed={likePressed}
+            likePressed={selectedId.includes(index) ? true : false}
             likeCount={item.likeCount}
             commentCount={item.commentCount}
             containerStyles={{
@@ -164,7 +178,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                       scrollEnabled={false}
                       keyExtractor={(_, index) => index.toString()}
                       renderItem={({item, index}) => (
-                        <CommentChildrenLvl2 data={item} />
+                        <CommentChildrenLvl2 data={item} id={`${index}`} />
                       )}
                     />
                   ) : // ! Showing show more and 1 comment lvl 2
@@ -172,7 +186,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                     item.reply?.length > 1 &&
                     showMoreLvl2 == false ? (
                     <>
-                      <CommentChildrenLvl2 data={item.reply[0]} />
+                      <CommentChildrenLvl2
+                        data={item.reply[0]}
+                        id={`${index}_01`}
+                      />
                       <Text
                         style={styles.viewMore}
                         onPress={() => setShowMoreLvl2(true)}>
@@ -181,7 +198,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                     </>
                   ) : // ! Showing comment data if only there's 1 index comment lvl 2
                   item.reply?.length != undefined && item.reply?.length == 1 ? (
-                    <CommentChildrenLvl2 data={item.reply[0]} />
+                    <CommentChildrenLvl2
+                      data={item.reply[0]}
+                      id={`${index}_02`}
+                    />
                   ) : null
                 }
               </>
@@ -189,6 +209,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
           />
         )}
       />
+      {/* //TODO: set it up when we already have data fro api
+       <Text style={styles.viewMore} onPress={() => setShowMore(true)}>
+        View more reply
+      </Text> */}
     </View>
   );
 };
