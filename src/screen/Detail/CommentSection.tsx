@@ -5,7 +5,7 @@ import {
   CommentLvl3Type,
   CommentType,
 } from '../../data/comment';
-import {heightPercentage, normalize, widthResponsive} from '../../utils';
+import {normalize, widthResponsive} from '../../utils';
 import {Gap, PostComment} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import CommentLvlTwo from '../../components/molecule/DetailPost/CommentLvlTwo';
@@ -23,6 +23,7 @@ interface CommentChildrenLvl2Type {
 
 interface CommentChildrenLvl3Type {
   data: CommentLvl3Type;
+  id: string;
 }
 
 const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
@@ -30,7 +31,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   const [likePressed, setLikePressed] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number[]>([]);
   const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>([]);
-  const [selectedIdLvl3, setSelectedIdLvl3] = useState<number[]>([]);
+  const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>([]);
   const [showMore, setShowMore] = useState<boolean>(false);
   const [showMoreLvl2, setShowMoreLvl2] = useState<boolean>(false);
   const [showMoreLvl3, setShowMoreLvl3] = useState<boolean>(false);
@@ -47,9 +48,9 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
       : setSelectedIdLvl2([...selectedIdLvl2, id]);
   };
 
-  const likeOnPressLvl3 = (id: number) => {
+  const likeOnPressLvl3 = (id: string) => {
     selectedIdLvl3.includes(id)
-      ? setSelectedIdLvl3(selectedIdLvl3.filter((x: number) => x !== id))
+      ? setSelectedIdLvl3(selectedIdLvl3.filter((x: string) => x !== id))
       : setSelectedIdLvl3([...selectedIdLvl3, id]);
   };
 
@@ -58,7 +59,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   };
 
   const CommentChildrenLvl3 = (props: CommentChildrenLvl3Type) => {
-    const {data} = props;
+    const {data, id} = props;
     return (
       <CommentLvlThree
         imgUriLvl3={data.imgUri}
@@ -67,9 +68,9 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         postDateLvl3={data.postDate}
         userCommentedIdLvl3={data.commentedToId}
         commentCaptionLvl3={data.commentCaption}
-        likeOnPressLvl3={() => likeOnPressLvl3}
+        likeOnPressLvl3={() => likeOnPressLvl3(id)}
         commentOnPressLvl3={commentOnPress}
-        likePressedLvl3={likePressed}
+        likePressedLvl3={selectedIdLvl3.includes(id) ? true : false}
         likeCountLvl3={data.likeCount}
         commentCountLvl3={data.commentCount}
       />
@@ -107,7 +108,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                   keyExtractor={(_, index) => index.toString()}
                   renderItem={({item, index}) => (
                     <>
-                      <CommentChildrenLvl3 data={item} />
+                      <CommentChildrenLvl3 data={item} id={`${index}`} />
                       <Gap height={12} />
                     </>
                   )}
@@ -117,7 +118,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                 data?.reply?.length > 1 &&
                 showMoreLvl3 == false ? (
                 <>
-                  <CommentChildrenLvl3 data={data.reply[0]} />
+                  <CommentChildrenLvl3 data={data.reply[0]} id={`${id}_01`} />
                   <Gap height={12} />
                   <Text
                     style={styles.viewMore}
@@ -129,7 +130,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
               ) : // ! Showing comment data if only there's 1 index comment lvl 3
               data?.reply?.length != undefined && data?.reply?.length == 1 ? (
                 <>
-                  <CommentChildrenLvl3 data={data.reply[0]} />
+                  <CommentChildrenLvl3 data={data.reply[0]} id={`${id}_02`} />
                   <Gap height={12} />
                 </>
               ) : null
