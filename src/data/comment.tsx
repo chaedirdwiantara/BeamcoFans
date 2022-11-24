@@ -24,6 +24,7 @@ export interface CommentType {
   userName: string;
   userId: string;
   postDate: string;
+  artistPostId: string;
   commentCaption: string;
   likeCount: number;
   commentCount: number;
@@ -36,6 +37,7 @@ export const commentData: CommentType[] = [
     userName: 'Irene',
     userId: '@redVelvetIren',
     postDate: '1 hours',
+    artistPostId: '@lampardo',
     commentCaption:
       'wow sangat keren, mau dong dengerin lagu ini sampai kapanpun',
     likeCount: 120,
@@ -109,6 +111,7 @@ export const commentData: CommentType[] = [
     userName: 'SuzyBae',
     userId: '@sujybae',
     postDate: '1 weeks',
+    artistPostId: '@lampardo',
     commentCaption:
       'wow sangat keren, mau dong dengerin lagu ini sampai kapanpun',
     likeCount: 120,
@@ -147,6 +150,7 @@ export const commentData: CommentType[] = [
     userName: 'Lilas Ikuta',
     userId: '@Yoasobi',
     postDate: '1 months',
+    artistPostId: '@lampardo',
     commentCaption:
       'wow sangat keren, mau dong dengerin lagu ini sampai kapanpun',
     likeCount: 120,
@@ -172,6 +176,7 @@ export const commentData: CommentType[] = [
     userName: 'Aimer',
     userId: '@afterrain',
     postDate: '1 years',
+    artistPostId: '@lampardo',
     commentCaption:
       'wow sangat keren, mau dong dengerin lagu ini sampai kapanpun',
     likeCount: 120,
