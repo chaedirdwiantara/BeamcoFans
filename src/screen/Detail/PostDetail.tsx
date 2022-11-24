@@ -28,6 +28,7 @@ import {
 import {mvs} from 'react-native-size-matters';
 import {commentData} from '../../data/comment';
 import CommentSection from './CommentSection';
+import ImageModal from './ImageModal';
 
 interface PostDetail {
   props: {};
@@ -48,6 +49,7 @@ export const PostDetail: FC<PostDetail> = props => {
 
   const [likePressed, setLikePressed] = useState<boolean>(false);
   const [readMore, setReadMore] = useState<boolean>(false);
+  const [isModalVisible, setModalVisible] = useState<boolean>(false);
 
   const likeOnPress = () => {
     setLikePressed(!likePressed);
@@ -67,6 +69,10 @@ export const PostDetail: FC<PostDetail> = props => {
 
   const readMoreOnPress = () => {
     setReadMore(!readMore);
+  };
+
+  const toggleModalOnPress = () => {
+    setModalVisible(!isModalVisible);
   };
 
   return (
@@ -144,6 +150,8 @@ export const PostDetail: FC<PostDetail> = props => {
                                 marginRight: widthResponsive(3),
                                 marginBottom: heightPercentage(4),
                               }}
+                              disabled={false}
+                              onPress={toggleModalOnPress}
                             />
                           )
                         : ({item}: any) => (
@@ -155,6 +163,8 @@ export const PostDetail: FC<PostDetail> = props => {
                                 marginRight: widthResponsive(3),
                                 marginBottom: heightPercentage(4),
                               }}
+                              disabled={false}
+                              onPress={toggleModalOnPress}
                             />
                           )
                     }
@@ -169,6 +179,10 @@ export const PostDetail: FC<PostDetail> = props => {
         <Gap height={20} />
         {/* Comment Section Lvl 1 */}
         <CommentSection data={commentData} />
+        <ImageModal
+          toggleModal={toggleModalOnPress}
+          modalVisible={isModalVisible}
+        />
       </ScrollView>
     </SafeAreaView>
   );

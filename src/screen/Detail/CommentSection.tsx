@@ -1,4 +1,4 @@
-import {FlatList, Platform, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {FC, useState} from 'react';
 import {
   CommentLvl2Type,
@@ -28,7 +28,6 @@ interface CommentChildrenLvl3Type {
 
 const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   const {data} = props;
-  const [likePressed, setLikePressed] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<number[]>([]);
   const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>([]);
   const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>([]);
