@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 const EyeOpenIcon = ({
-  width = ms(20),
-  height = mvs(20),
+  width = widthPercentage(20),
+  height = widthPercentage(20),
   fill = 'none',
   stroke = '#292D32',
   style,

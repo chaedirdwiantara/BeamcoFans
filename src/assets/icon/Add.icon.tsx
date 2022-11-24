@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function AddIcon({
-  width = ms(24),
-  height = mvs(24),
+  width = widthPercentage(24),
+  height = widthPercentage(24),
   fill = 'none',
   stroke = '#fff',
   style,

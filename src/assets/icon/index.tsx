@@ -8,6 +8,7 @@ import CheckCircleIcon from './CheckCircle.icon';
 import ChevronDownIcon from './ChevronDown.icon';
 import CloseIcon from './Close.icon';
 import CoinIcon from './Coin.icon';
+import CopyIcon from './Copy.icon';
 import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
 import CrackEggIcon from './CrackEgg.icon';
@@ -34,6 +35,7 @@ import MusicPlaylistIcon from './MusicPlaylist.icon';
 import MusicSquareIcon from './MusicSquare.icon';
 import MusicSquareAddIcon from './MusicSquareAdd.icon';
 import NotificationIcon from './Notification.icon';
+import PauseIcon from './Pause.icon';
 import ProcessingIcon from './Processing.icon';
 import SaveIcon from './Save.icon';
 import SearchIcon from './Search.icon';
@@ -55,6 +57,7 @@ export {
   ChevronDownIcon,
   CloseIcon,
   CoinIcon,
+  CopyIcon,
   CollectionIcon,
   CommentIcon,
   CrackEggIcon,
@@ -81,6 +84,7 @@ export {
   MusicSquareIcon,
   MusicSquareAddIcon,
   NotificationIcon,
+  PauseIcon,
   ProcessingIcon,
   SaveIcon,
   SearchIcon,

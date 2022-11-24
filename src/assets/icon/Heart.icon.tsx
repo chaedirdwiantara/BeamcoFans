@@ -8,12 +8,12 @@ import Svg, {
   Stop,
   ClipPath,
 } from 'react-native-svg';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function HeartIcon({
-  width = ms(16),
-  height = mvs(16),
+  width = widthPercentage(16),
+  height = widthPercentage(16),
   fill = 'none',
   style,
 }: SvgProps) {

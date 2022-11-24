@@ -1,14 +1,13 @@
 import * as React from 'react';
 import {View} from 'react-native';
-import {ms, mvs} from 'react-native-size-matters';
-import Svg, {G, Rect, Path, Defs, ClipPath} from 'react-native-svg';
+import Svg, {Path} from 'react-native-svg';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function FullNameIcon({
-  width = ms(20),
-  height = mvs(20),
+  width = widthPercentage(20),
+  height = widthPercentage(20),
   fill = 'none',
-  active = true,
   style,
 }: SvgProps) {
   return (

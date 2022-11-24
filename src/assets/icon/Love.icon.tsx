@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 const LoveIcon = ({
-  width = ms(13),
-  height = mvs(10),
+  width = widthPercentage(13),
+  height = widthPercentage(10),
   fill = 'none',
   stroke = '#292D32',
   style,

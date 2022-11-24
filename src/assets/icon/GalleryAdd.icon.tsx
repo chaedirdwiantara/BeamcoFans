@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function GalleryAddIcon({
-  width = ms(32),
-  height = mvs(32),
+  width = widthPercentage(32),
+  height = widthPercentage(32),
   fill = 'none',
   stroke = '#fff',
   style,

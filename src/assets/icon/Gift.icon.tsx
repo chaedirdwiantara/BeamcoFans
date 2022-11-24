@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function GiftIcon({
-  width = ms(16),
-  height = mvs(16),
+  width = widthPercentage(16),
+  height = widthPercentage(16),
   fill = 'none',
   stroke = '#8794AD',
   style,
