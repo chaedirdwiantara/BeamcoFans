@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {ArrowLeftIcon} from '../../../assets/icon';
+import {StyleSheet, SafeAreaView} from 'react-native';
 
-import {SsuInput} from '../../atom';
+import {Button, SsuInput} from '../../atom';
+import {Dropdown} from '../DropDown';
 import Color from '../../../theme/Color';
 import {TopNavigation} from '../TopNavigation';
-import {heightPercentage, widthPercentage} from '../../../utils';
+import {ArrowLeftIcon} from '../../../assets/icon';
+import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {dataGender, dataLocation} from '../../../data/Settings/account';
 
 interface AccountProps {
   onPressGoBack: () => void;
@@ -13,75 +15,79 @@ interface AccountProps {
 
 export const AccountContent: React.FC<AccountProps> = ({onPressGoBack}) => {
   const [state, setState] = useState({
-    username: '',
+    username: 'sunnysideup',
     fullname: '',
     gender: '',
     location: '',
   });
-  const [error] = useState({
-    username: false,
+
+  const [error, setError] = useState({
     fullname: false,
     gender: false,
     location: false,
   });
 
   const onChangeText = (key: string, value: string) => {
+    if (key === 'fullname') {
+      setError({...error, fullname: value === ''});
+    }
     setState({
       ...state,
       [key]: value,
     });
   };
 
+  const onPressSave = () => {};
+
   return (
-    <View style={styles.root}>
+    <SafeAreaView style={styles.root}>
       <TopNavigation.Type1
         title="Account"
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
         leftIconAction={onPressGoBack}
-        containerStyles={{paddingHorizontal: widthPercentage(20)}}
+        containerStyles={{marginBottom: heightPercentage(15)}}
       />
 
-      <SsuInput.InputText
+      <SsuInput.InputLabel
+        label="Username"
         value={state.username}
-        isError={error.username}
-        placeholder={'Referral Code'}
-        errorMsg={'Referral code invalid'}
-        fontColor={Color.Neutral[10]}
-        borderColor={Color.Pink.linear}
-        onChangeText={(newText: any) => onChangeText('username', newText)}
+        editable={false}
+        containerInputStyles={{borderBottomWidth: 0}}
       />
 
-      <SsuInput.InputText
+      <SsuInput.InputLabel
+        label="Full Name"
+        placeholder="Add Full Name"
         value={state.fullname}
         isError={error.fullname}
-        placeholder={'Referral Code'}
-        errorMsg={'Referral code invalid'}
-        fontColor={Color.Neutral[10]}
-        borderColor={Color.Pink.linear}
-        onChangeText={(newText: any) => onChangeText('fullname', newText)}
+        errorMsg={'Full Name can not be blank, please input your Full Name'}
+        onChangeText={(newText: string) => onChangeText('fullname', newText)}
+        containerStyles={{marginTop: heightPercentage(15)}}
       />
 
-      <SsuInput.InputText
-        value={state.gender}
-        isError={error.gender}
-        placeholder={'Referral Code'}
-        errorMsg={'Referral code invalid'}
-        fontColor={Color.Neutral[10]}
-        borderColor={Color.Pink.linear}
-        onChangeText={(newText: any) => onChangeText('gender', newText)}
+      <Dropdown.Input
+        data={dataGender}
+        placeHolder={'Select Gender'}
+        dropdownLabel={'Gender'}
+        textTyped={(newText: string) => onChangeText('gender', newText)}
+        containerStyles={{marginTop: heightPercentage(15)}}
       />
 
-      <SsuInput.InputText
-        value={state.location}
-        isError={error.location}
-        placeholder={'Referral Code'}
-        errorMsg={'Referral code invalid'}
-        fontColor={Color.Neutral[10]}
-        borderColor={Color.Pink.linear}
-        onChangeText={(newText: any) => onChangeText('location', newText)}
+      <Dropdown.Input
+        data={dataLocation}
+        placeHolder={'Search Country'}
+        dropdownLabel={'Location'}
+        textTyped={(newText: string) => onChangeText('location', newText)}
+        containerStyles={{marginTop: heightPercentage(15)}}
       />
-    </View>
+
+      <Button
+        label="SAVE"
+        onPress={onPressSave}
+        containerStyles={styles.button}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -89,20 +95,13 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: Color.Dark[800],
+    paddingHorizontal: widthPercentage(12),
   },
-  textVersion: {
-    color: Color.Neutral[10],
-    paddingLeft: widthPercentage(15),
-    paddingTop: heightPercentage(15),
-  },
-  textSignOut: {
-    color: Color.Neutral[10],
-    paddingLeft: widthPercentage(15),
-  },
-  containerSignout: {
-    flexDirection: 'row',
-    paddingLeft: widthPercentage(15),
-    position: 'absolute',
-    bottom: heightPercentage(20),
+  button: {
+    width: width * 0.9,
+    aspectRatio: widthPercentage(327 / 36),
+    marginTop: heightPercentage(25),
+    alignSelf: 'center',
+    backgroundColor: Color.Pink[200],
   },
 });
