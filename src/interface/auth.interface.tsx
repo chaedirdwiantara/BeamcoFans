@@ -49,3 +49,10 @@ export interface LoginResponseType {
   message: string;
   status: number;
 }
+
+export interface UsernameAvailabilityResponseType {
+  code: number;
+  data: boolean;
+  message: string;
+  status: number;
+}

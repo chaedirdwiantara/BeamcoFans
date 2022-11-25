@@ -36,6 +36,8 @@ interface InputProps extends TextInputProps {
   borderColor?: string;
   fontColor?: string;
   rightIcon?: boolean;
+  isFocus?: boolean;
+  rightIconComponent?: React.ReactNode;
   reset?: () => void;
 }
 
@@ -63,7 +65,6 @@ const InputText: React.FC<InputProps> = props => {
     keyboardType,
     onChangeText,
     disabled,
-    // placeholder,
     isError,
     errorMsg,
     leftIcon,
@@ -72,6 +73,8 @@ const InputText: React.FC<InputProps> = props => {
     borderColor,
     fontColor,
     rightIcon,
+    rightIconComponent,
+    isFocus,
     reset,
     onSubmitEditing,
     onEndEditing,
@@ -103,6 +106,9 @@ const InputText: React.FC<InputProps> = props => {
             borderWidth: newBorderWidth,
             borderColor: newBorderColor,
           },
+          isFocus
+            ? {borderColor: color.Pink[2], borderWidth: 1}
+            : {borderWidth: 0},
         ]}>
         {leftIcon}
         <TextInput
@@ -112,7 +118,6 @@ const InputText: React.FC<InputProps> = props => {
           keyboardType={keyboardType}
           onChangeText={onChangeText}
           editable={disabled ? false : true}
-          // placeholder={placeholder}
           placeholderTextColor={FontColor}
           onFocus={() => setState(true)}
           onEndEditing={onEndEditing}
@@ -131,7 +136,13 @@ const InputText: React.FC<InputProps> = props => {
             )}
           </TouchableOpacity>
         ) : null}
-        <View>{rightIcon ? rightIconComp() : null}</View>
+        <View>
+          {rightIcon
+            ? rightIconComponent
+              ? rightIconComponent
+              : rightIconComp()
+            : null}
+        </View>
       </View>
 
       {isError === true ? (

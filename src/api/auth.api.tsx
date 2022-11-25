@@ -3,6 +3,7 @@ import {
   LoginResponseType,
   RegisterPropsType,
   RegisterResponseType,
+  UsernameAvailabilityResponseType,
 } from '../interface/auth.interface';
 import SsuAPI from './base';
 
@@ -25,6 +26,20 @@ export const loginUser = async (
     url: '/login',
     method: 'POST',
     data: loginProps,
+  });
+
+  return data;
+};
+
+export const checkUsername = async (
+  username: string,
+): Promise<UsernameAvailabilityResponseType> => {
+  const {data} = await SsuAPI().request<UsernameAvailabilityResponseType>({
+    url: '/username-availability',
+    method: 'POST',
+    data: {
+      username: username,
+    },
   });
 
   return data;

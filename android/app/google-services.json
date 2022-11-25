@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "348871011517",
+    "project_id": "dev-sunny-side",
+    "storage_bucket": "dev-sunny-side.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348871011517:android:3dd91cf01f9a9026ba5bd4",
+        "android_client_info": {
+          "package_name": "io.ssuuser.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348871011517-3eu5pi26jkpkba4fjuvrotvs8a6rkeql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0jeJir9J1z6O5HDbcsCFIaSTDQA7E0wQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348871011517-3eu5pi26jkpkba4fjuvrotvs8a6rkeql.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

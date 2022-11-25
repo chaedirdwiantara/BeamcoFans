@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -22,6 +23,8 @@ import {Button, Dropdown, Gap, SsuDivider, SsuInput} from '../components';
 import {LockIcon, UserIcon} from '../assets/icon';
 import {countryData} from '../data/dropdown';
 import {AppleLogo, FacebookLogo, GoogleLogo, SSULogo} from '../assets/logo';
+import type {RegistrationType} from '../interface/profile.interface';
+import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -39,14 +42,22 @@ export const LoginScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const {onLoginUser, isLoading, isError, loginResult, errorMsg} =
-    useAuthHook();
+  const {
+    onLoginUser,
+    isLoading,
+    isError,
+    loginResult,
+    errorMsg,
+    errorCode,
+    errorData,
+  } = useAuthHook();
 
   const {
     control,
     handleSubmit,
     formState: {errors},
     setError,
+    reset,
   } = useForm<LoginInput>({
     resolver: yupResolver(loginValidation),
     defaultValues: {
@@ -54,8 +65,10 @@ export const LoginScreen: React.FC = () => {
       password: '',
     },
   });
-
-  const [focusInput, setFocusInput] = useState<'email' | 'phone' | null>(null);
+  const [loginType, setLoginType] = useState<RegistrationType>('email');
+  const [focusInput, setFocusInput] = useState<
+    'email' | 'password' | 'phone' | null
+  >(null);
 
   const handleOnLogin: SubmitHandler<LoginInput> = data => {
     onLoginUser({
@@ -68,19 +81,23 @@ export const LoginScreen: React.FC = () => {
     if (!isLoading && !isError && loginResult !== null) {
       navigation.replace('Preference');
     } else if (!isLoading && isError) {
-      setError('password', {
-        type: 'value',
-        message: errorMsg,
-      });
+      if (errorCode === 1016) {
+        navigation.navigate('Otp', {
+          id: errorData,
+          title: 'Email Verification Code',
+          subtitle: `We have sent you six digits verification code on address ${errorData} check your inbox and enter verification code here`,
+        });
+      } else {
+        setError('password', {
+          type: 'value',
+          message: errorMsg,
+        });
+      }
     }
-  }, [isLoading, isError, loginResult]);
+  }, [isLoading, isError, loginResult, errorCode]);
 
   const handleOnPressBack = () => {
-    if (focusInput === null) {
-      navigation.goBack();
-    } else {
-      handleFocusInput(null);
-    }
+    navigation.goBack();
   };
 
   const handleOnPressSignUp = () => {
@@ -95,7 +112,13 @@ export const LoginScreen: React.FC = () => {
     // setPhoneNum(dataResult);
   };
 
-  const handleFocusInput = (focus: 'email' | 'phone' | null) => {
+  const handleChangeLoginType = (loginType: RegistrationType) => {
+    setLoginType(loginType);
+    handleFocusInput(null);
+    reset();
+  };
+
+  const handleFocusInput = (focus: 'email' | 'password' | 'phone' | null) => {
     setFocusInput(focus);
   };
 
@@ -103,8 +126,29 @@ export const LoginScreen: React.FC = () => {
     return (
       <>
         <Text style={styles.titleStyle}>Sign In</Text>
-        <Gap height={20} />
-        {(focusInput === 'email' || focusInput === null) && (
+        <Gap height={16} />
+        <View style={styles.wrapperLoginType}>
+          <Text
+            style={
+              loginType === 'email'
+                ? styles.loginTypeActive
+                : styles.loginTypeInactive
+            }
+            onPress={() => handleChangeLoginType('email')}>
+            Email
+          </Text>
+          <View style={styles.verticalSeparatorLoginType} />
+          <Text
+            style={
+              loginType === 'phone'
+                ? styles.loginTypeActive
+                : styles.loginTypeInactive
+            }
+            onPress={() => handleChangeLoginType('phone')}>
+            Phone Number
+          </Text>
+        </View>
+        {loginType === 'email' && (
           <View>
             <Controller
               name="user"
@@ -123,8 +167,12 @@ export const LoginScreen: React.FC = () => {
                   onFocus={() => {
                     handleFocusInput('email');
                   }}
+                  onBlur={() => {
+                    handleFocusInput(null);
+                  }}
                   isError={errors?.user ? true : false}
                   errorMsg={errors?.user?.message}
+                  isFocus={focusInput === 'email'}
                 />
               )}
             />
@@ -141,14 +189,20 @@ export const LoginScreen: React.FC = () => {
                   password
                   isError={errors?.password ? true : false}
                   errorMsg={errors?.password?.message}
+                  onFocus={() => {
+                    handleFocusInput('password');
+                  }}
+                  onBlur={() => {
+                    handleFocusInput(null);
+                  }}
+                  isFocus={focusInput === 'password'}
                 />
               )}
             />
             <Gap height={12} />
           </View>
         )}
-        {focusInput === null && <SsuDivider text={'Or'} />}
-        {(focusInput === 'phone' || focusInput === null) && (
+        {loginType === 'phone' && (
           <View>
             <Gap height={8} />
             <Dropdown.Country
@@ -239,12 +293,16 @@ export const LoginScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <Image
-        source={require('../assets/background/signin-guest.png')}
-        style={styles.image}
-      />
-
-      <SsuSheet children={children()} topChild={topChild()} />
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <Image
+          source={require('../assets/background/signin-guest.png')}
+          style={styles.image}
+        />
+        <SsuSheet children={children()} topChild={topChild()} />
+        <ModalLoading visible={isLoading} />
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -268,6 +326,34 @@ const styles = StyleSheet.create({
     lineHeight: mvs(32),
     textAlign: 'center',
     color: color.Neutral[10],
+  },
+  wrapperLoginType: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginBottom: ms(16),
+  },
+  verticalSeparatorLoginType: {
+    width: ms(1),
+    height: mvs(12),
+    backgroundColor: color.Dark[500],
+    marginLeft: ms(12),
+    marginRight: ms(12),
+  },
+  loginTypeActive: {
+    fontFamily: font.InterMedium,
+    fontSize: normalize(12),
+    color: color.Pink[2],
+    lineHeight: mvs(14),
+    fontWeight: '500',
+  },
+  loginTypeInactive: {
+    fontFamily: font.InterRegular,
+    fontSize: normalize(12),
+    color: color.Neutral[10],
+    lineHeight: mvs(14),
+    fontWeight: '400',
   },
   forgotPassStyle: {
     color: color.Neutral[10],

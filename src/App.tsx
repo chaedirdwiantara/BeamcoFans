@@ -25,6 +25,7 @@ import {SignupScreen} from './screen/Signup';
 import {Notification} from './screen/Notification';
 import {PostDetail} from './screen/Detail/PostDetail';
 
+import {storage} from './hooks/use-storage.hook';
 // Modal
 import {ModalConfirm} from './components';
 
@@ -43,7 +44,11 @@ export type RootStackParams = {
   Login: undefined;
   MainTab: undefined;
   ModalConfirm: undefined;
-  Otp: undefined;
+  Otp: {
+    id: string;
+    title: string;
+    subtitle: string;
+  };
   Preference: undefined;
   Referral: undefined;
   Setting: undefined;
@@ -134,7 +139,11 @@ const TabScreen = () => (
 
 const RootStack = createNativeStackNavigator<RootStackParams>();
 const RootStackScreen = () => (
-  <RootStack.Navigator screenOptions={screenOption}>
+  <RootStack.Navigator
+    screenOptions={screenOption}
+    initialRouteName={
+      storage.getBoolean('isOnboard') ? 'SignInGuest' : 'Boarding'
+    }>
     <RootStack.Group>
       <RootStack.Screen name="Boarding" component={OnboardScreen} />
       <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
