@@ -27,7 +27,8 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
     <Modal
       isVisible={modalVisible}
       backdropOpacity={1}
-      backdropColor={color.Dark[800]}>
+      backdropColor={color.Dark[800]}
+      onBackButtonPress={toggleModal}>
       <View style={styles.container}>
         <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
           <CloseCircleIcon />
