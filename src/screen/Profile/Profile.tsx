@@ -12,8 +12,8 @@ export const ProfileScreen: React.FC = props => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const goToSetting = () => {
-    navigation.navigate('Setting');
+  const onPressGoTo = (screenName: string) => {
+    navigation.navigate(screenName);
   };
 
   const goToEditProfile = () => {
@@ -24,9 +24,9 @@ export const ProfileScreen: React.FC = props => {
     fullname: 'Kendal Jenner',
     username: '@kendaljenner',
     bio: params?.bio || "I'm here to support the musician",
-    backgroundUri: params?.backgroundUri?.uri || null,
+    backgroundUri: params?.backgroundUri?.path || null,
     avatarUri:
-      params?.avatarUri?.uri ||
+      params?.avatarUri?.path ||
       'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
   };
 
@@ -34,7 +34,7 @@ export const ProfileScreen: React.FC = props => {
     <View style={styles.root}>
       <ProfileContent
         profile={profile}
-        goToSetting={goToSetting}
+        onPressGoTo={onPressGoTo}
         goToEditProfile={goToEditProfile}
       />
     </View>

@@ -24,9 +24,9 @@ export const EditProfileScreen: React.FC = props => {
     fullname: 'Kendal Jenner',
     username: '@kendaljenner',
     bio: params?.bio || "I'm here to support the musician",
-    backgroundUri: params?.backgroundUri?.uri || null,
+    backgroundUri: params?.backgroundUri?.path || null,
     avatarUri:
-      params?.avatarUri?.uri ||
+      params?.avatarUri?.path ||
       'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
   };
 
