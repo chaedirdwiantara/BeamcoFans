@@ -37,6 +37,7 @@ interface InputProps extends TextInputProps {
   fontColor?: string;
   rightIcon?: boolean;
   isFocus?: boolean;
+  rightIconComponent?: React.ReactNode;
   reset?: () => void;
 }
 
@@ -72,6 +73,7 @@ const InputText: React.FC<InputProps> = props => {
     borderColor,
     fontColor,
     rightIcon,
+    rightIconComponent,
     isFocus,
     reset,
     onSubmitEditing,
@@ -134,7 +136,13 @@ const InputText: React.FC<InputProps> = props => {
             )}
           </TouchableOpacity>
         ) : null}
-        <View>{rightIcon ? rightIconComp() : null}</View>
+        <View>
+          {rightIcon
+            ? rightIconComponent
+              ? rightIconComponent
+              : rightIconComp()
+            : null}
+        </View>
       </View>
 
       {isError === true ? (

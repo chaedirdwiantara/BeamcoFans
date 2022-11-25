@@ -42,8 +42,15 @@ export const LoginScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const {onLoginUser, isLoading, isError, loginResult, errorMsg} =
-    useAuthHook();
+  const {
+    onLoginUser,
+    isLoading,
+    isError,
+    loginResult,
+    errorMsg,
+    errorCode,
+    errorData,
+  } = useAuthHook();
 
   const {
     control,
@@ -74,12 +81,20 @@ export const LoginScreen: React.FC = () => {
     if (!isLoading && !isError && loginResult !== null) {
       navigation.replace('Preference');
     } else if (!isLoading && isError) {
-      setError('password', {
-        type: 'value',
-        message: errorMsg,
-      });
+      if (errorCode === 1016) {
+        navigation.navigate('Otp', {
+          id: errorData,
+          title: 'Email Verification Code',
+          subtitle: `We have sent you six digits verification code on address ${errorData} check your inbox and enter verification code here`,
+        });
+      } else {
+        setError('password', {
+          type: 'value',
+          message: errorMsg,
+        });
+      }
     }
-  }, [isLoading, isError, loginResult]);
+  }, [isLoading, isError, loginResult, errorCode]);
 
   const handleOnPressBack = () => {
     navigation.goBack();

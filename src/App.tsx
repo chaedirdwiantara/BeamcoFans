@@ -44,7 +44,11 @@ export type RootStackParams = {
   Login: undefined;
   MainTab: undefined;
   ModalConfirm: undefined;
-  Otp: undefined;
+  Otp: {
+    id: string;
+    title: string;
+    subtitle: string;
+  };
   Preference: undefined;
   Referral: undefined;
   Setting: undefined;
