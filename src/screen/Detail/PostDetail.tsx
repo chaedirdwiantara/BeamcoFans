@@ -50,6 +50,7 @@ export const PostDetail: FC<PostDetail> = props => {
   const [likePressed, setLikePressed] = useState<boolean>(false);
   const [readMore, setReadMore] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [imgUrl, setImgUrl] = useState<string>('');
 
   const likeOnPress = () => {
     setLikePressed(!likePressed);
@@ -71,8 +72,9 @@ export const PostDetail: FC<PostDetail> = props => {
     setReadMore(!readMore);
   };
 
-  const toggleModalOnPress = () => {
+  const toggleModalOnPress = (img: string) => {
     setModalVisible(!isModalVisible);
+    setImgUrl(img);
   };
 
   return (
@@ -151,7 +153,7 @@ export const PostDetail: FC<PostDetail> = props => {
                                 marginBottom: heightPercentage(4),
                               }}
                               disabled={false}
-                              onPress={toggleModalOnPress}
+                              onPress={() => toggleModalOnPress(item.postUri)}
                             />
                           )
                         : ({item}: any) => (
@@ -164,7 +166,7 @@ export const PostDetail: FC<PostDetail> = props => {
                                 marginBottom: heightPercentage(4),
                               }}
                               disabled={false}
-                              onPress={toggleModalOnPress}
+                              onPress={() => toggleModalOnPress(item.postUri)}
                             />
                           )
                     }
@@ -180,8 +182,9 @@ export const PostDetail: FC<PostDetail> = props => {
         {/* Comment Section Lvl 1 */}
         <CommentSection data={commentData} />
         <ImageModal
-          toggleModal={toggleModalOnPress}
+          toggleModal={() => setModalVisible(!isModalVisible)}
           modalVisible={isModalVisible}
+          image={imgUrl}
         />
       </ScrollView>
     </SafeAreaView>

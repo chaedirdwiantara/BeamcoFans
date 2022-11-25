@@ -12,6 +12,12 @@ export const heightPercentage = (value: number = 0) => {
   return heightPercent;
 };
 
+export const heightResponsive = (value: number = 0, maxValue: number = 812) => {
+  const heightPercent = heightPercentageToDP((value / maxValue) * 100);
+
+  return heightPercent;
+};
+
 export const widthPercentage = (value: number = 0) => {
   const widthPercent = widthPercentageToDP((value / width) * 100);
 
