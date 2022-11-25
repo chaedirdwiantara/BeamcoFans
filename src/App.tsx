@@ -28,6 +28,8 @@ import {EmailScreen} from './screen/Setting/Email/Email';
 import {ChangeEmailScreen} from './screen/Setting/Email/ChangeEmail';
 import {ChangePasswordScreen} from './screen/Setting/ChangePassword';
 import {LanguageScreen} from './screen/Setting/Language';
+import {ReferralCodeSetting} from './screen/Setting/ReferralCode';
+import {PhoneNumberScreen} from './screen/Setting/PhoneNumber';
 
 // Profile
 import {ProfileScreen} from './screen/Profile/Profile';
@@ -37,9 +39,7 @@ import {FollowingScreen} from './screen/Profile/FollowingScreen';
 // PLaylist
 import {PlaylistScreen} from './screen/Playlist/Playlist';
 import {CreateNewPlaylist} from './screen/Playlist/CreateNewPlaylist';
-
-// Modal
-import {ModalConfirm} from './components';
+import {AddToPlaylistScreen} from './screen/Playlist/AddToPlaylist';
 
 // Icon
 import {CrownIcon, FeedIcon, HomeIcon, UserProfileIcon} from './assets/icon';
@@ -51,6 +51,7 @@ import {AppProvider} from './context/app.context';
 
 export type RootStackParams = {
   Account: undefined;
+  AddToPlaylist: undefined;
   Boarding: undefined;
   ChangeEmail: undefined;
   ChangePassword: undefined;
@@ -62,11 +63,12 @@ export type RootStackParams = {
   Language: undefined;
   Login: undefined;
   MainTab: undefined;
-  ModalConfirm: undefined;
   Otp: undefined;
+  PhoneNumber: undefined;
   Playlist: undefined;
   Preference: undefined;
   Referral: undefined;
+  ReferralCode: undefined;
   Setting: undefined;
   Signup: undefined;
   SignInGuest: undefined;
@@ -155,68 +157,29 @@ const TabScreen = () => (
 const RootStack = createNativeStackNavigator<RootStackParams>();
 const RootStackScreen = () => (
   <RootStack.Navigator screenOptions={screenOption}>
-    <RootStack.Group>
-      <RootStack.Screen name="Boarding" component={OnboardScreen} />
-      <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
-      <RootStack.Screen
-        name="CreateNewPlaylist"
-        component={CreateNewPlaylist}
-      />
-      <RootStack.Screen name="Playlist" component={PlaylistScreen} />
-      <RootStack.Screen name="Following" component={FollowingScreen} />
-      <RootStack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <RootStack.Screen name="Login" component={LoginScreen} />
-      <RootStack.Screen name="Otp" component={Otp} />
-      <RootStack.Screen name="Preference" component={PreferenceScreen} />
-      <RootStack.Screen name="Referral" component={ReferralScreen} />
-      <RootStack.Screen name="Account" component={AccountScreen} />
-      <RootStack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
-      <RootStack.Screen name="Email" component={EmailScreen} />
-      <RootStack.Screen
-        name="ChangePassword"
-        component={ChangePasswordScreen}
-      />
-      <RootStack.Screen name="Language" component={LanguageScreen} />
-      <RootStack.Screen name="Setting" component={SettingScreen} />
-      <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
-      <RootStack.Screen name="Signup" component={SignupScreen} />
-      <RootStack.Screen name="MainTab" component={TabScreen} />
-      <RootStack.Screen name="Notification" component={Notification} />
-    </RootStack.Group>
-    <RootStack.Group
-      screenOptions={({}) => ({
-        presentation: 'transparentModal',
-      })}>
-      <RootStack.Screen
-        name="ModalConfirm"
-        component={ModalConfirm}
-        options={{
-          headerShown: false,
-          // @ts-ignore
-          animationEnabled: true,
-          cardStyle: {backgroundColor: 'rgba(0,0,0,0.01)'},
-          cardOverlayEnabled: true,
-          // @ts-ignore
-          cardStyleInterpolator: ({current: {progress}}) => {
-            return {
-              cardStyle: {
-                opacity: progress.interpolate({
-                  inputRange: [0, 0.5, 0.9, 1],
-                  outputRange: [0, 0.25, 0.7, 1],
-                }),
-              },
-              overlayStyle: {
-                opacity: progress.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 0.01],
-                  extrapolate: 'clamp',
-                }),
-              },
-            };
-          },
-        }}
-      />
-    </RootStack.Group>
+    <RootStack.Screen name="Boarding" component={OnboardScreen} />
+    <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
+    <RootStack.Screen name="AddToPlaylist" component={AddToPlaylistScreen} />
+    <RootStack.Screen name="CreateNewPlaylist" component={CreateNewPlaylist} />
+    <RootStack.Screen name="Playlist" component={PlaylistScreen} />
+    <RootStack.Screen name="Following" component={FollowingScreen} />
+    <RootStack.Screen name="ForgotPassword" component={ForgotPassword} />
+    <RootStack.Screen name="Login" component={LoginScreen} />
+    <RootStack.Screen name="Otp" component={Otp} />
+    <RootStack.Screen name="Preference" component={PreferenceScreen} />
+    <RootStack.Screen name="Referral" component={ReferralScreen} />
+    <RootStack.Screen name="Account" component={AccountScreen} />
+    <RootStack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
+    <RootStack.Screen name="Email" component={EmailScreen} />
+    <RootStack.Screen name="PhoneNumber" component={PhoneNumberScreen} />
+    <RootStack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+    <RootStack.Screen name="ReferralCode" component={ReferralCodeSetting} />
+    <RootStack.Screen name="Language" component={LanguageScreen} />
+    <RootStack.Screen name="Setting" component={SettingScreen} />
+    <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
+    <RootStack.Screen name="Signup" component={SignupScreen} />
+    <RootStack.Screen name="MainTab" component={TabScreen} />
+    <RootStack.Screen name="Notification" component={Notification} />
   </RootStack.Navigator>
 );
 
