@@ -1,5 +1,11 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, Dimensions, ViewStyle} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {
   infoProfileArtist,
@@ -8,9 +14,12 @@ import {
 } from '../../../data/profile';
 import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
-
-const {width, height} = Dimensions.get('screen');
+import {
+  heightPercentage,
+  normalize,
+  width,
+  widthPercentage,
+} from '../../../utils';
 
 interface UserInfoCardProps {
   type?: string;
@@ -23,24 +32,26 @@ interface UserInfoCardProps {
   playlist?: number;
   rank?: number;
   containerStyles?: ViewStyle;
+  onPress?: (screenName: string) => void;
 }
 
 type Props = {
   point: number;
   title: string;
+  onPress?: (screenName: string) => void;
 };
 
-const Item: FC<Props> = ({point, title}) => {
+const Item: FC<Props> = ({point, title, onPress}) => {
   return (
-    <View style={styles.itemStyle}>
+    <TouchableOpacity style={styles.itemStyle} onPress={onPress}>
       <Text style={styles.pointStyle}>{point}</Text>
       <Text style={styles.titleStyle}>{title}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
-  const {type = '', containerStyles} = props;
+  const {type = '', containerStyles, onPress} = props;
   const listItem: InfoProfileType[] =
     type === 'self' ? infoProfileUser : infoProfileArtist;
 
@@ -53,7 +64,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
     <View style={[styles.root, containerStyles]}>
       {listItem.map((val, i) => (
         <View key={i} style={styles.containerItem}>
-          <Item point={val.point} title={val.title} />
+          <Item point={val.point} title={val.title} onPress={onPress} />
 
           {listItem.length !== i + 1 && (
             <View style={[styles.separator, newStyles]} />
@@ -69,17 +80,17 @@ export {UserInfoCard};
 const styles = StyleSheet.create({
   root: {
     width: width * 0.9,
-    height: height * 0.1,
+    height: undefined,
+    aspectRatio: widthPercentage(327 / 74),
     backgroundColor: Color.Dark[600],
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     borderRadius: 12,
-    // justifyContent: 'space-around',
   },
   containerItem: {
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     flexDirection: 'row',
   },
   separator: {
