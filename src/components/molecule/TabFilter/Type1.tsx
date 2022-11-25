@@ -1,5 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 import {color, font} from '../../../theme';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
@@ -11,6 +18,8 @@ interface TabFilterProps {
   filterData: Array<filterData>;
   onPress: (params: string, index: number) => void;
   selectedIndex: number;
+  tabStyles?: ViewStyle;
+  containerStyles?: ViewStyle;
 }
 
 const SelectedColor = color.Pink[100];
@@ -20,9 +29,11 @@ const Type1: React.FC<TabFilterProps> = ({
   filterData,
   onPress,
   selectedIndex,
+  tabStyles,
+  containerStyles,
 }) => {
   return (
-    <View style={styles.tab}>
+    <View style={[styles.tab, containerStyles]}>
       <FlatList
         horizontal
         data={filterData}
@@ -33,6 +44,7 @@ const Type1: React.FC<TabFilterProps> = ({
             style={[
               styles.tabStyle,
               {borderBottomWidth: selectedIndex == index ? 2 : 0},
+              tabStyles,
             ]}
             onPress={() => onPress(item.filterName, index)}>
             <Text
