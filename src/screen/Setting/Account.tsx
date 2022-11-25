@@ -2,9 +2,10 @@ import React from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../App';
-import {SettingContent} from '../../components';
+
 import Color from '../../theme/Color';
+import {RootStackParams} from '../../App';
+import {AccountContent} from '../../components';
 
 export const AccountScreen: React.FC = () => {
   const navigation =
@@ -16,7 +17,7 @@ export const AccountScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <SettingContent onPressGoBack={onPressGoBack} />
+      <AccountContent onPressGoBack={onPressGoBack} />
     </SafeAreaView>
   );
 };
