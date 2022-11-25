@@ -20,6 +20,7 @@ import {ReferralScreen} from './screen/Referral';
 import {SignInGuestScreen} from './screen/SignInGuest';
 import {SignupScreen} from './screen/Signup';
 import {Notification} from './screen/Notification';
+import {PostDetail} from './screen/Detail/PostDetail';
 
 // Setting
 import {SettingScreen} from './screen/Setting/Setting';
@@ -40,6 +41,8 @@ import {FollowingScreen} from './screen/Profile/FollowingScreen';
 import {PlaylistScreen} from './screen/Playlist/Playlist';
 import {CreateNewPlaylist} from './screen/Playlist/CreateNewPlaylist';
 import {AddToPlaylistScreen} from './screen/Playlist/AddToPlaylist';
+
+import {storage} from './hooks/use-storage.hook';
 
 // Icon
 import {CrownIcon, FeedIcon, HomeIcon, UserProfileIcon} from './assets/icon';
@@ -63,7 +66,11 @@ export type RootStackParams = {
   Language: undefined;
   Login: undefined;
   MainTab: undefined;
-  Otp: undefined;
+  Otp: {
+    id: string;
+    title: string;
+    subtitle: string;
+  };
   PhoneNumber: undefined;
   Playlist: undefined;
   Preference: undefined;
@@ -73,6 +80,7 @@ export type RootStackParams = {
   Signup: undefined;
   SignInGuest: undefined;
   Notification: undefined;
+  PostDetail: undefined;
 };
 
 export type MainTabParams = {
@@ -156,7 +164,11 @@ const TabScreen = () => (
 
 const RootStack = createNativeStackNavigator<RootStackParams>();
 const RootStackScreen = () => (
-  <RootStack.Navigator screenOptions={screenOption}>
+  <RootStack.Navigator
+    screenOptions={screenOption}
+    initialRouteName={
+      storage.getBoolean('isOnboard') ? 'SignInGuest' : 'Boarding'
+    }>
     <RootStack.Screen name="Boarding" component={OnboardScreen} />
     <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
     <RootStack.Screen name="AddToPlaylist" component={AddToPlaylistScreen} />
@@ -180,6 +192,7 @@ const RootStackScreen = () => (
     <RootStack.Screen name="Signup" component={SignupScreen} />
     <RootStack.Screen name="MainTab" component={TabScreen} />
     <RootStack.Screen name="Notification" component={Notification} />
+    <RootStack.Screen name="PostDetail" component={PostDetail} />
   </RootStack.Navigator>
 );
 

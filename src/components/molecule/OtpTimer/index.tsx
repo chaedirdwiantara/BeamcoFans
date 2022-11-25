@@ -71,6 +71,7 @@ const SsuOTPTimer: FC<Props> = props => {
             backgroundColor: color.Pink.linear,
             width: '100%',
             height: mvs(40),
+            aspectRatio: undefined,
           }}
         />
       </View>

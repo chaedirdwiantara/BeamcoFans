@@ -1,4 +1,4 @@
-import axios, {AxiosInstance} from 'axios';
+import axios, {AxiosError, AxiosInstance} from 'axios';
 
 type SsuAPIParams = {
   cookie?: string;
@@ -19,19 +19,12 @@ const setupAPIClient = () => {
     response => {
       return response;
     },
-    error => {
-      if (error.response) {
-        console.error(
-          JSON.stringify({
-            name: '[ssu-api][error]',
-            detail: error.response?.data,
-          }),
-        );
+    (error: AxiosError) => {
+      if (!error.response) {
+        return;
       } else {
-        console.error('[error]', error);
+        return Promise.reject(error);
       }
-
-      return Promise.reject(error);
     },
   );
 };

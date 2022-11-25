@@ -48,7 +48,7 @@ export const ReferralCodeSetting: React.FC = () => {
         filterData={filter}
         onPress={filterData}
         selectedIndex={selectedIndex}
-        tabStyles={{width: width * 0.45}}
+        TouchableStyle={{width: width * 0.45}}
       />
 
       {filter[selectedIndex].filterName === 'REFER A FRIEND' ? (

@@ -37,12 +37,12 @@ export const countryData: DataCountryType[] = [
   },
 ];
 
-export interface DataDropDownProps {
+export interface DataDropDownType {
   label: string;
   value: string;
 }
 
-export const dropDownDataCategory: DataDropDownProps[] = [
+export const dropDownDataCategory: DataDropDownType[] = [
   {label: 'All', value: '1'},
   {label: 'Coming Up', value: '2'},
   {label: 'Tour', value: '3'},
@@ -52,13 +52,23 @@ export const dropDownDataCategory: DataDropDownProps[] = [
   {label: 'Backstage', value: '7'},
 ];
 
-export interface DataDropDownDateProps {
+export interface DropDownFilterType {
   label: string;
   value: string;
 }
 
-export const dropDownDataFilter: DataDropDownDateProps[] = [
+export const dropDownDataFilter: DropDownFilterType[] = [
   {label: 'Today', value: '1'},
   {label: 'Last Week', value: '7'},
   {label: 'This Month', value: '30'},
+];
+
+export interface DropDownSortType {
+  label: string;
+  value: string;
+}
+
+export const dropDownDataSort: DropDownSortType[] = [
+  {label: 'Latest', value: '1'},
+  {label: 'Popular', value: '2'},
 ];
