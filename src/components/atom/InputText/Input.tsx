@@ -39,12 +39,14 @@ interface InputProps extends TextInputProps {
   rightIcon?: boolean;
   reset?: () => void;
   containerStyles?: ViewStyle;
+  inputStyles?: ViewStyle;
 }
 
 interface TextAreaProps extends TextInputProps {
   fontSize?: number;
   backgroundColor?: string;
   containerStyles?: ViewStyle;
+  inputStyles?: ViewStyle;
 }
 
 type TypeStyle = {
@@ -78,13 +80,17 @@ const InputText: React.FC<InputProps> = props => {
     onSubmitEditing,
     onEndEditing,
     containerStyles,
+    inputStyles,
   } = props;
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
 
-  const newBorderWidth = isError === true || borderColor ? 1 : 0;
-  const newBorderColor =
-    isError === true ? ErrorColor : borderColor && state ? borderColor : '';
+  const newBorderWidth = isError || borderColor ? 1 : 0;
+  const newBorderColor = isError
+    ? ErrorColor
+    : borderColor && state
+    ? borderColor
+    : '';
 
   const rightIconComp = () => {
     return (
@@ -110,7 +116,7 @@ const InputText: React.FC<InputProps> = props => {
         ]}>
         {leftIcon}
         <TextInput
-          style={[styles.input(fontSize, fontColor)]}
+          style={[styles.input(fontSize, fontColor), inputStyles]}
           value={value}
           secureTextEntry={password ? secure : false}
           keyboardType={keyboardType}
@@ -165,16 +171,18 @@ const InputText: React.FC<InputProps> = props => {
   );
 };
 
-const TextArea: React.FC<TextAreaProps> = ({
-  fontSize,
-  value,
-  onChangeText,
-  editable,
-  placeholder,
-  backgroundColor,
-  containerStyles,
-  maxLength,
-}) => {
+const TextArea: React.FC<TextAreaProps> = props => {
+  const {
+    fontSize,
+    value,
+    onChangeText,
+    editable,
+    placeholder,
+    backgroundColor,
+    containerStyles,
+    inputStyles,
+    maxLength,
+  } = props;
   const [state, setState] = useState<boolean>(false);
   return (
     <View
@@ -188,7 +196,7 @@ const TextArea: React.FC<TextAreaProps> = ({
         containerStyles,
       ]}>
       <TextInput
-        style={styles.inputTextArea(fontSize)}
+        style={[styles.inputTextArea(fontSize), inputStyles]}
         multiline={true}
         numberOfLines={3}
         value={value}
@@ -198,6 +206,7 @@ const TextArea: React.FC<TextAreaProps> = ({
         placeholderTextColor={FontColor}
         onFocus={() => setState(true)}
         maxLength={maxLength}
+        {...props}
       />
     </View>
   );
