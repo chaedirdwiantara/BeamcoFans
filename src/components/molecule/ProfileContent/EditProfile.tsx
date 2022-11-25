@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {ModalConfirm} from '../..';
 import {SsuInput} from '../../atom';
-import {ModalEdit} from './ModalEdit';
 import Color from '../../../theme/Color';
 import {TopNavigation} from '../TopNavigation';
 import Typography from '../../../theme/Typography';
-import {ProfileHeaderProps, ProfileHeader} from './Header';
+import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
+import {ProfileHeaderProps, ProfileHeader} from './components/Header';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface EditProfileProps {
   profile: ProfileHeaderProps[];
@@ -24,25 +25,50 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   onPressSave,
 }) => {
   const [bio, setBio] = useState('');
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState({
+    modalConfirm: false,
+    modalImage: false,
+  });
   const [uriType, setUriType] = useState('');
   const [uri, setUri] = useState({
-    avatarUri: {uri: ''},
-    backgroundUri: {uri: ''},
+    avatarUri: {path: null},
+    backgroundUri: {path: null},
   });
 
-  const onPressIcon = (newType: string) => {
-    setModalVisible(true);
+  const openModalConfirm = () => {
+    setModalVisible({
+      modalConfirm: true,
+      modalImage: false,
+    });
+  };
+
+  const openModalImage = (newType: string) => {
+    setModalVisible({
+      modalConfirm: false,
+      modalImage: true,
+    });
     setUriType(newType);
   };
 
-  const sendUri = (val: {assets: string[]}) => {
-    setUri({...uri, [uriType]: val?.assets[0]});
+  const resetImage = () => {
+    setUri({...uri, [uriType]: null});
+    closeModal();
   };
 
-  const avatarUri = uri?.avatarUri?.uri || profile.avatarUri || null;
+  const closeModal = () => {
+    setModalVisible({
+      modalConfirm: false,
+      modalImage: false,
+    });
+  };
+
+  const sendUri = (val: {assets: string[]}) => {
+    setUri({...uri, [uriType]: val});
+  };
+
+  const avatarUri = uri?.avatarUri?.path || profile.avatarUri || null;
   const backgroundUri =
-    uri?.backgroundUri?.uri || profile.backgroundUri || null;
+    uri?.backgroundUri?.path || profile.backgroundUri || null;
 
   return (
     <View style={styles.root}>
@@ -52,7 +78,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
         leftIconAction={onPressGoBack}
-        rightIconAction={() => onPressSave({...uri, bio})}
+        rightIconAction={openModalConfirm}
         containerStyles={{paddingHorizontal: widthPercentage(20)}}
       />
       <ProfileHeader
@@ -62,7 +88,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         fullname={profile.fullname}
         username={profile.username}
         containerStyles={{height: heightPercentage(206)}}
-        iconPress={onPressIcon}
+        iconPress={openModalImage}
       />
       <View style={styles.textAreaContainer}>
         <Text style={[Typography.Overline, styles.label]}>Bio</Text>
@@ -76,10 +102,19 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         <Text style={styles.length}>{`${bio.length}/110`}</Text>
       </View>
 
-      <ModalEdit
-        modalVisible={isModalVisible}
+      <ModalImagePicker
+        modalVisible={isModalVisible.modalImage}
         sendUri={sendUri}
-        onPressClose={() => setModalVisible(false)}
+        onDeleteImage={resetImage}
+        onPressClose={closeModal}
+      />
+
+      <ModalConfirm
+        modalVisible={isModalVisible.modalConfirm}
+        title="Edit Profile"
+        subtitle="Are you sure to finish edit profile?"
+        onPressClose={closeModal}
+        onPressOk={() => onPressSave({...uri, bio})}
       />
     </View>
   );
@@ -94,6 +129,7 @@ const styles = StyleSheet.create({
     color: Color.Dark[50],
     marginBottom: heightPercentage(5),
     marginTop: heightPercentage(20),
+    lineHeight: heightPercentage(20),
   },
   textAreaContainer: {
     width: '90%',
