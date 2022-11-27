@@ -281,6 +281,8 @@ private String generateVersionName() {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    // for google signin
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
