@@ -7,6 +7,7 @@ import {
   Dimensions,
   Platform,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -44,6 +45,7 @@ export const LoginScreen: React.FC = () => {
 
   const {
     onLoginUser,
+    onLoginGoogle,
     isLoading,
     isError,
     loginResult,
@@ -84,6 +86,7 @@ export const LoginScreen: React.FC = () => {
       if (errorCode === 1016) {
         navigation.navigate('Otp', {
           id: errorData,
+          type: errorData.includes('@') ? 'email' : 'phoneNumber',
           title: 'Email Verification Code',
           subtitle: `We have sent you six digits verification code on address ${errorData} check your inbox and enter verification code here`,
         });
@@ -95,6 +98,11 @@ export const LoginScreen: React.FC = () => {
       }
     }
   }, [isLoading, isError, loginResult, errorCode]);
+
+  useEffect(() => {
+    console.log('[isError]', isError);
+    console.log('[errorMsg]', errorMsg);
+  }, [isError, errorMsg]);
 
   const handleOnPressBack = () => {
     navigation.goBack();
@@ -238,7 +246,9 @@ export const LoginScreen: React.FC = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <GoogleLogo />
+          <TouchableOpacity onPress={onLoginGoogle}>
+            <GoogleLogo />
+          </TouchableOpacity>
           <Gap width={24} />
           <FacebookLogo />
           <Gap width={24} />

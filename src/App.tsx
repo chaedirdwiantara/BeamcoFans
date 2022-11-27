@@ -46,6 +46,7 @@ export type RootStackParams = {
   ModalConfirm: undefined;
   Otp: {
     id: string;
+    type: 'email' | 'phoneNumber';
     title: string;
     subtitle: string;
   };
