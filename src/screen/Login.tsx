@@ -46,6 +46,7 @@ export const LoginScreen: React.FC = () => {
   const {
     onLoginUser,
     onLoginGoogle,
+    onLoginFacebook,
     isLoading,
     isError,
     loginResult,
@@ -98,11 +99,6 @@ export const LoginScreen: React.FC = () => {
       }
     }
   }, [isLoading, isError, loginResult, errorCode]);
-
-  useEffect(() => {
-    console.log('[isError]', isError);
-    console.log('[errorMsg]', errorMsg);
-  }, [isError, errorMsg]);
 
   const handleOnPressBack = () => {
     navigation.goBack();
@@ -250,7 +246,9 @@ export const LoginScreen: React.FC = () => {
             <GoogleLogo />
           </TouchableOpacity>
           <Gap width={24} />
-          <FacebookLogo />
+          <TouchableOpacity onPress={onLoginFacebook}>
+            <FacebookLogo />
+          </TouchableOpacity>
           <Gap width={24} />
           <AppleLogo />
         </View>

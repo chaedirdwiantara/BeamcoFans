@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {Settings, LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {
   checkUsername,
   confirmEmailOtpRegister,
@@ -114,6 +115,23 @@ export const useAuthHook = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const onLoginFacebook = async () => {
+    Settings.setAppID('687852656020966');
+    LoginManager.logInWithPermissions(['public_profile', 'email'])
+      .then(res => {
+        console.log(res);
+        if (!res.isCancelled) {
+          AccessToken.getCurrentAccessToken().then(token => {
+            // console.log(token);
+            // TODO: get email from FB graphapi after apps is live
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const checkUsernameAvailability = async (username: string) => {
@@ -238,6 +256,7 @@ export const useAuthHook = () => {
     onRegisterUser,
     onLoginUser,
     onLoginGoogle,
+    onLoginFacebook,
     checkUsernameAvailability,
     confirmEmailOtp,
     confirmSmsOtp,

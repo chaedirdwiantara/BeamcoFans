@@ -24,6 +24,7 @@
     "react-native": "0.70.2",
     "react-native-element-dropdown": "^2.3.0",
     "react-native-fast-image": "^8.6.3",
+    "react-native-fbsdk-next": "^11.1.0",
     "react-native-image-picker": "^4.10.1",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-mmkv": "^2.5.1",
