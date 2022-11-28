@@ -29,6 +29,7 @@ import {mvs} from 'react-native-size-matters';
 import {commentData} from '../../data/comment';
 import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
+import ImageList from '../ListCard/ThreeImageList';
 
 interface PostDetail {
   props: {};
@@ -141,8 +142,8 @@ export const PostDetail: FC<PostDetail> = props => {
                     numColumns={2}
                     data={data.post.postPicture}
                     renderItem={
-                      data.post.postPicture.length > 2
-                        ? ({item}: any) => (
+                      data.post.postPicture.length > 3
+                        ? ({item}) => (
                             <SquareImage
                               imgUri={item.postUri}
                               size={widthResponsive(162, 375)}
@@ -156,7 +157,18 @@ export const PostDetail: FC<PostDetail> = props => {
                               onPress={() => toggleModalOnPress(item.postUri)}
                             />
                           )
-                        : ({item}: any) => (
+                        : data.post.postPicture.length === 3
+                        ? ({item, index}) => (
+                            <ImageList
+                              index={index}
+                              uri={item.postUri}
+                              width={162}
+                              height={79}
+                              disabled={false}
+                              onPress={() => toggleModalOnPress(item.postUri)}
+                            />
+                          )
+                        : ({item}) => (
                             <SquareImage
                               imgUri={item.postUri}
                               size={widthResponsive(162, 375)}

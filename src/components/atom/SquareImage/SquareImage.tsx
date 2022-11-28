@@ -12,7 +12,7 @@ import {color} from '../../../theme';
 
 const {width} = Dimensions.get('screen');
 
-interface SquareImageProps extends TouchableOpacityProps {
+export interface SquareImageProps extends TouchableOpacityProps {
   imgUri: string;
   size?: number;
   height?: number;
