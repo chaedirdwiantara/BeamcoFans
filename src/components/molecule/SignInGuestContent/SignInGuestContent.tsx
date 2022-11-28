@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, ImageBackground, Platform} from 'react-native';
-import {mvs} from 'react-native-size-matters';
+import {View, Text, StyleSheet, ImageBackground} from 'react-native';
+import {ms, mvs} from 'react-native-size-matters';
 
 import Color from '../../../theme/Color';
 import {Button, ButtonGradient, LoginDescription} from '../../';
@@ -8,7 +8,7 @@ import Typography from '../../../theme/Typography';
 import {heightPercentage, normalize, width} from '../../../utils';
 
 interface GuestProps {
-  onPress?: (screenName: string) => void;
+  onPress: (screenName: 'Login' | 'Signup' | 'MainTab') => void;
 }
 
 export const SignInGuestContent: React.FC<GuestProps> = ({onPress}) => {
@@ -56,7 +56,9 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Dark[800],
   },
   containerImage: {
-    height: heightPercentage(500),
+    width: width,
+    height: undefined,
+    aspectRatio: 375 / 532,
   },
   image: {
     width,
@@ -70,8 +72,11 @@ const styles = StyleSheet.create({
     left: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    height: heightPercentage(280),
-    marginBottom: Platform.OS === 'ios' ? heightPercentage(50) : 0,
+    aspectRatio: 375 / 280,
+    height: undefined,
+    backgroundColor: Color.Dark[800],
+    borderTopLeftRadius: ms(24),
+    borderTopRightRadius: ms(24),
   },
   title: {
     maxWidth: '77%',

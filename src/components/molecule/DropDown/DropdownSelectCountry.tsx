@@ -1,4 +1,11 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInputProps,
+} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import {SsuInput} from '../../atom/InputText/SsuInput';
 import {color, font} from '../../../theme';
@@ -17,15 +24,15 @@ interface CountryData {
   image: string;
   code: string;
 }
-interface SelectCountryProps {
+interface SelectCountryProps extends TextInputProps {
   countryData: CountryData[];
   numberTyped: (data: any) => void;
 }
 
-const DropdownSelectCountry: FC<SelectCountryProps> = ({
-  countryData,
-  numberTyped,
-}) => {
+const DropdownSelectCountry: FC<SelectCountryProps> = (
+  props: SelectCountryProps,
+) => {
+  const {countryData, numberTyped} = props;
   const [state, setState] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState<any>([]);
@@ -95,6 +102,7 @@ const DropdownSelectCountry: FC<SelectCountryProps> = ({
             <Text style={styles.selectedCountryCode}>{value?.code}</Text>
           </View>
         }
+        {...props}
       />
       <Modal
         isVisible={modalVisible}

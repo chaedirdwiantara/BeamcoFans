@@ -36,7 +36,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   data,
   onPress,
 }) => {
-  const scrollViewRef = useRef(null);
+  const scrollViewRef = useRef<ScrollView>(null);
   const [selected, setSelected] = useState([]);
   const [activeIndexSlide, setActiveIndexSlide] = useState(0);
 
@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
   containerScrollView: {
     justifyContent: 'center',
     alignItems: 'center',
+    height: '100%',
   },
   image: {
     width,

@@ -4,21 +4,16 @@ import SsuSheet from '../components/atom/SsuSheet';
 import {Button, Gap, SsuOTPInput, SsuOTPTimer} from '../components';
 import {normalize} from '../utils';
 import {color, font} from '../theme';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParams} from '../App';
 import {mvs} from 'react-native-size-matters';
 
 const {width, height} = Dimensions.get('screen');
-interface OtpProps {
-  userCredentials?: string;
-  timer?: number;
-}
 
-export const Otp: FC<OtpProps> = (props: OtpProps) => {
-  const {userCredentials = 'xxx-xxx-xxx-3803', timer = 12} = props;
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+type OtpProps = NativeStackScreenProps<RootStackParams, 'Otp'>;
+
+export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
+  const timer = 12;
 
   const handleOtpBack = () => {
     navigation.goBack();
@@ -31,21 +26,15 @@ export const Otp: FC<OtpProps> = (props: OtpProps) => {
     return (
       <>
         <View style={styles.otpTitleContainer}>
-          <Text style={styles.titleStyle}>Input Otp</Text>
+          <Text style={styles.titleStyle}>{route.params.title}</Text>
           <Gap height={8} />
-          <Text style={styles.descStyle}>
-            Enter the recovery code we just sent to
-          </Text>
-          <Gap height={8} />
-          <Text style={styles.descStyle}>{userCredentials}</Text>
+          <Text style={styles.descStyle}>{route.params.subtitle}</Text>
         </View>
 
         <Gap height={16} />
         <SsuOTPInput
           type={'default'}
           hideIcon
-          // showMessage
-          // otpSuccess={true}
           onCodeChanged={code => console.log(code)}
           onCodeFilled={(result, code) => {
             if (result) {

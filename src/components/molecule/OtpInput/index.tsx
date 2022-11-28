@@ -1,19 +1,16 @@
 import React, {FC} from 'react';
 import {
   Keyboard,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-// import fonts from '../../utils/fonts';
-// import colors from '../../utils/colors';
-import globalStyles from './GlobalStyle';
-// import SnbSvgIcon from '../SvgIcon/SvgIcon';
-// import {SnbText} from '../../components/Typography/Typography';
 import {color, font} from '../../../theme';
-import {ErrorIcon, HomeIcon, SearchIcon} from '../../../assets/icon';
+import {ErrorIcon, SearchIcon} from '../../../assets/icon';
 import {ms, mvs} from 'react-native-size-matters';
 import {normalize} from '../../../utils';
 
@@ -75,11 +72,11 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
   React.useEffect(() => {
     bringUpKeyBoardIfNeeded();
     setDigitsFromCode(code);
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      blurAllFields,
-    );
-    return keyboardDidHideListener.remove;
+    // const keyboardDidHideListener = Keyboard.addListener(
+    //   'keyboardDidHide',
+    //   blurAllFields,
+    // );
+    // return keyboardDidHideListener.remove;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -236,7 +233,7 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
       <TouchableWithoutFeedback
         accessible
         accessibilityLabel={`${testID}.touchableWithoutFeedback`}
-        // style={{height: 200}}
+        style={{height: 200}}
         onPress={handleValidationWhenClear}>
         <View style={boxStyle}>
           {textInputCount.map((_, index) => {

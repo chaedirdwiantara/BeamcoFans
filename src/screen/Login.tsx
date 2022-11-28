@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,102 +6,218 @@ import {
   Image,
   Dimensions,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useForm, SubmitHandler, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import {useAuthHook} from '../hooks/use-auth.hook';
 import {RootStackParams} from '../App';
 import SsuSheet from '../components/atom/SsuSheet';
 import {color, font} from '../theme';
 import {normalize} from '../utils';
 import {ms, mvs} from 'react-native-size-matters';
-import {
-  Avatar,
-  Button,
-  Dropdown,
-  Gap,
-  SsuDivider,
-  SsuInput,
-  TermAndConditions,
-} from '../components';
+import {Button, Dropdown, Gap, SsuDivider, SsuInput} from '../components';
 import {LockIcon, UserIcon} from '../assets/icon';
 import {countryData} from '../data/dropdown';
 import {AppleLogo, FacebookLogo, GoogleLogo, SSULogo} from '../assets/logo';
-import {heightPercentage} from '../utils/dimensionFormat';
+import type {RegistrationType} from '../interface/profile.interface';
+import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 
 const {width, height} = Dimensions.get('screen');
+
+interface LoginInput {
+  user: string;
+  password: string;
+}
+
+const loginValidation = yup.object({
+  user: yup.string().required('This field is required'),
+  password: yup.string().required('This field is required'),
+});
 
 export const LoginScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const [user, setUser] = useState('');
-  const [pass, setPass] = useState('');
-  const [error, setError] = useState(false);
-  const [phoneNum, setPhoneNum] = useState('');
+  const {
+    onLoginUser,
+    isLoading,
+    isError,
+    loginResult,
+    errorMsg,
+    errorCode,
+    errorData,
+  } = useAuthHook();
 
-  const handleOnPressButton = () => {
-    phoneNum !== ''
-      ? navigation.navigate('Otp')
-      : navigation.navigate('Preference');
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+    setError,
+    reset,
+  } = useForm<LoginInput>({
+    resolver: yupResolver(loginValidation),
+    defaultValues: {
+      user: '',
+      password: '',
+    },
+  });
+  const [loginType, setLoginType] = useState<RegistrationType>('email');
+  const [focusInput, setFocusInput] = useState<
+    'email' | 'password' | 'phone' | null
+  >(null);
+
+  const handleOnLogin: SubmitHandler<LoginInput> = data => {
+    onLoginUser({
+      user: data.user,
+      password: data.password,
+    });
   };
+
+  useEffect(() => {
+    if (!isLoading && !isError && loginResult !== null) {
+      navigation.replace('Preference');
+    } else if (!isLoading && isError) {
+      if (errorCode === 1016) {
+        navigation.navigate('Otp', {
+          id: errorData,
+          title: 'Email Verification Code',
+          subtitle: `We have sent you six digits verification code on address ${errorData} check your inbox and enter verification code here`,
+        });
+      } else {
+        setError('password', {
+          type: 'value',
+          message: errorMsg,
+        });
+      }
+    }
+  }, [isLoading, isError, loginResult, errorCode]);
+
   const handleOnPressBack = () => {
     navigation.goBack();
   };
+
   const handleOnPressSignUp = () => {
     navigation.navigate('Signup');
   };
+
   const handleOnPressForgotPass = () => {
     navigation.navigate('ForgotPassword');
   };
 
   const resultData = (dataResult: any) => {
-    console.log(dataResult, 'dataResult Select Country');
-    setPhoneNum(dataResult);
+    // setPhoneNum(dataResult);
   };
 
-  const [term, setTerm] = useState(false);
-  const handleOnPressTnc = () => {
-    setTerm(!term);
+  const handleChangeLoginType = (loginType: RegistrationType) => {
+    setLoginType(loginType);
+    handleFocusInput(null);
+    reset();
+  };
+
+  const handleFocusInput = (focus: 'email' | 'password' | 'phone' | null) => {
+    setFocusInput(focus);
   };
 
   const children = () => {
     return (
       <>
         <Text style={styles.titleStyle}>Sign In</Text>
-        <Gap height={20} />
-        <SsuInput.InputText
-          value={user}
-          onChangeText={(newText: any) => setUser(newText)}
-          placeholder={'Email or Username'}
-          leftIcon={
-            <UserIcon
-              stroke={color.Dark[50]}
-              style={{marginLeft: ms(-1), marginRight: ms(-5)}}
+        <Gap height={16} />
+        <View style={styles.wrapperLoginType}>
+          <Text
+            style={
+              loginType === 'email'
+                ? styles.loginTypeActive
+                : styles.loginTypeInactive
+            }
+            onPress={() => handleChangeLoginType('email')}>
+            Email
+          </Text>
+          <View style={styles.verticalSeparatorLoginType} />
+          <Text
+            style={
+              loginType === 'phone'
+                ? styles.loginTypeActive
+                : styles.loginTypeInactive
+            }
+            onPress={() => handleChangeLoginType('phone')}>
+            Phone Number
+          </Text>
+        </View>
+        {loginType === 'email' && (
+          <View>
+            <Controller
+              name="user"
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <SsuInput.InputText
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder={'Email or Username'}
+                  leftIcon={
+                    <UserIcon
+                      stroke={color.Dark[50]}
+                      style={{marginLeft: ms(-1), marginRight: ms(-5)}}
+                    />
+                  }
+                  onFocus={() => {
+                    handleFocusInput('email');
+                  }}
+                  onBlur={() => {
+                    handleFocusInput(null);
+                  }}
+                  isError={errors?.user ? true : false}
+                  errorMsg={errors?.user?.message}
+                  isFocus={focusInput === 'email'}
+                />
+              )}
             />
-          }
-        />
-        <Gap height={8} />
-        <SsuInput.InputText
-          value={pass}
-          onChangeText={(newText: any) => setPass(newText)}
-          placeholder={'Password'}
-          isError={error}
-          errorMsg={'Your Account or Password is incorrect'}
-          leftIcon={<LockIcon stroke={color.Dark[50]} />}
-          password
-        />
-        <Gap height={12} />
-        <SsuDivider text={'Or'} />
-        <Gap height={8} />
-        <Dropdown.Country countryData={countryData} numberTyped={resultData} />
-        <Gap height={14} />
-        <TermAndConditions handleOnPress={handleOnPressTnc} active={term} />
+            <Gap height={8} />
+            <Controller
+              name="password"
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <SsuInput.InputText
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder={'Password'}
+                  leftIcon={<LockIcon stroke={color.Dark[50]} />}
+                  password
+                  isError={errors?.password ? true : false}
+                  errorMsg={errors?.password?.message}
+                  onFocus={() => {
+                    handleFocusInput('password');
+                  }}
+                  onBlur={() => {
+                    handleFocusInput(null);
+                  }}
+                  isFocus={focusInput === 'password'}
+                />
+              )}
+            />
+            <Gap height={12} />
+          </View>
+        )}
+        {loginType === 'phone' && (
+          <View>
+            <Gap height={8} />
+            <Dropdown.Country
+              countryData={countryData}
+              numberTyped={resultData}
+              onFocus={() => handleFocusInput('phone')}
+            />
+          </View>
+        )}
         <Gap height={20} />
         <Button
           label="Submit"
           textStyles={{fontSize: normalize(14)}}
           containerStyles={{width: '100%'}}
-          onPress={handleOnPressButton}
+          onPress={handleSubmit(handleOnLogin)}
         />
         <Gap height={4} />
         <Button
@@ -177,12 +293,16 @@ export const LoginScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <Image
-        source={require('../assets/background/signin-guest.png')}
-        style={styles.image}
-      />
-
-      <SsuSheet children={children()} topChild={topChild()} />
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <Image
+          source={require('../assets/background/signin-guest.png')}
+          style={styles.image}
+        />
+        <SsuSheet children={children()} topChild={topChild()} />
+        <ModalLoading visible={isLoading} />
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -206,6 +326,34 @@ const styles = StyleSheet.create({
     lineHeight: mvs(32),
     textAlign: 'center',
     color: color.Neutral[10],
+  },
+  wrapperLoginType: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginBottom: ms(16),
+  },
+  verticalSeparatorLoginType: {
+    width: ms(1),
+    height: mvs(12),
+    backgroundColor: color.Dark[500],
+    marginLeft: ms(12),
+    marginRight: ms(12),
+  },
+  loginTypeActive: {
+    fontFamily: font.InterMedium,
+    fontSize: normalize(12),
+    color: color.Pink[2],
+    lineHeight: mvs(14),
+    fontWeight: '500',
+  },
+  loginTypeInactive: {
+    fontFamily: font.InterRegular,
+    fontSize: normalize(12),
+    color: color.Neutral[10],
+    lineHeight: mvs(14),
+    fontWeight: '400',
   },
   forgotPassStyle: {
     color: color.Neutral[10],

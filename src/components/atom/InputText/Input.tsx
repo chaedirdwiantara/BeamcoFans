@@ -36,12 +36,15 @@ interface InputProps extends TextInputProps {
   borderColor?: string;
   fontColor?: string;
   rightIcon?: boolean;
+  isFocus?: boolean;
+  rightIconComponent?: React.ReactNode;
   reset?: () => void;
 }
 
 interface TextAreaProps extends TextInputProps {
   fontSize?: number;
   backgroundColor?: string;
+  containerStyles?: ViewStyle;
 }
 
 type TypeStyle = {
@@ -57,12 +60,11 @@ const FontColor = color.Dark[300];
 
 const InputText: React.FC<InputProps> = props => {
   const {
-    fontSize,
+    fontSize = normalize(12),
     value,
     keyboardType,
     onChangeText,
     disabled,
-    // placeholder,
     isError,
     errorMsg,
     leftIcon,
@@ -71,6 +73,8 @@ const InputText: React.FC<InputProps> = props => {
     borderColor,
     fontColor,
     rightIcon,
+    rightIconComponent,
+    isFocus,
     reset,
     onSubmitEditing,
     onEndEditing,
@@ -102,6 +106,9 @@ const InputText: React.FC<InputProps> = props => {
             borderWidth: newBorderWidth,
             borderColor: newBorderColor,
           },
+          isFocus
+            ? {borderColor: color.Pink[2], borderWidth: 1}
+            : {borderWidth: 0},
         ]}>
         {leftIcon}
         <TextInput
@@ -111,7 +118,6 @@ const InputText: React.FC<InputProps> = props => {
           keyboardType={keyboardType}
           onChangeText={onChangeText}
           editable={disabled ? false : true}
-          // placeholder={placeholder}
           placeholderTextColor={FontColor}
           onFocus={() => setState(true)}
           onEndEditing={onEndEditing}
@@ -130,7 +136,13 @@ const InputText: React.FC<InputProps> = props => {
             )}
           </TouchableOpacity>
         ) : null}
-        <View>{rightIcon ? rightIconComp() : null}</View>
+        <View>
+          {rightIcon
+            ? rightIconComponent
+              ? rightIconComponent
+              : rightIconComp()
+            : null}
+        </View>
       </View>
 
       {isError === true ? (
@@ -167,6 +179,8 @@ const TextArea: React.FC<TextAreaProps> = ({
   editable,
   placeholder,
   backgroundColor,
+  containerStyles,
+  maxLength,
 }) => {
   const [state, setState] = useState<boolean>(false);
   return (
@@ -174,10 +188,11 @@ const TextArea: React.FC<TextAreaProps> = ({
       style={[
         styles.container,
         {
-          borderWidth: state === true ? 1 : 0,
-          borderColor: color.Success[500],
+          borderBottomWidth: state === true ? 1 : 0,
+          borderBottomColor: color.Pink[200],
           backgroundColor: backgroundColor ? backgroundColor : color.Dark[900],
         },
+        containerStyles,
       ]}>
       <TextInput
         style={styles.inputTextArea(fontSize)}
@@ -189,6 +204,7 @@ const TextArea: React.FC<TextAreaProps> = ({
         placeholder={placeholder}
         placeholderTextColor={FontColor}
         onFocus={() => setState(true)}
+        maxLength={maxLength}
       />
     </View>
   );
@@ -230,6 +246,6 @@ const styles = StyleSheet.create<TypeStyle>({
     paddingVertical: mvs(5),
     paddingHorizontal: ms(5),
     textAlignVertical: 'top',
-    color: FontColor,
+    color: color.Neutral[10],
   }),
 });

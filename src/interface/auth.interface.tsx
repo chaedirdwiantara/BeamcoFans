@@ -27,3 +27,32 @@ export interface RegisterResponseType {
   message: string;
   status: number;
 }
+
+export interface LoginPropsType {
+  user: string;
+  password: string;
+}
+
+export interface LoginResponseType {
+  code: number;
+  data: {
+    id: number;
+    uuid: string;
+    username: string;
+    email: string;
+    fullname: string;
+    accessToken: string;
+    accessTokenExpiresAt: string;
+    refreshToken: string;
+    refreshTokenExpiresAt: string;
+  };
+  message: string;
+  status: number;
+}
+
+export interface UsernameAvailabilityResponseType {
+  code: number;
+  data: boolean;
+  message: string;
+  status: number;
+}

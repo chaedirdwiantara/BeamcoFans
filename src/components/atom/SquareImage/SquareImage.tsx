@@ -8,6 +8,7 @@ import {
   TouchableOpacityProps,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {color} from '../../../theme';
 
 const {width} = Dimensions.get('screen');
 
@@ -52,5 +53,12 @@ const styles = StyleSheet.create({
     height: undefined,
     aspectRatio: 1 / 1,
     borderRadius: 4,
+  },
+  root2: {
+    height: undefined,
+    aspectRatio: 1 / 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.Success[400],
   },
 });
