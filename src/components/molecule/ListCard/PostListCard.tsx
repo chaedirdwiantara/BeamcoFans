@@ -49,85 +49,84 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
     category,
   } = props;
   return (
-    <>
-      <TouchableOpacity {...props}>
-        <View style={[styles.topContainer, containerStyles]}>
-          <View>
-            <Avatar imgUri={imgUri} size={widthResponsive(32)} />
-          </View>
-          <View
-            style={{
-              flex: 1,
-              marginLeft: widthResponsive(6),
-              paddingBottom: heightPercentage(2),
-            }}>
-            <View style={styles.topSection}>
-              <Text style={styles.songTitle}>{musicianName}</Text>
-              <View style={[styles.category]}>
-                <Text style={styles.categoryText}>{category}</Text>
-              </View>
-            </View>
-            <Gap height={4} />
-            <View style={styles.bottomSection}>
-              <Text style={styles.songDesc}>{musicianId}</Text>
-              <Text style={styles.regularText}>{postDate}</Text>
-            </View>
-          </View>
+    <TouchableOpacity {...props}>
+      <View style={[styles.topContainer, containerStyles]}>
+        <View>
+          <Avatar imgUri={imgUri} size={widthResponsive(32)} />
         </View>
-        {/* BODY SECTION */}
-        <View style={styles.bodyContainer}>
-          <Gap width={38} />
-          {children}
-        </View>
-      </TouchableOpacity>
-
-      {/* BOTTOM SECTION */}
-      <View style={styles.bottomContainer}>
-        <Gap width={38} />
-        <View style={styles.socialContainer}>
-          {/* like section */}
-          <View>
-            <TouchableOpacity onPress={likeOnPress} style={styles.socialIcon}>
-              <LoveIcon
-                fill={likePressed ? color.Pink[100] : 'none'}
-                stroke={likePressed ? 'none' : color.Dark[100]}
-                width={16}
-                height={16}
-              />
-              <Gap width={3} />
-              <Text style={styles.regularText}>{likeCount}</Text>
-            </TouchableOpacity>
-          </View>
-          {/* comment section */}
-          <View>
-            <TouchableOpacity
-              onPress={commentOnPress}
-              style={styles.socialIcon}>
-              <CommentIcon stroke={color.Dark[100]} width={16} height={14} />
-              <Gap width={3} />
-              <Text style={styles.regularText}>{commentCount}</Text>
-            </TouchableOpacity>
-          </View>
-          {/* token section */}
-          <View style={styles.socialIcon}>
-            <TouchableOpacity onPress={tokenOnPress}>
-              <CoinB stroke={color.Dark[100]} width={16} height={15} />
-            </TouchableOpacity>
-          </View>
-        </View>
-        {/* share section */}
         <View
           style={{
             flex: 1,
-            justifyContent: 'center',
-            alignItems: 'flex-end',
+            marginLeft: widthResponsive(6),
+            paddingBottom: heightPercentage(2),
           }}>
-          <TouchableOpacity onPress={shareOnPress}>
-            <ShareIcon stroke={color.Dark[100]} width={16} height={15} />
-          </TouchableOpacity>
+          <View style={styles.topSection}>
+            <Text style={styles.songTitle}>{musicianName}</Text>
+            <View style={[styles.category]}>
+              <Text style={styles.categoryText}>{category}</Text>
+            </View>
+          </View>
+          <Gap height={4} />
+          <View style={styles.bottomSection}>
+            <Text style={styles.songDesc}>{musicianId}</Text>
+            <Text style={styles.regularText}>{postDate}</Text>
+          </View>
+          {/* BODY SECTION */}
+          <View style={styles.bodyContainer}>{children}</View>
+          {/* BOTTOM SECTION */}
+          <View style={styles.bottomContainer}>
+            <View style={styles.socialContainer}>
+              {/* like section */}
+              <View>
+                <TouchableOpacity
+                  onPress={likeOnPress}
+                  style={styles.socialIcon}>
+                  <LoveIcon
+                    fill={likePressed ? color.Pink[100] : 'none'}
+                    stroke={likePressed ? 'none' : color.Dark[100]}
+                    width={16}
+                    height={16}
+                  />
+                  <Gap width={3} />
+                  <Text style={styles.regularText}>{likeCount}</Text>
+                </TouchableOpacity>
+              </View>
+              {/* comment section */}
+              <View>
+                <TouchableOpacity
+                  onPress={commentOnPress}
+                  style={styles.socialIcon}>
+                  <CommentIcon
+                    stroke={color.Dark[100]}
+                    width={16}
+                    height={14}
+                  />
+                  <Gap width={3} />
+                  <Text style={styles.regularText}>{commentCount}</Text>
+                </TouchableOpacity>
+              </View>
+              {/* token section */}
+              <View style={styles.socialIcon}>
+                <TouchableOpacity onPress={tokenOnPress}>
+                  <CoinB stroke={color.Dark[100]} width={16} height={15} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            {/* share section */}
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+              }}>
+              <TouchableOpacity onPress={shareOnPress}>
+                <ShareIcon stroke={color.Dark[100]} width={16} height={15} />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </View>
-    </>
+    </TouchableOpacity>
   );
 };
 
@@ -138,7 +137,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: undefined,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   rankStyle: {
     fontSize: normalize(10),
