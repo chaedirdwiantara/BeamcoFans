@@ -26,6 +26,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
+import ImageList from './ThreeImageList';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -187,44 +188,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                             )
                           : item.post.postPicture.length == 3
                           ? ({item, index}) => (
-                              <View style={{}}>
-                                {index == 0 ? (
-                                  <SquareImage
-                                    imgUri={item.postUri}
-                                    size={widthResponsive(143, 375)}
-                                    id={item.id}
-                                    containerStyle={{
-                                      marginRight: widthResponsive(3),
-                                      marginBottom: heightPercentage(4),
-                                    }}
-                                  />
-                                ) : index == 2 ? (
-                                  <SquareImage
-                                    imgUri={item.postUri}
-                                    size={widthResponsive(143, 375)}
-                                    height={heightPercentage(70)}
-                                    id={item.id}
-                                    containerStyle={{
-                                      position: 'absolute',
-                                      bottom: 0,
-                                      left: widthResponsive(146),
-                                      marginRight: widthResponsive(3),
-                                      marginBottom: heightPercentage(4),
-                                    }}
-                                  />
-                                ) : (
-                                  <SquareImage
-                                    imgUri={item.postUri}
-                                    size={widthResponsive(143, 375)}
-                                    height={heightPercentage(70)}
-                                    id={item.id}
-                                    containerStyle={{
-                                      marginRight: widthResponsive(3),
-                                      marginBottom: heightPercentage(4),
-                                    }}
-                                  />
-                                )}
-                              </View>
+                              <ImageList index={index} uri={item.postUri} />
                             )
                           : ({item}) => (
                               <SquareImage

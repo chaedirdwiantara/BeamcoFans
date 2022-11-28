@@ -221,6 +221,11 @@ export const PostlistDataExclusive: PostListType[] = [
           postUri:
             'https://img.harianjogja.com/posts/2022/11/10/1117219/alif-cepmek.jpg',
         },
+        {
+          id: 0,
+          postUri:
+            'https://cdn1-production-images-kly.akamaized.net/mm32wIeS1DHrS2j83Uo3V8Bmb98=/640x853/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/4201593/original/087977400_1666591841-6_mikey22287.jpg',
+        },
       ],
     },
     category: 'Tour',

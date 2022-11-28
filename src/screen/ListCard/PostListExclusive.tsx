@@ -27,6 +27,7 @@ import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
+import ImageList from './ThreeImageList';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -172,8 +173,8 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                       numColumns={2}
                       data={item.post.postPicture}
                       renderItem={
-                        item.post.postPicture.length > 2
-                          ? ({item}: any) => (
+                        item.post.postPicture.length > 3
+                          ? ({item}) => (
                               <SquareImage
                                 imgUri={item.postUri}
                                 size={widthResponsive(143, 375)}
@@ -185,7 +186,11 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                                 }}
                               />
                             )
-                          : ({item}: any) => (
+                          : item.post.postPicture.length == 3
+                          ? ({item, index}) => (
+                              <ImageList index={index} uri={item.postUri} />
+                            )
+                          : ({item}) => (
                               <SquareImage
                                 imgUri={item.postUri}
                                 size={widthResponsive(143, 375)}
