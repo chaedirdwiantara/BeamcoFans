@@ -84,8 +84,9 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                   <LoveIcon
                     fill={likePressed ? color.Pink[100] : 'none'}
                     stroke={likePressed ? 'none' : color.Dark[100]}
-                    width={16}
-                    height={16}
+                    width={17}
+                    height={17}
+                    style={{marginBottom: heightPercentage(4)}}
                   />
                   <Gap width={3} />
                   <Text style={styles.regularText}>{likeCount}</Text>
@@ -100,6 +101,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                     stroke={color.Dark[100]}
                     width={16}
                     height={14}
+                    style={{marginBottom: heightPercentage(4)}}
                   />
                   <Gap width={3} />
                   <Text style={styles.regularText}>{commentCount}</Text>
@@ -108,7 +110,12 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
               {/* token section */}
               <View style={styles.socialIcon}>
                 <TouchableOpacity onPress={tokenOnPress}>
-                  <CoinB stroke={color.Dark[100]} width={16} height={15} />
+                  <CoinB
+                    stroke={color.Dark[100]}
+                    width={16}
+                    height={15}
+                    style={{marginBottom: heightPercentage(4)}}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -120,7 +127,12 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                 alignItems: 'flex-end',
               }}>
               <TouchableOpacity onPress={shareOnPress}>
-                <ShareIcon stroke={color.Dark[100]} width={16} height={15} />
+                <ShareIcon
+                  stroke={color.Dark[100]}
+                  width={16}
+                  height={15}
+                  style={{marginBottom: heightPercentage(4)}}
+                />
               </TouchableOpacity>
             </View>
           </View>
