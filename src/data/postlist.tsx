@@ -41,6 +41,11 @@ export const PostlistData: PostListType[] = [
           postUri:
             'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
         },
+        {
+          id: 2,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
       ],
     },
     category: 'Coming Up',
@@ -154,6 +159,11 @@ export const PostlistData: PostListType[] = [
           id: 1,
           postUri:
             'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
+        {
+          id: 0,
+          postUri:
+            'https://dafunda.com/wp-content/uploads/2022/02/Inilah-Alasan-Kuat-Kenapa-Eren-Yeager-Menjadi-Jahat-di-Attack-on-Titan.jpg',
         },
       ],
     },
