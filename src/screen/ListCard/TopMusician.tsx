@@ -7,21 +7,22 @@ import {MusicianListData} from '../../data/topMusician';
 import {elipsisText} from '../../utils';
 
 const TopMusician = () => {
-  const onPressThreeDots = () => {
-    console.log('dowtey');
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
   };
   return (
     <FlashList
       data={MusicianListData}
       showsVerticalScrollIndicator={false}
       keyExtractor={item => item.id}
-      renderItem={({item}: any) => (
+      renderItem={({item}) => (
         <ListCard.MusicianList
-          musicNum={item.musicNum}
-          musicianName={elipsisText(item.musicianName, 22)}
+          musicianNum={item.musicNum}
+          musicianName={item.musicianName}
           imgUri={item.imgUri}
-          onPressThreeDots={onPressThreeDots}
+          onPressMore={resultDataMore}
           containerStyles={{marginTop: mvs(20)}}
+          type={'rank'}
         />
       )}
       estimatedItemSize={MusicianListData.length}
