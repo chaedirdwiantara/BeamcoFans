@@ -27,9 +27,9 @@ interface ListProps {
   point?: string;
   containerStyles?: ViewStyle;
   dataFilter?: [];
-  rightComponent?: React.ReactNode;
   type: 'rank' | 'recommendation';
   followerCount?: number;
+  followOnPress?: (data: any) => void;
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -43,6 +43,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     dataFilter,
     type,
     followerCount,
+    followOnPress,
   } = props;
 
   // ? Dropdown Menu Example
@@ -68,7 +69,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
 
   const followMenu = () => {
     return (
-      <TouchableOpacity style={styles.followButton}>
+      <TouchableOpacity style={styles.followButton} onPress={followOnPress}>
         <Text style={styles.followText}>Follow</Text>
       </TouchableOpacity>
     );

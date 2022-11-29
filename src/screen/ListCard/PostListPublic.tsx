@@ -26,8 +26,9 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
-import ImageList from './ThreeImageList';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
+import ListToFollowMusician from './ListToFollowMusician';
+import ImageList from './ThreeImageList';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -46,6 +47,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
 
   const [selectedId, setSelectedId] = useState<any>([]);
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
+  const [status, setStatus] = useState<'not_follow' | 'following'>('following');
 
   const resultDataFilter = (dataResultFilter: any) => {
     let dataFilter = [...data];
@@ -93,6 +95,10 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     console.log('share');
   };
 
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
+  };
+
   return (
     <>
       <View
@@ -130,7 +136,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      {data.length !== 0 ? (
+      {data.length !== 0 && status == 'following' ? (
         <FlatList
           data={dataDropdown}
           showsVerticalScrollIndicator={false}
@@ -212,6 +218,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             />
           )}
         />
+      ) : data.length !== 0 && status == 'not_follow' ? (
+        <ListToFollowMusician />
       ) : (
         <EmptyState
           text={`Your following musician don't have any post, try to follow more musician`}

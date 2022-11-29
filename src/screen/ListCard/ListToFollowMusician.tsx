@@ -1,34 +1,36 @@
-import {StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {MusicianListData} from '../../data/topMusician';
 import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
-import {FlashList} from '@shopify/flash-list';
-import {MusicianListData} from '../../data/topMusician';
 
-const TopMusician = () => {
+const ListToFollowMusician = () => {
   const resultDataMore = (dataResult: any) => {
     console.log(dataResult, 'resultDataMenu');
   };
+  const followOnPress = (dataResult: any) => {
+    console.log('following', dataResult);
+  };
   return (
-    <FlashList
+    <FlatList
       data={MusicianListData}
       showsVerticalScrollIndicator={false}
       keyExtractor={item => item.id}
       renderItem={({item}) => (
         <ListCard.MusicianList
-          musicianNum={item.musicNum}
           musicianName={item.musicianName}
           imgUri={item.imgUri}
           onPressMore={resultDataMore}
           containerStyles={{marginTop: mvs(20)}}
-          type={'rank'}
+          type={'recommendation'}
+          followerCount={1000}
+          followOnPress={() => followOnPress(item.musicianName)}
         />
       )}
-      estimatedItemSize={MusicianListData.length}
     />
   );
 };
 
-export default TopMusician;
+export default ListToFollowMusician;
 
 const styles = StyleSheet.create({});

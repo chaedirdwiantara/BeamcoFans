@@ -29,6 +29,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
 import ImageList from './ThreeImageList';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
+import ListToFollowMusician from './ListToFollowMusician';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -47,6 +48,7 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
 
   const [selectedId, setSelectedId] = useState<any>([]);
   const [dataCategory, setDataCategory] = useState<PostListType[]>(data);
+  const [status, setStatus] = useState<'not_follow' | 'following'>('following');
 
   const resultDataFilter = (dataResultFilter: any) => {
     const dates = new Date();
@@ -123,7 +125,7 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      {data.length !== 0 ? (
+      {data.length !== 0 && status == 'following' ? (
         <FlatList
           data={dataCategory}
           showsVerticalScrollIndicator={false}
@@ -205,6 +207,8 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
             />
           )}
         />
+      ) : data.length !== 0 && status == 'not_follow' ? (
+        <ListToFollowMusician />
       ) : (
         <EmptyState
           text={`Your following musician don't have any post, try to follow more musician`}

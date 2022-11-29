@@ -30,6 +30,7 @@ import {RootStackParams} from '../../App';
 import ImageList from './ThreeImageList';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import {FriedEggIcon} from '../../assets/icon';
+import ListToFollowMusician from './ListToFollowMusician';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -48,6 +49,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
 
   const [selectedId, setSelectedId] = useState<any>([]);
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
+  const [status, setStatus] = useState<'not_follow' | 'following'>('following');
 
   const resultDataFilter = (dataResultFilter: any) => {
     let dataFilter = [...data];
@@ -131,7 +133,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      {data.length !== 0 ? (
+      {data.length !== 0 && status == 'following' ? (
         <FlatList
           data={dataDropdown}
           showsVerticalScrollIndicator={false}
@@ -213,6 +215,8 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
             />
           )}
         />
+      ) : data.length !== 0 && status == 'not_follow' ? (
+        <ListToFollowMusician />
       ) : (
         <EmptyState
           text={`You don't have any exclusive content, try to subscribe your favorite musician`}
