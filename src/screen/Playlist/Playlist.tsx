@@ -17,9 +17,23 @@ export const PlaylistScreen: React.FC = props => {
     navigation.goBack();
   };
 
+  const goToEditPlaylist = () => {
+    navigation.navigate('EditPlaylist', {...params});
+  };
+
+  const goBackProfile = (type: string) => {
+    const newParams = type === 'delete' ? {} : params;
+    navigation.navigate('Profile', {...newParams});
+  };
+
   return (
     <SafeAreaView style={styles.root}>
-      <PlaylistContent onPressGoBack={onPressGoBack} playlist={params} />
+      <PlaylistContent
+        playlist={params}
+        onPressGoBack={onPressGoBack}
+        goToEditPlaylist={goToEditPlaylist}
+        goBackProfile={goBackProfile}
+      />
     </SafeAreaView>
   );
 };
