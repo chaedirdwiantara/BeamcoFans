@@ -27,6 +27,7 @@ interface ModalImagePickerProps {
   onPressClose: () => void;
   sendUri: (params: any) => void;
   onDeleteImage: () => void;
+  hideMenuDelete?: boolean;
 }
 
 export const ModalImagePicker: React.FC<ModalImagePickerProps> = ({
@@ -35,6 +36,7 @@ export const ModalImagePicker: React.FC<ModalImagePickerProps> = ({
   sendUri,
   onPressClose,
   onDeleteImage,
+  hideMenuDelete,
 }) => {
   const onImageLibraryPress = () => {
     ImagePicker.openPicker({
@@ -74,11 +76,13 @@ export const ModalImagePicker: React.FC<ModalImagePickerProps> = ({
           <TouchableOpacity
             style={{marginVertical: 10}}
             onPress={onImageLibraryPress}>
-            <Text style={styles.textMenu}>Add photo from gallery</Text>
+            <Text style={styles.textMenu}>Add Photo from Gallery</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onDeleteImage}>
-            <Text style={styles.textMenu}>Delete Photo</Text>
-          </TouchableOpacity>
+          {hideMenuDelete && (
+            <TouchableOpacity onPress={onDeleteImage}>
+              <Text style={styles.textMenu}>Delete Photo</Text>
+            </TouchableOpacity>
+          )}
         </View>
         <Button
           type="border"
