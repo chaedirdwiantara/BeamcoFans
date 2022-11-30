@@ -25,9 +25,7 @@ export const EditProfileScreen: React.FC = props => {
     username: '@kendaljenner',
     bio: params?.bio || "I'm here to support the musician",
     backgroundUri: params?.backgroundUri?.path || null,
-    avatarUri:
-      params?.avatarUri?.path ||
-      'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
+    avatarUri: params?.avatarUri?.path,
   };
 
   return (

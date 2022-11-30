@@ -20,22 +20,26 @@ export const ProfileScreen: React.FC = props => {
     navigation.navigate('EditProfile', {...params});
   };
 
+  const goToPlaylist = () => {
+    navigation.navigate('Playlist', {...params});
+  };
+
   const profile = {
     fullname: 'Kendal Jenner',
     username: '@kendaljenner',
     bio: params?.bio || "I'm here to support the musician",
     backgroundUri: params?.backgroundUri?.path || null,
-    avatarUri:
-      params?.avatarUri?.path ||
-      'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
+    avatarUri: params?.avatarUri?.path,
   };
 
   return (
     <View style={styles.root}>
       <ProfileContent
         profile={profile}
+        playlist={params}
         onPressGoTo={onPressGoTo}
         goToEditProfile={goToEditProfile}
+        goToPlaylist={goToPlaylist}
       />
     </View>
   );

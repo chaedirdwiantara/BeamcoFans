@@ -34,6 +34,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     avatarUri: {path: null},
     backgroundUri: {path: null},
   });
+  const [focusInput, setFocusInput] = useState(false);
 
   const openModalConfirm = () => {
     setModalVisible({
@@ -70,6 +71,13 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   const backgroundUri =
     uri?.backgroundUri?.path || profile.backgroundUri || null;
 
+  const titleModalPicker =
+    uriType === 'avatarUri' ? 'Edit Display Profile' : 'Edit Header';
+  const hideMenuDelete =
+    uriType === 'avatarUri'
+      ? avatarUri !== null && avatarUri !== ''
+      : backgroundUri !== null && backgroundUri !== '';
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
@@ -92,21 +100,30 @@ export const EditProfile: React.FC<EditProfileProps> = ({
       />
       <View style={styles.textAreaContainer}>
         <Text style={[Typography.Overline, styles.label]}>Bio</Text>
-        <SsuInput.TextArea
+        <SsuInput.InputText
           value={bio}
           onChangeText={(newText: string) => setBio(newText)}
           placeholder={'Type here...'}
           containerStyles={styles.textArea}
           maxLength={110}
+          multiline
+          numberOfLines={4}
+          fontColor={Color.Neutral[10]}
+          inputStyles={styles.inputBio}
+          onFocus={() => setFocusInput(true)}
+          onBlur={() => setFocusInput(false)}
+          isFocus={focusInput}
         />
         <Text style={styles.length}>{`${bio.length}/110`}</Text>
       </View>
 
       <ModalImagePicker
+        title={titleModalPicker}
         modalVisible={isModalVisible.modalImage}
         sendUri={sendUri}
         onDeleteImage={resetImage}
         onPressClose={closeModal}
+        hideMenuDelete={hideMenuDelete}
       />
 
       <ModalConfirm
@@ -138,6 +155,10 @@ const styles = StyleSheet.create({
   },
   textArea: {
     paddingHorizontal: 0,
+  },
+  inputBio: {
+    textAlignVertical: 'top',
+    paddingHorizontal: widthPercentage(10),
   },
   length: {
     fontSize: normalize(12),

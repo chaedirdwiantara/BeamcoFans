@@ -1,29 +1,54 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 
+import {ListCard} from '../ListCard';
 import {TabFilter} from '../TabFilter';
 import Color from '../../../theme/Color';
 import {EmptyState} from '../EmptyState/EmptyState';
 import {ProcessingIcon} from '../../../assets/icon';
 import {MenuText} from '../../atom/MenuText/MenuText';
+import {TopSongListData} from '../../../data/topSong';
 import TopSong from '../../../screen/ListCard/TopSong';
 import {UserInfoCard} from '../UserInfoCard/UserInfoCard';
-import {ProfileHeaderProps, ProfileHeader} from './components/Header';
+import {MusicianListData} from '../../../data/topMusician';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import TopMusician from '../../../screen/ListCard/TopMusician';
-import {heightPercentage, widthPercentage} from '../../../utils';
-import {MusicianListData} from '../../../data/topMusician';
-import {TopSongListData} from '../../../data/topSong';
+import {ProfileHeaderProps, ProfileHeader} from './components/Header';
+import {elipsisText, heightPercentage, widthPercentage} from '../../../utils';
+
+interface Playlist {
+  playlistUri: string;
+  playlistName: string;
+  playlistDesc: string;
+}
 
 interface ProfileContentProps {
-  profile: ProfileHeaderProps[];
+  profile?: ProfileHeaderProps[];
+  playlist: Playlist;
   goToEditProfile?: () => void;
+  goToPlaylist?: () => void;
   onPressGoTo?: (screenName: string) => void;
 }
 
+const NewCreatedPlaylist: React.FC<ProfileContentProps> = ({playlist, goToPlaylist}) => {
+  return (
+    <TouchableOpacity onPress={goToPlaylist}>
+      <ListCard.MusicList
+        imgUri={playlist?.playlistUri?.path}
+        musicNum={1}
+        musicTitle={elipsisText(playlist?.playlistName, 22)}
+        singerName={'by Weaboo'}
+        containerStyles={{marginTop: heightPercentage(20)}}
+      />
+    </TouchableOpacity>
+  );
+};
+
 export const ProfileContent: React.FC<ProfileContentProps> = ({
   profile,
+  playlist,
   goToEditProfile,
+  goToPlaylist,
   onPressGoTo,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -66,6 +91,12 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 text="Create New Playlist"
                 onPress={() => onPressGoTo('CreateNewPlaylist')}
               />
+              {playlist?.playlistName !== undefined && (
+                <NewCreatedPlaylist
+                  playlist={playlist}
+                  goToPlaylist={goToPlaylist}
+                />
+              )}
               <TopSong />
             </ScrollView>
           ) : (
