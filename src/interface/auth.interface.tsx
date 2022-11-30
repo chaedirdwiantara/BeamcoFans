@@ -56,3 +56,39 @@ export interface UsernameAvailabilityResponseType {
   message: string;
   status: number;
 }
+
+export interface ConfirmEmailOTPRegisterResponseType {
+  code: number;
+  data: {
+    id: number;
+    uuid: string;
+    createdAt: string;
+    updatedAt: string;
+    accessToken: string;
+    accessTokenExpiresAt: string;
+    refreshToken: string;
+    refreshTokenExpiresAt: string;
+  };
+  message: string;
+  status: number;
+}
+
+export interface ConfirmSmsOTPLoginResponseType {
+  code: number;
+  data: {
+    uuid: string;
+    accessToken: string;
+    accessTokenExpiresAt: string;
+    refreshToken: string;
+    refreshTokenExpiresAt: string;
+  };
+  message: string;
+  status: number;
+}
+
+export interface ResendOTPResponseType {
+  code: number;
+  data: string;
+  message: string;
+  status: number;
+}

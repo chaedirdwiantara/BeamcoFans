@@ -20,6 +20,7 @@ import {DataOnboardType} from '../../../data/onboard';
 import {heightPercentage, width} from '../../../utils';
 import {FollowArtistCard, SelectBox} from '../../../components';
 import Typography from '../../../theme/Typography';
+import {UpdateProfilePropsType} from '../../../api/profile.api';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -29,18 +30,25 @@ interface ImageSliderProps {
   type?: string;
   data: DataOnboardType[] | DataFavouritesType[];
   onPress?: () => void;
+  onUpdatePreference: (props?: UpdateProfilePropsType) => void;
 }
 
 export const ImageSlider: React.FC<ImageSliderProps> = ({
   type,
   data,
   onPress,
+  onUpdatePreference,
 }) => {
   const scrollViewRef = useRef<ScrollView>(null);
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState<number[]>([]);
   const [activeIndexSlide, setActiveIndexSlide] = useState(0);
 
   const handleNextSlide = () => {
+    if (activeIndexSlide === 0) {
+      onUpdatePreference({
+        favoriteGeneres: selected,
+      });
+    }
     const newIndex = activeIndexSlide + 1;
     setActiveIndexSlide(newIndex);
     scrollViewRef.current?.scrollTo({

@@ -46,6 +46,7 @@ export type RootStackParams = {
   ModalConfirm: undefined;
   Otp: {
     id: string;
+    type: 'email' | 'phoneNumber';
     title: string;
     subtitle: string;
   };
@@ -142,7 +143,11 @@ const RootStackScreen = () => (
   <RootStack.Navigator
     screenOptions={screenOption}
     initialRouteName={
-      storage.getBoolean('isOnboard') ? 'SignInGuest' : 'Boarding'
+      storage.getBoolean('isLogin')
+        ? 'MainTab'
+        : storage.getBoolean('isOnboard')
+        ? 'SignInGuest'
+        : 'Boarding'
     }>
     <RootStack.Group>
       <RootStack.Screen name="Boarding" component={OnboardScreen} />
