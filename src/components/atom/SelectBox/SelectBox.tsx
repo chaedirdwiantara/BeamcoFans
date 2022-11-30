@@ -32,13 +32,21 @@ export const SelectBox: React.FC<SelectBoxProps> = (props: SelectBoxProps) => {
     <View style={[styles.root, containerStyle]}>
       {favorites.map((val, i) => {
         const checkVal = selected?.some(res => res === i + 1);
-        const activeBtn = checkVal && styles.activeBtn;
+        const activeBtn = checkVal ? Color.Pink.linear : Color.Dark[400];
 
         return (
           <Button
             key={i}
             label={val}
-            containerStyles={[styles.btnContainer, activeBtn]}
+            containerStyles={{
+              backgroundColor: activeBtn,
+              width: undefined,
+              aspectRatio: undefined,
+              height: heightPercentage(35),
+              paddingHorizontal: widthPercentage(10),
+              marginVertical: heightPercentage(2),
+              marginHorizontal: widthPercentage(2),
+            }}
             onPress={() => onPressBox(i + 1, checkVal)}
           />
         );
@@ -63,17 +71,5 @@ const styles = StyleSheet.create({
     width: widthPercentage(327),
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  btnContainer: {
-    width: undefined,
-    aspectRatio: undefined,
-    height: heightPercentage(35),
-    paddingHorizontal: widthPercentage(10),
-    backgroundColor: Color.Dark[400],
-    marginVertical: heightPercentage(2),
-    marginHorizontal: widthPercentage(2),
-  },
-  activeBtn: {
-    backgroundColor: Color.Pink.linear,
   },
 });
