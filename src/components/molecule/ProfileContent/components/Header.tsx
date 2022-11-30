@@ -15,16 +15,17 @@ import {
   width,
   widthPercentage,
 } from '../../../../utils';
-import Font from '../../../../theme/Font';
-import Color from '../../../../theme/Color';
 import {mvs} from 'react-native-size-matters';
-import {Avatar, ButtonGradient} from '../../../atom';
+import {AvatarProfile} from '../..';
+import {ButtonGradient} from '../../../atom';
 import Typography from '../../../../theme/Typography';
 import {
   CameraIcon,
   GalleryEditIcon,
   SettingIcon,
 } from '../../../../assets/icon';
+import {color, font} from '../../../../theme';
+import initialname from '../../../../utils/initialname';
 
 export interface ProfileHeaderProps {
   avatarUri?: string;
@@ -44,7 +45,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
   const {
     avatarUri = '',
     backgroundUri = '',
-    fullname,
+    fullname = '',
     username,
     bio,
     type = '',
@@ -73,9 +74,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
         source={{uri: backgroundUri}}
         resizeMode="cover"
         style={styles.image}>
-        <Avatar
+        <AvatarProfile
+          initialName={initialname(fullname)}
           imgUri={avatarUri}
-          size={widthPercentage(64)}
+          type={type}
           showIcon={type === 'edit'}
           icon={<CameraIcon />}
           onPress={() => iconPress('avatarUri')}
@@ -84,7 +86,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
         <Text style={styles.username}>{username}</Text>
 
         {type === '' && (
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={styles.containerFooter}>
             <Text style={styles.description}>{bio}</Text>
             <ButtonGradient
               label={'Edit Profile'}
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
   root: {
     width,
     height: heightPercentage(340),
-    backgroundColor: Color.Dark[500],
+    backgroundColor: color.Dark[500],
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -116,18 +118,22 @@ const styles = StyleSheet.create({
   },
   fullname: {
     marginTop: heightPercentage(20),
-    color: Color.Neutral[10],
+    color: color.Neutral[10],
+  },
+  containerFooter: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   username: {
     fontSize: normalize(12),
     lineHeight: mvs(20),
-    color: Color.Neutral[10],
-    fontFamily: Font.InterRegular,
+    color: color.Neutral[10],
+    fontFamily: font.InterRegular,
   },
   description: {
     fontSize: normalize(12),
-    color: Color.Neutral[10],
-    fontFamily: Font.InterRegular,
+    color: color.Neutral[10],
+    fontFamily: font.InterRegular,
     maxWidth: width * 0.9,
     marginTop: heightPercentage(15),
   },
@@ -149,5 +155,8 @@ const styles = StyleSheet.create({
   },
   settingIcon: {
     marginTop: Platform.OS === 'ios' ? heightPercentage(25) : 0,
+  },
+  initialName: {
+    color: color.Neutral[10],
   },
 });
