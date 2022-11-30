@@ -1,6 +1,12 @@
 import {useState} from 'react';
+import {Platform} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {Settings, LoginManager, AccessToken} from 'react-native-fbsdk-next';
+import {
+  appleAuth,
+  appleAuthAndroid,
+} from '@invertase/react-native-apple-authentication';
+import {v4 as uuid} from 'uuid';
 import {
   checkUsername,
   confirmEmailOtpRegister,
@@ -134,6 +140,33 @@ export const useAuthHook = () => {
       });
   };
 
+  const onLoginApple = async () => {
+    if (Platform.OS === 'ios') {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      if (!appleAuthRequestResponse.identityToken) {
+        throw new Error('Apple Sign-In failed - no identify token returned');
+      }
+    } else if (Platform.OS === 'android') {
+      const rawNonce = uuid();
+      const state = uuid();
+      appleAuthAndroid.configure({
+        clientId: 'io.sunnysideup.user',
+        redirectUri: 'https://sunnysideup.io/example',
+        responseType: appleAuthAndroid.ResponseType.ALL,
+        scope: appleAuthAndroid.Scope.ALL,
+        nonce: rawNonce,
+        state,
+      });
+      const response = await appleAuthAndroid.signIn();
+    }
+
+    // TODO: store the user id of apple to db
+  };
+
   const checkUsernameAvailability = async (username: string) => {
     try {
       const response = await checkUsername(username);
@@ -257,6 +290,7 @@ export const useAuthHook = () => {
     onLoginUser,
     onLoginGoogle,
     onLoginFacebook,
+    onLoginApple,
     checkUsernameAvailability,
     confirmEmailOtp,
     confirmSmsOtp,

@@ -47,6 +47,7 @@ export const LoginScreen: React.FC = () => {
     onLoginUser,
     onLoginGoogle,
     onLoginFacebook,
+    onLoginApple,
     isLoading,
     isError,
     loginResult,
@@ -250,7 +251,9 @@ export const LoginScreen: React.FC = () => {
             <FacebookLogo />
           </TouchableOpacity>
           <Gap width={24} />
-          <AppleLogo />
+          <TouchableOpacity onPress={onLoginApple}>
+            <AppleLogo />
+          </TouchableOpacity>
         </View>
         <Gap height={24} />
         <Text style={styles.forgotPassStyle}>
