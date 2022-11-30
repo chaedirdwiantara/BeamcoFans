@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Dimensions, ViewStyle, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {AddIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
 
 const {width} = Dimensions.get('screen');
@@ -10,6 +11,7 @@ interface SquareImageProps {
   size?: number;
   height?: number;
   id?: number;
+  type?: string;
   containerStyle?: ViewStyle;
 }
 
@@ -19,24 +21,34 @@ const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
     size = width * 0.15,
     height = undefined,
     id,
+    type,
     containerStyle,
   } = props;
-  return (
-    <View style={containerStyle}>
-      <FastImage
-        source={{uri: imgUri}}
-        style={[
-          styles.root,
-          {
-            width: size,
-            height: height,
-            aspectRatio: !height ? 1 / 1 : undefined,
-          },
-        ]}
-        testID={`Image ${id}`}
-      />
-    </View>
-  );
+
+  if (type === 'add') {
+    return (
+      <View style={[styles.root2, {width: size}]}>
+        <AddIcon />
+      </View>
+    );
+  } else {
+    return (
+      <View style={containerStyle}>
+        <FastImage
+          source={{uri: imgUri}}
+          style={[
+            styles.root,
+            {
+              width: size,
+              height: height,
+              aspectRatio: !height ? 1 / 1 : undefined,
+            },
+          ]}
+          testID={`Image ${id}`}
+        />
+      </View>
+    );
+  }
 };
 
 export default SquareImage;

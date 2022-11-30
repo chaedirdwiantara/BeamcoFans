@@ -1,12 +1,13 @@
 import {AccountContent} from './SettingContent/AccountContent';
 import {AddToPlaylistContent} from './PlaylistContent/AddToPlaylistContent';
-import {AvatarUsername} from './AvatarUsername/AvatarUsername';
+import {AvatarProfile} from './AvatarProfile/AvatarProfile';
 import {Carousel} from './Carousel/Carousel';
 import {ChangeEmailContent} from './SettingContent/ChangeEmailContent';
 import {ChangePasswordContent} from './SettingContent/ChangePasswordContent';
 import {CreateNewCard} from './CreateNewCard/CreateNewCard';
 import {CreateNewPlaylistContent} from './PlaylistContent/CreateNewPlaylistContent';
 import {Dropdown} from './DropDown';
+import {EditPlaylistContent} from './PlaylistContent/EditPlaylist';
 import {EditProfile} from './ProfileContent/EditProfile';
 import {EmailContent} from './SettingContent/EmailContent';
 import {EmptyState} from './EmptyState/EmptyState';
@@ -27,6 +28,7 @@ import {ReferralContent} from './ReferralContent/ReferralContent';
 import {ReferAFriend} from './SettingContent/ReferAFriend';
 import {SettingContent} from './SettingContent/SettingContent';
 import {SignInGuestContent} from './SignInGuestContent/SignInGuestContent';
+import {ShippingInformationContent} from './SettingContent/ShippingInformation';
 import SsuOTPInput from './OtpInput';
 import SsuOTPTimer from './OtpTimer';
 import {TabFilter} from './TabFilter';
@@ -38,13 +40,14 @@ import {UserInfoCard} from './UserInfoCard/UserInfoCard';
 export {
   AccountContent,
   AddToPlaylistContent,
-  AvatarUsername,
+  AvatarProfile,
   Carousel,
   ChangeEmailContent,
   ChangePasswordContent,
   CreateNewCard,
   CreateNewPlaylistContent,
   Dropdown,
+  EditPlaylistContent,
   EditProfile,
   EmailContent,
   EmptyState,
@@ -65,6 +68,7 @@ export {
   ReferAFriend,
   SettingContent,
   SignInGuestContent,
+  ShippingInformationContent,
   SsuOTPInput,
   SsuOTPTimer,
   TabFilter,

@@ -49,6 +49,7 @@ interface TextAreaProps extends TextInputProps {
   backgroundColor?: string;
   containerStyles?: ViewStyle;
   inputStyles?: ViewStyle;
+  isFocus?: boolean;
 }
 
 type TypeStyle = {
@@ -193,6 +194,7 @@ const TextArea: React.FC<TextAreaProps> = props => {
     containerStyles,
     inputStyles,
     maxLength,
+    isFocus,
   } = props;
   const [state, setState] = useState<boolean>(false);
   return (
@@ -205,6 +207,9 @@ const TextArea: React.FC<TextAreaProps> = props => {
           backgroundColor: backgroundColor ? backgroundColor : color.Dark[900],
         },
         containerStyles,
+        isFocus
+          ? {borderBottomColor: color.Pink[2], borderBottomWidth: 1}
+          : {borderBottomWidth: 0},
       ]}>
       <TextInput
         style={[styles.inputTextArea(fontSize), inputStyles]}
