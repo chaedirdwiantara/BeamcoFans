@@ -31,15 +31,17 @@ import {ChangePasswordScreen} from './screen/Setting/ChangePassword';
 import {LanguageScreen} from './screen/Setting/Language';
 import {ReferralCodeSetting} from './screen/Setting/ReferralCode';
 import {PhoneNumberScreen} from './screen/Setting/PhoneNumber';
+import {ShippingInformationScreen} from './screen/Setting/ShippingInformation';
 
 // Profile
 import {ProfileScreen} from './screen/Profile/Profile';
 import {EditProfileScreen} from './screen/Profile/EditProfile';
 import {FollowingScreen} from './screen/Profile/FollowingScreen';
 
-// PLaylist
+// Playlist
 import {PlaylistScreen} from './screen/Playlist/Playlist';
 import {CreateNewPlaylist} from './screen/Playlist/CreateNewPlaylist';
+import {EditPlaylist} from './screen/Playlist/EditPlaylist';
 import {AddToPlaylistScreen} from './screen/Playlist/AddToPlaylist';
 
 import {storage} from './hooks/use-storage.hook';
@@ -60,6 +62,7 @@ export type RootStackParams = {
   ChangePassword: undefined;
   CreateNewPlaylist: undefined;
   EditProfile: undefined;
+  EditPlaylist: undefined;
   Email: undefined;
   Following: undefined;
   ForgotPassword: undefined;
@@ -79,6 +82,7 @@ export type RootStackParams = {
   Setting: undefined;
   Signup: undefined;
   SignInGuest: undefined;
+  ShippingInformation: undefined;
   Notification: undefined;
   PostDetail: undefined;
 };
@@ -173,6 +177,7 @@ const RootStackScreen = () => (
     <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
     <RootStack.Screen name="AddToPlaylist" component={AddToPlaylistScreen} />
     <RootStack.Screen name="CreateNewPlaylist" component={CreateNewPlaylist} />
+    <RootStack.Screen name="EditPlaylist" component={EditPlaylist} />
     <RootStack.Screen name="Playlist" component={PlaylistScreen} />
     <RootStack.Screen name="Following" component={FollowingScreen} />
     <RootStack.Screen name="ForgotPassword" component={ForgotPassword} />
@@ -187,6 +192,10 @@ const RootStackScreen = () => (
     <RootStack.Screen name="ChangePassword" component={ChangePasswordScreen} />
     <RootStack.Screen name="ReferralCode" component={ReferralCodeSetting} />
     <RootStack.Screen name="Language" component={LanguageScreen} />
+    <RootStack.Screen
+      name="ShippingInformation"
+      component={ShippingInformationScreen}
+    />
     <RootStack.Screen name="Setting" component={SettingScreen} />
     <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
     <RootStack.Screen name="Signup" component={SignupScreen} />
