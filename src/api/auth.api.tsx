@@ -36,14 +36,14 @@ export const loginUser = async (
 };
 
 export const loginSso = async (
-  email: string,
+  user: string,
   registrationType: RegistrationType,
 ): Promise<LoginResponseType> => {
   const {data} = await SsuAPI().request<LoginResponseType>({
     url: '/login-sso',
     method: 'POST',
     data: {
-      email: email,
+      user: user,
       registrationType: registrationType,
     },
   });

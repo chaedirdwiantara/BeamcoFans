@@ -26,6 +26,7 @@ import {countryData} from '../data/dropdown';
 import {AppleLogo, FacebookLogo, GoogleLogo, SSULogo} from '../assets/logo';
 import type {RegistrationType} from '../interface/profile.interface';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
+import {storage} from '../hooks/use-storage.hook';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -83,7 +84,13 @@ export const LoginScreen: React.FC = () => {
 
   useEffect(() => {
     if (!isLoading && !isError && loginResult !== null) {
-      navigation.replace('Preference');
+      // TODO: activate this after completing wiring on the preference screen
+      // storage.set('isLogin', true);
+      if (loginResult === 'preference') {
+        navigation.replace('Preference');
+      } else {
+        navigation.replace('MainTab');
+      }
     } else if (!isLoading && isError) {
       if (errorCode === 1016) {
         navigation.navigate('Otp', {

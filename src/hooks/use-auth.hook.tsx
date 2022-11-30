@@ -25,6 +25,7 @@ import {
 } from '../interface/auth.interface';
 import axios from 'axios';
 import {storage} from '../hooks/use-storage.hook';
+import {getProfile} from '../api/profile.api';
 
 export const useAuthHook = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +37,7 @@ export const useAuthHook = () => {
   const [authResult, setAuthResult] = useState<RegisterResponseType | null>(
     null,
   );
-  const [loginResult, setLoginResult] = useState<LoginResponseType | null>(
+  const [loginResult, setLoginResult] = useState<null | 'preference' | 'home'>(
     null,
   );
   const [isOtpValid, setIsOtpValid] = useState<boolean | null>(null);
@@ -66,9 +67,16 @@ export const useAuthHook = () => {
     setErrorMsg('');
     try {
       const response = await loginUser(props);
-      setLoginResult(response);
-      // TODO: add token into localstorage
-      // TODO: add profile info to localstorage
+      if (response.data.accessToken) {
+        storage.set('accessToken', response.data.accessToken);
+        storage.set('refreshToken', response.data.refreshToken);
+        const profile = await getProfile();
+        if (profile.data.favoriteGenres.length === 0) {
+          setLoginResult('preference');
+        } else {
+          setLoginResult('home');
+        }
+      }
     } catch (error) {
       setIsError(true);
       if (
@@ -98,7 +106,7 @@ export const useAuthHook = () => {
       const userInfo = await GoogleSignin.signIn();
       setIsLoading(true);
       const response = await loginSso(userInfo.user.email, 'google');
-      setLoginResult(response);
+      // setLoginResult(response);
       // TODO: add token into localstorage
       // TODO: add profile info to localstorage
     } catch (error) {

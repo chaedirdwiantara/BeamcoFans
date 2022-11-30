@@ -143,7 +143,11 @@ const RootStackScreen = () => (
   <RootStack.Navigator
     screenOptions={screenOption}
     initialRouteName={
-      storage.getBoolean('isOnboard') ? 'SignInGuest' : 'Boarding'
+      storage.getBoolean('isLogin')
+        ? 'MainTab'
+        : storage.getBoolean('isOnboard')
+        ? 'SignInGuest'
+        : 'Boarding'
     }>
     <RootStack.Group>
       <RootStack.Screen name="Boarding" component={OnboardScreen} />

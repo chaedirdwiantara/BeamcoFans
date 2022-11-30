@@ -42,9 +42,9 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
 
   const onCodeComplete = (code: string) => {
     if (route.params.type === 'email') {
-      confirmEmailOtp(route.params.id, code.substring(0, 5));
+      confirmEmailOtp(route.params.id, code);
     } else if (route.params.type === 'phoneNumber') {
-      confirmSmsOtp(route.params.id, code.substring(0, 5));
+      confirmSmsOtp(route.params.id, code);
     }
   };
 
@@ -67,7 +67,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
 
         <Gap height={16} />
         <SsuOTPInput
-          type={'default'}
+          type={isError ? 'error' : 'default'}
           hideIcon
           onCodeFilled={(result, code) => {
             if (result) {
