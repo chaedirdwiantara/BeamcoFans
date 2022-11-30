@@ -23,11 +23,12 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../utils';
-import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
-import {string} from 'yup';
+import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
+import ListToFollowMusician from './ListToFollowMusician';
+import ImageList from './ThreeImageList';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -46,6 +47,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
 
   const [selectedId, setSelectedId] = useState<any>([]);
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
+  const [status, setStatus] = useState<'not_follow' | 'following'>('following');
 
   const resultDataFilter = (dataResultFilter: any) => {
     let dataFilter = [...data];
@@ -93,6 +95,10 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     console.log('share');
   };
 
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
+  };
+
   return (
     <>
       <View
@@ -130,84 +136,99 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      <FlatList
-        data={dataDropdown}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item: PostListType) => item.id}
-        contentContainerStyle={{
-          paddingBottom:
-            Platform.OS === 'ios'
-              ? heightPercentage(130)
-              : heightPercentage(180),
-        }}
-        renderItem={({item, index}: any) => (
-          <ListCard.PostList
-            musicianName={item.musicianName}
-            musicianId={item.musicianId}
-            imgUri={item.imgUri}
-            postDate={item.postDate}
-            category={item.category}
-            onPress={() => cardOnPress({item})}
-            likeOnPress={() => likeOnPress(index)}
-            commentOnPress={() => commentOnPress({item})}
-            tokenOnPress={tokenOnPress}
-            shareOnPress={shareOnPress}
-            likePressed={selectedId.includes(index) ? true : false}
-            containerStyles={{marginTop: mvs(16)}}
-            likeCount={item.likeCount}
-            commentCount={item.commentCount}
-            children={
-              <View style={{width: '100%'}}>
-                <Text style={styles.childrenPostTitle}>
-                  {elipsisText(item?.post.postTitle, 600)}
-                </Text>
-                <Gap height={4} />
-                <View
-                  style={{
-                    flexDirection: 'row',
-                  }}>
-                  <SafeAreaView style={{flex: 1}}>
-                    <FlatList
-                      scrollEnabled={false}
-                      columnWrapperStyle={{justifyContent: 'flex-start'}}
-                      keyExtractor={(_, index) => index.toString()}
-                      numColumns={2}
-                      data={item.post.postPicture}
-                      renderItem={
-                        item.post.postPicture.length > 2
-                          ? ({item}: any) => (
-                              <SquareImage
-                                imgUri={item.postUri}
-                                size={widthResponsive(143, 375)}
-                                height={heightPercentage(71)}
-                                id={item.id}
-                                containerStyle={{
-                                  marginRight: widthResponsive(3),
-                                  marginBottom: heightPercentage(4),
-                                }}
-                              />
-                            )
-                          : ({item}: any) => (
-                              <SquareImage
-                                imgUri={item.postUri}
-                                size={widthResponsive(143, 375)}
-                                id={item.id}
-                                containerStyle={{
-                                  marginRight: widthResponsive(3),
-                                  marginBottom: heightPercentage(4),
-                                }}
-                              />
-                            )
-                      }
-                    />
-                  </SafeAreaView>
+      {data.length !== 0 && status == 'following' ? (
+        <FlatList
+          data={dataDropdown}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item: PostListType) => item.id}
+          contentContainerStyle={{
+            paddingBottom:
+              Platform.OS === 'ios'
+                ? heightPercentage(130)
+                : heightPercentage(180),
+          }}
+          renderItem={({item, index}: any) => (
+            <ListCard.PostList
+              musicianName={item.musicianName}
+              musicianId={item.musicianId}
+              imgUri={item.imgUri}
+              postDate={item.postDate}
+              category={item.category}
+              onPress={() => cardOnPress({item})}
+              likeOnPress={() => likeOnPress(index)}
+              commentOnPress={() => commentOnPress({item})}
+              tokenOnPress={tokenOnPress}
+              shareOnPress={shareOnPress}
+              likePressed={selectedId.includes(index) ? true : false}
+              containerStyles={{marginTop: mvs(16)}}
+              likeCount={item.likeCount}
+              commentCount={item.commentCount}
+              children={
+                <View style={{width: '100%'}}>
+                  <Text style={styles.childrenPostTitle}>
+                    {elipsisText(item?.post.postTitle, 600)}
+                  </Text>
+                  <Gap height={4} />
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                    }}>
+                    <SafeAreaView style={{flex: 1}}>
+                      <FlatList
+                        scrollEnabled={false}
+                        columnWrapperStyle={{justifyContent: 'flex-start'}}
+                        keyExtractor={(_, index) => index.toString()}
+                        numColumns={2}
+                        data={item.post.postPicture}
+                        renderItem={
+                          item.post.postPicture.length > 3
+                            ? ({item}) => (
+                                <SquareImage
+                                  imgUri={item.postUri}
+                                  size={widthResponsive(143, 375)}
+                                  height={heightPercentage(71)}
+                                  id={item.id}
+                                  containerStyle={{
+                                    marginRight: widthResponsive(3),
+                                    marginBottom: heightPercentage(4),
+                                  }}
+                                />
+                              )
+                            : item.post.postPicture.length == 3
+                            ? ({item, index}) => (
+                                <ImageList index={index} uri={item.postUri} />
+                              )
+                            : ({item}) => (
+                                <SquareImage
+                                  imgUri={item.postUri}
+                                  size={widthResponsive(143, 375)}
+                                  id={item.id}
+                                  containerStyle={{
+                                    marginRight: widthResponsive(3),
+                                    marginBottom: heightPercentage(4),
+                                  }}
+                                />
+                              )
+                        }
+                      />
+                    </SafeAreaView>
+                  </View>
                 </View>
-              </View>
-            }
-          />
-        )}
-        // estimatedItemSize={10}
-      />
+              }
+            />
+          )}
+        />
+      ) : data.length !== 0 && status == 'not_follow' ? (
+        <ListToFollowMusician />
+      ) : (
+        <EmptyState
+          text={`Your following musician don't have any post, try to follow more musician`}
+          containerStyle={{
+            justifyContent: 'flex-start',
+            paddingTop: heightPercentage(24),
+          }}
+        />
+      )}
     </>
   );
 };

@@ -7,29 +7,43 @@ import {
   ViewStyle,
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
-import {Avatar} from '../../atom';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {Avatar, Gap} from '../../atom';
+import {
+  elipsisText,
+  heightPercentage,
+  normalize,
+  widthPercentage,
+  widthResponsive,
+} from '../../../utils';
 import {color, font} from '../../../theme';
 import {ThreeDotsIcon} from '../../../assets/icon';
 import {Dropdown} from '../DropDown';
 
 interface ListProps {
-  musicNum: number;
-  onPressThreeDots: () => void;
+  musicianNum?: number;
+  onPressMore: (data: any) => void;
   musicianName: string;
   imgUri: string;
   point?: string;
   containerStyles?: ViewStyle;
+  dataFilter?: [];
+  type: 'rank' | 'recommendation';
+  followerCount?: number;
+  followOnPress?: (data: any) => void;
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
   const {
-    musicNum,
-    onPressThreeDots,
+    musicianNum,
+    onPressMore,
     musicianName,
     imgUri,
     point,
     containerStyles,
+    dataFilter,
+    type,
+    followerCount,
+    followOnPress,
   } = props;
 
   // ? Dropdown Menu Example
@@ -38,37 +52,56 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     {label: 'Send Donation', value: '2'},
     {label: 'Go To Musician', value: '3'},
   ];
-  const resultDataMore = (dataResult: any) => {
-    console.log(dataResult, 'resultDataMenu');
+
+  const moreMenu = () => {
+    return (
+      <Dropdown.More
+        data={dataFilter ? dataFilter : dataMore}
+        selectedMenu={onPressMore}
+        containerStyle={{
+          width: widthPercentage(123),
+          marginLeft: widthPercentage(-113),
+          marginTop: heightPercentage(-8),
+        }}
+      />
+    );
   };
+
+  const followMenu = () => {
+    return (
+      <TouchableOpacity style={styles.followButton} onPress={followOnPress}>
+        <Text style={styles.followText}>Follow</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={[styles.container, containerStyles]}>
       <Text style={styles.rankStyle}>
-        {musicNum.toLocaleString('en-US', {
+        {musicianNum?.toLocaleString('en-US', {
           minimumIntegerDigits: 2,
           useGrouping: false,
         })}
       </Text>
-      <Avatar imgUri={imgUri} size={44} />
+      <Avatar imgUri={imgUri} size={widthResponsive(44)} />
+      <Gap width={8} />
       <View style={styles.textContainer}>
-        <Text style={styles.songTitle}>{musicianName}</Text>
+        <Text style={styles.musicianName} numberOfLines={1}>
+          {musicianName}
+        </Text>
+        {type === 'recommendation' && (
+          <Text style={styles.followerCount} numberOfLines={1}>
+            {followerCount} Listener
+          </Text>
+        )}
       </View>
       <View style={styles.rightContainer}>
         {point ? <Text style={styles.pointStyle}>{`${point} pts`}</Text> : null}
-        <TouchableOpacity
-          onPress={onPressThreeDots}
-          style={[styles.dotsButton]}>
-          {/* <ThreeDotsIcon fill={color.Neutral[10]} /> */}
-          <Dropdown.More
-            data={dataMore}
-            selectedMenu={resultDataMore}
-            containerStyle={{
-              width: widthPercentage(123),
-              marginLeft: widthPercentage(-113),
-              marginTop: heightPercentage(-8),
-            }}
-          />
-        </TouchableOpacity>
+        {type === 'rank'
+          ? moreMenu()
+          : type === 'recommendation'
+          ? followMenu()
+          : null}
       </View>
     </View>
   );
@@ -85,25 +118,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   rankStyle: {
+    fontFamily: font.InterMedium,
     fontSize: normalize(10),
     fontWeight: '600',
-    lineHeight: mvs(12),
-    marginRight: ms(10),
-    color: color.Neutral[10],
-    fontFamily: font.InterMedium,
+    marginRight: widthResponsive(10),
+    marginTop: ms(2),
+    color: color.Dark[100],
   },
   textContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
-  songTitle: {
-    fontSize: normalize(15),
+  musicianName: {
+    fontFamily: font.InterRegular,
+    fontSize: normalize(14),
     fontWeight: '500',
-    lineHeight: mvs(20),
-    marginLeft: ms(12),
     color: color.Neutral[10],
-    fontFamily: font.InterMedium,
+  },
+  followerCount: {
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(10),
+    color: color.Dark[50],
   },
   rightContainer: {
     flexDirection: 'row',
@@ -118,5 +155,17 @@ const styles = StyleSheet.create({
   },
   dotsButton: {
     justifyContent: 'center',
+  },
+  followButton: {
+    paddingHorizontal: widthResponsive(8),
+    paddingVertical: widthResponsive(6),
+    backgroundColor: color.Pink[200],
+    borderRadius: 4,
+  },
+  followText: {
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(10),
+    color: color.Neutral[10],
   },
 });

@@ -31,17 +31,13 @@ const DropdownMore: React.FC<DropdownMoreProps> = (
       <Dropdown
         style={[styles.dropdown, isFocus && {borderColor: color.Success[500]}]}
         containerStyle={[styles.containerStyle, containerStyle]}
-        // placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.fontAll}
         itemTextStyle={styles.fontAll}
         itemContainerStyle={[styles.itemContainer]}
-        // iconStyle={styles.iconStyle}
         data={data}
         maxHeight={300}
         labelField="label"
         valueField="value"
-        // placeholder={!isFocus ? placeHolder : '  ...'}
-        // value={value}
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={item => {

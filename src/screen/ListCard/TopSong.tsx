@@ -7,15 +7,8 @@ import {TopSongListData} from '../../data/topSong';
 import {elipsisText} from '../../utils';
 
 const TopSong = () => {
-  const [likePressed, setLikePressed] = useState(false);
-
-  const onPressLikeIcon = () => {
-    console.log('likey');
-    setLikePressed(!likePressed);
-  };
-
-  const onPressThreeDots = () => {
-    console.log('dowtey');
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
   };
   return (
     <FlashList
@@ -28,8 +21,7 @@ const TopSong = () => {
           musicNum={item.musicNum}
           musicTitle={elipsisText(item.musicTitle, 22)}
           singerName={item.singerName}
-          onPressLikeIcon={onPressLikeIcon}
-          onPressThreeDots={onPressThreeDots}
+          onPressMore={resultDataMore}
           // likePressed={likePressed}
           containerStyles={{marginTop: mvs(20)}}
         />

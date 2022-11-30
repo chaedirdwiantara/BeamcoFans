@@ -2,6 +2,7 @@ import {AvatarUsername} from './AvatarUsername/AvatarUsername';
 import {Carousel} from './Carousel/Carousel';
 import {CreateNewCard} from './CreateNewCard/CreateNewCard';
 import {Dropdown} from './DropDown';
+import DetailPost from './DetailPost/DetailPost';
 import {EditProfile} from './ProfileContent/EditProfile';
 import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
 import IconNotif from './IconNotif';
@@ -11,6 +12,7 @@ import {LoginDescription} from './LoginDescription/LoginDescription';
 import {ModalConfirm} from './Modal/ModalConfirm';
 import {NoMoreFeeds} from './NoMoreFeeds/NoMoreFeeds';
 import {NotificationCard} from './NotificationCard/NotificationCard';
+import PostComment from './DetailPost/PostComment';
 import {ProfileContent} from './ProfileContent/ProfileContent';
 import {ProfileHeader} from './ProfileContent/Header';
 import {ReferralContent} from './ReferralContent/ReferralContent';
@@ -26,6 +28,7 @@ import {UserInfoCard} from './UserInfoCard/UserInfoCard';
 export {
   AvatarUsername,
   Carousel,
+  DetailPost,
   CreateNewCard,
   Dropdown,
   EditProfile,
@@ -37,6 +40,7 @@ export {
   ModalConfirm,
   NoMoreFeeds,
   NotificationCard,
+  PostComment,
   ProfileContent,
   ProfileHeader,
   ReferralContent,
