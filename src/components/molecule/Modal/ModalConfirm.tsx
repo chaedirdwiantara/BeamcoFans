@@ -23,7 +23,15 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = (
 ) => {
   const {title, subtitle, modalVisible, onPressClose, onPressOk} = props;
   return (
-    <Modal isVisible={modalVisible}>
+    <Modal
+      isVisible={modalVisible}
+      backdropOpacity={0.8}
+      animationIn="zoomInDown"
+      animationOut="zoomOutUp"
+      animationInTiming={600}
+      animationOutTiming={600}
+      backdropTransitionInTiming={600}
+      backdropTransitionOutTiming={600}>
       <View style={styles.root}>
         <View style={styles.card}>
           <Text style={styles.title}>{title}</Text>
