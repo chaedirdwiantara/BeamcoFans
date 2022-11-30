@@ -27,9 +27,12 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
     playlistDesc: '',
   });
   const [isModalVisible, setModalVisible] = useState(false);
-  const [uri, setUri] = useState({
+  const [playlistUri, setPlaylistUri] = useState({
     path: undefined,
   });
+  const [focusInput, setFocusInput] = useState<'name' | 'description' | null>(
+    null,
+  );
 
   const onChangeText = (key: string, value: string) => {
     setState({
@@ -39,12 +42,16 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
   };
 
   const resetImage = () => {
-    setUri({path: undefined});
+    setPlaylistUri({path: undefined});
     setModalVisible(false);
   };
 
   const sendUri = (val: React.SetStateAction<{path: undefined}>) => {
-    setUri(val);
+    setPlaylistUri(val);
+  };
+
+  const handleFocusInput = (focus: 'name' | 'description' | null) => {
+    setFocusInput(focus);
   };
 
   const disabledButton = checkEmptyProperties({
@@ -52,6 +59,9 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
   });
   const colorDisabled = [color.Dark[50], color.Dark[50]];
   const defaultGradient = ['#F98FD9', '#FF70D4'];
+
+  const hideMenuDelete =
+    playlistUri?.path !== undefined && playlistUri?.path !== '';
 
   return (
     <View style={styles.root}>
@@ -64,7 +74,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
       />
 
       <PhotoPlaylist
-        uri={uri?.path}
+        uri={playlistUri?.path}
         showIcon
         onPress={() => setModalVisible(true)}
       />
@@ -79,6 +89,13 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
         textAlign={'center'}
         numberOfLines={1}
         multiline={false}
+        onFocus={() => {
+          handleFocusInput('name');
+        }}
+        onBlur={() => {
+          handleFocusInput(null);
+        }}
+        isFocus={focusInput === 'name'}
       />
 
       <SsuInput.InputText
@@ -93,6 +110,13 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
         fontColor={color.Neutral[10]}
         borderColor={color.Pink.linear}
         inputStyles={styles.inputDesc}
+        onFocus={() => {
+          handleFocusInput('description');
+        }}
+        onBlur={() => {
+          handleFocusInput(null);
+        }}
+        isFocus={focusInput === 'description'}
       />
 
       <View style={styles.footer}>
@@ -107,7 +131,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
           label={'Create'}
           disabled={disabledButton}
           colors={disabledButton ? colorDisabled : defaultGradient}
-          onPress={() => goToPlaylist({...state, uri})}
+          onPress={() => goToPlaylist({...state, playlistUri})}
           gradientStyles={styles.btnContainer}
         />
       </View>
@@ -117,6 +141,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
         sendUri={sendUri}
         onDeleteImage={resetImage}
         onPressClose={() => setModalVisible(false)}
+        hideMenuDelete={hideMenuDelete}
       />
     </View>
   );
