@@ -41,6 +41,11 @@ export const PostlistData: PostListType[] = [
           postUri:
             'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
         },
+        {
+          id: 2,
+          postUri:
+            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        },
       ],
     },
     category: 'Coming Up',
@@ -155,6 +160,11 @@ export const PostlistData: PostListType[] = [
           postUri:
             'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
         },
+        {
+          id: 0,
+          postUri:
+            'https://dafunda.com/wp-content/uploads/2022/02/Inilah-Alasan-Kuat-Kenapa-Eren-Yeager-Menjadi-Jahat-di-Attack-on-Titan.jpg',
+        },
       ],
     },
     category: 'Coming Up',
@@ -210,6 +220,11 @@ export const PostlistDataExclusive: PostListType[] = [
           id: 1,
           postUri:
             'https://img.harianjogja.com/posts/2022/11/10/1117219/alif-cepmek.jpg',
+        },
+        {
+          id: 0,
+          postUri:
+            'https://cdn1-production-images-kly.akamaized.net/mm32wIeS1DHrS2j83Uo3V8Bmb98=/640x853/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/4201593/original/087977400_1666591841-6_mikey22287.jpg',
         },
       ],
     },

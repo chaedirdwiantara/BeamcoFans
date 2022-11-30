@@ -1,39 +1,29 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
-import {SquareImage} from '../../atom';
+import {Gap, SquareImage} from '../../atom';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 import {color, font} from '../../../theme';
 import {Dropdown} from '../DropDown';
 
 interface ListProps {
   imgUri: string;
-  onPressLikeIcon: () => void;
-  onPressThreeDots: () => void;
+  onPressMore: (data: any) => void;
   musicNum: number;
   musicTitle: string;
   singerName: string;
-  // likePressed: boolean;
-  hideThreeDots?: boolean;
   containerStyles?: ViewStyle;
+  dataFilter?: [];
 }
 
 const MusicListCard: React.FC<ListProps> = ({
   imgUri,
-  // onPressLikeIcon,
-  onPressThreeDots,
+  onPressMore,
   musicNum,
   musicTitle,
   singerName,
-  hideThreeDots = false,
-  // likePressed,
   containerStyles,
+  dataFilter,
 }) => {
   // ? Dropdown Menu Example
   const dataMore = [
@@ -43,9 +33,6 @@ const MusicListCard: React.FC<ListProps> = ({
     {label: 'Share Music', value: '4'},
     {label: 'Show Credits', value: '25'},
   ];
-  const resultDataMore = (dataResult: any) => {
-    console.log(dataResult, 'resultDataMenu');
-  };
 
   return (
     <View style={[styles.container, containerStyles]}>
@@ -58,29 +45,18 @@ const MusicListCard: React.FC<ListProps> = ({
       <SquareImage imgUri={imgUri} size={44} />
       <View style={styles.textContainer}>
         <Text style={styles.songTitle}>{musicTitle}</Text>
+        <Gap height={2} />
         <Text style={styles.songDesc}>{singerName}</Text>
       </View>
-      {/* <TouchableOpacity onPress={onPressLikeIcon} style={[styles.likeButton]}>
-        <LoveIcon
-          fill={likePressed ? color.Pink[100] : 'none'}
-          stroke={likePressed ? 'none' : color.Neutral[10]}
-        />
-      </TouchableOpacity> */}
-      {hideThreeDots && (
-        <TouchableOpacity
-          onPress={onPressThreeDots}
-          style={[styles.dotsButton]}>
-          <Dropdown.More
-            data={dataMore}
-            selectedMenu={resultDataMore}
-            containerStyle={{
-              width: widthPercentage(120),
-              marginLeft: widthPercentage(-110),
-              marginTop: heightPercentage(-8),
-            }}
-          />
-        </TouchableOpacity>
-      )}
+      <Dropdown.More
+        data={dataFilter ? dataFilter : dataMore}
+        selectedMenu={onPressMore}
+        containerStyle={{
+          width: widthPercentage(120),
+          marginLeft: widthPercentage(-110),
+          marginTop: heightPercentage(-8),
+        }}
+      />
     </View>
   );
 };
@@ -100,7 +76,7 @@ const styles = StyleSheet.create({
     fontSize: normalize(10),
     lineHeight: mvs(12),
     marginRight: ms(10),
-    color: color.Neutral[10],
+    color: color.Dark[100],
   },
   textContainer: {
     flex: 1,
@@ -109,10 +85,9 @@ const styles = StyleSheet.create({
     marginLeft: ms(12),
   },
   songTitle: {
-    fontFamily: font.InterSemiBold,
+    fontFamily: font.InterRegular,
+    fontSize: normalize(14),
     fontWeight: '500',
-    fontSize: normalize(15),
-    lineHeight: mvs(20),
     color: color.Neutral[10],
   },
   songDesc: {

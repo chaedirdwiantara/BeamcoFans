@@ -71,6 +71,7 @@ export type RootStackParams = {
   MainTab: undefined;
   Otp: {
     id: string;
+    type: 'email' | 'phoneNumber';
     title: string;
     subtitle: string;
   };
@@ -171,7 +172,11 @@ const RootStackScreen = () => (
   <RootStack.Navigator
     screenOptions={screenOption}
     initialRouteName={
-      storage.getBoolean('isOnboard') ? 'SignInGuest' : 'Boarding'
+      storage.getBoolean('isLogin')
+        ? 'MainTab'
+        : storage.getBoolean('isOnboard')
+        ? 'SignInGuest'
+        : 'Boarding'
     }>
     <RootStack.Screen name="Boarding" component={OnboardScreen} />
     <RootStack.Screen name="EditProfile" component={EditProfileScreen} />

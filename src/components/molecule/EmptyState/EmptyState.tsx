@@ -8,13 +8,14 @@ import Typography from '../../../theme/Typography';
 interface Props {
   text?: string;
   containerStyle?: ViewStyle;
+  icon?: React.ReactNode;
 }
 
 export const EmptyState: React.FC<Props> = (props: Props) => {
-  const {text, containerStyle} = props;
+  const {text, containerStyle, icon} = props;
   return (
     <View style={[styles.root, containerStyle]}>
-      <CrackEggIcon />
+      {icon ? icon : <CrackEggIcon />}
       <Text style={[Typography.Button2, styles.text]}>{text}</Text>
     </View>
   );

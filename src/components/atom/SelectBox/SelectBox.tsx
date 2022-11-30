@@ -5,19 +5,15 @@ import Color from '../../../theme/Color';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 
 interface SelectBoxProps {
-  selected?: string[];
-  setSelected: (value: string) => void;
-  favorites?: string[];
+  selected: number[];
+  setSelected: (value: number[]) => void;
+  favorites: string[];
   containerStyle?: ViewStyle;
 }
 
-export const SelectBox: React.FC<SelectBoxProps> = ({
-  selected = [],
-  setSelected,
-  favorites = [],
-  containerStyle,
-}) => {
-  const onPressBox = (val: string, checkVal: boolean) => {
+export const SelectBox: React.FC<SelectBoxProps> = (props: SelectBoxProps) => {
+  const {selected, setSelected, favorites, containerStyle} = props;
+  const onPressBox = (val: number, checkVal: boolean) => {
     let newArr = [...selected];
     const oldIndexValue = newArr.indexOf(val);
     if (checkVal) {
@@ -35,7 +31,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
   return (
     <View style={[styles.root, containerStyle]}>
       {favorites.map((val, i) => {
-        const checkVal = selected?.some(res => res === val);
+        const checkVal = selected?.some(res => res === i + 1);
         const activeBtn = checkVal && styles.activeBtn;
 
         return (
@@ -43,7 +39,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
             key={i}
             label={val}
             containerStyles={[styles.btnContainer, activeBtn]}
-            onPress={() => onPressBox(val, checkVal)}
+            onPress={() => onPressBox(i + 1, checkVal)}
           />
         );
       })}

@@ -1,7 +1,20 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {FC, useState} from 'react';
+import {
+  FlatList,
+  LogBox,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {FC, useEffect, useState} from 'react';
 import {color, font} from '../../theme';
-import {Gap, ListCard, SquareImage, TopNavigation} from '../../components';
+import {
+  DetailPost,
+  Gap,
+  SquareImage,
+  SsuDivider,
+  TopNavigation,
+} from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
@@ -13,6 +26,10 @@ import {
   widthResponsive,
 } from '../../utils';
 import {mvs} from 'react-native-size-matters';
+import {commentData} from '../../data/comment';
+import CommentSection from './CommentSection';
+import ImageModal from './ImageModal';
+import ImageList from '../ListCard/ThreeImageList';
 
 interface PostDetail {
   props: {};
@@ -20,15 +37,21 @@ interface PostDetail {
 }
 
 export const PostDetail: FC<PostDetail> = props => {
+  // ignore warning
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
+
   const data = props.route.params.data.item;
   const musicianName = data.musicianName;
-  // const caption = data.post.postTitle;
-  const caption =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo, vel fringilla est ullamcorper eget nulla facilisi etiam urna, porttitor rhoncus dolor';
+  const caption = data.post.postTitle;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const [likePressed, setLikePressed] = useState<boolean>(false);
+  const [readMore, setReadMore] = useState<boolean>(false);
+  const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [imgUrl, setImgUrl] = useState<string>('');
 
   const likeOnPress = () => {
     setLikePressed(!likePressed);
@@ -45,44 +68,73 @@ export const PostDetail: FC<PostDetail> = props => {
   const shareOnPress = () => {
     console.log('share');
   };
+
+  const readMoreOnPress = () => {
+    setReadMore(!readMore);
+  };
+
+  const toggleModalOnPress = (img: string) => {
+    setModalVisible(!isModalVisible);
+    setImgUrl(img);
+  };
+
   return (
     <SafeAreaView style={styles.root}>
-      <TopNavigation.Type1
-        title={`${musicianName} Post`}
-        leftIconAction={() => navigation.goBack()}
-        maxLengthTitle={40}
-        itemStrokeColor={color.Neutral[10]}
-      />
-      {/* <Text style={{color: 'white'}}>
-        {caption.substring(0, 10)}...
-        <Text style={{color: 'red'}}> Read More</Text>
-      </Text> */}
-      <View style={styles.bodyContainer}>
-        <ListCard.PostList
-          musicianName={data.musicianName}
-          musicianId={data.musicianId}
-          imgUri={data.imgUri}
-          postDate={data.postDate}
-          category={data.category}
-          likeOnPress={likeOnPress}
-          commentOnPress={commentOnPress}
-          tokenOnPress={tokenOnPress}
-          shareOnPress={shareOnPress}
-          likePressed={likePressed}
-          containerStyles={{marginTop: mvs(16)}}
-          likeCount={data.likeCount}
-          commentCount={data.commentCount}
-          children={
-            <View style={{width: '100%'}}>
-              <Text style={styles.childrenPostTitle}>
-                {elipsisText(data?.post.postTitle, 600)}
-              </Text>
-              <Gap height={4} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                }}>
-                <SafeAreaView style={{flex: 1}}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Header Section */}
+        <TopNavigation.Type1
+          title={`${musicianName} Post`}
+          leftIconAction={() => navigation.goBack()}
+          maxLengthTitle={40}
+          itemStrokeColor={color.Neutral[10]}
+        />
+        {/* Post Detail Section */}
+        <View style={styles.bodyContainer}>
+          <DetailPost
+            musicianName={data.musicianName}
+            musicianId={data.musicianId}
+            imgUri={data.imgUri}
+            postDate={data.postDate}
+            category={data.category}
+            likeOnPress={likeOnPress}
+            commentOnPress={commentOnPress}
+            tokenOnPress={tokenOnPress}
+            shareOnPress={shareOnPress}
+            likePressed={likePressed}
+            containerStyles={{
+              marginTop: mvs(16),
+              height: heightPercentage(40),
+            }}
+            likeCount={data.likeCount}
+            commentCount={data.commentCount}
+            disabled={true}
+            children={
+              <View style={{width: '100%'}}>
+                {caption.length >= 250 && readMore == false ? (
+                  <Text style={styles.childrenPostTitle}>
+                    {elipsisText(caption, 250)}
+                    {/* {caption.substring(0, 10)}... */}
+                    <Text style={styles.readMore} onPress={readMoreOnPress}>
+                      {' '}
+                      Read More
+                    </Text>
+                  </Text>
+                ) : caption.length < 250 ? (
+                  <Text style={styles.childrenPostTitle}>{caption}</Text>
+                ) : (
+                  <Text style={styles.childrenPostTitle}>
+                    {caption}
+                    <Text style={styles.readMore} onPress={readMoreOnPress}>
+                      {'\n'}
+                      Read Less
+                    </Text>
+                  </Text>
+                )}
+                <Gap height={4} />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}>
                   <FlatList
                     scrollEnabled={false}
                     columnWrapperStyle={{justifyContent: 'flex-start'}}
@@ -90,38 +142,63 @@ export const PostDetail: FC<PostDetail> = props => {
                     numColumns={2}
                     data={data.post.postPicture}
                     renderItem={
-                      data.post.postPicture.length > 2
-                        ? ({item}: any) => (
+                      data.post.postPicture.length > 3
+                        ? ({item}) => (
                             <SquareImage
                               imgUri={item.postUri}
-                              size={widthResponsive(143, 375)}
+                              size={widthResponsive(162, 375)}
                               height={heightPercentage(71)}
                               id={item.id}
                               containerStyle={{
                                 marginRight: widthResponsive(3),
                                 marginBottom: heightPercentage(4),
                               }}
+                              disabled={false}
+                              onPress={() => toggleModalOnPress(item.postUri)}
                             />
                           )
-                        : ({item}: any) => (
+                        : data.post.postPicture.length === 3
+                        ? ({item, index}) => (
+                            <ImageList
+                              index={index}
+                              uri={item.postUri}
+                              width={162}
+                              height={79}
+                              disabled={false}
+                              onPress={() => toggleModalOnPress(item.postUri)}
+                            />
+                          )
+                        : ({item}) => (
                             <SquareImage
                               imgUri={item.postUri}
-                              size={widthResponsive(143, 375)}
+                              size={widthResponsive(162, 375)}
                               id={item.id}
                               containerStyle={{
                                 marginRight: widthResponsive(3),
                                 marginBottom: heightPercentage(4),
                               }}
+                              disabled={false}
+                              onPress={() => toggleModalOnPress(item.postUri)}
                             />
                           )
                     }
                   />
-                </SafeAreaView>
+                </View>
               </View>
-            </View>
-          }
+            }
+          />
+        </View>
+        <Gap height={12} />
+        <SsuDivider />
+        <Gap height={20} />
+        {/* Comment Section Lvl 1 */}
+        <CommentSection data={commentData} />
+        <ImageModal
+          toggleModal={() => setModalVisible(!isModalVisible)}
+          modalVisible={isModalVisible}
+          image={imgUrl}
         />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -140,5 +217,21 @@ const styles = StyleSheet.create({
     fontSize: normalize(13),
     lineHeight: mvs(20),
     color: color.Neutral[10],
+  },
+  readMore: {
+    color: color.Pink[100],
+    fontFamily: font.InterRegular,
+    fontWeight: '400',
+    fontSize: normalize(13),
+  },
+  commentContainer: {
+    width: '100%',
+    paddingHorizontal: widthResponsive(24),
+  },
+  viewMore: {
+    color: color.Pink[100],
+    fontFamily: font.InterRegular,
+    fontWeight: '400',
+    fontSize: normalize(12),
   },
 });

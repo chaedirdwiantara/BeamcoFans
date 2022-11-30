@@ -1,13 +1,20 @@
 import React from 'react';
-import {StyleSheet, Dimensions, ViewStyle, View} from 'react-native';
+import {
+  StyleSheet,
+  Dimensions,
+  ViewStyle,
+  View,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {AddIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
 
 const {width} = Dimensions.get('screen');
 
-interface SquareImageProps {
-  imgUri?: string;
+export interface SquareImageProps extends TouchableOpacityProps {
+  imgUri: string;
   size?: number;
   height?: number;
   id?: number;
@@ -33,7 +40,7 @@ const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
     );
   } else {
     return (
-      <View style={containerStyle}>
+      <TouchableOpacity style={containerStyle} disabled={true} {...props}>
         <FastImage
           source={{uri: imgUri}}
           style={[
@@ -46,7 +53,7 @@ const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
           ]}
           testID={`Image ${id}`}
         />
-      </View>
+      </TouchableOpacity>
     );
   }
 };

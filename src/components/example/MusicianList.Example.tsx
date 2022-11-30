@@ -8,11 +8,15 @@ const MusicianListExample = () => {
     console.log('dowtey');
   };
 
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
+  };
+
   return (
     <View style={{width: '100%', marginBottom: mvs(16)}}>
       <ListCard.MusicianList
-        musicNum={'01'}
-        musicTitle={'Sikok Bagi Tigo'}
+        musicianNum={01}
+        musicianName={'Sikok Bagi Tigo'}
         imgUri={
           'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
         }
@@ -21,8 +25,8 @@ const MusicianListExample = () => {
         containerStyles={{marginTop: mvs(20)}}
       />
       <ListCard.MusicianList
-        musicNum={'01'}
-        musicTitle={'Sikok Bagi Tigo'}
+        musicianNum={02}
+        musicianName={'Sikok Bagi Tigo'}
         imgUri={
           'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
         }

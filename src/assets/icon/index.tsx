@@ -7,6 +7,7 @@ import CheckBoxIcon from './CheckBox.icon';
 import CheckCircleIcon from './CheckCircle.icon';
 import ChevronDownIcon from './ChevronDown.icon';
 import CloseIcon from './Close.icon';
+import CloseCircleIcon from './CloseCircle.icon';
 import CoinIcon from './Coin.icon';
 import CopyIcon from './Copy.icon';
 import CollectionIcon from './Collection.icon';
@@ -20,6 +21,7 @@ import ExportIcon from './Export.icon';
 import EyeCloseIcon from './EyeClose.icon';
 import EyeOpenIcon from './EyeOpen.icon';
 import FeedIcon from './Feed.icon';
+import FriedEggIcon from './FriedEgg.icon';
 import FullNameIcon from './FullName.icon';
 import GalleryAddIcon from './GalleryAdd.icon';
 import GalleryEditIcon from './GalleryEdit.icon';
@@ -56,6 +58,7 @@ export {
   CheckCircleIcon,
   ChevronDownIcon,
   CloseIcon,
+  CloseCircleIcon,
   CoinIcon,
   CopyIcon,
   CollectionIcon,
@@ -69,6 +72,7 @@ export {
   EyeCloseIcon,
   EyeOpenIcon,
   FeedIcon,
+  FriedEggIcon,
   FullNameIcon,
   GalleryAddIcon,
   GalleryEditIcon,

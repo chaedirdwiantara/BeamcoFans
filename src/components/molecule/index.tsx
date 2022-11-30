@@ -7,6 +7,7 @@ import {ChangePasswordContent} from './SettingContent/ChangePasswordContent';
 import {CreateNewCard} from './CreateNewCard/CreateNewCard';
 import {CreateNewPlaylistContent} from './PlaylistContent/CreateNewPlaylistContent';
 import {Dropdown} from './DropDown';
+import DetailPost from './DetailPost/DetailPost';
 import {EditPlaylistContent} from './PlaylistContent/EditPlaylist';
 import {EditProfile} from './ProfileContent/EditProfile';
 import {EmailContent} from './SettingContent/EmailContent';
@@ -22,6 +23,7 @@ import {ModalImagePicker} from './Modal/ModalImagePicker';
 import {NoMoreFeeds} from './NoMoreFeeds/NoMoreFeeds';
 import {NotificationCard} from './NotificationCard/NotificationCard';
 import {PlaylistContent} from './PlaylistContent/PlaylistContent';
+import PostComment from './DetailPost/PostComment';
 import {ProfileContent} from './ProfileContent/ProfileContent';
 import {ProfileHeader} from './ProfileContent/components/Header';
 import {ReferralContent} from './ReferralContent/ReferralContent';
@@ -44,6 +46,7 @@ export {
   Carousel,
   ChangeEmailContent,
   ChangePasswordContent,
+  DetailPost,
   CreateNewCard,
   CreateNewPlaylistContent,
   Dropdown,
@@ -62,6 +65,7 @@ export {
   NoMoreFeeds,
   NotificationCard,
   PlaylistContent,
+  PostComment,
   ProfileContent,
   ProfileHeader,
   ReferralContent,
