@@ -33,7 +33,7 @@ export const SettingContent: React.FC<SettingProps> = ({
           <MenuText.RightIcon
             key={i}
             text={val}
-            containerStyles={{marginTop: heightPercentage(15)}}
+            containerStyles={{marginTop: heightPercentage(12)}}
             onPress={() => onPressGoTo(val.replace(/\s/g, ''))}
           />
         ))}
