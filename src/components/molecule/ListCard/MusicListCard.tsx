@@ -10,7 +10,6 @@ import {ms, mvs} from 'react-native-size-matters';
 import {SquareImage} from '../../atom';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 import {color, font} from '../../../theme';
-import {LoveIcon, ThreeDotsIcon} from '../../../assets/icon';
 import {Dropdown} from '../DropDown';
 
 interface ListProps {
@@ -21,6 +20,7 @@ interface ListProps {
   musicTitle: string;
   singerName: string;
   // likePressed: boolean;
+  hideThreeDots?: boolean;
   containerStyles?: ViewStyle;
 }
 
@@ -31,6 +31,7 @@ const MusicListCard: React.FC<ListProps> = ({
   musicNum,
   musicTitle,
   singerName,
+  hideThreeDots = false,
   // likePressed,
   containerStyles,
 }) => {
@@ -65,17 +66,21 @@ const MusicListCard: React.FC<ListProps> = ({
           stroke={likePressed ? 'none' : color.Neutral[10]}
         />
       </TouchableOpacity> */}
-      <TouchableOpacity onPress={onPressThreeDots} style={[styles.dotsButton]}>
-        <Dropdown.More
-          data={dataMore}
-          selectedMenu={resultDataMore}
-          containerStyle={{
-            width: widthPercentage(120),
-            marginLeft: widthPercentage(-110),
-            marginTop: heightPercentage(-8),
-          }}
-        />
-      </TouchableOpacity>
+      {hideThreeDots && (
+        <TouchableOpacity
+          onPress={onPressThreeDots}
+          style={[styles.dotsButton]}>
+          <Dropdown.More
+            data={dataMore}
+            selectedMenu={resultDataMore}
+            containerStyle={{
+              width: widthPercentage(120),
+              marginLeft: widthPercentage(-110),
+              marginTop: heightPercentage(-8),
+            }}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
