@@ -39,6 +39,7 @@ interface InputProps extends TextInputProps {
   isFocus?: boolean;
   rightIconComponent?: React.ReactNode;
   reset?: () => void;
+  containerStyles?: ViewStyle;
 }
 
 interface TextAreaProps extends TextInputProps {
@@ -78,6 +79,7 @@ const InputText: React.FC<InputProps> = props => {
     reset,
     onSubmitEditing,
     onEndEditing,
+    containerStyles,
   } = props;
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
@@ -109,6 +111,7 @@ const InputText: React.FC<InputProps> = props => {
           isFocus
             ? {borderColor: color.Pink[2], borderWidth: 1}
             : {borderWidth: 0},
+          containerStyles,
         ]}>
         {leftIcon}
         <TextInput

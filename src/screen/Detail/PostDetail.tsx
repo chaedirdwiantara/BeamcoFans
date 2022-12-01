@@ -17,6 +17,7 @@ import {commentData} from '../../data/comment';
 import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
 import ImageList from '../ListCard/ImageList';
+import CommentInputModal from './CommentInputModal';
 
 interface PostDetail {
   props: {};
@@ -38,6 +39,7 @@ export const PostDetail: FC<PostDetail> = props => {
   const [likePressed, setLikePressed] = useState<boolean>(false);
   const [readMore, setReadMore] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [imgUrl, setImgUrl] = useState<string>('');
 
   const likeOnPress = () => {
@@ -45,7 +47,7 @@ export const PostDetail: FC<PostDetail> = props => {
   };
 
   const commentOnPress = () => {
-    // navigation.navigate<any>('PostDetail', {data});
+    setInputCommentModal(!inputCommentModal);
   };
 
   const tokenOnPress = () => {
@@ -60,9 +62,9 @@ export const PostDetail: FC<PostDetail> = props => {
     setReadMore(!readMore);
   };
 
-  const toggleModalOnPress = (img: any) => {
+  const toggleModalOnPress = (uri: string) => {
     setModalVisible(!isModalVisible);
-    setImgUrl(img);
+    setImgUrl(uri);
   };
 
   return (
@@ -143,6 +145,11 @@ export const PostDetail: FC<PostDetail> = props => {
           toggleModal={() => setModalVisible(!isModalVisible)}
           modalVisible={isModalVisible}
           image={imgUrl}
+        />
+        <CommentInputModal
+          toggleModal={() => setInputCommentModal(!inputCommentModal)}
+          modalVisible={inputCommentModal}
+          name={'siti'}
         />
       </ScrollView>
     </SafeAreaView>

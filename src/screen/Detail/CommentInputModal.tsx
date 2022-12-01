@@ -1,18 +1,14 @@
-import {
-  Button,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC, useState} from 'react';
 import Modal from 'react-native-modal';
-import {color} from '../../theme';
-import FastImage from 'react-native-fast-image';
 import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {CloseCircleIcon, CloseIcon} from '../../assets/icon';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
+import {Avatar, Gap, SsuInput} from '../../components';
+import {color, font} from '../../theme';
+import {ms} from 'react-native-size-matters';
 
 interface ModalImageProps {
   toggleModal: () => void;
@@ -22,15 +18,39 @@ interface ModalImageProps {
 
 const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
   const {toggleModal, modalVisible, name} = props;
+  const [state, setState] = useState<string>('');
 
   return (
     <Modal
       isVisible={modalVisible}
-      backdropOpacity={0.2}
+      backdropOpacity={0}
       onBackdropPress={toggleModal}
       onBackButtonPress={toggleModal}>
       <View style={styles.container}>
-        <Text style={{color: 'white'}}>hai</Text>
+        <View style={styles.inputContainer}>
+          <Avatar
+            imgUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxwjjgqL0vLByyI1sXSGF3Q08PXEmPTUbL6w&usqp=CAU"
+            size={42}
+          />
+          {/* <Gap width={12} /> */}
+          <SsuInput.InputText
+            value={state}
+            onChangeText={(newText: any) => setState(newText)}
+            placeholder={'Reply as your name'}
+            containerStyles={{
+              width: widthResponsive(209),
+              backgroundColor: 'transparent',
+              paddingLeft: 0,
+              flexShrink: 1,
+              maxWidth: widthResponsive(209),
+            }}
+            multiline={true}
+          />
+          <Gap width={24} />
+          <TouchableOpacity style={styles.buttonStyle}>
+            <Text style={styles.buttonText}>Reply</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </Modal>
   );
@@ -40,14 +60,31 @@ export default CommentInputModal;
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    marginTop: heightPercentageToDP('90%'),
+    height: heightPercentage(88),
+    width: '100%',
+    backgroundColor: color.Dark[800],
   },
-  scrollView: {
+  inputContainer: {
+    flexDirection: 'row',
+    width: '100%',
     alignItems: 'center',
+    // backgroundColor: 'grey',
+    // height: heightPercentage(64),
   },
-  imageStyle: {
-    height: heightResponsive(375, 812),
-    width: widthPercentageToDP('100%'),
-    marginTop: heightPercentage(-12),
+  buttonStyle: {
+    backgroundColor: color.Dark[50],
+    borderRadius: 4,
+    paddingVertical: ms(6),
+    // paddingHorizontal: ms(16),
+    width: widthResponsive(62),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontFamily: font.InterRegular,
+    fontWeight: '600',
+    fontSize: 11,
   },
 });

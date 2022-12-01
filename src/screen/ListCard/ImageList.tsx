@@ -6,7 +6,7 @@ import {object} from 'yup';
 
 interface ImageListProps {
   disabled?: boolean;
-  onPress: (event: UIEvent) => void;
+  onPress: (uri: string) => void;
   width: number;
   height: number;
   heightType2?: number;
