@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {Dropdown, Gap, ListCard, SquareImage} from '../../components';
+import {Dropdown, Gap, ListCard} from '../../components';
 import {
   DataDropDownType,
   DropDownFilterType,
@@ -46,7 +46,7 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
-  const [selectedId, setSelectedId] = useState<any>([]);
+  const [selectedId, setSelectedId] = useState<string[]>([]);
   const [dataCategory, setDataCategory] = useState<PostListType[]>(data);
   const [status, setStatus] = useState<'not_follow' | 'following'>('following');
 
