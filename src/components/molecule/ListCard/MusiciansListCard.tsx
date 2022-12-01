@@ -1,22 +1,14 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {Avatar, Gap} from '../../atom';
 import {
-  elipsisText,
   heightPercentage,
   normalize,
   widthPercentage,
   widthResponsive,
 } from '../../../utils';
 import {color, font} from '../../../theme';
-import {ThreeDotsIcon} from '../../../assets/icon';
 import {Dropdown} from '../DropDown';
 
 interface ListProps {
@@ -27,9 +19,6 @@ interface ListProps {
   point?: string;
   containerStyles?: ViewStyle;
   dataFilter?: [];
-  type: 'rank' | 'recommendation';
-  followerCount?: number;
-  followOnPress?: (data: any) => void;
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -41,9 +30,6 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     point,
     containerStyles,
     dataFilter,
-    type,
-    followerCount,
-    followOnPress,
   } = props;
 
   // ? Dropdown Menu Example
@@ -67,14 +53,6 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     );
   };
 
-  const followMenu = () => {
-    return (
-      <TouchableOpacity style={styles.followButton} onPress={followOnPress}>
-        <Text style={styles.followText}>Follow</Text>
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <View style={[styles.container, containerStyles]}>
       <Text style={styles.rankStyle}>
@@ -89,19 +67,10 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
         <Text style={styles.musicianName} numberOfLines={1}>
           {musicianName}
         </Text>
-        {type === 'recommendation' && (
-          <Text style={styles.followerCount} numberOfLines={1}>
-            {followerCount} Listener
-          </Text>
-        )}
       </View>
       <View style={styles.rightContainer}>
         {point ? <Text style={styles.pointStyle}>{`${point} pts`}</Text> : null}
-        {type === 'rank'
-          ? moreMenu()
-          : type === 'recommendation'
-          ? followMenu()
-          : null}
+        {moreMenu()}
       </View>
     </View>
   );
@@ -136,12 +105,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: color.Neutral[10],
   },
-  followerCount: {
-    fontFamily: font.InterRegular,
-    fontWeight: '500',
-    fontSize: normalize(10),
-    color: color.Dark[50],
-  },
   rightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -152,20 +115,5 @@ const styles = StyleSheet.create({
     fontSize: normalize(10),
     lineHeight: mvs(12),
     color: '#FF87DB',
-  },
-  dotsButton: {
-    justifyContent: 'center',
-  },
-  followButton: {
-    paddingHorizontal: widthResponsive(8),
-    paddingVertical: widthResponsive(6),
-    backgroundColor: color.Pink[200],
-    borderRadius: 4,
-  },
-  followText: {
-    fontFamily: font.InterRegular,
-    fontWeight: '500',
-    fontSize: normalize(10),
-    color: color.Neutral[10],
   },
 });
