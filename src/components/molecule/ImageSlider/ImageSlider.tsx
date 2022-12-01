@@ -40,13 +40,25 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   onUpdatePreference,
 }) => {
   const scrollViewRef = useRef<ScrollView>(null);
-  const [selected, setSelected] = useState<number[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
+  const [selectedMoods, setSelectedMoods] = useState<number[]>([]);
+  const [selectedExpectations, setSelectedExpectations] = useState<number[]>(
+    [],
+  );
   const [activeIndexSlide, setActiveIndexSlide] = useState(0);
 
   const handleNextSlide = () => {
     if (activeIndexSlide === 0) {
       onUpdatePreference({
-        favoriteGeneres: selected,
+        favoriteGeneres: selectedGenres,
+      });
+    } else if (activeIndexSlide === 1) {
+      onUpdatePreference({
+        moods: selectedMoods,
+      });
+    } else if (activeIndexSlide === 2) {
+      onUpdatePreference({
+        expectations: selectedExpectations,
       });
     }
     const newIndex = activeIndexSlide + 1;
@@ -100,6 +112,20 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
             );
           } else if ('favorites' in item) {
             // TODO: render list of the favourites
+            const selected =
+              index === 0
+                ? selectedGenres
+                : index === 1
+                ? selectedMoods
+                : selectedExpectations;
+
+            const setSelected =
+              index === 0
+                ? setSelectedGenres
+                : index === 1
+                ? setSelectedMoods
+                : setSelectedExpectations;
+
             if (index === 3) {
               return (
                 <View key={index} style={{paddingVertical: mvs(30)}}>
