@@ -36,10 +36,4 @@ export const dataSlider: DataSliderType[] = [
     title: 'Canceled Concert Due to COVID',
     subtitle: 'Lorem ipsum dolor sit amet, consectetur adispicing elit',
   },
-  {
-    id: 5,
-    uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Muse_in_Sydney.jpg/1200px-Muse_in_Sydney.jpg',
-    title: 'Concert',
-    subtitle: 'Lorem ipsum dolor sit amet, consectetur adispicing elit',
-  },
 ];
