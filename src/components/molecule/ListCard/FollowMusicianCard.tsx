@@ -1,55 +1,51 @@
 import React from 'react';
-import {StyleSheet, Text, View, ViewStyle} from 'react-native';
-import {ms, mvs} from 'react-native-size-matters';
-import {Avatar, Gap} from '../../atom';
 import {
-  heightPercentage,
-  normalize,
-  widthPercentage,
-  widthResponsive,
-} from '../../../utils';
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
+import {ms} from 'react-native-size-matters';
+import {Avatar, Gap} from '../../atom';
+import {normalize, widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
-import {Dropdown} from '../DropDown';
 
 interface ListProps {
   musicianNum?: number;
-  onPressMore: (data: any) => void;
   musicianName: string;
   imgUri: string;
-  point?: string;
+  followerCount: number;
+  followOnPress: (data: any) => void;
+  stateButton: boolean;
   containerStyles?: ViewStyle;
-  dataFilter?: [];
 }
 
-const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
+const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
   const {
     musicianNum,
-    onPressMore,
     musicianName,
     imgUri,
-    point,
+    followerCount,
+    followOnPress,
+    stateButton,
     containerStyles,
-    dataFilter,
   } = props;
 
-  // ? Dropdown Menu Example
-  const dataMore = [
-    {label: 'Follow', value: '1'},
-    {label: 'Send Donation', value: '2'},
-    {label: 'Go To Musician', value: '3'},
-  ];
-
-  const moreMenu = () => {
+  const followMenu = () => {
     return (
-      <Dropdown.More
-        data={dataFilter ? dataFilter : dataMore}
-        selectedMenu={onPressMore}
-        containerStyle={{
-          width: widthPercentage(123),
-          marginLeft: widthPercentage(-113),
-          marginTop: heightPercentage(-8),
-        }}
-      />
+      <TouchableOpacity
+        style={[
+          styles.followButton,
+          {backgroundColor: stateButton ? undefined : color.Pink[200]},
+        ]}
+        onPress={followOnPress}>
+        {stateButton ? (
+          <Text style={styles.followText}>Following</Text>
+        ) : (
+          <Text style={styles.followText}>Follow</Text>
+        )}
+      </TouchableOpacity>
     );
   };
 
@@ -67,16 +63,17 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
         <Text style={styles.musicianName} numberOfLines={1}>
           {musicianName}
         </Text>
+
+        <Text style={styles.followerCount} numberOfLines={1}>
+          {followerCount} Listener
+        </Text>
       </View>
-      <View style={styles.rightContainer}>
-        {point ? <Text style={styles.pointStyle}>{`${point} pts`}</Text> : null}
-        {moreMenu()}
-      </View>
+      <View style={styles.rightContainer}>{followMenu()}</View>
     </View>
   );
 };
 
-export default MusiciansListCard;
+export default FollowMusicianCard;
 
 const styles = StyleSheet.create({
   container: {
@@ -105,15 +102,28 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: color.Neutral[10],
   },
+  followerCount: {
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(10),
+    color: color.Dark[50],
+  },
   rightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  pointStyle: {
-    fontFamily: font.InterSemiBold,
-    fontWeight: '600',
+  followButton: {
+    paddingVertical: widthResponsive(6),
+    width: widthResponsive(68),
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: color.Pink[200],
+    borderRadius: 4,
+  },
+  followText: {
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
     fontSize: normalize(10),
-    lineHeight: mvs(12),
-    color: '#FF87DB',
+    color: color.Neutral[10],
   },
 });

@@ -1,5 +1,6 @@
 import {AvatarUsername} from './AvatarUsername/AvatarUsername';
 import {Carousel} from './Carousel/Carousel';
+import CommentInputModal from './CommentInputModal/CommentInputModal';
 import {CreateNewCard} from './CreateNewCard/CreateNewCard';
 import {Dropdown} from './DropDown';
 import DetailPost from './DetailPost/DetailPost';
@@ -29,6 +30,7 @@ export {
   AvatarUsername,
   Carousel,
   DetailPost,
+  CommentInputModal,
   CreateNewCard,
   Dropdown,
   EditProfile,
