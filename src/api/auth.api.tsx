@@ -1,10 +1,14 @@
 import {
+  ConfirmEmailOTPRegisterResponseType,
+  ConfirmSmsOTPLoginResponseType,
   LoginPropsType,
   LoginResponseType,
   RegisterPropsType,
   RegisterResponseType,
+  ResendOTPResponseType,
   UsernameAvailabilityResponseType,
 } from '../interface/auth.interface';
+import {RegistrationType} from '../interface/profile.interface';
 import SsuAPI from './base';
 
 export const registerUser = async (
@@ -31,6 +35,21 @@ export const loginUser = async (
   return data;
 };
 
+export const loginSso = async (
+  user: string,
+  registrationType: RegistrationType,
+): Promise<LoginResponseType> => {
+  const {data} = await SsuAPI().request<LoginResponseType>({
+    url: '/login-sso',
+    method: 'POST',
+    data: {
+      user: user,
+      registrationType: registrationType,
+    },
+  });
+  return data;
+};
+
 export const checkUsername = async (
   username: string,
 ): Promise<UsernameAvailabilityResponseType> => {
@@ -39,6 +58,65 @@ export const checkUsername = async (
     method: 'POST',
     data: {
       username: username,
+    },
+  });
+
+  return data;
+};
+
+export const confirmEmailOtpRegister = async (
+  email: string,
+  code: string,
+): Promise<ConfirmEmailOTPRegisterResponseType> => {
+  const {data} = await SsuAPI().request<ConfirmEmailOTPRegisterResponseType>({
+    url: '/confirm-otp/email/register',
+    method: 'POST',
+    data: {
+      email: email,
+      code: code,
+    },
+  });
+
+  return data;
+};
+
+export const confirmSmsOtpLogin = async (
+  phoneNumber: string,
+  code: string,
+): Promise<ConfirmSmsOTPLoginResponseType> => {
+  const {data} = await SsuAPI().request<ConfirmSmsOTPLoginResponseType>({
+    url: '/confirm-otp/sms/login',
+    method: 'POST',
+    data: {
+      phoneNumber: phoneNumber,
+      code: code,
+    },
+  });
+
+  return data;
+};
+
+export const resendOtpEmail = async (
+  email: string,
+): Promise<ResendOTPResponseType> => {
+  const {data} = await SsuAPI().request<ResendOTPResponseType>({
+    url: '/resend-otp/email',
+    method: 'POST',
+    data: {
+      email: email,
+    },
+  });
+  return data;
+};
+
+export const resendOtpSms = async (
+  phoneNumber: string,
+): Promise<ResendOTPResponseType> => {
+  const {data} = await SsuAPI().request<ResendOTPResponseType>({
+    url: '/resend-otp/sms/login',
+    method: 'POST',
+    data: {
+      phoneNumber: phoneNumber,
     },
   });
 

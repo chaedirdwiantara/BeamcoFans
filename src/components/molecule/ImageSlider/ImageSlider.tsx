@@ -20,6 +20,7 @@ import {DataOnboardType} from '../../../data/onboard';
 import {heightPercentage, width} from '../../../utils';
 import {FollowArtistCard, SelectBox} from '../../../components';
 import Typography from '../../../theme/Typography';
+import {UpdateProfilePropsType} from '../../../api/profile.api';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -29,18 +30,37 @@ interface ImageSliderProps {
   type?: string;
   data: DataOnboardType[] | DataFavouritesType[];
   onPress?: () => void;
+  onUpdatePreference: (props?: UpdateProfilePropsType) => void;
 }
 
 export const ImageSlider: React.FC<ImageSliderProps> = ({
   type,
   data,
   onPress,
+  onUpdatePreference,
 }) => {
   const scrollViewRef = useRef<ScrollView>(null);
-  const [selected, setSelected] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
+  const [selectedMoods, setSelectedMoods] = useState<number[]>([]);
+  const [selectedExpectations, setSelectedExpectations] = useState<number[]>(
+    [],
+  );
   const [activeIndexSlide, setActiveIndexSlide] = useState(0);
 
   const handleNextSlide = () => {
+    if (activeIndexSlide === 0) {
+      onUpdatePreference({
+        favoriteGeneres: selectedGenres,
+      });
+    } else if (activeIndexSlide === 1) {
+      onUpdatePreference({
+        moods: selectedMoods,
+      });
+    } else if (activeIndexSlide === 2) {
+      onUpdatePreference({
+        expectations: selectedExpectations,
+      });
+    }
     const newIndex = activeIndexSlide + 1;
     setActiveIndexSlide(newIndex);
     scrollViewRef.current?.scrollTo({
@@ -92,6 +112,20 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
             );
           } else if ('favorites' in item) {
             // TODO: render list of the favourites
+            const selected =
+              index === 0
+                ? selectedGenres
+                : index === 1
+                ? selectedMoods
+                : selectedExpectations;
+
+            const setSelected =
+              index === 0
+                ? setSelectedGenres
+                : index === 1
+                ? setSelectedMoods
+                : setSelectedExpectations;
+
             if (index === 3) {
               return (
                 <View key={index} style={{paddingVertical: mvs(30)}}>

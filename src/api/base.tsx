@@ -1,4 +1,5 @@
-import axios, {AxiosError, AxiosInstance} from 'axios';
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
+import {storage} from '../hooks/use-storage.hook';
 
 type SsuAPIParams = {
   cookie?: string;
@@ -39,16 +40,16 @@ export const initialize = (
   }
 
   // TODO: add token on interceptor
-  // const token = localStorage.getItem("token") as string | null;
-  // if (token) {
-  //   API.interceptors.request.use((config: AxiosRequestConfig) => {
-  //     config.headers = {
-  //       ...config.headers,
-  //     };
-  //     // config.headers["accesstoken"] = token;
-  //     return config;
-  //   });
-  // }
+  const token = storage.getString('accessToken');
+  if (token) {
+    API.interceptors.request.use((config: AxiosRequestConfig) => {
+      config.headers = {
+        ...config.headers,
+      };
+      config.headers['Authorization'] = `Bearer ${token}`;
+      return config;
+    });
+  }
 
   return API;
 };

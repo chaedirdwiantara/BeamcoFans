@@ -7,6 +7,7 @@ import {
   Dimensions,
   Platform,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -25,6 +26,7 @@ import {countryData} from '../data/dropdown';
 import {AppleLogo, FacebookLogo, GoogleLogo, SSULogo} from '../assets/logo';
 import type {RegistrationType} from '../interface/profile.interface';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
+import {storage} from '../hooks/use-storage.hook';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -44,6 +46,9 @@ export const LoginScreen: React.FC = () => {
 
   const {
     onLoginUser,
+    onLoginGoogle,
+    onLoginFacebook,
+    onLoginApple,
     isLoading,
     isError,
     loginResult,
@@ -79,11 +84,18 @@ export const LoginScreen: React.FC = () => {
 
   useEffect(() => {
     if (!isLoading && !isError && loginResult !== null) {
-      navigation.replace('Preference');
+      // TODO: activate this after completing wiring on the preference screen
+      // storage.set('isLogin', true);
+      if (loginResult === 'preference') {
+        navigation.replace('Preference');
+      } else {
+        navigation.replace('MainTab');
+      }
     } else if (!isLoading && isError) {
       if (errorCode === 1016) {
         navigation.navigate('Otp', {
           id: errorData,
+          type: errorData.includes('@') ? 'email' : 'phoneNumber',
           title: 'Email Verification Code',
           subtitle: `We have sent you six digits verification code on address ${errorData} check your inbox and enter verification code here`,
         });
@@ -238,11 +250,17 @@ export const LoginScreen: React.FC = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <GoogleLogo />
+          <TouchableOpacity onPress={onLoginGoogle}>
+            <GoogleLogo />
+          </TouchableOpacity>
           <Gap width={24} />
-          <FacebookLogo />
+          <TouchableOpacity onPress={onLoginFacebook}>
+            <FacebookLogo />
+          </TouchableOpacity>
           <Gap width={24} />
-          <AppleLogo />
+          <TouchableOpacity onPress={onLoginApple}>
+            <AppleLogo />
+          </TouchableOpacity>
         </View>
         <Gap height={24} />
         <Text style={styles.forgotPassStyle}>
