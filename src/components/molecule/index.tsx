@@ -27,6 +27,7 @@ import PostComment from './DetailPost/PostComment';
 import {ProfileContent} from './ProfileContent/ProfileContent';
 import {ProfileHeader} from './ProfileContent/components/Header';
 import {ReferralContent} from './ReferralContent/ReferralContent';
+import {RadioButton} from './RadioButton/RadioButton';
 import {ReferAFriend} from './SettingContent/ReferAFriend';
 import {SettingContent} from './SettingContent/SettingContent';
 import {SignInGuestContent} from './SignInGuestContent/SignInGuestContent';
@@ -68,6 +69,7 @@ export {
   PostComment,
   ProfileContent,
   ProfileHeader,
+  RadioButton,
   ReferralContent,
   ReferAFriend,
   SettingContent,
