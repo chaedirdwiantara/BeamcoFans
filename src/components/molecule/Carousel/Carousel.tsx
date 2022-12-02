@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     marginHorizontal: widthPercentage(15),
     alignItems: 'center',
     backgroundColor: 'white',
-    borderRadius: 20,
+    borderRadius: 8,
   },
   itemText: {
     fontSize: normalize(14),
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     left: widthPercentage(10),
     color: Color.Neutral[10],
     fontFamily: Font.InterBold,
+    width: width * 0.6,
   },
   itemSubtitle: {
     fontSize: normalize(11.5),
@@ -141,11 +142,12 @@ const styles = StyleSheet.create({
     left: ms(10),
     color: Color.Neutral[10],
     fontFamily: Font.InterRegular,
+    width: width * 0.6,
   },
   itemImage: {
     width: '100%',
     height: heightPercentage(159),
     resizeMode: 'cover',
-    borderRadius: 20,
+    borderRadius: 8,
   },
 });
