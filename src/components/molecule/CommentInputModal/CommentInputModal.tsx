@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   modalStyle: {
     marginHorizontal: 0,
     marginVertical: 0,
+    marginBottom: -1,
     justifyContent: 'flex-end',
   },
   container: {

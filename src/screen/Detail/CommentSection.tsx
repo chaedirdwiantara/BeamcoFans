@@ -6,7 +6,7 @@ import {
   CommentType,
 } from '../../data/comment';
 import {normalize, widthResponsive} from '../../utils';
-import {Gap, PostComment} from '../../components';
+import {CommentInputModal, Gap, PostComment} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import CommentLvlTwo from '../../components/molecule/DetailPost/CommentLvlTwo';
 import CommentLvlThree from '../../components/molecule/DetailPost/CommentLvlThree';
@@ -34,6 +34,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   const [showMore, setShowMore] = useState<boolean>(false);
   const [showMoreLvl2, setShowMoreLvl2] = useState<boolean>(false);
   const [showMoreLvl3, setShowMoreLvl3] = useState<boolean>(false);
+  const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>('');
 
   const likeOnPressLvl1 = (id: number) => {
     selectedId.includes(id)
@@ -53,8 +55,9 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
       : setSelectedIdLvl3([...selectedIdLvl3, id]);
   };
 
-  const commentOnPress = () => {
-    // navigation.navigate<any>('PostDetail', {data});
+  const commentOnPress = (id: string) => {
+    setInputCommentModal(!inputCommentModal);
+    setUserId(id);
   };
 
   const CommentChildrenLvl3 = (props: CommentChildrenLvl3Type) => {
@@ -68,7 +71,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         userCommentedIdLvl3={data.commentedToId}
         commentCaptionLvl3={data.commentCaption}
         likeOnPressLvl3={() => likeOnPressLvl3(id)}
-        commentOnPressLvl3={commentOnPress}
+        commentOnPressLvl3={() => commentOnPress(data.userId)}
         likePressedLvl3={selectedIdLvl3.includes(id) ? true : false}
         likeCountLvl3={data.likeCount}
         commentCountLvl3={data.commentCount}
@@ -87,7 +90,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         userCommentedId={data.commentedToId}
         commentCaptionLvl2={data.commentCaption}
         likeOnPressLvl2={() => likeOnPressLvl2(id)}
-        commentOnPressLvl2={commentOnPress}
+        commentOnPressLvl2={() => commentOnPress(data.userId)}
         likePressedLvl2={selectedIdLvl2.includes(id) ? true : false}
         likeCountLvl2={data.likeCount}
         commentCountLvl2={data.commentCount}
@@ -156,7 +159,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             artistPostId={item.artistPostId}
             commentCaption={item.commentCaption}
             likeOnPress={() => likeOnPressLvl1(index)}
-            commentOnPress={commentOnPress}
+            commentOnPress={() => commentOnPress(item.userId)}
             likePressed={selectedId.includes(index) ? true : false}
             likeCount={item.likeCount}
             commentCount={item.commentCount}
@@ -213,6 +216,11 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
        <Text style={styles.viewMore} onPress={() => setShowMore(true)}>
         View more reply
       </Text> */}
+      <CommentInputModal
+        toggleModal={() => setInputCommentModal(!inputCommentModal)}
+        modalVisible={inputCommentModal}
+        name={userId}
+      />
     </View>
   );
 };
