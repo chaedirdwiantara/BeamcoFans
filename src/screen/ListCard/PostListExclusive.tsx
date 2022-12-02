@@ -8,7 +8,13 @@ import {
   View,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {Dropdown, Gap, ListCard, SquareImage} from '../../components';
+import {
+  CommentInputModal,
+  Dropdown,
+  Gap,
+  ListCard,
+  SquareImage,
+} from '../../components';
 import {
   DataDropDownType,
   DropDownFilterType,
@@ -47,10 +53,11 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   //   LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   // }, []);
 
-  const [selectedId, setSelectedId] = useState<any>([]);
+  const [selectedId, setSelectedId] = useState<string[]>([]);
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
   const [status, setStatus] = useState<'not_follow' | 'following'>('following');
-
+  const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
+  const [musicianId, setMusicianId] = useState<string>('');
   const resultDataFilter = (dataResultFilter: any) => {
     let dataFilter = [...data];
     dataFilter =
@@ -84,8 +91,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       : setSelectedId([...selectedId, id]);
   };
 
-  const commentOnPress = (data: any) => {
-    navigation.navigate<any>('PostDetail', {data});
+  const commentOnPress = (id: string) => {
+    setInputCommentModal(!inputCommentModal);
+    setMusicianId(id);
   };
 
   const tokenOnPress = () => {
@@ -153,7 +161,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
               category={item.category}
               onPress={() => cardOnPress({item})}
               likeOnPress={() => likeOnPress(index)}
-              commentOnPress={() => commentOnPress({item})}
+              commentOnPress={() => commentOnPress(item.musicianId)}
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
               likePressed={selectedId.includes(index) ? true : false}
@@ -198,6 +206,11 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
           icon={<FriedEggIcon />}
         />
       )}
+      <CommentInputModal
+        toggleModal={() => setInputCommentModal(!inputCommentModal)}
+        modalVisible={inputCommentModal}
+        name={musicianId}
+      />
     </>
   );
 };

@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {Dropdown, Gap, ListCard} from '../../components';
+import {CommentInputModal, Dropdown, Gap, ListCard} from '../../components';
 import {
   DataDropDownType,
   DropDownFilterType,
@@ -49,6 +49,8 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
   const [selectedId, setSelectedId] = useState<string[]>([]);
   const [dataCategory, setDataCategory] = useState<PostListType[]>(data);
   const [status, setStatus] = useState<'not_follow' | 'following'>('following');
+  const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
+  const [musicianId, setMusicianId] = useState<string>('');
 
   const resultDataFilter = (dataResultFilter: any) => {
     const dates = new Date();
@@ -76,8 +78,9 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
       : setSelectedId([...selectedId, id]);
   };
 
-  const commentOnPress = (data: any) => {
-    navigation.navigate<any>('PostDetail', {data});
+  const commentOnPress = (id: string) => {
+    setInputCommentModal(!inputCommentModal);
+    setMusicianId(id);
   };
 
   const tokenOnPress = () => {
@@ -145,7 +148,7 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
               category={item.category}
               onPress={() => cardOnPress({item})}
               likeOnPress={() => likeOnPress(index)}
-              commentOnPress={() => commentOnPress({item})}
+              commentOnPress={() => commentOnPress(item.musicianId)}
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
               likePressed={selectedId.includes(index) ? true : false}
@@ -189,6 +192,11 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
           }}
         />
       )}
+      <CommentInputModal
+        toggleModal={() => setInputCommentModal(!inputCommentModal)}
+        modalVisible={inputCommentModal}
+        name={musicianId}
+      />
     </>
   );
 };

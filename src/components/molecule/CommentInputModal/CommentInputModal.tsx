@@ -8,20 +8,26 @@ import {
 } from 'react-native';
 import React, {FC, useState} from 'react';
 import Modal from 'react-native-modal';
-import {heightPercentage, normalize, widthResponsive} from '../../utils';
-import {Avatar, SsuInput} from '../../components';
-import {color, font} from '../../theme';
+import {heightPercentage, normalize, widthResponsive} from '../../../utils';
+import {Avatar, SsuInput} from '../..';
+import {color, font} from '../../../theme';
 import {ms} from 'react-native-size-matters';
-import {CloseIcon} from '../../assets/icon';
+import {CloseIcon} from '../../../assets/icon';
 
 interface ModalImageProps {
   toggleModal: () => void;
   modalVisible: boolean;
   name: string;
+  userAvatarUri?: string;
 }
 
 const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
-  const {toggleModal, modalVisible, name} = props;
+  const {
+    toggleModal,
+    modalVisible,
+    name,
+    userAvatarUri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxwjjgqL0vLByyI1sXSGF3Q08PXEmPTUbL6w&usqp=CAU',
+  } = props;
   const [state, setState] = useState<string>('');
 
   return (
@@ -34,7 +40,7 @@ const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
       <View style={styles.container}>
         <View style={styles.headerComment}>
           <Text style={styles.textHeader}>
-            Replied to<Text style={{color: color.Pink[100]}}> @lorem</Text>
+            Replied to<Text style={{color: color.Pink[100]}}> {name}</Text>
           </Text>
           <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
             <CloseIcon
@@ -46,13 +52,10 @@ const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
         </View>
         <View style={styles.inputContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Avatar
-              imgUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxwjjgqL0vLByyI1sXSGF3Q08PXEmPTUbL6w&usqp=CAU"
-              size={32}
-            />
+            <Avatar imgUri={userAvatarUri} size={32} />
             <SsuInput.InputText
               value={state}
-              onChangeText={(newText: any) => setState(newText)}
+              onChangeText={(newText: string) => setState(newText)}
               placeholder={'Reply as <your name>...'}
               containerStyles={{
                 width: widthResponsive(209),
@@ -124,10 +127,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: font.InterRegular,
     fontWeight: '600',
-    fontSize: 11,
+    fontSize: normalize(11),
   },
   closeButton: {
     width: widthResponsive(24),
+    paddingVertical: heightPercentage(4),
     alignItems: 'center',
   },
 });

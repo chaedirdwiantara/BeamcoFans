@@ -1,7 +1,13 @@
 import {LogBox, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import {color, font} from '../../theme';
-import {DetailPost, Gap, SsuDivider, TopNavigation} from '../../components';
+import {
+  CommentInputModal,
+  DetailPost,
+  Gap,
+  SsuDivider,
+  TopNavigation,
+} from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
@@ -17,7 +23,6 @@ import {commentData} from '../../data/comment';
 import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
 import ImageList from '../ListCard/ImageList';
-import CommentInputModal from './CommentInputModal';
 
 interface PostDetail {
   props: {};
@@ -149,7 +154,7 @@ export const PostDetail: FC<PostDetail> = props => {
         <CommentInputModal
           toggleModal={() => setInputCommentModal(!inputCommentModal)}
           modalVisible={inputCommentModal}
-          name={'siti'}
+          name={data.musicianId}
         />
       </ScrollView>
     </SafeAreaView>
