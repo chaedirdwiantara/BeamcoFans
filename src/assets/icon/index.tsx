@@ -1,4 +1,5 @@
 import AddIcon from './Add.icon';
+import AddCircleIcon from './AddCircle.icon';
 import ArrowLeftIcon from './ArrowLeft.icon';
 import ArrowRightIcon from './ArrowRight.icon';
 import BellNotif from './BellNotif.icon';
@@ -50,6 +51,7 @@ import UserProfileIcon from './UserProfile.icon';
 
 export {
   AddIcon,
+  AddCircleIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   BellNotif,

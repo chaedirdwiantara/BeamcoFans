@@ -26,6 +26,10 @@ export const PlaylistScreen: React.FC = props => {
     navigation.navigate('Profile', {...newParams});
   };
 
+  const goToAddSong = () => {
+    navigation.navigate('AddSong');
+  };
+
   return (
     <SafeAreaView style={styles.root}>
       <PlaylistContent
@@ -33,6 +37,7 @@ export const PlaylistScreen: React.FC = props => {
         onPressGoBack={onPressGoBack}
         goToEditPlaylist={goToEditPlaylist}
         goBackProfile={goBackProfile}
+        goToAddSong={goToAddSong}
       />
     </SafeAreaView>
   );

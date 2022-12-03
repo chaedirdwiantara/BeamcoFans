@@ -1,4 +1,5 @@
 import {AccountContent} from './SettingContent/AccountContent';
+import {AddSongContent} from './PlaylistContent/AddSongContent';
 import {AddToPlaylistContent} from './PlaylistContent/AddToPlaylistContent';
 import {AvatarProfile} from './AvatarProfile/AvatarProfile';
 import {Carousel} from './Carousel/Carousel';
@@ -42,6 +43,7 @@ import {UserInfoCard} from './UserInfoCard/UserInfoCard';
 
 export {
   AccountContent,
+  AddSongContent,
   AddToPlaylistContent,
   AvatarProfile,
   Carousel,

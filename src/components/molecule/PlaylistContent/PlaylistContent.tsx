@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 
 import {Dropdown} from '../DropDown';
 import Color from '../../../theme/Color';
@@ -32,13 +38,14 @@ interface Props {
   onPressGoBack: () => void;
   goBackProfile: (type: string) => void;
   goToEditPlaylist: () => void;
+  goToAddSong: () => void;
 }
 
 export const PlaylistContent: React.FC<Props> = ({
   playlist,
-  onPressGoBack,
   goBackProfile,
   goToEditPlaylist,
+  goToAddSong,
 }) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -147,13 +154,14 @@ export const PlaylistContent: React.FC<Props> = ({
             </Text>
           </View>
 
-          <View
+          <TouchableOpacity
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               paddingHorizontal: widthPercentage(12),
               marginTop: heightPercentage(12),
-            }}>
+            }}
+            onPress={goToAddSong}>
             <MusicSquareAddIcon />
             <Gap width={widthPercentage(10)} />
             <Text
@@ -164,7 +172,7 @@ export const PlaylistContent: React.FC<Props> = ({
               }}>
               Add Song
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         <View

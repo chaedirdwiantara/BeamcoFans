@@ -43,6 +43,7 @@ import {PlaylistScreen} from './screen/Playlist/Playlist';
 import {CreateNewPlaylist} from './screen/Playlist/CreateNewPlaylist';
 import {EditPlaylist} from './screen/Playlist/EditPlaylist';
 import {AddToPlaylistScreen} from './screen/Playlist/AddToPlaylist';
+import {AddSongScreen} from './screen/Playlist/AddSong';
 
 import {storage} from './hooks/use-storage.hook';
 
@@ -57,6 +58,7 @@ import {AppProvider} from './context/app.context';
 export type RootStackParams = {
   Account: undefined;
   AddToPlaylist: undefined;
+  AddSong: undefined;
   Boarding: undefined;
   ChangeEmail: undefined;
   ChangePassword: undefined;
@@ -181,6 +183,7 @@ const RootStackScreen = () => (
     <RootStack.Screen name="Boarding" component={OnboardScreen} />
     <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
     <RootStack.Screen name="AddToPlaylist" component={AddToPlaylistScreen} />
+    <RootStack.Screen name="AddSong" component={AddSongScreen} />
     <RootStack.Screen name="CreateNewPlaylist" component={CreateNewPlaylist} />
     <RootStack.Screen name="EditPlaylist" component={EditPlaylist} />
     <RootStack.Screen name="Playlist" component={PlaylistScreen} />
