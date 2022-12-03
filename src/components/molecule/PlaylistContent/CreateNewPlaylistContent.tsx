@@ -5,6 +5,7 @@ import {color} from '../../../theme';
 import {PhotoPlaylist} from './PhotoPlaylist';
 import {TopNavigation} from '../TopNavigation';
 import {ArrowLeftIcon} from '../../../assets/icon';
+import {ModalConfirm} from '../Modal/ModalConfirm';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {Button, ButtonGradient, SsuInput} from '../../atom';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
@@ -26,7 +27,10 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
     playlistName: '',
     playlistDesc: '',
   });
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState({
+    modalConfirm: false,
+    modalImage: false,
+  });
   const [playlistUri, setPlaylistUri] = useState({
     path: undefined,
   });
@@ -43,7 +47,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
 
   const resetImage = () => {
     setPlaylistUri({path: undefined});
-    setModalVisible(false);
+    closeModal();
   };
 
   const sendUri = (val: React.SetStateAction<{path: undefined}>) => {
@@ -52,6 +56,25 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
 
   const handleFocusInput = (focus: 'name' | 'description' | null) => {
     setFocusInput(focus);
+  };
+
+  const openModal = (type: string) => {
+    setModalVisible({
+      ...isModalVisible,
+      [type]: true,
+    });
+  };
+
+  const closeModal = () => {
+    setModalVisible({
+      modalConfirm: false,
+      modalImage: false,
+    });
+  };
+
+  const onPressConfirm = () => {
+    goToPlaylist({...state, playlistUri});
+    closeModal();
   };
 
   const disabledButton = checkEmptyProperties({
@@ -76,7 +99,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
       <PhotoPlaylist
         uri={playlistUri?.path}
         showIcon
-        onPress={() => setModalVisible(true)}
+        onPress={() => openModal('modalImage')}
       />
 
       <SsuInput.TextArea
@@ -131,17 +154,25 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
           label={'Create'}
           disabled={disabledButton}
           colors={disabledButton ? colorDisabled : defaultGradient}
-          onPress={() => goToPlaylist({...state, playlistUri})}
+          onPress={() => openModal('modalConfirm')}
           gradientStyles={styles.btnContainer}
         />
       </View>
+
       <ModalImagePicker
         title="Edit Playlist Cover"
-        modalVisible={isModalVisible}
+        modalVisible={isModalVisible.modalImage}
         sendUri={sendUri}
         onDeleteImage={resetImage}
-        onPressClose={() => setModalVisible(false)}
+        onPressClose={closeModal}
         hideMenuDelete={hideMenuDelete}
+      />
+      <ModalConfirm
+        modalVisible={isModalVisible.modalConfirm}
+        title="Save"
+        subtitle="Are you sure you want to save your new playlist?"
+        onPressClose={closeModal}
+        onPressOk={onPressConfirm}
       />
     </View>
   );
