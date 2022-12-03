@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     maxWidth: width * 0.9,
     marginTop: heightPercentage(15),
+    textAlign: 'center',
   },
   btnContainer: {
     height: undefined,
