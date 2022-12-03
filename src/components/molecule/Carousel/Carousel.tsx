@@ -141,7 +141,7 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
 
 const styles = StyleSheet.create({
   flatListContent: {
-    marginTop: heightPercentage(30)
+    marginTop: heightPercentage(20),
   },
   itemContent: {
     marginHorizontal: widthPercentage(15),
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: normalize(14),
     position: 'absolute',
-    bottom: heightPercentage(52),
+    bottom: heightPercentage(45),
     left: widthPercentage(10),
     color: Color.Neutral[10],
     fontFamily: Font.InterBold,
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   itemSubtitle: {
     fontSize: normalize(11.5),
     position: 'absolute',
-    bottom: ms(17),
+    bottom: ms(12),
     left: ms(10),
     color: Color.Neutral[10],
     fontFamily: Font.InterRegular,
