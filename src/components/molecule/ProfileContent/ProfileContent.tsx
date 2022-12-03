@@ -30,7 +30,10 @@ interface ProfileContentProps {
   onPressGoTo?: (screenName: string) => void;
 }
 
-const NewCreatedPlaylist: React.FC<ProfileContentProps> = ({playlist, goToPlaylist}) => {
+const NewCreatedPlaylist: React.FC<ProfileContentProps> = ({
+  playlist,
+  goToPlaylist,
+}) => {
   return (
     <TouchableOpacity onPress={goToPlaylist}>
       <ListCard.MusicList
@@ -108,7 +111,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           )
         ) : filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
           MusicianListData.length > 0 ? (
-            <TopMusician />
+            <TopMusician type={'profile'} />
           ) : (
             <EmptyState text="This user don't have contribution to any musician" />
           )

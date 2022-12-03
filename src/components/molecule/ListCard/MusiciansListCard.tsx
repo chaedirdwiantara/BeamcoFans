@@ -9,14 +9,12 @@ import {
 import {ms, mvs} from 'react-native-size-matters';
 import {Avatar, Gap} from '../../atom';
 import {
-  elipsisText,
   heightPercentage,
   normalize,
   widthPercentage,
   widthResponsive,
 } from '../../../utils';
 import {color, font} from '../../../theme';
-import {ThreeDotsIcon} from '../../../assets/icon';
 import {Dropdown} from '../DropDown';
 
 interface ListProps {
@@ -24,7 +22,7 @@ interface ListProps {
   onPressMore: (data: any) => void;
   musicianName: string;
   imgUri: string;
-  point?: string;
+  point?: string | null;
   containerStyles?: ViewStyle;
   dataFilter?: [];
   type: 'rank' | 'recommendation';
@@ -152,6 +150,7 @@ const styles = StyleSheet.create({
     fontSize: normalize(10),
     lineHeight: mvs(12),
     color: '#FF87DB',
+    paddingRight: widthPercentage(7),
   },
   dotsButton: {
     justifyContent: 'center',
