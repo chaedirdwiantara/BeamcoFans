@@ -18,6 +18,7 @@ interface ListProps {
   imgUri: string;
   onPressMore?: (data: any) => void;
   onPressAdd?: (data: any) => void;
+  onPressCard?: () => void;
   musicNum: number;
   musicTitle: string;
   singerName: string;
@@ -30,6 +31,7 @@ const MusicListCard: React.FC<ListProps> = ({
   imgUri,
   onPressMore,
   onPressAdd,
+  onPressCard,
   musicNum,
   musicTitle,
   singerName,
@@ -47,7 +49,9 @@ const MusicListCard: React.FC<ListProps> = ({
   ];
 
   return (
-    <View style={[styles.container, containerStyles]}>
+    <TouchableOpacity
+      style={[styles.container, containerStyles]}
+      onPress={onPressCard}>
       <Text style={styles.rankStyle}>
         {musicNum.toLocaleString('en-US', {
           minimumIntegerDigits: 2,
@@ -76,7 +80,7 @@ const MusicListCard: React.FC<ListProps> = ({
           }}
         />
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 
