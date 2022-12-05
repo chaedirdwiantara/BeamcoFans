@@ -1,30 +1,26 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Gap} from '../../atom';
 import {widthPercentage} from '../../../utils';
 import {color, typography} from '../../../theme';
 
 interface RadioButtonProps {
-  size?: number;
   text: string;
-  onPress: (name: string) => void;
+  size?: number;
+  selected?: boolean;
+  onPress: () => void;
 }
 
 export const RadioButton: React.FC<RadioButtonProps> = ({
   text = '',
   size = widthPercentage(16),
+  selected,
   onPress,
 }) => {
-  const [selected, setSelected] = useState(false);
   const newBorderColor = selected ? color.Success[500] : color.Dark[300];
 
-  const sendSelectedTextPress = () => {
-    !selected && onPress(text);
-    setSelected(!selected);
-  };
-
   return (
-    <TouchableOpacity style={styles.root} onPress={sendSelectedTextPress}>
+    <TouchableOpacity style={styles.root} onPress={onPress}>
       <View
         style={[
           styles.circleOutside,

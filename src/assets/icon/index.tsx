@@ -10,6 +10,7 @@ import ChevronDownIcon from './ChevronDown.icon';
 import CloseIcon from './Close.icon';
 import CloseCircleIcon from './CloseCircle.icon';
 import CoinIcon from './Coin.icon';
+import CoinInput from './CoinInput';
 import CopyIcon from './Copy.icon';
 import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
@@ -64,6 +65,7 @@ export {
   CloseIcon,
   CloseCircleIcon,
   CoinIcon,
+  CoinInput,
   CopyIcon,
   CollectionIcon,
   CommentIcon,

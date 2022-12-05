@@ -117,6 +117,7 @@ export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
       </ScrollView>
 
       <ModalDonate
+        totalCoin={'120,000'}
         modalVisible={isModalVisible.modalDonate}
         onPressClose={closeModal}
       />
