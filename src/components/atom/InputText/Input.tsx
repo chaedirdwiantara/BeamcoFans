@@ -120,6 +120,7 @@ const InputText: React.FC<InputProps> = props => {
           isFocus
             ? {borderColor: color.Pink[2], borderWidth: 1}
             : {borderWidth: 0},
+          containerStyles,
         ]}>
         {leftIcon}
         <TextInput

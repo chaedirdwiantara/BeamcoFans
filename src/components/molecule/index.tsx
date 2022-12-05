@@ -6,6 +6,7 @@ import {AvatarProfile} from './AvatarProfile/AvatarProfile';
 import {Carousel} from './Carousel/Carousel';
 import {ChangeEmailContent} from './SettingContent/ChangeEmailContent';
 import {ChangePasswordContent} from './SettingContent/ChangePasswordContent';
+import CommentInputModal from './CommentInputModal/CommentInputModal';
 import {CreateNewCard} from './CreateNewCard/CreateNewCard';
 import {CreateNewPlaylistContent} from './PlaylistContent/CreateNewPlaylistContent';
 import {Dropdown} from './DropDown';
@@ -56,6 +57,7 @@ export {
   Carousel,
   ChangeEmailContent,
   ChangePasswordContent,
+  CommentInputModal,
   CreateNewCard,
   CreateNewPlaylistContent,
   DetailPost,

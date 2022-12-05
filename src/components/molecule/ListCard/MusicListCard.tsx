@@ -60,9 +60,13 @@ const MusicListCard: React.FC<ListProps> = ({
       </Text>
       <SquareImage imgUri={imgUri} size={44} />
       <View style={styles.textContainer}>
-        <Text style={styles.songTitle}>{musicTitle}</Text>
+        <Text style={styles.songTitle} numberOfLines={1}>
+          {musicTitle}
+        </Text>
         <Gap height={2} />
-        <Text style={styles.songDesc}>{singerName}</Text>
+        <Text style={styles.songDesc} numberOfLines={1}>
+          {singerName}
+        </Text>
       </View>
 
       {type === 'add' ? (

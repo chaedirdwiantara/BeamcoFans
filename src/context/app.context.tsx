@@ -1,5 +1,6 @@
 import React from 'react';
 import {BaseProvider} from './base.context';
+import {ProfileProvider} from './profile.context';
 interface WithChildrenProps {
   children: React.ReactNode;
 }
@@ -26,4 +27,4 @@ function createPack(...components: PackComponentType[]) {
   };
 }
 
-export const AppProvider = createPack(BaseProvider);
+export const AppProvider = createPack(BaseProvider, ProfileProvider);

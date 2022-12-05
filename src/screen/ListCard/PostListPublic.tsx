@@ -8,7 +8,13 @@ import {
   View,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {Dropdown, Gap, ListCard, SquareImage} from '../../components';
+import {
+  CommentInputModal,
+  Dropdown,
+  Gap,
+  ListCard,
+  SquareImage,
+} from '../../components';
 import {
   DataDropDownType,
   DropDownFilterType,
@@ -28,7 +34,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import ListToFollowMusician from './ListToFollowMusician';
-import ImageList from './ThreeImageList';
+import ImageList from './ImageList';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -48,6 +54,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const [selectedId, setSelectedId] = useState<any>([]);
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
   const [status, setStatus] = useState<'not_follow' | 'following'>('following');
+  const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
+  const [musicianId, setMusicianId] = useState<string>('');
 
   const resultDataFilter = (dataResultFilter: any) => {
     let dataFilter = [...data];
@@ -83,8 +91,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       : setSelectedId([...selectedId, id]);
   };
 
-  const commentOnPress = (data: any) => {
-    navigation.navigate<any>('PostDetail', {data});
+  const commentOnPress = (id: string) => {
+    setInputCommentModal(!inputCommentModal);
+    setMusicianId(id);
   };
 
   const tokenOnPress = () => {
@@ -156,7 +165,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
               category={item.category}
               onPress={() => cardOnPress({item})}
               likeOnPress={() => likeOnPress(index)}
-              commentOnPress={() => commentOnPress({item})}
+              commentOnPress={() => commentOnPress(item.musicianId)}
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
               likePressed={selectedId.includes(index) ? true : false}
@@ -174,42 +183,13 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                       flexDirection: 'row',
                     }}>
                     <SafeAreaView style={{flex: 1}}>
-                      <FlatList
-                        scrollEnabled={false}
-                        columnWrapperStyle={{justifyContent: 'flex-start'}}
-                        keyExtractor={(_, index) => index.toString()}
-                        numColumns={2}
-                        data={item.post.postPicture}
-                        renderItem={
-                          item.post.postPicture.length > 3
-                            ? ({item}) => (
-                                <SquareImage
-                                  imgUri={item.postUri}
-                                  size={widthResponsive(143, 375)}
-                                  height={heightPercentage(71)}
-                                  id={item.id}
-                                  containerStyle={{
-                                    marginRight: widthResponsive(3),
-                                    marginBottom: heightPercentage(4),
-                                  }}
-                                />
-                              )
-                            : item.post.postPicture.length == 3
-                            ? ({item, index}) => (
-                                <ImageList index={index} uri={item.postUri} />
-                              )
-                            : ({item}) => (
-                                <SquareImage
-                                  imgUri={item.postUri}
-                                  size={widthResponsive(143, 375)}
-                                  id={item.id}
-                                  containerStyle={{
-                                    marginRight: widthResponsive(3),
-                                    marginBottom: heightPercentage(4),
-                                  }}
-                                />
-                              )
-                        }
+                      <ImageList
+                        imgData={item.post.postPicture}
+                        width={143}
+                        height={69.5}
+                        heightType2={142}
+                        widthType2={289}
+                        onPress={() => {}}
                       />
                     </SafeAreaView>
                   </View>
@@ -229,6 +209,11 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           }}
         />
       )}
+      <CommentInputModal
+        toggleModal={() => setInputCommentModal(!inputCommentModal)}
+        modalVisible={inputCommentModal}
+        name={musicianId}
+      />
     </>
   );
 };

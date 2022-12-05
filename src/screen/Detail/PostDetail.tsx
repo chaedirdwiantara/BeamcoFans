@@ -1,17 +1,10 @@
-import {
-  FlatList,
-  LogBox,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {LogBox, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
 import {color, font} from '../../theme';
 import {
+  CommentInputModal,
   DetailPost,
   Gap,
-  SquareImage,
   SsuDivider,
   TopNavigation,
 } from '../../components';
@@ -29,7 +22,7 @@ import {mvs} from 'react-native-size-matters';
 import {commentData} from '../../data/comment';
 import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
-import ImageList from '../ListCard/ThreeImageList';
+import ImageList from '../ListCard/ImageList';
 
 interface PostDetail {
   props: {};
@@ -51,6 +44,7 @@ export const PostDetail: FC<PostDetail> = props => {
   const [likePressed, setLikePressed] = useState<boolean>(false);
   const [readMore, setReadMore] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [imgUrl, setImgUrl] = useState<string>('');
 
   const likeOnPress = () => {
@@ -58,7 +52,7 @@ export const PostDetail: FC<PostDetail> = props => {
   };
 
   const commentOnPress = () => {
-    // navigation.navigate<any>('PostDetail', {data});
+    setInputCommentModal(!inputCommentModal);
   };
 
   const tokenOnPress = () => {
@@ -73,9 +67,9 @@ export const PostDetail: FC<PostDetail> = props => {
     setReadMore(!readMore);
   };
 
-  const toggleModalOnPress = (img: string) => {
+  const toggleModalOnPress = (uri: string) => {
     setModalVisible(!isModalVisible);
-    setImgUrl(img);
+    setImgUrl(uri);
   };
 
   return (
@@ -135,53 +129,12 @@ export const PostDetail: FC<PostDetail> = props => {
                   style={{
                     flexDirection: 'row',
                   }}>
-                  <FlatList
-                    scrollEnabled={false}
-                    columnWrapperStyle={{justifyContent: 'flex-start'}}
-                    keyExtractor={(_, index) => index.toString()}
-                    numColumns={2}
-                    data={data.post.postPicture}
-                    renderItem={
-                      data.post.postPicture.length > 3
-                        ? ({item}) => (
-                            <SquareImage
-                              imgUri={item.postUri}
-                              size={widthResponsive(162, 375)}
-                              height={heightPercentage(71)}
-                              id={item.id}
-                              containerStyle={{
-                                marginRight: widthResponsive(3),
-                                marginBottom: heightPercentage(4),
-                              }}
-                              disabled={false}
-                              onPress={() => toggleModalOnPress(item.postUri)}
-                            />
-                          )
-                        : data.post.postPicture.length === 3
-                        ? ({item, index}) => (
-                            <ImageList
-                              index={index}
-                              uri={item.postUri}
-                              width={162}
-                              height={79}
-                              disabled={false}
-                              onPress={() => toggleModalOnPress(item.postUri)}
-                            />
-                          )
-                        : ({item}) => (
-                            <SquareImage
-                              imgUri={item.postUri}
-                              size={widthResponsive(162, 375)}
-                              id={item.id}
-                              containerStyle={{
-                                marginRight: widthResponsive(3),
-                                marginBottom: heightPercentage(4),
-                              }}
-                              disabled={false}
-                              onPress={() => toggleModalOnPress(item.postUri)}
-                            />
-                          )
-                    }
+                  <ImageList
+                    imgData={data.post.postPicture}
+                    disabled={false}
+                    width={162}
+                    height={79}
+                    onPress={toggleModalOnPress}
                   />
                 </View>
               </View>
@@ -197,6 +150,11 @@ export const PostDetail: FC<PostDetail> = props => {
           toggleModal={() => setModalVisible(!isModalVisible)}
           modalVisible={isModalVisible}
           image={imgUrl}
+        />
+        <CommentInputModal
+          toggleModal={() => setInputCommentModal(!inputCommentModal)}
+          modalVisible={inputCommentModal}
+          name={data.musicianId}
         />
       </ScrollView>
     </SafeAreaView>

@@ -25,7 +25,6 @@ const TopMusician: FC<TopMusicianProps> = ({type}) => {
           imgUri={item.imgUri}
           onPressMore={resultDataMore}
           containerStyles={{marginTop: mvs(20)}}
-          type={'rank'}
           point={type === 'profile' ? item.point : null}
         />
       )}

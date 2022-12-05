@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
 import Color from '../theme/Color';
 import {dataSlider} from '../data/home';
 import {heightPercentage, widthResponsive} from '../utils';
@@ -36,6 +42,9 @@ export const HomeScreen: React.FC = () => {
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
   };
+  const handleSearchButton = () => {
+    navigation.navigate('SearchScreen');
+  };
 
   return (
     <SafeAreaView style={styles.root}>
@@ -52,7 +61,14 @@ export const HomeScreen: React.FC = () => {
         points={100000}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
       />
-      <SearchBar containerStyle={{paddingHorizontal: widthResponsive(24)}} />
+      <TouchableOpacity onPress={handleSearchButton}>
+        <SearchBar
+          containerStyle={{paddingHorizontal: widthResponsive(24)}}
+          disabled={true}
+          onTouchStart={handleSearchButton}
+        />
+      </TouchableOpacity>
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <Carousel data={dataSlider} />
         <View

@@ -76,6 +76,5 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontWeight: '500',
     fontSize: normalize(10),
-    lineHeight: mvs(12),
   },
 });

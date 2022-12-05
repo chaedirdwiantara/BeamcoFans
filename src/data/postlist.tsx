@@ -36,16 +36,16 @@ export const PostlistData: PostListType[] = [
           postUri:
             'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
         },
-        {
-          id: 1,
-          postUri:
-            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-        },
-        {
-          id: 2,
-          postUri:
-            'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
-        },
+        // {
+        //   id: 1,
+        //   postUri:
+        //     'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        // },
+        // {
+        //   id: 2,
+        //   postUri:
+        //     'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+        // },
       ],
     },
     category: 'Coming Up',
@@ -250,17 +250,17 @@ export const PostlistDataExclusive: PostListType[] = [
         {
           id: 1,
           postUri:
-            'https://ichef.bbci.co.uk/news/640/amz/worldservice/live/assets/images/2015/03/16/150316181427_7.jpg',
+            'https://awsimages.detik.net.id/visual/2022/11/10/presiden-putin-diperkirakan-akan-melewatkan-ktt-pemimpin-g20-dan-ktt-apec-november-ini-4_169.jpeg?w=360&q=90',
         },
         {
           id: 3,
           postUri:
-            'https://ichef.bbci.co.uk/news/640/amz/worldservice/live/assets/images/2015/03/16/150316181427_7.jpg',
+            'https://awsimages.detik.net.id/visual/2022/07/01/presiden-rusia-vladimir-putin-berbicara-selama-pembicaraannya-dengan-presiden-indonesia-joko-widodo-di-kremlin-pada-30-juni-20_169.jpeg?w=650',
         },
         {
           id: 4,
           postUri:
-            'https://ichef.bbci.co.uk/news/640/amz/worldservice/live/assets/images/2015/03/16/150316181427_7.jpg',
+            'https://storage.googleapis.com/afs-prod/media/c3168f8d7a1a4f1cb8e990a75000f048/3000.jpeg',
         },
       ],
     },
