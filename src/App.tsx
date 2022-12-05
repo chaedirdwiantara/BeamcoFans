@@ -32,6 +32,7 @@ import {LanguageScreen} from './screen/Setting/Language';
 import {ReferralCodeSetting} from './screen/Setting/ReferralCode';
 import {PhoneNumberScreen} from './screen/Setting/PhoneNumber';
 import {ShippingInformationScreen} from './screen/Setting/ShippingInformation';
+import {DonationAndSubscription} from './screen/Setting/DonationAndSubscription';
 
 // Profile
 import {ProfileScreen} from './screen/Profile/Profile';
@@ -44,6 +45,13 @@ import {CreateNewPlaylist} from './screen/Playlist/CreateNewPlaylist';
 import {EditPlaylist} from './screen/Playlist/EditPlaylist';
 import {AddToPlaylistScreen} from './screen/Playlist/AddToPlaylist';
 import {AddSongScreen} from './screen/Playlist/AddSong';
+
+// Song Details
+import {ShowCreditScreen} from './screen/SongDetails/ShowCredit';
+import {SongDetailsScreen} from './screen/SongDetails/SongDetails';
+
+// Album
+import {AlbumScreen} from './screen/Album/Album';
 
 import {storage} from './hooks/use-storage.hook';
 
@@ -59,10 +67,12 @@ export type RootStackParams = {
   Account: undefined;
   AddToPlaylist: undefined;
   AddSong: undefined;
+  Album: undefined;
   Boarding: undefined;
   ChangeEmail: undefined;
   ChangePassword: undefined;
   CreateNewPlaylist: undefined;
+  DonationAndSubscription: undefined;
   EditProfile: undefined;
   EditPlaylist: undefined;
   Email: undefined;
@@ -86,6 +96,8 @@ export type RootStackParams = {
   Signup: undefined;
   SignInGuest: undefined;
   ShippingInformation: undefined;
+  ShowCredit: undefined;
+  SongDetails: undefined;
   Notification: undefined;
   PostDetail: undefined;
 };
@@ -204,7 +216,14 @@ const RootStackScreen = () => (
       name="ShippingInformation"
       component={ShippingInformationScreen}
     />
+    <RootStack.Screen
+      name="DonationAndSubscription"
+      component={DonationAndSubscription}
+    />
     <RootStack.Screen name="Setting" component={SettingScreen} />
+    <RootStack.Screen name="SongDetails" component={SongDetailsScreen} />
+    <RootStack.Screen name="ShowCredit" component={ShowCreditScreen} />
+    <RootStack.Screen name="Album" component={AlbumScreen} />
     <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
     <RootStack.Screen name="Signup" component={SignupScreen} />
     <RootStack.Screen name="MainTab" component={TabScreen} />
