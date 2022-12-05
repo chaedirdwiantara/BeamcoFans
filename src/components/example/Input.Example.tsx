@@ -13,7 +13,7 @@ const InputExample = () => {
       <Text style={{color: 'green'}}>Type 1 Text Input</Text>
       <SsuInput.InputText
         value={state}
-        onChangeText={(newText: any) => setState(newText)}
+        onChangeText={(newText: string) => setState(newText)}
         placeholder={'Email or Username'}
         isError={false}
         errorMsg={'Incorrect email or password'}
@@ -23,7 +23,7 @@ const InputExample = () => {
       <Text style={{color: 'green'}}>Type 2 Text Area</Text>
       <SsuInput.TextArea
         value={areaState}
-        onChangeText={(newText: any) => setAreaState(newText)}
+        onChangeText={(newText: string) => setAreaState(newText)}
         placeholder={'Type here...'}
       />
     </View>

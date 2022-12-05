@@ -14,13 +14,11 @@ interface SearchProps extends TextInputProps {
   backgroundColor?: string;
   rightIcon?: boolean;
   reset?: () => void;
-  onEndEditing?: () => void;
   containerStyle?: ViewStyle;
 }
 
 const SearchBar: React.FC<SearchProps> = props => {
-  const {onChangeText, value, rightIcon, reset, onEndEditing, containerStyle} =
-    props;
+  const {onChangeText, value, rightIcon, reset, containerStyle} = props;
   return (
     <View style={[styles.container, containerStyle]}>
       <SsuInput.InputText
@@ -28,7 +26,6 @@ const SearchBar: React.FC<SearchProps> = props => {
         onChangeText={onChangeText}
         placeholder={'Search'}
         leftIcon={<SearchIcon stroke={color.Dark[50]} />}
-        onEndEditing={onEndEditing}
         backgroundColor={color.Dark[600]}
         rightIcon={rightIcon}
         reset={reset}

@@ -21,7 +21,6 @@ const TopMusician = () => {
           imgUri={item.imgUri}
           onPressMore={resultDataMore}
           containerStyles={{marginTop: mvs(20)}}
-          type={'rank'}
         />
       )}
       estimatedItemSize={MusicianListData.length}
