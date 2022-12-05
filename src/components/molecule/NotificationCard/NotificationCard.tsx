@@ -1,13 +1,17 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
 import {ListAvatar} from './ListAvatar';
 import HeartIcon from '../../../assets/icon/Heart.icon';
 import {BellNotif} from '../../../assets/icon';
-import {heightPercentage, widthPercentage} from '../../../utils';
+import {
+  heightPercentage,
+  widthPercentage,
+  widthResponsive,
+} from '../../../utils';
 import {NotifDataType} from '../../../data/notification';
-import {FlashList} from '@shopify/flash-list';
+import {color} from '../../../theme';
 
 interface NotificationCardProps {
   data: NotifDataType[];
@@ -18,7 +22,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = (
 ) => {
   const {data} = props;
   return (
-    <FlashList
+    <FlatList
       data={data}
       showsVerticalScrollIndicator={false}
       keyExtractor={(_, index) => index.toString()}
@@ -29,13 +33,11 @@ export const NotificationCard: React.FC<NotificationCardProps> = (
           ) : (
             <BellNotif style={styles.icon} />
           )}
-
-          <View>
+          <View style={{width: '100%'}}>
             <ListAvatar data={item.data} size={32} desc={item.desc} />
           </View>
         </View>
       )}
-      estimatedItemSize={15}
     />
   );
 };
@@ -46,21 +48,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderColor: Color.Dark[500],
+    borderColor: color.Dark[500],
     paddingTop: heightPercentage(16),
     paddingBottom: heightPercentage(12),
-    paddingLeft: widthPercentage(40),
-    paddingRight: widthPercentage(24),
+    paddingHorizontal: widthResponsive(24),
   },
   icon: {
-    marginRight: widthPercentage(16),
+    marginRight: widthResponsive(14),
     marginTop: heightPercentage(6),
     alignSelf: 'flex-start',
-  },
-  description: {
-    marginTop: 5,
-    fontSize: 13,
-    color: Color.Neutral[10],
-    fontFamily: Font.InterRegular,
   },
 });
