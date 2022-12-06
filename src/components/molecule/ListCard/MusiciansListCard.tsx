@@ -12,7 +12,7 @@ import {color, font} from '../../../theme';
 import {Dropdown} from '../DropDown';
 
 interface ListProps {
-  musicianNum?: number;
+  musicianNum?: number | string;
   onPressMore: (data: any) => void;
   musicianName: string;
   imgUri: string;

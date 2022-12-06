@@ -22,7 +22,7 @@ export const SearchScreen: React.FC = () => {
 
   const [state, setState] = useState<string>('');
   const [data, setData] = useState<boolean>(false);
-  const [dataShow, setDataShow] = useState<SearchListType[]>(SearchListData);
+  const [dataShow, setDataShow] = useState<SearchListType[]>([]);
   const [forTrigger, setForTrigger] = useState<SearchListType[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
@@ -63,7 +63,8 @@ export const SearchScreen: React.FC = () => {
       setDataShow(newData);
       setForTrigger(newData);
     } else {
-      setDataShow(SearchListData);
+      setDataShow([]);
+      setForTrigger([]);
     }
   };
 
@@ -94,10 +95,13 @@ export const SearchScreen: React.FC = () => {
             />
             <FlatList
               data={dataShow}
-              renderItem={({item}) =>
+              renderItem={({item, index}) =>
                 item.type === 'Musician' ? (
                   <ListCard.MusicianList
-                    musicianNum={item.musicNum}
+                    musicianNum={(index + 1).toLocaleString('en-US', {
+                      minimumIntegerDigits: 2,
+                      useGrouping: false,
+                    })}
                     musicianName={item.singerName}
                     imgUri={item.imgUri}
                     onPressMore={resultDataMore}
@@ -106,11 +110,13 @@ export const SearchScreen: React.FC = () => {
                 ) : (
                   <ListCard.MusicList
                     imgUri={item.imgUri}
-                    musicNum={item.musicNum}
+                    musicNum={(index + 1).toLocaleString('en-US', {
+                      minimumIntegerDigits: 2,
+                      useGrouping: false,
+                    })}
                     musicTitle={item.musicTitle}
                     singerName={item.singerName}
                     onPressMore={resultDataMore}
-                    // likePressed={likePressed}
                     containerStyles={{marginTop: mvs(20)}}
                   />
                 )

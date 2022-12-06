@@ -15,7 +15,7 @@ import {Dropdown} from '../DropDown';
 interface ListProps {
   imgUri: string;
   onPressMore: (data: any) => void;
-  musicNum: number;
+  musicNum: number | string;
   musicTitle: string;
   singerName: string;
   containerStyles?: ViewStyle;
