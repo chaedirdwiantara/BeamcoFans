@@ -24,6 +24,7 @@ import {
   widthPercentage,
 } from '../../../utils/dimensionFormat';
 import Gap from '../Gap/Gap';
+import InputLabel from './InputLabel';
 
 interface InputProps extends TextInputProps {
   fontSize?: number;
@@ -40,12 +41,15 @@ interface InputProps extends TextInputProps {
   rightIconComponent?: React.ReactNode;
   reset?: () => void;
   containerStyles?: ViewStyle;
+  inputStyles?: ViewStyle;
 }
 
 interface TextAreaProps extends TextInputProps {
   fontSize?: number;
   backgroundColor?: string;
   containerStyles?: ViewStyle;
+  inputStyles?: ViewStyle;
+  isFocus?: boolean;
 }
 
 type TypeStyle = {
@@ -80,13 +84,17 @@ const InputText: React.FC<InputProps> = props => {
     onSubmitEditing,
     onEndEditing,
     containerStyles,
+    inputStyles,
   } = props;
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
 
-  const newBorderWidth = isError === true || borderColor ? 1 : 0;
-  const newBorderColor =
-    isError === true ? ErrorColor : borderColor && state ? borderColor : '';
+  const newBorderWidth = isError || borderColor ? 1 : 0;
+  const newBorderColor = isError
+    ? ErrorColor
+    : borderColor && state
+    ? borderColor
+    : '';
 
   const rightIconComp = () => {
     return (
@@ -108,6 +116,7 @@ const InputText: React.FC<InputProps> = props => {
             borderWidth: newBorderWidth,
             borderColor: newBorderColor,
           },
+          containerStyles,
           isFocus
             ? {borderColor: color.Pink[2], borderWidth: 1}
             : {borderWidth: 0},
@@ -115,7 +124,7 @@ const InputText: React.FC<InputProps> = props => {
         ]}>
         {leftIcon}
         <TextInput
-          style={[styles.input(fontSize, fontColor)]}
+          style={[styles.input(fontSize, fontColor), inputStyles]}
           value={value}
           secureTextEntry={password ? secure : false}
           keyboardType={keyboardType}
@@ -175,16 +184,19 @@ const InputText: React.FC<InputProps> = props => {
   );
 };
 
-const TextArea: React.FC<TextAreaProps> = ({
-  fontSize,
-  value,
-  onChangeText,
-  editable,
-  placeholder,
-  backgroundColor,
-  containerStyles,
-  maxLength,
-}) => {
+const TextArea: React.FC<TextAreaProps> = props => {
+  const {
+    fontSize,
+    value,
+    onChangeText,
+    editable,
+    placeholder,
+    backgroundColor,
+    containerStyles,
+    inputStyles,
+    maxLength,
+    isFocus,
+  } = props;
   const [state, setState] = useState<boolean>(false);
   return (
     <View
@@ -196,9 +208,12 @@ const TextArea: React.FC<TextAreaProps> = ({
           backgroundColor: backgroundColor ? backgroundColor : color.Dark[900],
         },
         containerStyles,
+        isFocus
+          ? {borderBottomColor: color.Pink[2], borderBottomWidth: 1}
+          : {borderBottomWidth: 0},
       ]}>
       <TextInput
-        style={styles.inputTextArea(fontSize)}
+        style={[styles.inputTextArea(fontSize), inputStyles]}
         multiline={true}
         numberOfLines={3}
         value={value}
@@ -208,12 +223,13 @@ const TextArea: React.FC<TextAreaProps> = ({
         placeholderTextColor={FontColor}
         onFocus={() => setState(true)}
         maxLength={maxLength}
+        {...props}
       />
     </View>
   );
 };
 
-export default {InputText, TextArea};
+export default {InputText, TextArea, InputLabel};
 
 const styles = StyleSheet.create<TypeStyle>({
   container: {

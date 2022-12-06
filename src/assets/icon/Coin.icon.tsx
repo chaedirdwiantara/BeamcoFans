@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
-import Svg, {Path, Defs, Pattern, Use, Image} from 'react-native-svg';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
+import Svg, {Path, Defs, Pattern, Use, Image} from 'react-native-svg';
 
 function CoinIcon({
-  width = ms(12),
-  height = mvs(13),
+  width = widthPercentage(12),
+  height = widthPercentage(13),
   fill = 'none',
   style,
 }: SvgProps) {

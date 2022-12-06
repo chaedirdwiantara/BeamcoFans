@@ -6,7 +6,14 @@ import Color from '../../theme/Color';
 import {RootStackParams} from '../../App';
 import {EditProfile} from '../../components';
 
-export const EditProfileScreen: React.FC = props => {
+interface ProfileProps {
+  props: {};
+  route: any;
+}
+
+export const EditProfileScreen: React.FC<ProfileProps> = (
+  props: ProfileProps,
+) => {
   const {params} = props?.route;
 
   const navigation =
@@ -24,10 +31,8 @@ export const EditProfileScreen: React.FC = props => {
     fullname: 'Kendal Jenner',
     username: '@kendaljenner',
     bio: params?.bio || "I'm here to support the musician",
-    backgroundUri: params?.backgroundUri?.uri || null,
-    avatarUri:
-      params?.avatarUri?.uri ||
-      'https://spesialis1.orthopaedi.fk.unair.ac.id/wp-content/uploads/2021/02/depositphotos_39258143-stock-illustration-businessman-avatar-profile-picture.jpg',
+    backgroundUri: params?.backgroundUri?.path || null,
+    avatarUri: params?.avatarUri?.path,
   };
 
   return (

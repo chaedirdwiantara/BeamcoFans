@@ -1,19 +1,29 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {
   Animated,
-  Dimensions,
   FlatList,
   Image,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   StyleSheet,
   View,
+  ScrollView,
 } from 'react-native';
+import {Indicator} from '../../atom';
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
 import {ms} from 'react-native-size-matters';
 import {DataSliderType} from '../../../data/home';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {
+  heightPercentage,
+  normalize,
+  width,
+  widthPercentage,
+} from '../../../utils';
 
-const {width} = Dimensions.get('window');
+type OnScrollEventHandler = (
+  event: NativeSyntheticEvent<NativeScrollEvent>,
+) => void;
 
 const ITEM_LENGTH = width * 0.8;
 const EMPTY_ITEM_LENGTH = (width - ITEM_LENGTH) / 2;
@@ -27,12 +37,11 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
   const [dataWithPlaceholders, setDataWithPlaceholders] = useState<
     DataSliderType[]
   >([]);
-  const currentIndex = useRef<number>(0);
+  const [activeIndexSlide, setActiveIndexSlide] = useState(0);
   const flatListRef = useRef<FlatList<any>>(null);
 
   useEffect(() => {
     setDataWithPlaceholders([{id: -1}, ...data, {id: data.length}]);
-    currentIndex.current = 1;
   }, [data]);
 
   const getItemLayout = (_data: any, index: number) => ({
@@ -40,6 +49,11 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
     offset: ITEM_LENGTH * (index - 1),
     index,
   });
+
+  const handleScroll: OnScrollEventHandler = event => {
+    let offsetX = event.nativeEvent.contentOffset.x;
+    setActiveIndexSlide(Math.ceil(offsetX / width));
+  };
 
   return (
     <View>
@@ -103,6 +117,9 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
         contentContainerStyle={styles.flatListContent}
         snapToInterval={ITEM_LENGTH}
         snapToAlignment="start"
+        renderScrollComponent={props => (
+          <ScrollView {...props} onScroll={handleScroll} />
+        )}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {x: scrollX}}}],
           {useNativeDriver: true},
@@ -112,40 +129,48 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
           itemVisiblePercentThreshold: 100,
         }}
       />
+      <Indicator
+        activeIndex={activeIndexSlide}
+        totalIndex={data.length}
+        activeColor={Color.Dark[100]}
+        inActiveColor={Color.Dark[300]}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   flatListContent: {
-    marginTop: heightPercentage(30),
+    marginTop: heightPercentage(20),
   },
   itemContent: {
     marginHorizontal: widthPercentage(15),
     alignItems: 'center',
     backgroundColor: 'white',
-    borderRadius: 20,
+    borderRadius: 8,
   },
   itemText: {
     fontSize: normalize(14),
     position: 'absolute',
-    bottom: heightPercentage(52),
+    bottom: heightPercentage(45),
     left: widthPercentage(10),
     color: Color.Neutral[10],
     fontFamily: Font.InterBold,
+    width: width * 0.6,
   },
   itemSubtitle: {
     fontSize: normalize(11.5),
     position: 'absolute',
-    bottom: ms(17),
+    bottom: ms(12),
     left: ms(10),
     color: Color.Neutral[10],
     fontFamily: Font.InterRegular,
+    width: width * 0.6,
   },
   itemImage: {
     width: '100%',
     height: heightPercentage(159),
     resizeMode: 'cover',
-    borderRadius: 20,
+    borderRadius: 8,
   },
 });

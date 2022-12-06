@@ -1,7 +1,12 @@
 import {StyleSheet} from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import Color from '../../../theme/Color';
-import {heightPercentage, normalize, width, widthPercentage} from '../../../utils';
+import {
+  heightPercentage,
+  normalize,
+  width,
+  widthPercentage,
+} from '../../../utils';
 
 const styles = StyleSheet.create({
   root: {

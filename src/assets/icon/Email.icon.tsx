@@ -1,14 +1,13 @@
 import * as React from 'react';
 import {View} from 'react-native';
-import {ms, mvs} from 'react-native-size-matters';
 import Svg, {Path} from 'react-native-svg';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function EmailIcon({
-  width = ms(16),
-  height = mvs(14),
+  width = widthPercentage(16),
+  height = widthPercentage(14),
   fill = 'none',
-  active = true,
   style,
 }: SvgProps) {
   return (

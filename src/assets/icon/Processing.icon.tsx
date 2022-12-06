@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path, Defs, Pattern, Use, Image} from 'react-native-svg';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function ProcessingIcon({
-  width = ms(53),
-  height = mvs(60),
+  width = widthPercentage(53),
+  height = widthPercentage(60),
   fill = 'none',
   style,
 }: SvgProps) {

@@ -2,11 +2,13 @@ import React from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../App';
-import {SettingContent} from '../../components';
-import Color from '../../theme/Color';
 
-export const SettingScreen: React.FC = () => {
+import Color from '../../theme/Color';
+import {RootStackParams} from '../../App';
+import {DASContent} from '../../components';
+import {widthPercentage} from '../../utils';
+
+export const DonationAndSubscription: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -16,7 +18,7 @@ export const SettingScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.root}>
-      <SettingContent onPressGoBack={onPressGoBack} />
+      <DASContent onPressGoBack={onPressGoBack} />
     </SafeAreaView>
   );
 };
@@ -25,5 +27,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: Color.Dark[800],
+    paddingHorizontal: widthPercentage(12),
   },
 });

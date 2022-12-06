@@ -28,6 +28,11 @@ import {PostlistData} from '../data/postlist';
 export const HomeScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const goToSongDetails = () => {
+    navigation.navigate('SongDetails');
+  };
+
   const [selectedIndex, setSelectedIndex] = useState(-0);
   const [filter] = useState([
     {filterName: 'TOP MUSICIAN'},
@@ -81,7 +86,7 @@ export const HomeScreen: React.FC = () => {
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
             <TopMusician />
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
-            <TopSong />
+            <TopSong onPress={goToSongDetails} />
           ) : (
             <PostList
               dataRightDropdown={dropDownDataCategory}

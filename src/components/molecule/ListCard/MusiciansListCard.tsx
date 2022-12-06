@@ -16,7 +16,7 @@ interface ListProps {
   onPressMore: (data: any) => void;
   musicianName: string;
   imgUri: string;
-  point?: string;
+  point?: string | null;
   containerStyles?: ViewStyle;
   dataFilter?: [];
 }
@@ -115,5 +115,6 @@ const styles = StyleSheet.create({
     fontSize: normalize(10),
     lineHeight: mvs(12),
     color: '#FF87DB',
+    paddingRight: widthPercentage(7),
   },
 });

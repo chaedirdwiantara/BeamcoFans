@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '5%',
+    height: '4%',
   },
   indicator: {
     height: undefined,

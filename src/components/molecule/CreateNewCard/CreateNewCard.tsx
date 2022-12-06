@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, ViewStyle} from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {SquareImage} from '../../atom';
 import {normalize, widthPercentage} from '../../../utils';
@@ -10,19 +10,25 @@ interface ListProps {
   num: string;
   text: string;
   containerStyles?: ViewStyle;
+  onPress?: () => void;
 }
 
-const CreateNewCard: React.FC<ListProps> = ({num, text, containerStyles}) => {
+export const CreateNewCard: React.FC<ListProps> = ({
+  num,
+  text,
+  containerStyles,
+  onPress,
+}) => {
   return (
-    <View style={[styles.container, containerStyles]}>
+    <TouchableOpacity
+      style={[styles.container, containerStyles]}
+      onPress={onPress}>
       <Text style={styles.numStyle}>{num}</Text>
       <SquareImage type="add" size={widthPercentage(44)} />
       <Text style={[Typography.Subtitle1, styles.labelStyle]}>{text}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
-
-export {CreateNewCard};
 
 const styles = StyleSheet.create({
   container: {

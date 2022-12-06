@@ -1,12 +1,12 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../App';
-import {SettingContent} from '../../components';
 import Color from '../../theme/Color';
+import {RootStackParams} from '../../App';
+import {SongDetailsContent} from '../../components';
 
-export const AccountScreen: React.FC = () => {
+export const SongDetailsScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -14,9 +14,21 @@ export const AccountScreen: React.FC = () => {
     navigation.goBack();
   };
 
+  const goToAlbum = () => {
+    navigation.navigate('Album');
+  };
+
+  const goToShowCredit = () => {
+    navigation.navigate('ShowCredit');
+  };
+
   return (
     <SafeAreaView style={styles.root}>
-      <SettingContent onPressGoBack={onPressGoBack} />
+      <SongDetailsContent
+        onPressGoBack={onPressGoBack}
+        goToAlbum={goToAlbum}
+        goToShowCredit={goToShowCredit}
+      />
     </SafeAreaView>
   );
 };

@@ -1,11 +1,15 @@
 import {StyleSheet} from 'react-native';
-import React from 'react';
+import React, {FC} from 'react';
 import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
 import {MusicianListData} from '../../data/topMusician';
 
-const TopMusician = () => {
+interface TopMusicianProps {
+  type?: string;
+}
+
+const TopMusician: FC<TopMusicianProps> = ({type}) => {
   const resultDataMore = (dataResult: any) => {
     console.log(dataResult, 'resultDataMenu');
   };
@@ -21,6 +25,7 @@ const TopMusician = () => {
           imgUri={item.imgUri}
           onPressMore={resultDataMore}
           containerStyles={{marginTop: mvs(20)}}
+          point={type === 'profile' ? item.point : null}
         />
       )}
       estimatedItemSize={MusicianListData.length}

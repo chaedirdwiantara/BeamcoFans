@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function TickCircleIcon({
-  width = ms(48),
-  height = mvs(48),
+  width = widthPercentage(48),
+  height = widthPercentage(48),
   fill = 'none',
   stroke = '#00D778',
   style,

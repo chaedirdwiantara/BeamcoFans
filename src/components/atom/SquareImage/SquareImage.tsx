@@ -8,6 +8,7 @@ import {
   TouchableOpacityProps,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {AddIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
 
 const {width} = Dimensions.get('screen');
@@ -17,6 +18,7 @@ export interface SquareImageProps extends TouchableOpacityProps {
   size?: number;
   height?: number;
   id?: number;
+  type?: string;
   containerStyle?: ViewStyle;
 }
 
@@ -26,24 +28,34 @@ const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
     size = width * 0.15,
     height = undefined,
     id,
+    type,
     containerStyle,
   } = props;
-  return (
-    <TouchableOpacity style={containerStyle} disabled={true} {...props}>
-      <FastImage
-        source={{uri: imgUri}}
-        style={[
-          styles.root,
-          {
-            width: size,
-            height: height,
-            aspectRatio: !height ? 1 / 1 : undefined,
-          },
-        ]}
-        testID={`Image ${id}`}
-      />
-    </TouchableOpacity>
-  );
+
+  if (type === 'add') {
+    return (
+      <View style={[styles.root2, {width: size}]}>
+        <AddIcon />
+      </View>
+    );
+  } else {
+    return (
+      <TouchableOpacity style={containerStyle} disabled={true} {...props}>
+        <FastImage
+          source={{uri: imgUri}}
+          style={[
+            styles.root,
+            {
+              width: size,
+              height: height,
+              aspectRatio: !height ? 1 / 1 : undefined,
+            },
+          ]}
+          testID={`Image ${id}`}
+        />
+      </TouchableOpacity>
+    );
+  }
 };
 
 export default SquareImage;
