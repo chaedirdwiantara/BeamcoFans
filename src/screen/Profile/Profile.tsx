@@ -6,13 +6,20 @@ import Color from '../../theme/Color';
 import {RootStackParams} from '../../App';
 import {ProfileContent} from '../../components';
 
-export const ProfileScreen: React.FC = props => {
+interface ProfileProps {
+  props: {};
+  route: any;
+}
+
+export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
   const {params} = props?.route;
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const onPressGoTo = (screenName: string) => {
+  const onPressGoTo = (
+    screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
+  ) => {
     navigation.navigate(screenName);
   };
 
@@ -37,7 +44,7 @@ export const ProfileScreen: React.FC = props => {
       <ProfileContent
         profile={profile}
         playlist={params}
-        onPressGoTo={onPressGoTo}
+        onPressGoTo={screenName => onPressGoTo(screenName)}
         goToEditProfile={goToEditProfile}
         goToPlaylist={goToPlaylist}
       />

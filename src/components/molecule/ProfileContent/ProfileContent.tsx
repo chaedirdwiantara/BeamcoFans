@@ -4,6 +4,7 @@ import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import {ListCard} from '../ListCard';
 import {TabFilter} from '../TabFilter';
 import Color from '../../../theme/Color';
+import {ProfileHeader} from './components/Header';
 import {EmptyState} from '../EmptyState/EmptyState';
 import {ProcessingIcon} from '../../../assets/icon';
 import {MenuText} from '../../atom/MenuText/MenuText';
@@ -13,24 +14,24 @@ import {UserInfoCard} from '../UserInfoCard/UserInfoCard';
 import {MusicianListData} from '../../../data/topMusician';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import TopMusician from '../../../screen/ListCard/TopMusician';
-import {ProfileHeaderProps, ProfileHeader} from './components/Header';
 import {elipsisText, heightPercentage, widthPercentage} from '../../../utils';
 
-interface Playlist {
-  playlistUri: string;
-  playlistName: string;
-  playlistDesc: string;
+interface NewPlaylistProps {
+  playlist: any;
+  goToPlaylist: () => void;
 }
 
 interface ProfileContentProps {
-  profile?: ProfileHeaderProps[];
-  playlist: Playlist;
+  playlist: any;
+  profile: any;
   goToEditProfile?: () => void;
-  goToPlaylist?: () => void;
-  onPressGoTo?: (screenName: string) => void;
+  goToPlaylist: () => void;
+  onPressGoTo: (
+    screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
+  ) => void;
 }
 
-const NewCreatedPlaylist: React.FC<ProfileContentProps> = ({
+const NewCreatedPlaylist: React.FC<NewPlaylistProps> = ({
   playlist,
   goToPlaylist,
 }) => {
