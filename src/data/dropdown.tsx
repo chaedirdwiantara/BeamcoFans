@@ -72,3 +72,24 @@ export const dropDownDataSort: DropDownSortType[] = [
   {label: 'Latest', value: '1'},
   {label: 'Popular', value: '2'},
 ];
+
+export const dropDownDataSubscription: DataDropDownType[] = [
+  {label: 'All', value: '1'},
+  {label: 'One Time', value: '2'},
+  {label: 'Weekly', value: '3'},
+  {label: 'Monthly', value: '4'},
+  {label: 'Yearly', value: '5'},
+];
+
+export const dropDownHeaderAlbum: DataDropDownType[] = [
+  {label: 'Add to Queue', value: '1'},
+  {label: 'Share Album', value: '2'},
+  {label: 'Add to My Playlist', value: '3'},
+];
+
+export const dropDownHeaderSongDetails: DataDropDownType[] = [
+  {label: 'Add to Playlist', value: '1'},
+  {label: 'Add to Queue', value: '2'},
+  {label: 'Share Music', value: '3'},
+  {label: 'Show Credits', value: '4'},
+];
