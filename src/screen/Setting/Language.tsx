@@ -11,7 +11,7 @@ import {dataLanguage} from '../../data/Settings/language';
 import {heightPercentage, widthPercentage} from '../../utils';
 
 export const LanguageScreen: React.FC = () => {
-  const [language, setLanguage] = useState('');
+  const [, setLanguage] = useState('');
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -22,7 +22,7 @@ export const LanguageScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.root}>
       <TopNavigation.Type1
-        title="Account"
+        title="Language"
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
         leftIconAction={onPressGoBack}
