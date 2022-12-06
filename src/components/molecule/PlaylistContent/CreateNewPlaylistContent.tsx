@@ -15,7 +15,7 @@ import checkEmptyProperties from '../../../utils/checkEmptyProperties';
 // itu karena, menyesuaikan UI di figma dengan component yang sudah dibuat (border)
 
 interface Props {
-  goToPlaylist: (params: object) => void;
+  goToPlaylist: (params: any) => void;
   onPressGoBack: () => void;
 }
 
