@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {ms, mvs} from 'react-native-size-matters';
 import {color, font} from '../../../theme';
-import {normalize} from '../../../utils';
+import {heightPercentage, normalize} from '../../../utils';
 
 interface dataProps {
   label: string;
@@ -15,15 +15,17 @@ interface InputDropdownProps {
   placeHolder: string;
   dropdownLabel: string;
   textTyped: (data: any) => void;
+  containerStyles?: ViewStyle;
 }
-const borderColor = color.Dark[50];
+
+const borderColor = color.Dark[500];
 const itemBg = color.Dark[900];
 const fontColorMain = color.Neutral[10];
 
 const InputDropdown: React.FC<InputDropdownProps> = (
   props: InputDropdownProps,
 ) => {
-  const {data, placeHolder, dropdownLabel, textTyped} = props;
+  const {data, placeHolder, dropdownLabel, textTyped, containerStyles} = props;
 
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -33,7 +35,7 @@ const InputDropdown: React.FC<InputDropdownProps> = (
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyles]}>
       {renderLabel()}
       <Dropdown
         style={[styles.dropdown]}
@@ -70,11 +72,13 @@ export default InputDropdown;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    paddingHorizontal: ms(3),
   },
   // Dropdown first view
   dropdown: {
     borderBottomWidth: 1,
     borderBottomColor: borderColor,
+    paddingVertical: heightPercentage(12),
   },
   // Dropdown modal container
   containerStyle: {
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: normalize(13),
-    color: fontColorMain,
+    color: color.Dark[300],
   },
   selectedTextStyle: {
     fontSize: normalize(13),

@@ -7,29 +7,37 @@ import {
   ViewStyle,
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
-import {Gap, SquareImage} from '../../atom';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
-import {color, font} from '../../../theme';
+
 import {Dropdown} from '../DropDown';
+import {color, font} from '../../../theme';
+import {Gap, SquareImage} from '../../atom';
+import {AddCircleIcon} from '../../../assets/icon';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface ListProps {
   imgUri: string;
   onPressMore: (data: any) => void;
+  onPressAdd?: (data: any) => void;
+  onPressCard?: () => void;
   musicNum: number | string;
   musicTitle: string;
   singerName: string;
   containerStyles?: ViewStyle;
   dataFilter?: [];
+  type?: string;
 }
 
 const MusicListCard: React.FC<ListProps> = ({
   imgUri,
   onPressMore,
+  onPressAdd,
+  onPressCard,
   musicNum,
   musicTitle,
   singerName,
   containerStyles,
   dataFilter,
+  type,
 }) => {
   // ? Dropdown Menu Example
   const dataMore = [
@@ -41,7 +49,9 @@ const MusicListCard: React.FC<ListProps> = ({
   ];
 
   return (
-    <View style={[styles.container, containerStyles]}>
+    <TouchableOpacity
+      style={[styles.container, containerStyles]}
+      onPress={onPressCard}>
       <Text style={styles.rankStyle}>
         {musicNum.toLocaleString('en-US', {
           minimumIntegerDigits: 2,
@@ -58,16 +68,23 @@ const MusicListCard: React.FC<ListProps> = ({
           {singerName}
         </Text>
       </View>
-      <Dropdown.More
-        data={dataFilter ? dataFilter : dataMore}
-        selectedMenu={onPressMore}
-        containerStyle={{
-          width: widthPercentage(120),
-          marginLeft: widthPercentage(-110),
-          marginTop: heightPercentage(-8),
-        }}
-      />
-    </View>
+
+      {type === 'add' ? (
+        <TouchableOpacity onPress={onPressAdd}>
+          <AddCircleIcon />
+        </TouchableOpacity>
+      ) : (
+        <Dropdown.More
+          data={dataFilter ? dataFilter : dataMore}
+          selectedMenu={onPressMore}
+          containerStyle={{
+            width: widthPercentage(120),
+            marginLeft: widthPercentage(-110),
+            marginTop: heightPercentage(-8),
+          }}
+        />
+      )}
+    </TouchableOpacity>
   );
 };
 

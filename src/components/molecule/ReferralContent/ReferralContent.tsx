@@ -90,7 +90,7 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
               leftIcon={<GiftIcon />}
               fontColor={Color.Neutral[10]}
               borderColor={Color.Pink.linear}
-              onChangeText={(newText: any) => setRefCode(newText)}
+              onChangeText={(newText: string) => setRefCode(newText)}
             />
           </View>
         ) : (

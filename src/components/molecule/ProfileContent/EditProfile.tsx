@@ -1,17 +1,18 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {ModalConfirm} from '../..';
 import {SsuInput} from '../../atom';
-import {ModalEdit} from './ModalEdit';
 import Color from '../../../theme/Color';
 import {TopNavigation} from '../TopNavigation';
+import {ProfileHeader} from './components/Header';
 import Typography from '../../../theme/Typography';
-import {ProfileHeaderProps, ProfileHeader} from './Header';
+import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface EditProfileProps {
-  profile: ProfileHeaderProps[];
+  profile: any;
   type: string;
   onPressGoBack: () => void;
   onPressSave: (params: object) => void;
@@ -24,25 +25,58 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   onPressSave,
 }) => {
   const [bio, setBio] = useState('');
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState({
+    modalConfirm: false,
+    modalImage: false,
+  });
   const [uriType, setUriType] = useState('');
   const [uri, setUri] = useState({
-    avatarUri: {uri: ''},
-    backgroundUri: {uri: ''},
+    avatarUri: {path: null},
+    backgroundUri: {path: null},
   });
+  const [focusInput, setFocusInput] = useState(false);
 
-  const onPressIcon = (newType: string) => {
-    setModalVisible(true);
+  const openModalConfirm = () => {
+    setModalVisible({
+      modalConfirm: true,
+      modalImage: false,
+    });
+  };
+
+  const openModalImage = (newType: string) => {
+    setModalVisible({
+      modalConfirm: false,
+      modalImage: true,
+    });
     setUriType(newType);
   };
 
-  const sendUri = (val: {assets: string[]}) => {
-    setUri({...uri, [uriType]: val?.assets[0]});
+  const resetImage = () => {
+    setUri({...uri, [uriType]: null});
+    closeModal();
   };
 
-  const avatarUri = uri?.avatarUri?.uri || profile.avatarUri || null;
+  const closeModal = () => {
+    setModalVisible({
+      modalConfirm: false,
+      modalImage: false,
+    });
+  };
+
+  const sendUri = (val: {assets: string[]}) => {
+    setUri({...uri, [uriType]: val});
+  };
+
+  const avatarUri = uri?.avatarUri?.path || profile.avatarUri || null;
   const backgroundUri =
-    uri?.backgroundUri?.uri || profile.backgroundUri || null;
+    uri?.backgroundUri?.path || profile.backgroundUri || null;
+
+  const titleModalPicker =
+    uriType === 'avatarUri' ? 'Edit Display Profile' : 'Edit Header';
+  const hideMenuDelete =
+    uriType === 'avatarUri'
+      ? avatarUri !== null && avatarUri !== ''
+      : backgroundUri !== null && backgroundUri !== '';
 
   return (
     <View style={styles.root}>
@@ -52,7 +86,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
         leftIconAction={onPressGoBack}
-        rightIconAction={() => onPressSave({...uri, bio})}
+        rightIconAction={openModalConfirm}
         containerStyles={{paddingHorizontal: widthPercentage(20)}}
       />
       <ProfileHeader
@@ -62,24 +96,42 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         fullname={profile.fullname}
         username={profile.username}
         containerStyles={{height: heightPercentage(206)}}
-        iconPress={onPressIcon}
+        iconPress={openModalImage}
       />
       <View style={styles.textAreaContainer}>
         <Text style={[Typography.Overline, styles.label]}>Bio</Text>
-        <SsuInput.TextArea
+        <SsuInput.InputText
           value={bio}
           onChangeText={(newText: string) => setBio(newText)}
           placeholder={'Type here...'}
           containerStyles={styles.textArea}
           maxLength={110}
+          multiline
+          numberOfLines={4}
+          fontColor={Color.Neutral[10]}
+          inputStyles={styles.inputBio}
+          onFocus={() => setFocusInput(true)}
+          onBlur={() => setFocusInput(false)}
+          isFocus={focusInput}
         />
         <Text style={styles.length}>{`${bio.length}/110`}</Text>
       </View>
 
-      <ModalEdit
-        modalVisible={isModalVisible}
+      <ModalImagePicker
+        title={titleModalPicker}
+        modalVisible={isModalVisible.modalImage}
         sendUri={sendUri}
-        onPressClose={() => setModalVisible(false)}
+        onDeleteImage={resetImage}
+        onPressClose={closeModal}
+        hideMenuDelete={hideMenuDelete}
+      />
+
+      <ModalConfirm
+        modalVisible={isModalVisible.modalConfirm}
+        title="Edit Profile"
+        subtitle="Are you sure to finish edit profile?"
+        onPressClose={closeModal}
+        onPressOk={() => onPressSave({...uri, bio})}
       />
     </View>
   );
@@ -94,6 +146,7 @@ const styles = StyleSheet.create({
     color: Color.Dark[50],
     marginBottom: heightPercentage(5),
     marginTop: heightPercentage(20),
+    lineHeight: heightPercentage(20),
   },
   textAreaContainer: {
     width: '90%',
@@ -102,6 +155,10 @@ const styles = StyleSheet.create({
   },
   textArea: {
     paddingHorizontal: 0,
+  },
+  inputBio: {
+    textAlignVertical: 'top',
+    paddingHorizontal: widthPercentage(10),
   },
   length: {
     fontSize: normalize(12),

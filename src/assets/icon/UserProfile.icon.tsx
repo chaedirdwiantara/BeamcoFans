@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function UserProfileIcon({
-  width = ms(25),
-  height = mvs(24),
+  width = widthPercentage(25),
+  height = widthPercentage(24),
   fill = 'none',
   stroke = '#FF69D2',
   style,

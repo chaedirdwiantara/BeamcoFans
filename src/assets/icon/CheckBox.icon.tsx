@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
-import {ms, mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
 import Svg, {G, Rect, Path, Defs, ClipPath} from 'react-native-svg';
 import {SvgProps} from '../../interface/svg.interface';
 
 function CheckBoxIcon({
-  width = ms(20),
-  height = mvs(20),
+  width = widthPercentage(20),
+  height = widthPercentage(20),
   fill = 'none',
   active = true,
   style,

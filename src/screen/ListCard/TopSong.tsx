@@ -1,12 +1,15 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {FC} from 'react';
 import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
 import {TopSongListData} from '../../data/topSong';
 import {elipsisText} from '../../utils';
 
-const TopSong = () => {
+interface TopSongProps {
+  onPress?: () => void;
+}
+
+const TopSong: FC<TopSongProps> = ({onPress}) => {
   const resultDataMore = (dataResult: any) => {
     console.log(dataResult, 'resultDataMenu');
   };
@@ -22,7 +25,7 @@ const TopSong = () => {
           musicTitle={elipsisText(item.musicTitle, 22)}
           singerName={item.singerName}
           onPressMore={resultDataMore}
-          // likePressed={likePressed}
+          onPressCard={onPress}
           containerStyles={{marginTop: mvs(20)}}
         />
       )}
@@ -32,5 +35,3 @@ const TopSong = () => {
 };
 
 export default TopSong;
-
-const styles = StyleSheet.create({});

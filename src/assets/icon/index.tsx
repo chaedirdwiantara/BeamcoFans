@@ -1,4 +1,5 @@
 import AddIcon from './Add.icon';
+import AddCircleIcon from './AddCircle.icon';
 import ArrowLeftIcon from './ArrowLeft.icon';
 import ArrowRightIcon from './ArrowRight.icon';
 import BellNotif from './BellNotif.icon';
@@ -9,10 +10,13 @@ import ChevronDownIcon from './ChevronDown.icon';
 import CloseIcon from './Close.icon';
 import CloseCircleIcon from './CloseCircle.icon';
 import CoinIcon from './Coin.icon';
+import CoinInput from './CoinInput';
+import CopyIcon from './Copy.icon';
 import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
 import CrackEggIcon from './CrackEgg.icon';
 import CrownIcon from './Crown.icon';
+import DonateCoinIcon from './DonateCoin.icon';
 import EditIcon from './Edit.icon';
 import EmailIcon from './Email.icon';
 import ErrorIcon from './Error.icon';
@@ -22,6 +26,7 @@ import EyeOpenIcon from './EyeOpen.icon';
 import FeedIcon from './Feed.icon';
 import FriedEggIcon from './FriedEgg.icon';
 import FullNameIcon from './FullName.icon';
+import GalleryAddIcon from './GalleryAdd.icon';
 import GalleryEditIcon from './GalleryEdit.icon';
 import GiftIcon from './Gift.icon';
 import HeartIcon from './Heart.icon';
@@ -35,6 +40,8 @@ import MusicPlaylistIcon from './MusicPlaylist.icon';
 import MusicSquareIcon from './MusicSquare.icon';
 import MusicSquareAddIcon from './MusicSquareAdd.icon';
 import NotificationIcon from './Notification.icon';
+import PauseIcon from './Pause.icon';
+import PlayIcon from './Play.icon';
 import ProcessingIcon from './Processing.icon';
 import SaveIcon from './Save.icon';
 import SearchIcon from './Search.icon';
@@ -47,6 +54,7 @@ import UserProfileIcon from './UserProfile.icon';
 
 export {
   AddIcon,
+  AddCircleIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   BellNotif,
@@ -57,10 +65,13 @@ export {
   CloseIcon,
   CloseCircleIcon,
   CoinIcon,
+  CoinInput,
+  CopyIcon,
   CollectionIcon,
   CommentIcon,
   CrackEggIcon,
   CrownIcon,
+  DonateCoinIcon,
   EditIcon,
   EmailIcon,
   ErrorIcon,
@@ -70,6 +81,7 @@ export {
   FeedIcon,
   FriedEggIcon,
   FullNameIcon,
+  GalleryAddIcon,
   GalleryEditIcon,
   GiftIcon,
   HeartIcon,
@@ -83,6 +95,8 @@ export {
   MusicSquareIcon,
   MusicSquareAddIcon,
   NotificationIcon,
+  PauseIcon,
+  PlayIcon,
   ProcessingIcon,
   SaveIcon,
   SearchIcon,
