@@ -7,7 +7,14 @@ import Color from '../../theme/Color';
 import {RootStackParams} from '../../App';
 import {PlaylistContent} from '../../components';
 
-export const PlaylistScreen: React.FC = props => {
+interface PlaylistProps {
+  props: {};
+  route: any;
+}
+
+export const PlaylistScreen: React.FC<PlaylistProps> = (
+  props: PlaylistProps,
+) => {
   const {params} = props?.route;
 
   const navigation =
@@ -22,8 +29,8 @@ export const PlaylistScreen: React.FC = props => {
   };
 
   const goBackProfile = (type: string) => {
-    const newParams = type === 'delete' ? {} : params;
-    navigation.navigate('Profile', {...newParams});
+    const newParams = type === 'delete' ? {} : {...params};
+    navigation.navigate('Profile', newParams);
   };
 
   const goToAddSong = () => {

@@ -7,34 +7,25 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {Dropdown} from '../DropDown';
-import Color from '../../../theme/Color';
-import {PhotoPlaylist} from './PhotoPlaylist';
-import {TopNavigation} from '../TopNavigation';
-import {
-  ArrowLeftIcon,
-  MusicSquareAddIcon,
-  PauseIcon,
-} from '../../../assets/icon';
-import TopSong from '../../../screen/ListCard/TopSong';
 import {
   heightPercentage,
   normalize,
   width,
   widthPercentage,
 } from '../../../utils';
-import {color, font, typography} from '../../../theme';
-import {Avatar, Gap} from '../../atom';
+import {Gap} from '../../atom';
+import {Dropdown} from '../DropDown';
+import Color from '../../../theme/Color';
+import {PhotoPlaylist} from './PhotoPlaylist';
+import {TopNavigation} from '../TopNavigation';
 import {ModalConfirm} from '../Modal/ModalConfirm';
-
-interface Playlist {
-  playlistUri: string;
-  playlistName: string;
-  playlistDesc: string;
-}
+import TopSong from '../../../screen/ListCard/TopSong';
+import {color, font, typography} from '../../../theme';
+import {SongTitlePlay} from '../SongTitlePlay/SongTitlePlay';
+import {ArrowLeftIcon, MusicSquareAddIcon} from '../../../assets/icon';
 
 interface Props {
-  playlist: Playlist;
+  playlist: any;
   onPressGoBack: () => void;
   goBackProfile: (type: string) => void;
   goToEditPlaylist: () => void;
@@ -72,11 +63,7 @@ export const PlaylistContent: React.FC<Props> = ({
           <Dropdown.More
             data={dataMore}
             selectedMenu={resultDataMore}
-            containerStyle={{
-              width: widthPercentage(123),
-              marginLeft: widthPercentage(-113),
-              marginTop: heightPercentage(-8),
-            }}
+            containerStyle={styles.dropdownMore}
           />
         }
         leftIcon={<ArrowLeftIcon />}
@@ -87,143 +74,42 @@ export const PlaylistContent: React.FC<Props> = ({
       />
 
       <ScrollView>
-        <View
-          style={{
-            paddingHorizontal: widthPercentage(10),
-          }}>
+        <View style={{paddingHorizontal: widthPercentage(10)}}>
           <View style={{alignSelf: 'center'}}>
             <PhotoPlaylist uri={playlist?.playlistUri?.path} />
           </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: widthPercentage(12),
-              marginTop: heightPercentage(10),
-            }}>
-            <View>
-              <Text
-                style={{
-                  fontSize: normalize(20),
-                  color: color.Neutral[10],
-                  fontFamily: font.InterSemiBold,
-                  lineHeight: heightPercentage(28),
-                }}>
-                {playlist?.playlistName}
-              </Text>
-              <Text
-                style={{
-                  fontSize: normalize(10),
-                  color: color.Dark[50],
-                  fontFamily: font.InterMedium,
-                }}>{`Created on December 7, 2022 · 1000 songs`}</Text>
-            </View>
-            <PauseIcon />
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingHorizontal: widthPercentage(12),
-              marginVertical: heightPercentage(6),
-            }}>
-            <Text
-              style={{
-                fontSize: normalize(12),
-                color: color.Neutral[10],
-                fontFamily: font.InterMedium,
-              }}>
-              by
-            </Text>
-            <Gap width={widthPercentage(5)} />
-            <Avatar
-              size={widthPercentage(16)}
-              imgUri="https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp"
-            />
-            <Gap width={widthPercentage(5)} />
-            <Text
-              style={{
-                fontSize: normalize(12),
-                color: color.Neutral[10],
-                fontFamily: font.InterMedium,
-              }}>
-              Weeblab
-            </Text>
-          </View>
+          <SongTitlePlay
+            title={playlist?.playlistName}
+            totalSong={1000}
+            createdDate={'December 7, 2022'}
+            createdBy={'Weeblab'}
+            avatarUri={
+              'https://thisis-images.scdn.co/37i9dQZF1DZ06evO2YqUuI-large.jpg'
+            }
+          />
 
           <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingHorizontal: widthPercentage(12),
-              marginTop: heightPercentage(12),
-            }}
+            style={styles.containerAddSong}
             onPress={goToAddSong}>
             <MusicSquareAddIcon />
             <Gap width={widthPercentage(10)} />
-            <Text
-              style={{
-                fontSize: normalize(12),
-                color: color.Dark[50],
-                fontFamily: font.InterMedium,
-              }}>
-              Add Song
-            </Text>
+            <Text style={styles.textAddSong}>Add Song</Text>
           </TouchableOpacity>
         </View>
 
-        <View
-          style={{
-            width,
-            height: 1,
-            backgroundColor: color.Dark[500],
-            marginTop: heightPercentage(15),
-          }}
-        />
+        <View style={styles.separator} />
 
-        <View
-          style={{
-            flex: 1,
-            paddingHorizontal: widthPercentage(20),
-            paddingTop: heightPercentage(15),
-          }}>
+        <View style={styles.containerContent}>
           {playlist?.playlistDesc && (
-            <View
-              style={{
-                marginBottom: heightPercentage(15),
-              }}>
-              <Text
-                style={[
-                  typography.Subtitle1,
-                  {
-                    color: color.Success[500],
-                  },
-                ]}>
+            <View style={{marginBottom: heightPercentage(15)}}>
+              <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
                 Description
               </Text>
-              <Text
-                style={{
-                  fontSize: normalize(12),
-                  color: color.Neutral[10],
-                  fontFamily: font.InterRegular,
-                  lineHeight: heightPercentage(16),
-                  paddingTop: heightPercentage(8),
-                }}>
-                {playlist?.playlistDesc}
-              </Text>
+              <Text style={styles.description}>{playlist?.playlistDesc}</Text>
             </View>
           )}
 
-          <Text
-            style={[
-              typography.Subtitle1,
-              {
-                color: color.Success[500],
-              },
-            ]}>
+          <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
             Song List
           </Text>
           <View style={{}}>
@@ -248,27 +134,38 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Color.Dark[800],
   },
-  containerInput: {
-    width: width * 0.9,
-    alignSelf: 'center',
+  dropdownMore: {
+    width: widthPercentage(123),
+    marginLeft: widthPercentage(-113),
+    marginTop: heightPercentage(-8),
+  },
+  containerAddSong: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: widthPercentage(12),
+    marginTop: heightPercentage(12),
+  },
+  textAddSong: {
+    fontSize: normalize(12),
+    color: color.Dark[50],
+    fontFamily: font.InterMedium,
+  },
+  separator: {
+    width,
+    height: 1,
+    backgroundColor: color.Dark[500],
     marginTop: heightPercentage(15),
   },
-  textInput: {
-    paddingHorizontal: 0,
-    marginTop: heightPercentage(10),
+  containerContent: {
+    flex: 1,
+    paddingHorizontal: widthPercentage(20),
+    paddingTop: heightPercentage(15),
   },
-  textArea: {
-    paddingHorizontal: 0,
-    marginVertical: heightPercentage(10),
-  },
-  footer: {
-    width: widthPercentage(327),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: heightPercentage(40),
-  },
-  btnContainer: {
-    width: widthPercentage(150),
-    aspectRatio: heightPercentage(150 / 36),
+  description: {
+    fontSize: normalize(12),
+    color: color.Neutral[10],
+    fontFamily: font.InterRegular,
+    lineHeight: heightPercentage(16),
+    paddingTop: heightPercentage(8),
   },
 });
