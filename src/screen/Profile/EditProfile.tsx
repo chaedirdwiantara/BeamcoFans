@@ -6,7 +6,14 @@ import Color from '../../theme/Color';
 import {RootStackParams} from '../../App';
 import {EditProfile} from '../../components';
 
-export const EditProfileScreen: React.FC = props => {
+interface ProfileProps {
+  props: {};
+  route: any;
+}
+
+export const EditProfileScreen: React.FC<ProfileProps> = (
+  props: ProfileProps,
+) => {
   const {params} = props?.route;
 
   const navigation =

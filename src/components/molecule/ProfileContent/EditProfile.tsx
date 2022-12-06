@@ -5,14 +5,14 @@ import {ModalConfirm} from '../..';
 import {SsuInput} from '../../atom';
 import Color from '../../../theme/Color';
 import {TopNavigation} from '../TopNavigation';
+import {ProfileHeader} from './components/Header';
 import Typography from '../../../theme/Typography';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
-import {ProfileHeaderProps, ProfileHeader} from './components/Header';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface EditProfileProps {
-  profile: ProfileHeaderProps[];
+  profile: any;
   type: string;
   onPressGoBack: () => void;
   onPressSave: (params: object) => void;
