@@ -93,3 +93,8 @@ export const dropDownHeaderSongDetails: DataDropDownType[] = [
   {label: 'Share Music', value: '3'},
   {label: 'Show Credits', value: '4'},
 ];
+
+export const dropDownSubscription: DataDropDownType[] = [
+  {label: 'Go To Musician', value: '1'},
+  {label: 'Unsubscribe', value: '2'},
+];
