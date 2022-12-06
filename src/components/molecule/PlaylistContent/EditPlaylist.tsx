@@ -13,15 +13,9 @@ import {heightPercentage, width, widthPercentage} from '../../../utils';
 // note: title menggunakan text area dan dan description sebaliknya
 // itu karena, menyesuaikan UI di figma dengan component yang sudah dibuat (border)
 
-interface Playlist {
-  playlistUri: string;
-  playlistName: string;
-  playlistDesc: string;
-}
-
 interface EditPlaylistProps {
-  playlist: Playlist;
-  goToPlaylist: (params: object) => void;
+  playlist: any;
+  goToPlaylist: (params: any) => void;
   onPressGoBack: () => void;
 }
 

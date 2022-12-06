@@ -7,7 +7,12 @@ import Color from '../../theme/Color';
 import {RootStackParams} from '../../App';
 import {EditPlaylistContent} from '../../components';
 
-export const EditPlaylist: React.FC = props => {
+interface PlaylistProps {
+  props: {};
+  route: any;
+}
+
+export const EditPlaylist: React.FC<PlaylistProps> = (props: PlaylistProps) => {
   const {params} = props?.route;
 
   const navigation =
