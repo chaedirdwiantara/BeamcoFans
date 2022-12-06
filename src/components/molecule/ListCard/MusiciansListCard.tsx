@@ -18,7 +18,7 @@ interface ListProps {
   imgUri: string;
   point?: string | null;
   containerStyles?: ViewStyle;
-  dataFilter?: [];
+  dataFilter?: {label: string; value: string}[];
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
