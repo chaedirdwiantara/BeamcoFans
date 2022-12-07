@@ -11,14 +11,14 @@ import {
 import {color, font} from '../../../theme';
 import {Dropdown} from '../DropDown';
 
-interface ListProps {
-  musicianNum?: number;
+export interface ListProps {
+  musicianNum?: number | string;
   onPressMore: (data: any) => void;
   musicianName: string;
   imgUri: string;
   point?: string | null;
   containerStyles?: ViewStyle;
-  dataFilter?: [];
+  dataFilter?: {label: string; value: string}[];
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {

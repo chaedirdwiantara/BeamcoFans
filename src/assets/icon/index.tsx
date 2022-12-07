@@ -6,6 +6,7 @@ import BellNotif from './BellNotif.icon';
 import CameraIcon from './Camera';
 import CheckBoxIcon from './CheckBox.icon';
 import CheckCircleIcon from './CheckCircle.icon';
+import CheckCircle2Icon from './CheckCircle2.icon';
 import ChevronDownIcon from './ChevronDown.icon';
 import CloseIcon from './Close.icon';
 import CloseCircleIcon from './CloseCircle.icon';
@@ -61,6 +62,7 @@ export {
   CameraIcon,
   CheckBoxIcon,
   CheckCircleIcon,
+  CheckCircle2Icon,
   ChevronDownIcon,
   CloseIcon,
   CloseCircleIcon,
