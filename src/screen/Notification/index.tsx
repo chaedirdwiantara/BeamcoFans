@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {color} from '../../theme';
 import {NotificationCard, TopNavigation} from '../../components';
@@ -6,6 +6,7 @@ import {notifData} from '../../data/notification';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
+import {widthResponsive} from '../../utils';
 
 export const Notification = () => {
   const navigation =

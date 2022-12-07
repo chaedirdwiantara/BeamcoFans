@@ -18,7 +18,7 @@ interface ListProps {
   imgUri: string;
   onPressMore?: (data: any) => void;
   onPressCard: () => void;
-  musicNum?: number;
+  musicNum: number | string;
   musicTitle: string;
   singerName: string;
   containerStyles?: ViewStyle;
@@ -94,7 +94,7 @@ const MusicListCard: React.FC<ListProps> = ({
       ) : (
         <Dropdown.More
           data={dataFilter ? dataFilter : dataMore}
-          selectedMenu={onPressMore}
+          selectedMenu={() => onPressMore}
           containerStyle={{
             width: widthPercentage(120),
             marginLeft: widthPercentage(-110),

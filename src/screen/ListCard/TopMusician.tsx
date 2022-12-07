@@ -1,29 +1,29 @@
 import {StyleSheet} from 'react-native';
 import React, {FC} from 'react';
-import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
 import {MusicianListData} from '../../data/topMusician';
+import MusicianSection from '../Search/MusicianSection';
 
 interface TopMusicianProps {
   type?: string;
 }
 
 const TopMusician: FC<TopMusicianProps> = ({type}) => {
-  const resultDataMore = (dataResult: any) => {
-    console.log(dataResult, 'resultDataMenu');
-  };
   return (
     <FlashList
       data={MusicianListData}
       showsVerticalScrollIndicator={false}
       keyExtractor={item => item.id}
-      renderItem={({item}) => (
-        <ListCard.MusicianList
-          musicianNum={item.musicNum}
+      renderItem={({item, index}) => (
+        <MusicianSection
+          musicianId={item.id}
+          musicianNum={(index + 1).toLocaleString('en-US', {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })}
           musicianName={item.musicianName}
           imgUri={item.imgUri}
-          onPressMore={resultDataMore}
           containerStyles={{marginTop: mvs(20)}}
           point={type === 'profile' ? item.point : null}
         />
