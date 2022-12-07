@@ -17,6 +17,7 @@ import {heightPercentage, normalize, widthResponsive} from '../../utils';
 import {SearchListData, SearchListType} from '../../data/search';
 import {mvs} from 'react-native-size-matters';
 import {CheckCircle2Icon} from '../../assets/icon';
+import MusicianSection from './MusicianSection';
 
 export const SearchScreen: React.FC = () => {
   const navigation =
@@ -114,16 +115,16 @@ export const SearchScreen: React.FC = () => {
                 data={dataShow}
                 renderItem={({item, index}) =>
                   item.type === 'Musician' ? (
-                    <ListCard.MusicianList
+                    <MusicianSection
                       musicianNum={(index + 1).toLocaleString('en-US', {
                         minimumIntegerDigits: 2,
                         useGrouping: false,
                       })}
                       musicianName={item.singerName}
                       imgUri={item.imgUri}
-                      onPressMore={resultDataMore}
                       containerStyles={{marginTop: mvs(20)}}
                       dataFilter={dataMore}
+                      musicianId={item.id}
                     />
                   ) : (
                     <ListCard.MusicList

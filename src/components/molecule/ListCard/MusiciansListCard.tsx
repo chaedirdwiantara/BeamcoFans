@@ -11,7 +11,7 @@ import {
 import {color, font} from '../../../theme';
 import {Dropdown} from '../DropDown';
 
-interface ListProps {
+export interface ListProps {
   musicianNum?: number | string;
   onPressMore: (data: any) => void;
   musicianName: string;
