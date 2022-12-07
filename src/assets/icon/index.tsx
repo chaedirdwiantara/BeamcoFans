@@ -48,6 +48,7 @@ import SaveIcon from './Save.icon';
 import SearchIcon from './Search.icon';
 import SettingIcon from './Setting.icon';
 import ShareIcon from './Share.icon';
+import SoundIcon from './Sound.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
 import TickCircleIcon from './TickCircle.icon';
 import UserIcon from './User.icon';
@@ -104,6 +105,7 @@ export {
   SearchIcon,
   SettingIcon,
   ShareIcon,
+  SoundIcon,
   ThreeDotsIcon,
   TickCircleIcon,
   UserIcon,

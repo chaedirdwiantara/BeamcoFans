@@ -16,6 +16,7 @@ import {EditPlaylistContent} from './PlaylistContent/EditPlaylist';
 import {EditProfile} from './ProfileContent/EditProfile';
 import {EmailContent} from './SettingContent/EmailContent';
 import {EmptyState} from './EmptyState/EmptyState';
+import {ExclusiveContent} from './ExclusiveContent';
 import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
 import {FollowingList} from './ProfileContent/components/FollowingList';
 import IconNotif from './IconNotif';
@@ -69,6 +70,7 @@ export {
   EditProfile,
   EmailContent,
   EmptyState,
+  ExclusiveContent,
   FollowArtistCard,
   FollowingList,
   IconNotif,

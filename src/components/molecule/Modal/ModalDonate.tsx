@@ -78,6 +78,7 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
           }}
           containerStyles={styles.containerContent}
           isFocus={focusInput}
+          keyboardType={'number-pad'}
         />
 
         <View style={styles.containerCoin}>

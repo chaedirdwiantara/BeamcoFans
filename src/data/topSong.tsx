@@ -9,57 +9,52 @@ export const TopSongListData: TopSongProps[] = [
   {
     id: '1',
     musicNum: 1,
-    musicTitle: 'Belahan Jiwa',
-    singerName: 'Frank Lampardo',
-    imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    musicTitle: 'Thunder',
+    singerName: 'Imagine Dragons',
+    imgUri: 'https://i.ytimg.com/vi/GtEvysh1654/maxresdefault.jpg',
   },
   {
     id: '2',
     musicNum: 2,
-    musicTitle: 'Menanti sebuah jawaban',
-    singerName: 'Frank Lampardo',
-    imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    musicTitle: 'Sunflower',
+    singerName: 'Rex Orange County',
+    imgUri: 'https://i.ytimg.com/vi/awga8fAYOtE/maxresdefault.jpg',
   },
   {
     id: '3',
     musicNum: 3,
-    musicTitle: 'Rinei Circulation',
-    singerName: 'Frank Lampardo',
-    imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    musicTitle: 'I Still Love You',
+    singerName: 'The Overtunes',
+    imgUri: 'https://i.ytimg.com/vi/Tw-u1EvLLL0/maxresdefault.jpg',
   },
   {
     id: '4',
     musicNum: 4,
-    musicTitle: 'Hime Hime Daisuki',
-    singerName: 'Frank Lampardo',
-    imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    musicTitle: 'I Like Me Better',
+    singerName: 'Lauv',
+    imgUri: 'https://i.scdn.co/image/ab67616d0000b273fab48816b625e2a77a732400',
   },
   {
     id: '5',
     musicNum: 5,
-    musicTitle: 'Sasageyoo',
-    singerName: 'Frank Lampardo',
+    musicTitle: '7 Rings',
+    singerName: 'Ariana Grande',
     imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+      'https://m.media-amazon.com/images/M/MV5BYTQ2MTdmOTQtNzY0NS00MDQ1LWEwOWItNDczNzUxMDdlOTYzXkEyXkFqcGdeQXVyMTI1Mzg0ODA5._V1_.jpg',
   },
   {
     id: '6',
     musicNum: 6,
-    musicTitle: 'Waka Waka E e',
-    singerName: 'Frank Lampardo',
-    imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    musicTitle: 'Drunk',
+    singerName: 'Keshi',
+    imgUri: 'https://i.ytimg.com/vi/CyadFi-x3Dk/maxresdefault.jpg',
   },
   {
     id: '7',
     musicNum: 7,
-    musicTitle: 'I Believe U cant Fly',
-    singerName: 'Frank Lampardo',
+    musicTitle: 'Let Me Love You',
+    singerName: 'Justin Bieber',
     imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+      'https://lastfm.freetls.fastly.net/i/u/ar0/c800779a399447228ab7cc929bb8895a.jpg',
   },
 ];

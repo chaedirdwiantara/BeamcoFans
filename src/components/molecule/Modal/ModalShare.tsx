@@ -23,6 +23,7 @@ import {CopyIcon} from '../../../assets/icon';
 import {Button, Gap, SquareImage} from '../../atom';
 
 interface ModalShareProps {
+  url: string;
   titleModal: string;
   modalVisible: boolean;
   imgUri: string;
@@ -35,6 +36,7 @@ interface ModalShareProps {
 }
 
 export const ModalShare: React.FC<ModalShareProps> = ({
+  url,
   titleModal,
   modalVisible,
   imgUri,
@@ -68,11 +70,7 @@ export const ModalShare: React.FC<ModalShareProps> = ({
         </View>
 
         <TouchableOpacity style={styles.containerSong} onPress={onPressCopy}>
-          <Text style={styles.copyLink}>
-            {
-              'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0'
-            }
-          </Text>
+          <Text style={styles.copyLink}>{url}</Text>
           <Gap width={widthPercentage(5)} />
           <CopyIcon />
         </TouchableOpacity>
