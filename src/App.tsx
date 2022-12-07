@@ -39,6 +39,7 @@ import {DonationAndSubscription} from './screen/Setting/DonationAndSubscription'
 import {ProfileScreen} from './screen/Profile/Profile';
 import {EditProfileScreen} from './screen/Profile/EditProfile';
 import {FollowingScreen} from './screen/Profile/FollowingScreen';
+import {ExclusiveContentScreen} from './screen/ExclusiveContent';
 
 // Playlist
 import {PlaylistScreen} from './screen/Playlist/Playlist';
@@ -77,6 +78,7 @@ export type RootStackParams = {
   EditProfile: undefined;
   EditPlaylist: undefined;
   Email: undefined;
+  ExclusiveContent: undefined;
   Following: undefined;
   ForgotPassword: undefined;
   Language: undefined;
@@ -230,6 +232,10 @@ const RootStackScreen = () => (
     <RootStack.Screen name="Signup" component={SignupScreen} />
     <RootStack.Screen name="MainTab" component={TabScreen} />
     <RootStack.Screen name="Notification" component={Notification} />
+    <RootStack.Screen
+      name="ExclusiveContent"
+      component={ExclusiveContentScreen}
+    />
     <RootStack.Screen name="PostDetail" component={PostDetail} />
     <RootStack.Screen name="SearchScreen" component={SearchScreen} />
   </RootStack.Navigator>
