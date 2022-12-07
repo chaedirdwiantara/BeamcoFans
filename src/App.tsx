@@ -22,7 +22,7 @@ import {SignupScreen} from './screen/Signup';
 import {Notification} from './screen/Notification';
 import {PostDetail} from './screen/Detail/PostDetail';
 import {SearchScreen} from './screen/Search/Search';
-import MusicianProfile from './screen/MusicianProfile/MusicianProfile';
+import MusicianProfile from './screen/MusicianProfile';
 
 // Setting
 import {SettingScreen} from './screen/Setting/Setting';

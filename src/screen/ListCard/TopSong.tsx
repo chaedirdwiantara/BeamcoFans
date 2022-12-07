@@ -7,9 +7,11 @@ import {elipsisText} from '../../utils';
 
 interface TopSongProps {
   onPress?: () => void;
+  scrollable?: boolean;
 }
 
-const TopSong: FC<TopSongProps> = ({onPress}) => {
+const TopSong: FC<TopSongProps> = (props: TopSongProps) => {
+  const {onPress, scrollable} = props;
   const resultDataMore = (dataResult: any) => {
     console.log(dataResult, 'resultDataMenu');
   };
@@ -17,6 +19,7 @@ const TopSong: FC<TopSongProps> = ({onPress}) => {
     <FlashList
       data={TopSongListData}
       showsVerticalScrollIndicator={false}
+      scrollEnabled={scrollable}
       keyExtractor={item => item.id}
       renderItem={({item}: any) => (
         <ListCard.MusicList
