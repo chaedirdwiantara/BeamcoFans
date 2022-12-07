@@ -9,57 +9,56 @@ export const MusicianListData: MusicianListType[] = [
   {
     id: '1',
     musicNum: 1,
-    musicianName: 'Frank Lampardo',
+    musicianName: 'Imagine Dragons',
     point: '2000',
     imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR73H7Vd8Bbc03cJsPtMGCWXWH9ZoDwGWm3ig&usqp=CAU',
   },
   {
     id: '2',
     musicNum: 2,
-    musicianName: 'Dwayne Johnson',
+    musicianName: 'Rex Orange County',
     point: '1900',
     imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+      'https://www.lazone.id/storage/news/November%202021/15%20November/2.%20Rex%20Orange%20County,%20Calon%20Dokter%20Gigi%20Salah%20Alamat/rex%20orange%20county-cover.jpg',
   },
   {
     id: '3',
     musicNum: 3,
-    musicianName: 'Putin',
+    musicianName: 'Lauv',
     point: '1800',
-    imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    imgUri: 'https://www.mainmain.id/uploads/post/2020/03/18/Lauv-New.jpg',
   },
   {
     id: '4',
     musicNum: 4,
-    musicianName: 'Lee Min Nyong',
+    musicianName: 'Ariana Grande',
     point: '1700',
     imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+      'https://awsimages.detik.net.id/community/media/visual/2020/01/27/9d1c6f6f-1795-4ff2-aacb-f81d67657e41_43.jpeg?w=700&q=90',
   },
   {
     id: '5',
     musicNum: 5,
-    musicianName: 'Mikasa',
+    musicianName: 'Justin Bieber',
     point: '1600',
     imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+      'https://cdn0-production-images-kly.akamaized.net/4944OcJClfjSM_tsLgBN3Ug6SkQ=/1200x1200/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/2268428/original/073913300_1530691064-Justin_Bieber.jpg',
   },
   {
     id: '6',
     musicNum: 6,
-    musicianName: 'Angling Dharma',
+    musicianName: 'Keshi',
     point: '1500',
     imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+      'https://yt3.ggpht.com/5PWVj9wPhRvJvY0RgLPnrMavM_RgS2jLSCgC4fUTsv8EAMzzQIYekw7FOdlA3RToXFEihTabYw=s900-c-k-c0x00ffffff-no-rj',
   },
   {
     id: '7',
     musicNum: 7,
-    musicianName: 'Trump',
+    musicianName: 'The Overtunes',
     point: '1400',
     imgUri:
-      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+      'https://www.mldspot.com/storage/generated/June2021/band_the_overtunes.jpg',
   },
 ];
