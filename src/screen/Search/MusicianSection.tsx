@@ -1,7 +1,6 @@
 import {StyleSheet, Text, View, ViewStyle} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Gap, ListCard, SsuToast} from '../../components';
-import {ListProps} from '../../components/molecule/ListCard/MusiciansListCard';
 import {CheckCircle2Icon} from '../../assets/icon';
 import {color, font} from '../../theme';
 import {heightPercentage, normalize, widthResponsive} from '../../utils';
@@ -13,11 +12,21 @@ interface MusicianProps {
   musicianName: string;
   imgUri: string;
   containerStyles?: ViewStyle;
-  dataFilter: {label: string; value: string}[];
 }
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
+  const dataMore = [
+    {label: 'Follow', value: '1'},
+    {label: 'Go To Musician', value: '2'},
+  ];
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    modalVisible &&
+      setTimeout(() => {
+        setModalVisible(false);
+      }, 3000);
+  }, [modalVisible]);
 
   const resultDataMore = (dataResult: any) => {
     console.log(dataResult, 'resultDataMenu', props.musicianId, 'id');
@@ -25,7 +34,11 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   };
   return (
     <>
-      <ListCard.MusicianList {...props} onPressMore={resultDataMore} />
+      <ListCard.MusicianList
+        dataFilter={dataMore}
+        onPressMore={resultDataMore}
+        {...props}
+      />
       <SsuToast
         modalVisible={modalVisible}
         onBackPressed={() => setModalVisible(false)}

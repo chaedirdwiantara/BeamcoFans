@@ -80,11 +80,6 @@ export const SearchScreen: React.FC = () => {
     }
   };
 
-  const dataMore = [
-    {label: 'Follow', value: '1'},
-    {label: 'Go To Musician', value: '2'},
-  ];
-
   return (
     <>
       <SafeAreaView style={styles.root}>
@@ -123,7 +118,6 @@ export const SearchScreen: React.FC = () => {
                       musicianName={item.singerName}
                       imgUri={item.imgUri}
                       containerStyles={{marginTop: mvs(20)}}
-                      dataFilter={dataMore}
                       musicianId={item.id}
                     />
                   ) : (
@@ -145,25 +139,6 @@ export const SearchScreen: React.FC = () => {
           ) : null}
         </View>
       </SafeAreaView>
-      <SsuToast
-        modalVisible={modalVisible}
-        onBackPressed={() => setModalVisible(false)}
-        children={
-          <View style={[styles.modalContainer]}>
-            <CheckCircle2Icon />
-            <Gap width={4} />
-            <Text style={[styles.textStyle]} numberOfLines={2}>
-              You have been following selected musician
-            </Text>
-          </View>
-        }
-        modalStyle={{
-          maxWidth: '100%',
-          marginHorizontal: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      />
     </>
   );
 };
