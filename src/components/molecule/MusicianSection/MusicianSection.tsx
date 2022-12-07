@@ -1,10 +1,13 @@
 import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Gap, ListCard, SsuToast} from '../../components';
-import {CheckCircle2Icon} from '../../assets/icon';
-import {color, font} from '../../theme';
-import {heightPercentage, normalize, widthResponsive} from '../../utils';
+import {Gap, ListCard, SsuToast} from '../..';
+import {CheckCircle2Icon} from '../../../assets/icon';
+import {color, font} from '../../../theme';
+import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 import {mvs} from 'react-native-size-matters';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../../../App';
 
 interface MusicianProps {
   musicianId: string;
@@ -16,6 +19,8 @@ interface MusicianProps {
 }
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const dataMore = [
     {label: 'Follow', value: '1'},
     {label: 'Go To Musician', value: '2'},
@@ -31,7 +36,11 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
 
   const resultDataMore = (dataResult: any) => {
     console.log(dataResult, 'resultDataMenu', props.musicianId, 'id');
-    dataResult.label === 'Follow' ? setModalVisible(true) : null;
+    dataResult.label === 'Follow'
+      ? setModalVisible(true)
+      : dataResult.label === 'Go To Musician'
+      ? navigation.navigate('MusicianProfile')
+      : null;
   };
   return (
     <>

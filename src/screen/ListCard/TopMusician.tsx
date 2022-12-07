@@ -3,7 +3,7 @@ import React, {FC} from 'react';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
 import {MusicianListData} from '../../data/topMusician';
-import MusicianSection from '../Search/MusicianSection';
+import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
 
 interface TopMusicianProps {
   type?: string;

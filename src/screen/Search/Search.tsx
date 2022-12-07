@@ -17,7 +17,7 @@ import {heightPercentage, normalize, widthResponsive} from '../../utils';
 import {SearchListData, SearchListType} from '../../data/search';
 import {mvs} from 'react-native-size-matters';
 import {CheckCircle2Icon} from '../../assets/icon';
-import MusicianSection from './MusicianSection';
+import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
 
 export const SearchScreen: React.FC = () => {
   const navigation =
