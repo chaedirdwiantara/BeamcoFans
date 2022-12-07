@@ -47,8 +47,6 @@ export const useAuthHook = () => {
     try {
       const response = await registerUser(props);
       setAuthResult(response);
-      // TODO: add token into localstorage
-      // TODO: add profile info to localstorage
     } catch (error) {
       setIsError(true);
       if (axios.isAxiosError(error) && error.response?.status === 400) {
@@ -70,8 +68,7 @@ export const useAuthHook = () => {
       if (response.data.accessToken) {
         storage.set('accessToken', response.data.accessToken);
         storage.set('refreshToken', response.data.refreshToken);
-        const profile = await getProfile();
-        if (profile.data.favoriteGenres.length === 0) {
+        if (response.data.lastLoginAt === null) {
           setLoginResult('preference');
         } else {
           setLoginResult('home');
@@ -106,9 +103,13 @@ export const useAuthHook = () => {
       const userInfo = await GoogleSignin.signIn();
       setIsLoading(true);
       const response = await loginSso(userInfo.user.email, 'google');
-      // setLoginResult(response);
-      // TODO: add token into localstorage
-      // TODO: add profile info to localstorage
+      storage.set('accessToken', response.data.accessToken);
+      storage.set('refreshToken', response.data.refreshToken);
+      if (response.data.lastLoginAt === null) {
+        setLoginResult('preference');
+      } else {
+        setLoginResult('home');
+      }
     } catch (error) {
       setIsError(true);
       if (
@@ -196,9 +197,16 @@ export const useAuthHook = () => {
     setIsLoading(true);
     try {
       const response = await confirmEmailOtpRegister(email, code);
-      storage.set('accessToken', response.data.accessToken);
-      storage.set('refreshToken', response.data.refreshToken);
-      setIsOtpValid(true);
+      if (response.status === 1) {
+        if (response.data.lastLoginAt === null) {
+          setLoginResult('preference');
+        } else {
+          setLoginResult('home');
+        }
+        storage.set('accessToken', response.data.accessToken);
+        storage.set('refreshToken', response.data.refreshToken);
+        setIsOtpValid(true);
+      }
     } catch (error) {
       setIsError(true);
       setIsOtpValid(false);
