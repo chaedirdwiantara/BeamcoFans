@@ -9,11 +9,9 @@ import {ErrorIcon} from '../../../assets/icon';
 
 const ErrorColor = color.Error[400];
 
-const TermAndConditions: React.FC<CheckBoxProps> = ({
-  handleOnPress,
-  active,
-  errorMsg,
-}) => {
+const TermAndConditions: React.FC<
+  CheckBoxProps & {onTncPress: () => void; onPrivacyPress: () => void}
+> = ({handleOnPress, active, errorMsg, onTncPress, onPrivacyPress}) => {
   return (
     <View>
       <View style={styles.container}>
@@ -22,13 +20,13 @@ const TermAndConditions: React.FC<CheckBoxProps> = ({
           I Agree with SunnySideUp Terms{' '}
           <Text
             style={[styles.textStyle, {color: color.Success[400]}]}
-            onPress={() => console.log('tnc pressed')}>
+            onPress={onTncPress}>
             Conditions{' '}
           </Text>
           and{' '}
           <Text
             style={[styles.textStyle, {color: color.Success[400]}]}
-            onPress={() => console.log('privacy policy pressed')}>
+            onPress={onPrivacyPress}>
             Privacy Policy
           </Text>
         </Text>

@@ -84,8 +84,7 @@ export const LoginScreen: React.FC = () => {
 
   useEffect(() => {
     if (!isLoading && !isError && loginResult !== null) {
-      // TODO: activate this after completing wiring on the preference screen
-      // storage.set('isLogin', true);
+      storage.set('isLogin', true);
       if (loginResult === 'preference') {
         navigation.replace('Preference');
       } else {

@@ -22,6 +22,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
     errorMsg,
     isOtpValid,
     isLoading,
+    loginResult,
     confirmEmailOtp,
     confirmSmsOtp,
     sendOtpEmail,
@@ -30,11 +31,15 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
 
   useEffect(() => {
     if (!isLoading && !isError && isOtpValid === true) {
-      // TODO: goto preference setting or home
+      if (loginResult === 'preference') {
+        navigation.replace('Preference');
+      } else if (loginResult === 'home') {
+        navigation.replace('MainTab');
+      }
     } else if (!isLoading && isError && errorMsg !== '') {
       // TODO: display error message
     }
-  }, [isError, errorMsg, isOtpValid, isLoading]);
+  }, [isError, errorMsg, isOtpValid, isLoading, loginResult]);
 
   const handleBack = () => {
     navigation.goBack();

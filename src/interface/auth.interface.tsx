@@ -45,6 +45,7 @@ export interface LoginResponseType {
     accessTokenExpiresAt: string;
     refreshToken: string;
     refreshTokenExpiresAt: string;
+    lastLoginAt: string | null;
   };
   message: string;
   status: number;
@@ -68,6 +69,7 @@ export interface ConfirmEmailOTPRegisterResponseType {
     accessTokenExpiresAt: string;
     refreshToken: string;
     refreshTokenExpiresAt: string;
+    lastLoginAt: string | null;
   };
   message: string;
   status: number;

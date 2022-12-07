@@ -36,6 +36,7 @@
     "react-native-screens": "^3.18.0",
     "react-native-size-matters": "^0.4.0",
     "react-native-svg": "^13.4.0",
+    "react-native-webview": "^11.25.0",
     "uuid": "^9.0.0",
     "yup": "^0.32.11"
   },
