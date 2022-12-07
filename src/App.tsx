@@ -22,6 +22,7 @@ import {SignupScreen} from './screen/Signup';
 import {Notification} from './screen/Notification';
 import {PostDetail} from './screen/Detail/PostDetail';
 import {SearchScreen} from './screen/Search/Search';
+import {WebviewPage} from './screen/Webview';
 
 // Setting
 import {SettingScreen} from './screen/Setting/Setting';
@@ -104,6 +105,10 @@ export type RootStackParams = {
   Notification: undefined;
   PostDetail: undefined;
   SearchScreen: undefined;
+  Webview: {
+    title: string;
+    url: string;
+  };
 };
 
 export type MainTabParams = {
@@ -238,6 +243,7 @@ const RootStackScreen = () => (
     />
     <RootStack.Screen name="PostDetail" component={PostDetail} />
     <RootStack.Screen name="SearchScreen" component={SearchScreen} />
+    <RootStack.Screen name="Webview" component={WebviewPage} />
   </RootStack.Navigator>
 );
 
