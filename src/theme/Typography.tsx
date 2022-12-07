@@ -63,6 +63,18 @@ const Typography = {
     lineHeight: mvs(20),
     letterSpacing: 0.25,
   },
+  Body3: {
+    fontFamily: Font.InterBold,
+    fontSize: normalize(12),
+    lineHeight: mvs(16),
+    letterSpacing: 0.1,
+  },
+  Body4: {
+    fontFamily: Font.InterRegular,
+    fontSize: normalize(10),
+    lineHeight: mvs(12),
+    letterSpacing: 0,
+  },
   Button1: {
     fontFamily: Font.InterMedium,
     fontSize: normalize(15),
