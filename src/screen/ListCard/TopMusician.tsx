@@ -10,9 +10,6 @@ interface TopMusicianProps {
 }
 
 const TopMusician: FC<TopMusicianProps> = ({type}) => {
-  const resultDataMore = (dataResult: any) => {
-    console.log(dataResult, 'resultDataMenu');
-  };
   return (
     <FlashList
       data={MusicianListData}
