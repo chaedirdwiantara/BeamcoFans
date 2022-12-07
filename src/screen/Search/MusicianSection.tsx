@@ -12,6 +12,7 @@ interface MusicianProps {
   musicianName: string;
   imgUri: string;
   containerStyles?: ViewStyle;
+  point?: string | null;
 }
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
