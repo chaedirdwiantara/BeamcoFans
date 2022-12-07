@@ -18,6 +18,11 @@ interface MusicianProps {
   point?: string | null;
 }
 
+interface DataMore {
+  label: string;
+  value: string;
+}
+
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -34,7 +39,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
       }, 3000);
   }, [modalVisible]);
 
-  const resultDataMore = (dataResult: any) => {
+  const resultDataMore = (dataResult: DataMore) => {
     console.log(dataResult, 'resultDataMenu', props.musicianId, 'id');
     dataResult.label === 'Follow'
       ? setModalVisible(true)
