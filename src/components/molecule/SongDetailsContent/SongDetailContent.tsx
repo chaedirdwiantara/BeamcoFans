@@ -149,6 +149,9 @@ export const SongDetailsContent: React.FC<Props> = ({
       />
 
       <ModalShare
+        url={
+          'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0'
+        }
         modalVisible={isModalVisible.modalShare}
         onPressClose={closeModal}
         titleModal={'Share Album'}
