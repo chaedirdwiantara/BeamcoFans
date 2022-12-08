@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -15,6 +15,7 @@ import {
   TabFilter,
   Carousel,
   IconNotif,
+  SsuStatusBar,
 } from '../components';
 import {RootStackParams} from '../App';
 import TopSong from './ListCard/TopSong';
@@ -25,12 +26,31 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
+import * as FCMService from '../service/notification';
+import {profileStorage} from '../hooks/use-storage.hook';
 
 export const HomeScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    FCMService.getTokenFCM({onGetToken: handleOnGetToken});
+    FCMService.createNotificationListener({
+      onRegister: token => registerFcm(token),
+      onNotification: data => console.log(data),
+      onOpenNotification: data => console.log(data),
+    });
+  }, []);
+
+  const registerFcm = (token: string) => {
+    console.log(token);
+  };
+
+  const handleOnGetToken = (tokenFCM: string) => {
+    console.log(tokenFCM);
+  };
 
   const goToSongDetails = () => {
     navigation.navigate('SongDetails');
@@ -51,8 +71,9 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.root}>
+      <SsuStatusBar type="black" />
       <TopNavigation.Type5
-        name="Jaehyun"
+        name={profileStorage()?.fullname || ''}
         profileUri={
           'https://static.republika.co.id/uploads/member/images/news/5bgj1x0cea.jpg'
         }

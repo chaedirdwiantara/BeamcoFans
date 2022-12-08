@@ -66,8 +66,7 @@ export const useAuthHook = () => {
     try {
       const response = await loginUser(props);
       if (response.data.accessToken) {
-        storage.set('accessToken', response.data.accessToken);
-        storage.set('refreshToken', response.data.refreshToken);
+        storage.set('profile', JSON.stringify(response.data));
         if (response.data.lastLoginAt === null) {
           setLoginResult('preference');
         } else {
@@ -103,8 +102,7 @@ export const useAuthHook = () => {
       const userInfo = await GoogleSignin.signIn();
       setIsLoading(true);
       const response = await loginSso(userInfo.user.email, 'google');
-      storage.set('accessToken', response.data.accessToken);
-      storage.set('refreshToken', response.data.refreshToken);
+      storage.set('profile', JSON.stringify(response.data));
       if (response.data.lastLoginAt === null) {
         setLoginResult('preference');
       } else {
@@ -203,8 +201,7 @@ export const useAuthHook = () => {
         } else {
           setLoginResult('home');
         }
-        storage.set('accessToken', response.data.accessToken);
-        storage.set('refreshToken', response.data.refreshToken);
+        storage.set('profile', JSON.stringify(response.data));
         setIsOtpValid(true);
       }
     } catch (error) {
@@ -229,8 +226,8 @@ export const useAuthHook = () => {
     setIsLoading(true);
     try {
       const response = await confirmSmsOtpLogin(phoneNumber, code);
-      storage.set('accessToken', response.data.accessToken);
-      storage.set('refreshToken', response.data.refreshToken);
+      // TODO: check the attribute to store the fullname and valuable information
+      // storage.set('profile', JSON.stringify(response.data));
       setIsOtpValid(true);
     } catch (error) {
       setIsError(true);

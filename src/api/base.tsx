@@ -40,7 +40,13 @@ export const initialize = (
   }
 
   // TODO: add token on interceptor
-  const token = storage.getString('accessToken');
+  const JSONProfile = storage.getString('profile');
+  let token: string | null = null;
+  if (JSONProfile) {
+    const profileObject = JSON.parse(JSONProfile);
+    token = profileObject.accessToken;
+  }
+
   if (token) {
     API.interceptors.request.use((config: AxiosRequestConfig) => {
       config.headers = {
