@@ -25,6 +25,7 @@ import {ListCard} from './ListCard';
 import {ListenersAndDonate} from './ListenersAndDonate/ListenersAndDonate';
 import {LoginDescription} from './LoginDescription/LoginDescription';
 import {ModalConfirm} from './Modal/ModalConfirm';
+import {ModalCustom} from './Modal/ModalCustom';
 import {ModalDonate} from './Modal/ModalDonate';
 import {ModalImagePicker} from './Modal/ModalImagePicker';
 import {ModalShare} from './Modal/ModalShare';
@@ -37,6 +38,7 @@ import {ProfileHeader} from './ProfileContent/components/Header';
 import {ReferralContent} from './ReferralContent/ReferralContent';
 import {RadioButton} from './RadioButton/RadioButton';
 import {ReferAFriend} from './SettingContent/ReferAFriend';
+import {SendReportContent} from './SettingContent/SendReportContent';
 import {SettingContent} from './SettingContent/SettingContent';
 import {SignInGuestContent} from './SignInGuestContent/SignInGuestContent';
 import {ShippingInformationContent} from './SettingContent/ShippingInformation';
@@ -79,6 +81,7 @@ export {
   ListenersAndDonate,
   LoginDescription,
   ModalConfirm,
+  ModalCustom,
   ModalDonate,
   ModalImagePicker,
   ModalShare,
@@ -91,6 +94,7 @@ export {
   RadioButton,
   ReferralContent,
   ReferAFriend,
+  SendReportContent,
   SettingContent,
   SignInGuestContent,
   ShippingInformationContent,

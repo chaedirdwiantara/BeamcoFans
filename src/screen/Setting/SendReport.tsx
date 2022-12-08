@@ -5,9 +5,18 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../App';
-import {SettingContent} from '../../components';
+import {widthPercentage} from '../../utils';
+import {SendReportContent} from '../../components';
 
-export const SettingScreen: React.FC = () => {
+interface SendReportProps {
+  props: {};
+  route: any;
+}
+
+export const SendReportScreen: React.FC<SendReportProps> = (
+  props: SendReportProps,
+) => {
+  const {title} = props.route?.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -15,13 +24,9 @@ export const SettingScreen: React.FC = () => {
     navigation.goBack();
   };
 
-  const onPressGoTo = (screenName: any, params: any) => {
-    navigation.navigate(screenName, {...params});
-  };
-
   return (
     <SafeAreaView style={styles.root}>
-      <SettingContent onPressGoBack={onPressGoBack} onPressGoTo={onPressGoTo} />
+      <SendReportContent title={title} onPressGoBack={onPressGoBack} />
     </SafeAreaView>
   );
 };
@@ -30,5 +35,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: Color.Dark[800],
+    paddingHorizontal: widthPercentage(12),
   },
 });

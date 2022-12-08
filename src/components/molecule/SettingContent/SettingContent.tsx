@@ -1,17 +1,24 @@
-import React from 'react';
-import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import {ArrowLeftIcon, LogOutIcon} from '../../../assets/icon';
 import {menuSetting} from '../../../data/Settings/setting';
 
-import Color from '../../../theme/Color';
-import Typography from '../../../theme/Typography';
-import {heightPercentage, width, widthPercentage} from '../../../utils';
-import {MenuText} from '../../atom/MenuText/MenuText';
 import {TopNavigation} from '../TopNavigation';
+import {color, typography} from '../../../theme';
+import {ModalCustom} from '../Modal/ModalCustom';
+import Typography from '../../../theme/Typography';
+import {MenuText} from '../../atom/MenuText/MenuText';
+import {heightPercentage, width, widthPercentage} from '../../../utils';
 
 interface SettingProps {
   onPressGoBack: () => void;
-  onPressGoTo: (screenName: string) => void;
+  onPressGoTo: (screenName: string, params?: any) => void;
 }
 
 export const SettingContent: React.FC<SettingProps> = ({
@@ -19,12 +26,58 @@ export const SettingContent: React.FC<SettingProps> = ({
   onPressGoTo,
 }) => {
   const listMenu = menuSetting;
+  const [isVisible, setIsVisible] = useState(false);
+
+  const onPress = (val: string) => {
+    val === 'Send Report'
+      ? setIsVisible(true)
+      : onPressGoTo(val.replace(/\s/g, ''));
+  };
+
+  const ListReport = ({title, subtitle}: {title: string; subtitle: string}) => {
+    return (
+      <TouchableOpacity
+        style={{marginTop: heightPercentage(10)}}
+        onPress={() => {
+          onPressGoTo('SendReport', {title});
+          setIsVisible(false);
+        }}>
+        <Text style={[typography.Subtitle1, {color: color.Neutral[10]}]}>
+          {title}
+        </Text>
+        <Text style={[typography.Body2, {color: color.Neutral[10]}]}>
+          {subtitle}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const children = () => {
+    return (
+      <View style={styles.card}>
+        <Text style={[typography.Heading6, {color: color.Neutral[10]}]}>
+          Need help?
+        </Text>
+        <ListReport
+          title={'Report a bug'}
+          subtitle={
+            'Something in the app is broken or doesn’t work as expected'
+          }
+        />
+        <ListReport
+          title={'Suggest an improvement'}
+          subtitle={'New ideas or desired enhancement for this app'}
+        />
+      </View>
+    );
+  };
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type1
         title="Settings"
         leftIcon={<ArrowLeftIcon />}
-        itemStrokeColor={Color.Neutral[10]}
+        itemStrokeColor={color.Neutral[10]}
         leftIconAction={onPressGoBack}
         containerStyles={{paddingHorizontal: widthPercentage(12)}}
       />
@@ -34,7 +87,7 @@ export const SettingContent: React.FC<SettingProps> = ({
             key={i}
             text={val}
             containerStyles={{marginTop: heightPercentage(12)}}
-            onPress={() => onPressGoTo(val.replace(/\s/g, ''))}
+            onPress={() => onPress(val)}
           />
         ))}
         <View style={styles.containerText}>
@@ -52,6 +105,12 @@ export const SettingContent: React.FC<SettingProps> = ({
           </Text>
         </View>
       </View>
+
+      <ModalCustom
+        modalVisible={isVisible}
+        children={children()}
+        onPressClose={() => setIsVisible(false)}
+      />
     </View>
   );
 };
@@ -59,15 +118,15 @@ export const SettingContent: React.FC<SettingProps> = ({
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: Color.Dark[800],
+    backgroundColor: color.Dark[800],
   },
   textVersion: {
-    color: Color.Neutral[10],
+    color: color.Neutral[10],
     paddingTop: heightPercentage(15),
     alignSelf: 'center',
   },
   textSignOut: {
-    color: Color.Neutral[10],
+    color: color.Neutral[10],
     paddingLeft: widthPercentage(15),
   },
   containerSignout: {
@@ -79,5 +138,13 @@ const styles = StyleSheet.create({
     width: width * 0.9,
     flexDirection: 'row',
     alignSelf: 'center',
+  },
+  card: {
+    width: width * 0.9,
+    backgroundColor: color.Dark[900],
+    justifyContent: 'center',
+    borderRadius: 4,
+    paddingHorizontal: widthPercentage(20),
+    paddingVertical: heightPercentage(25),
   },
 });

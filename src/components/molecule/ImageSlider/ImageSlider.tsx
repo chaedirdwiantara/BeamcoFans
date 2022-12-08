@@ -10,15 +10,18 @@ import {
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
 
-import {DataFavouritesType} from '../../../data/preference';
 import Color from '../../../theme/Color';
 import {FooterContent} from './FooterContent';
-import {DataOnboardType} from '../../../data/onboard';
-import {heightPercentage, width} from '../../../utils';
-import {FollowArtistCard, SelectBox} from '../../../components';
+import {
+  FollowMusicianPropsType,
+  MusicianList,
+} from '../../../interface/musician.interface';
 import Typography from '../../../theme/Typography';
+import {DataOnboardType} from '../../../data/onboard';
+import {ListCard, SelectBox} from '../../../components';
+import {DataFavouritesType} from '../../../data/preference';
 import {UpdateProfilePropsType} from '../../../api/profile.api';
-import {MusicianList} from '../../../interface/musician.interface';
+import {heightPercentage, width, widthPercentage} from '../../../utils';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -29,6 +32,8 @@ interface ImageSliderProps {
   data: DataOnboardType[] | DataFavouritesType[];
   onPress?: () => void;
   onUpdatePreference?: (props?: UpdateProfilePropsType) => void;
+  setFollowMusician?: (props?: FollowMusicianPropsType) => void;
+  setUnfollowMusician?: (props?: FollowMusicianPropsType) => void;
   dataList?: MusicianList[];
 }
 
@@ -37,6 +42,8 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   data,
   onPress,
   onUpdatePreference,
+  setFollowMusician,
+  setUnfollowMusician,
   dataList,
 }) => {
   const scrollViewRef = useRef<ScrollView>(null);
@@ -45,7 +52,13 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   const [selectedExpectations, setSelectedExpectations] = useState<number[]>(
     [],
   );
-  const [activeIndexSlide, setActiveIndexSlide] = useState(0);
+  const [activeIndexSlide, setActiveIndexSlide] = useState<number>(0);
+
+  const followOnPress = (index: string, isFollowed: boolean) => {
+    isFollowed
+      ? setUnfollowMusician({musicianID: index})
+      : setFollowMusician({musicianID: index});
+  };
 
   const handleNextSlide = () => {
     if (activeIndexSlide === 0 && onUpdatePreference) {
@@ -134,15 +147,20 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                   </Text>
                   {dataList &&
                     dataList?.map((item, index) => (
-                      <FollowArtistCard
+                      <View
                         key={index}
-                        imgUri={item.imageProfileUrl}
-                        artistName={item.fullname}
-                        listener={item.followers}
-                        // TODO: handle follow musician
-                        onPress={() => null}
-                        containerStyle={{paddingBottom: mvs(15)}}
-                      />
+                        style={{width, paddingHorizontal: widthPercentage(15)}}>
+                        <ListCard.FollowMusician
+                          musicianName={item.fullname}
+                          imgUri={item.imageProfileUrl}
+                          containerStyles={{marginTop: mvs(20)}}
+                          followerCount={item.followers}
+                          followOnPress={() =>
+                            followOnPress(item.uuid, item.isFollowed)
+                          }
+                          stateButton={item.isFollowed}
+                        />
+                      </View>
                     ))}
                 </View>
               );
