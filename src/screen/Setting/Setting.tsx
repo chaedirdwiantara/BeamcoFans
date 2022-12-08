@@ -15,8 +15,8 @@ export const SettingScreen: React.FC = () => {
     navigation.goBack();
   };
 
-  const onPressGoTo = (screenName: string) => {
-    navigation.navigate(screenName);
+  const onPressGoTo = (screenName: any, params: any) => {
+    navigation.navigate(screenName, {...params});
   };
 
   return (
