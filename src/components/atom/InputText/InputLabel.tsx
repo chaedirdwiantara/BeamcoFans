@@ -12,10 +12,16 @@ import {
 import {ms, mvs} from 'react-native-size-matters';
 
 import Gap from '../Gap/Gap';
+import {
+  CameraIcon,
+  ErrorIcon,
+  EyeCloseIcon,
+  EyeOpenIcon,
+  GalleryAddIcon,
+} from '../../../assets/icon';
 import Color from '../../../theme/Color';
 import {font, typography} from '../../../theme';
-import {heightPercentage, normalize} from '../../../utils';
-import {ErrorIcon, EyeCloseIcon, EyeOpenIcon} from '../../../assets/icon';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface InputLabelProps extends TextInputProps {
   label?: string;
@@ -26,6 +32,9 @@ interface InputLabelProps extends TextInputProps {
   inputStyles?: ViewStyle;
   containerStyles?: ViewStyle;
   containerInputStyles?: ViewStyle;
+  showImage?: boolean;
+  onPressCamera?: () => void;
+  onPressLibrary?: () => void;
 }
 
 const InputLabel: React.FC<InputLabelProps> = (props: InputLabelProps) => {
@@ -38,6 +47,9 @@ const InputLabel: React.FC<InputLabelProps> = (props: InputLabelProps) => {
     inputStyles,
     containerStyles,
     containerInputStyles,
+    showImage,
+    onPressCamera,
+    onPressLibrary,
   } = props;
 
   const [state, setState] = useState<boolean>(false);
@@ -67,9 +79,35 @@ const InputLabel: React.FC<InputLabelProps> = (props: InputLabelProps) => {
     );
   };
 
+  const iconCameraComp = () => {
+    return (
+      <View style={styles.iconCamera}>
+        <TouchableOpacity onPress={onPressCamera}>
+          <CameraIcon
+            width={widthPercentage(20)}
+            height={widthPercentage(20)}
+            stroke={Color.Dark[100]}
+          />
+        </TouchableOpacity>
+        <Gap width={widthPercentage(10)} />
+        <TouchableOpacity onPress={onPressLibrary}>
+          <GalleryAddIcon
+            width={widthPercentage(20)}
+            height={widthPercentage(20)}
+            stroke={Color.Dark[100]}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <View style={containerStyles}>
-      <Text style={[typography.Overline, {color}, styles.label]}>{label}</Text>
+      {label && (
+        <Text style={[typography.Overline, {color}, styles.label]}>
+          {label}
+        </Text>
+      )}
       <View style={[styles.root, {borderBottomColor}, containerInputStyles]}>
         <TextInput
           style={[typography.Body2, styles.input, inputStyles]}
@@ -80,6 +118,7 @@ const InputLabel: React.FC<InputLabelProps> = (props: InputLabelProps) => {
           {...props}
         />
         <View>{password ? passwordComp() : null}</View>
+        {showImage ? iconCameraComp() : null}
       </View>
       {isError ? (
         <View style={styles.containerErrorMsg}>
@@ -105,6 +144,7 @@ const styles = StyleSheet.create({
     paddingLeft: Platform.OS === 'ios' ? 0 : ms(4),
   },
   input: {
+    width: '100%',
     color: Color.Neutral[10],
     paddingVertical: heightPercentage(12),
   },
@@ -128,6 +168,14 @@ const styles = StyleSheet.create({
     fontSize: normalize(10),
     lineHeight: mvs(12),
     maxWidth: '90%',
+  },
+  iconCamera: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    paddingLeft: widthPercentage(10),
+    paddingBottom: heightPercentage(10),
   },
 });
 
