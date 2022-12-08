@@ -55,3 +55,13 @@ export type UpdateProfileResponseType = {
   message: string;
   status: number;
 };
+
+export type ApplyReferralResponseType = {
+  code: number;
+  data: null | {
+    username: string;
+    appliedAt: string;
+  };
+  message: string;
+  status: number;
+};
