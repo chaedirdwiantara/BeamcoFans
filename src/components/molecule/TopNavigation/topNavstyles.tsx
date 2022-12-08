@@ -1,8 +1,8 @@
-import {Platform, StyleSheet,StatusBar} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {color} from '../../../theme';
 import {normalize} from '../../../utils';
-import { heightPercentage } from '../../../utils/dimensionFormat';
+import {color, font} from '../../../theme';
+import {heightPercentage} from '../../../utils/dimensionFormat';
 
 const topNavstyles = StyleSheet.create({
   headerContainer: {
@@ -10,7 +10,7 @@ const topNavstyles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: mvs(1),
     borderBottomColor: color.Dark[300],
-    paddingTop:  heightPercentage(20),
+    paddingTop: heightPercentage(20),
     paddingBottom: heightPercentage(20),
   },
   leftContainer: {
@@ -22,18 +22,18 @@ const topNavstyles = StyleSheet.create({
   centerContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center', 
+    justifyContent: 'center',
     alignItems: 'center',
   },
   rightContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   centerTitle: {
-    fontWeight: '600',
     fontSize: normalize(16),
+    fontFamily: font.InterSemiBold,
     lineHeight: mvs(20),
     letterSpacing: 0.15,
     textAlign: 'center',

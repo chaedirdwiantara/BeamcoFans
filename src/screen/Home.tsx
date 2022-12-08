@@ -16,18 +16,21 @@ import {
   Carousel,
   IconNotif,
 } from '../components';
-import PostList from './ListCard/PostList';
-import TopMusician from './ListCard/TopMusician';
+import {RootStackParams} from '../App';
 import TopSong from './ListCard/TopSong';
+import PostList from './ListCard/PostList';
+import {PostlistData} from '../data/postlist';
+import TopMusician from './ListCard/TopMusician';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../App';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
-import {PostlistData} from '../data/postlist';
+import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 
 export const HomeScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const goToSongDetails = () => {
     navigation.navigate('SongDetails');
@@ -49,9 +52,9 @@ export const HomeScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.root}>
       <TopNavigation.Type5
-        name="Type 5"
+        name="Jaehyun"
         profileUri={
-          'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp'
+          'https://static.republika.co.id/uploads/member/images/news/5bgj1x0cea.jpg'
         }
         leftIconAction={() => console.log('Left Icon Pressed')}
         rightIcon={<IconNotif label={14} />}
@@ -71,13 +74,7 @@ export const HomeScreen: React.FC = () => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <Carousel data={dataSlider} />
-        <View
-          style={{
-            marginTop: heightPercentage(20),
-            paddingHorizontal: widthResponsive(24),
-            width: '100%',
-            height: '100%',
-          }}>
+        <View style={styles.containerContent}>
           <TabFilter.Type1
             filterData={filter}
             onPress={filterData}
@@ -86,7 +83,7 @@ export const HomeScreen: React.FC = () => {
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
             <TopMusician />
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
-            <TopSong onPress={goToSongDetails} />
+            <TopSong onPress={() => setModalVisible(true)} />
           ) : (
             <PostList
               dataRightDropdown={dropDownDataCategory}
@@ -96,6 +93,17 @@ export const HomeScreen: React.FC = () => {
           )}
         </View>
       </ScrollView>
+
+      {modalVisible && (
+        <ModalPlayMusic
+          imgUri={
+            'https://cdns-images.dzcdn.net/images/cover/7f7aae26b50cb046c872238b6a2a10c2/264x264.jpg'
+          }
+          musicTitle={'Thunder'}
+          singerName={'Imagine Dragons, The Wekeend'}
+          onPressModal={goToSongDetails}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -104,5 +112,12 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: Color.Dark[800],
+  },
+  containerContent: {
+    marginTop: heightPercentage(20),
+    paddingHorizontal: widthResponsive(24),
+    width: '100%',
+    height: '100%',
+    marginBottom: heightPercentage(40),
   },
 });

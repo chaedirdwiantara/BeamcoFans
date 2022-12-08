@@ -8,13 +8,17 @@ import {
   heightPercentage,
   widthPercentage,
 } from '../../../utils';
+import {
+  AddCircleIcon,
+  ArrowLeftIcon,
+  TickCircleIcon,
+} from '../../../assets/icon';
 import {ListCard} from '../ListCard';
 import Color from '../../../theme/Color';
+import {TopNavigation} from '../TopNavigation';
 import {color, typography} from '../../../theme';
 import {Gap, SearchBar, SsuToast} from '../../atom';
-import {TopNavigation} from '../TopNavigation';
 import {TopSongListData} from '../../../data/topSong';
-import {ArrowLeftIcon, TickCircleIcon} from '../../../assets/icon';
 
 interface AddSongProps {
   onPressGoBack: () => void;
@@ -30,7 +34,7 @@ export const AddSongContent: React.FC<AddSongProps> = ({onPressGoBack}) => {
     }, 3000);
   }, [modalVisible]);
 
-  const onPressAdd = () => {
+  const onPressIcon = () => {
     setModalVisible(true);
   };
 
@@ -62,8 +66,9 @@ export const AddSongContent: React.FC<AddSongProps> = ({onPressGoBack}) => {
           keyExtractor={item => item.id}
           renderItem={({item}: any) => (
             <ListCard.MusicList
-              type={'add'}
-              onPressAdd={onPressAdd}
+              rightIcon={true}
+              rightIconComponent={<AddCircleIcon />}
+              onPressIcon={onPressIcon}
               imgUri={item.imgUri}
               musicNum={item.musicNum}
               musicTitle={elipsisText(item.musicTitle, 22)}

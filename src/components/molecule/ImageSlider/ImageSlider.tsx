@@ -10,10 +10,7 @@ import {
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
 
-import {
-  DataFavouritesType,
-  dataRecommendedArtist,
-} from '../../../data/preference';
+import {DataFavouritesType} from '../../../data/preference';
 import Color from '../../../theme/Color';
 import {FooterContent} from './FooterContent';
 import {DataOnboardType} from '../../../data/onboard';
@@ -21,6 +18,7 @@ import {heightPercentage, width} from '../../../utils';
 import {FollowArtistCard, SelectBox} from '../../../components';
 import Typography from '../../../theme/Typography';
 import {UpdateProfilePropsType} from '../../../api/profile.api';
+import {MusicianList} from '../../../interface/musician.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -30,7 +28,8 @@ interface ImageSliderProps {
   type?: string;
   data: DataOnboardType[] | DataFavouritesType[];
   onPress?: () => void;
-  onUpdatePreference: (props?: UpdateProfilePropsType) => void;
+  onUpdatePreference?: (props?: UpdateProfilePropsType) => void;
+  dataList?: MusicianList[];
 }
 
 export const ImageSlider: React.FC<ImageSliderProps> = ({
@@ -38,6 +37,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   data,
   onPress,
   onUpdatePreference,
+  dataList,
 }) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
@@ -48,15 +48,15 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   const [activeIndexSlide, setActiveIndexSlide] = useState(0);
 
   const handleNextSlide = () => {
-    if (activeIndexSlide === 0) {
+    if (activeIndexSlide === 0 && onUpdatePreference) {
       onUpdatePreference({
         favoriteGeneres: selectedGenres,
       });
-    } else if (activeIndexSlide === 1) {
+    } else if (activeIndexSlide === 1 && onUpdatePreference) {
       onUpdatePreference({
         moods: selectedMoods,
       });
-    } else if (activeIndexSlide === 2) {
+    } else if (activeIndexSlide === 2 && onUpdatePreference) {
       onUpdatePreference({
         expectations: selectedExpectations,
       });
@@ -132,16 +132,18 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                   <Text style={[Typography.Heading4, styles.title]}>
                     {item.title}
                   </Text>
-                  {dataRecommendedArtist.map((val, i) => (
-                    <FollowArtistCard
-                      key={i}
-                      imgUri={val.uri}
-                      artistName={val.name}
-                      listener={val.listener}
-                      onPress={() => null}
-                      containerStyle={{paddingBottom: mvs(15)}}
-                    />
-                  ))}
+                  {dataList &&
+                    dataList?.map((item, index) => (
+                      <FollowArtistCard
+                        key={index}
+                        imgUri={item.imageProfileUrl}
+                        artistName={item.fullname}
+                        listener={item.followers}
+                        // TODO: handle follow musician
+                        onPress={() => null}
+                        containerStyle={{paddingBottom: mvs(15)}}
+                      />
+                    ))}
                 </View>
               );
             } else {

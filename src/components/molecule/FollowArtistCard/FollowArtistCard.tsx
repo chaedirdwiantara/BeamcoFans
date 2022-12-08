@@ -12,11 +12,12 @@ import {
 } from '../../../utils';
 import {Avatar, ButtonGradient} from '../../atom';
 import Typography from '../../../theme/Typography';
+import AvatarIcon from '../../../assets/icon/Avatar.icon';
 
 interface Props {
   artistName?: string;
-  imgUri: string;
-  listener?: string;
+  imgUri: string | null;
+  listener?: number;
   onPress?: () => void;
   containerStyle?: ViewStyle;
 }
@@ -26,10 +27,10 @@ export const FollowArtistCard: React.FC<Props> = (props: Props) => {
   return (
     <View style={[styles.root, containerStyle]}>
       <View style={styles.containerContent}>
-        <Avatar imgUri={imgUri} />
+        {imgUri ? <Avatar imgUri={imgUri} /> : <AvatarIcon />}
         <View>
           <Text style={[Typography.Button2, styles.text]}>{artistName}</Text>
-          <Text style={styles.subtitle}>{listener + ' listener'}</Text>
+          <Text style={styles.subtitle}>{listener + ' followers'}</Text>
         </View>
       </View>
       <ButtonGradient

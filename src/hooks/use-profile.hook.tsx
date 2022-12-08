@@ -6,8 +6,7 @@ export const useProfileHook = () => {
 
   const updateProfilePreference = async (props?: UpdateProfilePropsType) => {
     try {
-      const response = await updateProfile(props);
-      console.log(response);
+      await updateProfile(props);
     } catch (error) {
       console.log(error);
     } finally {

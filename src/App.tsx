@@ -23,6 +23,7 @@ import {Notification} from './screen/Notification';
 import {PostDetail} from './screen/Detail/PostDetail';
 import {SearchScreen} from './screen/Search/Search';
 import MusicianProfile from './screen/MusicianProfile';
+import {WebviewPage} from './screen/Webview';
 
 // Setting
 import {SettingScreen} from './screen/Setting/Setting';
@@ -40,6 +41,7 @@ import {DonationAndSubscription} from './screen/Setting/DonationAndSubscription'
 import {ProfileScreen} from './screen/Profile/Profile';
 import {EditProfileScreen} from './screen/Profile/EditProfile';
 import {FollowingScreen} from './screen/Profile/FollowingScreen';
+import {ExclusiveContentScreen} from './screen/ExclusiveContent';
 
 // Playlist
 import {PlaylistScreen} from './screen/Playlist/Playlist';
@@ -78,6 +80,7 @@ export type RootStackParams = {
   EditProfile: undefined;
   EditPlaylist: undefined;
   Email: undefined;
+  ExclusiveContent: undefined;
   Following: undefined;
   ForgotPassword: undefined;
   Language: undefined;
@@ -104,6 +107,10 @@ export type RootStackParams = {
   PostDetail: undefined;
   SearchScreen: undefined;
   MusicianProfile: undefined;
+  Webview: {
+    title: string;
+    url: string;
+  };
 };
 
 export type MainTabParams = {
@@ -232,9 +239,14 @@ const RootStackScreen = () => (
     <RootStack.Screen name="Signup" component={SignupScreen} />
     <RootStack.Screen name="MainTab" component={TabScreen} />
     <RootStack.Screen name="Notification" component={Notification} />
+    <RootStack.Screen
+      name="ExclusiveContent"
+      component={ExclusiveContentScreen}
+    />
     <RootStack.Screen name="PostDetail" component={PostDetail} />
     <RootStack.Screen name="SearchScreen" component={SearchScreen} />
     <RootStack.Screen name="MusicianProfile" component={MusicianProfile} />
+    <RootStack.Screen name="Webview" component={WebviewPage} />
   </RootStack.Navigator>
 );
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,32 +11,36 @@ import {ms, mvs} from 'react-native-size-matters';
 import {Dropdown} from '../DropDown';
 import {color, font} from '../../../theme';
 import {Gap, SquareImage} from '../../atom';
-import {AddCircleIcon} from '../../../assets/icon';
+import {SoundIcon} from '../../../assets/icon';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface ListProps {
   imgUri: string;
   onPressMore?: (data: any) => void;
-  onPressAdd?: (data: any) => void;
-  onPressCard?: () => void;
+  onPressCard: () => void;
   musicNum: number | string;
   musicTitle: string;
   singerName: string;
   containerStyles?: ViewStyle;
   dataFilter?: [];
+  rightIcon?: boolean;
+  rightIconComponent?: React.ReactNode;
+  onPressIcon?: (data: any) => void;
   type?: string;
 }
 
 const MusicListCard: React.FC<ListProps> = ({
   imgUri,
   onPressMore,
-  onPressAdd,
+  onPressIcon,
   onPressCard,
   musicNum,
   musicTitle,
   singerName,
   containerStyles,
   dataFilter,
+  rightIcon,
+  rightIconComponent,
   type,
 }) => {
   // ? Dropdown Menu Example
@@ -48,19 +52,34 @@ const MusicListCard: React.FC<ListProps> = ({
     {label: 'Show Credits', value: '25'},
   ];
 
+  const [played, setPlayed] = useState(false);
+  const titleColor = played ? color.Success[400] : color.Neutral[10];
+
+  const onPressPlay = () => {
+    if (type === 'modal') {
+      onPressCard();
+    } else {
+      onPressCard();
+      setPlayed(!played);
+    }
+  };
+
   return (
     <TouchableOpacity
       style={[styles.container, containerStyles]}
-      onPress={onPressCard}>
-      <Text style={styles.rankStyle}>
-        {musicNum.toLocaleString('en-US', {
-          minimumIntegerDigits: 2,
-          useGrouping: false,
-        })}
-      </Text>
+      onPress={onPressPlay}>
+      {played && <SoundIcon style={{marginRight: widthPercentage(5)}} />}
+      {musicNum && !played && (
+        <Text style={styles.rankStyle}>
+          {musicNum.toLocaleString('en-US', {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })}
+        </Text>
+      )}
       <SquareImage imgUri={imgUri} size={44} />
       <View style={styles.textContainer}>
-        <Text style={styles.songTitle} numberOfLines={1}>
+        <Text style={[styles.songTitle, {color: titleColor}]} numberOfLines={1}>
           {musicTitle}
         </Text>
         <Gap height={2} />
@@ -68,10 +87,9 @@ const MusicListCard: React.FC<ListProps> = ({
           {singerName}
         </Text>
       </View>
-
-      {type === 'add' ? (
-        <TouchableOpacity onPress={onPressAdd}>
-          <AddCircleIcon />
+      {rightIcon ? (
+        <TouchableOpacity onPress={onPressIcon}>
+          {rightIconComponent}
         </TouchableOpacity>
       ) : (
         <Dropdown.More
@@ -102,7 +120,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: normalize(10),
     lineHeight: mvs(12),
-    marginRight: ms(10),
+    width: widthPercentage(25),
+    paddingLeft: 2,
     color: color.Dark[100],
   },
   textContainer: {

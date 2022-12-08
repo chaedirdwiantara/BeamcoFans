@@ -48,7 +48,7 @@ const registerValidation = yup.object({
   fullname: yup
     .string()
     .required('This field is required')
-    .matches(/^.{3,21}$/, 'Fullname allowed 3 to 21 character'),
+    .matches(/^.{3,50}$/, 'Fullname allowed 3 to 50 character'),
   email: yup.string().when('registrationType', {
     is: (val: RegistrationType) => val === 'email',
     then: yup
@@ -59,7 +59,7 @@ const registerValidation = yup.object({
   username: yup
     .string()
     .required('This field is required')
-    .matches(/^[a-z]{5,10}/, 'Only allowed 5 to 10 char lowercase'),
+    .matches(/^[a-z0-9]{3,30}/, 'Only allowed 5 to 30 char lowercase'),
   image: yup.string().when('registrationType', {
     is: (val: RegistrationType) => val !== 'email',
     then: yup.string().required('Image not found'),
@@ -179,6 +179,13 @@ export const SignupScreen: React.FC = () => {
 
   const resultData = (dataResult: any) => {
     console.log(dataResult, 'dataResult Select Country');
+  };
+
+  const handleWebview = (title: string, url: string) => {
+    navigation.navigate('Webview', {
+      title: title,
+      url: url,
+    });
   };
 
   return (
@@ -359,6 +366,18 @@ export const SignupScreen: React.FC = () => {
               handleOnPress={() => onChange(!value)}
               active={value}
               errorMsg={errors?.termsCondition?.message}
+              onTncPress={() =>
+                handleWebview(
+                  'Terms Conditions',
+                  'https://sunnysideup.io/marketplace/tos',
+                )
+              }
+              onPrivacyPress={() => {
+                handleWebview(
+                  'Privacy Policy',
+                  'https://sunnysideup.io/marketplace/privacy-policy',
+                );
+              }}
             />
           )}
         />
