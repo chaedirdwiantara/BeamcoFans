@@ -37,6 +37,7 @@ import {ReferralCodeSetting} from './screen/Setting/ReferralCode';
 import {PhoneNumberScreen} from './screen/Setting/PhoneNumber';
 import {ShippingInformationScreen} from './screen/Setting/ShippingInformation';
 import {DonationAndSubscription} from './screen/Setting/DonationAndSubscription';
+import {SendReportScreen} from './screen/Setting/SendReport';
 
 // Profile
 import {ProfileScreen} from './screen/Profile/Profile';
@@ -98,6 +99,7 @@ export type RootStackParams = {
   Preference: undefined;
   Referral: undefined;
   ReferralCode: undefined;
+  SendReport: undefined;
   Setting: undefined;
   Signup: undefined;
   SignInGuest: undefined;
@@ -233,6 +235,7 @@ const RootStackScreen = () => (
       name="DonationAndSubscription"
       component={DonationAndSubscription}
     />
+    <RootStack.Screen name="SendReport" component={SendReportScreen} />
     <RootStack.Screen name="Setting" component={SettingScreen} />
     <RootStack.Screen name="SongDetails" component={SongDetailsScreen} />
     <RootStack.Screen name="ShowCredit" component={ShowCreditScreen} />
