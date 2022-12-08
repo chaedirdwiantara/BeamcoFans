@@ -129,12 +129,12 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
           itemVisiblePercentThreshold: 100,
         }}
       />
-      <Indicator
+      {/* <Indicator
         activeIndex={activeIndexSlide}
         totalIndex={data.length}
         activeColor={Color.Dark[100]}
         inActiveColor={Color.Dark[300]}
-      />
+      /> */}
     </View>
   );
 };
