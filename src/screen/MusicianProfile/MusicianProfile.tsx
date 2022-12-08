@@ -49,6 +49,7 @@ const NewCreatedPlaylist: React.FC<NewPlaylistProps> = ({
         musicTitle={elipsisText(playlist?.playlistName, 22)}
         singerName={'by Weaboo'}
         containerStyles={{marginTop: heightPercentage(20)}}
+        onPressCard={() => console.log('pressed card')}
       />
     </TouchableOpacity>
   );
@@ -76,7 +77,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 
   return (
     <View style={styles.container}>
-      <SsuStatusBar type={scrolEffect ? 'black' : 'white'} />
+      <SsuStatusBar type={'black'} />
       <TopNavigation.Type1
         title=""
         leftIconAction={navigation.goBack}
@@ -88,7 +89,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
       <ScrollView
         showsVerticalScrollIndicator={false}
         onScrollBeginDrag={() => setScrollEffect(true)}
-        onScrollEndDrag={() => setScrollEffect(false)}>
+        onMomentumScrollBegin={() => setScrollEffect(false)}>
         <ProfileHeader
           avatarUri={profile.avatarUri}
           backgroundUri={profile.backgroundUri}
