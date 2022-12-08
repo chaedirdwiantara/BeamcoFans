@@ -33,7 +33,6 @@ export const HomeScreen: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const goToSongDetails = () => {
-    // navigation.navigate('SongDetails');
     navigation.navigate('MusicPlayer');
   };
 

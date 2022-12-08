@@ -2,6 +2,7 @@ import AddIcon from './Add.icon';
 import AddCircleIcon from './AddCircle.icon';
 import ArrowLeftIcon from './ArrowLeft.icon';
 import ArrowRightIcon from './ArrowRight.icon';
+import AudioMusic from './AudioMusic.icon';
 import BellNotif from './BellNotif.icon';
 import CameraIcon from './Camera';
 import CheckBoxIcon from './CheckBox.icon';
@@ -10,8 +11,9 @@ import CheckCircle2Icon from './CheckCircle2.icon';
 import ChevronDownIcon from './ChevronDown.icon';
 import CloseIcon from './Close.icon';
 import CloseCircleIcon from './CloseCircle.icon';
-import CoinIcon from './Coin.icon';
 import CoinInput from './CoinInput';
+import CoinIcon from './Coin.icon';
+import CoinCIcon from './CoinC.icon';
 import CopyIcon from './Copy.icon';
 import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
@@ -22,6 +24,7 @@ import EditIcon from './Edit.icon';
 import EmailIcon from './Email.icon';
 import ErrorIcon from './Error.icon';
 import ExportIcon from './Export.icon';
+import ExportMusicIcon from './ExportMusic.icon';
 import EyeCloseIcon from './EyeClose.icon';
 import EyeOpenIcon from './EyeOpen.icon';
 import FeedIcon from './Feed.icon';
@@ -40,14 +43,20 @@ import MedalIcon from './Medal.icon';
 import MusicPlaylistIcon from './MusicPlaylist.icon';
 import MusicSquareIcon from './MusicSquare.icon';
 import MusicSquareAddIcon from './MusicSquareAdd.icon';
+import NextIcon from './Next.icon';
 import NotificationIcon from './Notification.icon';
+import RepeatIcon from './RepeatOne.icon';
 import PauseIcon from './Pause.icon';
+import PauseIcon2 from './Pause2.icon';
 import PlayIcon from './Play.icon';
+import PlayIcon2 from './Play2.icon';
+import PreviousIcon from './Previous.icon';
 import ProcessingIcon from './Processing.icon';
 import SaveIcon from './Save.icon';
 import SearchIcon from './Search.icon';
 import SettingIcon from './Setting.icon';
 import ShareIcon from './Share.icon';
+import ShuffleIcon from './Shuffle.icon';
 import SoundIcon from './Sound.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
 import TickCircleIcon from './TickCircle.icon';
@@ -59,6 +68,7 @@ export {
   AddCircleIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
+  AudioMusic,
   BellNotif,
   CameraIcon,
   CheckBoxIcon,
@@ -67,6 +77,7 @@ export {
   ChevronDownIcon,
   CloseIcon,
   CloseCircleIcon,
+  CoinCIcon,
   CoinIcon,
   CoinInput,
   CopyIcon,
@@ -79,6 +90,7 @@ export {
   EmailIcon,
   ErrorIcon,
   ExportIcon,
+  ExportMusicIcon,
   EyeCloseIcon,
   EyeOpenIcon,
   FeedIcon,
@@ -97,14 +109,20 @@ export {
   MusicPlaylistIcon,
   MusicSquareIcon,
   MusicSquareAddIcon,
+  NextIcon,
   NotificationIcon,
   PauseIcon,
+  PauseIcon2,
   PlayIcon,
+  PlayIcon2,
+  PreviousIcon,
   ProcessingIcon,
+  RepeatIcon,
   SaveIcon,
   SearchIcon,
   SettingIcon,
   ShareIcon,
+  ShuffleIcon,
   SoundIcon,
   ThreeDotsIcon,
   TickCircleIcon,

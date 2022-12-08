@@ -59,7 +59,7 @@ const Type4: React.FC<Props> = (props: Props) => {
               topNavstyles.centerTitle,
               {color: props.itemStrokeColor, fontFamily: font.InterSemiBold},
             ]}>
-            {elipsisText(props.title, props.maxLengthTitle ?? 20)}
+            {props.title}
           </Text>
         </View>
         <View style={topNavstyles.rightContainer}>{iconRight()}</View>

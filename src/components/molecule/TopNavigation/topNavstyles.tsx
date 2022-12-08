@@ -20,7 +20,7 @@ const topNavstyles = StyleSheet.create({
     alignItems: 'center',
   },
   centerContainer: {
-    flex: 1,
+    flex: 7,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
