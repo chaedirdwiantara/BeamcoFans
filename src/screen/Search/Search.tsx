@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, SafeAreaView, FlatList, Text} from 'react-native';
+import {View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import {
   Gap,
   ListCard,
   SearchBar,
-  SsuToast,
   TabFilter,
   TopNavigation,
 } from '../../components';
@@ -16,15 +15,13 @@ import {color, font} from '../../theme';
 import {heightPercentage, normalize, widthResponsive} from '../../utils';
 import {SearchListData, SearchListType} from '../../data/search';
 import {mvs} from 'react-native-size-matters';
-import {CheckCircle2Icon} from '../../assets/icon';
-import MusicianSection from './MusicianSection';
+import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
 
 export const SearchScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const [state, setState] = useState<string>('');
-  const [data, setData] = useState<boolean>(false);
   const [dataShow, setDataShow] = useState<SearchListType[]>([]);
   const [forTrigger, setForTrigger] = useState<SearchListType[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -150,24 +147,5 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: widthResponsive(24),
-  },
-  modalContainer: {
-    flexDirection: 'row',
-    backgroundColor: color.Success[400],
-    paddingVertical: heightPercentage(8),
-    paddingHorizontal: widthResponsive(12),
-    borderRadius: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: mvs(22),
-    maxWidth: '100%',
-    flexWrap: 'wrap',
-  },
-  textStyle: {
-    color: color.Neutral[10],
-    fontFamily: font.InterRegular,
-    fontWeight: '500',
-    fontSize: normalize(13),
   },
 });

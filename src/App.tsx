@@ -22,7 +22,9 @@ import {SignupScreen} from './screen/Signup';
 import {Notification} from './screen/Notification';
 import {PostDetail} from './screen/Detail/PostDetail';
 import {SearchScreen} from './screen/Search/Search';
+import MusicianProfile from './screen/MusicianProfile';
 import {WebviewPage} from './screen/Webview';
+import {MusicPlayer} from './screen/Music';
 
 // Setting
 import {SettingScreen} from './screen/Setting/Setting';
@@ -107,10 +109,12 @@ export type RootStackParams = {
   Notification: undefined;
   PostDetail: undefined;
   SearchScreen: undefined;
+  MusicianProfile: undefined;
   Webview: {
     title: string;
     url: string;
   };
+  MusicPlayer: undefined;
 };
 
 export type MainTabParams = {
@@ -246,7 +250,9 @@ const RootStackScreen = () => (
     />
     <RootStack.Screen name="PostDetail" component={PostDetail} />
     <RootStack.Screen name="SearchScreen" component={SearchScreen} />
+    <RootStack.Screen name="MusicianProfile" component={MusicianProfile} />
     <RootStack.Screen name="Webview" component={WebviewPage} />
+    <RootStack.Screen name="MusicPlayer" component={MusicPlayer} />
   </RootStack.Navigator>
 );
 

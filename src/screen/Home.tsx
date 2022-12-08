@@ -53,7 +53,7 @@ export const HomeScreen: React.FC = () => {
   };
 
   const goToSongDetails = () => {
-    navigation.navigate('SongDetails');
+    navigation.navigate('MusicPlayer');
   };
 
   const [selectedIndex, setSelectedIndex] = useState(-0);
