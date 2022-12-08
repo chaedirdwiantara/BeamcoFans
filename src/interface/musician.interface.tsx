@@ -17,3 +17,14 @@ export type ListMusicianResponseType = {
   meta: PaginationType;
   status: number;
 };
+
+export type FollowMusicianResponseType = {
+  code: number;
+  data: string;
+  message: string;
+  status: number;
+};
+
+export type FollowMusicianPropsType = {
+  musicianID: string;
+};
