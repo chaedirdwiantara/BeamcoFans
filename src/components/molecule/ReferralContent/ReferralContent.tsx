@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -20,7 +20,11 @@ const {width} = Dimensions.get('window');
 
 interface ReferralContentProps {
   containerStyle?: ViewStyle;
-  onPress?: () => void;
+  onPress?: (refCode: string) => void;
+  onSkip?: () => void;
+  isError: boolean;
+  errorMsg: string;
+  isValidRef: boolean | null;
 }
 
 interface ActivatedProps {
@@ -35,9 +39,7 @@ const description2 =
 const friendReferral = "Your Friend's Referral Code";
 const refCannotBeChanged = 'Referral code can not be changed';
 
-const ReferralActivated: React.FC<ActivatedProps> = ({
-  refCode = 'taylor88',
-}) => {
+const ReferralActivated: React.FC<ActivatedProps> = ({refCode}) => {
   return (
     <View style={styles.containerActivated}>
       <View style={styles.containerReferralCode}>
@@ -59,11 +61,25 @@ const ReferralActivated: React.FC<ActivatedProps> = ({
 export const ReferralContent: React.FC<ReferralContentProps> = ({
   containerStyle,
   onPress,
+  onSkip,
+  isError,
+  errorMsg,
+  isValidRef,
 }) => {
   const [refCode, setRefCode] = useState<string>('');
   const [type, setType] = useState<string>('input');
-  const [error, setError] = useState<boolean>(false);
+  const [focusInput, setFocusInput] = useState<string | null>(null);
   const emptyString = refCode === '';
+
+  useEffect(() => {
+    if (isValidRef === true) {
+      setType('');
+    }
+  }, [isValidRef]);
+
+  const handleFocusInput = (input: string | null) => {
+    setFocusInput(input);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -84,17 +100,24 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
           <View style={styles.containerInput}>
             <SsuInput.InputText
               value={refCode}
-              isError={error}
+              isError={isError}
               placeholder={'Referral Code'}
-              errorMsg={'Referral code invalid'}
+              errorMsg={errorMsg}
               leftIcon={<GiftIcon />}
               fontColor={Color.Neutral[10]}
               borderColor={Color.Pink.linear}
               onChangeText={(newText: string) => setRefCode(newText)}
+              onFocus={() => {
+                handleFocusInput('refcode');
+              }}
+              onBlur={() => {
+                handleFocusInput(null);
+              }}
+              isFocus={focusInput === 'refcode'}
             />
           </View>
         ) : (
-          <ReferralActivated />
+          <ReferralActivated refCode={refCode} />
         )}
 
         {type === 'input' ? (
@@ -104,7 +127,7 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
               label="Maybe Later"
               containerStyles={styles.btnContainer}
               textStyles={{color: Color.Pink.linear}}
-              onPress={onPress}
+              onPress={onSkip}
             />
             <Button
               label="Submit"
@@ -116,13 +139,17 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
                   ? Color.Dark[50]
                   : Color.Pink.linear,
               }}
-              onPress={() => setType('')}
+              onPress={() => {
+                onPress && onPress(refCode);
+              }}
             />
           </View>
         ) : (
           <ButtonGradient
             label="Go To Home"
-            onPress={onPress}
+            onPress={() => {
+              onSkip && onSkip();
+            }}
             gradientStyles={{width: width * 0.9}}
           />
         )}
