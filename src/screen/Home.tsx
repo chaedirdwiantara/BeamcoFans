@@ -79,15 +79,15 @@ export const HomeScreen: React.FC = () => {
         points={100000}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
       />
-      <TouchableOpacity onPress={handleSearchButton}>
-        <SearchBar
-          containerStyle={{paddingHorizontal: widthResponsive(24)}}
-          disabled={true}
-          onTouchStart={handleSearchButton}
-        />
-      </TouchableOpacity>
 
       <ScrollView showsVerticalScrollIndicator={false}>
+        <TouchableOpacity onPress={handleSearchButton}>
+          <SearchBar
+            containerStyle={{paddingHorizontal: widthResponsive(24)}}
+            disabled={true}
+            onTouchStart={handleSearchButton}
+          />
+        </TouchableOpacity>
         <Carousel data={dataSlider} />
         <View style={styles.containerContent}>
           <TabFilter.Type1
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Dark[800],
   },
   containerContent: {
-    marginTop: heightPercentage(20),
+    marginTop: heightPercentage(10),
     paddingHorizontal: widthResponsive(24),
     width: '100%',
     height: '100%',
