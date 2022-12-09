@@ -1,15 +1,29 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {FC} from 'react';
 import {color, font} from '../../theme';
-import {heightResponsive, normalize, widthResponsive} from '../../utils';
 import {CoinCIcon} from '../../assets/icon';
+import {mvs} from 'react-native-size-matters';
 
-const TitleAndDonate = () => {
+interface TitleAndDonateProps {
+  title: string;
+  artist: string;
+  albumName?: string;
+}
+
+const TitleAndDonate: FC<TitleAndDonateProps> = (
+  props: TitleAndDonateProps,
+) => {
+  const {title, artist, albumName} = props;
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>Dull Knives</Text>
-        <Text style={styles.subTitle}>Imagine Dragon, The Weekend</Text>
+        <Text style={styles.title} numberOfLines={1}>
+          {title}
+        </Text>
+        <Text style={styles.subTitle} numberOfLines={1}>
+          {artist}
+          {albumName && `, ${albumName}`}
+        </Text>
       </View>
       <View style={styles.iconStyle}>
         <CoinCIcon />
@@ -24,19 +38,17 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: heightResponsive(36),
-    paddingHorizontal: widthResponsive(24),
   },
   title: {
     fontFamily: font.InterRegular,
     fontWeight: '600',
-    fontSize: normalize(20),
+    fontSize: mvs(20),
     color: color.Neutral[10],
   },
   subTitle: {
     fontFamily: font.InterRegular,
     fontWeight: '500',
-    fontSize: normalize(15),
+    fontSize: mvs(15),
     color: color.Dark[50],
   },
   iconStyle: {

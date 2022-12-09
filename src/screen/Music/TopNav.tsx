@@ -2,10 +2,15 @@ import React from 'react';
 import {TopNavigation} from '../../components';
 import {ArrowLeftIcon, AudioMusic} from '../../assets/icon';
 import {color} from '../../theme';
-import {widthResponsive} from '../../utils';
+import {heightResponsive, widthResponsive} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
+import {NativeModules, Platform} from 'react-native';
+
+const {StatusBarManager} = NativeModules;
+const barHeight = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
+const maxHeight = 812 - barHeight;
 
 const TopNav = () => {
   const navigation =
@@ -23,7 +28,11 @@ const TopNav = () => {
       rightIcon={<AudioMusic />}
       rightIconAction={() => navigation.navigate('SongDetails')}
       itemStrokeColor={'white'}
-      containerStyles={{borderBottomWidth: 0}}
+      containerStyles={{
+        borderBottomWidth: 0,
+        paddingTop: heightResponsive(40),
+        paddingBottom: 0,
+      }}
     />
   );
 };

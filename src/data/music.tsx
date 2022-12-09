@@ -5,7 +5,7 @@ export interface SongsProps {
   artwork: string;
   url: string;
 }
-const songs: SongsProps[] = [
+export const songs: SongsProps[] = [
   {
     id: 1,
     title: '19th Floor',
@@ -42,5 +42,3 @@ const songs: SongsProps[] = [
     url: 'https://firebasestorage.googleapis.com/v0/b/spotify-clone-7a2ef.appspot.com/o/Ringtone%2FAudio%2FCrimson%20Fly%20-%20Huma-Huma.mp3?alt=media&token=b2d30b27-286e-4d7d-82ad-1bdfa76a4058',
   },
 ];
-
-export default songs;
