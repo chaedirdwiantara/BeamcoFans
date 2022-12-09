@@ -129,12 +129,14 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
           itemVisiblePercentThreshold: 100,
         }}
       />
-      {/* <Indicator
-        activeIndex={activeIndexSlide}
-        totalIndex={data.length}
-        activeColor={Color.Dark[100]}
-        inActiveColor={Color.Dark[300]}
-      /> */}
+      <View style={styles.containerIndicator}>
+        <Indicator
+          activeIndex={activeIndexSlide}
+          totalIndex={data.length}
+          activeColor={Color.Dark[100]}
+          inActiveColor={Color.Dark[300]}
+        />
+      </View>
     </View>
   );
 };
@@ -172,5 +174,12 @@ const styles = StyleSheet.create({
     height: heightPercentage(159),
     resizeMode: 'cover',
     borderRadius: 8,
+  },
+  containerIndicator: {
+    width: '100%',
+    height: heightPercentage(30),
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: heightPercentage(10),
   },
 });
