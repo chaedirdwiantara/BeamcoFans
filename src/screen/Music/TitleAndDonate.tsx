@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import {color, font} from '../../theme';
 import {CoinCIcon} from '../../assets/icon';
@@ -8,12 +8,13 @@ interface TitleAndDonateProps {
   title: string;
   artist: string;
   albumName?: string;
+  coinOnPress: () => void;
 }
 
 const TitleAndDonate: FC<TitleAndDonateProps> = (
   props: TitleAndDonateProps,
 ) => {
-  const {title, artist, albumName} = props;
+  const {title, artist, albumName, coinOnPress} = props;
   return (
     <View style={styles.container}>
       <View>
@@ -26,7 +27,9 @@ const TitleAndDonate: FC<TitleAndDonateProps> = (
         </Text>
       </View>
       <View style={styles.iconStyle}>
-        <CoinCIcon />
+        <TouchableOpacity onPress={coinOnPress}>
+          <CoinCIcon />
+        </TouchableOpacity>
       </View>
     </View>
   );
