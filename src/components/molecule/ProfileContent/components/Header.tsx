@@ -34,8 +34,9 @@ export interface ProfileHeaderProps {
   username?: string;
   bio?: string;
   type?: string;
-  onPress?: (params: string) => void;
-  iconPress?: (params: string) => void;
+  scrollEffect?: boolean;
+  onPress?: () => void;
+  iconPress: (params: string) => void;
   containerStyles?: ViewStyle;
 }
 
@@ -52,6 +53,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
     onPress,
     iconPress,
     containerStyles,
+    scrollEffect,
   } = props;
 
   const iconRight = () => {
@@ -60,7 +62,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
         onPress={() => iconPress('backgroundUri')}
         style={styles.iconRight}>
         {type === '' ? (
-          <SettingIcon style={styles.settingIcon} />
+          !scrollEffect && <SettingIcon style={styles.settingIcon} />
         ) : (
           <GalleryEditIcon />
         )}

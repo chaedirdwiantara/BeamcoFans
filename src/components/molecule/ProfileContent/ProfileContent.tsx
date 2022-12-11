@@ -1,12 +1,28 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Text,
+  Platform,
+} from 'react-native';
 
+import {
+  elipsisText,
+  heightPercentage,
+  normalize,
+  width,
+  widthPercentage,
+} from '../../../utils';
+import {font} from '../../../theme';
 import {ListCard} from '../ListCard';
 import {TabFilter} from '../TabFilter';
 import Color from '../../../theme/Color';
 import {ProfileHeader} from './components/Header';
 import {EmptyState} from '../EmptyState/EmptyState';
-import {ProcessingIcon} from '../../../assets/icon';
 import {MenuText} from '../../atom/MenuText/MenuText';
 import {TopSongListData} from '../../../data/topSong';
 import TopSong from '../../../screen/ListCard/TopSong';
@@ -14,7 +30,11 @@ import {UserInfoCard} from '../UserInfoCard/UserInfoCard';
 import {MusicianListData} from '../../../data/topMusician';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import TopMusician from '../../../screen/ListCard/TopMusician';
-import {elipsisText, heightPercentage, widthPercentage} from '../../../utils';
+import {ProcessingIcon, SettingIcon} from '../../../assets/icon';
+
+type OnScrollEventHandler = (
+  event: NativeSyntheticEvent<NativeScrollEvent>,
+) => void;
 
 interface NewPlaylistProps {
   playlist: any;
@@ -24,7 +44,7 @@ interface NewPlaylistProps {
 interface ProfileContentProps {
   playlist: any;
   profile: any;
-  goToEditProfile?: () => void;
+  goToEditProfile: () => void;
   goToPlaylist: () => void;
   onPressGoTo: (
     screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
@@ -56,6 +76,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   onPressGoTo,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
     {filterName: 'SONG'},
     {filterName: 'TOP MUSICIAN'},
@@ -65,68 +86,88 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
     setSelectedIndex(index);
   };
 
+  const handleScroll: OnScrollEventHandler = event => {
+    let offsetY = event.nativeEvent.contentOffset.y;
+    const scrolled = offsetY > 10;
+    setScrollEffect(scrolled);
+  };
+
   return (
     <View style={{flex: 1}}>
-      <ProfileHeader
-        avatarUri={profile.avatarUri}
-        backgroundUri={profile.backgroundUri}
-        fullname={profile.fullname}
-        username={profile.username}
-        bio={profile.bio}
-        onPress={goToEditProfile}
-        iconPress={() => onPressGoTo('Setting')}
-      />
-      <UserInfoCard
-        type="self"
-        containerStyles={styles.infoCard}
-        onPress={() => onPressGoTo('Following')}
-      />
-      <View style={styles.containerContent}>
-        <TabFilter.Type1
-          filterData={filter}
-          onPress={filterData}
-          selectedIndex={selectedIndex}
+      {scrollEffect && (
+        <View style={styles.containerStickyHeader}>
+          <Text style={[styles.name, styles.topIos]}>{profile.fullname}</Text>
+          <TouchableOpacity onPress={() => onPressGoTo('Setting')}>
+            <SettingIcon style={styles.topIos} />
+          </TouchableOpacity>
+        </View>
+      )}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+        onScroll={handleScroll}>
+        <ProfileHeader
+          avatarUri={profile.avatarUri}
+          backgroundUri={profile.backgroundUri}
+          fullname={profile.fullname}
+          username={profile.username}
+          bio={profile.bio}
+          onPress={goToEditProfile}
+          iconPress={() => onPressGoTo('Setting')}
+          scrollEffect={scrollEffect}
         />
-        {filter[selectedIndex].filterName === 'SONG' ? (
-          TopSongListData.length > 0 ? (
-            <ScrollView>
+        <UserInfoCard
+          type="self"
+          containerStyles={styles.infoCard}
+          onPress={() => onPressGoTo('Following')}
+        />
+        <View style={styles.containerContent}>
+          <TabFilter.Type1
+            filterData={filter}
+            onPress={filterData}
+            selectedIndex={selectedIndex}
+          />
+          {filter[selectedIndex].filterName === 'SONG' ? (
+            TopSongListData.length > 0 ? (
+              <View>
+                <CreateNewCard
+                  num="01"
+                  text="Create New Playlist"
+                  onPress={() => onPressGoTo('CreateNewPlaylist')}
+                />
+                {playlist?.playlistName !== undefined && (
+                  <NewCreatedPlaylist
+                    playlist={playlist}
+                    goToPlaylist={goToPlaylist}
+                  />
+                )}
+                <TopSong />
+              </View>
+            ) : (
               <CreateNewCard
                 num="01"
-                text="Create New Playlist"
+                text="Default Playlist"
                 onPress={() => onPressGoTo('CreateNewPlaylist')}
               />
-              {playlist?.playlistName !== undefined && (
-                <NewCreatedPlaylist
-                  playlist={playlist}
-                  goToPlaylist={goToPlaylist}
-                />
-              )}
-              <TopSong />
-            </ScrollView>
-          ) : (
-            <CreateNewCard
-              num="01"
-              text="Default Playlist"
-              onPress={() => onPressGoTo('CreateNewPlaylist')}
+            )
+          ) : filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
+            MusicianListData.length > 0 ? (
+              <TopMusician type={'profile'} />
+            ) : (
+              <EmptyState text="This user don't have contribution to any musician" />
+            )
+          ) : MusicianListData.length > 0 ? (
+            <MenuText.LeftIconWithSubtitle
+              text="No Room for Speed"
+              subtitle="Be the first jam contributor on 100 artist"
+              onPress={() => null}
+              icon={<ProcessingIcon />}
             />
-          )
-        ) : filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
-          MusicianListData.length > 0 ? (
-            <TopMusician type={'profile'} />
           ) : (
-            <EmptyState text="This user don't have contribution to any musician" />
-          )
-        ) : MusicianListData.length > 0 ? (
-          <MenuText.LeftIconWithSubtitle
-            text="No Room for Speed"
-            subtitle="Be the first jam contributor on 100 artist"
-            onPress={() => null}
-            icon={<ProcessingIcon />}
-          />
-        ) : (
-          <EmptyState text="This user don't have any badge" />
-        )}
-      </View>
+            <EmptyState text="This user don't have any badge" />
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -150,5 +191,25 @@ const styles = StyleSheet.create({
   flashlistStyle: {
     width: '100%',
     height: '100%',
+  },
+  containerStickyHeader: {
+    position: 'absolute',
+    zIndex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: width,
+    justifyContent: 'space-between',
+    paddingHorizontal: widthPercentage(20),
+    backgroundColor: Color.Dark[800],
+    height: Platform.OS === 'ios' ? heightPercentage(85) : heightPercentage(64),
+  },
+  name: {
+    fontFamily: font.InterSemiBold,
+    fontSize: normalize(16),
+    lineHeight: heightPercentage(20),
+    color: Color.Neutral[10],
+  },
+  topIos: {
+    top: Platform.OS === 'ios' ? heightPercentage(15) : 0,
   },
 });
