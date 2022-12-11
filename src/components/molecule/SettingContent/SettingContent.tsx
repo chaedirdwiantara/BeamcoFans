@@ -19,19 +19,26 @@ import {heightPercentage, width, widthPercentage} from '../../../utils';
 interface SettingProps {
   onPressGoBack: () => void;
   onPressGoTo: (screenName: string, params?: any) => void;
+  handleWebview: (title: string, url: string) => void;
 }
 
 export const SettingContent: React.FC<SettingProps> = ({
   onPressGoBack,
   onPressGoTo,
+  handleWebview,
 }) => {
   const listMenu = menuSetting;
   const [isVisible, setIsVisible] = useState(false);
 
   const onPress = (val: string) => {
-    val === 'Send Report'
-      ? setIsVisible(true)
-      : onPressGoTo(val.replace(/\s/g, ''));
+    if (val === 'Send Report') {
+      setIsVisible(true);
+    } else if (val === 'Terms Conditions' || val === 'Privacy Policy') {
+      const path = val === 'Terms Conditions' ? 'tos' : 'privacy-policy';
+      handleWebview(val, `https://sunnysideup.io/marketplace/${path}`);
+    } else {
+      onPressGoTo(val.replace(/\s/g, ''));
+    }
   };
 
   const ListReport = ({title, subtitle}: {title: string; subtitle: string}) => {

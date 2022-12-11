@@ -17,7 +17,7 @@ interface ButtonGradientProps {
   angle?: number;
   colors?: string[];
   disabled?: boolean;
-  onPress?: () => void;
+  onPress: () => void;
   textStyles?: TextStyle;
   gradientStyles?: ViewStyle;
   containerStyles?: ViewStyle;

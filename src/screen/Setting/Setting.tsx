@@ -19,9 +19,20 @@ export const SettingScreen: React.FC = () => {
     navigation.navigate(screenName, {...params});
   };
 
+  const handleWebview = (title: string, url: string) => {
+    navigation.navigate('Webview', {
+      title: title,
+      url: url,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.root}>
-      <SettingContent onPressGoBack={onPressGoBack} onPressGoTo={onPressGoTo} />
+      <SettingContent
+        onPressGoBack={onPressGoBack}
+        onPressGoTo={onPressGoTo}
+        handleWebview={handleWebview}
+      />
     </SafeAreaView>
   );
 };
