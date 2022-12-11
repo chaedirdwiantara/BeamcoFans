@@ -10,7 +10,6 @@ import {NativeModules, Platform} from 'react-native';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
-const maxHeight = 812 - barHeight;
 
 const TopNav = () => {
   const navigation =
@@ -30,7 +29,7 @@ const TopNav = () => {
       itemStrokeColor={'white'}
       containerStyles={{
         borderBottomWidth: 0,
-        paddingTop: heightResponsive(40),
+        paddingTop: heightResponsive(20 + barHeight),
         paddingBottom: 0,
       }}
     />

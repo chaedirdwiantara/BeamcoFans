@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {color, font} from '../../theme';
-import {ModalDonate, SsuStatusBar} from '../../components';
+import {ModalDonate, ModalSuccessDonate, SsuStatusBar} from '../../components';
 import {heightResponsive, widthResponsive} from '../../utils';
 import MusicControl from './MusicControl';
 import TopNav from './TopNav';
@@ -24,6 +24,7 @@ export const MusicPlayer = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const [songIndex, setSongIndex] = useState<number>(0);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
+  const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
 
   useEffect(() => {
     scrollX.addListener(({value}) => {
@@ -47,8 +48,16 @@ export const MusicPlayer = () => {
     setModalDonate(true);
   };
 
-  const modalButtonOnPress = () => {
+  const onPressCloseModalDonate = () => {
     setModalDonate(false);
+  };
+
+  const onPressDonate = () => {
+    setModalDonate(false);
+  };
+
+  const onPressSuccess = () => {
+    setModalSuccessDonate(false);
   };
 
   return (
@@ -99,7 +108,7 @@ export const MusicPlayer = () => {
         />
         <View style={styles.progresTextContainer}>
           <Text style={styles.progresText}>00:00</Text>
-          <Text style={styles.progresText}>00:00</Text>
+          <Text style={styles.progresText}>03:46</Text>
         </View>
       </View>
       <View style={styles.musiControl}>
@@ -112,8 +121,17 @@ export const MusicPlayer = () => {
       {/* modal */}
       <ModalDonate
         totalCoin="1000"
-        onPressClose={modalButtonOnPress}
+        onPressClose={onPressCloseModalDonate}
+        onPressDonate={onPressDonate}
         modalVisible={modalDonate}
+        onModalHide={() => setModalSuccessDonate(true)}
+      />
+
+      <ModalSuccessDonate
+        modalVisible={
+          modalSuccessDonate && modalDonate === false ? true : false
+        }
+        toggleModal={onPressSuccess}
       />
     </View>
   );

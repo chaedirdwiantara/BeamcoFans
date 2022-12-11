@@ -29,6 +29,7 @@ import {ModalCustom} from './Modal/ModalCustom';
 import {ModalDonate} from './Modal/ModalDonate';
 import {ModalImagePicker} from './Modal/ModalImagePicker';
 import {ModalShare} from './Modal/ModalShare';
+import {ModalSuccessDonate} from './Modal/ModalSuccessDonate';
 import {NoMoreFeeds} from './NoMoreFeeds/NoMoreFeeds';
 import {NotificationCard} from './NotificationCard/NotificationCard';
 import {PlaylistContent} from './PlaylistContent/PlaylistContent';
@@ -85,6 +86,7 @@ export {
   ModalDonate,
   ModalImagePicker,
   ModalShare,
+  ModalSuccessDonate,
   NoMoreFeeds,
   NotificationCard,
   PlaylistContent,
