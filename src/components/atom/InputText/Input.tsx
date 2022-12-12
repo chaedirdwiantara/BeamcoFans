@@ -18,12 +18,7 @@ import {
   EyeOpenIcon,
 } from '../../../assets/icon';
 import {color, font} from '../../../theme';
-import {normalize} from '../../../utils';
-import {
-  heightPercentage,
-  widthPercentage,
-  widthResponsive,
-} from '../../../utils/dimensionFormat';
+import {widthResponsive} from '../../../utils/dimensionFormat';
 import Gap from '../Gap/Gap';
 import InputLabel from './InputLabel';
 
@@ -43,6 +38,7 @@ interface InputProps extends TextInputProps {
   reset?: () => void;
   containerStyles?: ViewStyle;
   inputStyles?: ViewStyle;
+  leftIconContainer?: ViewStyle;
 }
 
 interface TextAreaProps extends TextInputProps {
@@ -87,6 +83,7 @@ const InputText: React.FC<InputProps> = props => {
     onEndEditing,
     containerStyles,
     inputStyles,
+    leftIconContainer,
   } = props;
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
@@ -118,13 +115,14 @@ const InputText: React.FC<InputProps> = props => {
             borderWidth: newBorderWidth,
             borderColor: newBorderColor,
           },
-          containerStyles,
           isFocus
             ? {borderColor: color.Pink[2], borderWidth: 1}
             : {borderWidth: 0},
           containerStyles,
         ]}>
-        <View style={styles.leftIconStyle}>{leftIcon}</View>
+        <View style={[styles.leftIconStyle, leftIconContainer]}>
+          {leftIcon}
+        </View>
         <TextInput
           style={[styles.input(fontSize, fontColor), inputStyles]}
           value={value}

@@ -2,7 +2,6 @@ import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import React, {FC} from 'react';
 import {ms, mvs} from 'react-native-size-matters';
 import {color, font} from '../../../theme';
-import {normalize} from '../../../utils';
 
 interface DividerProps {
   text?: string;

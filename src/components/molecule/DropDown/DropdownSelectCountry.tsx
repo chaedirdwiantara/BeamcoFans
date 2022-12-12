@@ -13,7 +13,7 @@ import {ms, mvs} from 'react-native-size-matters';
 import Modal from 'react-native-modal';
 import SearchBar from '../../atom/SearchBar';
 import {FlashList} from '@shopify/flash-list';
-import {normalize} from '../../../utils';
+import {widthResponsive} from '../../../utils';
 import Gap from '../../atom/Gap/Gap';
 import regexNumber from '../../../utils/regexNumber';
 import {ChevronDownIcon} from '../../../assets/icon';
@@ -87,8 +87,18 @@ const DropdownSelectCountry: FC<SelectCountryProps> = (
         }
         placeholder={'Phone Number'}
         keyboardType={'number-pad'}
-        fontSize={normalize(12)}
+        fontSize={mvs(12)}
         onEndEditing={() => numberTyped(value?.code + state)}
+        leftIconContainer={{
+          width: widthResponsive(55),
+          marginLeft: widthResponsive(-12),
+          marginRight:
+            value && value?.code.length > 2
+              ? widthResponsive(30)
+              : value && value?.code.length <= 2
+              ? widthResponsive(20)
+              : widthResponsive(8),
+        }}
         leftIcon={
           <View style={styles.leftIconContainer}>
             <TouchableOpacity
@@ -153,34 +163,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   selectCountryContainer: {
     flexDirection: 'row',
     backgroundColor: color.Dark[700],
-    width: ms(55),
     height: '100%',
-    marginLeft: ms(-10),
+    width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
     borderRadius: 5,
+    justifyContent: 'center',
   },
   leftLabel: {
     color: color.Neutral[10],
     alignSelf: 'center',
     fontFamily: font.InterLight,
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     fontWeight: '400',
-    lineHeight: mvs(14.5),
   },
   selectedCountryCode: {
     color: color.Dark[300],
+    fontWeight: '400',
     fontFamily: font.InterLight,
-    fontSize: normalize(12),
-    lineHeight: mvs(14.5),
+    fontSize: mvs(12),
     marginLeft: ms(4),
-    marginRight: ms(-6),
-    marginTop: mvs(-1),
   },
   modalContainer: {
     backgroundColor: color.Dark[700],
@@ -200,8 +207,7 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(10),
-    lineHeight: mvs(15),
+    fontSize: mvs(10),
     marginLeft: ms(4),
   },
 });

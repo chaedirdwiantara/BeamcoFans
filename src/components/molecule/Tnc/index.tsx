@@ -45,7 +45,7 @@ const TermAndConditions: React.FC<
             style={{
               fontFamily: font.InterRegular,
               fontWeight: '400',
-              fontSize: normalize(10),
+              fontSize: mvs(10),
               lineHeight: mvs(12),
               color: ErrorColor,
               maxWidth: '90%',
