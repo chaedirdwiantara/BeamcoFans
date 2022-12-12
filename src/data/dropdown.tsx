@@ -8,31 +8,31 @@ export const countryData: DataCountryType[] = [
   {
     value: '1',
     label: 'US',
-    image: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
+    image: require('../assets/flags/US.png'),
     code: '+1',
   },
   {
     value: '2',
     label: 'ID',
-    image: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
+    image: require('../assets/flags/ID.png'),
     code: '+62',
   },
   {
     value: '3',
     label: 'JP',
-    image: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
+    image: require('../assets/flags/JP.png'),
     code: '+81',
   },
   {
     value: '4',
     label: 'IN',
-    image: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
+    image: require('../assets/flags/IND.png'),
     code: '+91',
   },
   {
     value: '5',
     label: 'UK',
-    image: 'https://www.vigcenter.com/public/all/images/default-image.jpg',
+    image: require('../assets/flags/UK.png'),
     code: '+44',
   },
 ];
