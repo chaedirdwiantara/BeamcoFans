@@ -109,7 +109,6 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
         }
         placeholder={'Playlist Name'}
         containerStyles={styles.textInput}
-        textAlign={'center'}
         numberOfLines={1}
         multiline={false}
         onFocus={() => {

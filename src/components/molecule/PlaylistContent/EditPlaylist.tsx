@@ -105,7 +105,6 @@ export const EditPlaylistContent: React.FC<EditPlaylistProps> = ({
           }
           placeholder={'Playlist Name'}
           containerStyles={styles.textInput}
-          textAlign={'center'}
           numberOfLines={1}
           multiline={false}
           onFocus={() => {
