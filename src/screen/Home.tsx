@@ -60,8 +60,8 @@ export const HomeScreen: React.FC = () => {
     console.log(tokenFCM);
   };
 
-  const goToSongDetails = () => {
-    navigation.navigate('MusicPlayer');
+  const goToScreen = (screen: 'MusicPlayer' | 'TopupCoin') => {
+    navigation.navigate(screen);
   };
 
   const [selectedIndex, setSelectedIndex] = useState(-0);
@@ -114,6 +114,7 @@ export const HomeScreen: React.FC = () => {
         itemStrokeColor={Color.Pink[100]}
         points={100000}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
+        onPressCoin={() => goToScreen('TopupCoin')}
       />
 
       <ScrollView
@@ -155,7 +156,7 @@ export const HomeScreen: React.FC = () => {
           }
           musicTitle={'Thunder'}
           singerName={'Imagine Dragons, The Wekeend'}
-          onPressModal={goToSongDetails}
+          onPressModal={() => goToScreen('MusicPlayer')}
         />
       )}
     </View>
