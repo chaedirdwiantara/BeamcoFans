@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.Dark[800],
     alignItems: 'center',
     paddingHorizontal: widthResponsive(24),
+    borderRadius: 4,
   },
   iconStyle: {
     marginTop: heightResponsive(32),
