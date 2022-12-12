@@ -31,8 +31,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(12),
-    lineHeight: mvs(16),
+    fontSize: mvs(12),
     color: color.Neutral[10],
     paddingHorizontal: ms(8),
   },

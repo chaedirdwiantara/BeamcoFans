@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {color, font} from '../../../theme';
-import {normalize} from '../../../utils';
+import {normalize, widthResponsive} from '../../../utils';
 import {ms, mvs} from 'react-native-size-matters';
 import {CheckBox, Gap} from '../../atom';
 import {CheckBoxProps} from '../../../interface/checkbox.interface';
@@ -71,13 +71,12 @@ const styles = StyleSheet.create({
     maxWidth: '90%',
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(10),
-    lineHeight: mvs(12),
+    fontSize: mvs(10),
     color: color.Neutral[10],
-    marginLeft: ms(8),
+    marginLeft: widthResponsive(8),
   },
   checkbox: {
-    width: ms(20),
+    width: widthResponsive(20),
     height: mvs(20),
     borderWidth: 1,
     borderColor: color.Dark[500],

@@ -22,6 +22,7 @@ import {normalize} from '../../../utils';
 import {
   heightPercentage,
   widthPercentage,
+  widthResponsive,
 } from '../../../utils/dimensionFormat';
 import Gap from '../Gap/Gap';
 import InputLabel from './InputLabel';
@@ -58,6 +59,7 @@ type TypeStyle = {
   label: any;
   input: any;
   inputTextArea: any;
+  leftIconStyle: ViewStyle;
 };
 
 const ErrorColor = color.Error[400];
@@ -65,7 +67,7 @@ const FontColor = color.Dark[300];
 
 const InputText: React.FC<InputProps> = props => {
   const {
-    fontSize = normalize(12),
+    fontSize = mvs(12),
     value,
     keyboardType,
     onChangeText,
@@ -122,7 +124,7 @@ const InputText: React.FC<InputProps> = props => {
             : {borderWidth: 0},
           containerStyles,
         ]}>
-        {leftIcon}
+        <View style={styles.leftIconStyle}>{leftIcon}</View>
         <TextInput
           style={[styles.input(fontSize, fontColor), inputStyles]}
           value={value}
@@ -171,7 +173,7 @@ const InputText: React.FC<InputProps> = props => {
             style={{
               fontFamily: font.InterRegular,
               fontWeight: '400',
-              fontSize: normalize(10),
+              fontSize: mvs(10),
               lineHeight: mvs(12),
               color: ErrorColor,
               maxWidth: '90%',
@@ -234,33 +236,36 @@ export default {InputText, TextArea, InputLabel};
 const styles = StyleSheet.create<TypeStyle>({
   container: {
     borderRadius: 5,
-    paddingHorizontal: widthPercentage(12),
+    paddingHorizontal: widthResponsive(12),
     alignItems: 'center',
     flexDirection: 'row',
     width: '100%',
   },
+  leftIconStyle: {
+    marginRight: widthResponsive(8),
+    width: widthResponsive(20),
+    alignItems: 'center',
+  },
   errorText: {
     color: ErrorColor,
-    fontSize: normalize(13),
+    fontSize: mvs(13),
     marginLeft: ms(10),
   },
   label: (fontSize: number) => ({
-    fontSize: fontSize ? fontSize : normalize(18),
+    fontSize: fontSize ? fontSize : mvs(18),
     fontFamily: font.InterLight,
   }),
   input: (fontSize: number, fontColor: string) => ({
     flex: 1,
-    fontSize: fontSize ? fontSize : normalize(13),
+    fontSize: fontSize ? fontSize : mvs(13),
     fontFamily: font.InterLight,
     fontWeight: '400',
     color: fontColor ? fontColor : FontColor,
-    lineHeight: mvs(14.5),
-    paddingLeft: ms(10),
-    marginVertical: Platform.OS === 'ios' ? heightPercentage(12.5) : 0,
+    marginVertical: Platform.OS === 'ios' ? mvs(12.5) : 0,
   }),
   inputTextArea: (fontSize: number) => ({
     flex: 1,
-    fontSize: fontSize ? fontSize : normalize(13),
+    fontSize: fontSize ? fontSize : mvs(13),
     fontFamily: font.InterLight,
     paddingVertical: mvs(5),
     paddingHorizontal: ms(5),

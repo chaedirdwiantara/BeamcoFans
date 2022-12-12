@@ -5,26 +5,19 @@ import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 const UserIcon = ({
-  width = widthPercentage(21),
-  height = widthPercentage(24),
+  width = widthPercentage(14),
+  height = widthPercentage(16),
   fill = 'none',
   stroke = '#8794AD',
   style,
 }: SvgProps) => (
   <View style={[{width, height}, style]}>
-    <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 24 24'}>
+    <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 14 16'}>
       <Path
-        d="M13.3327 5.83333C13.3327 7.67428 11.8403 9.16667 9.99935 9.16667C8.1584 9.16667 6.66602 7.67428 6.66602 5.83333C6.66602 3.99238 8.1584 2.5 9.99935 2.5C11.8403 2.5 13.3327 3.99238 13.3327 5.83333Z"
         stroke={stroke}
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <Path
-        d="M9.99935 11.6667C6.77769 11.6667 4.16602 14.2783 4.16602 17.5H15.8327C15.8327 14.2783 13.221 11.6667 9.99935 11.6667Z"
-        stroke={stroke}
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M10.333 3.833a3.333 3.333 0 11-6.667 0 3.333 3.333 0 016.667 0zM7 9.667A5.833 5.833 0 001.165 15.5h11.667a5.833 5.833 0 00-5.834-5.833z"></Path>
     </Svg>
   </View>
 );

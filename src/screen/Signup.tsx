@@ -26,7 +26,13 @@ import {
 import {color, font} from '../theme';
 import {Dropdown, SsuStatusBar, TermAndConditions} from '../components';
 import {countryData} from '../data/dropdown';
-import {heightPercentage, normalize, widthPercentage} from '../utils';
+import {
+  heightPercentage,
+  heightResponsive,
+  normalize,
+  widthPercentage,
+  widthResponsive,
+} from '../utils';
 import {AppleLogo, FacebookLogo, GoogleLogo} from '../assets/logo';
 import {ms, mvs} from 'react-native-size-matters';
 import ErrorCircleIcon from '../assets/icon/ErrorCircle.icon';
@@ -191,9 +197,11 @@ export const SignupScreen: React.FC = () => {
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
-      <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+
+      {/* <KeyboardAvoidingView
+        // style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}> */}
+      <View>
         <Text style={styles.titleStyle}>Sign Up</Text>
         <Gap height={24} />
         <View style={styles.wrapperLoginType}>
@@ -254,12 +262,7 @@ export const SignupScreen: React.FC = () => {
               value={value}
               onChangeText={onChange}
               placeholder={'Full Name'}
-              leftIcon={
-                <FullNameIcon
-                  stroke={color.Dark[50]}
-                  style={{marginLeft: ms(-2), marginRight: ms(-3)}}
-                />
-              }
+              leftIcon={<FullNameIcon stroke={color.Dark[50]} />}
               onFocus={() => {
                 handleFocusInput('fullname');
               }}
@@ -281,12 +284,7 @@ export const SignupScreen: React.FC = () => {
               value={value}
               onChangeText={onChange}
               placeholder={'Username'}
-              leftIcon={
-                <UserIcon
-                  stroke={color.Dark[50]}
-                  style={{marginLeft: ms(-1), marginRight: ms(-4)}}
-                />
-              }
+              leftIcon={<UserIcon stroke={color.Dark[50]} />}
               onFocus={() => {
                 handleFocusInput('username');
               }}
@@ -384,7 +382,7 @@ export const SignupScreen: React.FC = () => {
         <Gap height={20} />
         <Button
           label="Submit"
-          textStyles={{fontSize: normalize(14)}}
+          textStyles={{fontSize: mvs(14)}}
           containerStyles={{width: '100%'}}
           onPress={handleSubmit(handleRegisterUser)}
         />
@@ -393,7 +391,7 @@ export const SignupScreen: React.FC = () => {
           type="border"
           label="Back"
           borderColor="transparent"
-          textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
+          textStyles={{fontSize: mvs(14), color: color.Pink.linear}}
           containerStyles={{width: '100%'}}
           onPress={handleOnPressBack}
         />
@@ -413,7 +411,8 @@ export const SignupScreen: React.FC = () => {
           <Gap width={24} />
           <AppleLogo />
         </View>
-        <Gap height={24} />
+      </View>
+      <View>
         <Text style={styles.forgotPassStyle}>
           Already have an Account?{' '}
           <Text
@@ -421,13 +420,13 @@ export const SignupScreen: React.FC = () => {
             style={{
               fontFamily: font.InterRegular,
               fontWeight: '700',
-              fontSize: normalize(12),
-              lineHeight: mvs(16),
+              fontSize: mvs(12),
             }}>
             Sign In
           </Text>
         </Text>
-      </KeyboardAvoidingView>
+      </View>
+      {/* </KeyboardAvoidingView> */}
       <ModalLoading visible={isLoading} />
     </View>
   );
@@ -437,31 +436,18 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%',
+    justifyContent: 'space-between',
     backgroundColor: color.Dark[800],
-    paddingHorizontal: widthPercentage(48),
-    paddingTop: heightPercentage(32),
-    paddingBottom: heightPercentage(24),
-  },
-  container: {
-    width: '100%',
-    height: 100,
-  },
-  image: {
-    flex: 1,
-    height: height,
-    width: width,
-    resizeMode: 'cover',
+    paddingHorizontal: widthResponsive(48),
+    paddingTop: heightResponsive(64),
+    paddingBottom: heightResponsive(24),
   },
   titleStyle: {
     fontFamily: font.InterRegular,
     fontWeight: '600',
-    fontSize: normalize(20),
-    lineHeight: mvs(32),
+    fontSize: mvs(20),
     textAlign: 'center',
     color: color.Neutral[10],
-    marginTop: ms(64),
   },
   wrapperLoginType: {
     flexDirection: 'row',
@@ -478,14 +464,14 @@ const styles = StyleSheet.create({
   },
   loginTypeActive: {
     fontFamily: font.InterMedium,
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     color: color.Pink[2],
     lineHeight: mvs(14),
     fontWeight: '500',
   },
   loginTypeInactive: {
     fontFamily: font.InterRegular,
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     color: color.Neutral[10],
     lineHeight: mvs(14),
     fontWeight: '400',
@@ -494,6 +480,7 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(12),
+    fontSize: mvs(12),
+    alignSelf: 'center',
   },
 });
