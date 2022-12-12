@@ -59,6 +59,9 @@ import {SongDetailsScreen} from './screen/SongDetails/SongDetails';
 // Album
 import {AlbumScreen} from './screen/Album/Album';
 
+// TopUp
+import {TopupCoinScreen} from './screen/TopupCoin';
+
 import {storage} from './hooks/use-storage.hook';
 
 // Icon
@@ -109,6 +112,7 @@ export type RootStackParams = {
   Notification: undefined;
   PostDetail: undefined;
   SearchScreen: undefined;
+  TopupCoin: undefined;
   MusicianProfile: undefined;
   Webview: {
     title: string;
@@ -253,6 +257,7 @@ const RootStackScreen = () => (
     <RootStack.Screen name="MusicianProfile" component={MusicianProfile} />
     <RootStack.Screen name="Webview" component={WebviewPage} />
     <RootStack.Screen name="MusicPlayer" component={MusicPlayer} />
+    <RootStack.Screen name="TopupCoin" component={TopupCoinScreen} />
   </RootStack.Navigator>
 );
 
