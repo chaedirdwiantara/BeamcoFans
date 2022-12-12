@@ -25,6 +25,7 @@ export const MusicPlayer = () => {
   const [songIndex, setSongIndex] = useState<number>(0);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
+  const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
   useEffect(() => {
     scrollX.addListener(({value}) => {
@@ -54,6 +55,7 @@ export const MusicPlayer = () => {
 
   const onPressDonate = () => {
     setModalDonate(false);
+    setTrigger2ndModal(true);
   };
 
   const onPressSuccess = () => {
@@ -128,9 +130,7 @@ export const MusicPlayer = () => {
       />
 
       <ModalSuccessDonate
-        modalVisible={
-          modalSuccessDonate && modalDonate === false ? true : false
-        }
+        modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
         toggleModal={onPressSuccess}
       />
     </View>
