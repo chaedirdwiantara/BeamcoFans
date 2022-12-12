@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {ProfileContent} from './MusicianProfile';
 import {color} from '../../theme';
@@ -40,7 +40,7 @@ const MusicianProfile = (props: ProfileProps) => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <ProfileContent
         profile={profile}
         playlist={undefined}
@@ -48,7 +48,7 @@ const MusicianProfile = (props: ProfileProps) => {
         goToEditProfile={goToEditProfile}
         goToPlaylist={goToPlaylist}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

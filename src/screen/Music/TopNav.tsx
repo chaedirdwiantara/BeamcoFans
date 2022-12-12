@@ -2,7 +2,7 @@ import React from 'react';
 import {TopNavigation} from '../../components';
 import {ArrowLeftIcon, AudioMusic} from '../../assets/icon';
 import {color} from '../../theme';
-import {heightResponsive, widthResponsive} from '../../utils';
+import {widthResponsive} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
@@ -29,7 +29,6 @@ const TopNav = () => {
       itemStrokeColor={'white'}
       containerStyles={{
         borderBottomWidth: 0,
-        paddingTop: heightResponsive(20 + barHeight),
         paddingBottom: 0,
       }}
     />

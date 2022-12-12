@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {TabFilter, TopNavigation} from '../components';
 import {dropDownDataCategory, dropDownDataSort} from '../data/dropdown';
 import {PostlistData, PostlistDataExclusive} from '../data/postlist';
@@ -20,7 +19,7 @@ export const FeedScreen: React.FC = () => {
     setSelectedIndex(index);
   };
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type2
         title="FEED"
         maxLengthTitle={20}
@@ -56,7 +55,7 @@ export const FeedScreen: React.FC = () => {
           />
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

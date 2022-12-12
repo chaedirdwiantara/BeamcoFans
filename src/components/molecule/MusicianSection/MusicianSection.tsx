@@ -40,7 +40,6 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   }, [modalVisible]);
 
   const resultDataMore = (dataResult: DataMore) => {
-    console.log(dataResult, 'resultDataMenu', props.musicianId, 'id');
     dataResult.label === 'Follow'
       ? setModalVisible(true)
       : dataResult.label === 'Go To Musician'
