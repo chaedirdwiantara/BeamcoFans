@@ -13,7 +13,7 @@ interface FooterContentProps {
   activeIndexSlide: number;
   data: DataOnboardType[] | DataFavouritesType[];
   onPressGoTo?: () => void;
-  onPressNext?: () => void;
+  onPressNext: () => void;
 }
 
 export const FooterContent: React.FC<FooterContentProps> = ({
@@ -90,8 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width,
-    height: undefined,
-    aspectRatio: 375 / 352,
+    height: '40%',
   },
   footer: {
     width: widthPercentage(327),

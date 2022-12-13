@@ -5,9 +5,9 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import Color from '../theme/Color';
 import {RootStackParams} from '../App';
-import {ImageSlider} from '../components';
 import {dataOnboard} from '../data/onboard';
 import {storage} from '../hooks/use-storage.hook';
+import {ImageSlider, SsuStatusBar} from '../components';
 
 export const OnboardScreen: React.FC = () => {
   const navigation =
@@ -20,7 +20,13 @@ export const OnboardScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <ImageSlider data={dataOnboard} onPress={goToScreenGuest} />
+      <SsuStatusBar type="black" />
+      <ImageSlider
+        data={dataOnboard}
+        onPress={goToScreenGuest}
+        setFollowMusician={() => null}
+        setUnfollowMusician={() => null}
+      />
     </View>
   );
 };

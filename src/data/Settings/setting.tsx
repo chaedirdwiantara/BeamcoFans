@@ -9,6 +9,6 @@ export const menuSetting: string[] = [
   'Change Password',
   'Send Report',
   'Helps',
-  'Terms of Service',
+  'Terms Conditions',
   'Privacy Policy',
 ];

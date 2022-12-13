@@ -13,6 +13,7 @@ type Props = {
   bgColor?: string;
   itemStrokeColor?: string;
   leftIconAction: () => void;
+  onPressCoin?: () => void;
   rightIcon: React.ReactNode;
   rightIconAction?: () => void;
   profileUri: string;
@@ -67,7 +68,9 @@ const Type5: React.FC<Props> = (props: Props) => {
           </Text>
         </View>
         <View style={topNavstyles.rightContainer}>
-          <ChipMoney balance={props.points} />
+          <TouchableOpacity onPress={props.onPressCoin}>
+            <ChipMoney balance={props.points} />
+          </TouchableOpacity>
           <Gap width={12} />
           {iconRight()}
         </View>

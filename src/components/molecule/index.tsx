@@ -50,6 +50,7 @@ import SsuOTPTimer from './OtpTimer';
 import {ShowCreditContent} from './SongDetailsContent/ShowCreditContent';
 import {TabFilter} from './TabFilter';
 import TermAndConditions from './Tnc';
+import {TopupCoinContent} from './TopupCoin';
 import {TopNavigation} from './TopNavigation';
 import {UseReferralContent} from './SettingContent/UseReferralContent';
 import {UserInfoCard} from './UserInfoCard/UserInfoCard';
@@ -108,6 +109,7 @@ export {
   TabFilter,
   TermAndConditions,
   TopNavigation,
+  TopupCoinContent,
   UseReferralContent,
   UserInfoCard,
 };

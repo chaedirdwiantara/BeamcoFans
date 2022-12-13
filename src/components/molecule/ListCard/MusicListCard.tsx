@@ -17,7 +17,7 @@ import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 interface ListProps {
   imgUri: string;
   onPressMore?: (data: any) => void;
-  onPressCard: () => void;
+  onPressCard?: () => void;
   musicNum: number | string;
   musicTitle: string;
   singerName: string;
@@ -67,7 +67,7 @@ const MusicListCard: React.FC<ListProps> = ({
   return (
     <TouchableOpacity
       style={[styles.container, containerStyles]}
-      onPress={onPressPlay}>
+      onPress={onPressCard && onPressPlay}>
       {played && <SoundIcon style={{marginRight: widthPercentage(5)}} />}
       {musicNum && !played && (
         <Text style={styles.rankStyle}>

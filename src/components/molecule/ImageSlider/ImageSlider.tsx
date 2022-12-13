@@ -30,10 +30,10 @@ type OnScrollEventHandler = (
 interface ImageSliderProps {
   type?: string;
   data: DataOnboardType[] | DataFavouritesType[];
-  onPress?: () => void;
+  onPress: () => void;
   onUpdatePreference?: (props?: UpdateProfilePropsType) => void;
-  setFollowMusician?: (props?: FollowMusicianPropsType) => void;
-  setUnfollowMusician?: (props?: FollowMusicianPropsType) => void;
+  setFollowMusician: (props?: FollowMusicianPropsType) => void;
+  setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
   dataList?: MusicianList[];
 }
 
@@ -85,7 +85,8 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
 
   const handleScroll: OnScrollEventHandler = event => {
     let offsetX = event.nativeEvent.contentOffset.x;
-    setActiveIndexSlide(Math.ceil(offsetX / width));
+    const page = Math.ceil(offsetX / width);
+    page < 3 ? setActiveIndexSlide(Math.ceil(offsetX / width)) : onPress;
   };
 
   const onPressNext =
@@ -94,10 +95,10 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   const heightContent =
     type === 'Preference'
       ? {
-          height: heightPercentage(650),
+          height: '80%',
         }
       : {
-          height: heightPercentage(480),
+          height: '60%',
         };
 
   return (
@@ -152,7 +153,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                         style={{width, paddingHorizontal: widthPercentage(15)}}>
                         <ListCard.FollowMusician
                           musicianName={item.fullname}
-                          imgUri={item.imageProfileUrl}
+                          imgUri={item.imageProfileUrl || ''}
                           containerStyles={{marginTop: mvs(20)}}
                           followerCount={item.followers}
                           followOnPress={() =>

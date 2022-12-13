@@ -15,6 +15,7 @@ import CloseCircleIcon from './CloseCircle.icon';
 import CoinInput from './CoinInput';
 import CoinIcon from './Coin.icon';
 import CoinCIcon from './CoinC.icon';
+import CoinDIcon from './CoinD.icon';
 import CopyIcon from './Copy.icon';
 import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
@@ -80,6 +81,7 @@ export {
   CloseIcon,
   CloseCircleIcon,
   CoinCIcon,
+  CoinDIcon,
   CoinIcon,
   CoinInput,
   CopyIcon,
