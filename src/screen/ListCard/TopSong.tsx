@@ -6,7 +6,7 @@ import {TopSongListData} from '../../data/topSong';
 import {elipsisText} from '../../utils';
 
 interface TopSongProps {
-  onPress?: () => void;
+  onPress: () => void;
   scrollable?: boolean;
 }
 

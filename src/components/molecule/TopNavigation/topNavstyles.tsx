@@ -1,8 +1,10 @@
-import {StyleSheet} from 'react-native';
+import {NativeModules, Platform, StyleSheet} from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {normalize} from '../../../utils';
 import {color, font} from '../../../theme';
-import {heightPercentage} from '../../../utils/dimensionFormat';
+import {heightResponsive} from '../../../utils/dimensionFormat';
+
+const {StatusBarManager} = NativeModules;
+const barHeight = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
 
 const topNavstyles = StyleSheet.create({
   headerContainer: {
@@ -10,8 +12,8 @@ const topNavstyles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: mvs(1),
     borderBottomColor: color.Dark[300],
-    paddingTop: heightPercentage(20),
-    paddingBottom: heightPercentage(20),
+    paddingTop: heightResponsive(20 + barHeight),
+    paddingBottom: heightResponsive(20),
   },
   leftContainer: {
     flex: 1,
@@ -32,9 +34,8 @@ const topNavstyles = StyleSheet.create({
     alignItems: 'center',
   },
   centerTitle: {
-    fontSize: normalize(16),
+    fontSize: mvs(16),
     fontFamily: font.InterSemiBold,
-    lineHeight: mvs(20),
     letterSpacing: 0.15,
     textAlign: 'center',
   },

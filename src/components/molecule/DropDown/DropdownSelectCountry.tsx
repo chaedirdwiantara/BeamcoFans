@@ -130,10 +130,7 @@ const DropdownSelectCountry: FC<SelectCountryProps> = (
                   style={styles.countryList}
                   onPress={() => countryOnPress(item)}>
                   <View style={styles.countryListContainer}>
-                    <Image
-                      source={{uri: item.image}}
-                      style={styles.imageStyle}
-                    />
+                    <Image source={item.image} style={styles.imageStyle} />
                     <Gap width={4} />
                     <Text style={styles.listFont}>{item.label}</Text>
                   </View>

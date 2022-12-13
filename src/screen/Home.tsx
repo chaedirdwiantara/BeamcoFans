@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import Color from '../theme/Color';
 import {dataSlider} from '../data/home';
 import {heightPercentage, widthResponsive} from '../utils';
@@ -70,7 +64,7 @@ export const HomeScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <SsuStatusBar type="black" />
       <TopNavigation.Type5
         name={profileStorage()?.fullname || ''}
@@ -125,7 +119,7 @@ export const HomeScreen: React.FC = () => {
           onPressModal={goToSongDetails}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

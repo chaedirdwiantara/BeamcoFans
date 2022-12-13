@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, SafeAreaView, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import {
   Gap,
   ListCard,
@@ -11,11 +11,12 @@ import Color from '../../theme/Color';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
-import {color, font} from '../../theme';
-import {heightPercentage, normalize, widthResponsive} from '../../utils';
+import {color} from '../../theme';
+import {widthResponsive} from '../../utils';
 import {SearchListData, SearchListType} from '../../data/search';
 import {mvs} from 'react-native-size-matters';
 import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
+import {ModalPlayMusic} from '../../components/molecule/Modal/ModalPlayMusic';
 
 export const SearchScreen: React.FC = () => {
   const navigation =
@@ -29,15 +30,7 @@ export const SearchScreen: React.FC = () => {
 
   const resultDataMore = (dataResult: any) => {
     console.log(dataResult, 'resultDataMenu');
-    dataResult.label === 'Follow' ? setModalVisible(true) : null;
   };
-
-  useEffect(() => {
-    modalVisible &&
-      setTimeout(() => {
-        setModalVisible(false);
-      }, 3000);
-  }, [modalVisible]);
 
   const [filter, setFilter] = useState([
     {filterName: 'Song'},
@@ -77,9 +70,13 @@ export const SearchScreen: React.FC = () => {
     }
   };
 
+  const goToSongDetails = () => {
+    navigation.navigate('MusicPlayer');
+  };
+
   return (
     <>
-      <SafeAreaView style={styles.root}>
+      <View style={styles.root}>
         <TopNavigation.Type1
           title={`Search`}
           leftIconAction={() => navigation.goBack()}
@@ -128,6 +125,7 @@ export const SearchScreen: React.FC = () => {
                       singerName={item.singerName}
                       onPressMore={resultDataMore}
                       containerStyles={{marginTop: mvs(20)}}
+                      onPressCard={() => setModalVisible(true)}
                     />
                   )
                 }
@@ -135,7 +133,17 @@ export const SearchScreen: React.FC = () => {
             </>
           ) : null}
         </View>
-      </SafeAreaView>
+        {modalVisible && (
+          <ModalPlayMusic
+            imgUri={
+              'https://cdns-images.dzcdn.net/images/cover/7f7aae26b50cb046c872238b6a2a10c2/264x264.jpg'
+            }
+            musicTitle={'Thunder'}
+            singerName={'Imagine Dragons, The Wekeend'}
+            onPressModal={goToSongDetails}
+          />
+        )}
+      </View>
     </>
   );
 };

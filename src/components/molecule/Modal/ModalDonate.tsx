@@ -22,12 +22,16 @@ interface ModalDonateProps {
   totalCoin: string;
   modalVisible: boolean;
   onPressClose: () => void;
+  onPressDonate: () => void;
+  onModalHide: () => void;
 }
 
 export const ModalDonate: React.FC<ModalDonateProps> = ({
   totalCoin,
   modalVisible,
   onPressClose,
+  onPressDonate,
+  onModalHide,
 }) => {
   const [donate, setDonate] = useState('');
   const [donateList, setDonateList] = useState(listDonate);
@@ -102,7 +106,7 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
         <Button
           label="Donate"
           containerStyles={styles.btnDonate}
-          onPress={onPressClose}
+          onPress={onPressDonate}
         />
         <Button
           type="border"
@@ -116,7 +120,10 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
   };
 
   return (
-    <Modal isVisible={modalVisible} style={{margin: 0}}>
+    <Modal
+      isVisible={modalVisible}
+      style={{margin: 0}}
+      onModalHide={onModalHide}>
       <TouchableWithoutFeedback onPress={onPressClose}>
         <View style={styles.modalOverlay} />
       </TouchableWithoutFeedback>

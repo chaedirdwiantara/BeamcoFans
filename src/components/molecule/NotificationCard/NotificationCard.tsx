@@ -26,7 +26,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = (
       data={data}
       showsVerticalScrollIndicator={false}
       keyExtractor={(_, index) => index.toString()}
-      renderItem={({item}: any) => (
+      renderItem={({item}) => (
         <View style={styles.root}>
           {item.type === 'like' ? (
             <HeartIcon style={styles.icon} />
