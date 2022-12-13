@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     fontFamily: font.InterLight,
     fontSize: mvs(12),
     marginLeft: ms(4),
+    marginTop: ms(-1),
   },
   modalContainer: {
     backgroundColor: color.Dark[700],
