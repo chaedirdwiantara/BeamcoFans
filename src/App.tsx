@@ -147,6 +147,7 @@ const TabScreen = () => (
         paddingBottom: 0,
         height: 64,
         backgroundColor: '#0F1319',
+        borderTopColor: Color.Dark[800],
       },
     }}>
     <MainTab.Screen
