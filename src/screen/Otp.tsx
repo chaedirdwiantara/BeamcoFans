@@ -32,22 +32,14 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
   useEffect(() => {
     if (!isLoading && !isError && isOtpValid === true) {
       if (loginResult === 'preference') {
-        console.log('preference');
-
         navigation.replace('Preference');
       } else if (loginResult === 'home') {
-        console.log('home');
         navigation.replace('MainTab');
       }
     } else if (!isLoading && isError && errorMsg !== '') {
       // TODO: display error message
-      console.log('masih todo', isError);
     }
   }, [isError, errorMsg, isOtpValid, isLoading, loginResult]);
-
-  useEffect(() => {
-    console.log(loginResult, 'loginresult');
-  }, [loginResult]);
 
   const handleBack = () => {
     navigation.goBack();
