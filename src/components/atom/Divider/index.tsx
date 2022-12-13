@@ -2,7 +2,6 @@ import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import React, {FC} from 'react';
 import {ms, mvs} from 'react-native-size-matters';
 import {color, font} from '../../../theme';
-import {normalize} from '../../../utils';
 
 interface DividerProps {
   text?: string;
@@ -31,8 +30,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(12),
-    lineHeight: mvs(16),
+    fontSize: mvs(12),
     color: color.Neutral[10],
     paddingHorizontal: ms(8),
   },
