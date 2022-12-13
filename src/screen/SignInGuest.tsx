@@ -5,7 +5,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import Color from '../theme/Color';
 import {RootStackParams} from '../App';
-import {SignInGuestContent} from '../components';
+import {SignInGuestContent, SsuStatusBar} from '../components';
 
 export const SignInGuestScreen: React.FC = ({}) => {
   const navigation =
@@ -17,6 +17,7 @@ export const SignInGuestScreen: React.FC = ({}) => {
 
   return (
     <View style={styles.root}>
+      <SsuStatusBar type="black" />
       <SignInGuestContent onPress={screenName => goToScreen(screenName)} />
     </View>
   );
