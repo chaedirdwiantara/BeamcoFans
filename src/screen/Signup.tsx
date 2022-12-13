@@ -404,8 +404,8 @@ export const SignupScreen: React.FC = () => {
             <GoogleLogo />
             <Gap width={24} />
             <FacebookLogo />
-            <Gap width={24} />
-            <AppleLogo />
+            {Platform.OS === 'ios' ? <Gap width={24} /> : null}
+            {Platform.OS === 'ios' ? <AppleLogo /> : null}
           </View>
         </View>
         <View>

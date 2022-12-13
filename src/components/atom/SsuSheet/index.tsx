@@ -1,8 +1,7 @@
-import {StyleSheet, Text, View, ViewStyle} from 'react-native';
-import React, {Children, FC} from 'react';
+import {StyleSheet, View, ViewStyle} from 'react-native';
+import React, {FC} from 'react';
 import {color} from '../../../theme';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {ms, mvs} from 'react-native-size-matters';
 import {
   heightPercentage,
   widthPercentage,

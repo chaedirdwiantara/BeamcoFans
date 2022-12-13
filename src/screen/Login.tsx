@@ -256,10 +256,12 @@ export const LoginScreen: React.FC = () => {
           <TouchableOpacity onPress={onLoginFacebook}>
             <FacebookLogo />
           </TouchableOpacity>
-          <Gap width={24} />
-          <TouchableOpacity onPress={onLoginApple}>
-            <AppleLogo />
-          </TouchableOpacity>
+          {Platform.OS === 'ios' ? <Gap width={24} /> : null}
+          {Platform.OS === 'ios' ? (
+            <TouchableOpacity onPress={onLoginApple}>
+              <AppleLogo />
+            </TouchableOpacity>
+          ) : null}
         </View>
         <Gap height={24} />
         <Text style={styles.forgotPassStyle}>
