@@ -131,10 +131,10 @@ export const LoginScreen: React.FC = () => {
     // setPhoneNum(dataResult);
   };
 
-  const handleChangeLoginType = (loginType: RegistrationType) => {
-    setLoginType(loginType);
+  const handleChangeLoginType = (type: RegistrationType) => {
+    setLoginType(type);
     handleFocusInput(null);
-    reset();
+    loginType !== type ? reset() : null;
   };
 
   const handleFocusInput = (focus: 'email' | 'password' | 'phone' | null) => {
