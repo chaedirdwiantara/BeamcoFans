@@ -203,6 +203,7 @@ export const useAuthHook = () => {
         }
         storage.set('profile', JSON.stringify(response.data));
         setIsOtpValid(true);
+        setIsError(false);
       }
     } catch (error) {
       setIsError(true);
