@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -75,8 +74,6 @@ const registerValidation = yup.object({
     .oneOf([yup.ref('password'), null], `Password didn't match`),
   termsCondition: yup.bool().oneOf([true], 'Please agree before continue.'),
 });
-
-const {width, height} = Dimensions.get('screen');
 
 export const SignupScreen: React.FC = () => {
   const navigation =
@@ -246,6 +243,7 @@ export const SignupScreen: React.FC = () => {
                 countryData={countryData}
                 numberTyped={resultData}
                 onFocus={() => handleFocusInput('phone')}
+                isFocus={focusInput === 'phone'}
               />
             </View>
           )}
@@ -484,6 +482,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: mvs(12),
     alignSelf: 'center',
-    marginTop: heightResponsive(100),
+    marginTop: heightResponsive(90),
   },
 });
