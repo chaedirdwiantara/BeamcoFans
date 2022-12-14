@@ -117,7 +117,7 @@ const InputText: React.FC<InputProps> = props => {
           },
           isFocus
             ? {borderColor: color.Pink[2], borderWidth: 1}
-            : {borderColor: color.Dark[900], borderWidth: 1},
+            : {borderColor: color.Dark[800], borderWidth: 1},
           isError && !isFocus
             ? {borderColor: ErrorColor, borderWidth: 1}
             : null,
@@ -261,7 +261,7 @@ const styles = StyleSheet.create<TypeStyle>({
     fontSize: fontSize ? fontSize : mvs(13),
     fontFamily: font.InterLight,
     fontWeight: '400',
-    color: fontColor ? fontColor : FontColor,
+    color: fontColor ? fontColor : color.Neutral[10],
     marginVertical: Platform.OS === 'ios' ? mvs(12.5) : 0,
   }),
   inputTextArea: (fontSize: number) => ({
