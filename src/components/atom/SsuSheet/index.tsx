@@ -4,7 +4,9 @@ import {color} from '../../../theme';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {
   heightPercentage,
+  heightResponsive,
   widthPercentage,
+  widthResponsive,
 } from '../../../utils/dimensionFormat';
 
 interface SheetProps {
@@ -35,9 +37,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: color.Dark[800],
     width: widthPercentageToDP('100%'),
-    paddingHorizontal: widthPercentage(48),
-    paddingTop: heightPercentage(32),
-    paddingBottom: heightPercentage(24),
+    paddingHorizontal: widthResponsive(48),
+    paddingTop: heightResponsive(32),
+    paddingBottom: heightResponsive(24),
     borderTopStartRadius: 24,
     borderTopEndRadius: 24,
   },
