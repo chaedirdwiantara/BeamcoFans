@@ -42,6 +42,12 @@ export const HomeScreen: React.FC = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
+  const [selectedSong, setSelectedSong] = useState({
+    musicNum: '',
+    musicTitle: '',
+    singerName: '',
+    imgUri: '',
+  });
 
   useEffect(() => {
     FCMService.getTokenFCM({onGetToken: handleOnGetToken});
@@ -99,6 +105,11 @@ export const HomeScreen: React.FC = () => {
     setScrollEffect(scrolled);
   };
 
+  const onPressTopSong = (val: any) => {
+    setSelectedSong(val);
+    setModalVisible(true);
+  };
+
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
@@ -129,7 +140,15 @@ export const HomeScreen: React.FC = () => {
           />
         </TouchableOpacity>
         <Carousel data={dataSlider} />
-        <View style={styles.containerContent}>
+        <View
+          style={[
+            styles.containerContent,
+            {
+              marginBottom: modalVisible
+                ? heightPercentage(90)
+                : heightPercentage(25),
+            },
+          ]}>
           <TabFilter.Type1
             filterData={filter}
             onPress={filterData}
@@ -138,7 +157,7 @@ export const HomeScreen: React.FC = () => {
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
             <TopMusician />
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
-            <TopSong onPress={() => setModalVisible(true)} />
+            <TopSong onPress={onPressTopSong} type={'home'} />
           ) : (
             <PostList
               dataRightDropdown={dropDownDataCategory}
@@ -151,11 +170,9 @@ export const HomeScreen: React.FC = () => {
 
       {modalVisible && (
         <ModalPlayMusic
-          imgUri={
-            'https://cdns-images.dzcdn.net/images/cover/7f7aae26b50cb046c872238b6a2a10c2/264x264.jpg'
-          }
-          musicTitle={'Thunder'}
-          singerName={'Imagine Dragons, The Wekeend'}
+          imgUri={selectedSong.imgUri || ''}
+          musicTitle={selectedSong.musicTitle || ''}
+          singerName={selectedSong.singerName || ''}
           onPressModal={() => goToScreen('MusicPlayer')}
         />
       )}
@@ -173,7 +190,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthResponsive(24),
     width: '100%',
     height: '100%',
-    marginBottom: heightPercentage(40),
   },
   containerIcon: {
     flexDirection: 'row',
