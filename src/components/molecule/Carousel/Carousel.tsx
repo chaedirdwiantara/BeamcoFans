@@ -8,6 +8,7 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  Platform,
 } from 'react-native';
 import {Indicator} from '../../atom';
 import Font from '../../../theme/Font';
@@ -148,13 +149,14 @@ const styles = StyleSheet.create({
   itemContent: {
     marginHorizontal: widthPercentage(15),
     alignItems: 'center',
-    backgroundColor: 'white',
+    width: '90%',
+    backgroundColor: Color.Neutral[10],
     borderRadius: 8,
   },
   itemText: {
     fontSize: normalize(14),
     position: 'absolute',
-    bottom: heightPercentage(45),
+    bottom: Platform.OS === 'ios' ? heightPercentage(52) : heightPercentage(46),
     left: widthPercentage(10),
     color: Color.Neutral[10],
     fontFamily: Font.InterBold,
