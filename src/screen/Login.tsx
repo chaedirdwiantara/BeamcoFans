@@ -146,6 +146,30 @@ export const LoginScreen: React.FC = () => {
       <>
         <Text style={styles.titleStyle}>Sign In</Text>
         <Gap height={16} />
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity onPress={onLoginGoogle}>
+            <GoogleLogo />
+          </TouchableOpacity>
+          <Gap width={24} />
+          <TouchableOpacity onPress={onLoginFacebook}>
+            <FacebookLogo />
+          </TouchableOpacity>
+          {Platform.OS === 'ios' ? <Gap width={24} /> : null}
+          {Platform.OS === 'ios' ? (
+            <TouchableOpacity onPress={onLoginApple}>
+              <AppleLogo />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+        <Gap height={16} />
+        <SsuDivider text={'Or'} />
+        <Gap height={20} />
         <View style={styles.wrapperLoginType}>
           <Text
             style={
@@ -242,7 +266,7 @@ export const LoginScreen: React.FC = () => {
             />
           </View>
         )}
-        <Gap height={20} />
+        <Gap height={16} />
         <Button
           label="Submit"
           textStyles={{fontSize: mvs(14)}}
@@ -258,31 +282,7 @@ export const LoginScreen: React.FC = () => {
           containerStyles={{width: '100%'}}
           onPress={handleOnPressBack}
         />
-        <Gap height={8} />
-        <SsuDivider text={'Or'} />
-        <Gap height={14} />
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity onPress={onLoginGoogle}>
-            <GoogleLogo />
-          </TouchableOpacity>
-          <Gap width={24} />
-          <TouchableOpacity onPress={onLoginFacebook}>
-            <FacebookLogo />
-          </TouchableOpacity>
-          {Platform.OS === 'ios' ? <Gap width={24} /> : null}
-          {Platform.OS === 'ios' ? (
-            <TouchableOpacity onPress={onLoginApple}>
-              <AppleLogo />
-            </TouchableOpacity>
-          ) : null}
-        </View>
-        <Gap height={24} />
+        <Gap height={18} />
         <Text style={styles.forgotPassStyle}>
           Dont Have an Account?{' '}
           <Text

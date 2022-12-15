@@ -179,7 +179,7 @@ export const SignupScreen: React.FC = () => {
             {Platform.OS === 'ios' ? <AppleLogo /> : null}
           </View>
           <Gap height={20} />
-          <SsuDivider text={'or signup with'} />
+          <SsuDivider text={'or'} />
           <Gap height={20} />
           <View style={styles.wrapperLoginType}>
             <Text
