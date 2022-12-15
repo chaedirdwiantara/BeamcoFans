@@ -38,6 +38,7 @@ interface RegisterInput {
   password: string;
   confirmPassword: string;
   email: string;
+  phone: string;
   image: string;
   registrationType: RegistrationType;
   termsCondition: boolean;
@@ -55,6 +56,13 @@ const registerValidation = yup.object({
       .string()
       .required('This field is required')
       .email('Please use valid email'),
+  }),
+  phone: yup.string().when('registrationType', {
+    is: (val: RegistrationType) => val === 'phone',
+    then: yup
+      .string()
+      .required('This field is required')
+      .matches(/^[0-9]{0,15}$/, 'Only allowed 15 numerical characters'),
   }),
   username: yup
     .string()
@@ -238,12 +246,22 @@ export const SignupScreen: React.FC = () => {
               )}
             />
           ) : (
-            <View style={{}}>
-              <Dropdown.Country
-                countryData={countryData}
-                numberTyped={resultData}
-                onFocus={() => handleFocusInput('phone')}
-                isFocus={focusInput === 'phone'}
+            <View>
+              <Controller
+                name="phone"
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <Dropdown.Country
+                    value={value}
+                    onChangeText={onChange}
+                    countryData={countryData}
+                    numberTyped={resultData}
+                    onFocus={() => handleFocusInput('phone')}
+                    isError={errors?.phone ? true : false}
+                    errorMsg={errors?.phone?.message}
+                    isFocus={focusInput === 'phone'}
+                  />
+                )}
               />
             </View>
           )}

@@ -118,6 +118,9 @@ const InputText: React.FC<InputProps> = props => {
           isFocus
             ? {borderColor: color.Pink[2], borderWidth: 1}
             : {borderColor: color.Dark[900], borderWidth: 1},
+          isError && !isFocus
+            ? {borderColor: ErrorColor, borderWidth: 1}
+            : null,
           containerStyles,
         ]}>
         <View style={[styles.leftIconStyle, leftIconContainer]}>

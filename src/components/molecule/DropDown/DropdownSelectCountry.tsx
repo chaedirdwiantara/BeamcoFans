@@ -27,13 +27,15 @@ interface CountryData {
 interface SelectCountryProps extends TextInputProps {
   countryData: CountryData[];
   numberTyped: (data: any) => void;
+  isError?: boolean;
+  errorMsg?: string;
   isFocus?: boolean;
 }
 
 const DropdownSelectCountry: FC<SelectCountryProps> = (
   props: SelectCountryProps,
 ) => {
-  const {countryData, numberTyped, isFocus} = props;
+  const {countryData, numberTyped, isError, errorMsg, isFocus} = props;
   const [state, setState] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState<any>([]);
@@ -80,7 +82,12 @@ const DropdownSelectCountry: FC<SelectCountryProps> = (
   };
 
   return (
-    <View style={{height: mvs(42), width: '100%'}}>
+    <View
+      style={{
+        height: mvs(42),
+        width: '100%',
+        marginBottom: isError ? mvs(18.7) : undefined,
+      }}>
       <SsuInput.InputText
         value={state}
         onChangeText={(newText: any) =>
@@ -100,6 +107,8 @@ const DropdownSelectCountry: FC<SelectCountryProps> = (
               ? widthResponsive(20)
               : widthResponsive(8),
         }}
+        isError={isError}
+        errorMsg={errorMsg}
         isFocus={isFocus}
         leftIcon={
           <View style={styles.leftIconContainer}>
