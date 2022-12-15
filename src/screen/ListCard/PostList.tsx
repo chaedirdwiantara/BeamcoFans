@@ -115,14 +115,14 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
         </View>
         <View
           style={{
-            width: widthPercentage(80),
+            width: widthPercentage(85),
           }}>
           <Dropdown.Menu
             data={dataRightDropdown}
             placeHolder={'Category'}
             selectedMenu={resultDataCategory}
             containerStyle={{
-              width: widthPercentage(138),
+              width: widthResponsive(138),
               marginLeft: widthPercentage(-57),
             }}
           />
