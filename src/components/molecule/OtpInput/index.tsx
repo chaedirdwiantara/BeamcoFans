@@ -1,18 +1,15 @@
 import React, {FC} from 'react';
 import {
   Keyboard,
-  Pressable,
+  Platform,
   StyleSheet,
-  Text,
   TextInput,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {color, font} from '../../../theme';
-import {ErrorIcon, SearchIcon} from '../../../assets/icon';
+import {SearchIcon} from '../../../assets/icon';
 import {ms, mvs} from 'react-native-size-matters';
-import {normalize} from '../../../utils';
 
 interface OTPInputProps {
   pinCount?: number;
@@ -58,14 +55,25 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
   }, [code]);
 
   React.useEffect(() => {
-    bringUpKeyBoardIfNeeded();
-    setDigitsFromCode(code);
+    if (Platform.OS === 'android') {
+      bringUpKeyBoardIfNeeded();
+      setDigitsFromCode(code);
+      const keyboardDidHideListener = Keyboard.addListener(
+        'keyboardDidHide',
+        blurAllFields,
+      );
+      return keyboardDidHideListener.remove;
+    } else {
+      bringUpKeyBoardIfNeeded();
+      setDigitsFromCode(code);
+    }
   }, []);
 
   function setDigitsFromCode(code: any) {
     const regexp = new RegExp(`^\\d{${pinCount}}$`);
     if (regexp.test(code)) {
       setDigits(code.split(''));
+      blurAllFields();
       onCodeFilled && onCodeFilled(true, code);
     }
   }
@@ -119,6 +127,7 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
     if (pinCount && result.length >= pinCount) {
       onCodeFilled && onCodeFilled(true, result);
       focusField(pinCount - 1);
+      blurAllFields();
     } else {
       if (pinCount && text.length > 0 && index < pinCount - 1) {
         onCodeFilled && onCodeFilled(false, result);
@@ -127,7 +136,13 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
     }
   }
 
+  function blurAllFields() {
+    fields.forEach((field: TextInput | null) => (field as TextInput)?.blur());
+  }
+
   function handleKeyPressTextInput(index: number, key: string) {
+    console.log(key, 'key pressed');
+
     if (key === 'Backspace') {
       if (!digits[index] && index > 0) {
         handleChangeText(index - 1, '');
@@ -173,13 +188,16 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
     <View
       style={{...containerStyle}}
       accessibilityLabel={testID}
+      accessible
       testID={testID}>
       {!hideIcon && renderCicleIcon()}
       <TouchableWithoutFeedback
         accessibilityLabel={`${testID}.touchableWithoutFeedback`}
+        accessible
         style={{height: 200, backgroundColor: 'transparent'}}
         onPress={handleValidationWhenClear}>
         <View
+          accessible
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -191,6 +209,7 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
                 <TextInput
                   testID={`${testID}.otpInput${index}`}
                   accessibilityLabel={`${testID}.otpInput${index}`}
+                  accessible
                   key={index}
                   selectionColor={color.Success[500]}
                   style={[
@@ -244,7 +263,7 @@ const defaultProps: OTPInputProps = {
   containerStyle: styles.defaultContainer,
   inputStyle: styles.defaultInput,
   clearInputs: false,
-  autoFocusOnLoad: false,
+  autoFocusOnLoad: true,
   hideIcon: false,
 };
 
