@@ -33,11 +33,19 @@ const {width, height} = Dimensions.get('screen');
 interface LoginInput {
   user: string;
   password: string;
+  phone: string;
 }
 
 const loginValidation = yup.object({
   user: yup.string().required('This field is required'),
   password: yup.string().required('This field is required'),
+  phone: yup.string().when('registrationType', {
+    is: (val: RegistrationType) => val === 'phone',
+    then: yup
+      .string()
+      .required('This field is required')
+      .matches(/^[0-9]{0,15}$/, 'Only allowed 15 numerical characters'),
+  }),
 });
 
 export const LoginScreen: React.FC = () => {
@@ -216,10 +224,21 @@ export const LoginScreen: React.FC = () => {
         {loginType === 'phone' && (
           <View>
             <Gap height={8} />
-            <Dropdown.Country
-              countryData={countryData}
-              numberTyped={resultData}
-              onFocus={() => handleFocusInput('phone')}
+            <Controller
+              name="phone"
+              control={control}
+              render={({field: {onChange, value}}) => (
+                <Dropdown.Country
+                  value={value}
+                  onChangeText={onChange}
+                  countryData={countryData}
+                  numberTyped={resultData}
+                  onFocus={() => handleFocusInput('phone')}
+                  isError={errors?.phone ? true : false}
+                  errorMsg={errors?.phone?.message}
+                  isFocus={focusInput === 'phone'}
+                />
+              )}
             />
           </View>
         )}
