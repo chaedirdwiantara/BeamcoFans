@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, Platform} from 'react-native';
 
 import {ModalConfirm} from '../..';
 import {SsuInput} from '../../atom';
@@ -15,7 +15,7 @@ interface EditProfileProps {
   profile: any;
   type: string;
   onPressGoBack: () => void;
-  onPressSave: (params: object) => void;
+  onPressSave: (params: any) => void;
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
   inputBio: {
     textAlignVertical: 'top',
     paddingHorizontal: widthPercentage(10),
+    height: Platform.OS === 'ios' ? heightPercentage(60) : undefined,
   },
   length: {
     fontSize: normalize(12),

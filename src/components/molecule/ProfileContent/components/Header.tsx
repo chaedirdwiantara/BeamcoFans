@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ViewStyle,
   TouchableOpacity,
-  Platform,
   ImageBackground,
 } from 'react-native';
 
@@ -157,7 +156,7 @@ const styles = StyleSheet.create({
     right: widthPercentage(20),
   },
   settingIcon: {
-    marginTop: Platform.OS === 'ios' ? heightPercentage(25) : 0,
+    marginTop: heightPercentage(25),
   },
   initialName: {
     color: color.Neutral[10],

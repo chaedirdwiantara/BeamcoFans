@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
@@ -23,7 +23,7 @@ export const EditProfileScreen: React.FC<ProfileProps> = (
     navigation.goBack();
   };
 
-  const onPressSave = (param: object) => {
+  const onPressSave = (param: any) => {
     navigation.navigate('Profile', {...param});
   };
 
@@ -36,14 +36,14 @@ export const EditProfileScreen: React.FC<ProfileProps> = (
   };
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <EditProfile
         profile={profile}
         onPressGoBack={goBack}
         type={'edit'}
         onPressSave={onPressSave}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

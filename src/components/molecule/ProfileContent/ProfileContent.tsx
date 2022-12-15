@@ -7,7 +7,6 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Text,
-  Platform,
 } from 'react-native';
 
 import {
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: widthPercentage(20),
     backgroundColor: Color.Dark[800],
-    height: Platform.OS === 'ios' ? heightPercentage(85) : heightPercentage(64),
+    height: heightPercentage(85),
   },
   name: {
     fontFamily: font.InterSemiBold,
@@ -210,6 +209,6 @@ const styles = StyleSheet.create({
     color: Color.Neutral[10],
   },
   topIos: {
-    top: Platform.OS === 'ios' ? heightPercentage(15) : 0,
+    top: heightPercentage(15),
   },
 });
