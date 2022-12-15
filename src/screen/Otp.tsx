@@ -2,7 +2,6 @@ import React, {FC, useEffect} from 'react';
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-
 import SsuSheet from '../components/atom/SsuSheet';
 import {Button, Gap, SsuOTPInput, SsuOTPTimer} from '../components';
 import {normalize} from '../utils';
@@ -10,6 +9,7 @@ import {color, font} from '../theme';
 import {RootStackParams} from '../App';
 import {useAuthHook} from '../hooks/use-auth.hook';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
+import RenderMessage from '../components/molecule/OtpInput/RenderMessage';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -72,7 +72,6 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
 
         <Gap height={16} />
         <SsuOTPInput
-          type={isError ? 'error' : 'default'}
           hideIcon
           onCodeFilled={(result, code) => {
             if (result) {
@@ -80,6 +79,10 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
             }
           }}
         />
+        {isError ? (
+          <RenderMessage otpSuccess={isOtpValid ? true : false} />
+        ) : null}
+
         {/* TODO: move out the props for success or error when resend otp */}
         <SsuOTPTimer action={onResendOTP} timer={timer} />
         <Gap height={4} />
@@ -123,14 +126,14 @@ const styles = StyleSheet.create({
   titleStyle: {
     fontFamily: font.InterRegular,
     fontWeight: '600',
-    fontSize: normalize(20),
+    fontSize: mvs(20),
     lineHeight: mvs(32),
     color: color.Neutral[10],
   },
   descStyle: {
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     lineHeight: mvs(14.5),
     color: color.Neutral[10],
     maxWidth: '100%',
@@ -139,7 +142,7 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     lineHeight: mvs(12),
   },
   otpTitleContainer: {

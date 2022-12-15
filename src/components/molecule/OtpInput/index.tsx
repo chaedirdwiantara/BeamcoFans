@@ -17,19 +17,14 @@ import {normalize} from '../../../utils';
 interface OTPInputProps {
   pinCount?: number;
   containerStyle?: object;
-  boxStyle?: object;
   inputStyle?: object;
   testID?: string;
   clearInputs?: boolean;
   onCodeChanged?: (code: string) => void;
   autoFocusOnLoad?: boolean;
-  otpSuccess?: boolean;
   hideIcon?: boolean;
   onCodeFilled?: (result: boolean, code: string) => void;
   code?: string;
-  valMessage?: string;
-  showMessage?: boolean;
-  type: 'default' | 'error' | 'success';
 }
 
 const fields: TextInput[] | null[] = [];
@@ -42,15 +37,10 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
     testID,
     onCodeChanged,
     clearInputs,
-    boxStyle,
     autoFocusOnLoad,
-    otpSuccess,
     onCodeFilled,
     hideIcon,
     code,
-    valMessage,
-    showMessage,
-    type,
   } = props;
   const textInputCount = new Array(pinCount).fill(0);
   const [digits, setDigits] = React.useState<string[]>([]);
@@ -59,32 +49,23 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
     if (onCodeChanged) {
       onCodeChanged(digits.join(''));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [digits]);
 
   React.useEffect(() => {
     if (pinCount && code && code.length >= pinCount) {
       setDigitsFromCode(code);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
 
   React.useEffect(() => {
     bringUpKeyBoardIfNeeded();
     setDigitsFromCode(code);
-    // const keyboardDidHideListener = Keyboard.addListener(
-    //   'keyboardDidHide',
-    //   blurAllFields,
-    // );
-    // return keyboardDidHideListener.remove;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function setDigitsFromCode(code: any) {
     const regexp = new RegExp(`^\\d{${pinCount}}$`);
     if (regexp.test(code)) {
       setDigits(code.split(''));
-      blurAllFields();
       onCodeFilled && onCodeFilled(true, code);
     }
   }
@@ -138,7 +119,6 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
     if (pinCount && result.length >= pinCount) {
       onCodeFilled && onCodeFilled(true, result);
       focusField(pinCount - 1);
-      blurAllFields();
     } else {
       if (pinCount && text.length > 0 && index < pinCount - 1) {
         onCodeFilled && onCodeFilled(false, result);
@@ -147,11 +127,6 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
     }
   }
 
-  function blurAllFields() {
-    fields.forEach((field: TextInput | null) => (field as TextInput)?.blur());
-  }
-
-  /* istanbul ignore next */
   function handleKeyPressTextInput(index: number, key: string) {
     if (key === 'Backspace') {
       if (!digits[index] && index > 0) {
@@ -163,12 +138,9 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
 
   function handleValidationWhenClear() {
     if (!clearInputs) {
-      let filledPinCount = digits.filter(
-        /* istanbul ignore next */
-        digit => {
-          return digit !== null && digit !== undefined;
-        },
-      ).length;
+      let filledPinCount = digits.filter(digit => {
+        return digit !== null && digit !== undefined;
+      }).length;
       if (pinCount) {
         focusField(Math.min(filledPinCount, pinCount - 1));
       }
@@ -178,7 +150,6 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
     }
   }
 
-  /* istanbul ignore next */
   function renderCicleIcon() {
     const size = 32;
     return (
@@ -198,49 +169,26 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
     );
   }
 
-  const renderMessage = () => {
-    return (
-      <View style={styles.messageContainer}>
-        <View style={styles.messageIcon}>
-          {!otpSuccess ?? (
-            <ErrorIcon width={16} height={16} fill={color.Error[400]} />
-          )}
-        </View>
-        <Text
-          style={[
-            styles.textMessage,
-            {
-              color: otpSuccess ? color.Success[500] : color.Error[400],
-            },
-          ]}>
-          {valMessage
-            ? valMessage
-            : otpSuccess
-            ? 'Recovery code accepted'
-            : 'Please enter a valid recovery code'}
-        </Text>
-      </View>
-    );
-  };
-
   return (
     <View
       style={{...containerStyle}}
-      accessible
       accessibilityLabel={testID}
       testID={testID}>
       {!hideIcon && renderCicleIcon()}
       <TouchableWithoutFeedback
-        accessible
         accessibilityLabel={`${testID}.touchableWithoutFeedback`}
-        style={{height: 200}}
+        style={{height: 200, backgroundColor: 'transparent'}}
         onPress={handleValidationWhenClear}>
-        <View style={boxStyle}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
           {textInputCount.map((_, index) => {
             return (
               <View pointerEvents="none" key={index + 'view'}>
                 <TextInput
-                  accessible
                   testID={`${testID}.otpInput${index}`}
                   accessibilityLabel={`${testID}.otpInput${index}`}
                   key={index}
@@ -248,12 +196,6 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
                   style={[
                     inputStyle,
                     {
-                      borderColor:
-                        type === 'error'
-                          ? color.Error[500]
-                          : type === 'success'
-                          ? color.Success[500]
-                          : undefined,
                       color: color.Neutral[10],
                     },
                   ]}
@@ -263,19 +205,15 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
                     fields[index] = ref;
                   }}
                   keyboardType="number-pad"
-                  onKeyPress={
-                    /* istanbul ignore next */
-                    ({nativeEvent: {key}}) => {
-                      handleKeyPressTextInput(index, key);
-                    }
-                  }
+                  onKeyPress={({nativeEvent: {key}}) => {
+                    handleKeyPressTextInput(index, key);
+                  }}
                 />
               </View>
             );
           })}
         </View>
       </TouchableWithoutFeedback>
-      {showMessage && renderMessage()}
     </View>
   );
 };
@@ -294,27 +232,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 4,
     fontFamily: font.InterMedium,
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     width: ms(40),
     height: mvs(40),
     backgroundColor: color.Dark[600],
-  },
-  messageContainer: {
-    marginTop: mvs(4),
-    marginBottom: mvs(16),
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  messageIcon: {
-    alignSelf: 'center',
-    marginRight: ms(4),
-  },
-  textMessage: {
-    fontFamily: font.InterRegular,
-    fontWeight: '400',
-    fontSize: normalize(12),
-    lineHeight: mvs(14.52),
   },
 });
 
@@ -323,11 +244,8 @@ const defaultProps: OTPInputProps = {
   containerStyle: styles.defaultContainer,
   inputStyle: styles.defaultInput,
   clearInputs: false,
-  boxStyle: styles.defaultBoxStyle,
   autoFocusOnLoad: false,
-  otpSuccess: false,
   hideIcon: false,
-  type: 'default',
 };
 
 SsuOTPInput.defaultProps = defaultProps;
