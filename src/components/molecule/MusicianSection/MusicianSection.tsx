@@ -28,7 +28,8 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const dataMore = [
     {label: 'Follow', value: '1'},
-    {label: 'Go To Musician', value: '2'},
+    {label: 'Send Donation', value: '2'},
+    {label: 'Go To Musician', value: '3'},
   ];
   const [modalVisible, setModalVisible] = useState(false);
 
