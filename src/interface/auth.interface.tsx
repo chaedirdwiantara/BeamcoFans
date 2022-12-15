@@ -6,7 +6,6 @@ export interface RegisterPropsType {
   password: string;
   registrationType: RegistrationType;
   image?: string;
-  username: string;
 }
 
 export interface RegisterResponseType {

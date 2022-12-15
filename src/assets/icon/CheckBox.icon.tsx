@@ -5,8 +5,8 @@ import Svg, {G, Rect, Path, Defs, ClipPath} from 'react-native-svg';
 import {SvgProps} from '../../interface/svg.interface';
 
 function CheckBoxIcon({
-  width = widthPercentage(20),
-  height = widthPercentage(20),
+  width = widthPercentage(24),
+  height = widthPercentage(24),
   fill = 'none',
   active = true,
   style,
