@@ -123,9 +123,11 @@ const InputText: React.FC<InputProps> = props => {
             : null,
           containerStyles,
         ]}>
-        <View style={[styles.leftIconStyle, leftIconContainer]}>
-          {leftIcon}
-        </View>
+        {leftIcon && (
+          <View style={[styles.leftIconStyle, leftIconContainer]}>
+            {leftIcon}
+          </View>
+        )}
         <TextInput
           style={[styles.input(fontSize, fontColor), inputStyles]}
           value={value}
