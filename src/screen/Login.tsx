@@ -18,7 +18,6 @@ import {useAuthHook} from '../hooks/use-auth.hook';
 import {RootStackParams} from '../App';
 import SsuSheet from '../components/atom/SsuSheet';
 import {color, font} from '../theme';
-import {normalize} from '../utils';
 import {ms, mvs} from 'react-native-size-matters';
 import {Button, Dropdown, Gap, SsuDivider, SsuInput} from '../components';
 import {LockIcon, UserIcon} from '../assets/icon';
@@ -27,6 +26,7 @@ import {AppleLogo, FacebookLogo, GoogleLogo, SSULogo} from '../assets/logo';
 import type {RegistrationType} from '../interface/profile.interface';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import {storage} from '../hooks/use-storage.hook';
+import {heightResponsive} from '../utils';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -131,10 +131,10 @@ export const LoginScreen: React.FC = () => {
     // setPhoneNum(dataResult);
   };
 
-  const handleChangeLoginType = (loginType: RegistrationType) => {
-    setLoginType(loginType);
+  const handleChangeLoginType = (type: RegistrationType) => {
+    setLoginType(type);
     handleFocusInput(null);
-    reset();
+    loginType !== type ? reset() : null;
   };
 
   const handleFocusInput = (focus: 'email' | 'password' | 'phone' | null) => {
@@ -245,7 +245,7 @@ export const LoginScreen: React.FC = () => {
         <Gap height={20} />
         <Button
           label="Submit"
-          textStyles={{fontSize: normalize(14)}}
+          textStyles={{fontSize: mvs(14)}}
           containerStyles={{width: '100%'}}
           onPress={handleSubmit(handleOnLogin)}
         />
@@ -254,7 +254,7 @@ export const LoginScreen: React.FC = () => {
           type="border"
           label="Back"
           borderColor="transparent"
-          textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
+          textStyles={{fontSize: mvs(14), color: color.Pink.linear}}
           containerStyles={{width: '100%'}}
           onPress={handleOnPressBack}
         />
@@ -290,7 +290,7 @@ export const LoginScreen: React.FC = () => {
             style={{
               fontFamily: font.InterRegular,
               fontWeight: '700',
-              fontSize: normalize(12),
+              fontSize: mvs(12),
               lineHeight: mvs(16),
             }}>
             Sign Up
@@ -312,36 +312,29 @@ export const LoginScreen: React.FC = () => {
           alignItems: 'center',
         }}>
         <SSULogo />
-        {Platform.OS === 'ios' ? (
-          <>
-            <Text style={styles.titleStyle}>Begin Today</Text>
-            <Gap height={12} />
-            <Text style={styles.descStyle}>
-              Sign in or Register to explore full features and support the
-              musician
-            </Text>
-            <Gap height={30} />
-          </>
-        ) : (
-          <Gap height={35} />
-        )}
+        <Text style={styles.titleStyle}>Begin Today</Text>
+        <Gap height={12} />
+        <Text style={styles.descStyle}>
+          Sign in or Register to explore full features and support the musician
+        </Text>
+        {height >= 800 ? <Gap height={82} /> : <Gap height={40} />}
       </View>
     );
   };
 
   return (
-    <View style={styles.root}>
-      <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View style={styles.root}>
         <Image
           source={require('../assets/background/signin-guest.png')}
           style={styles.image}
         />
         <SsuSheet children={children()} topChild={topChild()} />
         <ModalLoading visible={isLoading} />
-      </KeyboardAvoidingView>
-    </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -360,8 +353,7 @@ const styles = StyleSheet.create({
   titleStyle: {
     fontFamily: font.InterRegular,
     fontWeight: '600',
-    fontSize: normalize(20),
-    lineHeight: mvs(32),
+    fontSize: mvs(20),
     textAlign: 'center',
     color: color.Neutral[10],
   },
@@ -370,7 +362,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    marginBottom: ms(16),
+    marginBottom: heightResponsive(16),
   },
   verticalSeparatorLoginType: {
     width: ms(1),
@@ -381,29 +373,27 @@ const styles = StyleSheet.create({
   },
   loginTypeActive: {
     fontFamily: font.InterMedium,
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     color: color.Pink[2],
-    lineHeight: mvs(14),
     fontWeight: '500',
   },
   loginTypeInactive: {
     fontFamily: font.InterRegular,
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     color: color.Neutral[10],
-    lineHeight: mvs(14),
     fontWeight: '400',
   },
   forgotPassStyle: {
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(12),
+    fontSize: mvs(12),
   },
   descStyle: {
     color: color.Neutral[10],
     fontFamily: font.InterMedium,
     fontWeight: '500',
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     maxWidth: '80%',
     textAlign: 'center',
   },
