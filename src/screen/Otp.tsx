@@ -1,15 +1,24 @@
 import React, {FC, useEffect} from 'react';
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import SsuSheet from '../components/atom/SsuSheet';
 import {Button, Gap, SsuOTPInput, SsuOTPTimer} from '../components';
-import {normalize} from '../utils';
+import {normalize, widthResponsive} from '../utils';
 import {color, font} from '../theme';
 import {RootStackParams} from '../App';
 import {useAuthHook} from '../hooks/use-auth.hook';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import RenderMessage from '../components/molecule/OtpInput/RenderMessage';
+import {SSULogo} from '../assets/logo';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -66,11 +75,10 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
       <>
         <View style={styles.otpTitleContainer}>
           <Text style={styles.titleStyle}>{route.params.title}</Text>
-          <Gap height={8} />
+          <Gap height={16} />
           <Text style={styles.descStyle}>{route.params.subtitle}</Text>
         </View>
-
-        <Gap height={16} />
+        <Gap height={18} />
         <SsuOTPInput
           hideIcon
           onCodeFilled={(result, code) => {
@@ -94,20 +102,42 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
           containerStyles={{width: '100%'}}
           onPress={handleBack}
         />
-        <Gap height={30} />
       </>
     );
   };
 
+  const topChild = () => {
+    return (
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingHorizontal: widthResponsive(48),
+        }}>
+        <SSULogo />
+        <Text style={styles.titleStyle}>Begin Today</Text>
+        <Gap height={12} />
+        <Text style={[styles.descStyle, {textAlign: 'center'}]}>
+          Sign in or Register to explore full features and support the musician
+        </Text>
+        <Gap height={160} />
+      </View>
+    );
+  };
+
   return (
-    <View style={styles.root}>
-      <Image
-        source={require('../assets/background/signin-guest.png')}
-        style={styles.image}
-      />
-      <SsuSheet children={children()} />
-      <ModalLoading visible={isLoading} />
-    </View>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View style={styles.root}>
+        <Image
+          source={require('../assets/background/signin-guest.png')}
+          style={styles.image}
+        />
+        <SsuSheet children={children()} topChild={topChild()} />
+        <ModalLoading visible={isLoading} />
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -127,14 +157,12 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontWeight: '600',
     fontSize: mvs(20),
-    lineHeight: mvs(32),
     color: color.Neutral[10],
   },
   descStyle: {
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: mvs(12),
-    lineHeight: mvs(14.5),
     color: color.Neutral[10],
     maxWidth: '100%',
   },
