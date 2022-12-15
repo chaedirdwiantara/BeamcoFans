@@ -1,4 +1,3 @@
-import {StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
@@ -34,5 +33,3 @@ const TopMusician: FC<TopMusicianProps> = ({type}) => {
 };
 
 export default TopMusician;
-
-const styles = StyleSheet.create({});
