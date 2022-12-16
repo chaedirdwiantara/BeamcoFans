@@ -8,9 +8,6 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 
-import Color from '../theme/Color';
-import {dataSlider} from '../data/home';
-import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 import {
   TopNavigation,
   SearchBar,
@@ -19,7 +16,9 @@ import {
   IconNotif,
   SsuStatusBar,
 } from '../components';
+import Color from '../theme/Color';
 import {RootStackParams} from '../App';
+import {dataSlider} from '../data/home';
 import TopSong from './ListCard/TopSong';
 import {SearchIcon} from '../assets/icon';
 import PostList from './ListCard/PostList';
@@ -31,6 +30,7 @@ import {profileStorage} from '../hooks/use-storage.hook';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
+import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
