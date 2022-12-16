@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 
 import {
   heightPercentage,
@@ -93,116 +100,129 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
   const hideMenuDelete =
     playlistUri?.path !== undefined && playlistUri?.path !== '';
 
+  const maxColorTitle =
+    state.playlistName.length === 100 ? color.Error[400] : color.Neutral[10];
+  const maxColorDesc =
+    state.playlistDesc.length === 600 ? color.Error[400] : color.Neutral[10];
+
   return (
-    <View style={styles.root}>
-      <TopNavigation.Type1
-        title="New Playlist"
-        leftIcon={<ArrowLeftIcon />}
-        itemStrokeColor={color.Neutral[10]}
-        leftIconAction={onPressGoBack}
-        containerStyles={{paddingHorizontal: widthPercentage(12)}}
-      />
-
-      <PhotoPlaylist
-        uri={playlistUri?.path}
-        showIcon
-        onPress={() => openModal('modalImage')}
-      />
-
-      <View>
-        <SsuInput.TextArea
-          value={state.playlistName}
-          onChangeText={(newText: string) =>
-            onChangeText('playlistName', newText)
-          }
-          placeholder={'Playlist Name'}
-          containerStyles={styles.textInput}
-          numberOfLines={1}
-          maxLength={100}
-          multiline={false}
-          onFocus={() => {
-            handleFocusInput('name');
-          }}
-          onBlur={() => {
-            handleFocusInput(null);
-          }}
-          isFocus={focusInput === 'name'}
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View style={styles.root}>
+        <TopNavigation.Type1
+          title="New Playlist"
+          leftIcon={<ArrowLeftIcon />}
+          itemStrokeColor={color.Neutral[10]}
+          leftIconAction={onPressGoBack}
+          containerStyles={{paddingHorizontal: widthPercentage(12)}}
         />
-        <Text
-          style={[
-            styles.length,
-            // {color: newColor},
-          ]}>{`${state.playlistName.length}/100`}</Text>
+
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center'}}>
+          <PhotoPlaylist
+            uri={playlistUri?.path}
+            showIcon
+            onPress={() => openModal('modalImage')}
+          />
+
+          <View>
+            <SsuInput.TextArea
+              value={state.playlistName}
+              onChangeText={(newText: string) =>
+                onChangeText('playlistName', newText)
+              }
+              placeholder={'Playlist Name'}
+              containerStyles={styles.textInput}
+              numberOfLines={1}
+              maxLength={100}
+              multiline={false}
+              onFocus={() => {
+                handleFocusInput('name');
+              }}
+              onBlur={() => {
+                handleFocusInput(null);
+              }}
+              isFocus={focusInput === 'name'}
+            />
+            <Text
+              style={[
+                styles.length,
+                {color: maxColorTitle},
+              ]}>{`${state.playlistName.length}/100`}</Text>
+          </View>
+
+          <View>
+            <SsuInput.TextArea
+              value={state.playlistDesc}
+              onChangeText={(newText: string) =>
+                onChangeText('playlistDesc', newText)
+              }
+              placeholder={'Playlist Description'}
+              containerStyles={styles.textArea}
+              multiline
+              numberOfLines={5}
+              maxLength={600}
+              inputStyles={styles.inputDesc}
+              onFocus={() => {
+                handleFocusInput('description');
+              }}
+              onBlur={() => {
+                handleFocusInput(null);
+              }}
+              isFocus={focusInput === 'description'}
+            />
+            <Text
+              style={[
+                styles.length,
+                {color: maxColorDesc},
+              ]}>{`${state.playlistDesc.length}/600`}</Text>
+          </View>
+
+          <Dropdown.Input
+            data={dataVisibility}
+            placeHolder={'Visibility'}
+            dropdownLabel={'Visibility'}
+            textTyped={(newText: string) => onChangeText('gender', newText)}
+            containerStyles={{marginTop: heightPercentage(15)}}
+          />
+
+          <View style={styles.footer}>
+            <Button
+              type="border"
+              label="Cancel"
+              containerStyles={styles.btnContainer}
+              textStyles={{color: color.Pink.linear}}
+              onPress={() => null}
+            />
+            <ButtonGradient
+              label={'Create'}
+              disabled={disabledButton}
+              colors={disabledButton ? colorDisabled : defaultGradient}
+              onPress={() => openModal('modalConfirm')}
+              gradientStyles={styles.btnContainer}
+            />
+          </View>
+        </ScrollView>
+
+        <ModalImagePicker
+          title="Edit Playlist Cover"
+          modalVisible={isModalVisible.modalImage}
+          sendUri={sendUri}
+          onDeleteImage={resetImage}
+          onPressClose={closeModal}
+          hideMenuDelete={hideMenuDelete}
+        />
+        <ModalConfirm
+          modalVisible={isModalVisible.modalConfirm}
+          title="Save"
+          subtitle="Are you sure you want to save your new playlist?"
+          onPressClose={closeModal}
+          onPressOk={onPressConfirm}
+        />
       </View>
-
-      <View style={styles.textAreaContainer}>
-        <SsuInput.TextArea
-          value={state.playlistDesc}
-          onChangeText={(newText: string) =>
-            onChangeText('playlistDesc', newText)
-          }
-          placeholder={'Playlist Description'}
-          containerStyles={styles.textArea}
-          multiline
-          numberOfLines={5}
-          maxLength={600}
-          inputStyles={styles.inputDesc}
-          onFocus={() => {
-            handleFocusInput('description');
-          }}
-          onBlur={() => {
-            handleFocusInput(null);
-          }}
-          isFocus={focusInput === 'description'}
-        />
-        <Text
-          style={[
-            styles.length,
-            // {color: newColor},
-          ]}>{`${state.playlistDesc.length}/600`}</Text>
-      </View>
-
-      <Dropdown.Input
-        data={dataVisibility}
-        placeHolder={'Visibility'}
-        dropdownLabel={'Visibility'}
-        textTyped={(newText: string) => onChangeText('gender', newText)}
-        containerStyles={{marginTop: heightPercentage(15)}}
-      />
-
-      <View style={styles.footer}>
-        <Button
-          type="border"
-          label="Cancel"
-          containerStyles={styles.btnContainer}
-          textStyles={{color: color.Pink.linear}}
-          onPress={() => null}
-        />
-        <ButtonGradient
-          label={'Create'}
-          disabled={disabledButton}
-          colors={disabledButton ? colorDisabled : defaultGradient}
-          onPress={() => openModal('modalConfirm')}
-          gradientStyles={styles.btnContainer}
-        />
-      </View>
-
-      <ModalImagePicker
-        title="Edit Playlist Cover"
-        modalVisible={isModalVisible.modalImage}
-        sendUri={sendUri}
-        onDeleteImage={resetImage}
-        onPressClose={closeModal}
-        hideMenuDelete={hideMenuDelete}
-      />
-      <ModalConfirm
-        modalVisible={isModalVisible.modalConfirm}
-        title="Save"
-        subtitle="Are you sure you want to save your new playlist?"
-        onPressClose={closeModal}
-        onPressOk={onPressConfirm}
-      />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -219,12 +239,13 @@ const styles = StyleSheet.create({
     marginTop: heightPercentage(15),
   },
   textInput: {
+    width: width * 0.9,
     marginTop: heightPercentage(10),
-    marginBottom: heightPercentage(5),
+    marginBottom: heightPercentage(4),
   },
   textArea: {
     paddingHorizontal: 0,
-    marginVertical: heightPercentage(10),
+    marginBottom: heightPercentage(4),
     marginTop: heightPercentage(15),
   },
   footer: {
@@ -241,11 +262,8 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     paddingHorizontal: widthPercentage(10),
   },
-  textAreaContainer: {},
   length: {
     fontFamily: font.InterRegular,
     fontSize: normalize(12),
-    color: color.Neutral[10],
-    // marginTop: heightPercentage(5),
   },
 });
