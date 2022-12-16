@@ -62,6 +62,7 @@ const NewCreatedPlaylist: React.FC<NewPlaylistProps> = ({
         musicTitle={elipsisText(playlist?.playlistName, 22)}
         singerName={'by Weaboo'}
         containerStyles={{marginTop: heightPercentage(20)}}
+        hideDropdownMore={true}
       />
     </TouchableOpacity>
   );
