@@ -113,7 +113,7 @@ export const PlaylistContent: React.FC<Props> = ({
             Song List
           </Text>
           <View style={{}}>
-            <TopSong />
+            <TopSong hideDropdownMore={true} onPress={() => null} />
           </View>
         </View>
       </ScrollView>
@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: widthPercentage(20),
     paddingTop: heightPercentage(15),
+    marginBottom: heightPercentage(30),
   },
   description: {
     fontSize: normalize(12),
