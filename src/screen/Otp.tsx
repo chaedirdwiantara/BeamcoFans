@@ -87,7 +87,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
             }
           }}
         />
-        {isOtpValid !== true ? (
+        {isError ? (
           <RenderMessage otpSuccess={isOtpValid ? true : false} />
         ) : null}
 

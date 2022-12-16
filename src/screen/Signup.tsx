@@ -56,10 +56,10 @@ const registerValidation = yup.object({
       .required('This field is required')
       .matches(/^[0-9]{0,15}$/, 'Only allowed 15 numerical characters'),
   }),
-  username: yup
-    .string()
-    .required('This field is required')
-    .matches(/^[a-z0-9]{3,30}/, 'Only allowed 5 to 30 char lowercase'),
+  // username: yup
+  //   .string()
+  //   .required('This field is required')
+  //   .matches(/^[a-z0-9]{3,30}/, 'Only allowed 5 to 30 char lowercase'),
   image: yup.string().when('registrationType', {
     is: (val: RegistrationType) => val !== 'email',
     then: yup.string().required('Image not found'),

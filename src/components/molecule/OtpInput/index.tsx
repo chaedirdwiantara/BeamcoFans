@@ -141,8 +141,6 @@ const SsuOTPInput: FC<OTPInputProps> = (props = defaultProps) => {
   }
 
   function handleKeyPressTextInput(index: number, key: string) {
-    console.log(key, 'key pressed');
-
     if (key === 'Backspace') {
       if (!digits[index] && index > 0) {
         handleChangeText(index - 1, '');
@@ -263,7 +261,7 @@ const defaultProps: OTPInputProps = {
   containerStyle: styles.defaultContainer,
   inputStyle: styles.defaultInput,
   clearInputs: false,
-  autoFocusOnLoad: true,
+  autoFocusOnLoad: false,
   hideIcon: false,
 };
 
