@@ -23,6 +23,7 @@ interface ListProps {
   singerName: string;
   containerStyles?: ViewStyle;
   played?: boolean;
+  hideDropdownMore?: boolean;
 }
 
 interface DataMore {
@@ -54,6 +55,13 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
         setToastVisible(false);
       }, 3000);
   }, [toastVisible]);
+
+  useEffect(() => {
+    modalSuccessDonate &&
+      setTimeout(() => {
+        setModalSuccessDonate(false);
+      }, 3000);
+  }, [modalSuccessDonate, trigger2ndModal]);
 
   const onPressDonate = () => {
     setModalDonate(false);
@@ -112,7 +120,7 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
       />
 
       <ModalSuccessDonate
-        modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
+        modalVisible={modalSuccessDonate && trigger2ndModal}
         toggleModal={onPressSuccess}
       />
 

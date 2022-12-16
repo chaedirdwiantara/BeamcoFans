@@ -33,6 +33,7 @@ interface ListProps {
   onPressIcon?: (data: any) => void;
   type?: string;
   played?: boolean;
+  hideDropdownMore?: boolean;
 }
 
 const MusicListCard: React.FC<ListProps> = ({
@@ -48,6 +49,7 @@ const MusicListCard: React.FC<ListProps> = ({
   rightIcon,
   rightIconComponent,
   played,
+  hideDropdownMore = false,
 }) => {
   // ? Dropdown Menu Example
   const dataMore = [
@@ -95,15 +97,17 @@ const MusicListCard: React.FC<ListProps> = ({
           {rightIconComponent}
         </TouchableOpacity>
       ) : (
-        <Dropdown.More
-          data={dataFilter ? dataFilter : dataMore}
-          selectedMenu={onPressMore}
-          containerStyle={{
-            width: widthPercentage(120),
-            marginLeft: widthPercentage(-110),
-            marginTop: heightPercentage(-8),
-          }}
-        />
+        !hideDropdownMore && (
+          <Dropdown.More
+            data={dataFilter ? dataFilter : dataMore}
+            selectedMenu={onPressMore}
+            containerStyle={{
+              width: widthPercentage(120),
+              marginLeft: widthPercentage(-110),
+              marginTop: heightPercentage(-8),
+            }}
+          />
+        )
       )}
     </TouchableOpacity>
   );

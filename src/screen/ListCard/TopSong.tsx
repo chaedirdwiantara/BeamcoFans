@@ -9,10 +9,11 @@ interface TopSongPropsScreen {
   type?: string;
   onPress: (param: any) => void;
   scrollable?: boolean;
+  hideDropdownMore?: boolean;
 }
 
 const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
-  const {onPress, scrollable, type} = props;
+  const {onPress, scrollable, type, hideDropdownMore} = props;
   const [listSong, setListSong] = useState(TopSongListData);
 
   const onPressPlay = (item: TopSongProps, index: number) => {
@@ -40,6 +41,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
           }
           containerStyles={{marginTop: mvs(20)}}
           played={type === 'home' ? item.played : false}
+          hideDropdownMore={hideDropdownMore}
         />
       )}
       estimatedItemSize={TopSongListData.length}

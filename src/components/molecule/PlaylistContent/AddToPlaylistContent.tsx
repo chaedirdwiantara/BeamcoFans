@@ -41,7 +41,11 @@ export const AddToPlaylistContent: React.FC<AddToPlaylistProps> = ({
           text="Create New Playlist"
           // onPress={() => onPressGoTo('CreateNewPlaylist')}
         />
-        <TopSong />
+        <TopSong
+          hideDropdownMore={true}
+          scrollable={false}
+          onPress={() => null}
+        />
       </ScrollView>
     </SafeAreaView>
   );

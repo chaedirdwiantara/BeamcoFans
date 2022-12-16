@@ -140,7 +140,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                     goToPlaylist={goToPlaylist}
                   />
                 )}
-                <TopSong onPress={() => null} scrollable={false} />
+                <TopSong
+                  hideDropdownMore={true}
+                  onPress={() => null}
+                  scrollable={false}
+                />
               </View>
             ) : (
               <CreateNewCard
@@ -151,7 +155,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             )
           ) : filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
             MusicianListData.length > 0 ? (
-              <TopMusician type={'profile'} />
+              <TopMusician scrollable={false} type={'profile'} />
             ) : (
               <EmptyState text="This user don't have contribution to any musician" />
             )
@@ -177,14 +181,14 @@ const styles = StyleSheet.create({
   },
   infoCard: {
     position: 'absolute',
-    top: heightPercentage(300),
+    top: heightPercentage(310),
     left: widthPercentage(20),
   },
   containerContent: {
     flex: 1,
     marginTop: heightPercentage(70),
     paddingHorizontal: widthPercentage(20),
-    marginBottom: heightPercentage(10),
+    marginBottom: heightPercentage(20),
     width: '100%',
   },
   flashlistStyle: {
