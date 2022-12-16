@@ -48,8 +48,7 @@ export const dropDownDataCategory: DataDropDownType[] = [
   {label: 'Tour', value: '3'},
   {label: 'Daily Life', value: '4'},
   {label: 'Behind The Scene', value: '5'},
-  {label: 'Highlight Post', value: '6'},
-  {label: 'Backstage', value: '7'},
+  {label: 'Backstage', value: '6'},
 ];
 
 export interface DropDownFilterType {

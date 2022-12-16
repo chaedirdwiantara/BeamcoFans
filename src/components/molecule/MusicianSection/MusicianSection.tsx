@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Gap, ListCard, SsuToast} from '../..';
+import {Gap, ListCard, ModalDonate, ModalSuccessDonate, SsuToast} from '../..';
 import {CheckCircle2Icon} from '../../../assets/icon';
 import {color, font} from '../../../theme';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
@@ -28,24 +28,45 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const dataMore = [
     {label: 'Follow', value: '1'},
-    {label: 'Go To Musician', value: '2'},
+    {label: 'Send Donation', value: '2'},
+    {label: 'Go To Musician', value: '3'},
   ];
-  const [modalVisible, setModalVisible] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [modalDonate, setModalDonate] = useState<boolean>(false);
+  const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
+  const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
   useEffect(() => {
-    modalVisible &&
+    toastVisible &&
       setTimeout(() => {
-        setModalVisible(false);
+        setToastVisible(false);
       }, 3000);
-  }, [modalVisible]);
+  }, [toastVisible]);
+
+  useEffect(() => {
+    modalSuccessDonate &&
+      setTimeout(() => {
+        setModalSuccessDonate(false);
+      }, 3000);
+  }, [modalSuccessDonate, trigger2ndModal]);
 
   const resultDataMore = (dataResult: DataMore) => {
     dataResult.label === 'Follow'
-      ? setModalVisible(true)
+      ? setToastVisible(true)
       : dataResult.label === 'Go To Musician'
       ? navigation.navigate('MusicianProfile')
-      : null;
+      : setModalDonate(true);
   };
+
+  const onPressDonate = () => {
+    setModalDonate(false);
+    setTrigger2ndModal(true);
+  };
+
+  const onPressSuccess = () => {
+    setModalSuccessDonate(false);
+  };
+
   return (
     <>
       <ListCard.MusicianList
@@ -53,9 +74,22 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
         onPressMore={resultDataMore}
         {...props}
       />
+      <ModalDonate
+        totalCoin="1000"
+        onPressDonate={onPressDonate}
+        modalVisible={modalDonate}
+        onPressClose={() => setModalDonate(false)}
+        onModalHide={() => setModalSuccessDonate(true)}
+      />
+
+      <ModalSuccessDonate
+        modalVisible={modalSuccessDonate && trigger2ndModal}
+        toggleModal={onPressSuccess}
+      />
+
       <SsuToast
-        modalVisible={modalVisible}
-        onBackPressed={() => setModalVisible(false)}
+        modalVisible={toastVisible}
+        onBackPressed={() => setToastVisible(false)}
         children={
           <View style={[styles.modalContainer]}>
             <CheckCircle2Icon />
@@ -65,12 +99,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
             </Text>
           </View>
         }
-        modalStyle={{
-          maxWidth: '100%',
-          marginHorizontal: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
+        modalStyle={styles.toast}
       />
     </>
   );
@@ -97,5 +126,11 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontWeight: '500',
     fontSize: normalize(13),
+  },
+  toast: {
+    maxWidth: '100%',
+    marginHorizontal: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

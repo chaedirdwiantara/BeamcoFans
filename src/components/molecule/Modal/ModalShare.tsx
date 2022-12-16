@@ -26,13 +26,14 @@ interface ModalShareProps {
   url: string;
   titleModal: string;
   modalVisible: boolean;
-  imgUri: string;
-  type: string;
-  titleSong: string;
-  artist: string;
-  createdOn: string;
+  imgUri?: string;
+  type?: string;
+  titleSong?: string;
+  artist?: string;
+  createdOn?: string;
   onPressClose: () => void;
   onPressCopy: () => void;
+  hideMusic?: boolean;
 }
 
 export const ModalShare: React.FC<ModalShareProps> = ({
@@ -46,6 +47,7 @@ export const ModalShare: React.FC<ModalShareProps> = ({
   createdOn,
   onPressClose,
   onPressCopy,
+  hideMusic,
 }) => {
   const onPressCopyLink = () => {
     onPressCopy();
@@ -58,16 +60,18 @@ export const ModalShare: React.FC<ModalShareProps> = ({
         <Text style={styles.titleStyle}>{titleModal}</Text>
         <View style={styles.separator} />
 
-        <View style={styles.containerSong}>
-          <SquareImage imgUri={imgUri} size={widthPercentage(56)} />
-          <View style={styles.textContainer}>
-            <Text style={styles.songTitle}>{titleSong}</Text>
-            <Gap height={2} />
-            <Text style={styles.singerName}>{artist}</Text>
-            <Gap height={2} />
-            <Text style={styles.songDesc}>{`${type} · ${createdOn}`}</Text>
+        {!hideMusic ? (
+          <View style={styles.containerSong}>
+            <SquareImage imgUri={imgUri || ''} size={widthPercentage(56)} />
+            <View style={styles.textContainer}>
+              <Text style={styles.songTitle}>{titleSong}</Text>
+              <Gap height={2} />
+              <Text style={styles.singerName}>{artist}</Text>
+              <Gap height={2} />
+              <Text style={styles.songDesc}>{`${type} · ${createdOn}`}</Text>
+            </View>
           </View>
-        </View>
+        ) : null}
 
         <TouchableOpacity style={styles.containerSong} onPress={onPressCopy}>
           <Text style={styles.copyLink}>{url}</Text>

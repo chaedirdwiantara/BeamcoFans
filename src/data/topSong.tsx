@@ -4,6 +4,7 @@ export interface TopSongProps {
   musicTitle: string;
   singerName: string;
   imgUri: string;
+  played: boolean;
 }
 export const TopSongListData: TopSongProps[] = [
   {
@@ -12,6 +13,7 @@ export const TopSongListData: TopSongProps[] = [
     musicTitle: 'Thunder',
     singerName: 'Imagine Dragons',
     imgUri: 'https://i.ytimg.com/vi/GtEvysh1654/maxresdefault.jpg',
+    played: false,
   },
   {
     id: '2',
@@ -19,6 +21,7 @@ export const TopSongListData: TopSongProps[] = [
     musicTitle: 'Sunflower',
     singerName: 'Rex Orange County',
     imgUri: 'https://i.ytimg.com/vi/awga8fAYOtE/maxresdefault.jpg',
+    played: false,
   },
   {
     id: '3',
@@ -26,6 +29,7 @@ export const TopSongListData: TopSongProps[] = [
     musicTitle: 'I Still Love You',
     singerName: 'The Overtunes',
     imgUri: 'https://i.ytimg.com/vi/Tw-u1EvLLL0/maxresdefault.jpg',
+    played: false,
   },
   {
     id: '4',
@@ -33,6 +37,7 @@ export const TopSongListData: TopSongProps[] = [
     musicTitle: 'I Like Me Better',
     singerName: 'Lauv',
     imgUri: 'https://i.scdn.co/image/ab67616d0000b273fab48816b625e2a77a732400',
+    played: false,
   },
   {
     id: '5',
@@ -41,6 +46,7 @@ export const TopSongListData: TopSongProps[] = [
     singerName: 'Ariana Grande',
     imgUri:
       'https://m.media-amazon.com/images/M/MV5BYTQ2MTdmOTQtNzY0NS00MDQ1LWEwOWItNDczNzUxMDdlOTYzXkEyXkFqcGdeQXVyMTI1Mzg0ODA5._V1_.jpg',
+    played: false,
   },
   {
     id: '6',
@@ -48,6 +54,7 @@ export const TopSongListData: TopSongProps[] = [
     musicTitle: 'Drunk',
     singerName: 'Keshi',
     imgUri: 'https://i.ytimg.com/vi/CyadFi-x3Dk/maxresdefault.jpg',
+    played: false,
   },
   {
     id: '7',
@@ -56,5 +63,6 @@ export const TopSongListData: TopSongProps[] = [
     singerName: 'Justin Bieber',
     imgUri:
       'https://lastfm.freetls.fastly.net/i/u/ar0/c800779a399447228ab7cc929bb8895a.jpg',
+    played: false,
   },
 ];

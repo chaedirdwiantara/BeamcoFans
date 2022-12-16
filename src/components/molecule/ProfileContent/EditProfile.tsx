@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, Platform} from 'react-native';
 
 import {ModalConfirm} from '../..';
 import {SsuInput} from '../../atom';
@@ -15,7 +15,7 @@ interface EditProfileProps {
   profile: any;
   type: string;
   onPressGoBack: () => void;
-  onPressSave: (params: object) => void;
+  onPressSave: (params: any) => void;
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({
@@ -78,6 +78,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
       ? avatarUri !== null && avatarUri !== ''
       : backgroundUri !== null && backgroundUri !== '';
 
+  const newColor = bio.length === 110 ? Color.Error[400] : Color.Neutral[10];
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
@@ -114,7 +116,11 @@ export const EditProfile: React.FC<EditProfileProps> = ({
           onBlur={() => setFocusInput(false)}
           isFocus={focusInput}
         />
-        <Text style={styles.length}>{`${bio.length}/110`}</Text>
+        <Text
+          style={[
+            styles.length,
+            {color: newColor},
+          ]}>{`${bio.length}/110`}</Text>
       </View>
 
       <ModalImagePicker
@@ -159,10 +165,10 @@ const styles = StyleSheet.create({
   inputBio: {
     textAlignVertical: 'top',
     paddingHorizontal: widthPercentage(10),
+    height: Platform.OS === 'ios' ? heightPercentage(60) : undefined,
   },
   length: {
     fontSize: normalize(12),
-    color: Color.Neutral[10],
     marginTop: heightPercentage(5),
   },
 });

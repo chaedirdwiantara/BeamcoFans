@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,25 +8,32 @@ import {
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 
+import {
+  heightPercentage,
+  normalize,
+  widthPercentage,
+  widthResponsive,
+} from '../../../utils';
 import {Dropdown} from '../DropDown';
 import {color, font} from '../../../theme';
 import {Gap, SquareImage} from '../../atom';
 import {SoundIcon} from '../../../assets/icon';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface ListProps {
   imgUri: string;
   onPressMore?: (data: any) => void;
   onPressCard?: () => void;
-  musicNum: number | string;
+  musicNum?: number | string;
   musicTitle: string;
   singerName: string;
   containerStyles?: ViewStyle;
-  dataFilter?: [];
+  dataFilter?: {label: string; value: string}[];
   rightIcon?: boolean;
   rightIconComponent?: React.ReactNode;
   onPressIcon?: (data: any) => void;
   type?: string;
+  played?: boolean;
+  hideDropdownMore?: boolean;
 }
 
 const MusicListCard: React.FC<ListProps> = ({
@@ -41,7 +48,8 @@ const MusicListCard: React.FC<ListProps> = ({
   dataFilter,
   rightIcon,
   rightIconComponent,
-  type,
+  played,
+  hideDropdownMore = false,
 }) => {
   // ? Dropdown Menu Example
   const dataMore = [
@@ -49,26 +57,23 @@ const MusicListCard: React.FC<ListProps> = ({
     {label: 'Send Donation', value: '2'},
     {label: 'Add to Queue', value: '3'},
     {label: 'Share Music', value: '4'},
-    {label: 'Show Credits', value: '25'},
+    {label: 'Show Credits', value: '5'},
   ];
 
-  const [played, setPlayed] = useState(false);
   const titleColor = played ? color.Success[400] : color.Neutral[10];
-
-  const onPressPlay = () => {
-    if (type === 'modal') {
-      onPressCard();
-    } else {
-      onPressCard();
-      setPlayed(!played);
-    }
-  };
 
   return (
     <TouchableOpacity
       style={[styles.container, containerStyles]}
-      onPress={onPressCard && onPressPlay}>
-      {played && <SoundIcon style={{marginRight: widthPercentage(5)}} />}
+      onPress={onPressCard}>
+      {played && (
+        <SoundIcon
+          style={{
+            width: widthResponsive(30),
+            paddingRight: widthPercentage(15),
+          }}
+        />
+      )}
       {musicNum && !played && (
         <Text style={styles.rankStyle}>
           {musicNum.toLocaleString('en-US', {
@@ -92,15 +97,17 @@ const MusicListCard: React.FC<ListProps> = ({
           {rightIconComponent}
         </TouchableOpacity>
       ) : (
-        <Dropdown.More
-          data={dataFilter ? dataFilter : dataMore}
-          selectedMenu={() => onPressMore}
-          containerStyle={{
-            width: widthPercentage(120),
-            marginLeft: widthPercentage(-110),
-            marginTop: heightPercentage(-8),
-          }}
-        />
+        !hideDropdownMore && (
+          <Dropdown.More
+            data={dataFilter ? dataFilter : dataMore}
+            selectedMenu={onPressMore}
+            containerStyle={{
+              width: widthPercentage(120),
+              marginLeft: widthPercentage(-110),
+              marginTop: heightPercentage(-8),
+            }}
+          />
+        )
       )}
     </TouchableOpacity>
   );
@@ -120,8 +127,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: normalize(10),
     lineHeight: mvs(12),
-    width: widthPercentage(25),
-    paddingLeft: 2,
+    width: widthResponsive(30),
     color: color.Dark[100],
   },
   textContainer: {

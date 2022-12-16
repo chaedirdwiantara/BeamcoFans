@@ -5,8 +5,8 @@ import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function SoundIcon({
-  width = widthPercentage(20),
-  height = widthPercentage(20),
+  width = widthPercentage(15),
+  height = widthPercentage(15),
   fill = 'none',
   stroke = '#00CE61',
   style,

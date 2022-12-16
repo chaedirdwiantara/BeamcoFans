@@ -1,4 +1,3 @@
-import {StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
@@ -7,13 +6,15 @@ import MusicianSection from '../../components/molecule/MusicianSection/MusicianS
 
 interface TopMusicianProps {
   type?: string;
+  scrollable?: boolean;
 }
 
-const TopMusician: FC<TopMusicianProps> = ({type}) => {
+const TopMusician: FC<TopMusicianProps> = ({type, scrollable = true}) => {
   return (
     <FlashList
       data={MusicianListData}
       showsVerticalScrollIndicator={false}
+      scrollEnabled={scrollable}
       keyExtractor={item => item.id}
       renderItem={({item, index}) => (
         <MusicianSection
@@ -34,5 +35,3 @@ const TopMusician: FC<TopMusicianProps> = ({type}) => {
 };
 
 export default TopMusician;
-
-const styles = StyleSheet.create({});
