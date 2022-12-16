@@ -37,7 +37,7 @@ export const AddToPlaylistContent: React.FC<AddToPlaylistProps> = ({
       />
       <ScrollView style={{paddingHorizontal: widthPercentage(20)}}>
         <CreateNewCard
-          num="01"
+          num="00"
           text="Create New Playlist"
           // onPress={() => onPressGoTo('CreateNewPlaylist')}
         />
