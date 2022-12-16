@@ -6,13 +6,15 @@ import MusicianSection from '../../components/molecule/MusicianSection/MusicianS
 
 interface TopMusicianProps {
   type?: string;
+  scrollable?: boolean;
 }
 
-const TopMusician: FC<TopMusicianProps> = ({type}) => {
+const TopMusician: FC<TopMusicianProps> = ({type, scrollable = true}) => {
   return (
     <FlashList
       data={MusicianListData}
       showsVerticalScrollIndicator={false}
+      scrollEnabled={scrollable}
       keyExtractor={item => item.id}
       renderItem={({item, index}) => (
         <MusicianSection

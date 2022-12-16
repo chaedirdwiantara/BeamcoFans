@@ -43,6 +43,13 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
       }, 3000);
   }, [toastVisible]);
 
+  useEffect(() => {
+    modalSuccessDonate &&
+      setTimeout(() => {
+        setModalSuccessDonate(false);
+      }, 3000);
+  }, [modalSuccessDonate, trigger2ndModal]);
+
   const resultDataMore = (dataResult: DataMore) => {
     dataResult.label === 'Follow'
       ? setToastVisible(true)
@@ -76,7 +83,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
       />
 
       <ModalSuccessDonate
-        modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
+        modalVisible={modalSuccessDonate && trigger2ndModal}
         toggleModal={onPressSuccess}
       />
 
