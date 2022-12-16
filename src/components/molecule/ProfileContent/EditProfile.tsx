@@ -78,6 +78,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
       ? avatarUri !== null && avatarUri !== ''
       : backgroundUri !== null && backgroundUri !== '';
 
+  const newColor = bio.length === 110 ? Color.Error[400] : Color.Neutral[10];
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
@@ -114,7 +116,11 @@ export const EditProfile: React.FC<EditProfileProps> = ({
           onBlur={() => setFocusInput(false)}
           isFocus={focusInput}
         />
-        <Text style={styles.length}>{`${bio.length}/110`}</Text>
+        <Text
+          style={[
+            styles.length,
+            {color: newColor},
+          ]}>{`${bio.length}/110`}</Text>
       </View>
 
       <ModalImagePicker
@@ -163,7 +169,6 @@ const styles = StyleSheet.create({
   },
   length: {
     fontSize: normalize(12),
-    color: Color.Neutral[10],
     marginTop: heightPercentage(5),
   },
 });
