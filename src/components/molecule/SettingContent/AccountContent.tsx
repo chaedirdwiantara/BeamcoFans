@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {Button, SsuInput} from '../../atom';
 import {Dropdown} from '../DropDown';
@@ -40,7 +40,7 @@ export const AccountContent: React.FC<AccountProps> = ({onPressGoBack}) => {
   const onPressSave = () => {};
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type1
         title="Account"
         leftIcon={<ArrowLeftIcon />}
@@ -87,7 +87,7 @@ export const AccountContent: React.FC<AccountProps> = ({onPressGoBack}) => {
         onPress={onPressSave}
         containerStyles={styles.button}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

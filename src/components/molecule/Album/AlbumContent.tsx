@@ -30,9 +30,10 @@ export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
   });
 
   useEffect(() => {
-    setTimeout(() => {
-      setToastVisible(false);
-    }, 3000);
+    toastVisible &&
+      setTimeout(() => {
+        setToastVisible(false);
+      }, 3000);
   }, [toastVisible]);
 
   const openModal = (name: string) => {
