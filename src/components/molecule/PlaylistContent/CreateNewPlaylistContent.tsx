@@ -1,14 +1,21 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
-import {color} from '../../../theme';
+import {
+  heightPercentage,
+  normalize,
+  width,
+  widthPercentage,
+} from '../../../utils';
+import {color, font} from '../../../theme';
+import {Dropdown} from '../DropDown';
 import {PhotoPlaylist} from './PhotoPlaylist';
 import {TopNavigation} from '../TopNavigation';
 import {ArrowLeftIcon} from '../../../assets/icon';
 import {ModalConfirm} from '../Modal/ModalConfirm';
+import {dataVisibility} from '../../../data/playlist';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {Button, ButtonGradient, SsuInput} from '../../atom';
-import {heightPercentage, width, widthPercentage} from '../../../utils';
 import checkEmptyProperties from '../../../utils/checkEmptyProperties';
 
 // note: title menggunakan text area dan dan description sebaliknya
@@ -102,43 +109,65 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
         onPress={() => openModal('modalImage')}
       />
 
-      <SsuInput.TextArea
-        value={state.playlistName}
-        onChangeText={(newText: string) =>
-          onChangeText('playlistName', newText)
-        }
-        placeholder={'Playlist Name'}
-        containerStyles={styles.textInput}
-        numberOfLines={1}
-        multiline={false}
-        onFocus={() => {
-          handleFocusInput('name');
-        }}
-        onBlur={() => {
-          handleFocusInput(null);
-        }}
-        isFocus={focusInput === 'name'}
-      />
+      <View>
+        <SsuInput.TextArea
+          value={state.playlistName}
+          onChangeText={(newText: string) =>
+            onChangeText('playlistName', newText)
+          }
+          placeholder={'Playlist Name'}
+          containerStyles={styles.textInput}
+          numberOfLines={1}
+          maxLength={100}
+          multiline={false}
+          onFocus={() => {
+            handleFocusInput('name');
+          }}
+          onBlur={() => {
+            handleFocusInput(null);
+          }}
+          isFocus={focusInput === 'name'}
+        />
+        <Text
+          style={[
+            styles.length,
+            // {color: newColor},
+          ]}>{`${state.playlistName.length}/100`}</Text>
+      </View>
 
-      <SsuInput.InputText
-        value={state.playlistDesc}
-        onChangeText={(newText: string) =>
-          onChangeText('playlistDesc', newText)
-        }
-        placeholder={'Playlist Description'}
-        containerStyles={styles.textArea}
-        multiline
-        numberOfLines={5}
-        fontColor={color.Neutral[10]}
-        borderColor={color.Pink.linear}
-        inputStyles={styles.inputDesc}
-        onFocus={() => {
-          handleFocusInput('description');
-        }}
-        onBlur={() => {
-          handleFocusInput(null);
-        }}
-        isFocus={focusInput === 'description'}
+      <View style={styles.textAreaContainer}>
+        <SsuInput.TextArea
+          value={state.playlistDesc}
+          onChangeText={(newText: string) =>
+            onChangeText('playlistDesc', newText)
+          }
+          placeholder={'Playlist Description'}
+          containerStyles={styles.textArea}
+          multiline
+          numberOfLines={5}
+          maxLength={600}
+          inputStyles={styles.inputDesc}
+          onFocus={() => {
+            handleFocusInput('description');
+          }}
+          onBlur={() => {
+            handleFocusInput(null);
+          }}
+          isFocus={focusInput === 'description'}
+        />
+        <Text
+          style={[
+            styles.length,
+            // {color: newColor},
+          ]}>{`${state.playlistDesc.length}/600`}</Text>
+      </View>
+
+      <Dropdown.Input
+        data={dataVisibility}
+        placeHolder={'Visibility'}
+        dropdownLabel={'Visibility'}
+        textTyped={(newText: string) => onChangeText('gender', newText)}
+        containerStyles={{marginTop: heightPercentage(15)}}
       />
 
       <View style={styles.footer}>
@@ -191,6 +220,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginTop: heightPercentage(10),
+    marginBottom: heightPercentage(5),
   },
   textArea: {
     paddingHorizontal: 0,
@@ -210,5 +240,12 @@ const styles = StyleSheet.create({
   inputDesc: {
     textAlignVertical: 'top',
     paddingHorizontal: widthPercentage(10),
+  },
+  textAreaContainer: {},
+  length: {
+    fontFamily: font.InterRegular,
+    fontSize: normalize(12),
+    color: color.Neutral[10],
+    // marginTop: heightPercentage(5),
   },
 });
