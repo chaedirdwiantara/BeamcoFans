@@ -27,10 +27,12 @@ import TopMusician from './ListCard/TopMusician';
 import * as FCMService from '../service/notification';
 import {useNavigation} from '@react-navigation/native';
 import {profileStorage} from '../hooks/use-storage.hook';
+import {useMusicianHook} from '../hooks/use-musician.hook';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
+import {FollowMusicianPropsType} from '../interface/musician.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -39,6 +41,17 @@ type OnScrollEventHandler = (
 export const HomeScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {
+    isLoading,
+    dataMusician,
+    getListDataMusician,
+    setFollowMusician,
+    setUnfollowMusician,
+  } = useMusicianHook();
+
+  useEffect(() => {
+    getListDataMusician();
+  }, [isLoading]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
@@ -155,7 +168,15 @@ export const HomeScreen: React.FC = () => {
             selectedIndex={selectedIndex}
           />
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
-            <TopMusician />
+            <TopMusician
+              dataMusician={dataMusician}
+              setFollowMusician={(props?: FollowMusicianPropsType) =>
+                setFollowMusician(props)
+              }
+              setUnfollowMusician={(props?: FollowMusicianPropsType) =>
+                setUnfollowMusician(props)
+              }
+            />
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
             <TopSong onPress={onPressTopSong} type={'home'} />
           ) : (
