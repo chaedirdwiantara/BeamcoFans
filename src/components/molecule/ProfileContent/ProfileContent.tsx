@@ -58,7 +58,7 @@ const NewCreatedPlaylist: React.FC<NewPlaylistProps> = ({
     <TouchableOpacity onPress={goToPlaylist}>
       <ListCard.MusicList
         imgUri={playlist?.playlistUri?.path}
-        musicNum={1}
+        musicNum={'01'}
         musicTitle={elipsisText(playlist?.playlistName, 22)}
         singerName={'by Weaboo'}
         containerStyles={{marginTop: heightPercentage(20)}}
@@ -130,7 +130,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             TopSongListData.length > 0 ? (
               <View>
                 <CreateNewCard
-                  num="01"
+                  num="00"
                   text="Create New Playlist"
                   onPress={() => onPressGoTo('CreateNewPlaylist')}
                 />
@@ -140,7 +140,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                     goToPlaylist={goToPlaylist}
                   />
                 )}
-                <TopSong />
+                <TopSong onPress={() => null} scrollable={false} />
               </View>
             ) : (
               <CreateNewCard
