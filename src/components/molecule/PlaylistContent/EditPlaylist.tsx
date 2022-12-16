@@ -1,14 +1,21 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
 import {SsuInput} from '../../atom';
-import {color} from '../../../theme';
+import {color, font} from '../../../theme';
 import {PhotoPlaylist} from './PhotoPlaylist';
 import {TopNavigation} from '../TopNavigation';
 import {ModalConfirm} from '../Modal/ModalConfirm';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
-import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {
+  heightPercentage,
+  normalize,
+  width,
+  widthPercentage,
+} from '../../../utils';
+import {Dropdown} from '../DropDown';
+import {dataVisibility} from '../../../data/playlist';
 
 // note: title menggunakan text area dan dan description sebaliknya
 // itu karena, menyesuaikan UI di figma dengan component yang sudah dibuat (border)
@@ -79,6 +86,11 @@ export const EditPlaylistContent: React.FC<EditPlaylistProps> = ({
   const hideMenuDelete =
     playlistUri?.path !== undefined && playlistUri?.path !== '';
 
+  const maxColorTitle =
+    state.playlistName.length === 100 ? color.Error[400] : color.Neutral[10];
+  const maxColorDesc =
+    state.playlistDesc.length === 600 ? color.Error[400] : color.Neutral[10];
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
@@ -98,43 +110,65 @@ export const EditPlaylistContent: React.FC<EditPlaylistProps> = ({
           onPress={() => openModal('modalImage')}
         />
 
-        <SsuInput.TextArea
-          value={state.playlistName}
-          onChangeText={(newText: string) =>
-            onChangeText('playlistName', newText)
-          }
-          placeholder={'Playlist Name'}
-          containerStyles={styles.textInput}
-          numberOfLines={1}
-          multiline={false}
-          onFocus={() => {
-            handleFocusInput('name');
-          }}
-          onBlur={() => {
-            handleFocusInput(null);
-          }}
-          isFocus={focusInput === 'name'}
-        />
+        <View>
+          <SsuInput.TextArea
+            value={state.playlistName}
+            onChangeText={(newText: string) =>
+              onChangeText('playlistName', newText)
+            }
+            placeholder={'Playlist Name'}
+            containerStyles={styles.textInput}
+            numberOfLines={1}
+            maxLength={100}
+            multiline={false}
+            onFocus={() => {
+              handleFocusInput('name');
+            }}
+            onBlur={() => {
+              handleFocusInput(null);
+            }}
+            isFocus={focusInput === 'name'}
+          />
+          <Text
+            style={[
+              styles.length,
+              {color: maxColorTitle},
+            ]}>{`${state.playlistName.length}/100`}</Text>
+        </View>
 
-        <SsuInput.InputText
-          value={state.playlistDesc}
-          onChangeText={(newText: string) =>
-            onChangeText('playlistDesc', newText)
-          }
-          placeholder={'Playlist Description'}
-          containerStyles={styles.textArea}
-          multiline
-          numberOfLines={5}
-          fontColor={color.Neutral[10]}
-          borderColor={color.Pink.linear}
-          inputStyles={styles.inputDesc}
-          onFocus={() => {
-            handleFocusInput('description');
-          }}
-          onBlur={() => {
-            handleFocusInput(null);
-          }}
-          isFocus={focusInput === 'description'}
+        <View>
+          <SsuInput.TextArea
+            value={state.playlistDesc}
+            onChangeText={(newText: string) =>
+              onChangeText('playlistDesc', newText)
+            }
+            placeholder={'Playlist Description'}
+            containerStyles={styles.textArea}
+            multiline
+            numberOfLines={5}
+            maxLength={600}
+            inputStyles={styles.inputDesc}
+            onFocus={() => {
+              handleFocusInput('description');
+            }}
+            onBlur={() => {
+              handleFocusInput(null);
+            }}
+            isFocus={focusInput === 'description'}
+          />
+          <Text
+            style={[
+              styles.length,
+              {color: maxColorDesc},
+            ]}>{`${state.playlistDesc.length}/600`}</Text>
+        </View>
+
+        <Dropdown.Input
+          data={dataVisibility}
+          placeHolder={'Visibility'}
+          dropdownLabel={'Visibility'}
+          textTyped={(newText: string) => onChangeText('gender', newText)}
+          containerStyles={{marginTop: heightPercentage(15)}}
         />
       </View>
 
@@ -192,5 +226,9 @@ const styles = StyleSheet.create({
   inputDesc: {
     textAlignVertical: 'top',
     paddingHorizontal: widthPercentage(10),
+  },
+  length: {
+    fontFamily: font.InterRegular,
+    fontSize: normalize(12),
   },
 });
