@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {ListCard} from '../../components';
+import {MusicSection} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
 import {elipsisText} from '../../utils';
@@ -14,9 +14,6 @@ interface TopSongPropsScreen {
 const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
   const {onPress, scrollable, type} = props;
   const [listSong, setListSong] = useState(TopSongListData);
-  const resultDataMore = (dataResult: any) => {
-    console.log(dataResult, 'resultDataMenu');
-  };
 
   const onPressPlay = (item: TopSongProps, index: number) => {
     let newList = [...listSong];
@@ -33,12 +30,11 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
       scrollEnabled={scrollable}
       keyExtractor={item => item.id}
       renderItem={({item, index}: any) => (
-        <ListCard.MusicList
+        <MusicSection
           imgUri={item.imgUri}
           musicNum={item.musicNum}
           musicTitle={elipsisText(item.musicTitle, 22)}
           singerName={item.singerName}
-          onPressMore={resultDataMore}
           onPressCard={
             type === 'home' ? () => onPressPlay(item, index) : undefined
           }

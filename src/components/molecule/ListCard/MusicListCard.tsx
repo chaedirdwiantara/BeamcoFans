@@ -27,7 +27,7 @@ interface ListProps {
   musicTitle: string;
   singerName: string;
   containerStyles?: ViewStyle;
-  dataFilter?: [];
+  dataFilter?: {label: string; value: string}[];
   rightIcon?: boolean;
   rightIconComponent?: React.ReactNode;
   onPressIcon?: (data: any) => void;
@@ -55,7 +55,7 @@ const MusicListCard: React.FC<ListProps> = ({
     {label: 'Send Donation', value: '2'},
     {label: 'Add to Queue', value: '3'},
     {label: 'Share Music', value: '4'},
-    {label: 'Show Credits', value: '25'},
+    {label: 'Show Credits', value: '5'},
   ];
 
   const titleColor = played ? color.Success[400] : color.Neutral[10];
@@ -97,7 +97,7 @@ const MusicListCard: React.FC<ListProps> = ({
       ) : (
         <Dropdown.More
           data={dataFilter ? dataFilter : dataMore}
-          selectedMenu={() => onPressMore}
+          selectedMenu={onPressMore}
           containerStyle={{
             width: widthPercentage(120),
             marginLeft: widthPercentage(-110),
