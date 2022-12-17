@@ -35,7 +35,6 @@ import {RootStackParams} from '../../App';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import ListToFollowMusician from './ListToFollowMusician';
 import ImageList from './ImageList';
-import {MusicianList} from '../../interface/musician.interface';
 import {PostList} from '../../interface/feed.interface';
 
 interface PostListProps {
@@ -43,23 +42,15 @@ interface PostListProps {
   dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
   data: PostListType[];
   dataPostList: PostList[] | null;
-  dataMusician: MusicianList[];
 }
 
 const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {
-    dataRightDropdown,
-    dataLeftDropdown,
-    data,
-    dataPostList,
-    dataMusician,
-  } = props;
+  const {dataRightDropdown, dataLeftDropdown, data, dataPostList} = props;
 
   const [selectedId, setSelectedId] = useState<any>([]);
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
-  const [status, setStatus] = useState<'not_follow' | 'following'>('following');
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
 
@@ -151,7 +142,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      {/* {data.length !== 0 && status == 'following' ?  */}
       {dataPostList !== null && dataPostList.length !== 0 ? (
         <FlatList
           data={dataDropdown}
@@ -205,9 +195,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             />
           )}
         />
-      ) : // data.length !== 0 && status == 'not_follow' ?
-      dataPostList === null && dataMusician ? (
-        <ListToFollowMusician dataMusician={dataMusician} />
+      ) : dataPostList === null ? (
+        <ListToFollowMusician />
       ) : dataPostList !== null && dataPostList.length === 0 ? (
         <EmptyState
           text={`Your following musician don't have any post, try to follow more musician`}

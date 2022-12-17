@@ -12,11 +12,12 @@ import {
 export const useMusicianHook = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataMusician, setDataMusician] = useState<MusicianList[]>([]);
+  const [dataFollow, setDataFollow] = useState<string | null>(null);
+  const [isError, setIsError] = useState(false);
 
   const getListDataMusician = async () => {
     try {
       const response = await listMusician();
-      console.log(response);
       setDataMusician(response.data);
     } catch (error) {
       console.log(error);
@@ -26,22 +27,26 @@ export const useMusicianHook = () => {
   };
 
   const setFollowMusician = async (props?: FollowMusicianPropsType) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      await followMusician(props);
+      const response = await followMusician(props);
+      setDataFollow(response.data);
     } catch (error) {
       console.log(error);
+      setDataFollow(null);
     } finally {
       setIsLoading(false);
     }
   };
 
   const setUnfollowMusician = async (props?: FollowMusicianPropsType) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      await unfollowMusician(props);
+      const response = await unfollowMusician(props);
+      setDataFollow(response.data);
     } catch (error) {
       console.log(error);
+      setDataFollow(null);
     } finally {
       setIsLoading(false);
     }
@@ -50,6 +55,7 @@ export const useMusicianHook = () => {
   return {
     isLoading,
     dataMusician,
+    dataFollow,
     getListDataMusician,
     setFollowMusician,
     setUnfollowMusician,

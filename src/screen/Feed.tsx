@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useCallback, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {TabFilter, TopNavigation} from '../components';
 import {dropDownDataCategory, dropDownDataSort} from '../data/dropdown';
 import {PostlistData, PostlistDataExclusive} from '../data/postlist';
 import {useFeedHook} from '../hooks/use-feed.hook';
-import {useMusicianHook} from '../hooks/use-musician.hook';
 import {color} from '../theme';
 import {heightPercentage, widthResponsive} from '../utils';
 import PostListExclusive from './ListCard/PostListExclusive';
@@ -20,17 +20,12 @@ export const FeedScreen: React.FC = () => {
 
   const {feedIsLoading, feedIsError, dataPostList, getListDataPost} =
     useFeedHook();
-  const {isLoading, dataMusician, getListDataMusician} = useMusicianHook();
 
-  useEffect(() => {
-    getListDataPost();
-  }, []);
-
-  useEffect(() => {
-    dataPostList === null
-      ? getListDataMusician()
-      : console.log('ada data', dataPostList);
-  }, [dataPostList]);
+  useFocusEffect(
+    useCallback(() => {
+      getListDataPost();
+    }, []),
+  );
 
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
@@ -64,13 +59,13 @@ export const FeedScreen: React.FC = () => {
             dataLeftDropdown={dropDownDataSort}
             data={PostlistData}
             dataPostList={dataPostList}
-            dataMusician={dataMusician}
           />
         ) : (
           <PostListExclusive
             dataRightDropdown={dropDownDataCategory}
             dataLeftDropdown={dropDownDataSort}
             data={PostlistDataExclusive}
+            dataPostList={dataPostList}
           />
         )}
       </View>

@@ -1,41 +1,49 @@
 import {FlatList, StyleSheet, Text} from 'react-native';
-import React, {FC, useState} from 'react';
-import {MusicianListData} from '../../data/topMusician';
+import React, {useCallback, useEffect} from 'react';
 import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {color, font} from '../../theme';
-import {MusicianList} from '../../interface/musician.interface';
+import {useMusicianHook} from '../../hooks/use-musician.hook';
+import {useFocusEffect} from '@react-navigation/native';
 
-interface ListToFollowProps {
-  dataMusician: MusicianList[];
-}
+const ListToFollowMusician = () => {
+  const {
+    setFollowMusician,
+    setUnfollowMusician,
+    getListDataMusician,
+    dataMusician,
+    dataFollow,
+  } = useMusicianHook();
 
-const ListToFollowMusician: FC<ListToFollowProps> = (
-  props: ListToFollowProps,
-) => {
-  const {dataMusician} = props;
-  const [selectedId, setSelectedId] = useState<number[]>([]);
+  useFocusEffect(
+    useCallback(() => {
+      getListDataMusician();
+    }, []),
+  );
 
-  const followOnPress = (index: number) => {
-    selectedId.includes(index)
-      ? setSelectedId(selectedId.filter((x: number) => x !== index))
-      : setSelectedId([...selectedId, index]);
-  };
+  useEffect(() => {
+    getListDataMusician();
+  }, [dataFollow]);
+
   return (
     <>
       <Text style={styles.textStyle}>People who might fit your interest</Text>
       <FlatList
-        data={MusicianListData}
+        data={dataMusician}
         showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.id}
+        keyExtractor={(_, index) => index.toString()}
         renderItem={({item, index}) => (
           <ListCard.FollowMusician
-            musicianName={item.musicianName}
-            imgUri={item.imgUri}
+            musicianName={item.fullname}
+            imgUri={`${item.imageProfileUrl}`}
+            followerCount={item.followers}
+            followOnPress={() =>
+              item.isFollowed
+                ? setUnfollowMusician({musicianID: item.uuid})
+                : setFollowMusician({musicianID: item.uuid})
+            }
+            stateButton={item.isFollowed ? true : false}
             containerStyles={{marginTop: mvs(20)}}
-            followerCount={1000}
-            followOnPress={() => followOnPress(index)}
-            stateButton={selectedId.includes(index) ? true : false}
           />
         )}
       />

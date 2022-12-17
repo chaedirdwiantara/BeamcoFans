@@ -8,13 +8,7 @@ import {
   View,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {
-  CommentInputModal,
-  Dropdown,
-  Gap,
-  ListCard,
-  SquareImage,
-} from '../../components';
+import {CommentInputModal, Dropdown, Gap, ListCard} from '../../components';
 import {
   DataDropDownType,
   DropDownFilterType,
@@ -29,7 +23,6 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../utils';
-import {LogBox} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
@@ -37,25 +30,22 @@ import ImageList from './ImageList';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import {FriedEggIcon} from '../../assets/icon';
 import ListToFollowMusician from './ListToFollowMusician';
+import {PostList} from '../../interface/feed.interface';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
   dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
   data: PostListType[];
+  dataPostList: PostList[] | null;
 }
 
 const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {dataRightDropdown, dataLeftDropdown, data} = props;
-  // ignore warning
-  // useEffect(() => {
-  //   LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  // }, []);
+  const {dataRightDropdown, dataLeftDropdown, data, dataPostList} = props;
 
   const [selectedId, setSelectedId] = useState<string[]>([]);
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
-  const [status, setStatus] = useState<'not_follow' | 'following'>('following');
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
   const resultDataFilter = (dataResultFilter: any) => {
@@ -141,7 +131,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      {data.length !== 0 && status == 'following' ? (
+      {dataPostList !== null && dataPostList.length !== 0 ? (
         <FlatList
           data={dataDropdown}
           showsVerticalScrollIndicator={false}
@@ -194,9 +184,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
             />
           )}
         />
-      ) : data.length !== 0 && status == 'not_follow' ? (
+      ) : dataPostList === null ? (
         <ListToFollowMusician />
-      ) : (
+      ) : dataPostList !== null && dataPostList.length === 0 ? (
         <EmptyState
           text={`You don't have any exclusive content, try to subscribe your favorite musician`}
           containerStyle={{
@@ -205,7 +195,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
           }}
           icon={<FriedEggIcon />}
         />
-      )}
+      ) : null}
       <CommentInputModal
         toggleModal={() => setInputCommentModal(!inputCommentModal)}
         modalVisible={inputCommentModal}
