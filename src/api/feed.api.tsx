@@ -3,7 +3,13 @@ import {
   FollowMusicianPropsType,
   FollowMusicianResponseType,
 } from '../interface/musician.interface';
-import {ListPostResponseType} from '../interface/feed.interface';
+import {
+  LikePostPropsType,
+  LikePostResponseType,
+  ListPostResponseType,
+  UnlikePostPropsType,
+  UnlikePostResponseType,
+} from '../interface/feed.interface';
 
 export const listPost = async (): Promise<ListPostResponseType> => {
   const {data} = await SsuAPI().request<ListPostResponseType>({
@@ -14,25 +20,23 @@ export const listPost = async (): Promise<ListPostResponseType> => {
   return data;
 };
 
-export const followMusician = async (
-  props?: FollowMusicianPropsType,
-): Promise<FollowMusicianResponseType> => {
-  const {data} = await SsuAPI().request<FollowMusicianResponseType>({
-    url: '/musicians/follow',
+export const likePost = async (
+  props?: LikePostPropsType,
+): Promise<LikePostResponseType> => {
+  const {data} = await SsuAPI().request<LikePostResponseType>({
+    url: `/posts/${props}/like`,
     method: 'POST',
-    data: props,
   });
 
   return data;
 };
 
-export const unfollowMusician = async (
-  props?: FollowMusicianPropsType,
-): Promise<FollowMusicianResponseType> => {
-  const {data} = await SsuAPI().request<FollowMusicianResponseType>({
-    url: '/musicians/unfollow',
+export const unlikePost = async (
+  props?: UnlikePostPropsType,
+): Promise<UnlikePostResponseType> => {
+  const {data} = await SsuAPI().request<UnlikePostResponseType>({
+    url: `/posts/${props}/unlike`,
     method: 'POST',
-    data: props,
   });
 
   return data;

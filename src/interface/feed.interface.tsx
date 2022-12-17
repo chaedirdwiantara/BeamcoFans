@@ -37,13 +37,24 @@ export type ListPostResponseType = {
   status: number;
 };
 
-export type FollowMusicianResponseType = {
+export type LikePostResponseType = {
   code: number;
   data: string;
   message: string;
   status: number;
 };
 
-export type FollowMusicianPropsType = {
-  musicianID: string;
+export type LikePostPropsType = {
+  id: string;
+};
+
+export type UnlikePostResponseType = {
+  code: number;
+  data: string;
+  message: string;
+  status: number;
+};
+
+export type UnlikePostPropsType = {
+  id: string;
 };
