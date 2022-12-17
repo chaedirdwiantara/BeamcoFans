@@ -1,6 +1,6 @@
 import {useState} from 'react';
-import {listPost} from '../api/feed.api';
-import {PostList} from '../interface/feed.interface';
+import {likePost, listPost, unlikePost} from '../api/feed.api';
+import {LikePostPropsType, PostList} from '../interface/feed.interface';
 
 export const useFeedHook = () => {
   const [feedIsLoading, setFeedIsLoading] = useState(false);
@@ -20,10 +20,42 @@ export const useFeedHook = () => {
     }
   };
 
+  const [likePostLoading, setLikePostLoading] = useState(false);
+  const [dataLike, setDataLike] = useState<string | null>(null);
+  const setLikePost = async (props?: LikePostPropsType) => {
+    setLikePostLoading(true);
+    try {
+      const response = await likePost(props);
+      setDataLike(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataLike(null);
+    } finally {
+      setLikePostLoading(false);
+    }
+  };
+
+  const setUnlikePost = async (props?: LikePostPropsType) => {
+    setLikePostLoading(true);
+    try {
+      const response = await unlikePost(props);
+      setDataLike(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataLike(null);
+    } finally {
+      setLikePostLoading(false);
+    }
+  };
+
   return {
     feedIsLoading,
+    likePostLoading,
     feedIsError,
     dataPostList,
+    dataLike,
     getListDataPost,
+    setLikePost,
+    setUnlikePost,
   };
 };
