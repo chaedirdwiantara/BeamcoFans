@@ -35,21 +35,27 @@ import {RootStackParams} from '../../App';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import ListToFollowMusician from './ListToFollowMusician';
 import ImageList from './ImageList';
+import {MusicianList} from '../../interface/musician.interface';
+import {PostList} from '../../interface/feed.interface';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
   dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
   data: PostListType[];
+  dataPostList: PostList[] | null;
+  dataMusician: MusicianList[];
 }
 
 const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {dataRightDropdown, dataLeftDropdown, data} = props;
-  // ignore warning
-  // useEffect(() => {
-  //   LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  // }, []);
+  const {
+    dataRightDropdown,
+    dataLeftDropdown,
+    data,
+    dataPostList,
+    dataMusician,
+  } = props;
 
   const [selectedId, setSelectedId] = useState<any>([]);
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
@@ -145,7 +151,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      {data.length !== 0 && status == 'following' ? (
+      {/* {data.length !== 0 && status == 'following' ?  */}
+      {dataPostList !== null && dataPostList.length !== 0 ? (
         <FlatList
           data={dataDropdown}
           showsVerticalScrollIndicator={false}
@@ -198,9 +205,10 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             />
           )}
         />
-      ) : data.length !== 0 && status == 'not_follow' ? (
-        <ListToFollowMusician />
-      ) : (
+      ) : // data.length !== 0 && status == 'not_follow' ?
+      dataPostList === null && dataMusician ? (
+        <ListToFollowMusician dataMusician={dataMusician} />
+      ) : dataPostList !== null && dataPostList.length === 0 ? (
         <EmptyState
           text={`Your following musician don't have any post, try to follow more musician`}
           containerStyle={{
@@ -208,7 +216,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             paddingTop: heightPercentage(24),
           }}
         />
-      )}
+      ) : null}
       <CommentInputModal
         toggleModal={() => setInputCommentModal(!inputCommentModal)}
         modalVisible={inputCommentModal}

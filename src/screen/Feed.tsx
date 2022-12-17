@@ -18,12 +18,19 @@ export const FeedScreen: React.FC = () => {
     {filterName: 'Exclusive'},
   ]);
 
-  const {getListDataPost} = useFeedHook();
-  const {getListDataMusician} = useMusicianHook();
+  const {feedIsLoading, feedIsError, dataPostList, getListDataPost} =
+    useFeedHook();
+  const {isLoading, dataMusician, getListDataMusician} = useMusicianHook();
 
   useEffect(() => {
-    getListDataMusician();
+    getListDataPost();
   }, []);
+
+  useEffect(() => {
+    dataPostList === null
+      ? getListDataMusician()
+      : console.log('ada data', dataPostList);
+  }, [dataPostList]);
 
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
@@ -56,6 +63,8 @@ export const FeedScreen: React.FC = () => {
             dataRightDropdown={dropDownDataCategory}
             dataLeftDropdown={dropDownDataSort}
             data={PostlistData}
+            dataPostList={dataPostList}
+            dataMusician={dataMusician}
           />
         ) : (
           <PostListExclusive
