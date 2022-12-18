@@ -1,6 +1,11 @@
 import {useState} from 'react';
-import {likePost, listPost, unlikePost} from '../api/feed.api';
-import {LikePostPropsType, PostList} from '../interface/feed.interface';
+import {commmentToPost, likePost, listPost, unlikePost} from '../api/feed.api';
+import {
+  CommentToPostPropsType,
+  DataComment,
+  LikePostPropsType,
+  PostList,
+} from '../interface/feed.interface';
 
 export const useFeedHook = () => {
   const [feedIsLoading, setFeedIsLoading] = useState(false);
@@ -20,6 +25,7 @@ export const useFeedHook = () => {
     }
   };
 
+  // Like Unlike Area
   const [likePostLoading, setLikePostLoading] = useState(false);
   const [dataLike, setDataLike] = useState<string | null>(null);
   const setLikePost = async (props?: LikePostPropsType) => {
@@ -48,14 +54,34 @@ export const useFeedHook = () => {
     }
   };
 
+  // Comment Area
+  const [commentLoading, setCommentLoading] = useState(false);
+  const [dataComment, setDataComment] = useState<DataComment | null>(null);
+
+  const setCommentToPost = async (props?: CommentToPostPropsType) => {
+    setCommentLoading(true);
+    try {
+      const response = await commmentToPost(props);
+      setDataComment(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataComment(null);
+    } finally {
+      setCommentLoading(false);
+    }
+  };
+
   return {
     feedIsLoading,
     likePostLoading,
+    commentLoading,
     feedIsError,
     dataPostList,
     dataLike,
+    dataComment,
     getListDataPost,
     setLikePost,
     setUnlikePost,
+    setCommentToPost,
   };
 };

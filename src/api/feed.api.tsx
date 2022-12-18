@@ -1,9 +1,7 @@
 import SsuAPI from './base';
 import {
-  FollowMusicianPropsType,
-  FollowMusicianResponseType,
-} from '../interface/musician.interface';
-import {
+  CommentToPostPropsType,
+  CommentToPostResponseType,
   LikePostPropsType,
   LikePostResponseType,
   ListPostResponseType,
@@ -24,7 +22,7 @@ export const likePost = async (
   props?: LikePostPropsType,
 ): Promise<LikePostResponseType> => {
   const {data} = await SsuAPI().request<LikePostResponseType>({
-    url: `/posts/${props}/like`,
+    url: `/posts/${props?.id}/like`,
     method: 'POST',
   });
 
@@ -35,7 +33,18 @@ export const unlikePost = async (
   props?: UnlikePostPropsType,
 ): Promise<UnlikePostResponseType> => {
   const {data} = await SsuAPI().request<UnlikePostResponseType>({
-    url: `/posts/${props}/unlike`,
+    url: `/posts/${props?.id}/unlike`,
+    method: 'POST',
+  });
+
+  return data;
+};
+
+export const commmentToPost = async (
+  props?: CommentToPostPropsType,
+): Promise<CommentToPostResponseType> => {
+  const {data} = await SsuAPI().request<CommentToPostResponseType>({
+    url: `/posts/${props?.id}/comments/create`,
     method: 'POST',
   });
 

@@ -1,15 +1,6 @@
 import {PaginationType} from './base.interface';
 
-export type MusicianList = {
-  uuid: string;
-  username: string;
-  fullname: string;
-  email: string;
-  isFollowed: boolean;
-  imageProfileUrl: string | null;
-  followers: number;
-};
-
+// PostList Area
 export type MusicianData = {
   uuid: string;
   username: string;
@@ -37,6 +28,8 @@ export type ListPostResponseType = {
   status: number;
 };
 
+// Like / Unlike Area
+
 export type LikePostResponseType = {
   code: number;
   data: string;
@@ -57,4 +50,20 @@ export type UnlikePostResponseType = {
 
 export type UnlikePostPropsType = {
   id: string;
+};
+
+// Comment Area
+
+export type DataComment = {id: string; created_at: string};
+
+export type CommentToPostPropsType = {
+  id: string;
+  content: string;
+};
+
+export type CommentToPostResponseType = {
+  code: number;
+  data: DataComment;
+  message: string;
+  status: number;
 };
