@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {
+  commentList,
   commmentToComment,
   commmentToPost,
   likePost,
@@ -7,6 +8,7 @@ import {
   unlikePost,
 } from '../api/feed.api';
 import {
+  CommentList,
   CommentPropsType,
   DataComment,
   LikePostPropsType,
@@ -63,6 +65,22 @@ export const useFeedHook = () => {
   // Comment Area
   const [commentLoading, setCommentLoading] = useState(false);
   const [dataComment, setDataComment] = useState<DataComment | null>(null);
+  const [dataCommentList, setDataCommentList] = useState<CommentList[] | null>(
+    null,
+  );
+
+  const setCommentList = async () => {
+    setCommentLoading(true);
+    try {
+      const response = await commentList();
+      setDataCommentList(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataCommentList(null);
+    } finally {
+      setCommentLoading(false);
+    }
+  };
 
   const setCommentToPost = async (props?: CommentPropsType) => {
     setCommentLoading(true);
@@ -98,10 +116,12 @@ export const useFeedHook = () => {
     dataPostList,
     dataLike,
     dataComment,
+    dataCommentList,
     getListDataPost,
     setLikePost,
     setUnlikePost,
     setCommentToPost,
     setCommentToComment,
+    setCommentList,
   };
 };

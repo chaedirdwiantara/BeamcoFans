@@ -4,6 +4,7 @@ import {
   CommentResponseType,
   LikePostPropsType,
   LikePostResponseType,
+  ListCommentResponseType,
   ListPostResponseType,
   UnlikePostPropsType,
   UnlikePostResponseType,
@@ -43,6 +44,15 @@ export const unlikePost = async (
 };
 
 // => Comment Area
+export const commentList = async (): Promise<ListCommentResponseType> => {
+  const {data} = await SsuAPI().request<ListCommentResponseType>({
+    url: '/comments',
+    method: 'GET',
+  });
+
+  return data;
+};
+
 export const commmentToPost = async (
   props?: CommentPropsType,
 ): Promise<CommentResponseType> => {

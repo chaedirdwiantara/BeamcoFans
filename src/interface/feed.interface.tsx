@@ -52,6 +52,24 @@ export type UnlikePostPropsType = {
 };
 
 // => Comment Area
+export type CommentList = {
+  id: string;
+  caption: string;
+  likesCount: number;
+  commentsCount: number;
+  commentLevel: number;
+  createdAt: string;
+  comments: null | [];
+};
+
+export type ListCommentResponseType = {
+  code: number;
+  data: CommentList[];
+  message: string;
+  meta: PaginationType;
+  status: number;
+};
+
 export type DataComment = {id: string; created_at: string};
 
 export type CommentPropsType = {
