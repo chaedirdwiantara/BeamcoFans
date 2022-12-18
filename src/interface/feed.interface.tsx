@@ -1,6 +1,6 @@
 import {PaginationType} from './base.interface';
 
-// PostList Area
+// => PostList Area
 export type MusicianData = {
   uuid: string;
   username: string;
@@ -28,8 +28,7 @@ export type ListPostResponseType = {
   status: number;
 };
 
-// Like / Unlike Area
-
+// => Like / Unlike Area
 export type LikePostResponseType = {
   code: number;
   data: string;
@@ -52,8 +51,7 @@ export type UnlikePostPropsType = {
   id: string;
 };
 
-// Comment Area
-
+// => Comment Area
 export type DataComment = {id: string; created_at: string};
 
 export type CommentToPostPropsType = {
