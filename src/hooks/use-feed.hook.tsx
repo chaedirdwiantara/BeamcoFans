@@ -2,8 +2,10 @@ import {useState} from 'react';
 import {
   commentDetail,
   commentList,
+  commmentDelete,
   commmentToComment,
   commmentToPost,
+  commmentUpdate,
   likePost,
   listPost,
   unlikePost,
@@ -14,6 +16,7 @@ import {
   CommentList,
   CommentPropsType,
   DataComment,
+  DeletePropsType,
   LikePostPropsType,
   PostList,
 } from '../interface/feed.interface';
@@ -69,6 +72,8 @@ export const useFeedHook = () => {
   const [commentLoading, setCommentLoading] = useState(false);
   const [commentListLoading, setCommentListLoading] = useState(false);
   const [commentDetailLoading, setCommentDetailLoading] = useState(false);
+  const [commentUpdateLoading, setCommentUpdateLoading] = useState(false);
+  const [commentDeleteLoading, setCommentDeleteLoading] = useState(false);
   const [dataComment, setDataComment] = useState<DataComment | null>(null);
   const [dataCommentList, setDataCommentList] = useState<CommentList[] | null>(
     null,
@@ -128,6 +133,32 @@ export const useFeedHook = () => {
     }
   };
 
+  const setCommentUpdate = async (props?: CommentPropsType) => {
+    setCommentUpdateLoading(true);
+    try {
+      const response = await commmentUpdate(props);
+      setDataComment(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataComment(null);
+    } finally {
+      setCommentUpdateLoading(false);
+    }
+  };
+
+  const setCommentDelete = async (props?: DeletePropsType) => {
+    setCommentDeleteLoading(true);
+    try {
+      const response = await commmentDelete(props);
+      setDataComment(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataComment(null);
+    } finally {
+      setCommentDeleteLoading(false);
+    }
+  };
+
   return {
     feedIsLoading,
     likePostLoading,
@@ -140,6 +171,8 @@ export const useFeedHook = () => {
     dataComment,
     dataCommentList,
     dataCommentDetail,
+    commentUpdateLoading,
+    commentDeleteLoading,
     getListDataPost,
     setLikePost,
     setUnlikePost,
@@ -147,5 +180,7 @@ export const useFeedHook = () => {
     setCommentToComment,
     setCommentList,
     setCommentDetail,
+    setCommentUpdate,
+    setCommentDelete,
   };
 };

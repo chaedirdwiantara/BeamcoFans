@@ -4,6 +4,8 @@ import {
   CommentDetailResponseType,
   CommentPropsType,
   CommentResponseType,
+  CommentUpdateResponseType,
+  DeletePropsType,
   LikePostPropsType,
   LikePostResponseType,
   ListCommentResponseType,
@@ -72,6 +74,7 @@ export const commmentToPost = async (
   const {data} = await SsuAPI().request<CommentResponseType>({
     url: `/posts/${props?.id}/comments/create`,
     method: 'POST',
+    data: props?.content,
   });
 
   return data;
@@ -81,8 +84,32 @@ export const commmentToComment = async (
   props?: CommentPropsType,
 ): Promise<CommentResponseType> => {
   const {data} = await SsuAPI().request<CommentResponseType>({
-    url: `/comments/${props?.id}/comments/create`,
+    url: `/comments/${props?.id}/create`,
     method: 'POST',
+    data: props?.content,
+  });
+
+  return data;
+};
+
+export const commmentUpdate = async (
+  props?: CommentPropsType,
+): Promise<CommentUpdateResponseType> => {
+  const {data} = await SsuAPI().request<CommentUpdateResponseType>({
+    url: `/comments/${props?.id}/update`,
+    method: 'PATCH',
+    data: props?.content,
+  });
+
+  return data;
+};
+
+export const commmentDelete = async (
+  props?: DeletePropsType,
+): Promise<CommentResponseType> => {
+  const {data} = await SsuAPI().request<CommentResponseType>({
+    url: `/comments/${props?.id}/delete`,
+    method: 'DELETE',
   });
 
   return data;

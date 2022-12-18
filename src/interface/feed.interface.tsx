@@ -104,3 +104,22 @@ export type CommentResponseType = {
   message: string;
   status: number;
 };
+
+export type commentUpdateData = {
+  id: string;
+  caption: string;
+  likes: number;
+  comment_level: number;
+  created_at: string;
+};
+
+export type CommentUpdateResponseType = {
+  code: number;
+  data: commentUpdateData;
+  message: string;
+  status: number;
+};
+
+export type DeletePropsType = {
+  id: string;
+};
