@@ -1,11 +1,9 @@
-import {useFocusEffect} from '@react-navigation/native';
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {TabFilter, TopNavigation} from '../components';
 import {dropDownDataCategory, dropDownDataSort} from '../data/dropdown';
 import {PostlistData, PostlistDataExclusive} from '../data/postlist';
-import {useFeedHook} from '../hooks/use-feed.hook';
 import {color} from '../theme';
 import {heightPercentage, widthResponsive} from '../utils';
 import PostListExclusive from './ListCard/PostListExclusive';
@@ -17,15 +15,6 @@ export const FeedScreen: React.FC = () => {
     {filterName: 'Public'},
     {filterName: 'Exclusive'},
   ]);
-
-  const {feedIsLoading, feedIsError, dataPostList, getListDataPost} =
-    useFeedHook();
-
-  useFocusEffect(
-    useCallback(() => {
-      getListDataPost();
-    }, []),
-  );
 
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
@@ -58,14 +47,12 @@ export const FeedScreen: React.FC = () => {
             dataRightDropdown={dropDownDataCategory}
             dataLeftDropdown={dropDownDataSort}
             data={PostlistData}
-            dataPostList={dataPostList}
           />
         ) : (
           <PostListExclusive
             dataRightDropdown={dropDownDataCategory}
             dataLeftDropdown={dropDownDataSort}
             data={PostlistDataExclusive}
-            dataPostList={dataPostList}
           />
         )}
       </View>

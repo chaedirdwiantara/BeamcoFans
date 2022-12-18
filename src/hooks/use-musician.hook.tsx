@@ -31,6 +31,7 @@ export const useMusicianHook = () => {
     try {
       const response = await followMusician(props);
       setDataFollow(response.data);
+      getListDataMusician();
     } catch (error) {
       console.log(error);
       setDataFollow(null);
@@ -44,6 +45,7 @@ export const useMusicianHook = () => {
     try {
       const response = await unfollowMusician(props);
       setDataFollow(response.data);
+      getListDataMusician();
     } catch (error) {
       console.log(error);
       setDataFollow(null);

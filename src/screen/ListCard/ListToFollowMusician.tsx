@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet, Text} from 'react-native';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {color, font} from '../../theme';
@@ -12,7 +12,6 @@ const ListToFollowMusician = () => {
     setUnfollowMusician,
     getListDataMusician,
     dataMusician,
-    dataFollow,
   } = useMusicianHook();
 
   useFocusEffect(
@@ -20,10 +19,6 @@ const ListToFollowMusician = () => {
       getListDataMusician();
     }, []),
   );
-
-  useEffect(() => {
-    getListDataMusician();
-  }, [dataFollow]);
 
   return (
     <>

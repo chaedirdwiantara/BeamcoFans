@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -23,7 +23,7 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../utils';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
 import ImageList from './ImageList';
@@ -31,23 +31,33 @@ import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import {FriedEggIcon} from '../../assets/icon';
 import ListToFollowMusician from './ListToFollowMusician';
 import {PostList} from '../../interface/feed.interface';
+import {useFeedHook} from '../../hooks/use-feed.hook';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
   dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
   data: PostListType[];
-  dataPostList: PostList[] | null;
 }
 
 const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {dataRightDropdown, dataLeftDropdown, data, dataPostList} = props;
+  const {dataRightDropdown, dataLeftDropdown, data} = props;
 
   const [selectedId, setSelectedId] = useState<string[]>([]);
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
+
+  const {feedIsLoading, feedIsError, dataPostList, getListDataExclusivePost} =
+    useFeedHook();
+
+  useFocusEffect(
+    useCallback(() => {
+      getListDataExclusivePost();
+    }, []),
+  );
+
   const resultDataFilter = (dataResultFilter: any) => {
     let dataFilter = [...data];
     dataFilter =
