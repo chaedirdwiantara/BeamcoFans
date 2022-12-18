@@ -1,7 +1,7 @@
 import SsuAPI from './base';
 import {
-  CommentToPostPropsType,
-  CommentToPostResponseType,
+  CommentPropsType,
+  CommentResponseType,
   LikePostPropsType,
   LikePostResponseType,
   ListPostResponseType,
@@ -9,6 +9,7 @@ import {
   UnlikePostResponseType,
 } from '../interface/feed.interface';
 
+// => List Post Area
 export const listPost = async (): Promise<ListPostResponseType> => {
   const {data} = await SsuAPI().request<ListPostResponseType>({
     url: '/posts',
@@ -18,6 +19,7 @@ export const listPost = async (): Promise<ListPostResponseType> => {
   return data;
 };
 
+// => like / Unlike Area
 export const likePost = async (
   props?: LikePostPropsType,
 ): Promise<LikePostResponseType> => {
@@ -40,11 +42,23 @@ export const unlikePost = async (
   return data;
 };
 
+// => Comment Area
 export const commmentToPost = async (
-  props?: CommentToPostPropsType,
-): Promise<CommentToPostResponseType> => {
-  const {data} = await SsuAPI().request<CommentToPostResponseType>({
+  props?: CommentPropsType,
+): Promise<CommentResponseType> => {
+  const {data} = await SsuAPI().request<CommentResponseType>({
     url: `/posts/${props?.id}/comments/create`,
+    method: 'POST',
+  });
+
+  return data;
+};
+
+export const commmentToComment = async (
+  props?: CommentPropsType,
+): Promise<CommentResponseType> => {
+  const {data} = await SsuAPI().request<CommentResponseType>({
+    url: `/comments/${props?.id}/comments/create`,
     method: 'POST',
   });
 

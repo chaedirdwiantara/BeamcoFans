@@ -1,7 +1,13 @@
 import {useState} from 'react';
-import {commmentToPost, likePost, listPost, unlikePost} from '../api/feed.api';
 import {
-  CommentToPostPropsType,
+  commmentToComment,
+  commmentToPost,
+  likePost,
+  listPost,
+  unlikePost,
+} from '../api/feed.api';
+import {
+  CommentPropsType,
   DataComment,
   LikePostPropsType,
   PostList,
@@ -58,10 +64,23 @@ export const useFeedHook = () => {
   const [commentLoading, setCommentLoading] = useState(false);
   const [dataComment, setDataComment] = useState<DataComment | null>(null);
 
-  const setCommentToPost = async (props?: CommentToPostPropsType) => {
+  const setCommentToPost = async (props?: CommentPropsType) => {
     setCommentLoading(true);
     try {
       const response = await commmentToPost(props);
+      setDataComment(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataComment(null);
+    } finally {
+      setCommentLoading(false);
+    }
+  };
+
+  const setCommentToComment = async (props?: CommentPropsType) => {
+    setCommentLoading(true);
+    try {
+      const response = await commmentToComment(props);
       setDataComment(response.data);
     } catch (error) {
       console.log(error);
@@ -83,5 +102,6 @@ export const useFeedHook = () => {
     setLikePost,
     setUnlikePost,
     setCommentToPost,
+    setCommentToComment,
   };
 };

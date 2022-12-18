@@ -54,12 +54,12 @@ export type UnlikePostPropsType = {
 // => Comment Area
 export type DataComment = {id: string; created_at: string};
 
-export type CommentToPostPropsType = {
+export type CommentPropsType = {
   id: string;
   content: string;
 };
 
-export type CommentToPostResponseType = {
+export type CommentResponseType = {
   code: number;
   data: DataComment;
   message: string;
