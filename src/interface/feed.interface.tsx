@@ -1,5 +1,16 @@
 import {PaginationType} from './base.interface';
 
+export type PostPropsTypeA = {
+  id: string;
+};
+
+export type PostPropsTypeB = {
+  id: string;
+  content: string;
+};
+
+export type DataComment = {id: string; created_at: string};
+
 // => PostList Area
 export type MusicianData = {
   uuid: string;
@@ -28,6 +39,24 @@ export type ListPostResponseType = {
   status: number;
 };
 
+export type DetailPostData = {
+  id: string;
+  caption: string;
+  likesCount: number;
+  commentsCount: number;
+  category: string;
+  createdAt: string;
+  updatedAt: string;
+  comments: CommentList[];
+};
+
+export type DetailPostResponseType = {
+  code: number;
+  data: DetailPostData;
+  message: string;
+  status: number;
+};
+
 // => Like / Unlike Area
 export type LikePostResponseType = {
   code: number;
@@ -36,19 +65,11 @@ export type LikePostResponseType = {
   status: number;
 };
 
-export type LikePostPropsType = {
-  id: string;
-};
-
 export type UnlikePostResponseType = {
   code: number;
   data: string;
   message: string;
   status: number;
-};
-
-export type UnlikePostPropsType = {
-  id: string;
 };
 
 // => Comment Area
@@ -80,22 +101,11 @@ export type CommentDetailData = {
   comments: null | [];
 };
 
-export type CommentDetailPropsType = {
-  id: string;
-};
-
 export type CommentDetailResponseType = {
   code: number;
   data: CommentDetailData;
   message: string;
   status: number;
-};
-
-export type DataComment = {id: string; created_at: string};
-
-export type CommentPropsType = {
-  id: string;
-  content: string;
 };
 
 export type CommentResponseType = {
@@ -118,8 +128,4 @@ export type CommentUpdateResponseType = {
   data: commentUpdateData;
   message: string;
   status: number;
-};
-
-export type DeletePropsType = {
-  id: string;
 };

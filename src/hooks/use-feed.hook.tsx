@@ -6,24 +6,28 @@ import {
   commmentToComment,
   commmentToPost,
   commmentUpdate,
+  detailPost,
   likePost,
   listPost,
+  listPostExclusive,
   unlikePost,
 } from '../api/feed.api';
 import {
   CommentDetailData,
-  CommentDetailPropsType,
   CommentList,
-  CommentPropsType,
   DataComment,
-  DeletePropsType,
-  LikePostPropsType,
+  DetailPostData,
   PostList,
+  PostPropsTypeA,
+  PostPropsTypeB,
 } from '../interface/feed.interface';
 
 export const useFeedHook = () => {
   const [feedIsLoading, setFeedIsLoading] = useState(false);
   const [dataPostList, setDataPostList] = useState<PostList[] | null>(null);
+  const [dataPostDetail, setDataPostDetail] = useState<DetailPostData | null>(
+    null,
+  );
   const [feedIsError, setFeedIsError] = useState(false);
 
   const getListDataPost = async () => {
@@ -39,10 +43,36 @@ export const useFeedHook = () => {
     }
   };
 
+  const getListDataExclusivePost = async () => {
+    setFeedIsLoading(true);
+    setFeedIsError(false);
+    try {
+      const response = await listPostExclusive();
+      setDataPostList(response.data);
+    } catch (error) {
+      setFeedIsError(true);
+    } finally {
+      setFeedIsLoading(false);
+    }
+  };
+
+  const getDetailPost = async (props?: PostPropsTypeA) => {
+    setFeedIsLoading(true);
+    setFeedIsError(false);
+    try {
+      const response = await detailPost(props);
+      setDataPostDetail(response.data);
+    } catch (error) {
+      setFeedIsError(true);
+    } finally {
+      setFeedIsLoading(false);
+    }
+  };
+
   // Like Unlike Area
   const [likePostLoading, setLikePostLoading] = useState(false);
   const [dataLike, setDataLike] = useState<string | null>(null);
-  const setLikePost = async (props?: LikePostPropsType) => {
+  const setLikePost = async (props?: PostPropsTypeA) => {
     setLikePostLoading(true);
     try {
       const response = await likePost(props);
@@ -55,7 +85,7 @@ export const useFeedHook = () => {
     }
   };
 
-  const setUnlikePost = async (props?: LikePostPropsType) => {
+  const setUnlikePost = async (props?: PostPropsTypeA) => {
     setLikePostLoading(true);
     try {
       const response = await unlikePost(props);
@@ -94,7 +124,7 @@ export const useFeedHook = () => {
     }
   };
 
-  const setCommentDetail = async (props?: CommentDetailPropsType) => {
+  const setCommentDetail = async (props?: PostPropsTypeA) => {
     setCommentDetailLoading(true);
     try {
       const response = await commentDetail(props);
@@ -107,7 +137,7 @@ export const useFeedHook = () => {
     }
   };
 
-  const setCommentToPost = async (props?: CommentPropsType) => {
+  const setCommentToPost = async (props?: PostPropsTypeB) => {
     setCommentLoading(true);
     try {
       const response = await commmentToPost(props);
@@ -120,7 +150,7 @@ export const useFeedHook = () => {
     }
   };
 
-  const setCommentToComment = async (props?: CommentPropsType) => {
+  const setCommentToComment = async (props?: PostPropsTypeB) => {
     setCommentLoading(true);
     try {
       const response = await commmentToComment(props);
@@ -133,7 +163,7 @@ export const useFeedHook = () => {
     }
   };
 
-  const setCommentUpdate = async (props?: CommentPropsType) => {
+  const setCommentUpdate = async (props?: PostPropsTypeB) => {
     setCommentUpdateLoading(true);
     try {
       const response = await commmentUpdate(props);
@@ -146,7 +176,7 @@ export const useFeedHook = () => {
     }
   };
 
-  const setCommentDelete = async (props?: DeletePropsType) => {
+  const setCommentDelete = async (props?: PostPropsTypeA) => {
     setCommentDeleteLoading(true);
     try {
       const response = await commmentDelete(props);
@@ -173,7 +203,9 @@ export const useFeedHook = () => {
     dataCommentDetail,
     commentUpdateLoading,
     commentDeleteLoading,
+    dataPostDetail,
     getListDataPost,
+    getListDataExclusivePost,
     setLikePost,
     setUnlikePost,
     setCommentToPost,
@@ -182,5 +214,6 @@ export const useFeedHook = () => {
     setCommentDetail,
     setCommentUpdate,
     setCommentDelete,
+    getDetailPost,
   };
 };
