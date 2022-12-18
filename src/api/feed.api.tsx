@@ -1,5 +1,7 @@
 import SsuAPI from './base';
 import {
+  CommentDetailPropsType,
+  CommentDetailResponseType,
   CommentPropsType,
   CommentResponseType,
   LikePostPropsType,
@@ -47,6 +49,17 @@ export const unlikePost = async (
 export const commentList = async (): Promise<ListCommentResponseType> => {
   const {data} = await SsuAPI().request<ListCommentResponseType>({
     url: '/comments',
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const commentDetail = async (
+  props?: CommentDetailPropsType,
+): Promise<CommentDetailResponseType> => {
+  const {data} = await SsuAPI().request<CommentDetailResponseType>({
+    url: `/comments/${props?.id}`,
     method: 'GET',
   });
 

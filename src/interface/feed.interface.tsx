@@ -70,6 +70,27 @@ export type ListCommentResponseType = {
   status: number;
 };
 
+export type CommentDetailData = {
+  id: string;
+  caption: string;
+  likesCount: number;
+  commentsCount: number;
+  commentLevel: number;
+  createdAt: string;
+  comments: null | [];
+};
+
+export type CommentDetailPropsType = {
+  id: string;
+};
+
+export type CommentDetailResponseType = {
+  code: number;
+  data: CommentDetailData;
+  message: string;
+  status: number;
+};
+
 export type DataComment = {id: string; created_at: string};
 
 export type CommentPropsType = {

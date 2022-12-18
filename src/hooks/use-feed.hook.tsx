@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {
+  commentDetail,
   commentList,
   commmentToComment,
   commmentToPost,
@@ -8,6 +9,8 @@ import {
   unlikePost,
 } from '../api/feed.api';
 import {
+  CommentDetailData,
+  CommentDetailPropsType,
   CommentList,
   CommentPropsType,
   DataComment,
@@ -64,13 +67,17 @@ export const useFeedHook = () => {
 
   // Comment Area
   const [commentLoading, setCommentLoading] = useState(false);
+  const [commentListLoading, setCommentListLoading] = useState(false);
+  const [commentDetailLoading, setCommentDetailLoading] = useState(false);
   const [dataComment, setDataComment] = useState<DataComment | null>(null);
   const [dataCommentList, setDataCommentList] = useState<CommentList[] | null>(
     null,
   );
+  const [dataCommentDetail, setDataCommentDetail] =
+    useState<CommentDetailData | null>(null);
 
   const setCommentList = async () => {
-    setCommentLoading(true);
+    setCommentListLoading(true);
     try {
       const response = await commentList();
       setDataCommentList(response.data);
@@ -78,7 +85,20 @@ export const useFeedHook = () => {
       console.log(error);
       setDataCommentList(null);
     } finally {
-      setCommentLoading(false);
+      setCommentListLoading(false);
+    }
+  };
+
+  const setCommentDetail = async (props?: CommentDetailPropsType) => {
+    setCommentDetailLoading(true);
+    try {
+      const response = await commentDetail(props);
+      setDataCommentDetail(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataCommentDetail(null);
+    } finally {
+      setCommentDetailLoading(false);
     }
   };
 
@@ -112,16 +132,20 @@ export const useFeedHook = () => {
     feedIsLoading,
     likePostLoading,
     commentLoading,
+    commentListLoading,
+    commentDetailLoading,
     feedIsError,
     dataPostList,
     dataLike,
     dataComment,
     dataCommentList,
+    dataCommentDetail,
     getListDataPost,
     setLikePost,
     setUnlikePost,
     setCommentToPost,
     setCommentToComment,
     setCommentList,
+    setCommentDetail,
   };
 };
