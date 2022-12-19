@@ -48,8 +48,14 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
 
-  const {feedIsLoading, feedIsError, dataPostList, getListDataPost} =
-    useFeedHook();
+  const {
+    feedIsLoading,
+    feedIsError,
+    dataPostList,
+    getListDataPost,
+    setLikePost,
+    setUnlikePost,
+  } = useFeedHook();
 
   useFocusEffect(
     useCallback(() => {
@@ -70,10 +76,16 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const cardOnPress = (data: any) => {
     navigation.navigate<any>('PostDetail', {data});
   };
+
   const likeOnPress = (id: string) => {
-    selectedId.includes(id)
-      ? setSelectedId(selectedId.filter((x: string) => x !== id))
-      : setSelectedId([...selectedId, id]);
+    if (selectedId.includes(id)) {
+      return (
+        setLikePost({id}),
+        setSelectedId(selectedId.filter((x: string) => x !== id))
+      );
+    } else {
+      setUnlikePost({id}), setSelectedId([...selectedId, id]);
+    }
   };
 
   const commentOnPress = (id: string) => {
