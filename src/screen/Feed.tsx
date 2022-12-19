@@ -15,6 +15,7 @@ export const FeedScreen: React.FC = () => {
     {filterName: 'Public'},
     {filterName: 'Exclusive'},
   ]);
+
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
   };

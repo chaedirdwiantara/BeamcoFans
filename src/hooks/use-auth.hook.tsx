@@ -204,6 +204,9 @@ export const useAuthHook = () => {
         storage.set('profile', JSON.stringify(response.data));
         setIsOtpValid(true);
         setIsError(false);
+      } else if (response.status === 0) {
+        setIsOtpValid(false);
+        setIsError(true);
       }
     } catch (error) {
       setIsError(true);

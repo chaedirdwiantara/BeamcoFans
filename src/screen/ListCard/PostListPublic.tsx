@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -8,13 +8,7 @@ import {
   View,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {
-  CommentInputModal,
-  Dropdown,
-  Gap,
-  ListCard,
-  SquareImage,
-} from '../../components';
+import {CommentInputModal, Dropdown, Gap, ListCard} from '../../components';
 import {
   DataDropDownType,
   DropDownFilterType,
@@ -29,12 +23,14 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../utils';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../App';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import ListToFollowMusician from './ListToFollowMusician';
 import ImageList from './ImageList';
+import {useFeedHook} from '../../hooks/use-feed.hook';
+import {ParamsProps} from '../../interface/base.interface';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -46,49 +42,50 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, data} = props;
-  // ignore warning
-  // useEffect(() => {
-  //   LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  // }, []);
 
   const [selectedId, setSelectedId] = useState<any>([]);
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
-  const [status, setStatus] = useState<'not_follow' | 'following'>('following');
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
 
-  const resultDataFilter = (dataResultFilter: any) => {
-    let dataFilter = [...data];
-    dataFilter =
-      dataResultFilter.label == 'Latest'
-        ? dataFilter
-            // @ts-ignore
-            .sort((a, b) => new Date(a.postDate) - new Date(b.postDate))
-            .reverse()
-        : dataFilter // @ts-ignore
-            .sort((a, b) => a.commentCount - b.commentCount)
-            .reverse();
+  const {
+    feedIsLoading,
+    feedIsError,
+    dataPostList,
+    getListDataPost,
+    setLikePost,
+    setUnlikePost,
+  } = useFeedHook();
 
-    setDataDropdown(dataFilter);
+  useFocusEffect(
+    useCallback(() => {
+      getListDataPost();
+    }, []),
+  );
+
+  const resultDataFilter = (dataResultFilter: DataDropDownType) => {
+    getListDataPost({sortBy: dataResultFilter.label.toLowerCase()});
   };
-  const resultDataCategory = (dataResultCategory: any) => {
-    let dataFilter = [...data];
-    dataFilter =
-      dataResultCategory.label == 'All'
-        ? dataFilter
-        : dataFilter.filter(x => x.category == dataResultCategory.label);
-
-    setDataDropdown(dataFilter);
+  const resultDataCategory = (dataResultCategory: DataDropDownType) => {
+    dataResultCategory.label === 'All'
+      ? getListDataPost()
+      : getListDataPost({category: dataResultCategory.value});
   };
 
   // List Area
   const cardOnPress = (data: any) => {
     navigation.navigate<any>('PostDetail', {data});
   };
+
   const likeOnPress = (id: string) => {
-    selectedId.includes(id)
-      ? setSelectedId(selectedId.filter((x: string) => x !== id))
-      : setSelectedId([...selectedId, id]);
+    if (selectedId.includes(id)) {
+      return (
+        setLikePost({id}),
+        setSelectedId(selectedId.filter((x: string) => x !== id))
+      );
+    } else {
+      setUnlikePost({id}), setSelectedId([...selectedId, id]);
+    }
   };
 
   const commentOnPress = (id: string) => {
@@ -145,44 +142,44 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      {data.length !== 0 && status == 'following' ? (
+      {dataPostList !== null && dataPostList.length !== 0 ? (
         <FlatList
-          data={dataDropdown}
+          data={dataPostList}
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item: PostListType) => item.id}
+          keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{
             paddingBottom:
               Platform.OS === 'ios'
                 ? heightPercentage(130)
                 : heightPercentage(180),
           }}
-          renderItem={({item, index}: any) => (
+          renderItem={({item}) => (
             <ListCard.PostList
-              musicianName={item.musicianName}
-              musicianId={item.musicianId}
-              imgUri={item.imgUri}
-              postDate={item.postDate}
+              musicianName={item.musician.fullname}
+              musicianId={`@${item.musician.username}`}
+              imgUri={item.musician.avatarUri}
+              postDate={item.musician.created_at}
               category={item.category}
               onPress={() => cardOnPress({item})}
-              likeOnPress={() => likeOnPress(index)}
-              commentOnPress={() => commentOnPress(item.musicianId)}
+              likeOnPress={() => likeOnPress(item.id)}
+              commentOnPress={() => commentOnPress(item.id)}
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
-              likePressed={selectedId.includes(index) ? true : false}
+              likePressed={selectedId.includes(item.id) ? true : false}
               containerStyles={{marginTop: mvs(16)}}
-              likeCount={item.likeCount}
-              commentCount={item.commentCount}
+              likeCount={item.likesCount}
+              commentCount={item.commentsCount}
               children={
                 <View style={{width: '100%'}}>
                   <Text style={styles.childrenPostTitle}>
-                    {elipsisText(item?.post.postTitle, 600)}
+                    {elipsisText(item.caption, 600)}
                   </Text>
                   <Gap height={4} />
                   <View
                     style={{
                       flexDirection: 'row',
                     }}>
-                    <SafeAreaView style={{flex: 1}}>
+                    {/* <SafeAreaView style={{flex: 1}}>
                       <ImageList
                         imgData={item.post.postPicture}
                         width={143}
@@ -191,16 +188,16 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                         widthType2={289}
                         onPress={() => {}}
                       />
-                    </SafeAreaView>
+                    </SafeAreaView> */}
                   </View>
                 </View>
               }
             />
           )}
         />
-      ) : data.length !== 0 && status == 'not_follow' ? (
+      ) : dataPostList === null ? (
         <ListToFollowMusician />
-      ) : (
+      ) : dataPostList !== null && dataPostList.length === 0 ? (
         <EmptyState
           text={`Your following musician don't have any post, try to follow more musician`}
           containerStyle={{
@@ -208,7 +205,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             paddingTop: heightPercentage(24),
           }}
         />
-      )}
+      ) : null}
       <CommentInputModal
         toggleModal={() => setInputCommentModal(!inputCommentModal)}
         modalVisible={inputCommentModal}

@@ -65,7 +65,7 @@ const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
         </Text>
 
         <Text style={styles.followerCount} numberOfLines={1}>
-          {followerCount} Listener
+          {followerCount} Followers
         </Text>
       </View>
       <View style={styles.rightContainer}>{followMenu()}</View>

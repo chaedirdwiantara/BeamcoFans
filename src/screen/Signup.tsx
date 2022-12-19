@@ -16,25 +16,17 @@ import {RegistrationType} from '../interface/profile.interface';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../App';
-import {
-  CheckCircleIcon,
-  EmailIcon,
-  FullNameIcon,
-  LockIcon,
-  UserIcon,
-} from '../assets/icon';
+import {EmailIcon, FullNameIcon, LockIcon} from '../assets/icon';
 import {color, font} from '../theme';
 import {Dropdown, SsuStatusBar, TermAndConditions} from '../components';
 import {countryData} from '../data/dropdown';
 import {heightResponsive, widthResponsive} from '../utils';
 import {AppleLogo, FacebookLogo, GoogleLogo} from '../assets/logo';
 import {ms, mvs} from 'react-native-size-matters';
-import ErrorCircleIcon from '../assets/icon/ErrorCircle.icon';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 
 interface RegisterInput {
   fullname: string;
-  username: string;
   password: string;
   confirmPassword: string;
   email: string;
@@ -64,10 +56,6 @@ const registerValidation = yup.object({
       .required('This field is required')
       .matches(/^[0-9]{0,15}$/, 'Only allowed 15 numerical characters'),
   }),
-  username: yup
-    .string()
-    .required('This field is required')
-    .matches(/^[a-z0-9]{3,30}/, 'Only allowed 5 to 30 char lowercase'),
   image: yup.string().when('registrationType', {
     is: (val: RegistrationType) => val !== 'email',
     then: yup.string().required('Image not found'),
@@ -86,15 +74,8 @@ const registerValidation = yup.object({
 export const SignupScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {
-    isLoading,
-    isError,
-    authResult,
-    errorMsg,
-    isValidUsername,
-    onRegisterUser,
-    checkUsernameAvailability,
-  } = useAuthHook();
+  const {isLoading, isError, authResult, errorMsg, onRegisterUser} =
+    useAuthHook();
   const [focusInput, setFocusInput] = useState<string | null>(null);
 
   const {
@@ -109,7 +90,6 @@ export const SignupScreen: React.FC = () => {
     mode: 'onChange',
     defaultValues: {
       fullname: '',
-      username: '',
       password: '',
       confirmPassword: '',
       registrationType: 'email',
@@ -118,20 +98,12 @@ export const SignupScreen: React.FC = () => {
   });
 
   const handleRegisterUser: SubmitHandler<RegisterInput> = data => {
-    if (isValidUsername === true) {
-      onRegisterUser({
-        fullname: data.fullname,
-        username: data.username.toLowerCase(),
-        password: data.password,
-        registrationType: data.registrationType,
-        email: data.email,
-      });
-    } else {
-      setError('username', {
-        type: 'value',
-        message: errorMsg,
-      });
-    }
+    onRegisterUser({
+      fullname: data.fullname,
+      password: data.password,
+      registrationType: data.registrationType,
+      email: data.email,
+    });
   };
 
   useEffect(() => {
@@ -144,27 +116,13 @@ export const SignupScreen: React.FC = () => {
           'email',
         )} check your inbox and enter verification code here`,
       });
-    } else if (!isLoading && isError && isValidUsername !== null) {
+    } else if (!isLoading && isError !== null) {
       setError('termsCondition', {
         type: 'value',
         message: errorMsg,
       });
     }
-  }, [isLoading, isError, authResult, isValidUsername]);
-
-  useEffect(() => {
-    if (
-      isValidUsername === false &&
-      watch('username').length > 0 &&
-      isError &&
-      errorMsg !== ''
-    ) {
-      setError('username', {
-        type: 'value',
-        message: errorMsg,
-      });
-    }
-  }, [isValidUsername, watch('username'), isError, errorMsg]);
+  }, [isLoading, isError, authResult]);
 
   const handleOnPressBack = () => {
     navigation.goBack();
@@ -203,6 +161,22 @@ export const SignupScreen: React.FC = () => {
         <View>
           <Text style={styles.titleStyle}>Sign Up</Text>
           <Gap height={24} />
+          <View
+            style={{
+              flexDirection: 'row',
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <GoogleLogo />
+            <Gap width={24} />
+            <FacebookLogo />
+            {Platform.OS === 'ios' ? <Gap width={24} /> : null}
+            {Platform.OS === 'ios' ? <AppleLogo /> : null}
+          </View>
+          <Gap height={20} />
+          <SsuDivider text={'or'} />
+          <Gap height={20} />
           <View style={styles.wrapperLoginType}>
             <Text
               style={
@@ -289,39 +263,6 @@ export const SignupScreen: React.FC = () => {
           />
           <Gap height={8} />
           <Controller
-            name="username"
-            control={control}
-            render={({field: {onChange, value}}) => (
-              <SsuInput.InputText
-                value={value}
-                onChangeText={onChange}
-                placeholder={'Username'}
-                leftIcon={<UserIcon stroke={color.Dark[50]} />}
-                onFocus={() => {
-                  handleFocusInput('username');
-                }}
-                onBlur={() => {
-                  handleFocusInput(null);
-                  if (value.length >= 5 && value.length <= 10) {
-                    checkUsernameAvailability(value);
-                  }
-                }}
-                rightIcon={isValidUsername !== null}
-                rightIconComponent={
-                  isValidUsername === true ? (
-                    <CheckCircleIcon />
-                  ) : isValidUsername === false ? (
-                    <ErrorCircleIcon />
-                  ) : null
-                }
-                isError={errors?.username ? true : false}
-                errorMsg={errors?.username?.message}
-                isFocus={focusInput === 'username'}
-              />
-            )}
-          />
-          <Gap height={8} />
-          <Controller
             name="password"
             control={control}
             render={({field: {onChange, value}}) => (
@@ -366,7 +307,6 @@ export const SignupScreen: React.FC = () => {
               />
             )}
           />
-
           <Gap height={14} />
           <Controller
             name="termsCondition"
@@ -400,29 +340,13 @@ export const SignupScreen: React.FC = () => {
           />
           <Gap height={4} />
           <Button
-            type="border"
             label="Back"
+            type="border"
             borderColor="transparent"
             textStyles={{fontSize: mvs(14), color: color.Pink.linear}}
             containerStyles={{width: '100%'}}
             onPress={handleOnPressBack}
           />
-          <Gap height={8} />
-          <SsuDivider text={'or signup with'} />
-          <Gap height={14} />
-          <View
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <GoogleLogo />
-            <Gap width={24} />
-            <FacebookLogo />
-            {Platform.OS === 'ios' ? <Gap width={24} /> : null}
-            {Platform.OS === 'ios' ? <AppleLogo /> : null}
-          </View>
         </View>
         <View>
           <Text style={styles.forgotPassStyle}>
@@ -500,6 +424,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: mvs(12),
     alignSelf: 'center',
-    marginTop: heightResponsive(90),
+    marginTop: heightResponsive(100),
   },
 });

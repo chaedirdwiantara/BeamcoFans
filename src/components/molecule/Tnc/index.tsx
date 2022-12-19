@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     maxWidth: '90%',
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: mvs(10),
+    fontSize: mvs(12),
     color: color.Neutral[10],
     marginLeft: widthResponsive(8),
   },
