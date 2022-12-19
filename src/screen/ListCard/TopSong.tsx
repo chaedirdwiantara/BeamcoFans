@@ -1,5 +1,6 @@
 import React, {FC, useState} from 'react';
 import {MusicSection} from '../../components';
+import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
 import {elipsisText} from '../../utils';
