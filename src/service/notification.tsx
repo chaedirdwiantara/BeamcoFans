@@ -1,4 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
+import type {FirebaseMessagingTypes} from '@react-native-firebase/messaging/lib';
+import notifee, {AndroidImportance} from '@notifee/react-native';
 
 export const requestUserPermission = async () => {
   const authStatus = await messaging().requestPermission();
@@ -43,7 +45,7 @@ export const createNotificationListener = ({
   onOpenNotification,
 }: {
   onRegister: (token: string) => void;
-  onNotification: (data: any) => void;
+  onNotification: (data: FirebaseMessagingTypes.RemoteMessage) => void;
   onOpenNotification: (data: any) => void;
 }) => {
   // When the application is running, but in the background
@@ -84,5 +86,29 @@ export const createNotificationListener = ({
   messaging().onTokenRefresh(fcmToken => {
     console.log('[FCMService] New token refresh: ', fcmToken);
     onRegister(fcmToken);
+  });
+};
+
+export const showNotification = async ({
+  title,
+  message,
+}: {
+  title?: string;
+  message?: string;
+}) => {
+  const channelId = await notifee.createChannel({
+    id: 'default',
+    name: 'Default Channel',
+  });
+  await notifee.displayNotification({
+    title: title || '',
+    body: message || '',
+    android: {
+      channelId: channelId,
+      pressAction: {
+        id: 'default',
+      },
+      importance: AndroidImportance.HIGH,
+    },
   });
 };
