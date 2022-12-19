@@ -18,6 +18,7 @@ export type MusicianData = {
   fullname: string;
   email: string;
   created_at: string;
+  avatarUri: string;
 };
 
 export type PostList = {
