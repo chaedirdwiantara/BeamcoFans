@@ -8,9 +8,6 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 
-import Color from '../theme/Color';
-import {dataSlider} from '../data/home';
-import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 import {
   TopNavigation,
   SearchBar,
@@ -19,7 +16,9 @@ import {
   IconNotif,
   SsuStatusBar,
 } from '../components';
+import Color from '../theme/Color';
 import {RootStackParams} from '../App';
+import {dataSlider} from '../data/home';
 import TopSong from './ListCard/TopSong';
 import {SearchIcon} from '../assets/icon';
 import PostList from './ListCard/PostList';
@@ -28,9 +27,12 @@ import TopMusician from './ListCard/TopMusician';
 import * as FCMService from '../service/notification';
 import {useNavigation} from '@react-navigation/native';
 import {profileStorage} from '../hooks/use-storage.hook';
+import {useMusicianHook} from '../hooks/use-musician.hook';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
+import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
+import {FollowMusicianPropsType} from '../interface/musician.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -39,9 +41,26 @@ type OnScrollEventHandler = (
 export const HomeScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {
+    isLoading,
+    dataMusician,
+    getListDataMusician,
+    setFollowMusician,
+    setUnfollowMusician,
+  } = useMusicianHook();
+
+  useEffect(() => {
+    getListDataMusician();
+  }, [isLoading]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
+  const [selectedSong, setSelectedSong] = useState({
+    musicNum: '',
+    musicTitle: '',
+    singerName: '',
+    imgUri: '',
+  });
 
   useEffect(() => {
     FCMService.getTokenFCM({onGetToken: handleOnGetToken});
@@ -99,6 +118,11 @@ export const HomeScreen: React.FC = () => {
     setScrollEffect(scrolled);
   };
 
+  const onPressTopSong = (val: any) => {
+    setSelectedSong(val);
+    setModalVisible(true);
+  };
+
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
@@ -129,16 +153,32 @@ export const HomeScreen: React.FC = () => {
           />
         </TouchableOpacity>
         <Carousel data={dataSlider} />
-        <View style={styles.containerContent}>
+        <View
+          style={[
+            styles.containerContent,
+            {
+              marginBottom: modalVisible
+                ? heightPercentage(90)
+                : heightPercentage(25),
+            },
+          ]}>
           <TabFilter.Type1
             filterData={filter}
             onPress={filterData}
             selectedIndex={selectedIndex}
           />
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
-            <TopMusician />
+            <TopMusician
+              dataMusician={dataMusician}
+              setFollowMusician={(props?: FollowMusicianPropsType) =>
+                setFollowMusician(props)
+              }
+              setUnfollowMusician={(props?: FollowMusicianPropsType) =>
+                setUnfollowMusician(props)
+              }
+            />
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
-            <TopSong onPress={() => setModalVisible(true)} />
+            <TopSong onPress={onPressTopSong} type={'home'} />
           ) : (
             <PostList
               dataRightDropdown={dropDownDataCategory}
@@ -151,11 +191,9 @@ export const HomeScreen: React.FC = () => {
 
       {modalVisible && (
         <ModalPlayMusic
-          imgUri={
-            'https://cdns-images.dzcdn.net/images/cover/7f7aae26b50cb046c872238b6a2a10c2/264x264.jpg'
-          }
-          musicTitle={'Thunder'}
-          singerName={'Imagine Dragons, The Wekeend'}
+          imgUri={selectedSong.imgUri || ''}
+          musicTitle={selectedSong.musicTitle || ''}
+          singerName={selectedSong.singerName || ''}
           onPressModal={() => goToScreen('MusicPlayer')}
         />
       )}
@@ -173,7 +211,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthResponsive(24),
     width: '100%',
     height: '100%',
-    marginBottom: heightPercentage(40),
   },
   containerIcon: {
     flexDirection: 'row',

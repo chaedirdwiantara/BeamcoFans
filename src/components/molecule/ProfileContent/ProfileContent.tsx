@@ -7,7 +7,6 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Text,
-  Platform,
 } from 'react-native';
 
 import {
@@ -59,10 +58,11 @@ const NewCreatedPlaylist: React.FC<NewPlaylistProps> = ({
     <TouchableOpacity onPress={goToPlaylist}>
       <ListCard.MusicList
         imgUri={playlist?.playlistUri?.path}
-        musicNum={1}
+        musicNum={'01'}
         musicTitle={elipsisText(playlist?.playlistName, 22)}
         singerName={'by Weaboo'}
         containerStyles={{marginTop: heightPercentage(20)}}
+        hideDropdownMore={true}
       />
     </TouchableOpacity>
   );
@@ -131,7 +131,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             TopSongListData.length > 0 ? (
               <View>
                 <CreateNewCard
-                  num="01"
+                  num="00"
                   text="Create New Playlist"
                   onPress={() => onPressGoTo('CreateNewPlaylist')}
                 />
@@ -141,7 +141,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                     goToPlaylist={goToPlaylist}
                   />
                 )}
-                <TopSong />
+                <TopSong
+                  hideDropdownMore={true}
+                  onPress={() => null}
+                  scrollable={false}
+                />
               </View>
             ) : (
               <CreateNewCard
@@ -152,7 +156,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             )
           ) : filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
             MusicianListData.length > 0 ? (
-              <TopMusician type={'profile'} />
+              <TopMusician scrollable={false} type={'profile'} />
             ) : (
               <EmptyState text="This user don't have contribution to any musician" />
             )
@@ -178,14 +182,14 @@ const styles = StyleSheet.create({
   },
   infoCard: {
     position: 'absolute',
-    top: heightPercentage(300),
+    top: heightPercentage(310),
     left: widthPercentage(20),
   },
   containerContent: {
     flex: 1,
     marginTop: heightPercentage(70),
     paddingHorizontal: widthPercentage(20),
-    marginBottom: heightPercentage(10),
+    marginBottom: heightPercentage(20),
     width: '100%',
   },
   flashlistStyle: {
@@ -201,7 +205,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: widthPercentage(20),
     backgroundColor: Color.Dark[800],
-    height: Platform.OS === 'ios' ? heightPercentage(85) : heightPercentage(64),
+    height: heightPercentage(85),
   },
   name: {
     fontFamily: font.InterSemiBold,
@@ -210,6 +214,6 @@ const styles = StyleSheet.create({
     color: Color.Neutral[10],
   },
   topIos: {
-    top: Platform.OS === 'ios' ? heightPercentage(15) : 0,
+    top: heightPercentage(15),
   },
 });

@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {
+  heightPercentage,
+  normalize,
+  width,
+  widthPercentage,
+} from '../../../utils';
 import {Avatar, Gap} from '../../atom';
 import {color, font} from '../../../theme';
 import {PauseIcon, PlayIcon} from '../../../assets/icon';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface SongTitlePlayProps {
   title: string;
@@ -67,6 +72,7 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
     fontFamily: font.InterSemiBold,
     lineHeight: heightPercentage(28),
+    width: width * 0.7,
   },
   createdOn: {
     fontSize: normalize(10),

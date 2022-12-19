@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -38,7 +38,7 @@ export const PlaylistScreen: React.FC<PlaylistProps> = (
   };
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <PlaylistContent
         playlist={params}
         onPressGoBack={onPressGoBack}
@@ -46,7 +46,7 @@ export const PlaylistScreen: React.FC<PlaylistProps> = (
         goBackProfile={goBackProfile}
         goToAddSong={goToAddSong}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

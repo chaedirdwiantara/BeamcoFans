@@ -45,7 +45,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
         data={dataFilter ? dataFilter : dataMore}
         selectedMenu={onPressMore}
         containerStyle={{
-          width: widthPercentage(123),
+          width: widthResponsive(123),
           marginLeft: widthPercentage(-113),
           marginTop: heightPercentage(-8),
         }}
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     fontFamily: font.InterMedium,
     fontSize: normalize(10),
     fontWeight: '600',
-    marginRight: widthResponsive(10),
+    marginRight: widthResponsive(15),
     marginTop: ms(2),
     color: color.Dark[100],
   },

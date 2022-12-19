@@ -26,16 +26,17 @@ interface AddSongProps {
 
 export const AddSongContent: React.FC<AddSongProps> = ({onPressGoBack}) => {
   const [search, setSearch] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setModalVisible(false);
-    }, 3000);
-  }, [modalVisible]);
+    toastVisible &&
+      setTimeout(() => {
+        setToastVisible(false);
+      }, 3000);
+  }, [toastVisible]);
 
   const onPressIcon = () => {
-    setModalVisible(true);
+    setToastVisible(true);
   };
 
   return (
@@ -81,8 +82,8 @@ export const AddSongContent: React.FC<AddSongProps> = ({onPressGoBack}) => {
       </View>
 
       <SsuToast
-        modalVisible={modalVisible}
-        onBackPressed={() => setModalVisible(false)}
+        modalVisible={toastVisible}
+        onBackPressed={() => setToastVisible(false)}
         children={
           <View style={[styles.modalContainer]}>
             <TickCircleIcon

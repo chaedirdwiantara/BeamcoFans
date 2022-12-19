@@ -1,35 +1,47 @@
-import React, {FC} from 'react';
-import {ListCard} from '../../components';
+import React, {FC, useState} from 'react';
+import {MusicSection} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
-import {TopSongListData} from '../../data/topSong';
 import {elipsisText} from '../../utils';
+import {TopSongListData, TopSongProps} from '../../data/topSong';
 
-interface TopSongProps {
-  onPress: () => void;
+interface TopSongPropsScreen {
+  type?: string;
+  onPress: (param: any) => void;
   scrollable?: boolean;
+  hideDropdownMore?: boolean;
 }
 
-const TopSong: FC<TopSongProps> = (props: TopSongProps) => {
-  const {onPress, scrollable} = props;
-  const resultDataMore = (dataResult: any) => {
-    console.log(dataResult, 'resultDataMenu');
+const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
+  const {onPress, scrollable, type, hideDropdownMore} = props;
+  const [listSong, setListSong] = useState(TopSongListData);
+
+  const onPressPlay = (item: TopSongProps, index: number) => {
+    let newList = [...listSong];
+    newList = newList.map(v => ({...v, played: false}));
+    newList[index].played = true;
+    setListSong(newList);
+    onPress(item);
   };
+
   return (
     <FlashList
-      data={TopSongListData}
+      data={listSong}
       showsVerticalScrollIndicator={false}
       scrollEnabled={scrollable}
       keyExtractor={item => item.id}
-      renderItem={({item}: any) => (
-        <ListCard.MusicList
+      renderItem={({item, index}: any) => (
+        <MusicSection
           imgUri={item.imgUri}
           musicNum={item.musicNum}
           musicTitle={elipsisText(item.musicTitle, 22)}
           singerName={item.singerName}
-          onPressMore={resultDataMore}
-          onPressCard={onPress}
+          onPressCard={
+            type === 'home' ? () => onPressPlay(item, index) : undefined
+          }
           containerStyles={{marginTop: mvs(20)}}
+          played={type === 'home' ? item.played : false}
+          hideDropdownMore={hideDropdownMore}
         />
       )}
       estimatedItemSize={TopSongListData.length}
