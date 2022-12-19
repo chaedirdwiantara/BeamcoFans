@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -44,7 +44,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const {dataRightDropdown, dataLeftDropdown, data} = props;
 
   const [selectedId, setSelectedId] = useState<any>([]);
-  const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
 
@@ -52,9 +51,11 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     feedIsLoading,
     feedIsError,
     dataPostList,
+    dataPostDetail,
     getListDataPost,
     setLikePost,
     setUnlikePost,
+    getDetailPost,
   } = useFeedHook();
 
   useFocusEffect(
@@ -62,6 +63,12 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       getListDataPost();
     }, []),
   );
+
+  useEffect(() => {
+    if (dataPostDetail !== null) {
+      navigation.navigate('PostDetail');
+    }
+  }, [dataPostDetail]);
 
   const resultDataFilter = (dataResultFilter: DataDropDownType) => {
     getListDataPost({sortBy: dataResultFilter.label.toLowerCase()});
@@ -72,9 +79,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       : getListDataPost({category: dataResultCategory.value});
   };
 
-  // List Area
-  const cardOnPress = (data: any) => {
-    navigation.navigate<any>('PostDetail', {data});
+  const cardOnPress = (id: string) => {
+    getDetailPost({id});
   };
 
   const likeOnPress = (id: string) => {
@@ -160,7 +166,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
               imgUri={item.musician.avatarUri}
               postDate={item.musician.created_at}
               category={item.category}
-              onPress={() => cardOnPress({item})}
+              onPress={() => cardOnPress(item.id)}
               likeOnPress={() => likeOnPress(item.id)}
               commentOnPress={() => commentOnPress(item.id)}
               tokenOnPress={tokenOnPress}

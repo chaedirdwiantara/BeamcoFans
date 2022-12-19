@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -48,14 +48,28 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
 
-  const {feedIsLoading, feedIsError, dataPostList, getListDataExclusivePost} =
-    useFeedHook();
+  const {
+    feedIsLoading,
+    feedIsError,
+    dataPostList,
+    dataPostDetail,
+    getListDataExclusivePost,
+    setLikePost,
+    setUnlikePost,
+    getDetailPost,
+  } = useFeedHook();
 
   useFocusEffect(
     useCallback(() => {
       getListDataExclusivePost();
     }, []),
   );
+
+  useEffect(() => {
+    if (dataPostDetail !== null) {
+      navigation.navigate('PostDetail');
+    }
+  }, [dataPostDetail]);
 
   const resultDataFilter = (dataResultFilter: DataDropDownType) => {
     getListDataExclusivePost({sortBy: dataResultFilter.label.toLowerCase()});
@@ -66,14 +80,19 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       : getListDataExclusivePost({category: dataResultCategory.value});
   };
 
-  // List Area
-  const cardOnPress = (data: any) => {
-    navigation.navigate<any>('PostDetail', {data});
+  const cardOnPress = (id: string) => {
+    getDetailPost({id});
   };
+
   const likeOnPress = (id: string) => {
-    selectedId.includes(id)
-      ? setSelectedId(selectedId.filter((x: string) => x !== id))
-      : setSelectedId([...selectedId, id]);
+    if (selectedId.includes(id)) {
+      return (
+        setLikePost({id}),
+        setSelectedId(selectedId.filter((x: string) => x !== id))
+      );
+    } else {
+      setUnlikePost({id}), setSelectedId([...selectedId, id]);
+    }
   };
 
   const commentOnPress = (id: string) => {
@@ -144,7 +163,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
               imgUri={item.musician.avatarUri}
               postDate={item.musician.created_at}
               category={item.category}
-              onPress={() => cardOnPress({item})}
+              onPress={() => cardOnPress(item.id)}
               likeOnPress={() => likeOnPress(item.id)}
               commentOnPress={() => commentOnPress(item.id)}
               tokenOnPress={tokenOnPress}
