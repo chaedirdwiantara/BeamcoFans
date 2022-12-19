@@ -16,6 +16,8 @@ interface MusicianProps {
   imgUri: string;
   containerStyles?: ViewStyle;
   point?: string | null;
+  isFollowed: boolean;
+  followOnPress: () => void;
 }
 
 interface DataMore {
@@ -24,10 +26,13 @@ interface DataMore {
 }
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
+  const {isFollowed, followOnPress} = props;
+  const textFollow = isFollowed ? 'Unfollow' : 'Follow';
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const dataMore = [
-    {label: 'Follow', value: '1'},
+    {label: textFollow, value: '1'},
     {label: 'Send Donation', value: '2'},
     {label: 'Go To Musician', value: '3'},
   ];
@@ -51,11 +56,14 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   }, [modalSuccessDonate, trigger2ndModal]);
 
   const resultDataMore = (dataResult: DataMore) => {
-    dataResult.label === 'Follow'
-      ? setToastVisible(true)
-      : dataResult.label === 'Go To Musician'
-      ? navigation.navigate('MusicianProfile')
-      : setModalDonate(true);
+    if (dataResult.value === '1') {
+      setToastVisible(true);
+      followOnPress();
+    } else if (dataResult.value === '3') {
+      navigation.navigate('MusicianProfile');
+    } else {
+      setModalDonate(true);
+    }
   };
 
   const onPressDonate = () => {
@@ -95,7 +103,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
             <CheckCircle2Icon />
             <Gap width={4} />
             <Text style={[styles.textStyle]} numberOfLines={2}>
-              You have been following selected musician
+              {`You have been ${textFollow} selected musician`}
             </Text>
           </View>
         }

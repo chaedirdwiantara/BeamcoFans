@@ -39,9 +39,10 @@ export const SongDetailsContent: React.FC<Props> = ({
   });
 
   useEffect(() => {
-    setTimeout(() => {
-      setToastVisible(false);
-    }, 3000);
+    toastVisible &&
+      setTimeout(() => {
+        setToastVisible(false);
+      }, 3000);
   }, [toastVisible]);
 
   const openModal = (name: string) => {
