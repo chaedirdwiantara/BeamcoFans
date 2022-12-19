@@ -30,7 +30,6 @@ import ImageList from './ImageList';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import {FriedEggIcon} from '../../assets/icon';
 import ListToFollowMusician from './ListToFollowMusician';
-import {PostList} from '../../interface/feed.interface';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 
 interface PostListProps {
