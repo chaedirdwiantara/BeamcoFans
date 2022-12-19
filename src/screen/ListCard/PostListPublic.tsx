@@ -30,6 +30,7 @@ import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import ListToFollowMusician from './ListToFollowMusician';
 import ImageList from './ImageList';
 import {useFeedHook} from '../../hooks/use-feed.hook';
+import {ParamsProps} from '../../interface/base.interface';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -56,28 +57,13 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     }, []),
   );
 
-  const resultDataFilter = (dataResultFilter: any) => {
-    let dataFilter = [...data];
-    dataFilter =
-      dataResultFilter.label == 'Latest'
-        ? dataFilter
-            // @ts-ignore
-            .sort((a, b) => new Date(a.postDate) - new Date(b.postDate))
-            .reverse()
-        : dataFilter // @ts-ignore
-            .sort((a, b) => a.commentCount - b.commentCount)
-            .reverse();
-
-    setDataDropdown(dataFilter);
+  const resultDataFilter = (dataResultFilter: DataDropDownType) => {
+    getListDataPost({sortBy: dataResultFilter.label.toLowerCase()});
   };
-  const resultDataCategory = (dataResultCategory: any) => {
-    let dataFilter = [...data];
-    dataFilter =
-      dataResultCategory.label == 'All'
-        ? dataFilter
-        : dataFilter.filter(x => x.category == dataResultCategory.label);
-
-    setDataDropdown(dataFilter);
+  const resultDataCategory = (dataResultCategory: DataDropDownType) => {
+    dataResultCategory.label === 'All'
+      ? getListDataPost()
+      : getListDataPost({category: dataResultCategory.value});
   };
 
   // List Area

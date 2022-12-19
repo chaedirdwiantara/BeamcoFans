@@ -12,6 +12,7 @@ import {
   listPostExclusive,
   unlikePost,
 } from '../api/feed.api';
+import {ParamsProps} from '../interface/base.interface';
 import {
   CommentDetailData,
   CommentList,
@@ -30,11 +31,11 @@ export const useFeedHook = () => {
   );
   const [feedIsError, setFeedIsError] = useState(false);
 
-  const getListDataPost = async () => {
+  const getListDataPost = async (props?: ParamsProps) => {
     setFeedIsLoading(true);
     setFeedIsError(false);
     try {
-      const response = await listPost();
+      const response = await listPost(props);
       setDataPostList(response.data);
     } catch (error) {
       setFeedIsError(true);
@@ -43,11 +44,11 @@ export const useFeedHook = () => {
     }
   };
 
-  const getListDataExclusivePost = async () => {
+  const getListDataExclusivePost = async (props?: ParamsProps) => {
     setFeedIsLoading(true);
     setFeedIsError(false);
     try {
-      const response = await listPostExclusive();
+      const response = await listPostExclusive(props);
       setDataPostList(response.data);
     } catch (error) {
       setFeedIsError(true);

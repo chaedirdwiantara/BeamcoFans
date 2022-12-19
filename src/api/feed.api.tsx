@@ -11,21 +11,28 @@ import {
   PostPropsTypeB,
   UnlikePostResponseType,
 } from '../interface/feed.interface';
+import {ParamsProps} from '../interface/base.interface';
 
 // => List Post Area
-export const listPost = async (): Promise<ListPostResponseType> => {
+export const listPost = async (
+  props?: ParamsProps,
+): Promise<ListPostResponseType> => {
   const {data} = await SsuAPI().request<ListPostResponseType>({
     url: '/posts',
     method: 'GET',
+    params: props,
   });
 
   return data;
 };
 
-export const listPostExclusive = async (): Promise<ListPostResponseType> => {
+export const listPostExclusive = async (
+  props?: ParamsProps,
+): Promise<ListPostResponseType> => {
   const {data} = await SsuAPI().request<ListPostResponseType>({
     url: '/posts/premium',
     method: 'GET',
+    params: props,
   });
 
   return data;
