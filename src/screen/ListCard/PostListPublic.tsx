@@ -1,12 +1,5 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
-import {
-  FlatList,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {FlatList, Platform, StyleSheet, Text, View} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {CommentInputModal, Dropdown, Gap, ListCard} from '../../components';
 import {
@@ -31,6 +24,7 @@ import ListToFollowMusician from './ListToFollowMusician';
 import ImageList from './ImageList';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {ParamsProps} from '../../interface/base.interface';
+import {PostList} from '../../interface/feed.interface';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -47,6 +41,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
+  const [selectedItem, setSelectedItem] = useState<PostList>();
 
   const {
     feedIsLoading,
@@ -67,8 +62,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   );
 
   useEffect(() => {
-    if (dataPostDetail !== null) {
-      navigation.navigate('PostDetail');
+    if (dataPostDetail !== null && selectedItem !== undefined) {
+      navigation.navigate('PostDetail', selectedItem);
     }
   }, [dataPostDetail]);
 
@@ -81,8 +76,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       : getListDataPost({category: dataResultCategory.value});
   };
 
-  const cardOnPress = (id: string) => {
-    getDetailPost({id});
+  const cardOnPress = (data: PostList) => {
+    getDetailPost({id: data.id});
+    setSelectedItem(data);
   };
 
   const likeOnPress = (id: string) => {
@@ -169,7 +165,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
               imgUri={item.musician.avatarUri}
               postDate={item.musician.created_at}
               category={item.category}
-              onPress={() => cardOnPress(item.id)}
+              onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id)}
               commentOnPress={() =>
                 commentOnPress(item.id, item.musician.username)

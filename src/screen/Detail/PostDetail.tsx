@@ -23,6 +23,7 @@ import {commentData} from '../../data/comment';
 import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
 import ImageList from '../ListCard/ImageList';
+import {useFeedHook} from '../../hooks/use-feed.hook';
 
 interface PostDetail {
   props: {};
@@ -46,13 +47,23 @@ export const PostDetail: FC<PostDetail> = props => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [imgUrl, setImgUrl] = useState<string>('');
+  const [musicianId, setMusicianId] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
 
-  const likeOnPress = () => {
-    setLikePressed(!likePressed);
+  const {dataPostDetail, setLikePost, setUnlikePost} = useFeedHook();
+
+  const likeOnPress = (id: string) => {
+    if (likePressed) {
+      return setLikePost({id}), setLikePressed(!likePressed);
+    } else {
+      setUnlikePost({id}), setLikePressed(!likePressed);
+    }
   };
 
-  const commentOnPress = () => {
+  const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
+    setMusicianId(id);
+    setUserName(username);
   };
 
   const tokenOnPress = () => {
@@ -90,8 +101,10 @@ export const PostDetail: FC<PostDetail> = props => {
             imgUri={data.imgUri}
             postDate={data.postDate}
             category={data.category}
-            likeOnPress={likeOnPress}
-            commentOnPress={commentOnPress}
+            likeOnPress={() => likeOnPress(data.musicianId)}
+            commentOnPress={() =>
+              commentOnPress(data.musicianId, data.musicianName)
+            }
             tokenOnPress={tokenOnPress}
             shareOnPress={shareOnPress}
             likePressed={likePressed}
@@ -154,7 +167,8 @@ export const PostDetail: FC<PostDetail> = props => {
         <CommentInputModal
           toggleModal={() => setInputCommentModal(!inputCommentModal)}
           modalVisible={inputCommentModal}
-          name={data.musicianId}
+          name={userName}
+          idForProps={musicianId}
         />
       </ScrollView>
     </SafeAreaView>

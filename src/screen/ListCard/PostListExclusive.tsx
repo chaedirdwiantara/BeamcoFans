@@ -31,6 +31,7 @@ import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import {FriedEggIcon} from '../../assets/icon';
 import ListToFollowMusician from './ListToFollowMusician';
 import {useFeedHook} from '../../hooks/use-feed.hook';
+import {PostList} from '../../interface/feed.interface';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -48,6 +49,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
+  const [selectedItem, setSelectedItem] = useState<PostList>();
 
   const {
     feedIsLoading,
@@ -68,8 +70,8 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   );
 
   useEffect(() => {
-    if (dataPostDetail !== null) {
-      navigation.navigate('PostDetail');
+    if (dataPostDetail !== null && selectedItem !== undefined) {
+      navigation.navigate('PostDetail', selectedItem);
     }
   }, [dataPostDetail]);
 
@@ -82,8 +84,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       : getListDataExclusivePost({category: dataResultCategory.value});
   };
 
-  const cardOnPress = (id: string) => {
-    getDetailPost({id});
+  const cardOnPress = (data: PostList) => {
+    getDetailPost({id: data.id});
+    setSelectedItem(data);
   };
 
   const likeOnPress = (id: string) => {
@@ -166,7 +169,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
               imgUri={item.musician.avatarUri}
               postDate={item.musician.created_at}
               category={item.category}
-              onPress={() => cardOnPress(item.id)}
+              onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id)}
               commentOnPress={() =>
                 commentOnPress(item.id, item.musician.username)
