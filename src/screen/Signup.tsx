@@ -15,7 +15,7 @@ import {useAuthHook} from '../hooks/use-auth.hook';
 import {RegistrationType} from '../interface/profile.interface';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 import {EmailIcon, FullNameIcon, LockIcon} from '../assets/icon';
 import {color, font} from '../theme';
 import {Dropdown, SsuStatusBar, TermAndConditions} from '../components';

@@ -26,6 +26,7 @@ import {
 import axios from 'axios';
 import {storage} from '../hooks/use-storage.hook';
 import {getProfile} from '../api/profile.api';
+import {deleteTokenFCM} from '../service/notification';
 
 export const useAuthHook = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -293,6 +294,15 @@ export const useAuthHook = () => {
     }
   };
 
+  const onLogout = async () => {
+    try {
+      storage.clearAll();
+      await deleteTokenFCM();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -313,5 +323,6 @@ export const useAuthHook = () => {
     confirmSmsOtp,
     sendOtpEmail,
     sendOtpSms,
+    onLogout,
   };
 };

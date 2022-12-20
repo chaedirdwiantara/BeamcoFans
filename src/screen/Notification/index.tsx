@@ -5,7 +5,7 @@ import {NotificationCard, TopNavigation} from '../../components';
 import {notifData} from '../../data/notification';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../App';
+import {RootStackParams} from '../../navigations';
 
 export const Notification = () => {
   const navigation =

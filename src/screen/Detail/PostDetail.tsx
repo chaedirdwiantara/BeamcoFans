@@ -10,7 +10,7 @@ import {
 } from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../App';
+import {RootStackParams} from '../../navigations';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   elipsisText,

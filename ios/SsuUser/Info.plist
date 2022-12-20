@@ -28,23 +28,23 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.348871011517-6nqladuthtsulubvka7ggq0nhgk3o5d4</string>
-        <string>fb687852656020966</string>
+				<string>fb687852656020966</string>
 			</array>
 		</dict>
 	</array>
-  <key>FacebookAppID</key>
-  <string>687852656020966</string>
-  <key>FacebookClientToken</key>
-  <string>ea77058ba43ca99a7c661f0003857457</string>
-  <key>FacebookDisplayName</key>
-  <string>SunnySideUp</string>
-  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>fbapi</string>
-    <string>fb-messenger-share-api</string>
-  </array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>687852656020966</string>
+	<key>FacebookClientToken</key>
+	<string>ea77058ba43ca99a7c661f0003857457</string>
+	<key>FacebookDisplayName</key>
+	<string>SunnySideUp</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -75,6 +75,11 @@
 		<string>Inter-Regular.ttf</string>
 		<string>Inter-SemiBold.ttf</string>
 		<string>Inter-Thin.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import Color from '../theme/Color';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 import {dataFavourites} from '../data/preference';
 import {ImageSlider, SsuStatusBar} from '../components';
 import {useProfileHook} from '../hooks/use-profile.hook';

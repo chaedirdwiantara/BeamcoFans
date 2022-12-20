@@ -7,7 +7,7 @@ import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 import {mvs} from 'react-native-size-matters';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../../App';
+import {RootStackParams} from '../../../navigations';
 
 interface MusicianProps {
   musicianId: string;

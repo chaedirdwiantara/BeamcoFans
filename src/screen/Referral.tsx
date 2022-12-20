@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 import {ReferralContent} from '../components';
 import Color from '../theme/Color';
 import {useProfileHook} from '../hooks/use-profile.hook';
