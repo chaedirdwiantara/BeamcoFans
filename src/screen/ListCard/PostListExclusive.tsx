@@ -32,6 +32,7 @@ import {FriedEggIcon} from '../../assets/icon';
 import ListToFollowMusician from './ListToFollowMusician';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {PostList} from '../../interface/feed.interface';
+import {dateFormat} from '../../utils/date-format';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -177,7 +178,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
               musicianName={item.musician.fullname}
               musicianId={`@${item.musician.username}`}
               imgUri={item.musician.imageProfileUrl}
-              postDate={item.updatedAt}
+              postDate={dateFormat(item.updatedAt)}
               category={item.category}
               onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id)}

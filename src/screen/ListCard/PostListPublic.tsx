@@ -30,8 +30,8 @@ import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import ListToFollowMusician from './ListToFollowMusician';
 import ImageList from './ImageList';
 import {useFeedHook} from '../../hooks/use-feed.hook';
-import {ParamsProps} from '../../interface/base.interface';
 import {PostList} from '../../interface/feed.interface';
+import {dateFormat} from '../../utils/date-format';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -180,7 +180,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
               musicianName={item.musician.fullname}
               musicianId={`@${item.musician.username}`}
               imgUri={item.musician.imageProfileUrl}
-              postDate={item.updatedAt}
+              postDate={dateFormat(item.updatedAt)}
               category={item.category}
               onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id)}
