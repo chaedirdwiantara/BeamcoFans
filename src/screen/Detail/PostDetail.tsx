@@ -36,9 +36,11 @@ export const PostDetail: FC<PostDetail> = props => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
-  const data = props.route.params.data.item;
-  const musicianName = data.musicianName;
-  const caption = data.post.postTitle;
+  console.log(props.route.params, 'props');
+
+  const data = props.route.params;
+  const musicianName = data.musician.fullname;
+  const caption = data.caption;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -49,8 +51,15 @@ export const PostDetail: FC<PostDetail> = props => {
   const [imgUrl, setImgUrl] = useState<string>('');
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
+  const [commentType, setCommentType] = useState<string>('');
 
-  const {dataPostDetail, setLikePost, setUnlikePost} = useFeedHook();
+  const {
+    dataPostDetail,
+    setLikePost,
+    setUnlikePost,
+    setCommentToPost,
+    setCommentToComment,
+  } = useFeedHook();
 
   const likeOnPress = (id: string) => {
     if (likePressed) {
@@ -64,6 +73,14 @@ export const PostDetail: FC<PostDetail> = props => {
     setInputCommentModal(!inputCommentModal);
     setMusicianId(id);
     setUserName(username);
+  };
+
+  const handleReplyOnPress = () => {
+    commentType.length > 0
+      ? setCommentToPost({id: musicianId, content: {content: commentType}})
+      : null;
+    setInputCommentModal(false);
+    setCommentType('');
   };
 
   const tokenOnPress = () => {
@@ -94,26 +111,26 @@ export const PostDetail: FC<PostDetail> = props => {
           itemStrokeColor={color.Neutral[10]}
         />
         {/* Post Detail Section */}
+
+        {/* // TODO : POST DETAIL GET FROM DETAIL API, AND MUSICIAN DATA FROM PROPS */}
         <View style={styles.bodyContainer}>
           <DetailPost
-            musicianName={data.musicianName}
-            musicianId={data.musicianId}
-            imgUri={data.imgUri}
-            postDate={data.postDate}
+            musicianName={musicianName}
+            musicianId={data.musician.username}
+            imgUri={data.musician.imageProfileUrl}
+            postDate={data.updatedAt}
             category={data.category}
-            likeOnPress={() => likeOnPress(data.musicianId)}
-            commentOnPress={() =>
-              commentOnPress(data.musicianId, data.musicianName)
-            }
+            likeOnPress={() => likeOnPress(data.id)}
+            commentOnPress={() => commentOnPress(data.id, musicianName)}
             tokenOnPress={tokenOnPress}
             shareOnPress={shareOnPress}
-            likePressed={likePressed}
+            likePressed={data.isLiked}
             containerStyles={{
               marginTop: mvs(16),
               height: heightPercentage(40),
             }}
-            likeCount={data.likeCount}
-            commentCount={data.commentCount}
+            likeCount={data.likesCount}
+            commentCount={data.commentsCount}
             disabled={true}
             children={
               <View style={{width: '100%'}}>
@@ -143,7 +160,7 @@ export const PostDetail: FC<PostDetail> = props => {
                     flexDirection: 'row',
                   }}>
                   <ImageList
-                    imgData={data.post.postPicture}
+                    imgData={data.image}
                     disabled={false}
                     width={162}
                     height={79}
@@ -168,7 +185,9 @@ export const PostDetail: FC<PostDetail> = props => {
           toggleModal={() => setInputCommentModal(!inputCommentModal)}
           modalVisible={inputCommentModal}
           name={userName}
-          idForProps={musicianId}
+          commentValue={commentType}
+          onCommentChange={setCommentType}
+          handleOnPress={handleReplyOnPress}
         />
       </ScrollView>
     </SafeAreaView>
