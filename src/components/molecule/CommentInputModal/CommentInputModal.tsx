@@ -13,12 +13,14 @@ import {Avatar, SsuInput} from '../..';
 import {color, font} from '../../../theme';
 import {ms} from 'react-native-size-matters';
 import {CloseIcon} from '../../../assets/icon';
+import {useFeedHook} from '../../../hooks/use-feed.hook';
 
 interface ModalImageProps {
   toggleModal: () => void;
   modalVisible: boolean;
   name: string;
   userAvatarUri?: string;
+  idForProps: string;
 }
 
 const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
@@ -26,9 +28,16 @@ const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
     toggleModal,
     modalVisible,
     name,
+    idForProps,
     userAvatarUri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxwjjgqL0vLByyI1sXSGF3Q08PXEmPTUbL6w&usqp=CAU',
   } = props;
   const [state, setState] = useState<string>('');
+  const {setCommentToPost} = useFeedHook();
+
+  const handleOnPress = () => {
+    setCommentToPost({id: idForProps, content: state});
+    toggleModal;
+  };
 
   return (
     <Modal
@@ -65,7 +74,7 @@ const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
               multiline={true}
             />
           </View>
-          <TouchableOpacity style={styles.buttonStyle}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={handleOnPress}>
             <Text style={styles.buttonText}>Reply</Text>
           </TouchableOpacity>
         </View>

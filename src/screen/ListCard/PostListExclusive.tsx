@@ -47,6 +47,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
 
   const {
     feedIsLoading,
@@ -95,9 +96,10 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
     }
   };
 
-  const commentOnPress = (id: string) => {
+  const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
     setMusicianId(id);
+    setUserName(username);
   };
 
   const tokenOnPress = () => {
@@ -165,7 +167,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
               category={item.category}
               onPress={() => cardOnPress(item.id)}
               likeOnPress={() => likeOnPress(item.id)}
-              commentOnPress={() => commentOnPress(item.id)}
+              commentOnPress={() =>
+                commentOnPress(item.id, item.musician.username)
+              }
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
               likePressed={selectedId.includes(item.id) ? true : false}
@@ -213,7 +217,8 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       <CommentInputModal
         toggleModal={() => setInputCommentModal(!inputCommentModal)}
         modalVisible={inputCommentModal}
-        name={musicianId}
+        name={userName}
+        idForProps={musicianId}
       />
     </>
   );
