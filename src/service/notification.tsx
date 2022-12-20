@@ -11,19 +11,40 @@ export const requestUserPermission = async () => {
   return enabled;
 };
 
-export const getTokenFCM = ({
+export const getTokenFCM = async ({
   onGetToken,
 }: {
   onGetToken: (token: string) => void;
 }) => {
-  messaging()
-    .getToken()
-    .then(tokenFCM => {
-      onGetToken(tokenFCM);
-    })
-    .catch(err => {
-      console.log('[FCMService] User does not have a device token');
-    });
+  const authStatus = await messaging().requestPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  if (enabled) {
+    messaging()
+      .hasPermission()
+      .then(async enabled => {
+        if (enabled) {
+          messaging()
+            .getToken()
+            .then(tokenFCM => {
+              console.log(tokenFCM);
+              onGetToken(tokenFCM);
+            })
+            .catch(err => {
+              console.log(
+                '[FCMService] User does not have a device token',
+                err,
+              );
+            });
+        } else {
+          await messaging().requestPermission();
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 };
 
 export const deleteTokenFCM = () => {
@@ -87,6 +108,17 @@ export const createNotificationListener = ({
     console.log('[FCMService] New token refresh: ', fcmToken);
     onRegister(fcmToken);
   });
+
+  // background message
+  messaging().setBackgroundMessageHandler(async remoteMessage => {
+    console.log(
+      '[FCMService] A new background FCM message arrived!',
+      remoteMessage,
+    );
+    if (remoteMessage) {
+      onNotification(remoteMessage);
+    }
+  });
 };
 
 export const showNotification = async ({
@@ -109,6 +141,7 @@ export const showNotification = async ({
         id: 'default',
       },
       importance: AndroidImportance.HIGH,
+      smallIcon: 'ic_notification',
     },
   });
 };
