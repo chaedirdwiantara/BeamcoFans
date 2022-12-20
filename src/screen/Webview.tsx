@@ -10,7 +10,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {mvs} from 'react-native-size-matters';
 import {WebView} from 'react-native-webview';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 import {ArrowLeftIcon} from '../assets/icon';
 import Color from '../theme/Color';
 import Font from '../theme/Font';

@@ -10,7 +10,7 @@ import {
 import Color from '../../theme/Color';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../App';
+import {RootStackParams} from '../../navigations';
 import {color} from '../../theme';
 import {widthResponsive} from '../../utils';
 import {SearchListData, SearchListType} from '../../data/search';

@@ -4,7 +4,7 @@ import {ProfileContent} from './MusicianProfile';
 import {color} from '../../theme';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../App';
+import {RootStackParams} from '../../navigations';
 
 interface ProfileProps {
   props: {};

@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import Color from '../theme/Color';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 import {TopupCoinContent} from '../components';
 
 export const TopupCoinScreen: React.FC = () => {

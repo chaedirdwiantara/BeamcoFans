@@ -17,7 +17,7 @@ import {
   SsuStatusBar,
 } from '../components';
 import Color from '../theme/Color';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 import {dataSlider} from '../data/home';
 import TopSong from './ListCard/TopSong';
 import {SearchIcon} from '../assets/icon';
@@ -33,6 +33,8 @@ import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
+import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
+import {useFcmHook} from '../hooks/use-fcm.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -48,6 +50,7 @@ export const HomeScreen: React.FC = () => {
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
+  const {addFcmToken} = useFcmHook();
 
   useEffect(() => {
     getListDataMusician();
@@ -66,17 +69,26 @@ export const HomeScreen: React.FC = () => {
     FCMService.getTokenFCM({onGetToken: handleOnGetToken});
     FCMService.createNotificationListener({
       onRegister: token => registerFcm(token),
-      onNotification: data => console.log(data),
+      onNotification: data => {
+        onNotification(data);
+      },
       onOpenNotification: data => console.log(data),
     });
+
+    const onNotification = (data: FirebaseMessagingTypes.RemoteMessage) => {
+      FCMService.showNotification({
+        title: data.data?.title,
+        message: data.data?.body,
+      });
+    };
   }, []);
 
   const registerFcm = (token: string) => {
-    console.log(token);
+    addFcmToken(token);
   };
 
-  const handleOnGetToken = (tokenFCM: string) => {
-    console.log(tokenFCM);
+  const handleOnGetToken = (token: string) => {
+    addFcmToken(token);
   };
 
   const goToScreen = (screen: 'MusicPlayer' | 'TopupCoin') => {

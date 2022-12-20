@@ -15,7 +15,7 @@ import {useForm, SubmitHandler, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {useAuthHook} from '../hooks/use-auth.hook';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 import SsuSheet from '../components/atom/SsuSheet';
 import {color, font} from '../theme';
 import {ms, mvs} from 'react-native-size-matters';

@@ -14,7 +14,7 @@ import SsuSheet from '../components/atom/SsuSheet';
 import {Button, Gap, SsuOTPInput, SsuOTPTimer} from '../components';
 import {normalize, widthResponsive} from '../utils';
 import {color, font} from '../theme';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 import {useAuthHook} from '../hooks/use-auth.hook';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import RenderMessage from '../components/molecule/OtpInput/RenderMessage';

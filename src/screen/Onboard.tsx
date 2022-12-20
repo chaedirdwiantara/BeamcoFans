@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import Color from '../theme/Color';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 import {dataOnboard} from '../data/onboard';
 import {storage} from '../hooks/use-storage.hook';
 import {ImageSlider, SsuStatusBar} from '../components';

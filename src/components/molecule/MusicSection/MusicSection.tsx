@@ -7,7 +7,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ListCard} from '../ListCard';
 import {Gap, SsuToast} from '../../atom';
 import {color, font} from '../../../theme';
-import {RootStackParams} from '../../../App';
+import {RootStackParams} from '../../../navigations';
 import {ModalShare} from '../Modal/ModalShare';
 import {ModalDonate} from '../Modal/ModalDonate';
 import {CheckCircle2Icon} from '../../../assets/icon';

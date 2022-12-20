@@ -25,7 +25,7 @@ import {
 } from '../../utils';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../App';
+import {RootStackParams} from '../../navigations';
 import ImageList from './ImageList';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import {FriedEggIcon} from '../../assets/icon';

@@ -10,7 +10,7 @@ import {
   UseReferralContent,
 } from '../../components';
 import Color from '../../theme/Color';
-import {RootStackParams} from '../../App';
+import {RootStackParams} from '../../navigations';
 import {ArrowLeftIcon} from '../../assets/icon';
 import {heightPercentage, width, widthPercentage} from '../../utils';
 
