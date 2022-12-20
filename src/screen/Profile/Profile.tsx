@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {ProfileContent} from '../../components';
+import {useProfileHook} from '../../hooks/use-profile.hook';
 
 interface ProfileProps {
   props: {};
@@ -13,9 +14,13 @@ interface ProfileProps {
 
 export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
   const {params} = props?.route;
-
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {isLoading, dataProfile, getProfileUser} = useProfileHook();
+
+  useEffect(() => {
+    getProfileUser();
+  }, [isLoading]);
 
   const onPressGoTo = (
     screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
@@ -32,10 +37,14 @@ export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
   };
 
   const profile = {
-    fullname: 'Kendal Jenner',
-    username: '@kendaljenner',
-    bio: params?.bio || "I'm here to support the musician",
-    backgroundUri: params?.backgroundUri?.path || null,
+    fullname: dataProfile?.data.fullname,
+    username: '@' + dataProfile?.data.username,
+    bio:
+      params?.bio ||
+      dataProfile?.data.about ||
+      "I'm here to support the musician",
+    backgroundUri:
+      params?.backgroundUri?.path || dataProfile?.data.imageProfileUrl || null,
     avatarUri: params?.avatarUri?.path,
   };
 

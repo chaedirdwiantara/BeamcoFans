@@ -5,6 +5,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {EditProfile} from '../../components';
+import {useProfileHook} from '../../hooks/use-profile.hook';
 
 interface ProfileProps {
   props: {};
@@ -15,7 +16,7 @@ export const EditProfileScreen: React.FC<ProfileProps> = (
   props: ProfileProps,
 ) => {
   const {params} = props?.route;
-
+  const {updateProfileUser} = useProfileHook();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -24,6 +25,7 @@ export const EditProfileScreen: React.FC<ProfileProps> = (
   };
 
   const onPressSave = (param: any) => {
+    // updateProfileUser(param);
     navigation.navigate('Profile', {...param});
   };
 
