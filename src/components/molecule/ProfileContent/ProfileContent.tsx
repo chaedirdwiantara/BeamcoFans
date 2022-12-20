@@ -156,7 +156,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             )
           ) : filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
             MusicianListData.length > 0 ? (
-              <TopMusician scrollable={false} type={'profile'} />
+              <TopMusician
+                scrollable={false}
+                type={'profile'}
+                dataMusician={[]}
+              />
             ) : (
               <EmptyState text="This user don't have contribution to any musician" />
             )
