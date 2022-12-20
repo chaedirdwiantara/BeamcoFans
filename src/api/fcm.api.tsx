@@ -5,8 +5,8 @@ export const addTokenFcm = async (
   fcmToken: string,
 ): Promise<AddRemoveFcmResponseType> => {
   const {data} = await SsuAPI().request<AddRemoveFcmResponseType>({
-    url: '/posts',
-    method: 'GET',
+    url: '/fcm',
+    method: 'POST',
     data: {
       fcmToken: fcmToken,
     },
@@ -19,7 +19,7 @@ export const removeTokenFcm = async (
   fcmToken: string,
 ): Promise<AddRemoveFcmResponseType> => {
   const {data} = await SsuAPI().request<AddRemoveFcmResponseType>({
-    url: '/posts',
+    url: '/fcm',
     method: 'DELETE',
     data: {
       fcmToken: fcmToken,
