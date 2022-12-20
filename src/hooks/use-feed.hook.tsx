@@ -80,6 +80,7 @@ export const useFeedHook = () => {
     try {
       const response = await likePost(props);
       setDataLike(response.data);
+      getListDataPost();
     } catch (error) {
       console.log(error);
       setDataLike(null);
@@ -93,6 +94,7 @@ export const useFeedHook = () => {
     try {
       const response = await unlikePost(props);
       setDataLike(response.data);
+      getListDataPost();
     } catch (error) {
       console.log(error);
       setDataLike(null);
@@ -145,6 +147,7 @@ export const useFeedHook = () => {
     try {
       const response = await commmentToPost(props);
       setDataComment(response.data);
+      getListDataPost();
     } catch (error) {
       console.log(error);
       setDataComment(null);

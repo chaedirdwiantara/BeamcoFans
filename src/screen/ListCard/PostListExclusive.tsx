@@ -50,6 +50,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [selectedItem, setSelectedItem] = useState<PostList>();
+  const [commentType, setCommentType] = useState<string>('');
 
   const {
     feedIsLoading,
@@ -61,6 +62,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
     setLikePost,
     setUnlikePost,
     getDetailPost,
+    setCommentToPost,
   } = useFeedHook();
 
   useFocusEffect(
@@ -92,11 +94,11 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const likeOnPress = (id: string) => {
     if (selectedId.includes(id)) {
       return (
-        setLikePost({id}),
+        setUnlikePost({id}),
         setSelectedId(selectedId.filter((x: string) => x !== id))
       );
     } else {
-      setUnlikePost({id}), setSelectedId([...selectedId, id]);
+      return setLikePost({id}), setSelectedId([...selectedId, id]);
     }
   };
 
@@ -104,6 +106,14 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
     setInputCommentModal(!inputCommentModal);
     setMusicianId(id);
     setUserName(username);
+  };
+
+  const handleReplyOnPress = () => {
+    commentType.length > 0
+      ? setCommentToPost({id: musicianId, content: {content: commentType}})
+      : null;
+    setInputCommentModal(false);
+    setCommentType('');
   };
 
   const tokenOnPress = () => {
@@ -222,7 +232,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
         toggleModal={() => setInputCommentModal(!inputCommentModal)}
         modalVisible={inputCommentModal}
         name={userName}
-        idForProps={musicianId}
+        commentValue={commentType}
+        onCommentChange={setCommentType}
+        handleOnPress={handleReplyOnPress}
       />
     </>
   );

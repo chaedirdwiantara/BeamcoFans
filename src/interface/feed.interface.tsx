@@ -6,7 +6,7 @@ export type PostPropsTypeA = {
 
 export type PostPropsTypeB = {
   id: string;
-  content: string;
+  content: {content: string};
 };
 
 export type DataComment = {id: string; created_at: string};
