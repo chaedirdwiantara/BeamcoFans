@@ -166,8 +166,8 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
             <ListCard.PostList
               musicianName={item.musician.fullname}
               musicianId={`@${item.musician.username}`}
-              imgUri={item.musician.avatarUri}
-              postDate={item.musician.created_at}
+              imgUri={item.musician.imageProfileUrl}
+              postDate={item.updatedAt}
               category={item.category}
               onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id)}
@@ -190,16 +190,16 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                     style={{
                       flexDirection: 'row',
                     }}>
-                    {/* <SafeAreaView style={{flex: 1}}>
-                    <ImageList
-                      imgData={item.post.postPicture}
-                      width={143}
-                      height={69.5}
-                      heightType2={142}
-                      widthType2={289}
-                      onPress={() => {}}
-                    />
-                  </SafeAreaView> */}
+                    <SafeAreaView style={{flex: 1}}>
+                      <ImageList
+                        imgData={item.image}
+                        width={143}
+                        height={69.5}
+                        heightType2={142}
+                        widthType2={289}
+                        onPress={() => {}}
+                      />
+                    </SafeAreaView>
                   </View>
                 </View>
               }

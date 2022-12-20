@@ -30,68 +30,68 @@ const ImageList: FC<ImageListProps> = (props: ImageListProps) => {
       {imgData.length === 1 && (
         <>
           <SquareImage
-            imgUri={imgData && imgData[0].postUri}
+            imgUri={imgData && imgData[0]}
             size={widthResponsive(widthType2)}
             height={heightPercentage(heightType2)}
             containerStyle={{
               marginRight: widthResponsive(3),
             }}
             disabled={disabled}
-            onPress={() => onPress(imgData[0].postUri)}
+            onPress={() => onPress(imgData[0])}
           />
         </>
       )}
       {imgData.length === 2 && (
         <>
           <SquareImage
-            imgUri={imgData && imgData[0].postUri}
+            imgUri={imgData && imgData[0]}
             size={widthResponsive(width, 375)}
             height={heightPercentage(heightType2)}
             containerStyle={{
               marginRight: widthResponsive(3),
             }}
             disabled={disabled}
-            onPress={() => onPress(imgData[0].postUri)}
+            onPress={() => onPress(imgData[0])}
           />
           <SquareImage
-            imgUri={imgData && imgData[1].postUri}
+            imgUri={imgData && imgData[1]}
             size={widthResponsive(width, 375)}
             height={heightPercentage(heightType2)}
             containerStyle={{
               marginRight: widthResponsive(3),
             }}
             disabled={disabled}
-            onPress={() => onPress(imgData[1].postUri)}
+            onPress={() => onPress(imgData[1])}
           />
         </>
       )}
       {imgData.length === 3 && (
         <>
           <SquareImage
-            imgUri={imgData && imgData[0].postUri}
+            imgUri={imgData && imgData[0]}
             size={widthResponsive(width, 375)}
             height={heightPercentage(heightType2)}
             containerStyle={{
               marginRight: widthResponsive(3),
             }}
             disabled={disabled}
-            onPress={() => onPress(imgData[0].postUri)}
+            onPress={() => onPress(imgData[0])}
           />
           <View>
             <SquareImage
-              imgUri={imgData && imgData[1].postUri}
+              imgUri={imgData && imgData[1]}
               size={widthResponsive(width, 375)}
               height={heightPercentage(height)}
               disabled={disabled}
-              onPress={() => onPress(imgData[1].postUri)}
+              onPress={() => onPress(imgData[1])}
             />
             <Gap height={3} />
             <SquareImage
-              imgUri={imgData && imgData[2].postUri}
+              imgUri={imgData && imgData[2]}
               size={widthResponsive(width, 375)}
               height={heightPercentage(height)}
               disabled={disabled}
-              onPress={() => onPress(imgData[2].postUri)}
+              onPress={() => onPress(imgData[2])}
             />
           </View>
         </>
@@ -105,7 +105,7 @@ const ImageList: FC<ImageListProps> = (props: ImageListProps) => {
           data={imgData}
           renderItem={({item}) => (
             <SquareImage
-              imgUri={item.postUri}
+              imgUri={item}
               size={widthResponsive(width)}
               height={heightPercentage(height)}
               id={item.id}

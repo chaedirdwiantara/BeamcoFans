@@ -1,5 +1,12 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
-import {FlatList, Platform, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {CommentInputModal, Dropdown, Gap, ListCard} from '../../components';
 import {
@@ -162,8 +169,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             <ListCard.PostList
               musicianName={item.musician.fullname}
               musicianId={`@${item.musician.username}`}
-              imgUri={item.musician.avatarUri}
-              postDate={item.musician.created_at}
+              imgUri={item.musician.imageProfileUrl}
+              postDate={item.updatedAt}
               category={item.category}
               onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id)}
@@ -186,16 +193,16 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                     style={{
                       flexDirection: 'row',
                     }}>
-                    {/* <SafeAreaView style={{flex: 1}}>
+                    <SafeAreaView style={{flex: 1}}>
                       <ImageList
-                        imgData={item.post.postPicture}
+                        imgData={item.image}
                         width={143}
                         height={69.5}
                         heightType2={142}
                         widthType2={289}
                         onPress={() => {}}
                       />
-                    </SafeAreaView> */}
+                    </SafeAreaView>
                   </View>
                 </View>
               }

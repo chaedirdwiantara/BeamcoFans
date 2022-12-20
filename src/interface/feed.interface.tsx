@@ -17,8 +17,9 @@ export type MusicianData = {
   username: string;
   fullname: string;
   email: string;
-  created_at: string;
-  avatarUri: string;
+  isFollowed: boolean;
+  imageProfileUrl: string;
+  followers: number;
 };
 
 export type PostList = {
@@ -27,9 +28,12 @@ export type PostList = {
   likesCount: number;
   commentsCount: number;
   category: string;
+  image: string[];
   createdAt: string;
   updatedAt: string;
+  isPremium: boolean;
   musician: MusicianData;
+  isLiked: boolean;
 };
 
 export type ListPostResponseType = {
