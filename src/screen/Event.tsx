@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../theme/Color';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 
 export const EventScreen: React.FC = () => {
   const navigation =

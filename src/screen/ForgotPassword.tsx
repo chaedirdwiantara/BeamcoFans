@@ -5,7 +5,7 @@ import {normalize} from '../utils';
 import {mvs} from 'react-native-size-matters';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../App';
+import {RootStackParams} from '../navigations';
 import SsuSheet from '../components/atom/SsuSheet';
 import {Button, Gap, SsuInput, SsuOTPInput, SsuOTPTimer} from '../components';
 import {EmailIcon, LockIcon} from '../assets/icon';
@@ -116,7 +116,6 @@ export const ForgotPassword: FC<ForgotPasswordProps> = (
 
         <Gap height={16} />
         <SsuOTPInput
-          type={'default'}
           hideIcon
           // showMessage
           // otpSuccess={true}

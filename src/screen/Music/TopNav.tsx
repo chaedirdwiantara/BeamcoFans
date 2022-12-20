@@ -5,7 +5,7 @@ import {color} from '../../theme';
 import {widthResponsive} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../App';
+import {RootStackParams} from '../../navigations';
 import {NativeModules, Platform} from 'react-native';
 
 const {StatusBarManager} = NativeModules;
