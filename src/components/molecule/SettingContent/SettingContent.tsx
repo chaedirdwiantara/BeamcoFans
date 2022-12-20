@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {ArrowLeftIcon, LogOutIcon} from '../../../assets/icon';
 import {menuSetting} from '../../../data/Settings/setting';
 
@@ -15,6 +16,9 @@ import {ModalCustom} from '../Modal/ModalCustom';
 import Typography from '../../../theme/Typography';
 import {MenuText} from '../../atom/MenuText/MenuText';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {useAuthHook} from '../../../hooks/use-auth.hook';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../../../navigations';
 
 interface SettingProps {
   onPressGoBack: () => void;
@@ -29,6 +33,9 @@ export const SettingContent: React.FC<SettingProps> = ({
 }) => {
   const listMenu = menuSetting;
   const [isVisible, setIsVisible] = useState(false);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {onLogout} = useAuthHook();
 
   const onPress = (val: string) => {
     if (val === 'Send Report') {
@@ -79,6 +86,11 @@ export const SettingContent: React.FC<SettingProps> = ({
     );
   };
 
+  const onPressSignout = () => {
+    onLogout();
+    navigation.replace('SignInGuest');
+  };
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type1
@@ -105,12 +117,14 @@ export const SettingContent: React.FC<SettingProps> = ({
       </ScrollView>
 
       <View style={styles.containerText}>
-        <View style={styles.containerSignout}>
+        <TouchableOpacity
+          style={styles.containerSignout}
+          onPress={onPressSignout}>
           <LogOutIcon />
           <Text style={[Typography.Button2, styles.textSignOut]}>
             {'Sign Out'}
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
 
       <ModalCustom
