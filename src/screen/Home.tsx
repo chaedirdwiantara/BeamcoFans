@@ -34,6 +34,7 @@ import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
+import {useFcmHook} from '../hooks/use-fcm.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -49,6 +50,7 @@ export const HomeScreen: React.FC = () => {
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
+  const {addFcmToken} = useFcmHook();
 
   useEffect(() => {
     getListDataMusician();
@@ -82,11 +84,11 @@ export const HomeScreen: React.FC = () => {
   }, []);
 
   const registerFcm = (token: string) => {
-    console.log(token);
+    addFcmToken(token);
   };
 
-  const handleOnGetToken = (tokenFCM: string) => {
-    console.log(tokenFCM);
+  const handleOnGetToken = (token: string) => {
+    addFcmToken(token);
   };
 
   const goToScreen = (screen: 'MusicPlayer' | 'TopupCoin') => {

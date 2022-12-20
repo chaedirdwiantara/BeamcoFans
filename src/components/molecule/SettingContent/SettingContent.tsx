@@ -19,6 +19,8 @@ import {heightPercentage, width, widthPercentage} from '../../../utils';
 import {useAuthHook} from '../../../hooks/use-auth.hook';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../../navigations';
+import * as FCMService from '../../../service/notification';
+import {useFcmHook} from '../../../hooks/use-fcm.hook';
 
 interface SettingProps {
   onPressGoBack: () => void;
@@ -36,6 +38,7 @@ export const SettingContent: React.FC<SettingProps> = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {onLogout} = useAuthHook();
+  const {removeFcmToken} = useFcmHook();
 
   const onPress = (val: string) => {
     if (val === 'Send Report') {
@@ -88,6 +91,11 @@ export const SettingContent: React.FC<SettingProps> = ({
 
   const onPressSignout = () => {
     onLogout();
+    FCMService.getTokenFCM({
+      onGetToken: token => {
+        removeFcmToken(token);
+      },
+    });
     navigation.replace('SignInGuest');
   };
 
