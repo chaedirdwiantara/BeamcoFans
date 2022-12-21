@@ -108,6 +108,9 @@ export const useFeedHook = () => {
   const [commentUpdateLoading, setCommentUpdateLoading] = useState(false);
   const [commentDeleteLoading, setCommentDeleteLoading] = useState(false);
   const [dataComment, setDataComment] = useState<DataComment | null>(null);
+  const [dataCmntToCmnt, setDataCmntToCmnt] = useState<DataComment | null>(
+    null,
+  );
   const [dataCommentList, setDataCommentList] = useState<CommentList[] | null>(
     null,
   );
@@ -137,6 +140,7 @@ export const useFeedHook = () => {
       setDataCommentDetail(null);
     } finally {
       setCommentDetailLoading(false);
+      setDataCmntToCmnt(null);
     }
   };
 
@@ -158,7 +162,7 @@ export const useFeedHook = () => {
     setCommentLoading(true);
     try {
       const response = await commmentToComment(props);
-      setDataComment(response.data);
+      setDataCmntToCmnt(response.data);
     } catch (error) {
       console.log(error);
       setDataComment(null);
@@ -209,6 +213,8 @@ export const useFeedHook = () => {
     commentUpdateLoading,
     commentDeleteLoading,
     dataPostDetail,
+    dataCmntToCmnt,
+    setDataCmntToCmnt,
     getListDataPost,
     getListDataExclusivePost,
     setLikePost,

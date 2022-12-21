@@ -49,9 +49,14 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [commentType, setCommentType] = useState<string>('');
+  const [cmntToCmnt, setCmntToCmnt] = useState<{
+    id: string;
+    userName: string;
+  }>();
 
   const {
     dataPostDetail,
+    dataCmntToCmnt,
     setLikePost,
     setUnlikePost,
     setCommentToPost,
@@ -73,6 +78,18 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     }, []),
   );
 
+  useEffect(() => {
+    dataCmntToCmnt !== null ? getDetailPost({id: data.id}) : null;
+  }, [dataCmntToCmnt]);
+
+  //? handle comment in commentsection & open modal comment
+  useEffect(() => {
+    if (cmntToCmnt !== undefined) {
+      setUserName(cmntToCmnt.userName);
+      setInputCommentModal(!inputCommentModal);
+    }
+  }, [cmntToCmnt]);
+
   const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
     setMusicianId(id);
@@ -80,8 +97,16 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   };
 
   const handleReplyOnPress = () => {
-    commentType.length > 0
-      ? setCommentToPost({id: musicianId, content: {content: commentType}})
+    commentType.length > 0 && cmntToCmnt !== undefined
+      ? setCommentToComment({
+          id: cmntToCmnt.id,
+          content: {content: commentType},
+        })
+      : commentType.length > 0 && cmntToCmnt === undefined
+      ? setCommentToPost({
+          id: musicianId,
+          content: {content: commentType},
+        })
       : null;
     setInputCommentModal(false);
     setCommentType('');
@@ -185,7 +210,12 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         <SsuDivider />
         <Gap height={20} />
         {/* Comment Section Lvl 1 */}
-        <CommentSection data={commentData} />
+        {dataPostDetail ? (
+          <CommentSection
+            data={dataPostDetail?.comments}
+            onComment={setCmntToCmnt}
+          />
+        ) : null}
         <ImageModal
           toggleModal={() => setModalVisible(!isModalVisible)}
           modalVisible={isModalVisible}
@@ -198,6 +228,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           commentValue={commentType}
           onCommentChange={setCommentType}
           handleOnPress={handleReplyOnPress}
+          onModalHide={() => setCmntToCmnt(undefined)}
         />
       </ScrollView>
     </SafeAreaView>

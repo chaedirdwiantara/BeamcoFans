@@ -11,9 +11,10 @@ import {mvs} from 'react-native-size-matters';
 import CommentLvlTwo from '../../components/molecule/DetailPost/CommentLvlTwo';
 import CommentLvlThree from '../../components/molecule/DetailPost/CommentLvlThree';
 import {color, font} from '../../theme';
-
+import {CommentList} from '../../interface/feed.interface';
 interface CommentSectionType {
-  data: CommentType[];
+  data: CommentList[];
+  onComment?: ({id, userName}: {id: string; userName: string}) => void;
 }
 
 interface CommentChildrenLvl2Type {
@@ -27,7 +28,7 @@ interface CommentChildrenLvl3Type {
 }
 
 const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
-  const {data} = props;
+  const {data, onComment} = props;
   const [selectedId, setSelectedId] = useState<number[]>([]);
   const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>([]);
   const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>([]);
@@ -36,6 +37,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   const [showMoreLvl3, setShowMoreLvl3] = useState<boolean>(false);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
+  const [commentType, setCommentType] = useState<string>('');
 
   const likeOnPressLvl1 = (id: number) => {
     selectedId.includes(id)
@@ -55,9 +58,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
       : setSelectedIdLvl3([...selectedIdLvl3, id]);
   };
 
-  const commentOnPress = (id: string) => {
+  const commentOnPress = (id: string, userName: string) => {
     setInputCommentModal(!inputCommentModal);
     setUserId(id);
+    onComment?.({id, userName});
   };
 
   const CommentChildrenLvl3 = (props: CommentChildrenLvl3Type) => {
@@ -71,7 +75,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         userCommentedIdLvl3={data.commentedToId}
         commentCaptionLvl3={data.commentCaption}
         likeOnPressLvl3={() => likeOnPressLvl3(id)}
-        commentOnPressLvl3={() => commentOnPress(data.userId)}
+        commentOnPressLvl3={() => commentOnPress(data.userId, data.userName)}
         likePressedLvl3={selectedIdLvl3.includes(id) ? true : false}
         likeCountLvl3={data.likeCount}
         commentCountLvl3={data.commentCount}
@@ -90,7 +94,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         userCommentedId={data.commentedToId}
         commentCaptionLvl2={data.commentCaption}
         likeOnPressLvl2={() => likeOnPressLvl2(id)}
-        commentOnPressLvl2={() => commentOnPress(data.userId)}
+        commentOnPressLvl2={() => commentOnPress(data.userId, data.userName)}
         likePressedLvl2={selectedIdLvl2.includes(id) ? true : false}
         likeCountLvl2={data.likeCount}
         commentCountLvl2={data.commentCount}
@@ -143,6 +147,16 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     );
   };
 
+  // ? Dummy Temporary until api update is complete
+  const dummy = {
+    imgUri:
+      'https://p4.wallpaperbetter.com/wallpaper/704/568/863/k-pop-redvelvet-women-irene-red-velvet-wallpaper-preview.jpg',
+    userName: 'Irene',
+    userId: 'red-velvet',
+    postDate: '2 hours',
+    artistPostId: 'black-pink',
+  };
+
   return (
     <View style={styles.commentContainer}>
       <FlatList
@@ -152,75 +166,78 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         keyExtractor={(_, index) => index.toString()}
         renderItem={({item, index}) => (
           <PostComment
-            imgUri={item.imgUri}
-            userName={item.userName}
-            userId={item.userId}
-            postDate={item.postDate}
-            artistPostId={item.artistPostId}
-            commentCaption={item.commentCaption}
+            imgUri={dummy.imgUri}
+            userName={dummy.userName}
+            userId={`@${dummy.userId}`}
+            postDate={dummy.postDate}
+            artistPostId={dummy.artistPostId}
+            commentCaption={item.caption}
             likeOnPress={() => likeOnPressLvl1(index)}
-            commentOnPress={() => commentOnPress(item.userId)}
             likePressed={selectedId.includes(index) ? true : false}
-            likeCount={item.likeCount}
-            commentCount={item.commentCount}
+            likeCount={item.likesCount}
+            commentOnPress={() => commentOnPress(item.id, dummy.userId)}
+            commentCount={item.commentsCount}
             containerStyles={{
               marginBottom: mvs(20),
             }}
-            children={
-              <>
-                {/* Comment Section Lvl 2 */}
-                <Gap height={12} />
-                {
-                  // ! Showing all comment list lvl 2
-                  item.reply?.length != undefined &&
-                  item.reply?.length > 1 &&
-                  showMoreLvl2 == true ? (
-                    <FlatList
-                      data={item.reply}
-                      showsVerticalScrollIndicator={false}
-                      scrollEnabled={false}
-                      keyExtractor={(_, index) => index.toString()}
-                      renderItem={({item, index}) => (
-                        <CommentChildrenLvl2 data={item} id={`${index}`} />
-                      )}
-                    />
-                  ) : // ! Showing show more and 1 comment lvl 2
-                  item.reply?.length != undefined &&
-                    item.reply?.length > 1 &&
-                    showMoreLvl2 == false ? (
-                    <>
-                      <CommentChildrenLvl2
-                        data={item.reply[0]}
-                        id={`${index}_01`}
-                      />
-                      <Text
-                        style={styles.viewMore}
-                        onPress={() => setShowMoreLvl2(true)}>
-                        View more reply
-                      </Text>
-                    </>
-                  ) : // ! Showing comment data if only there's 1 index comment lvl 2
-                  item.reply?.length != undefined && item.reply?.length == 1 ? (
-                    <CommentChildrenLvl2
-                      data={item.reply[0]}
-                      id={`${index}_02`}
-                    />
-                  ) : null
-                }
-              </>
-            }
+            // children={
+            //   <>
+            //     {/* Comment Section Lvl 2 */}
+            //     <Gap height={12} />
+            //     {
+            //       // ! Showing all comment list lvl 2
+            //       item.reply?.length != undefined &&
+            //       item.reply?.length > 1 &&
+            //       showMoreLvl2 == true ? (
+            //         <FlatList
+            //           data={item.reply}
+            //           showsVerticalScrollIndicator={false}
+            //           scrollEnabled={false}
+            //           keyExtractor={(_, index) => index.toString()}
+            //           renderItem={({item, index}) => (
+            //             <CommentChildrenLvl2 data={item} id={`${index}`} />
+            //           )}
+            //         />
+            //       ) : // ! Showing show more and 1 comment lvl 2
+            //       item.reply?.length != undefined &&
+            //         item.reply?.length > 1 &&
+            //         showMoreLvl2 == false ? (
+            //         <>
+            //           <CommentChildrenLvl2
+            //             data={item.reply[0]}
+            //             id={`${index}_01`}
+            //           />
+            //           <Text
+            //             style={styles.viewMore}
+            //             onPress={() => setShowMoreLvl2(true)}>
+            //             View more reply
+            //           </Text>
+            //         </>
+            //       ) : // ! Showing comment data if only there's 1 index comment lvl 2
+            //       item.reply?.length != undefined && item.reply?.length == 1 ? (
+            //         <CommentChildrenLvl2
+            //           data={item.reply[0]}
+            //           id={`${index}_02`}
+            //         />
+            //       ) : null
+            //     }
+            //   </>
+            // }
           />
         )}
       />
-      {/* //TODO: set it up when we already have data fro api
+      {/* //TODO: set it up when we already have data from api
        <Text style={styles.viewMore} onPress={() => setShowMore(true)}>
         View more reply
       </Text> */}
-      <CommentInputModal
+      {/* <CommentInputModal
         toggleModal={() => setInputCommentModal(!inputCommentModal)}
         modalVisible={inputCommentModal}
-        name={userId}
-      />
+        name={userName}
+          commentValue={commentType}
+          onCommentChange={setCommentType}
+          handleOnPress={handleReplyOnPress}
+      /> */}
     </View>
   );
 };
