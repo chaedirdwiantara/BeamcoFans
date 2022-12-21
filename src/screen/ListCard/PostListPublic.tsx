@@ -219,9 +219,11 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             />
           )}
         />
-      ) : dataPostList === null && feedMessage === 'you not follow anyone' ? (
+      ) : dataPostList?.length === 0 &&
+        feedMessage === 'you not follow anyone' ? (
         <ListToFollowMusician />
-      ) : dataPostList === null && feedMessage === 'musician not have post' ? (
+      ) : dataPostList?.length === 0 &&
+        feedMessage === 'musician not have post' ? (
         <EmptyState
           text={`Your following musician don't have any post, try to follow more musician`}
           containerStyle={{

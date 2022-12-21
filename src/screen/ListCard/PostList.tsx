@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -24,12 +24,15 @@ import {
   widthResponsive,
 } from '../../utils';
 import {LogBox} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import ImageList from './ImageList';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import ListToFollowMusician from './ListToFollowMusician';
+import {PostList} from '../../interface/feed.interface';
+import {useFeedHook} from '../../hooks/use-feed.hook';
+import {dateFormat} from '../../utils/date-format';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -37,7 +40,7 @@ interface PostListProps {
   data: PostListType[];
 }
 
-const PostList: FC<PostListProps> = (props: PostListProps) => {
+const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, data} = props;
@@ -51,6 +54,34 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
   const [status, setStatus] = useState<'not_follow' | 'following'>('following');
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
+  const [selectedItem, setSelectedItem] = useState<PostList>();
+  const [commentType, setCommentType] = useState<string>('');
+
+  const {
+    feedIsLoading,
+    feedIsError,
+    feedMessage,
+    dataPostList,
+    dataPostDetail,
+    getListDataPost,
+    setLikePost,
+    setUnlikePost,
+    getDetailPost,
+    setCommentToPost,
+  } = useFeedHook();
+
+  useFocusEffect(
+    useCallback(() => {
+      getListDataPost();
+    }, []),
+  );
+
+  useEffect(() => {
+    if (dataPostDetail !== null && selectedItem !== undefined) {
+      navigation.navigate('PostDetail', selectedItem);
+    }
+  }, [dataPostDetail]);
 
   const resultDataFilter = (dataResultFilter: any) => {
     const dates = new Date();
@@ -59,28 +90,40 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
     dataFilter = dataFilter.filter(x => new Date(x.postDate) > dates);
     setDataCategory(dataFilter);
   };
-  const resultDataCategory = (dataResultCategory: any) => {
-    let dataFilter = [...data];
-    dataFilter =
-      dataResultCategory.label == 'All'
-        ? dataFilter
-        : dataFilter.filter(x => x.category == dataResultCategory.label);
-    setDataCategory(dataFilter);
+  const resultDataCategory = (dataResultCategory: DataDropDownType) => {
+    dataResultCategory.label === 'All'
+      ? getListDataPost()
+      : getListDataPost({category: dataResultCategory.value});
   };
 
-  // List Area
-  const cardOnPress = (data: any) => {
-    navigation.navigate<any>('PostDetail', {data});
+  const cardOnPress = (data: PostList) => {
+    getDetailPost({id: data.id});
+    setSelectedItem(data);
   };
+
   const likeOnPress = (id: string) => {
-    selectedId.includes(id)
-      ? setSelectedId(selectedId.filter((x: string) => x !== id))
-      : setSelectedId([...selectedId, id]);
+    if (selectedId.includes(id)) {
+      return (
+        setUnlikePost({id}),
+        setSelectedId(selectedId.filter((x: string) => x !== id))
+      );
+    } else {
+      return setLikePost({id}), setSelectedId([...selectedId, id]);
+    }
   };
 
-  const commentOnPress = (id: string) => {
+  const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
     setMusicianId(id);
+    setUserName(username);
+  };
+
+  const handleReplyOnPress = () => {
+    commentType.length > 0
+      ? setCommentToPost({id: musicianId, content: {content: commentType}})
+      : null;
+    setInputCommentModal(false);
+    setCommentType('');
   };
 
   const tokenOnPress = () => {
@@ -128,11 +171,11 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      {data.length !== 0 && status == 'following' ? (
+      {dataPostList !== null && dataPostList.length !== 0 ? (
         <FlatList
-          data={dataCategory}
+          data={dataPostList}
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item: PostListType) => item.id}
+          keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{
             paddingBottom:
               Platform.OS === 'ios'
@@ -141,24 +184,26 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
           }}
           renderItem={({item, index}: any) => (
             <ListCard.PostList
-              musicianName={item.musicianName}
-              musicianId={item.musicianId}
-              imgUri={item.imgUri}
-              postDate={item.postDate}
+              musicianName={item.musician.fullname}
+              musicianId={`@${item.musician.username}`}
+              imgUri={item.musician.imageProfileUrl}
+              postDate={dateFormat(item.updatedAt)}
               category={item.category}
-              onPress={() => cardOnPress({item})}
-              likeOnPress={() => likeOnPress(index)}
-              commentOnPress={() => commentOnPress(item.musicianId)}
+              onPress={() => cardOnPress(item)}
+              likeOnPress={() => likeOnPress(item.id)}
+              commentOnPress={() =>
+                commentOnPress(item.id, item.musician.username)
+              }
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
-              likePressed={selectedId.includes(index) ? true : false}
+              likePressed={selectedId.includes(item.id) ? true : false}
               containerStyles={{marginTop: mvs(16)}}
-              likeCount={item.likeCount}
-              commentCount={item.commentCount}
+              likeCount={item.likesCount}
+              commentCount={item.commentsCount}
               children={
                 <View style={{width: '100%'}}>
                   <Text style={styles.childrenPostTitle}>
-                    {elipsisText(item?.post.postTitle, 600)}
+                    {elipsisText(item.caption, 600)}
                   </Text>
                   <Gap height={4} />
                   <View
@@ -167,7 +212,7 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
                     }}>
                     <SafeAreaView style={{flex: 1}}>
                       <ImageList
-                        imgData={item.post.postPicture}
+                        imgData={item.image}
                         width={143}
                         height={69.5}
                         heightType2={142}
@@ -181,27 +226,32 @@ const PostList: FC<PostListProps> = (props: PostListProps) => {
             />
           )}
         />
-      ) : data.length !== 0 && status == 'not_follow' ? (
+      ) : dataPostList?.length === 0 &&
+        feedMessage === 'you not follow anyone' ? (
         <ListToFollowMusician />
-      ) : (
+      ) : dataPostList?.length === 0 &&
+        feedMessage === 'musician not have post' ? (
         <EmptyState
           text={`Your following musician don't have any post, try to follow more musician`}
           containerStyle={{
             justifyContent: 'flex-start',
-            paddingBottom: heightPercentage(24),
+            paddingTop: heightPercentage(24),
           }}
         />
-      )}
+      ) : null}
       <CommentInputModal
         toggleModal={() => setInputCommentModal(!inputCommentModal)}
         modalVisible={inputCommentModal}
         name={musicianId}
+        commentValue={commentType}
+        onCommentChange={setCommentType}
+        handleOnPress={handleReplyOnPress}
       />
     </>
   );
 };
 
-export default PostList;
+export default PostListHome;
 
 const styles = StyleSheet.create({
   childrenPostTitle: {

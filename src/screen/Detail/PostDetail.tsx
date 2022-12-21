@@ -24,21 +24,18 @@ import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
 import ImageList from '../ListCard/ImageList';
 import {useFeedHook} from '../../hooks/use-feed.hook';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {dateFormat} from '../../utils/date-format';
 
-interface PostDetail {
-  props: {};
-  route: any;
-}
+type PostDetailProps = NativeStackScreenProps<RootStackParams, 'PostDetail'>;
 
-export const PostDetail: FC<PostDetail> = props => {
+export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   // ignore warning
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
-  console.log(props.route.params, 'props');
-
-  const data = props.route.params;
+  const data = route.params;
   const musicianName = data.musician.fullname;
   const caption = data.caption;
   const navigation =
@@ -68,6 +65,8 @@ export const PostDetail: FC<PostDetail> = props => {
       setUnlikePost({id}), setLikePressed(!likePressed);
     }
   };
+
+  console.log(dataPostDetail, 'dataPostDetail');
 
   const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
@@ -116,44 +115,51 @@ export const PostDetail: FC<PostDetail> = props => {
         <View style={styles.bodyContainer}>
           <DetailPost
             musicianName={musicianName}
-            musicianId={data.musician.username}
+            musicianId={`@${data.musician.username}`}
             imgUri={data.musician.imageProfileUrl}
-            postDate={data.updatedAt}
+            postDate={dateFormat(data.updatedAt)}
             category={data.category}
             likeOnPress={() => likeOnPress(data.id)}
             commentOnPress={() => commentOnPress(data.id, musicianName)}
             tokenOnPress={tokenOnPress}
             shareOnPress={shareOnPress}
-            likePressed={data.isLiked}
+            likePressed={
+              dataPostDetail ? dataPostDetail?.isLiked === true : false
+            }
             containerStyles={{
               marginTop: mvs(16),
               height: heightPercentage(40),
             }}
-            likeCount={data.likesCount}
-            commentCount={data.commentsCount}
+            likeCount={dataPostDetail !== null ? dataPostDetail.likesCount : 0}
+            commentCount={
+              dataPostDetail !== null ? dataPostDetail.commentsCount : 0
+            }
             disabled={true}
             children={
               <View style={{width: '100%'}}>
-                {caption.length >= 250 && readMore == false ? (
-                  <Text style={styles.childrenPostTitle}>
-                    {elipsisText(caption, 250)}
-                    {/* {caption.substring(0, 10)}... */}
-                    <Text style={styles.readMore} onPress={readMoreOnPress}>
-                      {' '}
-                      Read More
+                {dataPostDetail ? (
+                  dataPostDetail?.caption.length >= 250 && readMore == false ? (
+                    <Text style={styles.childrenPostTitle}>
+                      {elipsisText(dataPostDetail?.caption, 250)}
+                      <Text style={styles.readMore} onPress={readMoreOnPress}>
+                        {' '}
+                        Read More
+                      </Text>
                     </Text>
-                  </Text>
-                ) : caption.length < 250 ? (
-                  <Text style={styles.childrenPostTitle}>{caption}</Text>
-                ) : (
-                  <Text style={styles.childrenPostTitle}>
-                    {caption}
-                    <Text style={styles.readMore} onPress={readMoreOnPress}>
-                      {'\n'}
-                      Read Less
+                  ) : dataPostDetail?.caption.length < 250 ? (
+                    <Text style={styles.childrenPostTitle}>
+                      {dataPostDetail?.caption}
                     </Text>
-                  </Text>
-                )}
+                  ) : (
+                    <Text style={styles.childrenPostTitle}>
+                      {dataPostDetail?.caption}
+                      <Text style={styles.readMore} onPress={readMoreOnPress}>
+                        {'\n'}
+                        Read Less
+                      </Text>
+                    </Text>
+                  )
+                ) : null}
                 <Gap height={4} />
                 <View
                   style={{

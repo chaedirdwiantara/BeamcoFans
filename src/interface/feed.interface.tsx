@@ -50,9 +50,12 @@ export type DetailPostData = {
   likesCount: number;
   commentsCount: number;
   category: string;
+  image: string[];
   createdAt: string;
   updatedAt: string;
   comments: CommentList[];
+  musician: null | [];
+  isLiked: null | boolean;
 };
 
 export type DetailPostResponseType = {
