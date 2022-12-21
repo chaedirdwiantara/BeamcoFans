@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -31,6 +31,8 @@ import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import {FriedEggIcon} from '../../assets/icon';
 import ListToFollowMusician from './ListToFollowMusician';
 import {useFeedHook} from '../../hooks/use-feed.hook';
+import {PostList} from '../../interface/feed.interface';
+import {dateFormat} from '../../utils/date-format';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -47,15 +49,34 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
+  const [selectedItem, setSelectedItem] = useState<PostList>();
+  const [commentType, setCommentType] = useState<string>('');
 
-  const {feedIsLoading, feedIsError, dataPostList, getListDataExclusivePost} =
-    useFeedHook();
+  const {
+    feedIsLoading,
+    feedIsError,
+    feedMessage,
+    dataPostList,
+    dataPostDetail,
+    getListDataExclusivePost,
+    setLikePost,
+    setUnlikePost,
+    getDetailPost,
+    setCommentToPost,
+  } = useFeedHook();
 
   useFocusEffect(
     useCallback(() => {
       getListDataExclusivePost();
     }, []),
   );
+
+  useEffect(() => {
+    if (dataPostDetail !== null && selectedItem !== undefined) {
+      navigation.navigate('PostDetail', selectedItem);
+    }
+  }, [dataPostDetail]);
 
   const resultDataFilter = (dataResultFilter: DataDropDownType) => {
     getListDataExclusivePost({sortBy: dataResultFilter.label.toLowerCase()});
@@ -66,19 +87,34 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       : getListDataExclusivePost({category: dataResultCategory.value});
   };
 
-  // List Area
-  const cardOnPress = (data: any) => {
-    navigation.navigate<any>('PostDetail', {data});
-  };
-  const likeOnPress = (id: string) => {
-    selectedId.includes(id)
-      ? setSelectedId(selectedId.filter((x: string) => x !== id))
-      : setSelectedId([...selectedId, id]);
+  const cardOnPress = (data: PostList) => {
+    getDetailPost({id: data.id});
+    setSelectedItem(data);
   };
 
-  const commentOnPress = (id: string) => {
+  const likeOnPress = (id: string) => {
+    if (selectedId.includes(id)) {
+      return (
+        setUnlikePost({id}),
+        setSelectedId(selectedId.filter((x: string) => x !== id))
+      );
+    } else {
+      return setLikePost({id}), setSelectedId([...selectedId, id]);
+    }
+  };
+
+  const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
     setMusicianId(id);
+    setUserName(username);
+  };
+
+  const handleReplyOnPress = () => {
+    commentType.length > 0
+      ? setCommentToPost({id: musicianId, content: {content: commentType}})
+      : null;
+    setInputCommentModal(false);
+    setCommentType('');
   };
 
   const tokenOnPress = () => {
@@ -141,12 +177,14 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
             <ListCard.PostList
               musicianName={item.musician.fullname}
               musicianId={`@${item.musician.username}`}
-              imgUri={item.musician.avatarUri}
-              postDate={item.musician.created_at}
+              imgUri={item.musician.imageProfileUrl}
+              postDate={dateFormat(item.updatedAt)}
               category={item.category}
-              onPress={() => cardOnPress({item})}
+              onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id)}
-              commentOnPress={() => commentOnPress(item.id)}
+              commentOnPress={() =>
+                commentOnPress(item.id, item.musician.username)
+              }
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
               likePressed={selectedId.includes(item.id) ? true : false}
@@ -163,25 +201,25 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                     style={{
                       flexDirection: 'row',
                     }}>
-                    {/* <SafeAreaView style={{flex: 1}}>
-                    <ImageList
-                      imgData={item.post.postPicture}
-                      width={143}
-                      height={69.5}
-                      heightType2={142}
-                      widthType2={289}
-                      onPress={() => {}}
-                    />
-                  </SafeAreaView> */}
+                    <SafeAreaView style={{flex: 1}}>
+                      <ImageList
+                        imgData={item.image}
+                        width={143}
+                        height={69.5}
+                        heightType2={142}
+                        widthType2={289}
+                        onPress={() => {}}
+                      />
+                    </SafeAreaView>
                   </View>
                 </View>
               }
             />
           )}
         />
-      ) : dataPostList === null ? (
+      ) : dataPostList === null && feedMessage === 'you not follow anyone' ? (
         <ListToFollowMusician />
-      ) : dataPostList !== null && dataPostList.length === 0 ? (
+      ) : dataPostList === null && feedMessage === 'you not follow anyone' ? (
         <EmptyState
           text={`You don't have any exclusive content, try to subscribe your favorite musician`}
           containerStyle={{
@@ -194,7 +232,10 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       <CommentInputModal
         toggleModal={() => setInputCommentModal(!inputCommentModal)}
         modalVisible={inputCommentModal}
-        name={musicianId}
+        name={userName}
+        commentValue={commentType}
+        onCommentChange={setCommentType}
+        handleOnPress={handleReplyOnPress}
       />
     </>
   );

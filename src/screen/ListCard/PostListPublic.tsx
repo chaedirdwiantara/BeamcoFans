@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -30,7 +30,8 @@ import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import ListToFollowMusician from './ListToFollowMusician';
 import ImageList from './ImageList';
 import {useFeedHook} from '../../hooks/use-feed.hook';
-import {ParamsProps} from '../../interface/base.interface';
+import {PostList} from '../../interface/feed.interface';
+import {dateFormat} from '../../utils/date-format';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -44,17 +45,23 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const {dataRightDropdown, dataLeftDropdown, data} = props;
 
   const [selectedId, setSelectedId] = useState<any>([]);
-  const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
+  const [selectedItem, setSelectedItem] = useState<PostList>();
+  const [commentType, setCommentType] = useState<string>('');
 
   const {
     feedIsLoading,
     feedIsError,
+    feedMessage,
     dataPostList,
+    dataPostDetail,
     getListDataPost,
     setLikePost,
     setUnlikePost,
+    getDetailPost,
+    setCommentToPost,
   } = useFeedHook();
 
   useFocusEffect(
@@ -62,6 +69,12 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       getListDataPost();
     }, []),
   );
+
+  useEffect(() => {
+    if (dataPostDetail !== null && selectedItem !== undefined) {
+      navigation.navigate('PostDetail', selectedItem);
+    }
+  }, [dataPostDetail]);
 
   const resultDataFilter = (dataResultFilter: DataDropDownType) => {
     getListDataPost({sortBy: dataResultFilter.label.toLowerCase()});
@@ -72,25 +85,34 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       : getListDataPost({category: dataResultCategory.value});
   };
 
-  // List Area
-  const cardOnPress = (data: any) => {
-    navigation.navigate<any>('PostDetail', {data});
+  const cardOnPress = (data: PostList) => {
+    getDetailPost({id: data.id});
+    setSelectedItem(data);
   };
 
   const likeOnPress = (id: string) => {
     if (selectedId.includes(id)) {
       return (
-        setLikePost({id}),
+        setUnlikePost({id}),
         setSelectedId(selectedId.filter((x: string) => x !== id))
       );
     } else {
-      setUnlikePost({id}), setSelectedId([...selectedId, id]);
+      return setLikePost({id}), setSelectedId([...selectedId, id]);
     }
   };
 
-  const commentOnPress = (id: string) => {
+  const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
     setMusicianId(id);
+    setUserName(username);
+  };
+
+  const handleReplyOnPress = () => {
+    commentType.length > 0
+      ? setCommentToPost({id: musicianId, content: {content: commentType}})
+      : null;
+    setInputCommentModal(false);
+    setCommentType('');
   };
 
   const tokenOnPress = () => {
@@ -157,12 +179,14 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             <ListCard.PostList
               musicianName={item.musician.fullname}
               musicianId={`@${item.musician.username}`}
-              imgUri={item.musician.avatarUri}
-              postDate={item.musician.created_at}
+              imgUri={item.musician.imageProfileUrl}
+              postDate={dateFormat(item.updatedAt)}
               category={item.category}
-              onPress={() => cardOnPress({item})}
+              onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id)}
-              commentOnPress={() => commentOnPress(item.id)}
+              commentOnPress={() =>
+                commentOnPress(item.id, item.musician.username)
+              }
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
               likePressed={selectedId.includes(item.id) ? true : false}
@@ -179,25 +203,25 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                     style={{
                       flexDirection: 'row',
                     }}>
-                    {/* <SafeAreaView style={{flex: 1}}>
+                    <SafeAreaView style={{flex: 1}}>
                       <ImageList
-                        imgData={item.post.postPicture}
+                        imgData={item.image}
                         width={143}
                         height={69.5}
                         heightType2={142}
                         widthType2={289}
                         onPress={() => {}}
                       />
-                    </SafeAreaView> */}
+                    </SafeAreaView>
                   </View>
                 </View>
               }
             />
           )}
         />
-      ) : dataPostList === null ? (
+      ) : dataPostList === null && feedMessage === 'you not follow anyone' ? (
         <ListToFollowMusician />
-      ) : dataPostList !== null && dataPostList.length === 0 ? (
+      ) : dataPostList === null && feedMessage === 'musician not have post' ? (
         <EmptyState
           text={`Your following musician don't have any post, try to follow more musician`}
           containerStyle={{
@@ -209,7 +233,10 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       <CommentInputModal
         toggleModal={() => setInputCommentModal(!inputCommentModal)}
         modalVisible={inputCommentModal}
-        name={musicianId}
+        name={userName}
+        commentValue={commentType}
+        onCommentChange={setCommentType}
+        handleOnPress={handleReplyOnPress}
       />
     </>
   );

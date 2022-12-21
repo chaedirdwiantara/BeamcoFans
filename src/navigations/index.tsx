@@ -69,6 +69,7 @@ import {CrownIcon, FeedIcon, HomeIcon, UserProfileIcon} from '../assets/icon';
 import Font from '../theme/Font';
 import Color from '../theme/Color';
 import {normalize} from '../utils';
+import {PostList} from '../interface/feed.interface';
 
 export type RootStackParams = {
   Account: undefined;
@@ -108,7 +109,7 @@ export type RootStackParams = {
   ShowCredit: undefined;
   SongDetails: undefined;
   Notification: undefined;
-  PostDetail: undefined;
+  PostDetail: PostList | undefined;
   SearchScreen: undefined;
   TopupCoin: undefined;
   MusicianProfile: undefined;

@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import Modal from 'react-native-modal';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
-import {Avatar, SsuInput} from '../..';
+import {Avatar, Gap, SsuInput} from '../..';
 import {color, font} from '../../../theme';
 import {ms} from 'react-native-size-matters';
 import {CloseIcon} from '../../../assets/icon';
@@ -19,6 +19,9 @@ interface ModalImageProps {
   modalVisible: boolean;
   name: string;
   userAvatarUri?: string;
+  commentValue?: string;
+  onCommentChange?: (newType: string) => void;
+  handleOnPress: () => void;
 }
 
 const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
@@ -26,9 +29,11 @@ const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
     toggleModal,
     modalVisible,
     name,
+    commentValue,
+    onCommentChange,
+    handleOnPress,
     userAvatarUri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxwjjgqL0vLByyI1sXSGF3Q08PXEmPTUbL6w&usqp=CAU',
   } = props;
-  const [state, setState] = useState<string>('');
 
   return (
     <Modal
@@ -53,9 +58,10 @@ const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
         <View style={styles.inputContainer}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Avatar imgUri={userAvatarUri} size={32} />
+            <Gap width={12} />
             <SsuInput.InputText
-              value={state}
-              onChangeText={(newText: string) => setState(newText)}
+              value={commentValue}
+              onChangeText={(newText: string) => onCommentChange?.(newText)}
               placeholder={'Reply as <your name>...'}
               containerStyles={{
                 width: widthResponsive(209),
@@ -65,7 +71,7 @@ const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
               multiline={true}
             />
           </View>
-          <TouchableOpacity style={styles.buttonStyle}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={handleOnPress}>
             <Text style={styles.buttonText}>Reply</Text>
           </TouchableOpacity>
         </View>
@@ -117,7 +123,7 @@ const styles = StyleSheet.create({
     paddingVertical: heightPercentage(16),
   },
   buttonStyle: {
-    backgroundColor: color.Dark[50],
+    backgroundColor: color.Pink[2],
     borderRadius: 4,
     paddingVertical: ms(6),
     width: widthResponsive(62),

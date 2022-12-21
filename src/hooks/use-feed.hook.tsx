@@ -29,7 +29,8 @@ export const useFeedHook = () => {
   const [dataPostDetail, setDataPostDetail] = useState<DetailPostData | null>(
     null,
   );
-  const [feedIsError, setFeedIsError] = useState(false);
+  const [feedIsError, setFeedIsError] = useState<boolean>(false);
+  const [feedMessage, setFeedMessage] = useState<string>('');
 
   const getListDataPost = async (props?: ParamsProps) => {
     setFeedIsLoading(true);
@@ -37,6 +38,7 @@ export const useFeedHook = () => {
     try {
       const response = await listPost(props);
       setDataPostList(response.data);
+      setFeedMessage(response.message);
     } catch (error) {
       setFeedIsError(true);
     } finally {
@@ -78,6 +80,7 @@ export const useFeedHook = () => {
     try {
       const response = await likePost(props);
       setDataLike(response.data);
+      getListDataPost();
     } catch (error) {
       console.log(error);
       setDataLike(null);
@@ -91,6 +94,7 @@ export const useFeedHook = () => {
     try {
       const response = await unlikePost(props);
       setDataLike(response.data);
+      getListDataPost();
     } catch (error) {
       console.log(error);
       setDataLike(null);
@@ -143,6 +147,7 @@ export const useFeedHook = () => {
     try {
       const response = await commmentToPost(props);
       setDataComment(response.data);
+      getListDataPost();
     } catch (error) {
       console.log(error);
       setDataComment(null);
@@ -197,6 +202,7 @@ export const useFeedHook = () => {
     commentListLoading,
     commentDetailLoading,
     feedIsError,
+    feedMessage,
     dataPostList,
     dataLike,
     dataComment,
