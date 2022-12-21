@@ -24,8 +24,10 @@ import {SearchIcon} from '../assets/icon';
 import PostList from './ListCard/PostList';
 import {PostlistData} from '../data/postlist';
 import TopMusician from './ListCard/TopMusician';
+import {storage} from '../hooks/use-storage.hook';
 import * as FCMService from '../service/notification';
 import {useNavigation} from '@react-navigation/native';
+import {useBannerHook} from '../hooks/use-banner.hook';
 import {profileStorage} from '../hooks/use-storage.hook';
 import {useMusicianHook} from '../hooks/use-musician.hook';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -52,9 +54,16 @@ export const HomeScreen: React.FC = () => {
   } = useMusicianHook();
   const {addFcmToken} = useFcmHook();
 
+  const {isLoadingBanner, dataBanner, getListDataBanner} = useBannerHook();
+  const isLogin = storage.getString('profile');
+
   useEffect(() => {
     getListDataMusician();
   }, [isLoading]);
+
+  useEffect(() => {
+    getListDataBanner();
+  }, [isLoadingBanner]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
@@ -108,6 +117,13 @@ export const HomeScreen: React.FC = () => {
     navigation.navigate('SearchScreen');
   };
 
+  const handleWebview = (title: string, url: string) => {
+    navigation.navigate('Webview', {
+      title: title,
+      url: url,
+    });
+  };
+
   const rightIconComp = () => {
     return (
       <View style={styles.containerIcon}>
@@ -139,7 +155,7 @@ export const HomeScreen: React.FC = () => {
     <View style={styles.root}>
       <SsuStatusBar type="black" />
       <TopNavigation.Type5
-        name={profileStorage()?.fullname || ''}
+        name={isLogin ? profileStorage()?.fullname || '' : 'Guest'}
         profileUri={
           'https://static.republika.co.id/uploads/member/images/news/5bgj1x0cea.jpg'
         }
@@ -148,7 +164,7 @@ export const HomeScreen: React.FC = () => {
         rightIconAction={() => navigation.navigate('Notification')}
         maxLengthTitle={20}
         itemStrokeColor={Color.Pink[100]}
-        points={100000}
+        points={isLogin ? 100000 : 0}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
         onPressCoin={() => goToScreen('TopupCoin')}
       />
@@ -164,7 +180,10 @@ export const HomeScreen: React.FC = () => {
             onTouchStart={handleSearchButton}
           />
         </TouchableOpacity>
-        <Carousel data={dataSlider} />
+        <Carousel
+          data={isLogin ? dataBanner : dataSlider}
+          onPressBanner={handleWebview}
+        />
         <View
           style={[
             styles.containerContent,
