@@ -122,6 +122,7 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
   return (
     <Modal
       isVisible={modalVisible}
+      avoidKeyboard
       style={{margin: 0}}
       onModalHide={onModalHide}>
       <TouchableWithoutFeedback onPress={onPressClose}>
