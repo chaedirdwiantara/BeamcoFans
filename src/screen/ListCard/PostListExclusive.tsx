@@ -48,7 +48,6 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
-  const [selectedItem, setSelectedItem] = useState<PostList>();
   const [commentType, setCommentType] = useState<string>('');
 
   const {
@@ -56,11 +55,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
     feedIsError,
     feedMessage,
     dataPostList,
-    dataPostDetail,
     getListDataExclusivePost,
     setLikePost,
     setUnlikePost,
-    getDetailPost,
     setCommentToPost,
   } = useFeedHook();
 
@@ -69,12 +66,6 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       getListDataExclusivePost();
     }, []),
   );
-
-  useEffect(() => {
-    if (dataPostDetail !== null && selectedItem !== undefined) {
-      navigation.navigate('PostDetail', selectedItem);
-    }
-  }, [dataPostDetail]);
 
   const resultDataFilter = (dataResultFilter: DataDropDownType) => {
     getListDataExclusivePost({sortBy: dataResultFilter.label.toLowerCase()});
@@ -86,8 +77,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const cardOnPress = (data: PostList) => {
-    getDetailPost({id: data.id});
-    setSelectedItem(data);
+    navigation.navigate('PostDetail', data);
   };
 
   const likeOnPress = (id: string, isliked: boolean) => {

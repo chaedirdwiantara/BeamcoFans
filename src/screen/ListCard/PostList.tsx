@@ -54,11 +54,9 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     feedIsError,
     feedMessage,
     dataPostList,
-    dataPostDetail,
     getListDataPost,
     setLikePost,
     setUnlikePost,
-    getDetailPost,
     setCommentToPost,
   } = useFeedHook();
 
@@ -66,7 +64,6 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
-  const [selectedItem, setSelectedItem] = useState<PostList>();
   const [commentType, setCommentType] = useState<string>('');
 
   useFocusEffect(
@@ -74,12 +71,6 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
       getListDataPost();
     }, []),
   );
-
-  useEffect(() => {
-    if (dataPostDetail !== null && selectedItem !== undefined) {
-      navigation.navigate('PostDetail', selectedItem);
-    }
-  }, [dataPostDetail]);
 
   const resultDataFilter = (dataResultFilter: any) => {
     const dates = new Date();
@@ -95,8 +86,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const cardOnPress = (data: PostList) => {
-    getDetailPost({id: data.id});
-    setSelectedItem(data);
+    navigation.navigate('PostDetail', data);
   };
 
   const likeOnPress = (id: string, isliked: boolean) => {
@@ -237,7 +227,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
       <CommentInputModal
         toggleModal={() => setInputCommentModal(!inputCommentModal)}
         modalVisible={inputCommentModal}
-        name={musicianId}
+        name={userName}
         commentValue={commentType}
         onCommentChange={setCommentType}
         handleOnPress={handleReplyOnPress}

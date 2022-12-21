@@ -97,25 +97,43 @@ const ImageList: FC<ImageListProps> = (props: ImageListProps) => {
         </>
       )}
       {imgData.length === 4 && (
-        <FlatList
-          scrollEnabled={false}
-          columnWrapperStyle={{justifyContent: 'flex-start'}}
-          keyExtractor={(_, index) => index.toString()}
-          numColumns={2}
-          data={imgData}
-          renderItem={({item}) => (
+        <>
+          <View>
             <SquareImage
-              imgUri={item}
-              size={widthResponsive(width)}
+              imgUri={imgData && imgData[0]}
+              size={widthResponsive(width, 375)}
               height={heightPercentage(height)}
-              id={item.id}
-              containerStyle={{
-                marginRight: widthResponsive(3),
-                marginBottom: widthResponsive(3),
-              }}
+              disabled={disabled}
+              onPress={() => onPress(imgData[0])}
             />
-          )}
-        />
+            <Gap height={3} />
+            <SquareImage
+              imgUri={imgData && imgData[2]}
+              size={widthResponsive(width, 375)}
+              height={heightPercentage(height)}
+              disabled={disabled}
+              onPress={() => onPress(imgData[2])}
+            />
+          </View>
+          <Gap width={3} />
+          <View>
+            <SquareImage
+              imgUri={imgData && imgData[1]}
+              size={widthResponsive(width, 375)}
+              height={heightPercentage(height)}
+              disabled={disabled}
+              onPress={() => onPress(imgData[1])}
+            />
+            <Gap height={3} />
+            <SquareImage
+              imgUri={imgData && imgData[3]}
+              size={widthResponsive(width, 375)}
+              height={heightPercentage(height)}
+              disabled={disabled}
+              onPress={() => onPress(imgData[3])}
+            />
+          </View>
+        </>
       )}
     </View>
   );

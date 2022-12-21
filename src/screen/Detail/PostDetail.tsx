@@ -1,5 +1,5 @@
 import {LogBox, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {color, font} from '../../theme';
 import {
   CommentInputModal,
@@ -8,7 +8,7 @@ import {
   SsuDivider,
   TopNavigation,
 } from '../../components';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -56,6 +56,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setUnlikePost,
     setCommentToPost,
     setCommentToComment,
+    getDetailPost,
   } = useFeedHook();
 
   const likeOnPress = (id: string) => {
@@ -66,7 +67,11 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     }
   };
 
-  console.log(dataPostDetail, 'dataPostDetail');
+  useFocusEffect(
+    useCallback(() => {
+      getDetailPost({id: data.id});
+    }, []),
+  );
 
   const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
