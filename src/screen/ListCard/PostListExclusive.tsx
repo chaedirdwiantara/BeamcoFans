@@ -178,7 +178,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
               musicianName={item.musician.fullname}
               musicianId={`@${item.musician.username}`}
               imgUri={item.musician.imageProfileUrl}
-              postDate={dateFormat(item.updatedAt)}
+              postDate={dateFormat(item.createdAt)}
               category={item.category}
               onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id)}

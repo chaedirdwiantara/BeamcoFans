@@ -49,15 +49,6 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
-  const [selectedId, setSelectedId] = useState<string[]>([]);
-  const [dataCategory, setDataCategory] = useState<PostListType[]>(data);
-  const [status, setStatus] = useState<'not_follow' | 'following'>('following');
-  const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
-  const [musicianId, setMusicianId] = useState<string>('');
-  const [userName, setUserName] = useState<string>('');
-  const [selectedItem, setSelectedItem] = useState<PostList>();
-  const [commentType, setCommentType] = useState<string>('');
-
   const {
     feedIsLoading,
     feedIsError,
@@ -70,6 +61,15 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     getDetailPost,
     setCommentToPost,
   } = useFeedHook();
+
+  const [selectedId, setSelectedId] = useState<string[]>([]);
+  const [dataCategory, setDataCategory] = useState<PostList[]>(dataPostList);
+  const [status, setStatus] = useState<'not_follow' | 'following'>('following');
+  const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
+  const [musicianId, setMusicianId] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
+  const [selectedItem, setSelectedItem] = useState<PostList>();
+  const [commentType, setCommentType] = useState<string>('');
 
   useFocusEffect(
     useCallback(() => {
@@ -86,8 +86,8 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const resultDataFilter = (dataResultFilter: any) => {
     const dates = new Date();
     dates.setDate(dates.getDate() - Number(dataResultFilter.value));
-    let dataFilter = [...data];
-    dataFilter = dataFilter.filter(x => new Date(x.postDate) > dates);
+    let dataFilter = [...dataPostList];
+    dataFilter = dataFilter.filter(x => new Date(x.createdAt) > dates);
     setDataCategory(dataFilter);
   };
   const resultDataCategory = (dataResultCategory: DataDropDownType) => {
@@ -173,7 +173,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
       </View>
       {dataPostList !== null && dataPostList.length !== 0 ? (
         <FlatList
-          data={dataPostList}
+          data={dataCategory}
           showsVerticalScrollIndicator={false}
           keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{
@@ -187,7 +187,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
               musicianName={item.musician.fullname}
               musicianId={`@${item.musician.username}`}
               imgUri={item.musician.imageProfileUrl}
-              postDate={dateFormat(item.updatedAt)}
+              postDate={dateFormat(item.createdAt)}
               category={item.category}
               onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id)}

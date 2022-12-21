@@ -25,7 +25,7 @@ import {
 
 export const useFeedHook = () => {
   const [feedIsLoading, setFeedIsLoading] = useState(false);
-  const [dataPostList, setDataPostList] = useState<PostList[] | null>(null);
+  const [dataPostList, setDataPostList] = useState<PostList[]>([]);
   const [dataPostDetail, setDataPostDetail] = useState<DetailPostData | null>(
     null,
   );
