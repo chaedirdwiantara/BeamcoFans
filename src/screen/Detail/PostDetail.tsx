@@ -59,11 +59,11 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     getDetailPost,
   } = useFeedHook();
 
-  const likeOnPress = (id: string) => {
-    if (likePressed) {
-      return setLikePost({id}), setLikePressed(!likePressed);
+  const likeOnPress = (id: string, isLiked: boolean) => {
+    if (isLiked) {
+      return setLikePost({id});
     } else {
-      setUnlikePost({id}), setLikePressed(!likePressed);
+      setUnlikePost({id});
     }
   };
 
@@ -115,72 +115,71 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           itemStrokeColor={color.Neutral[10]}
         />
         {/* Post Detail Section */}
-
-        {/* // TODO : POST DETAIL GET FROM DETAIL API, AND MUSICIAN DATA FROM PROPS */}
         <View style={styles.bodyContainer}>
-          <DetailPost
-            musicianName={musicianName}
-            musicianId={`@${data.musician.username}`}
-            imgUri={data.musician.imageProfileUrl}
-            postDate={dateFormat(data.updatedAt)}
-            category={data.category}
-            likeOnPress={() => likeOnPress(data.id)}
-            commentOnPress={() => commentOnPress(data.id, musicianName)}
-            tokenOnPress={tokenOnPress}
-            shareOnPress={shareOnPress}
-            likePressed={
-              dataPostDetail ? dataPostDetail?.isLiked === true : false
-            }
-            containerStyles={{
-              marginTop: mvs(16),
-              height: heightPercentage(40),
-            }}
-            likeCount={dataPostDetail !== null ? dataPostDetail.likesCount : 0}
-            commentCount={
-              dataPostDetail !== null ? dataPostDetail.commentsCount : 0
-            }
-            disabled={true}
-            children={
-              <View style={{width: '100%'}}>
-                {dataPostDetail ? (
-                  dataPostDetail?.caption.length >= 250 && readMore == false ? (
-                    <Text style={styles.childrenPostTitle}>
-                      {elipsisText(dataPostDetail?.caption, 250)}
-                      <Text style={styles.readMore} onPress={readMoreOnPress}>
-                        {' '}
-                        Read More
+          {dataPostDetail ? (
+            <DetailPost
+              musicianName={musicianName}
+              musicianId={`@${data.musician.username}`}
+              imgUri={data.musician.imageProfileUrl}
+              postDate={dateFormat(data.updatedAt)}
+              category={data.category}
+              likeOnPress={() =>
+                likeOnPress(dataPostDetail.id, dataPostDetail.isLiked)
+              }
+              likePressed={dataPostDetail.isLiked ? true : false}
+              likeCount={dataPostDetail.likesCount}
+              commentOnPress={() => commentOnPress(data.id, musicianName)}
+              tokenOnPress={tokenOnPress}
+              shareOnPress={shareOnPress}
+              containerStyles={{
+                marginTop: mvs(16),
+                height: heightPercentage(40),
+              }}
+              commentCount={dataPostDetail.commentsCount}
+              disabled={true}
+              children={
+                <View style={{width: '100%'}}>
+                  {dataPostDetail ? (
+                    dataPostDetail?.caption.length >= 250 &&
+                    readMore == false ? (
+                      <Text style={styles.childrenPostTitle}>
+                        {elipsisText(dataPostDetail?.caption, 250)}
+                        <Text style={styles.readMore} onPress={readMoreOnPress}>
+                          {' '}
+                          Read More
+                        </Text>
                       </Text>
-                    </Text>
-                  ) : dataPostDetail?.caption.length < 250 ? (
-                    <Text style={styles.childrenPostTitle}>
-                      {dataPostDetail?.caption}
-                    </Text>
-                  ) : (
-                    <Text style={styles.childrenPostTitle}>
-                      {dataPostDetail?.caption}
-                      <Text style={styles.readMore} onPress={readMoreOnPress}>
-                        {'\n'}
-                        Read Less
+                    ) : dataPostDetail?.caption.length < 250 ? (
+                      <Text style={styles.childrenPostTitle}>
+                        {dataPostDetail?.caption}
                       </Text>
-                    </Text>
-                  )
-                ) : null}
-                <Gap height={4} />
-                <View
-                  style={{
-                    flexDirection: 'row',
-                  }}>
-                  <ImageList
-                    imgData={data.image}
-                    disabled={false}
-                    width={162}
-                    height={79}
-                    onPress={toggleModalOnPress}
-                  />
+                    ) : (
+                      <Text style={styles.childrenPostTitle}>
+                        {dataPostDetail?.caption}
+                        <Text style={styles.readMore} onPress={readMoreOnPress}>
+                          {'\n'}
+                          Read Less
+                        </Text>
+                      </Text>
+                    )
+                  ) : null}
+                  <Gap height={4} />
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                    }}>
+                    <ImageList
+                      imgData={data.image}
+                      disabled={false}
+                      width={162}
+                      height={79}
+                      onPress={toggleModalOnPress}
+                    />
+                  </View>
                 </View>
-              </View>
-            }
-          />
+              }
+            />
+          ) : null}
         </View>
         <Gap height={12} />
         <SsuDivider />

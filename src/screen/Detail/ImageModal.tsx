@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import Modal from 'react-native-modal';
 import {color} from '../../theme';
 import FastImage from 'react-native-fast-image';
-import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
+import {heightPercentage, heightResponsive} from '../../utils';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {CloseCircleIcon, CloseIcon} from '../../assets/icon';
+import {CloseCircleIcon} from '../../assets/icon';
 
 interface ModalImageProps {
   toggleModal: () => void;

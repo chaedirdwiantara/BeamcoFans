@@ -26,9 +26,7 @@ import {
 export const useFeedHook = () => {
   const [feedIsLoading, setFeedIsLoading] = useState(false);
   const [dataPostList, setDataPostList] = useState<PostList[]>([]);
-  const [dataPostDetail, setDataPostDetail] = useState<DetailPostData | null>(
-    null,
-  );
+  const [dataPostDetail, setDataPostDetail] = useState<DetailPostData>();
   const [feedIsError, setFeedIsError] = useState<boolean>(false);
   const [feedMessage, setFeedMessage] = useState<string>('');
 
@@ -147,7 +145,7 @@ export const useFeedHook = () => {
     try {
       const response = await commmentToPost(props);
       setDataComment(response.data);
-      getListDataPost();
+      getDetailPost(props);
     } catch (error) {
       console.log(error);
       setDataComment(null);

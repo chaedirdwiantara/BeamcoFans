@@ -54,8 +54,8 @@ export type DetailPostData = {
   createdAt: string;
   updatedAt: string;
   comments: CommentList[];
-  musician: null | [];
-  isLiked: null | boolean;
+  musician: [];
+  isLiked: boolean;
 };
 
 export type DetailPostResponseType = {
