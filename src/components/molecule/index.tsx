@@ -3,6 +3,7 @@ import {AddSongContent} from './PlaylistContent/AddSongContent';
 import {AddToPlaylistContent} from './PlaylistContent/AddToPlaylistContent';
 import {AlbumContent} from './Album/AlbumContent';
 import {AvatarProfile} from './AvatarProfile/AvatarProfile';
+import {BottomSheetGuest} from './GuestComponent/BottomSheetGuest';
 import {Carousel} from './Carousel/Carousel';
 import {ChangeEmailContent} from './SettingContent/ChangeEmailContent';
 import {ChangePasswordContent} from './SettingContent/ChangePasswordContent';
@@ -19,6 +20,7 @@ import {EmptyState} from './EmptyState/EmptyState';
 import {ExclusiveContent} from './ExclusiveContent';
 import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
 import {FollowingList} from './ProfileContent/components/FollowingList';
+import {GuestContent} from './GuestComponent/GuestContent';
 import IconNotif from './IconNotif';
 import {ImageSlider} from './ImageSlider/ImageSlider';
 import {ListCard} from './ListCard';
@@ -62,6 +64,7 @@ export {
   AddToPlaylistContent,
   AlbumContent,
   AvatarProfile,
+  BottomSheetGuest,
   Carousel,
   ChangeEmailContent,
   ChangePasswordContent,
@@ -78,6 +81,7 @@ export {
   ExclusiveContent,
   FollowArtistCard,
   FollowingList,
+  GuestContent,
   IconNotif,
   ImageSlider,
   ListCard,
