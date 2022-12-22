@@ -117,10 +117,10 @@ export const useFeedHook = () => {
   const [dataCommentDetail, setDataCommentDetail] =
     useState<CommentDetailData | null>(null);
 
-  const setCommentList = async () => {
+  const setCommentList = async (props?: PostPropsTypeA) => {
     setCommentListLoading(true);
     try {
-      const response = await commentList();
+      const response = await commentList(props);
       setDataCommentList(response.data);
     } catch (error) {
       console.log(error);

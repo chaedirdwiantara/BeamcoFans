@@ -53,6 +53,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     id: string;
     userName: string;
   }>();
+  const [viewMore, setViewMore] = useState<string>('');
 
   const {
     dataPostDetail,
@@ -62,6 +63,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setCommentToPost,
     setCommentToComment,
     getDetailPost,
+    setCommentList,
   } = useFeedHook();
 
   const likeOnPress = (id: string, isLiked: boolean) => {
@@ -89,6 +91,11 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       setInputCommentModal(!inputCommentModal);
     }
   }, [cmntToCmnt]);
+
+  //? handle viewMore in commentsection & call the api list comment
+  useEffect(() => {
+    viewMore !== '' ? setCommentList({id: viewMore}) : null;
+  }, [viewMore]);
 
   const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
@@ -212,8 +219,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         {/* Comment Section Lvl 1 */}
         {dataPostDetail ? (
           <CommentSection
-            data={dataPostDetail?.comments}
+            data={dataPostDetail}
             onComment={setCmntToCmnt}
+            onViewMore={setViewMore}
           />
         ) : null}
         <ImageModal
