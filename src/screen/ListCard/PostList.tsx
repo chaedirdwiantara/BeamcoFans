@@ -158,7 +158,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
       </View>
       {dataPostList !== null && dataPostList.length !== 0 ? (
         <FlatList
-          data={dataCategory.length !== 0 ? dataCategory : dataPostList}
+          data={dataPostList}
           showsVerticalScrollIndicator={false}
           keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{

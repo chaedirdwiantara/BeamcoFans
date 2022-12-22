@@ -22,7 +22,7 @@ interface ModalImageProps {
   commentValue?: string;
   onCommentChange?: (newType: string) => void;
   handleOnPress: () => void;
-  onModalHide: () => void;
+  onModalHide?: () => void;
 }
 
 const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
