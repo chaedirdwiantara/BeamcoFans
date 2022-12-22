@@ -1,7 +1,15 @@
 import React, {useState} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import {mvs} from 'react-native-size-matters';
-import {Text, View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {
   heightPercentage,
@@ -12,6 +20,7 @@ import {
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
 import SsuSheet from '../../atom/SsuSheet';
+import {RootStackParams} from '../../../App';
 import {color, typography} from '../../../theme';
 import {Button, Gap, SsuInput} from '../../atom';
 import {listDonate} from '../../../data/listDonate';
@@ -33,6 +42,8 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
   onPressDonate,
   onModalHide,
 }) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [donate, setDonate] = useState('');
   const [donateList, setDonateList] = useState(listDonate);
   const [focusInput, setFocusInput] = useState(false);
@@ -44,6 +55,11 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
     // change selected value
     newList[index].selected = true;
     setDonateList(newList);
+  };
+
+  const goToScreenCoin = () => {
+    onPressClose();
+    navigation.navigate('TopupCoin');
   };
 
   const children = () => {
@@ -96,11 +112,11 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
             </Text>
           </View>
 
-          <View>
+          <TouchableOpacity onPress={goToScreenCoin}>
             <Text style={[typography.Button2, {color: color.Pink[2]}]}>
               + Add More Coin
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         <Button
