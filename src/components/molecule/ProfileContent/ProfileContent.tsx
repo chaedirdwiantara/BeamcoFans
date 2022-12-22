@@ -22,14 +22,11 @@ import {TabFilter} from '../TabFilter';
 import Color from '../../../theme/Color';
 import {ProfileHeader} from './components/Header';
 import {EmptyState} from '../EmptyState/EmptyState';
-import {MenuText} from '../../atom/MenuText/MenuText';
 import {TopSongListData} from '../../../data/topSong';
 import TopSong from '../../../screen/ListCard/TopSong';
 import {UserInfoCard} from '../UserInfoCard/UserInfoCard';
-import {MusicianListData} from '../../../data/topMusician';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
-import TopMusician from '../../../screen/ListCard/TopMusician';
-import {ProcessingIcon, SettingIcon} from '../../../assets/icon';
+import {SettingIcon} from '../../../assets/icon';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -119,6 +116,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         <UserInfoCard
           type="self"
           containerStyles={styles.infoCard}
+          totalFollowing={profile.totalFollowing}
           onPress={() => onPressGoTo('Following')}
         />
         <View style={styles.containerContent}>
@@ -155,24 +153,34 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
               />
             )
           ) : filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
-            MusicianListData.length > 0 ? (
-              <TopMusician
-                scrollable={false}
-                type={'profile'}
-                dataMusician={[]}
-              />
-            ) : (
-              <EmptyState text="This user don't have contribution to any musician" />
-            )
-          ) : MusicianListData.length > 0 ? (
-            <MenuText.LeftIconWithSubtitle
-              text="No Room for Speed"
-              subtitle="Be the first jam contributor on 100 artist"
-              onPress={() => null}
-              icon={<ProcessingIcon />}
+            // Dihold karena point belum fix
+
+            // MusicianListData.length > 0 ? (
+            //   <TopMusician
+            //     scrollable={false}
+            //     type={'profile'}
+            //     dataMusician={[]}
+            //   />
+            // ) :
+            <EmptyState
+              text="This user don't have contribution to any musician"
+              containerStyle={{marginTop: heightPercentage(30)}}
             />
           ) : (
-            <EmptyState text="This user don't have any badge" />
+            // Dihold karena badge belum fix
+
+            // MusicianListData.length > 0 ? (
+            //   <MenuText.LeftIconWithSubtitle
+            //     text="No Room for Speed"
+            //     subtitle="Be the first jam contributor on 100 artist"
+            //     onPress={() => null}
+            //     icon={<ProcessingIcon />}
+            //   />
+            // ) :
+            <EmptyState
+              text="This user don't have any badge"
+              containerStyle={{marginTop: heightPercentage(30)}}
+            />
           )}
         </View>
       </ScrollView>
