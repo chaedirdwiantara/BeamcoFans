@@ -7,6 +7,8 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {
   TopNavigation,
@@ -15,6 +17,7 @@ import {
   Carousel,
   IconNotif,
   SsuStatusBar,
+  BottomSheetGuest,
 } from '../components';
 import Color from '../theme/Color';
 import {RootStackParams} from '../navigations';
@@ -26,11 +29,9 @@ import {PostlistData} from '../data/postlist';
 import TopMusician from './ListCard/TopMusician';
 import {storage} from '../hooks/use-storage.hook';
 import * as FCMService from '../service/notification';
-import {useNavigation} from '@react-navigation/native';
 import {useBannerHook} from '../hooks/use-banner.hook';
 import {profileStorage} from '../hooks/use-storage.hook';
 import {useMusicianHook} from '../hooks/use-musician.hook';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
@@ -66,6 +67,7 @@ export const HomeScreen: React.FC = () => {
   }, [isLoadingBanner]);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
   const [selectedSong, setSelectedSong] = useState({
     musicNum: '',
@@ -135,7 +137,7 @@ export const HomeScreen: React.FC = () => {
             />
           </TouchableOpacity>
         )}
-        <IconNotif label={14} />
+        <IconNotif label={isLogin ? 14 : 0} />
       </View>
     );
   };
@@ -151,6 +153,14 @@ export const HomeScreen: React.FC = () => {
     setModalVisible(true);
   };
 
+  const onPressNotif = () => {
+    isLogin ? navigation.navigate('Notification') : setModalGuestVisible(true);
+  };
+
+  const onPressCoin = () => {
+    isLogin ? goToScreen('TopupCoin') : setModalGuestVisible(true);
+  };
+
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
@@ -161,12 +171,12 @@ export const HomeScreen: React.FC = () => {
         }
         leftIconAction={() => console.log('Left Icon Pressed')}
         rightIcon={rightIconComp()}
-        rightIconAction={() => navigation.navigate('Notification')}
+        rightIconAction={onPressNotif}
         maxLengthTitle={20}
         itemStrokeColor={Color.Pink[100]}
         points={isLogin ? 100000 : 0}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
-        onPressCoin={() => goToScreen('TopupCoin')}
+        onPressCoin={onPressCoin}
       />
 
       <ScrollView
@@ -219,6 +229,11 @@ export const HomeScreen: React.FC = () => {
           )}
         </View>
       </ScrollView>
+
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
+      />
 
       {modalVisible && (
         <ModalPlayMusic
