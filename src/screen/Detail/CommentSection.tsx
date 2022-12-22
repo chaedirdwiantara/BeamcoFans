@@ -13,13 +13,15 @@ import {
   DetailPostData,
 } from '../../interface/feed.interface';
 interface CommentSectionType {
-  data: DetailPostData;
+  data: CommentList[] | undefined;
+  postCommentCount: number;
+  postId: string;
   onComment: ({id, userName}: {id: string; userName: string}) => void;
   onViewMore: (id: string) => void;
 }
 
 const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
-  const {data, onComment, onViewMore} = props;
+  const {data, onComment, onViewMore, postCommentCount, postId} = props;
   const [selectedId, setSelectedId] = useState<number[]>([]);
   const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>([]);
   const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>([]);
@@ -147,7 +149,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   return (
     <View style={styles.commentContainer}>
       <FlatList
-        data={data.comments}
+        data={data}
         showsVerticalScrollIndicator={false}
         scrollEnabled={false}
         keyExtractor={(_, index) => index.toString()}
@@ -199,7 +201,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
           />
         )}
       />
-      {showMore === false && data.commentsCount > 10 ? (
+      {showMore === false && postCommentCount > 10 ? (
         <Text
           style={[
             styles.viewMore,
@@ -207,7 +209,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
               marginBottom: mvs(20),
             },
           ]}
-          onPress={() => viewMoreOnPress(data.id, 3)}>
+          onPress={() => viewMoreOnPress(postId, 3)}>
           View more reply
         </Text>
       ) : null}

@@ -26,6 +26,7 @@ import ImageList from '../ListCard/ImageList';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {dateFormat} from '../../utils/date-format';
+import {CommentList} from '../../interface/feed.interface';
 
 type PostDetailProps = NativeStackScreenProps<RootStackParams, 'PostDetail'>;
 
@@ -34,6 +35,18 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
+
+  const {
+    dataPostDetail,
+    dataCmntToCmnt,
+    dataCommentList,
+    setLikePost,
+    setUnlikePost,
+    setCommentToPost,
+    setCommentToComment,
+    getDetailPost,
+    setCommentList,
+  } = useFeedHook();
 
   const data = route.params;
   const musicianName = data.musician.fullname;
@@ -54,17 +67,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     userName: string;
   }>();
   const [viewMore, setViewMore] = useState<string>('');
-
-  const {
-    dataPostDetail,
-    dataCmntToCmnt,
-    setLikePost,
-    setUnlikePost,
-    setCommentToPost,
-    setCommentToComment,
-    getDetailPost,
-    setCommentList,
-  } = useFeedHook();
+  const [dataMainComment, setDataMainComment] = useState<
+    CommentList[] | undefined
+  >(dataPostDetail?.comments);
 
   const likeOnPress = (id: string, isLiked: boolean) => {
     if (isLiked) {
@@ -81,8 +86,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   );
 
   useEffect(() => {
-    dataCmntToCmnt !== null ? getDetailPost({id: data.id}) : null;
-  }, [dataCmntToCmnt]);
+    dataPostDetail !== null && dataCommentList === null
+      ? setDataMainComment(dataPostDetail?.comments)
+      : null;
+  }, [dataPostDetail]);
 
   //? handle comment in commentsection & open modal comment
   useEffect(() => {
@@ -92,10 +99,22 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     }
   }, [cmntToCmnt]);
 
+  useEffect(() => {
+    dataCmntToCmnt !== null && viewMore === ''
+      ? getDetailPost({id: data.id})
+      : dataCmntToCmnt !== null && viewMore !== ''
+      ? setCommentList({id: viewMore})
+      : null;
+  }, [dataCmntToCmnt, viewMore]);
+
   //? handle viewMore in commentsection & call the api list comment
   useEffect(() => {
     viewMore !== '' ? setCommentList({id: viewMore}) : null;
   }, [viewMore]);
+
+  useEffect(() => {
+    dataCommentList !== null ? setDataMainComment(dataCommentList) : null;
+  }, [dataCommentList]);
 
   const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
@@ -219,9 +238,11 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         {/* Comment Section Lvl 1 */}
         {dataPostDetail ? (
           <CommentSection
-            data={dataPostDetail}
+            data={dataMainComment}
             onComment={setCmntToCmnt}
             onViewMore={setViewMore}
+            postCommentCount={dataPostDetail.commentsCount}
+            postId={dataPostDetail.id}
           />
         ) : null}
         <ImageModal
