@@ -2,8 +2,11 @@ import React from 'react';
 import Modal from 'react-native-modal';
 import {mvs} from 'react-native-size-matters';
 import {Text, View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import SsuSheet from '../../atom/SsuSheet';
+import {RootStackParams} from '../../../App';
 import {color, typography} from '../../../theme';
 import {Button, ButtonGradient} from '../../atom';
 import {heightPercentage, normalize} from '../../../utils';
@@ -17,6 +20,14 @@ export const BottomSheetGuest: React.FC<BottomSheetGuestProps> = ({
   modalVisible,
   onPressClose,
 }) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const onPress = (screen: 'Signup' | 'Login') => {
+    navigation.navigate(screen);
+    onPressClose();
+  };
+
   const children = () => {
     return (
       <View>
@@ -37,21 +48,21 @@ export const BottomSheetGuest: React.FC<BottomSheetGuestProps> = ({
         <ButtonGradient
           label="Sign Up"
           textStyles={{fontSize: normalize(14)}}
-          onPress={() => null}
+          onPress={() => onPress('Signup')}
         />
         <Button
           type="border"
           label="Sign In"
           textStyles={{fontSize: normalize(14)}}
           containerStyles={{marginVertical: mvs(6)}}
-          onPress={() => null}
+          onPress={() => onPress('Login')}
         />
         <Button
           type="border"
           label="Maybe Later"
           borderColor="transparent"
           textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
-          onPress={() => null}
+          onPress={onPressClose}
         />
       </View>
     );
