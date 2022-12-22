@@ -165,7 +165,7 @@ export const HomeScreen: React.FC = () => {
     <View style={styles.root}>
       <SsuStatusBar type="black" />
       <TopNavigation.Type5
-        name={isLogin ? profileStorage()?.fullname || '' : 'Guest'}
+        name={profileStorage()?.fullname || ''}
         profileUri={
           'https://static.republika.co.id/uploads/member/images/news/5bgj1x0cea.jpg'
         }
@@ -177,6 +177,7 @@ export const HomeScreen: React.FC = () => {
         points={isLogin ? 100000 : 0}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
         onPressCoin={onPressCoin}
+        guest={isLogin === undefined}
       />
 
       <ScrollView
@@ -191,7 +192,7 @@ export const HomeScreen: React.FC = () => {
           />
         </TouchableOpacity>
         <Carousel
-          data={isLogin ? dataBanner : dataSlider}
+          data={isLogin && dataBanner?.length > 0 ? dataBanner : dataSlider}
           onPressBanner={handleWebview}
         />
         <View
