@@ -67,9 +67,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
-    {filterName: 'SONG'},
-    {filterName: 'TOP MUSICIAN'},
-    {filterName: 'BADGE'},
+    {filterName: 'PROFILE'},
+    {filterName: 'POST'},
+    {filterName: 'EXCLUSIVE'},
+    {filterName: 'MUSIC'},
+    {filterName: 'FANS'},
   ]);
   const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
@@ -109,23 +111,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             filterData={filter}
             onPress={filterData}
             selectedIndex={selectedIndex}
+            flatlistContainerStyle={{paddingLeft: widthResponsive(100)}}
           />
-          {filter[selectedIndex].filterName === 'SONG' ? (
+          {filter[selectedIndex].filterName === 'PROFILE' ? (
             TopSongListData.length > 0 ? (
-              <View style={{flex: 1}}>
-                <CreateNewCard
-                  num="01"
-                  text="Create New Playlist"
-                  onPress={() => onPressGoTo('CreateNewPlaylist')}
-                />
-                {playlist?.playlistName !== undefined && (
-                  <NewCreatedPlaylist
-                    playlist={playlist}
-                    goToPlaylist={goToPlaylist}
-                  />
-                )}
-                <TopSong scrollable={false} />
-              </View>
+              <View style={{flex: 1}}></View>
             ) : (
               <CreateNewCard
                 num="01"
@@ -133,9 +123,9 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 onPress={() => onPressGoTo('CreateNewPlaylist')}
               />
             )
-          ) : filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
+          ) : filter[selectedIndex].filterName === 'POST' ? (
             MusicianListData.length > 0 ? (
-              <TopMusician type={'profile'} />
+              <View></View>
             ) : (
               <EmptyState text="This user don't have contribution to any musician" />
             )

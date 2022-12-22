@@ -44,6 +44,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
     containerStyles,
   } = props;
 
+  const viewMoreOnPress = (params: string) => {
+    onPress?.(params);
+  };
+
   return (
     <View style={[styles.root, containerStyles]}>
       <ImageBackground
@@ -56,7 +60,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
           type={type}
           showIcon={type === 'edit'}
           icon={<CameraIcon />}
-          onPress={() => iconPress('avatarUri')}
+          // onPress={() => iconPress('avatarUri')}
         />
         <Text style={[Typography.Heading5, styles.fullname]}>{fullname}</Text>
         <Text style={styles.username}>{username}</Text>
@@ -67,7 +71,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
             <ButtonGradient
               label={'Edit Profile'}
               gradientStyles={styles.btnContainer}
-              onPress={onPress}
+              onPress={() => viewMoreOnPress('1')}
             />
           </View>
         )}
