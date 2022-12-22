@@ -11,8 +11,10 @@ import {RootStackParams} from '../../../navigations';
 import {ModalShare} from '../Modal/ModalShare';
 import {ModalDonate} from '../Modal/ModalDonate';
 import {CheckCircle2Icon} from '../../../assets/icon';
+import {storage} from '../../../hooks/use-storage.hook';
 import {ModalSuccessDonate} from '../Modal/ModalSuccessDonate';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
+import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
 
 interface ListProps {
   imgUri: string;
@@ -34,6 +36,7 @@ interface DataMore {
 export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const isLogin = storage.getString('profile');
 
   const dataMore = [
     {label: 'Add to Playlist', value: '1'},
@@ -46,6 +49,7 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalShare, setModalShare] = useState<boolean>(false);
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
@@ -78,17 +82,21 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
   };
 
   const resultDataMore = (dataResult: DataMore) => {
-    if (dataResult.value === '1') {
-      navigation.navigate('AddToPlaylist');
-    } else if (dataResult.value === '2') {
-      setModalDonate(true);
-    } else if (dataResult.value === '3') {
-      setToastVisible(true);
-      setTextToast('Song added to queue!');
-    } else if (dataResult.value === '4') {
-      setModalShare(true);
+    if (isLogin || dataResult.value === '5') {
+      if (dataResult.value === '1') {
+        navigation.navigate('AddToPlaylist');
+      } else if (dataResult.value === '2') {
+        setModalDonate(true);
+      } else if (dataResult.value === '3') {
+        setToastVisible(true);
+        setTextToast('Song added to queue!');
+      } else if (dataResult.value === '4') {
+        setModalShare(true);
+      } else {
+        navigation.navigate('ShowCredit');
+      }
     } else {
-      navigation.navigate('ShowCredit');
+      setModalGuestVisible(true);
     }
   };
 
@@ -122,6 +130,11 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
       <ModalSuccessDonate
         modalVisible={modalSuccessDonate && trigger2ndModal}
         toggleModal={onPressSuccess}
+      />
+
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
       />
 
       <SsuToast
