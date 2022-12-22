@@ -5,6 +5,7 @@ import {Avatar, Gap} from '../../atom';
 import topNavstyles from './topNavstyles';
 import {font} from '../../../theme';
 import {ChipMoney} from '../../atom/ChipMoney/ChipMoney';
+import {DefaultAvatarIcon} from '../../../assets/icon';
 
 /** === INTERFACE === */
 type Props = {
@@ -19,6 +20,7 @@ type Props = {
   profileUri: string;
   points: number;
   containerStyles?: ViewStyle;
+  guest?: boolean;
 };
 
 /** == COMPONENT === */
@@ -56,7 +58,7 @@ const Type5: React.FC<Props> = (props: Props) => {
           props.containerStyles,
         ]}>
         <View style={topNavstyles.leftContainer}>
-          {iconLeft()}
+          {props.guest ? <DefaultAvatarIcon /> : iconLeft()}
           <Gap width={8} />
           <Text
             numberOfLines={1}
@@ -64,7 +66,9 @@ const Type5: React.FC<Props> = (props: Props) => {
               topNavstyles.centerTitle,
               {color: props.itemStrokeColor, fontFamily: font.InterSemiBold},
             ]}>
-            {elipsisText(`Hi, ${props.name}`, props.maxLengthTitle ?? 20)}
+            {props.guest
+              ? 'Guest'
+              : elipsisText(`Hi, ${props.name}`, props.maxLengthTitle ?? 20)}
           </Text>
         </View>
         <View style={topNavstyles.rightContainer}>
