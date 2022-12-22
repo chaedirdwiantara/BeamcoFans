@@ -8,7 +8,13 @@ import {
   View,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {CommentInputModal, Dropdown, Gap, ListCard} from '../../components';
+import {
+  BottomSheetGuest,
+  CommentInputModal,
+  Dropdown,
+  Gap,
+  ListCard,
+} from '../../components';
 import {
   DataDropDownType,
   DropDownFilterType,
@@ -28,6 +34,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import ImageList from './ImageList';
+import {storage} from '../../hooks/use-storage.hook';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import ListToFollowMusician from './ListToFollowMusician';
 import {PostList} from '../../interface/feed.interface';
@@ -43,6 +50,7 @@ interface PostListProps {
 const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const isLogin = storage.getString('profile');
   const {dataRightDropdown, dataLeftDropdown, data} = props;
   // ignore warning
   useEffect(() => {
@@ -64,6 +72,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
   const [commentType, setCommentType] = useState<string>('');
 
   useFocusEffect(
@@ -79,6 +88,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     dataFilter = dataFilter.filter(x => new Date(x.createdAt) > dates);
     setDataCategory(dataFilter);
   };
+
   const resultDataCategory = (dataResultCategory: DataDropDownType) => {
     dataResultCategory.label === 'All'
       ? getListDataPost()
@@ -86,37 +96,57 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const cardOnPress = (data: PostList) => {
-    navigation.navigate('PostDetail', data);
+    isLogin
+      ? navigation.navigate('PostDetail', data)
+      : setModalGuestVisible(true);
   };
 
   const likeOnPress = (id: string, isliked: boolean) => {
-    if (isliked) {
-      return setUnlikePost({id});
+    if (isLogin === undefined) {
+      setModalGuestVisible(true);
     } else {
-      return setLikePost({id});
+      if (isliked) {
+        return setUnlikePost({id});
+      } else {
+        return setLikePost({id});
+      }
     }
   };
 
   const commentOnPress = (id: string, username: string) => {
-    setInputCommentModal(!inputCommentModal);
-    setMusicianId(id);
-    setUserName(username);
+    if (isLogin) {
+      setInputCommentModal(!inputCommentModal);
+      setMusicianId(id);
+      setUserName(username);
+    } else {
+      setModalGuestVisible(true);
+    }
   };
 
   const handleReplyOnPress = () => {
-    commentType.length > 0
-      ? setCommentToPost({id: musicianId, content: {content: commentType}})
-      : null;
-    setInputCommentModal(false);
-    setCommentType('');
+    if (isLogin) {
+      commentType.length > 0
+        ? setCommentToPost({id: musicianId, content: {content: commentType}})
+        : null;
+      setInputCommentModal(false);
+      setCommentType('');
+    } else {
+      setModalGuestVisible(true);
+    }
   };
 
   const tokenOnPress = () => {
-    console.log('token');
+    if (isLogin) {
+    } else {
+      setModalGuestVisible(true);
+    }
   };
 
   const shareOnPress = () => {
-    console.log('share');
+    if (isLogin) {
+    } else {
+      setModalGuestVisible(true);
+    }
   };
 
   return (
@@ -231,6 +261,10 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
         commentValue={commentType}
         onCommentChange={setCommentType}
         handleOnPress={handleReplyOnPress}
+      />
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
       />
     </>
   );

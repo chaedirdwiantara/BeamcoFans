@@ -9,18 +9,20 @@ import {
   View,
   ScrollView,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
-import {Indicator} from '../../atom';
-import Font from '../../../theme/Font';
-import Color from '../../../theme/Color';
-import {ms} from 'react-native-size-matters';
-import {DataSliderType} from '../../../data/home';
+
 import {
   heightPercentage,
   normalize,
   width,
   widthPercentage,
 } from '../../../utils';
+import {Indicator} from '../../atom';
+import Font from '../../../theme/Font';
+import Color from '../../../theme/Color';
+import {ms} from 'react-native-size-matters';
+import {BannerList} from '../../../interface/banner.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -30,19 +32,20 @@ const ITEM_LENGTH = width * 0.8;
 const EMPTY_ITEM_LENGTH = (width - ITEM_LENGTH) / 2;
 
 interface CarouselProps {
-  data: DataSliderType[];
+  data: BannerList[];
+  onPressBanner: (title: string, url: string) => void;
 }
 
-export const Carousel: FC<CarouselProps> = ({data}) => {
+export const Carousel: FC<CarouselProps> = ({data, onPressBanner}) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const [dataWithPlaceholders, setDataWithPlaceholders] = useState<
-    DataSliderType[]
+    BannerList[]
   >([]);
   const [activeIndexSlide, setActiveIndexSlide] = useState(0);
   const flatListRef = useRef<FlatList<any>>(null);
 
   useEffect(() => {
-    setDataWithPlaceholders([{id: -1}, ...data, {id: data.length}]);
+    setDataWithPlaceholders([{id: 0}, ...data, {id: data.length + 1}]);
   }, [data]);
 
   const getItemLayout = (_data: any, index: number) => ({
@@ -62,7 +65,7 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
         ref={flatListRef}
         data={dataWithPlaceholders}
         renderItem={({item, index}) => {
-          if (!item.uri || !item.title) {
+          if (!item.imageUrl || !item.title) {
             return <View style={{width: EMPTY_ITEM_LENGTH}} />;
           }
 
@@ -83,11 +86,14 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
           });
 
           return (
-            <View
+            <TouchableOpacity
               style={{
                 width: ITEM_LENGTH,
                 marginVertical: heightPercentage(15),
-              }}>
+              }}
+              onPress={() =>
+                item.linkUrl && onPressBanner(item.title, item.linkUrl)
+              }>
               <Animated.View
                 style={[
                   {
@@ -95,23 +101,23 @@ export const Carousel: FC<CarouselProps> = ({data}) => {
                   },
                   styles.itemContent,
                 ]}>
-                <Image source={{uri: item.uri}} style={styles.itemImage} />
+                <Image source={{uri: item.imageUrl}} style={styles.itemImage} />
                 <Animated.Text
                   style={[styles.itemText, {transform: [{translateX}]}]}>
                   {item.title}
                 </Animated.Text>
                 <Animated.Text
                   style={[styles.itemSubtitle, {transform: [{translateX}]}]}>
-                  {item.subtitle}
+                  {item.description}
                 </Animated.Text>
               </Animated.View>
-            </View>
+            </TouchableOpacity>
           );
         }}
         getItemLayout={getItemLayout}
         horizontal
         showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         bounces={false}
         decelerationRate={0}
         renderToHardwareTextureAndroid

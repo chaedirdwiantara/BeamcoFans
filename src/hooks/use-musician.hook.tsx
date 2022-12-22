@@ -21,6 +21,8 @@ export const useMusicianHook = () => {
       setDataMusician(response.data);
     } catch (error) {
       console.log(error);
+      setIsError(true);
+      setDataMusician([]);
     } finally {
       setIsLoading(false);
     }
@@ -34,7 +36,9 @@ export const useMusicianHook = () => {
       getListDataMusician();
     } catch (error) {
       console.log(error);
+      setIsError(true);
       setDataFollow(null);
+      setDataMusician([]);
     } finally {
       setIsLoading(false);
     }
@@ -48,7 +52,9 @@ export const useMusicianHook = () => {
       getListDataMusician();
     } catch (error) {
       console.log(error);
+      setIsError(true);
       setDataFollow(null);
+      setDataMusician([]);
     } finally {
       setIsLoading(false);
     }
@@ -56,6 +62,7 @@ export const useMusicianHook = () => {
 
   return {
     isLoading,
+    isError,
     dataMusician,
     dataFollow,
     getListDataMusician,

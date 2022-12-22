@@ -10,12 +10,15 @@ import Typography from '../../../theme/Typography';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {UploadImageResponseType} from '../../../interface/uploadImage.interface';
 
 interface EditProfileProps {
   profile: any;
   type: string;
   onPressGoBack: () => void;
   onPressSave: (params: any) => void;
+  dataImage: UploadImageResponseType | undefined;
+  setUploadImage: (image: string) => void;
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({
@@ -23,6 +26,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   profile,
   onPressGoBack,
   onPressSave,
+  dataImage,
+  setUploadImage,
 }) => {
   const [bio, setBio] = useState('');
   const [isModalVisible, setModalVisible] = useState({
@@ -63,7 +68,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     });
   };
 
-  const sendUri = (val: {assets: string[]}) => {
+  const sendUri = (val: {assets: string[]; path: string}) => {
+    setUploadImage(val.path);
     setUri({...uri, [uriType]: val});
   };
 

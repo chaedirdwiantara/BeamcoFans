@@ -9,6 +9,9 @@ export type UpdateProfilePropsType = {
   favoriteGeneres?: number[];
   moods?: number[];
   expectations?: number[];
+  imageProfileUrl?: string;
+  banner?: string;
+  about?: string;
 };
 
 export const getProfile = async (): Promise<ProfileResponseType> => {
