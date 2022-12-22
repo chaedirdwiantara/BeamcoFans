@@ -44,11 +44,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, data} = props;
 
-  const [selectedId, setSelectedId] = useState<any>([]);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
-  const [selectedItem, setSelectedItem] = useState<PostList>();
   const [commentType, setCommentType] = useState<string>('');
 
   const {
@@ -56,11 +54,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     feedIsError,
     feedMessage,
     dataPostList,
-    dataPostDetail,
     getListDataPost,
     setLikePost,
     setUnlikePost,
-    getDetailPost,
     setCommentToPost,
   } = useFeedHook();
 
@@ -69,12 +65,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       getListDataPost();
     }, []),
   );
-
-  useEffect(() => {
-    if (dataPostDetail !== null && selectedItem !== undefined) {
-      navigation.navigate('PostDetail', selectedItem);
-    }
-  }, [dataPostDetail]);
 
   const resultDataFilter = (dataResultFilter: DataDropDownType) => {
     getListDataPost({sortBy: dataResultFilter.label.toLowerCase()});
@@ -86,18 +76,14 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const cardOnPress = (data: PostList) => {
-    getDetailPost({id: data.id});
-    setSelectedItem(data);
+    navigation.navigate('PostDetail', data);
   };
 
-  const likeOnPress = (id: string) => {
-    if (selectedId.includes(id)) {
-      return (
-        setUnlikePost({id}),
-        setSelectedId(selectedId.filter((x: string) => x !== id))
-      );
+  const likeOnPress = (id: string, isliked: boolean) => {
+    if (isliked) {
+      return setUnlikePost({id});
     } else {
-      return setLikePost({id}), setSelectedId([...selectedId, id]);
+      return setLikePost({id});
     }
   };
 
@@ -172,7 +158,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           contentContainerStyle={{
             paddingBottom:
               Platform.OS === 'ios'
-                ? heightPercentage(130)
+                ? heightPercentage(160)
                 : heightPercentage(180),
           }}
           renderItem={({item}) => (
@@ -180,18 +166,18 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
               musicianName={item.musician.fullname}
               musicianId={`@${item.musician.username}`}
               imgUri={item.musician.imageProfileUrl}
-              postDate={dateFormat(item.updatedAt)}
+              postDate={dateFormat(item.createdAt)}
               category={item.category}
               onPress={() => cardOnPress(item)}
-              likeOnPress={() => likeOnPress(item.id)}
+              likeOnPress={() => likeOnPress(item.id, item.isLiked)}
+              likeCount={item.likesCount}
+              likePressed={item.isLiked ? true : false}
               commentOnPress={() =>
                 commentOnPress(item.id, item.musician.username)
               }
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
-              likePressed={selectedId.includes(item.id) ? true : false}
               containerStyles={{marginTop: mvs(16)}}
-              likeCount={item.likesCount}
               commentCount={item.commentsCount}
               children={
                 <View style={{width: '100%'}}>
@@ -219,9 +205,11 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             />
           )}
         />
-      ) : dataPostList === null && feedMessage === 'you not follow anyone' ? (
+      ) : dataPostList?.length === 0 &&
+        feedMessage === 'you not follow anyone' ? (
         <ListToFollowMusician />
-      ) : dataPostList === null && feedMessage === 'musician not have post' ? (
+      ) : dataPostList?.length === 0 &&
+        feedMessage === 'musician not have post' ? (
         <EmptyState
           text={`Your following musician don't have any post, try to follow more musician`}
           containerStyle={{

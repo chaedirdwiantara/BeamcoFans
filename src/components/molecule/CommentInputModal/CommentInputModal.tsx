@@ -22,6 +22,7 @@ interface ModalImageProps {
   commentValue?: string;
   onCommentChange?: (newType: string) => void;
   handleOnPress: () => void;
+  onModalHide?: () => void;
 }
 
 const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
@@ -32,6 +33,7 @@ const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
     commentValue,
     onCommentChange,
     handleOnPress,
+    onModalHide,
     userAvatarUri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxwjjgqL0vLByyI1sXSGF3Q08PXEmPTUbL6w&usqp=CAU',
   } = props;
 
@@ -41,6 +43,7 @@ const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
       backdropOpacity={0}
       onBackdropPress={toggleModal}
       onBackButtonPress={toggleModal}
+      onModalHide={onModalHide}
       style={styles.modalStyle}>
       <View style={styles.container}>
         <View style={styles.headerComment}>

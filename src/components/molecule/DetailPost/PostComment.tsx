@@ -25,7 +25,7 @@ interface ListProps extends TouchableOpacityProps {
   likeCount: number;
   commentCount: number;
   containerStyles?: ViewStyle;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const PostComment: React.FC<ListProps> = (props: ListProps) => {

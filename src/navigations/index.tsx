@@ -109,7 +109,7 @@ export type RootStackParams = {
   ShowCredit: undefined;
   SongDetails: undefined;
   Notification: undefined;
-  PostDetail: PostList | undefined;
+  PostDetail: PostList;
   SearchScreen: undefined;
   TopupCoin: undefined;
   MusicianProfile: undefined;

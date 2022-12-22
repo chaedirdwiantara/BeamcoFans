@@ -59,7 +59,7 @@ const DetailPost: React.FC<ListProps> = (props: ListProps) => {
             style={{
               flex: 1,
               marginLeft: widthResponsive(6),
-              paddingBottom: heightPercentage(2),
+              paddingBottom: heightPercentage(5),
             }}>
             <View style={styles.topSection}>
               <Text style={styles.songTitle}>{musicianName}</Text>
@@ -67,7 +67,6 @@ const DetailPost: React.FC<ListProps> = (props: ListProps) => {
                 <Text style={styles.categoryText}>{category}</Text>
               </View>
             </View>
-            <Gap height={4} />
             <View style={styles.bottomSection}>
               <Text style={styles.songDesc}>{musicianId}</Text>
               <Text style={styles.regularText}>{postDate}</Text>
@@ -197,7 +196,7 @@ const styles = StyleSheet.create({
   category: {
     backgroundColor: color.Pink[100],
     paddingHorizontal: widthResponsive(4),
-    height: heightPercentage(16),
+    height: heightPercentage(18),
     borderRadius: 2,
     alignItems: 'center',
     justifyContent: 'center',

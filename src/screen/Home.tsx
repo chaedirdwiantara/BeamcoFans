@@ -181,7 +181,7 @@ export const HomeScreen: React.FC = () => {
           />
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
             <TopMusician
-              dataMusician={dataMusician}
+              dataMusician={dataMusician ? dataMusician : []}
               setFollowMusician={(props?: FollowMusicianPropsType) =>
                 setFollowMusician(props)
               }

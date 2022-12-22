@@ -50,9 +50,12 @@ export type DetailPostData = {
   likesCount: number;
   commentsCount: number;
   category: string;
+  image: string[];
   createdAt: string;
   updatedAt: string;
   comments: CommentList[];
+  musician: [];
+  isLiked: boolean;
 };
 
 export type DetailPostResponseType = {
@@ -83,9 +86,28 @@ export type CommentList = {
   caption: string;
   likesCount: number;
   commentsCount: number;
-  commentLevel: number;
-  createdAt: string;
-  comments: null | [];
+  commentLevel?: number;
+  createdAt?: string;
+  comments: null | CommentList2[];
+};
+
+export type CommentList2 = {
+  id: string;
+  caption: string;
+  likesCount: number;
+  commentsCount: number;
+  commentLevel?: number;
+  createdAt?: string;
+  comments: null | CommentList3[];
+};
+
+export type CommentList3 = {
+  id: string;
+  caption: string;
+  likesCount: number;
+  commentsCount: number;
+  commentLevel?: number;
+  createdAt?: string;
 };
 
 export type ListCommentResponseType = {

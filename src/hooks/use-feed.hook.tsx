@@ -25,10 +25,8 @@ import {
 
 export const useFeedHook = () => {
   const [feedIsLoading, setFeedIsLoading] = useState(false);
-  const [dataPostList, setDataPostList] = useState<PostList[] | null>(null);
-  const [dataPostDetail, setDataPostDetail] = useState<DetailPostData | null>(
-    null,
-  );
+  const [dataPostList, setDataPostList] = useState<PostList[]>([]);
+  const [dataPostDetail, setDataPostDetail] = useState<DetailPostData>();
   const [feedIsError, setFeedIsError] = useState<boolean>(false);
   const [feedMessage, setFeedMessage] = useState<string>('');
 
@@ -110,6 +108,9 @@ export const useFeedHook = () => {
   const [commentUpdateLoading, setCommentUpdateLoading] = useState(false);
   const [commentDeleteLoading, setCommentDeleteLoading] = useState(false);
   const [dataComment, setDataComment] = useState<DataComment | null>(null);
+  const [dataCmntToCmnt, setDataCmntToCmnt] = useState<DataComment | null>(
+    null,
+  );
   const [dataCommentList, setDataCommentList] = useState<CommentList[] | null>(
     null,
   );
@@ -139,6 +140,7 @@ export const useFeedHook = () => {
       setDataCommentDetail(null);
     } finally {
       setCommentDetailLoading(false);
+      setDataCmntToCmnt(null);
     }
   };
 
@@ -147,7 +149,7 @@ export const useFeedHook = () => {
     try {
       const response = await commmentToPost(props);
       setDataComment(response.data);
-      getListDataPost();
+      getDetailPost(props);
     } catch (error) {
       console.log(error);
       setDataComment(null);
@@ -160,7 +162,7 @@ export const useFeedHook = () => {
     setCommentLoading(true);
     try {
       const response = await commmentToComment(props);
-      setDataComment(response.data);
+      setDataCmntToCmnt(response.data);
     } catch (error) {
       console.log(error);
       setDataComment(null);
@@ -211,6 +213,8 @@ export const useFeedHook = () => {
     commentUpdateLoading,
     commentDeleteLoading,
     dataPostDetail,
+    dataCmntToCmnt,
+    setDataCmntToCmnt,
     getListDataPost,
     getListDataExclusivePost,
     setLikePost,

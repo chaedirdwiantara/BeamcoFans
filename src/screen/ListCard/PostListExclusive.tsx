@@ -45,12 +45,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, data} = props;
 
-  const [selectedId, setSelectedId] = useState<string[]>([]);
-  const [dataDropdown, setDataDropdown] = useState<PostListType[]>(data);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
-  const [selectedItem, setSelectedItem] = useState<PostList>();
   const [commentType, setCommentType] = useState<string>('');
 
   const {
@@ -58,11 +55,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
     feedIsError,
     feedMessage,
     dataPostList,
-    dataPostDetail,
     getListDataExclusivePost,
     setLikePost,
     setUnlikePost,
-    getDetailPost,
     setCommentToPost,
   } = useFeedHook();
 
@@ -71,12 +66,6 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       getListDataExclusivePost();
     }, []),
   );
-
-  useEffect(() => {
-    if (dataPostDetail !== null && selectedItem !== undefined) {
-      navigation.navigate('PostDetail', selectedItem);
-    }
-  }, [dataPostDetail]);
 
   const resultDataFilter = (dataResultFilter: DataDropDownType) => {
     getListDataExclusivePost({sortBy: dataResultFilter.label.toLowerCase()});
@@ -88,18 +77,14 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const cardOnPress = (data: PostList) => {
-    getDetailPost({id: data.id});
-    setSelectedItem(data);
+    navigation.navigate('PostDetail', data);
   };
 
-  const likeOnPress = (id: string) => {
-    if (selectedId.includes(id)) {
-      return (
-        setUnlikePost({id}),
-        setSelectedId(selectedId.filter((x: string) => x !== id))
-      );
+  const likeOnPress = (id: string, isliked: boolean) => {
+    if (isliked) {
+      return setUnlikePost({id});
     } else {
-      return setLikePost({id}), setSelectedId([...selectedId, id]);
+      return setLikePost({id});
     }
   };
 
@@ -178,18 +163,18 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
               musicianName={item.musician.fullname}
               musicianId={`@${item.musician.username}`}
               imgUri={item.musician.imageProfileUrl}
-              postDate={dateFormat(item.updatedAt)}
+              postDate={dateFormat(item.createdAt)}
               category={item.category}
               onPress={() => cardOnPress(item)}
-              likeOnPress={() => likeOnPress(item.id)}
+              likeOnPress={() => likeOnPress(item.id, item.isLiked)}
+              likeCount={item.likesCount}
+              likePressed={item.isLiked ? true : false}
               commentOnPress={() =>
                 commentOnPress(item.id, item.musician.username)
               }
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
-              likePressed={selectedId.includes(item.id) ? true : false}
               containerStyles={{marginTop: mvs(16)}}
-              likeCount={item.likesCount}
               commentCount={item.commentsCount}
               children={
                 <View style={{width: '100%'}}>
@@ -217,9 +202,11 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
             />
           )}
         />
-      ) : dataPostList === null && feedMessage === 'you not follow anyone' ? (
+      ) : dataPostList?.length === 0 &&
+        feedMessage === 'you not follow anyone' ? (
         <ListToFollowMusician />
-      ) : dataPostList === null && feedMessage === 'you not follow anyone' ? (
+      ) : dataPostList?.length === 0 &&
+        feedMessage === 'you not follow anyone' ? (
         <EmptyState
           text={`You don't have any exclusive content, try to subscribe your favorite musician`}
           containerStyle={{
