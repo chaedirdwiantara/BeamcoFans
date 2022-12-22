@@ -28,6 +28,7 @@ export type ProfileResponseType = {
     email: string;
     fullname: string;
     about: string | null;
+    banner: string | null;
     imageProfileUrl: string | null;
     phoneNumber: string | null;
     registrationType: RegistrationType;
