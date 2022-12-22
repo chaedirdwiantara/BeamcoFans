@@ -20,7 +20,7 @@ import {
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
 import SsuSheet from '../../atom/SsuSheet';
-import {RootStackParams} from '../../../App';
+import {RootStackParams} from '../../../navigations';
 import {color, typography} from '../../../theme';
 import {Button, Gap, SsuInput} from '../../atom';
 import {listDonate} from '../../../data/listDonate';

@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import SsuSheet from '../../atom/SsuSheet';
-import {RootStackParams} from '../../../App';
+import {RootStackParams} from '../../../navigations';
 import {color, typography} from '../../../theme';
 import {Button, ButtonGradient} from '../../atom';
 import {heightPercentage, normalize} from '../../../utils';
