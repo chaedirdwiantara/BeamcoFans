@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, SafeAreaView, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {Button, SsuInput} from '../../atom';
 import {Dropdown} from '../DropDown';
@@ -51,7 +51,7 @@ export const ShippingInformationContent: React.FC<ShippingInformationProps> = ({
   const onPressSave = () => {};
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type1
         title="Shipping Information"
         leftIcon={<ArrowLeftIcon />}
@@ -156,7 +156,7 @@ export const ShippingInformationContent: React.FC<ShippingInformationProps> = ({
         onPress={onPressSave}
         containerStyles={styles.button}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

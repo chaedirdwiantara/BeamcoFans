@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import Color from '../../../theme/Color';
 import {Button, SsuInput} from '../../atom';
@@ -35,7 +35,7 @@ export const ChangeEmailContent: React.FC<ChangeEmailProps> = ({
   const onPressSave = () => {};
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type1
         title="Change Email"
         leftIcon={<ArrowLeftIcon />}
@@ -65,7 +65,7 @@ export const ChangeEmailContent: React.FC<ChangeEmailProps> = ({
         onPress={onPressSave}
         containerStyles={styles.button}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

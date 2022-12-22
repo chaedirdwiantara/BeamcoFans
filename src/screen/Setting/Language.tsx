@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -20,7 +20,7 @@ export const LanguageScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type1
         title="Language"
         leftIcon={<ArrowLeftIcon />}
@@ -35,7 +35,7 @@ export const LanguageScreen: React.FC = () => {
         textTyped={(newText: string) => setLanguage(newText)}
         containerStyles={{marginTop: heightPercentage(15)}}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
