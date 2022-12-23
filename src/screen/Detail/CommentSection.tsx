@@ -1,8 +1,12 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {FC, useState} from 'react';
-import {heightResponsive, normalize, widthResponsive} from '../../utils';
+import {
+  elipsisText,
+  heightResponsive,
+  normalize,
+  widthResponsive,
+} from '../../utils';
 import {Gap, PostComment} from '../../components';
-import {mvs} from 'react-native-size-matters';
 import CommentLvlTwo from '../../components/molecule/DetailPost/CommentLvlTwo';
 import CommentLvlThree from '../../components/molecule/DetailPost/CommentLvlThree';
 import {color, font} from '../../theme';
@@ -10,8 +14,8 @@ import {
   CommentList,
   CommentList2,
   CommentList3,
-  DetailPostData,
 } from '../../interface/feed.interface';
+import {ms, mvs} from 'react-native-size-matters';
 interface CommentSectionType {
   data: CommentList[] | undefined;
   postCommentCount: number;
@@ -131,13 +135,14 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                     </>
                   )}
                 />
-                {showMoreLvl3 === false && commentsCount > 1 ? (
+                {/* // TODO: PENDING */}
+                {/* {showMoreLvl3 === false && commentsCount > 1 ? (
                   <Text
                     style={styles.viewMore}
                     onPress={() => viewMoreOnPress(id, 3)}>
                     View more reply
                   </Text>
-                ) : null}
+                ) : null} */}
               </>
             ) : null}
           </>
@@ -155,10 +160,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         keyExtractor={(_, index) => index.toString()}
         renderItem={({item, index}) => (
           <PostComment
-            imgUri={dummy.imgUri}
-            userName={dummy.userName}
-            userId={`@${dummy.userId}`}
-            postDate={dummy.postDate}
+            imgUri={item.commentOwner.image}
+            userName={elipsisText(item.commentOwner.fullname, 21)}
+            userId={`@${elipsisText(item.commentOwner.username, 10)}`}
+            postDate={item.timeAgo}
             artistPostId={dummy.artistPostId}
             commentCaption={item.caption}
             likeOnPress={() => likeOnPressLvl1(index)}
@@ -187,13 +192,14 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                         />
                       )}
                     />
-                    {showMoreLvl2 === false && item.commentsCount > 1 ? (
+                    {/* // TODO : PENDING */}
+                    {/* {showMoreLvl2 === false && item.commentsCount > 1 ? (
                       <Text
                         style={styles.viewMore}
                         onPress={() => viewMoreOnPress(item.id, 2)}>
                         View more reply
                       </Text>
-                    ) : null}
+                    ) : null} */}
                   </>
                 ) : null}
               </>
@@ -201,7 +207,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
           />
         )}
       />
-      {showMore === false && postCommentCount > 10 ? (
+      {/* // TODO : PENDING */}
+      {/* {showMore === false && postCommentCount >= 10 ? (
         <Text
           style={[
             styles.viewMore,
@@ -212,7 +219,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
           onPress={() => viewMoreOnPress(postId, 3)}>
           View more reply
         </Text>
-      ) : null}
+      ) : null} */}
     </View>
   );
 };
@@ -220,12 +227,6 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
 export default CommentSection;
 
 const styles = StyleSheet.create({
-  readMore: {
-    color: color.Pink[100],
-    fontFamily: font.InterRegular,
-    fontWeight: '400',
-    fontSize: normalize(13),
-  },
   commentContainer: {
     width: '100%',
     paddingHorizontal: widthResponsive(24),
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     color: color.Pink[100],
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(12),
+    fontSize: ms(12),
     marginBottom: heightResponsive(8),
   },
 });

@@ -18,7 +18,7 @@ import {
   normalize,
   widthResponsive,
 } from '../../utils';
-import {mvs} from 'react-native-size-matters';
+import {ms, mvs} from 'react-native-size-matters';
 import {commentData} from '../../data/comment';
 import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
@@ -275,24 +275,17 @@ const styles = StyleSheet.create({
     maxWidth: widthResponsive(288),
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(13),
-    lineHeight: mvs(20),
+    fontSize: ms(13),
     color: color.Neutral[10],
   },
   readMore: {
     color: color.Pink[100],
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(13),
+    fontSize: ms(13),
   },
   commentContainer: {
     width: '100%',
     paddingHorizontal: widthResponsive(24),
-  },
-  viewMore: {
-    color: color.Pink[100],
-    fontFamily: font.InterRegular,
-    fontWeight: '400',
-    fontSize: normalize(12),
   },
 });

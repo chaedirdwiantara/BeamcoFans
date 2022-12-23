@@ -8,9 +8,10 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Avatar, Gap} from '../../atom';
-import {heightPercentage, normalize, widthResponsive} from '../../../utils';
+import {heightPercentage, widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
 import {CommentIcon, LoveIcon} from '../../../assets/icon';
+import {ms} from 'react-native-size-matters';
 
 interface ListProps extends TouchableOpacityProps {
   imgUriLvl3: string;
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
   userName: {
     fontFamily: font.InterMedium,
     fontWeight: '500',
-    fontSize: normalize(12),
+    fontSize: ms(12),
     color: color.Neutral[10],
   },
   category: {
@@ -151,25 +152,25 @@ const styles = StyleSheet.create({
   postDateStyle: {
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(10),
+    fontSize: ms(10),
     color: color.Dark[50],
   },
   regularText: {
     fontFamily: font.InterMedium,
     fontWeight: '500',
-    fontSize: normalize(10),
+    fontSize: ms(10),
     color: color.Dark[50],
   },
   reply: {
     color: color.Dark[50],
     fontFamily: font.InterRegular,
     fontWeight: '500',
-    fontSize: normalize(10),
+    fontSize: ms(10),
   },
   commentCaption: {
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(12),
+    fontSize: ms(12),
     color: color.Neutral[10],
   },
   bottomContainer: {

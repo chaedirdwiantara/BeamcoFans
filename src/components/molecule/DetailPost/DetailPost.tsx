@@ -91,7 +91,9 @@ const DetailPost: React.FC<ListProps> = (props: ListProps) => {
                 style={{marginBottom: heightPercentage(4)}}
               />
               <Gap width={3} />
-              <Text style={styles.regularText}>{likeCount}</Text>
+              <Text style={[styles.regularText, {fontSize: ms(11)}]}>
+                {likeCount}
+              </Text>
             </TouchableOpacity>
           </View>
           <Gap width={15} />
@@ -107,7 +109,9 @@ const DetailPost: React.FC<ListProps> = (props: ListProps) => {
                 style={{marginBottom: heightPercentage(4)}}
               />
               <Gap width={3} />
-              <Text style={styles.regularText}>{commentCount}</Text>
+              <Text style={[styles.regularText, {fontSize: ms(11)}]}>
+                {commentCount}
+              </Text>
             </TouchableOpacity>
           </View>
           <Gap width={15} />
@@ -155,7 +159,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rankStyle: {
-    fontSize: normalize(10),
+    fontSize: ms(10),
     fontWeight: '600',
     lineHeight: mvs(12),
     marginRight: ms(10),
@@ -176,14 +180,14 @@ const styles = StyleSheet.create({
   songTitle: {
     fontFamily: font.InterMedium,
     fontWeight: '500',
-    fontSize: normalize(13),
+    fontSize: ms(13),
     lineHeight: mvs(15.73),
     color: color.Neutral[10],
   },
   songDesc: {
     fontFamily: font.InterMedium,
     fontWeight: '500',
-    fontSize: normalize(10),
+    fontSize: ms(10),
     lineHeight: mvs(12.1),
     color: color.Dark[50],
   },
@@ -204,13 +208,13 @@ const styles = StyleSheet.create({
   categoryText: {
     fontFamily: font.InterMedium,
     fontWeight: '500',
-    fontSize: normalize(8),
+    fontSize: ms(8),
     color: color.Neutral[10],
   },
   regularText: {
     fontFamily: font.InterMedium,
     fontWeight: '500',
-    fontSize: normalize(10),
+    fontSize: ms(10),
     lineHeight: mvs(12.1),
     color: color.Dark[100],
   },

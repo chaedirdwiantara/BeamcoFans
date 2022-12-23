@@ -54,7 +54,7 @@ export type DetailPostData = {
   createdAt: string;
   updatedAt: string;
   comments: CommentList[];
-  musician: [];
+  musician: MusicianData;
   isLiked: boolean;
 };
 
@@ -88,7 +88,15 @@ export type CommentList = {
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;
-  comments: null | CommentList2[];
+  comments: CommentList2[];
+  isLiked: boolean;
+  timeAgo: string;
+  commentOwner: {
+    UUID: string;
+    fullname: string;
+    username: string;
+    image: string;
+  };
 };
 
 export type CommentList2 = {
@@ -98,7 +106,7 @@ export type CommentList2 = {
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;
-  comments: null | CommentList3[];
+  comments: CommentList3[];
 };
 
 export type CommentList3 = {
