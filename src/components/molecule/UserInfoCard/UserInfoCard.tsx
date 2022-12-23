@@ -19,6 +19,9 @@ import {
   normalize,
   width,
   widthPercentage,
+  kFormatter,
+  kFormatter2,
+  toCurrency,
 } from '../../../utils';
 
 interface UserInfoCardProps {
@@ -44,7 +47,7 @@ type Props = {
 const Item: FC<Props> = ({point, title, onPress}) => {
   return (
     <TouchableOpacity style={styles.itemStyle} onPress={onPress}>
-      <Text style={styles.pointStyle}>{point}</Text>
+      <Text style={styles.pointStyle}>{kFormatter(point, 1)}</Text>
       <Text style={styles.titleStyle}>{title}</Text>
     </TouchableOpacity>
   );
@@ -63,13 +66,14 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
   return (
     <View style={[styles.root, containerStyles]}>
       {listItem.map((val, i) => (
-        <View key={i} style={styles.containerItem}>
-          <Item point={val.point} title={val.title} onPress={onPress} />
-
+        <>
+          <View key={i} style={styles.containerItem}>
+            <Item point={val.point} title={val.title} onPress={onPress} />
+          </View>
           {listItem.length !== i + 1 && (
             <View style={[styles.separator, newStyles]} />
           )}
-        </View>
+        </>
       ))}
     </View>
   );
@@ -84,7 +88,7 @@ const styles = StyleSheet.create({
     aspectRatio: widthPercentage(327 / 74),
     backgroundColor: Color.Dark[600],
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     flexDirection: 'row',
     borderRadius: 12,
   },
@@ -105,12 +109,12 @@ const styles = StyleSheet.create({
   },
   pointStyle: {
     fontFamily: Font.InterSemiBold,
-    fontSize: normalize(16),
+    fontSize: mvs(15),
     color: Color.Neutral[10],
   },
   titleStyle: {
     fontFamily: Font.InterMedium,
-    fontSize: normalize(11),
+    fontSize: mvs(10),
     color: Color.Dark[50],
   },
 });

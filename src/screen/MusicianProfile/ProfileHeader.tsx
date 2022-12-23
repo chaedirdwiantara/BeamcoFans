@@ -11,7 +11,7 @@ import {
 
 import {mvs} from 'react-native-size-matters';
 import {CameraIcon, GalleryEditIcon, SettingIcon} from '../../assets/icon';
-import {AvatarProfile, ButtonGradient} from '../../components';
+import {AvatarProfile, Button, ButtonGradient, Gap} from '../../components';
 import {color, font} from '../../theme';
 import Typography from '../../theme/Typography';
 import {heightPercentage, normalize, width, widthResponsive} from '../../utils';
@@ -68,11 +68,15 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
         {type === '' && (
           <View style={styles.containerFooter}>
             <Text style={styles.description}>{bio}</Text>
-            <ButtonGradient
-              label={'Edit Profile'}
-              gradientStyles={styles.btnContainer}
-              onPress={() => viewMoreOnPress('1')}
-            />
+            <View style={{flexDirection: 'row'}}>
+              <ButtonGradient
+                label={'Follow'}
+                gradientStyles={styles.btnContainer}
+                onPress={() => {}}
+              />
+              <Gap width={11} />
+              <Button label={'Donate'} containerStyles={styles.btnContainer2} />
+            </View>
           </View>
         )}
       </ImageBackground>
@@ -84,7 +88,6 @@ const styles = StyleSheet.create({
   root: {
     width,
     height: heightPercentage(340),
-    // backgroundColor: color.Dark[500],
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
@@ -121,6 +124,13 @@ const styles = StyleSheet.create({
     width: widthResponsive(100),
     aspectRatio: heightPercentage(100 / 32),
     marginVertical: heightPercentage(10),
+  },
+  btnContainer2: {
+    height: undefined,
+    width: widthResponsive(100),
+    aspectRatio: heightPercentage(100 / 32),
+    marginVertical: heightPercentage(10),
+    backgroundColor: color.Success[400],
   },
   editIcon: {
     position: 'absolute',

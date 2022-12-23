@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
 import {ProcessingIcon} from '../../assets/icon';
 import {
   CreateNewCard,
@@ -21,6 +28,10 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import {color} from '../../theme';
+
+type OnScrollEventHandler = (
+  event: NativeSyntheticEvent<NativeScrollEvent>,
+) => void;
 
 interface NewPlaylistProps {
   playlist: any;
@@ -77,6 +88,12 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
     setSelectedIndex(index);
   };
 
+  const handleScroll: OnScrollEventHandler = event => {
+    let offsetY = event.nativeEvent.contentOffset.y;
+    const scrolled = offsetY > 10;
+    setScrollEffect(scrolled);
+  };
+
   return (
     <View style={styles.container}>
       <SsuStatusBar type={'black'} />
@@ -90,8 +107,8 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        onScrollBeginDrag={() => setScrollEffect(true)}
-        onMomentumScrollBegin={() => setScrollEffect(false)}>
+        scrollEventThrottle={16}
+        onScroll={handleScroll}>
         <ProfileHeader
           avatarUri={profile.avatarUri}
           backgroundUri={profile.backgroundUri}
@@ -101,44 +118,46 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           onPress={goToEditProfile}
           iconPress={() => onPressGoTo('Setting')}
         />
-        <UserInfoCard
-          type="self"
-          containerStyles={styles.infoCard}
-          onPress={() => onPressGoTo('Following')}
-        />
-        <View style={styles.containerContent}>
-          <TabFilter.Type1
-            filterData={filter}
-            onPress={filterData}
-            selectedIndex={selectedIndex}
-            flatlistContainerStyle={{paddingLeft: widthResponsive(100)}}
+        <View style={styles.infoCard}>
+          <UserInfoCard
+            type=""
+            containerStyles={{paddingHorizontal: widthResponsive(18)}}
+            onPress={() => onPressGoTo('Following')}
           />
-          {filter[selectedIndex].filterName === 'PROFILE' ? (
-            TopSongListData.length > 0 ? (
-              <View style={{flex: 1}}></View>
-            ) : (
-              <CreateNewCard
-                num="01"
-                text="Default Playlist"
-                onPress={() => onPressGoTo('CreateNewPlaylist')}
-              />
-            )
-          ) : filter[selectedIndex].filterName === 'POST' ? (
-            MusicianListData.length > 0 ? (
-              <View></View>
-            ) : (
-              <EmptyState text="This user don't have contribution to any musician" />
-            )
-          ) : MusicianListData.length > 0 ? (
-            <MenuText.LeftIconWithSubtitle
-              text="No Room for Speed"
-              subtitle="Be the first jam contributor on 100 artist"
-              onPress={() => null}
-              icon={<ProcessingIcon />}
+          <View style={styles.containerContent}>
+            <TabFilter.Type1
+              filterData={filter}
+              onPress={filterData}
+              selectedIndex={selectedIndex}
+              flatlistContainerStyle={{paddingLeft: widthResponsive(100)}}
             />
-          ) : (
-            <EmptyState text="This user don't have any badge" />
-          )}
+            {filter[selectedIndex].filterName === 'PROFILE' ? (
+              TopSongListData.length > 0 ? (
+                <View style={{flex: 1}}></View>
+              ) : (
+                <CreateNewCard
+                  num="01"
+                  text="Default Playlist"
+                  onPress={() => onPressGoTo('CreateNewPlaylist')}
+                />
+              )
+            ) : filter[selectedIndex].filterName === 'POST' ? (
+              MusicianListData.length > 0 ? (
+                <View></View>
+              ) : (
+                <EmptyState text="This user don't have contribution to any musician" />
+              )
+            ) : MusicianListData.length > 0 ? (
+              <MenuText.LeftIconWithSubtitle
+                text="No Room for Speed"
+                subtitle="Be the first jam contributor on 100 artist"
+                onPress={() => null}
+                icon={<ProcessingIcon />}
+              />
+            ) : (
+              <EmptyState text="This user don't have any badge" />
+            )}
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -152,13 +171,10 @@ const styles = StyleSheet.create({
   infoCard: {
     position: 'absolute',
     top: heightPercentage(300),
-    left: widthResponsive(20),
+    width: '100%',
+    alignItems: 'center',
   },
   containerContent: {
-    flex: 1,
-    marginTop: heightPercentage(70),
-    paddingHorizontal: widthResponsive(20),
-    marginBottom: heightPercentage(10),
     width: '100%',
   },
   flashlistStyle: {
