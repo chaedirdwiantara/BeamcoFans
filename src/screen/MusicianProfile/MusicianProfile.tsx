@@ -11,6 +11,7 @@ import {ProcessingIcon} from '../../assets/icon';
 import {
   CreateNewCard,
   EmptyState,
+  Gap,
   ListCard,
   SsuStatusBar,
   TabFilter,
@@ -28,6 +29,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import {color} from '../../theme';
+import ExclusiveDailyContent from './ExclusiveDailyContent';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -124,38 +126,27 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             containerStyles={{paddingHorizontal: widthResponsive(18)}}
             onPress={() => onPressGoTo('Following')}
           />
+          <ExclusiveDailyContent />
+          <Gap height={10} />
           <View style={styles.containerContent}>
             <TabFilter.Type1
               filterData={filter}
               onPress={filterData}
               selectedIndex={selectedIndex}
-              flatlistContainerStyle={{paddingLeft: widthResponsive(100)}}
+              flatlistContainerStyle={{paddingHorizontal: widthResponsive(24)}}
             />
             {filter[selectedIndex].filterName === 'PROFILE' ? (
-              TopSongListData.length > 0 ? (
-                <View style={{flex: 1}}></View>
-              ) : (
-                <CreateNewCard
-                  num="01"
-                  text="Default Playlist"
-                  onPress={() => onPressGoTo('CreateNewPlaylist')}
-                />
-              )
+              <View style={{flex: 1}}></View>
             ) : filter[selectedIndex].filterName === 'POST' ? (
               MusicianListData.length > 0 ? (
                 <View></View>
               ) : (
-                <EmptyState text="This user don't have contribution to any musician" />
+                <EmptyState text="This musician don't have any post" />
               )
             ) : MusicianListData.length > 0 ? (
-              <MenuText.LeftIconWithSubtitle
-                text="No Room for Speed"
-                subtitle="Be the first jam contributor on 100 artist"
-                onPress={() => null}
-                icon={<ProcessingIcon />}
-              />
+              <View></View>
             ) : (
-              <EmptyState text="This user don't have any badge" />
+              <EmptyState text="This musician don't have any post" />
             )}
           </View>
         </View>
@@ -175,7 +166,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   containerContent: {
-    width: '100%',
+    // marginTop,
   },
   flashlistStyle: {
     width: '100%',
