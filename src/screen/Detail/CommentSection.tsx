@@ -69,27 +69,37 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   };
 
   // ? Dummy Temporary until api update is complete
-  const dummy = {
-    imgUri:
-      'https://p4.wallpaperbetter.com/wallpaper/704/568/863/k-pop-redvelvet-women-irene-red-velvet-wallpaper-preview.jpg',
-    userName: 'Irene',
-    userId: 'red-velvet',
-    postDate: '2 hours',
-    artistPostId: 'black-pink',
-  };
+  // const dummy = {
+  //   imgUri:
+  //     'https://p4.wallpaperbetter.com/wallpaper/704/568/863/k-pop-redvelvet-women-irene-red-velvet-wallpaper-preview.jpg',
+  //   userName: 'Irene',
+  //   userId: 'red-velvet',
+  //   postDate: '2 hours',
+  //   artistPostId: 'black-pink',
+  // };
 
   const CommentChildrenLvl3 = (props: CommentList3) => {
-    const {id, caption, likesCount, commentsCount} = props;
+    const {
+      id,
+      caption,
+      likesCount,
+      commentsCount,
+      repliedTo,
+      isLiked,
+      timeAgo,
+      commentOwner,
+      commentLevel,
+    } = props;
     return (
       <CommentLvlThree
-        imgUriLvl3={dummy.imgUri}
-        userNameLvl3={dummy.userName}
-        userIdLvl3={dummy.userId}
-        postDateLvl3={dummy.postDate}
-        userCommentedIdLvl3={dummy.artistPostId}
+        imgUriLvl3={commentOwner.image}
+        userNameLvl3={commentOwner.fullname}
+        userIdLvl3={commentOwner.username}
+        postDateLvl3={timeAgo}
+        userCommentedIdLvl3={repliedTo}
         commentCaptionLvl3={caption}
         likeOnPressLvl3={() => likeOnPressLvl3(id)}
-        commentOnPressLvl3={() => commentOnPress(id, dummy.userId)}
+        commentOnPressLvl3={() => commentOnPress(id, commentOwner.username)}
         likePressedLvl3={selectedIdLvl3.includes(id) ? true : false}
         likeCountLvl3={likesCount}
         commentCountLvl3={commentsCount}
@@ -98,17 +108,28 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   };
 
   const CommentChildrenLvl2 = (props: CommentList2) => {
-    const {id, caption, likesCount, commentsCount, comments} = props;
+    const {
+      id,
+      caption,
+      likesCount,
+      commentsCount,
+      comments,
+      repliedTo,
+      isLiked,
+      timeAgo,
+      commentOwner,
+      commentLevel,
+    } = props;
     return (
       <CommentLvlTwo
-        imgUriLvl2={dummy.imgUri}
-        userNameLvl2={dummy.userName}
-        userIdLvl2={dummy.userId}
-        postDateLvl2={dummy.postDate}
-        userCommentedId={dummy.artistPostId}
+        imgUriLvl2={commentOwner.image}
+        userNameLvl2={commentOwner.fullname}
+        userIdLvl2={commentOwner.username}
+        postDateLvl2={timeAgo}
+        userCommentedId={repliedTo}
         commentCaptionLvl2={caption}
         likeOnPressLvl2={() => likeOnPressLvl2(id)}
-        commentOnPressLvl2={() => commentOnPress(id, dummy.userId)}
+        commentOnPressLvl2={() => commentOnPress(id, commentOwner.username)}
         likePressedLvl2={selectedIdLvl2.includes(id) ? true : false}
         likeCountLvl2={likesCount}
         commentCountLvl2={commentsCount}
@@ -130,6 +151,11 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                         caption={item.caption}
                         likesCount={item.likesCount}
                         commentsCount={item.commentsCount}
+                        repliedTo={item.repliedTo}
+                        isLiked={item.isLiked}
+                        timeAgo={item.timeAgo}
+                        commentOwner={item.commentOwner}
+                        commentLevel={item.commentLevel}
                       />
                       <Gap height={12} />
                     </>
@@ -164,12 +190,14 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             userName={elipsisText(item.commentOwner.fullname, 21)}
             userId={`@${elipsisText(item.commentOwner.username, 10)}`}
             postDate={item.timeAgo}
-            artistPostId={dummy.artistPostId}
+            artistPostId={item.repliedTo}
             commentCaption={item.caption}
             likeOnPress={() => likeOnPressLvl1(index)}
             likePressed={selectedId.includes(index) ? true : false}
             likeCount={item.likesCount}
-            commentOnPress={() => commentOnPress(item.id, dummy.userId)}
+            commentOnPress={() =>
+              commentOnPress(item.id, item.commentOwner.username)
+            }
             commentCount={item.commentsCount}
             children={
               <>
@@ -189,6 +217,11 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                           likesCount={item.likesCount}
                           commentsCount={item.commentsCount}
                           comments={item.comments}
+                          repliedTo={item.repliedTo}
+                          isLiked={item.isLiked}
+                          timeAgo={item.timeAgo}
+                          commentOwner={item.commentOwner}
+                          commentLevel={item.commentLevel}
                         />
                       )}
                     />

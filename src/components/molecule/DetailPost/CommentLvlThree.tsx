@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Avatar, Gap} from '../../atom';
-import {heightPercentage, widthResponsive} from '../../../utils';
+import {elipsisText, heightPercentage, widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
 import {CommentIcon, LoveIcon} from '../../../assets/icon';
 import {ms} from 'react-native-size-matters';
@@ -55,8 +55,11 @@ const CommentLvlThree: React.FC<ListProps> = (props: ListProps) => {
         }}>
         <View style={styles.topSection}>
           <Text style={styles.userName}>
-            {userNameLvl3}
-            <Text style={styles.regularText}> {userIdLvl3}</Text>
+            {elipsisText(userNameLvl3, 21)}
+            <Text style={styles.regularText}>
+              {' '}
+              {elipsisText(userIdLvl3, 10)}
+            </Text>
           </Text>
           <Text style={styles.postDateStyle}>{postDateLvl3}</Text>
         </View>
