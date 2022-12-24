@@ -1,10 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
 import {heightResponsive, widthResponsive} from '../../utils';
 import {Gap, SquareImage, Title} from '../../components';
 import {color, font} from '../../theme';
 import {ms, mvs} from 'react-native-size-matters';
-import {ChevronDownIcon} from '../../assets/icon';
+import {ChevronDown2, ChevronDownIcon, ChevronUp} from '../../assets/icon';
 
 const dummy = {
   imgUri:
@@ -14,30 +14,37 @@ const dummy = {
 };
 
 const ExclusiveDailyContent = () => {
+  const [isShowComponent, setIsShowComponent] = useState<boolean>(true);
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row'}}>
+      <View style={styles.titleStyle}>
         <Title text={'Exclusive Daily Content'} />
-        <ChevronDownIcon />
+        <TouchableOpacity onPress={() => setIsShowComponent(!isShowComponent)}>
+          {isShowComponent ? <ChevronUp /> : <ChevronDown2 />}
+        </TouchableOpacity>
       </View>
-      <Gap height={8} />
-      <View style={styles.mainStyle}>
-        <View style={styles.topBody}>
-          <SquareImage imgUri={dummy.imgUri} size={widthResponsive(80)} />
-          <Gap width={8} />
-          <View>
-            <Text numberOfLines={2} style={styles.titleTopBody}>
-              Exclusive Daily Content (my uncut video)
-            </Text>
-            <Text numberOfLines={6} style={styles.textTopBody}>
-              {dummy.textBody}
-            </Text>
+      <Gap height={4} />
+      {isShowComponent ? (
+        <View style={styles.mainStyle}>
+          <View style={styles.topBody}>
+            <SquareImage imgUri={dummy.imgUri} size={widthResponsive(80)} />
+            <Gap width={8} />
+            <View>
+              <Text numberOfLines={2} style={styles.titleTopBody}>
+                Exclusive Daily Content (my uncut video)
+              </Text>
+              <Text numberOfLines={6} style={styles.textTopBody}>
+                {dummy.textBody}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.bottomBody}>
+            <Text style={styles.bottomBodyText}>Get Exclusive Content</Text>
           </View>
         </View>
-        <View style={styles.bottomBody}>
-          <Text style={styles.bottomBodyText}>Get Exclusive Content</Text>
-        </View>
-      </View>
+      ) : (
+        <View></View>
+      )}
     </View>
   );
 };
@@ -54,6 +61,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     borderColor: color.Dark[300],
+  },
+  titleStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   topBody: {
     flexDirection: 'row',

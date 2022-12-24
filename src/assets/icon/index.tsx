@@ -10,6 +10,8 @@ import CheckCircleIcon from './CheckCircle.icon';
 import CheckCircle2Icon from './CheckCircle2.icon';
 import CheckGradientIcon from './CheckGradien.icon';
 import ChevronDownIcon from './ChevronDown.icon';
+import ChevronDown2 from './ChevronDown2.icon';
+import ChevronUp from './ChevronUp.icon';
 import CloseIcon from './Close.icon';
 import CloseCircleIcon from './CloseCircle.icon';
 import CoinInput from './CoinInput';
@@ -78,6 +80,8 @@ export {
   CheckCircleIcon,
   CheckCircle2Icon,
   ChevronDownIcon,
+  ChevronDown2,
+  ChevronUp,
   CloseIcon,
   CloseCircleIcon,
   CoinCIcon,
