@@ -36,6 +36,7 @@ import {RootStackParams} from '../../navigations';
 import {color} from '../../theme';
 import ExclusiveDailyContent from './ExclusiveDailyContent';
 import ProfileComponent from './ProfileComponent';
+import Album from './Album';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -58,6 +59,21 @@ const Dummy = {
   members: 'Once, Ari Lasso, Ahmad Dhani',
   website: 'www.dealopa.com',
 };
+
+const DummyAlbum = [
+  {
+    albumTitle: 'Born Pink',
+    artistName: 'BlackPink',
+    imgUri:
+      'https://upload.wikimedia.org/wikipedia/en/e/e7/Born_Pink_Digital.jpeg',
+  },
+  {
+    albumTitle: 'The Album',
+    artistName: 'BlackPink',
+    imgUri:
+      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
+  },
+];
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
   profile,
@@ -147,6 +163,8 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 <ProfileComponent title={'Members'} content={Dummy.members} />
                 <Gap height={24} />
                 <ProfileComponent title={'Website'} content={Dummy.website} />
+                <Gap height={24} />
+                <Album title={'Album'} data={DummyAlbum} />
               </View>
             ) : filter[selectedIndex].filterName === 'POST' ? (
               MusicianListData.length > 0 ? (
