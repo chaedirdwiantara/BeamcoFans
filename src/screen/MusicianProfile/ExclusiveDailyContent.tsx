@@ -4,7 +4,7 @@ import {heightResponsive, widthResponsive} from '../../utils';
 import {Gap, SquareImage, Title} from '../../components';
 import {color, font} from '../../theme';
 import {ms, mvs} from 'react-native-size-matters';
-import {ChevronDown2, ChevronDownIcon, ChevronUp} from '../../assets/icon';
+import {ChevronDown2, ChevronUp} from '../../assets/icon';
 
 const dummy = {
   imgUri:

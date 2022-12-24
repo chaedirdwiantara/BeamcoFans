@@ -31,6 +31,7 @@ import ExportIcon from './Export.icon';
 import ExportMusicIcon from './ExportMusic.icon';
 import EyeCloseIcon from './EyeClose.icon';
 import EyeOpenIcon from './EyeOpen.icon';
+import FbIcon from './Fb.icon';
 import FeedIcon from './Feed.icon';
 import FriedEggIcon from './FriedEgg.icon';
 import FullNameIcon from './FullName.icon';
@@ -39,6 +40,7 @@ import GalleryEditIcon from './GalleryEdit.icon';
 import GiftIcon from './Gift.icon';
 import HeartIcon from './Heart.icon';
 import HomeIcon from './Home.icon';
+import InstagramIcon from './Instagram.icon';
 import KeyIcon from './Key.icon';
 import LockIcon from './Lock.icon.';
 import LogOutIcon from './Logout.icon';
@@ -61,11 +63,16 @@ import SearchIcon from './Search.icon';
 import SettingIcon from './Setting.icon';
 import ShareIcon from './Share.icon';
 import ShuffleIcon from './Shuffle.icon';
+import SnapchatIcon from './Snapchat.icon';
 import SoundIcon from './Sound.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
 import TickCircleIcon from './TickCircle.icon';
+import TiktokIcon from './Tiktok.icon';
+import TwitterIcon from './Twitter.icon';
 import UserIcon from './User.icon';
 import UserProfileIcon from './UserProfile.icon';
+import VkIcon from './Vk.icon';
+import WeiboIcon from './Weibo.icon';
 
 export {
   AddIcon,
@@ -101,6 +108,7 @@ export {
   ExportMusicIcon,
   EyeCloseIcon,
   EyeOpenIcon,
+  FbIcon,
   FeedIcon,
   FriedEggIcon,
   FullNameIcon,
@@ -109,6 +117,7 @@ export {
   GiftIcon,
   HeartIcon,
   HomeIcon,
+  InstagramIcon,
   KeyIcon,
   LockIcon,
   LogOutIcon,
@@ -131,9 +140,14 @@ export {
   SettingIcon,
   ShareIcon,
   ShuffleIcon,
+  SnapchatIcon,
   SoundIcon,
   ThreeDotsIcon,
   TickCircleIcon,
+  TiktokIcon,
+  TwitterIcon,
   UserIcon,
   UserProfileIcon,
+  VkIcon,
+  WeiboIcon,
 };

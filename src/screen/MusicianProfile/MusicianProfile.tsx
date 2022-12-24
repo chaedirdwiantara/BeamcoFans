@@ -21,7 +21,12 @@ import {
 import {MenuText} from '../../components/atom/MenuText/MenuText';
 import {MusicianListData} from '../../data/topMusician';
 import {TopSongListData} from '../../data/topSong';
-import {elipsisText, heightPercentage, widthResponsive} from '../../utils';
+import {
+  elipsisText,
+  heightPercentage,
+  heightResponsive,
+  widthResponsive,
+} from '../../utils';
 import TopMusician from '../ListCard/TopMusician';
 import TopSong from '../ListCard/TopSong';
 import {ProfileHeader} from './ProfileHeader';
@@ -30,16 +35,11 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import {color} from '../../theme';
 import ExclusiveDailyContent from './ExclusiveDailyContent';
+import ProfileComponent from './ProfileComponent';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
 ) => void;
-
-interface NewPlaylistProps {
-  playlist: any;
-  goToPlaylist: () => void;
-}
-
 interface ProfileContentProps {
   playlist: any;
   profile: any;
@@ -50,22 +50,13 @@ interface ProfileContentProps {
   ) => void;
 }
 
-const NewCreatedPlaylist: React.FC<NewPlaylistProps> = ({
-  playlist,
-  goToPlaylist,
-}) => {
-  return (
-    <TouchableOpacity onPress={goToPlaylist}>
-      <ListCard.MusicList
-        imgUri={playlist?.playlistUri?.path}
-        musicNum={1}
-        musicTitle={elipsisText(playlist?.playlistName, 22)}
-        singerName={'by Weaboo'}
-        containerStyles={{marginTop: heightPercentage(20)}}
-        onPressCard={() => console.log('pressed card')}
-      />
-    </TouchableOpacity>
-  );
+const Dummy = {
+  about:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus',
+  origin: 'Jakarta, Indonesia',
+  yearsActive: '1999 - present',
+  members: 'Once, Ari Lasso, Ahmad Dhani',
+  website: 'www.dealopa.com',
 };
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -136,7 +127,27 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
               flatlistContainerStyle={{paddingHorizontal: widthResponsive(24)}}
             />
             {filter[selectedIndex].filterName === 'PROFILE' ? (
-              <View style={{flex: 1}}></View>
+              <View>
+                <Gap height={24} />
+                <ProfileComponent
+                  title={'About'}
+                  content={Dummy.about}
+                  gap={16}
+                />
+                <Gap height={24} />
+                <ProfileComponent title={'Social Media'} socmed gap={16} />
+                <Gap height={24} />
+                <ProfileComponent title={'Origin'} content={Dummy.origin} />
+                <Gap height={24} />
+                <ProfileComponent
+                  title={'Years Active'}
+                  content={Dummy.yearsActive}
+                />
+                <Gap height={24} />
+                <ProfileComponent title={'Members'} content={Dummy.members} />
+                <Gap height={24} />
+                <ProfileComponent title={'Website'} content={Dummy.website} />
+              </View>
             ) : filter[selectedIndex].filterName === 'POST' ? (
               MusicianListData.length > 0 ? (
                 <View></View>
@@ -160,18 +171,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   infoCard: {
-    position: 'absolute',
-    top: heightPercentage(300),
-    width: '100%',
+    marginTop: heightResponsive(-50),
+    marginBottom: heightResponsive(24),
     alignItems: 'center',
   },
-  containerContent: {
-    // marginTop,
-  },
-  flashlistStyle: {
-    width: '100%',
-    height: '100%',
-  },
+  containerContent: {},
   topNavStyle: {
     position: 'absolute',
     top: 0,
