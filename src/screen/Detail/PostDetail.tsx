@@ -27,6 +27,7 @@ import {useFeedHook} from '../../hooks/use-feed.hook';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {dateFormat} from '../../utils/date-format';
 import {CommentList} from '../../interface/feed.interface';
+import {useProfileHook} from '../../hooks/use-profile.hook';
 
 type PostDetailProps = NativeStackScreenProps<RootStackParams, 'PostDetail'>;
 
@@ -47,6 +48,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     getDetailPost,
     setCommentList,
   } = useFeedHook();
+
+  const {dataProfile, getProfileUser} = useProfileHook();
 
   const data = route.params;
   const musicianName = data.musician.fullname;
@@ -70,6 +73,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [dataMainComment, setDataMainComment] = useState<
     CommentList[] | undefined
   >(dataPostDetail?.comments);
+  const [dataProfileImg, setDataProfileImg] = useState<string>('');
 
   const likeOnPress = (id: string, isLiked: boolean) => {
     if (isLiked) {
@@ -90,6 +94,17 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       ? setDataMainComment(dataPostDetail?.comments)
       : null;
   }, [dataPostDetail]);
+
+  useEffect(() => {
+    getProfileUser();
+  }, []);
+
+  useEffect(() => {
+    dataProfile?.data.imageProfileUrl !== null &&
+    dataProfile?.data.imageProfileUrl !== undefined
+      ? setDataProfileImg(dataProfile?.data.imageProfileUrl)
+      : '';
+  }, [dataProfile]);
 
   //? handle comment in commentsection & open modal comment
   useEffect(() => {
@@ -258,6 +273,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           onCommentChange={setCommentType}
           handleOnPress={handleReplyOnPress}
           onModalHide={() => setCmntToCmnt(undefined)}
+          userAvatarUri={dataProfileImg}
         />
       </ScrollView>
     </SafeAreaView>
