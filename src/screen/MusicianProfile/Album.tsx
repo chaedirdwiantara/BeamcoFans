@@ -4,6 +4,7 @@ import {Gap, SquareImage, Title} from '../../components';
 import {heightResponsive, widthResponsive} from '../../utils';
 import {color, font} from '../../theme';
 import {ms} from 'react-native-size-matters';
+import SquareComp from './SquareComp';
 
 interface dataAlbum {
   albumTitle: string;
@@ -24,8 +25,11 @@ const Album: FC<AlbumProps> = (props: AlbumProps) => {
       <Title text={title} />
       <Gap height={12} />
       {data.map((item, i) => (
-        <TouchableOpacity style={styles.container} onPress={() => {}}>
-          <SquareImage imgUri={item.imgUri} size={widthResponsive(56)} />
+        <TouchableOpacity
+          style={styles.container}
+          onPress={() => {}}
+          testID={`album${i}`}>
+          <SquareComp imgUri={item.imgUri} size={widthResponsive(56)} />
           <View style={styles.textContainer}>
             <Text style={styles.songTitle} numberOfLines={1}>
               {item.albumTitle}

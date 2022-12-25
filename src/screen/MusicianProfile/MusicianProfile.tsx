@@ -37,6 +37,7 @@ import {color} from '../../theme';
 import ExclusiveDailyContent from './ExclusiveDailyContent';
 import ProfileComponent from './ProfileComponent';
 import Album from './Album';
+import Photo from './Photo';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -59,6 +60,29 @@ const Dummy = {
   members: 'Once, Ari Lasso, Ahmad Dhani',
   website: 'www.dealopa.com',
 };
+
+const DummyPhotos = [
+  {
+    imgUri:
+      'https://upload.wikimedia.org/wikipedia/en/e/e7/Born_Pink_Digital.jpeg',
+  },
+  {
+    imgUri:
+      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
+  },
+  {
+    imgUri:
+      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
+  },
+  {
+    imgUri:
+      'https://upload.wikimedia.org/wikipedia/en/e/e7/Born_Pink_Digital.jpeg',
+  },
+  {
+    imgUri:
+      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
+  },
+];
 
 const DummyAlbum = [
   {
@@ -143,7 +167,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
               flatlistContainerStyle={{paddingHorizontal: widthResponsive(24)}}
             />
             {filter[selectedIndex].filterName === 'PROFILE' ? (
-              <View>
+              <View style={{width: '100%'}}>
                 <Gap height={24} />
                 <ProfileComponent
                   title={'About'}
@@ -163,6 +187,8 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 <ProfileComponent title={'Members'} content={Dummy.members} />
                 <Gap height={24} />
                 <ProfileComponent title={'Website'} content={Dummy.website} />
+                <Gap height={24} />
+                <Photo title={'Photos'} data={DummyPhotos} />
                 <Gap height={24} />
                 <Album title={'Album'} data={DummyAlbum} />
               </View>
@@ -189,11 +215,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   infoCard: {
+    width: '100%',
     marginTop: heightResponsive(-50),
     marginBottom: heightResponsive(24),
     alignItems: 'center',
   },
-  containerContent: {},
+  containerContent: {
+    width: '100%',
+  },
   topNavStyle: {
     position: 'absolute',
     top: 0,
