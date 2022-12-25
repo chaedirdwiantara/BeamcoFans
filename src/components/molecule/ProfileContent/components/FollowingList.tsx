@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {ArrowLeftIcon} from '../../../../assets/icon';
 
 import {SearchBar} from '../../../atom';
@@ -18,7 +18,7 @@ export const FollowingList: React.FC<FollowingListProps> = ({
 }) => {
   const [search, setSearch] = useState('');
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type1
         title="Following"
         leftIcon={<ArrowLeftIcon />}
@@ -44,7 +44,7 @@ export const FollowingList: React.FC<FollowingListProps> = ({
           containerStyle={{paddingBottom: heightPercentage(15)}}
         />
       ))}
-    </SafeAreaView>
+    </View>
   );
 };
 

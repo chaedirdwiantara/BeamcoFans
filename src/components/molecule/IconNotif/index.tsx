@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React, {FC} from 'react';
 import {NotificationIcon} from '../../../assets/icon';
 import {color, font} from '../../../theme';
@@ -14,9 +14,11 @@ const IconNotif: FC<IconNotifProps> = (props: IconNotifProps) => {
   return (
     <View>
       <NotificationIcon stroke={color.Dark[100]} />
-      <View style={styles.notifContainer}>
-        <Text style={styles.notifText}>{label}</Text>
-      </View>
+      {label > 0 && (
+        <View style={styles.notifContainer}>
+          <Text style={styles.notifText}>{label}</Text>
+        </View>
+      )}
     </View>
   );
 };

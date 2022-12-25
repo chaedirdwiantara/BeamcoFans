@@ -31,7 +31,7 @@ const TopMusician: FC<TopMusicianProps> = ({
 
   return (
     <FlashList
-      data={dataMusician || MusicianListData}
+      data={dataMusician.length > 0 ? dataMusician : MusicianListData}
       showsVerticalScrollIndicator={false}
       scrollEnabled={scrollable}
       keyExtractor={item => item.uuid}

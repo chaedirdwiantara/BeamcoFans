@@ -26,7 +26,7 @@ import {
 
 interface UserInfoCardProps {
   type?: string;
-  following?: number;
+  totalFollowing?: number;
   favSong?: number;
   point?: number;
   fans?: number;
@@ -35,13 +35,13 @@ interface UserInfoCardProps {
   playlist?: number;
   rank?: number;
   containerStyles?: ViewStyle;
-  onPress?: (screenName: string) => void;
+  onPress: () => void;
 }
 
 type Props = {
-  point: number;
+  point: number | undefined;
   title: string;
-  onPress?: (screenName: string) => void;
+  onPress: () => void;
 };
 
 const Item: FC<Props> = ({point, title, onPress}) => {
@@ -54,7 +54,7 @@ const Item: FC<Props> = ({point, title, onPress}) => {
 };
 
 const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
-  const {type = '', containerStyles, onPress} = props;
+  const {type = '', containerStyles, totalFollowing, onPress} = props;
   const listItem: InfoProfileType[] =
     type === 'self' ? infoProfileUser : infoProfileArtist;
 
@@ -65,16 +65,26 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
 
   return (
     <View style={[styles.root, containerStyles]}>
-      {listItem.map((val, i) => (
-        <>
+      {listItem.map((val, i) => {
+        const isFollowing = val.title === 'FOLLOWING';
+        const newOnPress = () => {
+          isFollowing ? onPress() : null;
+        };
+
+        return (
           <View key={i} style={styles.containerItem}>
-            <Item point={val.point} title={val.title} onPress={onPress} />
+            <Item
+              point={isFollowing ? totalFollowing : val.point}
+              title={val.title}
+              onPress={newOnPress}
+            />
+
+            {listItem.length !== i + 1 && (
+              <View style={[styles.separator, newStyles]} />
+            )}
           </View>
-          {listItem.length !== i + 1 && (
-            <View style={[styles.separator, newStyles]} />
-          )}
-        </>
-      ))}
+        );
+      })}
     </View>
   );
 };

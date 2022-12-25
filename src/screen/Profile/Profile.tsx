@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
-import {ProfileContent} from '../../components';
+import {storage} from '../../hooks/use-storage.hook';
+import {useProfileHook} from '../../hooks/use-profile.hook';
+import {GuestContent, ProfileContent} from '../../components';
 
 interface ProfileProps {
   props: {};
@@ -13,9 +15,14 @@ interface ProfileProps {
 
 export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
   const {params} = props?.route;
-
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {isLoading, dataProfile, getProfileUser} = useProfileHook();
+  const isLogin = storage.getString('profile');
+
+  useEffect(() => {
+    getProfileUser();
+  }, [isLoading]);
 
   const onPressGoTo = (
     screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
@@ -24,7 +31,7 @@ export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
   };
 
   const goToEditProfile = () => {
-    navigation.navigate('EditProfile', {...params});
+    navigation.navigate('EditProfile', {...params, ...dataProfile});
   };
 
   const goToPlaylist = () => {
@@ -32,22 +39,31 @@ export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
   };
 
   const profile = {
-    fullname: 'Kendal Jenner',
-    username: '@kendaljenner',
-    bio: params?.bio || "I'm here to support the musician",
-    backgroundUri: params?.backgroundUri?.path || null,
-    avatarUri: params?.avatarUri?.path,
+    fullname: dataProfile?.data.fullname,
+    username: '@' + dataProfile?.data.username,
+    bio:
+      params?.bio ||
+      dataProfile?.data.about ||
+      "I'm here to support the musician",
+    backgroundUri:
+      params?.backgroundUri?.path || dataProfile?.data?.banner || null,
+    avatarUri: params?.avatarUri?.path || dataProfile?.data.imageProfileUrl,
+    totalFollowing: dataProfile?.data.following,
   };
 
   return (
     <View style={styles.root}>
-      <ProfileContent
-        profile={profile}
-        playlist={params}
-        onPressGoTo={screenName => onPressGoTo(screenName)}
-        goToEditProfile={goToEditProfile}
-        goToPlaylist={goToPlaylist}
-      />
+      {isLogin ? (
+        <ProfileContent
+          profile={profile}
+          playlist={params}
+          onPressGoTo={screenName => onPressGoTo(screenName)}
+          goToEditProfile={goToEditProfile}
+          goToPlaylist={goToPlaylist}
+        />
+      ) : (
+        <GuestContent />
+      )}
     </View>
   );
 };

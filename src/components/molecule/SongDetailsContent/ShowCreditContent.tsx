@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, View, Text} from 'react-native';
+import {StyleSheet, ScrollView, View, Text} from 'react-native';
 
 import {Gap} from '../../atom';
 import Color from '../../../theme/Color';
@@ -42,7 +42,7 @@ export const ShowCreditContent: React.FC<ShowCreditProps> = ({
   onPressGoBack,
 }) => {
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type1
         title="Thunder"
         leftIcon={<ArrowLeftIcon />}
@@ -50,12 +50,14 @@ export const ShowCreditContent: React.FC<ShowCreditProps> = ({
         leftIconAction={onPressGoBack}
       />
 
-      <View style={{marginTop: heightPercentage(30)}}>
-        {dataShowCredit.map((val, i) => (
-          <Content key={i} title={val.title} content={val.content} />
-        ))}
-      </View>
-    </SafeAreaView>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{marginTop: heightPercentage(30)}}>
+          {dataShowCredit.map((val, i) => (
+            <Content key={i} title={val.title} content={val.content} />
+          ))}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 

@@ -3,32 +3,19 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
-import {ProcessingIcon} from '../../assets/icon';
 import {
-  CreateNewCard,
   EmptyState,
   Gap,
-  ListCard,
   SsuStatusBar,
   TabFilter,
   TopNavigation,
   UserInfoCard,
 } from '../../components';
-import {MenuText} from '../../components/atom/MenuText/MenuText';
 import {MusicianListData} from '../../data/topMusician';
-import {TopSongListData} from '../../data/topSong';
-import {
-  elipsisText,
-  heightPercentage,
-  heightResponsive,
-  widthResponsive,
-} from '../../utils';
-import TopMusician from '../ListCard/TopMusician';
-import TopSong from '../ListCard/TopSong';
+import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
 import {ProfileHeader} from './ProfileHeader';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';

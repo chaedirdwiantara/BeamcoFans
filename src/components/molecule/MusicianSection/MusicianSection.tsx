@@ -1,13 +1,22 @@
-import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Gap, ListCard, ModalDonate, ModalSuccessDonate, SsuToast} from '../..';
-import {CheckCircle2Icon} from '../../../assets/icon';
-import {color, font} from '../../../theme';
-import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 import {mvs} from 'react-native-size-matters';
 import {useNavigation} from '@react-navigation/native';
+import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+import {
+  BottomSheetGuest,
+  Gap,
+  ListCard,
+  ModalDonate,
+  ModalSuccessDonate,
+  SsuToast,
+} from '../..';
+import {color, font} from '../../../theme';
 import {RootStackParams} from '../../../navigations';
+import {CheckCircle2Icon} from '../../../assets/icon';
+import {storage} from '../../../hooks/use-storage.hook';
+import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 
 interface MusicianProps {
   musicianId: string;
@@ -31,6 +40,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const isLogin = storage.getString('profile');
   const dataMore = [
     {label: textFollow, value: '1'},
     {label: 'Send Donation', value: '2'},
@@ -39,6 +49,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
+  const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
   useEffect(() => {
@@ -57,12 +68,20 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
 
   const resultDataMore = (dataResult: DataMore) => {
     if (dataResult.value === '1') {
-      setToastVisible(true);
-      followOnPress();
+      if (isLogin) {
+        setToastVisible(true);
+        followOnPress();
+      } else {
+        setModalGuestVisible(true);
+      }
     } else if (dataResult.value === '3') {
       navigation.navigate('MusicianProfile');
     } else {
-      setModalDonate(true);
+      if (isLogin) {
+        setModalDonate(true);
+      } else {
+        setModalGuestVisible(true);
+      }
     }
   };
 
@@ -93,6 +112,11 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
       <ModalSuccessDonate
         modalVisible={modalSuccessDonate && trigger2ndModal}
         toggleModal={onPressSuccess}
+      />
+
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
       />
 
       <SsuToast

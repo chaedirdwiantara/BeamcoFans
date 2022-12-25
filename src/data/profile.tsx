@@ -9,11 +9,11 @@ export const infoProfileUser: InfoProfileType[] = [
     title: 'FOLLOWING',
   },
   {
-    point: 1600,
+    point: 0,
     title: 'LIKED SONGS',
   },
   {
-    point: 2100,
+    point: 0,
     title: 'POINTS',
   },
 ];

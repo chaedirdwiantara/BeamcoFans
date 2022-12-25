@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, SafeAreaView, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 
 import {SearchBar} from '../../atom';
 import Color from '../../../theme/Color';
@@ -18,7 +18,7 @@ export const AddToPlaylistContent: React.FC<AddToPlaylistProps> = ({
 }) => {
   const [search, setSearch] = useState('');
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type1
         title="Add to Playlist"
         leftIcon={<ArrowLeftIcon />}
@@ -47,7 +47,7 @@ export const AddToPlaylistContent: React.FC<AddToPlaylistProps> = ({
           onPress={() => null}
         />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
