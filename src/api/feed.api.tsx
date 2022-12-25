@@ -43,7 +43,7 @@ export const detailPost = async (
   props?: PostPropsTypeA,
 ): Promise<DetailPostResponseType> => {
   const {data} = await SsuAPI().request<DetailPostResponseType>({
-    url: `/posts/${props?.id}?X-Timezone-Offset=7`,
+    url: `/posts/${props?.id}`,
     method: 'GET',
   });
 
