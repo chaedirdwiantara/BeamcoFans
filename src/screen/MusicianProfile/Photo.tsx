@@ -2,7 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import {Gap, Title} from '../../components';
 import SquareComp from './SquareComp';
-import {heightResponsive, widthResponsive} from '../../utils';
+import {widthResponsive} from '../../utils';
 import {color, font} from '../../theme';
 import {ms} from 'react-native-size-matters';
 
@@ -46,9 +46,9 @@ const Photo: FC<PhotoProps> = (props: PhotoProps) => {
                   }}>
                   <SquareComp imgUri={item.imgUri} size={widthResponsive(76)} />
                 </TouchableOpacity>
-                <Text style={styles.textPhotos} onPress={() => {}}>{`+${
-                  data.length - 3
-                }`}</Text>
+                <TouchableOpacity style={styles.textNumberStyle}>
+                  <Text style={styles.textPhotos}>{`+${data.length - 3}`}</Text>
+                </TouchableOpacity>
               </View>
             ) : data.length > 4 && i < 3 ? (
               <>
@@ -94,11 +94,13 @@ const styles = StyleSheet.create({
   },
   textPhotos: {
     color: color.Neutral[10],
-    position: 'absolute',
-    top: widthResponsive(23),
-    left: widthResponsive(23),
     fontFamily: font.InterRegular,
     fontSize: ms(20),
     fontWeight: '600',
+  },
+  textNumberStyle: {
+    position: 'absolute',
+    top: widthResponsive(23),
+    left: widthResponsive(23),
   },
 });
