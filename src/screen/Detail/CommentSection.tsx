@@ -18,14 +18,18 @@ interface CommentSectionType {
   postId: string;
   onComment: ({id, userName}: {id: string; userName: string}) => void;
   onViewMore: (id: string) => void;
-  onSetPage: () => void;
+  onSetPage: (value: number) => void;
   dataLvl1: CommentList[] | undefined;
+  dataLvl2: CommentList2[] | undefined;
+  dataLvl3: CommentList3[] | undefined;
 }
 
 const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   const {
     data,
     dataLvl1,
+    dataLvl2,
+    dataLvl3,
     onComment,
     onViewMore,
     onSetPage,
@@ -65,7 +69,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
 
   const viewMoreOnPress = (id: string, value: number) => {
     onViewMore?.(id);
-    onSetPage();
+    onSetPage?.(value);
     value === 1
       ? setShowMore(true)
       : value === 2
@@ -203,7 +207,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                 {item.comments !== null ? (
                   <>
                     <FlatList
-                      data={item.comments}
+                      data={dataLvl2 === undefined ? item.comments : dataLvl2}
                       showsVerticalScrollIndicator={false}
                       scrollEnabled={false}
                       keyExtractor={(_, index) => index.toString()}
@@ -223,13 +227,14 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                       )}
                     />
                     {/* // TODO : PENDING */}
-                    {/* {showMoreLvl2 === false && item.commentsCount > 1 ? (
+                    {item.commentsCount > 1 &&
+                    dataLvl2?.length != item.commentsCount ? (
                       <Text
                         style={styles.viewMore}
                         onPress={() => viewMoreOnPress(item.id, 2)}>
                         View more reply
                       </Text>
-                    ) : null} */}
+                    ) : null}
                   </>
                 ) : null}
               </>
@@ -237,7 +242,6 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
           />
         )}
       />
-      {/* // TODO : PENDING */}
       {postCommentCount >= 10 && dataLvl1?.length != postCommentCount ? (
         <Text
           style={[
@@ -246,7 +250,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
               marginBottom: mvs(20),
             },
           ]}
-          onPress={() => viewMoreOnPress(postId, 3)}>
+          onPress={() => viewMoreOnPress(postId, 1)}>
           View more reply
         </Text>
       ) : null}

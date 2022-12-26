@@ -75,13 +75,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     userName: string;
   }>();
   const [viewMore, setViewMore] = useState<string>('');
-  const [perPage, setPerPage] = useState<number>(10);
   const [dataMainComment, setDataMainComment] = useState<DetailPostData>();
   const [dataProfileImg, setDataProfileImg] = useState<string>('');
 
   const [commentLvl1, setCommentLvl1] = useState<CommentList[] | undefined>();
   const [commentLvl2, setCommentLvl2] = useState<CommentList2[] | undefined>();
   const [commentLvl3, setCommentLvl3] = useState<CommentList3[] | undefined>();
+  const [perPage, setPerPage] = useState<number>(10);
+  const [perPage2, setPerPage2] = useState<number>(1);
+  const [activePage, setActivePage] = useState<number>(0);
 
   // ? Get Profile
   useEffect(() => {
@@ -125,8 +127,14 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   useEffect(() => {
     if (dataLoadMore !== null) {
       setViewMore('');
-      dataLoadMore?.map((item: CommentList, index) => {
-        item.commentLevel === 1 ? setCommentLvl1(dataLoadMore) : null;
+      dataLoadMore?.map((item: CommentList) => {
+        item.commentLevel === 1
+          ? setCommentLvl1(dataLoadMore)
+          : item.commentLevel === 2
+          ? setCommentLvl2(dataLoadMore)
+          : item.commentLevel === 3
+          ? setCommentLvl3(dataLoadMore)
+          : null;
       });
     }
   }, [dataLoadMore]);
@@ -148,9 +156,12 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     dataCmntToCmnt !== null && viewMore === ''
       ? getDetailPost({id: data.id})
       : dataCmntToCmnt !== null && viewMore !== ''
-      ? setLoadMore({id: viewMore, params: {page: 1, perPage: perPage}})
+      ? setLoadMore({
+          id: viewMore,
+          params: {page: 1, perPage: activePage === 1 ? perPage : perPage2},
+        })
       : null;
-  }, [dataCmntToCmnt, viewMore]);
+  }, [dataCmntToCmnt, viewMore, activePage]);
 
   //? handle viewMore in commentsection & call the api list comment
   useEffect(() => {
@@ -202,8 +213,12 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setImgUrl(uri);
   };
 
-  const handleSetPage = () => {
-    setPerPage(perPage + 3);
+  const handleSetPage = (value: number) => {
+    if (value === 1) {
+      return setActivePage(1), setPerPage(perPage + 3);
+    } else {
+      return setActivePage(2), setPerPage2(perPage2 + 3);
+    }
   };
 
   return (
@@ -292,6 +307,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           <CommentSection
             data={dataMainComment}
             dataLvl1={commentLvl1}
+            dataLvl2={commentLvl2}
+            dataLvl3={commentLvl3}
             onComment={setCmntToCmnt}
             onViewMore={setViewMore}
             onSetPage={handleSetPage}
