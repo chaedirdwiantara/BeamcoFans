@@ -92,7 +92,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
             <ButtonGradient
               label={'Edit Profile'}
               gradientStyles={styles.btnContainer}
-              onPress={onPress}
+              onPress={() => {
+                onPress && onPress();
+              }}
             />
           </View>
         )}

@@ -29,21 +29,14 @@ export const EditProfileScreen: React.FC<ProfileProps> = (
 
   const onPressSave = (param: any) => {
     updateProfileUser({
-      imageProfileUrl: param.avatarUri?.path,
-      banner: param.backgroundUri?.path,
       about: param.bio,
-    })
-      .then(() => {
-        goBack();
-      })
-      .catch(() => {
-        goBack();
-      });
+    });
+    navigation.navigate('Profile', {...param});
   };
 
   const profile = {
-    fullname: 'Kendal Jenner',
-    username: '@kendaljenner',
+    fullname: params?.data?.fullname || 'Kendal Jenner',
+    username: '@' + params?.data?.username || 'kendaljenner',
     bio:
       params?.bio || params?.data?.about || "I'm here to support the musician",
     backgroundUri: params?.backgroundUri?.path || params?.data?.banner || null,
