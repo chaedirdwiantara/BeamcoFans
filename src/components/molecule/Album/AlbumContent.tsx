@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  InteractionManager,
+} from 'react-native';
 
 import {
   heightPercentage,
@@ -16,7 +22,13 @@ import {color, font, typography} from '../../../theme';
 import {dropDownHeaderAlbum} from '../../../data/dropdown';
 import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
 import {ArrowLeftIcon, TickCircleIcon} from '../../../assets/icon';
-import {SongTitlePlay, ListenersAndDonate, ModalDonate, ModalShare} from '../';
+import {
+  SongTitlePlay,
+  ListenersAndDonate,
+  ModalDonate,
+  ModalShare,
+  ModalSuccessDonate,
+} from '../';
 
 interface Props {
   onPressGoBack: () => void;
@@ -24,10 +36,10 @@ interface Props {
 
 export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
   const [toastVisible, setToastVisible] = useState(false);
-  const [isModalVisible, setModalVisible] = useState({
-    modalDonate: false,
-    modalShare: false,
-  });
+  const [modalDonate, setModalDonate] = useState<boolean>(false);
+  const [modalShare, setModalShare] = useState<boolean>(false);
+  const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
+  const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
   useEffect(() => {
     toastVisible &&
@@ -36,24 +48,26 @@ export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
       }, 3000);
   }, [toastVisible]);
 
-  const openModal = (name: string) => {
-    setModalVisible({
-      ...isModalVisible,
-      [name]: true,
-    });
-  };
-
-  const closeModal = () => {
-    setModalVisible({
-      modalDonate: false,
-      modalShare: false,
-    });
-  };
+  useEffect(() => {
+    modalSuccessDonate &&
+      setTimeout(() => {
+        setModalSuccessDonate(false);
+      }, 3000);
+  }, [modalSuccessDonate, trigger2ndModal]);
 
   const resultDataMore = (dataResult: any) => {
     if (dataResult.value === '2') {
-      openModal('modalShare');
+      setModalShare(true);
     }
+  };
+
+  const onPressDonate = () => {
+    setModalDonate(false);
+    setTrigger2ndModal(true);
+  };
+
+  const onPressSuccess = () => {
+    setModalSuccessDonate(false);
   };
 
   return (
@@ -90,7 +104,7 @@ export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
           />
           <ListenersAndDonate
             totalListener={66900}
-            onPress={() => openModal('modalDonate')}
+            onPress={() => setModalDonate(true)}
           />
         </View>
 
@@ -111,24 +125,31 @@ export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
           <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
             Song List
           </Text>
-          <View style={{}}>
-            <TopSong />
+          <View style={{marginBottom: heightPercentage(30)}}>
+            <TopSong onPress={() => null} hideDropdownMore={true} />
           </View>
         </View>
       </ScrollView>
 
       <ModalDonate
         totalCoin={'120,000'}
-        modalVisible={isModalVisible.modalDonate}
-        onPressClose={closeModal}
+        onPressDonate={onPressDonate}
+        modalVisible={modalDonate}
+        onModalHide={() => setModalSuccessDonate(true)}
+        onPressClose={() => setModalDonate(false)}
+      />
+
+      <ModalSuccessDonate
+        modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
+        toggleModal={onPressSuccess}
       />
 
       <ModalShare
         url={
           'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0'
         }
-        modalVisible={isModalVisible.modalShare}
-        onPressClose={closeModal}
+        modalVisible={modalShare}
+        onPressClose={() => setModalShare(false)}
         titleModal={'Share Album'}
         imgUri={
           'https://i.pinimg.com/originals/b3/51/66/b35166174c9bde2d0cc436150a983912.jpg'
@@ -137,7 +158,9 @@ export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
         titleSong={'Smoke + Mirror'}
         createdOn={'2019'}
         artist={'Imagine Dragons, The Wekeend'}
-        onPressCopy={() => setToastVisible(true)}
+        onPressCopy={() =>
+          InteractionManager.runAfterInteractions(() => setToastVisible(true))
+        }
       />
 
       <SsuToast
