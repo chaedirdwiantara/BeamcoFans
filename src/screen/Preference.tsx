@@ -18,7 +18,6 @@ export const PreferenceScreen: React.FC = () => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {updateProfilePreference} = useProfileHook();
   const {
-    isLoading,
     dataMusician,
     getListDataMusician,
     setFollowMusician,
@@ -26,8 +25,8 @@ export const PreferenceScreen: React.FC = () => {
   } = useMusicianHook();
 
   useEffect(() => {
-    getListDataMusician();
-  }, [isLoading]);
+    getListDataMusician({filterBy: 'top'});
+  }, []);
 
   const goToScreenReferral = () => {
     navigation.navigate('Referral');
