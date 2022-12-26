@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,15 +8,16 @@ import {
 } from 'react-native';
 import {ms} from 'react-native-size-matters';
 import {Avatar, Gap} from '../../atom';
-import {normalize, widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
+import {DefaultAvatar} from '../../../assets/icon';
+import {normalize, widthResponsive} from '../../../utils';
 
 interface ListProps {
   musicianNum?: number;
   musicianName: string;
   imgUri: string;
   followerCount: number;
-  followOnPress: (data: any) => void;
+  followOnPress: () => void;
   stateButton: boolean;
   containerStyles?: ViewStyle;
 }
@@ -32,32 +33,48 @@ const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
     containerStyles,
   } = props;
 
+  const follow = stateButton ? 'Following' : 'Follow';
+  const [textFollow, setTextFollow] = useState(follow);
+  const [countFollower, setCountFollower] = useState(followerCount);
+
+  const onPressFollow = () => {
+    const followers = stateButton ? countFollower - 1 : countFollower + 1;
+    setTextFollow(stateButton ? 'Follow' : 'Following');
+    setCountFollower(followers);
+    followOnPress();
+  };
+
   const followMenu = () => {
     return (
       <TouchableOpacity
         style={[
           styles.followButton,
-          {backgroundColor: stateButton ? undefined : color.Pink[200]},
+          {
+            backgroundColor:
+              textFollow === 'Following' ? undefined : color.Pink[200],
+          },
         ]}
-        onPress={followOnPress}>
-        {stateButton ? (
-          <Text style={styles.followText}>Following</Text>
-        ) : (
-          <Text style={styles.followText}>Follow</Text>
-        )}
+        onPress={onPressFollow}>
+        <Text style={styles.followText}>{textFollow}</Text>
       </TouchableOpacity>
     );
   };
 
   return (
     <View style={[styles.container, containerStyles]}>
-      <Text style={styles.rankStyle}>
-        {musicianNum?.toLocaleString('en-US', {
-          minimumIntegerDigits: 2,
-          useGrouping: false,
-        })}
-      </Text>
-      <Avatar imgUri={imgUri} size={widthResponsive(44)} />
+      {musicianNum && (
+        <Text style={styles.rankStyle}>
+          {musicianNum?.toLocaleString('en-US', {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })}
+        </Text>
+      )}
+      {imgUri === null || imgUri === '' ? (
+        <DefaultAvatar.MusicianIcon />
+      ) : (
+        <Avatar imgUri={imgUri} size={widthResponsive(44)} />
+      )}
       <Gap width={8} />
       <View style={styles.textContainer}>
         <Text style={styles.musicianName} numberOfLines={1}>
@@ -65,7 +82,7 @@ const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
         </Text>
 
         <Text style={styles.followerCount} numberOfLines={1}>
-          {followerCount} Followers
+          {countFollower} Followers
         </Text>
       </View>
       <View style={styles.rightContainer}>{followMenu()}</View>
