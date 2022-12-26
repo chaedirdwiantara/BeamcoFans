@@ -26,7 +26,12 @@ import ImageList from '../ListCard/ImageList';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {dateFormat} from '../../utils/date-format';
-import {CommentList} from '../../interface/feed.interface';
+import {
+  CommentList,
+  CommentList2,
+  CommentList3,
+  DetailPostData,
+} from '../../interface/feed.interface';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 
 type PostDetailProps = NativeStackScreenProps<RootStackParams, 'PostDetail'>;
@@ -41,19 +46,19 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     dataPostDetail,
     dataCmntToCmnt,
     dataCommentList,
+    dataLoadMore,
     setLikePost,
     setUnlikePost,
     setCommentToPost,
     setCommentToComment,
     getDetailPost,
-    setCommentList,
+    setLoadMore,
   } = useFeedHook();
 
   const {dataProfile, getProfileUser} = useProfileHook();
 
   const data = route.params;
   const musicianName = data.musician.fullname;
-  const caption = data.caption;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -70,31 +75,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     userName: string;
   }>();
   const [viewMore, setViewMore] = useState<string>('');
-  const [dataMainComment, setDataMainComment] = useState<
-    CommentList[] | undefined
-  >(dataPostDetail?.comments);
+  const [perPage, setPerPage] = useState<number>(10);
+  const [dataMainComment, setDataMainComment] = useState<DetailPostData>();
   const [dataProfileImg, setDataProfileImg] = useState<string>('');
 
-  const likeOnPress = (id: string, isLiked: boolean) => {
-    if (isLiked) {
-      return setLikePost({id});
-    } else {
-      setUnlikePost({id});
-    }
-  };
+  const [commentLvl1, setCommentLvl1] = useState<CommentList[] | undefined>();
+  const [commentLvl2, setCommentLvl2] = useState<CommentList2[] | undefined>();
+  const [commentLvl3, setCommentLvl3] = useState<CommentList3[] | undefined>();
 
-  useFocusEffect(
-    useCallback(() => {
-      getDetailPost({id: data.id});
-    }, []),
-  );
-
-  useEffect(() => {
-    dataPostDetail !== null && dataCommentList === null
-      ? setDataMainComment(dataPostDetail?.comments)
-      : null;
-  }, [dataPostDetail]);
-
+  // ? Get Profile
   useEffect(() => {
     getProfileUser();
   }, []);
@@ -105,6 +94,47 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       ? setDataProfileImg(dataProfile?.data.imageProfileUrl)
       : '';
   }, [dataProfile]);
+
+  //  ? Get Detail Post
+  useFocusEffect(
+    useCallback(() => {
+      getDetailPost({id: data.id});
+    }, []),
+  );
+
+  // ? Set Like / Unlike
+  const likeOnPress = (id: string, isLiked: boolean) => {
+    if (isLiked) {
+      return setLikePost({id});
+    } else {
+      setUnlikePost({id});
+    }
+  };
+
+  // !Comment experiment
+  // * First Condition
+  useEffect(() => {
+    if (dataPostDetail !== null) {
+      if (commentLvl1 == undefined) {
+        return setCommentLvl1(dataPostDetail?.comments);
+      }
+    }
+  }, [dataPostDetail]);
+
+  // * Load More Condition
+  useEffect(() => {
+    if (dataLoadMore !== null) {
+      setViewMore('');
+      dataLoadMore?.map((item: CommentList, index) => {
+        item.commentLevel === 1 ? setCommentLvl1(dataLoadMore) : null;
+      });
+    }
+  }, [dataLoadMore]);
+  // !End of Comment experiment
+
+  useEffect(() => {
+    dataPostDetail !== null ? setDataMainComment(dataPostDetail) : null;
+  }, [dataPostDetail]);
 
   //? handle comment in commentsection & open modal comment
   useEffect(() => {
@@ -118,18 +148,20 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     dataCmntToCmnt !== null && viewMore === ''
       ? getDetailPost({id: data.id})
       : dataCmntToCmnt !== null && viewMore !== ''
-      ? setCommentList({id: viewMore})
+      ? setLoadMore({id: viewMore, params: {page: 1, perPage: perPage}})
       : null;
   }, [dataCmntToCmnt, viewMore]);
 
   //? handle viewMore in commentsection & call the api list comment
   useEffect(() => {
-    viewMore !== '' ? setCommentList({id: viewMore}) : null;
+    viewMore !== ''
+      ? setLoadMore({id: viewMore, params: {page: 1, perPage: perPage}})
+      : null;
   }, [viewMore]);
 
-  useEffect(() => {
-    dataCommentList !== null ? setDataMainComment(dataCommentList) : null;
-  }, [dataCommentList]);
+  // useEffect(() => {
+  //   dataCommentList !== null ? setDataMainComment(dataCommentList) : null;
+  // }, [dataCommentList]);
 
   const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
@@ -168,6 +200,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const toggleModalOnPress = (uri: string) => {
     setModalVisible(!isModalVisible);
     setImgUrl(uri);
+  };
+
+  const handleSetPage = () => {
+    setPerPage(perPage + 3);
   };
 
   return (
@@ -250,12 +286,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         <Gap height={12} />
         <SsuDivider />
         <Gap height={20} />
-        {/* Comment Section Lvl 1 */}
+
+        {/* //! Comment Section Lvl 1 */}
         {dataPostDetail ? (
           <CommentSection
             data={dataMainComment}
+            dataLvl1={commentLvl1}
             onComment={setCmntToCmnt}
             onViewMore={setViewMore}
+            onSetPage={handleSetPage}
             postCommentCount={dataPostDetail.commentsCount}
             postId={dataPostDetail.id}
           />

@@ -9,6 +9,14 @@ export type PostPropsTypeB = {
   content: {content: string};
 };
 
+export type LoadMoreProps = {
+  id: string;
+  params: {
+    page: number;
+    perPage: number;
+  };
+};
+
 export type DataComment = {id: string; created_at: string};
 
 // => PostList Area

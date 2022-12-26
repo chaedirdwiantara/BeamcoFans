@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import {
   commentDetail,
-  commentList,
   commmentDelete,
   commmentToComment,
   commmentToPost,
@@ -10,6 +9,7 @@ import {
   likePost,
   listPost,
   listPostExclusive,
+  loadMore,
   unlikePost,
 } from '../api/feed.api';
 import {ParamsProps} from '../interface/base.interface';
@@ -18,6 +18,7 @@ import {
   CommentList,
   DataComment,
   DetailPostData,
+  LoadMoreProps,
   PostList,
   PostPropsTypeA,
   PostPropsTypeB,
@@ -103,11 +104,12 @@ export const useFeedHook = () => {
 
   // Comment Area
   const [commentLoading, setCommentLoading] = useState(false);
-  const [commentListLoading, setCommentListLoading] = useState(false);
+  const [LoadMoreLoading, setLoadMoreLoading] = useState(false);
   const [commentDetailLoading, setCommentDetailLoading] = useState(false);
   const [commentUpdateLoading, setCommentUpdateLoading] = useState(false);
   const [commentDeleteLoading, setCommentDeleteLoading] = useState(false);
   const [dataComment, setDataComment] = useState<DataComment | null>(null);
+  const [dataLoadMore, setDataLoadMore] = useState<CommentList[] | null>(null);
   const [dataCmntToCmnt, setDataCmntToCmnt] = useState<DataComment | null>(
     null,
   );
@@ -117,16 +119,16 @@ export const useFeedHook = () => {
   const [dataCommentDetail, setDataCommentDetail] =
     useState<CommentDetailData | null>(null);
 
-  const setCommentList = async (props?: PostPropsTypeA) => {
-    setCommentListLoading(true);
+  const setLoadMore = async (props?: LoadMoreProps) => {
+    setLoadMoreLoading(true);
     try {
-      const response = await commentList(props);
-      setDataCommentList(response.data);
+      const response = await loadMore(props);
+      setDataLoadMore(response.data);
     } catch (error) {
       console.log(error);
-      setDataCommentList(null);
+      setDataLoadMore(null);
     } finally {
-      setCommentListLoading(false);
+      setLoadMoreLoading(false);
     }
   };
 
@@ -201,8 +203,9 @@ export const useFeedHook = () => {
     feedIsLoading,
     likePostLoading,
     commentLoading,
-    commentListLoading,
+    LoadMoreLoading,
     commentDetailLoading,
+    dataLoadMore,
     feedIsError,
     feedMessage,
     dataPostList,
@@ -221,7 +224,7 @@ export const useFeedHook = () => {
     setUnlikePost,
     setCommentToPost,
     setCommentToComment,
-    setCommentList,
+    setLoadMore,
     setCommentDetail,
     setCommentUpdate,
     setCommentDelete,

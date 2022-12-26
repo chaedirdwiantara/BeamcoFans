@@ -7,6 +7,7 @@ import {
   LikePostResponseType,
   ListCommentResponseType,
   ListPostResponseType,
+  LoadMoreProps,
   PostPropsTypeA,
   PostPropsTypeB,
   UnlikePostResponseType,
@@ -74,12 +75,13 @@ export const unlikePost = async (
 };
 
 // => Comment Area
-export const commentList = async (
-  props?: PostPropsTypeA,
+export const loadMore = async (
+  props?: LoadMoreProps,
 ): Promise<ListCommentResponseType> => {
   const {data} = await SsuAPI().request<ListCommentResponseType>({
-    url: `/comments/${props?.id}`,
+    url: `/comments/${props?.id}/list`,
     method: 'GET',
+    params: props?.params,
   });
 
   return data;
