@@ -8,6 +8,7 @@ import {
   FollowMusicianPropsType,
   MusicianList,
 } from '../interface/musician.interface';
+import {ParamsProps} from '../interface/base.interface';
 
 export const useMusicianHook = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,9 +16,9 @@ export const useMusicianHook = () => {
   const [dataFollow, setDataFollow] = useState<string | null>(null);
   const [isError, setIsError] = useState(false);
 
-  const getListDataMusician = async () => {
+  const getListDataMusician = async (props?: ParamsProps) => {
     try {
-      const response = await listMusician();
+      const response = await listMusician(props);
       setDataMusician(response.data);
     } catch (error) {
       console.log(error);
@@ -28,12 +29,15 @@ export const useMusicianHook = () => {
     }
   };
 
-  const setFollowMusician = async (props?: FollowMusicianPropsType) => {
+  const setFollowMusician = async (
+    props?: FollowMusicianPropsType,
+    params?: ParamsProps,
+  ) => {
     setIsLoading(true);
     try {
       const response = await followMusician(props);
       setDataFollow(response.data);
-      getListDataMusician();
+      getListDataMusician(params);
     } catch (error) {
       console.log(error);
       setIsError(true);
@@ -44,12 +48,15 @@ export const useMusicianHook = () => {
     }
   };
 
-  const setUnfollowMusician = async (props?: FollowMusicianPropsType) => {
+  const setUnfollowMusician = async (
+    props?: FollowMusicianPropsType,
+    params?: ParamsProps,
+  ) => {
     setIsLoading(true);
     try {
       const response = await unfollowMusician(props);
       setDataFollow(response.data);
-      getListDataMusician();
+      getListDataMusician(params);
     } catch (error) {
       console.log(error);
       setIsError(true);

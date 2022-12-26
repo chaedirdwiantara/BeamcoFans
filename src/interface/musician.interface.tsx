@@ -1,6 +1,7 @@
 import {PaginationType} from './base.interface';
 
 export type MusicianList = {
+  point: number;
   uuid: string;
   username: string;
   fullname: string;
