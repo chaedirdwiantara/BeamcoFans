@@ -1,21 +1,22 @@
 import React, {FC, useState} from 'react';
 import {MusicSection} from '../../components';
-import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
-import {elipsisText} from '../../utils';
-import {TopSongListData, TopSongProps} from '../../data/topSong';
+import {elipsisText, heightResponsive} from '../../utils';
+import {TopSongProps} from '../../data/topSong';
+import {SongList} from '../../interface/song.interface';
 
 interface TopSongPropsScreen {
   type?: string;
   onPress: (param: any) => void;
+  dataSong?: SongList[];
   scrollable?: boolean;
   hideDropdownMore?: boolean;
 }
 
 const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
-  const {onPress, scrollable, type, hideDropdownMore} = props;
-  const [listSong, setListSong] = useState(TopSongListData);
+  const {onPress, scrollable, type, hideDropdownMore, dataSong} = props;
+  const [listSong, setListSong] = useState(dataSong || []);
 
   const onPressPlay = (item: TopSongProps, index: number) => {
     let newList = [...listSong];
@@ -30,11 +31,11 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
       data={listSong}
       showsVerticalScrollIndicator={false}
       scrollEnabled={scrollable}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.id.toString()}
       renderItem={({item, index}: any) => (
         <MusicSection
-          imgUri={item.imgUri}
-          musicNum={item.musicNum}
+          imgUri={item.imageUrl}
+          musicNum={index + 1}
           musicTitle={elipsisText(item.musicTitle, 22)}
           singerName={item.singerName}
           onPressCard={
@@ -45,7 +46,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
           hideDropdownMore={hideDropdownMore}
         />
       )}
-      estimatedItemSize={TopSongListData.length}
+      estimatedItemSize={heightResponsive(500)}
     />
   );
 };
