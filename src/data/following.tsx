@@ -85,35 +85,52 @@ export const dataFavourites: DataFavouritesType[] = [
 ];
 
 export interface dataRecommendedArtistType {
-  name: string;
-  listener: string;
-  uri: string;
+  uuid: string;
+  fullname: string;
+  followers: number;
+  imageProfileUrl: string;
+  isFollowed: boolean;
 }
 
 export const dataRecommendedArtist: dataRecommendedArtistType[] = [
   {
-    name: 'Sagittarius',
-    listener: '312,123,213',
-    uri: 'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    uuid: '1',
+    fullname: 'Sagittarius',
+    followers: 10,
+    isFollowed: true,
+    imageProfileUrl:
+      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
   },
   {
-    name: 'Scorpio',
-    listener: '312,123,213',
-    uri: 'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    uuid: '2',
+    fullname: 'Scorpio',
+    followers: 2,
+    isFollowed: true,
+    imageProfileUrl:
+      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
   },
   {
-    name: 'Gemini',
-    listener: '312,123,213',
-    uri: 'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    uuid: '3',
+    fullname: 'Gemini',
+    followers: 3,
+    isFollowed: true,
+    imageProfileUrl:
+      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
   },
   {
-    name: 'Cancer',
-    listener: '312,123,213',
-    uri: 'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    uuid: '4',
+    fullname: 'Cancer',
+    followers: 4,
+    isFollowed: true,
+    imageProfileUrl:
+      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
   },
   {
-    name: 'Taurus',
-    listener: '312,123,213',
-    uri: 'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+    uuid: '5',
+    fullname: 'Taurus',
+    followers: 5,
+    isFollowed: true,
+    imageProfileUrl:
+      'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
   },
 ];
