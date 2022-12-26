@@ -4,11 +4,15 @@ import {
   FollowMusicianResponseType,
   ListMusicianResponseType,
 } from '../interface/musician.interface';
+import {ParamsProps} from '../interface/base.interface';
 
-export const listMusician = async (): Promise<ListMusicianResponseType> => {
+export const listMusician = async (
+  props?: ParamsProps,
+): Promise<ListMusicianResponseType> => {
   const {data} = await SsuAPI().request<ListMusicianResponseType>({
     url: '/musicians',
     method: 'GET',
+    params: props,
   });
 
   return data;

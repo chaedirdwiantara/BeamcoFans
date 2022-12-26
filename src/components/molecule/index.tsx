@@ -18,7 +18,6 @@ import {EditProfile} from './ProfileContent/EditProfile';
 import {EmailContent} from './SettingContent/EmailContent';
 import {EmptyState} from './EmptyState/EmptyState';
 import {ExclusiveContent} from './ExclusiveContent';
-import {FollowArtistCard} from './FollowArtistCard/FollowArtistCard';
 import {FollowingList} from './ProfileContent/components/FollowingList';
 import {GuestContent} from './GuestComponent/GuestContent';
 import IconNotif from './IconNotif';
@@ -80,7 +79,6 @@ export {
   EmailContent,
   EmptyState,
   ExclusiveContent,
-  FollowArtistCard,
   FollowingList,
   GuestContent,
   IconNotif,

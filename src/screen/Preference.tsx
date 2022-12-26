@@ -11,13 +11,13 @@ import {useProfileHook} from '../hooks/use-profile.hook';
 import {UpdateProfilePropsType} from '../api/profile.api';
 import {useMusicianHook} from '../hooks/use-musician.hook';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
+import {ParamsProps} from '../interface/base.interface';
 
 export const PreferenceScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {updateProfilePreference} = useProfileHook();
   const {
-    isLoading,
     dataMusician,
     getListDataMusician,
     setFollowMusician,
@@ -25,8 +25,8 @@ export const PreferenceScreen: React.FC = () => {
   } = useMusicianHook();
 
   useEffect(() => {
-    getListDataMusician();
-  }, [isLoading]);
+    getListDataMusician({filterBy: 'top'});
+  }, []);
 
   const goToScreenReferral = () => {
     navigation.navigate('Referral');
@@ -42,12 +42,14 @@ export const PreferenceScreen: React.FC = () => {
         onUpdatePreference={(props?: UpdateProfilePropsType) =>
           updateProfilePreference(props)
         }
-        setFollowMusician={(props?: FollowMusicianPropsType) =>
-          setFollowMusician(props)
-        }
-        setUnfollowMusician={(props?: FollowMusicianPropsType) =>
-          setUnfollowMusician(props)
-        }
+        setFollowMusician={(
+          props?: FollowMusicianPropsType,
+          params?: ParamsProps,
+        ) => setFollowMusician(props, params)}
+        setUnfollowMusician={(
+          props?: FollowMusicianPropsType,
+          params?: ParamsProps,
+        ) => setUnfollowMusician(props, params)}
         dataList={dataMusician}
       />
     </View>

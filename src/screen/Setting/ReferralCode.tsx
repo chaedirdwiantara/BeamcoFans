@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -32,7 +32,7 @@ export const ReferralCodeSetting: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type1
         title="Referral Code"
         leftIcon={<ArrowLeftIcon />}
@@ -56,7 +56,7 @@ export const ReferralCodeSetting: React.FC = () => {
       ) : (
         <UseReferralContent />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

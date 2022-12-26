@@ -27,6 +27,7 @@ import {SearchIcon} from '../assets/icon';
 import PostList from './ListCard/PostList';
 import {PostlistData} from '../data/postlist';
 import TopMusician from './ListCard/TopMusician';
+import {useFcmHook} from '../hooks/use-fcm.hook';
 import {storage} from '../hooks/use-storage.hook';
 import * as FCMService from '../service/notification';
 import {useBannerHook} from '../hooks/use-banner.hook';
@@ -37,7 +38,8 @@ import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
-import {useFcmHook} from '../hooks/use-fcm.hook';
+import {useSongHook} from '../hooks/use-song.hook';
+import {ParamsProps} from '../interface/base.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -47,24 +49,28 @@ export const HomeScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {
-    isLoading,
     dataMusician,
     getListDataMusician,
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
+  const {dataSong, getListDataSong} = useSongHook();
+  const {dataBanner, getListDataBanner} = useBannerHook();
   const {addFcmToken} = useFcmHook();
 
-  const {isLoadingBanner, dataBanner, getListDataBanner} = useBannerHook();
   const isLogin = storage.getString('profile');
 
   useEffect(() => {
-    getListDataMusician();
-  }, [isLoading]);
+    getListDataMusician({filterBy: 'top'});
+  }, []);
 
   useEffect(() => {
     getListDataBanner();
-  }, [isLoadingBanner]);
+  }, []);
+
+  useEffect(() => {
+    getListDataSong();
+  }, []);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
@@ -212,15 +218,21 @@ export const HomeScreen: React.FC = () => {
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
             <TopMusician
               dataMusician={dataMusician ? dataMusician : []}
-              setFollowMusician={(props?: FollowMusicianPropsType) =>
-                setFollowMusician(props)
-              }
-              setUnfollowMusician={(props?: FollowMusicianPropsType) =>
-                setUnfollowMusician(props)
-              }
+              setFollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setFollowMusician(props, params)}
+              setUnfollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setUnfollowMusician(props, params)}
             />
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
-            <TopSong onPress={onPressTopSong} type={'home'} />
+            <TopSong
+              dataSong={dataSong ? dataSong : []}
+              onPress={onPressTopSong}
+              type={'home'}
+            />
           ) : (
             <PostList
               dataRightDropdown={dropDownDataCategory}

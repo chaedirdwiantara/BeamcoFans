@@ -100,7 +100,9 @@ const MusicListCard: React.FC<ListProps> = ({
         !hideDropdownMore && (
           <Dropdown.More
             data={dataFilter ? dataFilter : dataMore}
-            selectedMenu={onPressMore}
+            selectedMenu={(data: any) => {
+              onPressMore && onPressMore(data);
+            }}
             containerStyle={{
               width: widthPercentage(120),
               marginLeft: widthPercentage(-110),

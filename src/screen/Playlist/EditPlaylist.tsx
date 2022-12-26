@@ -22,7 +22,7 @@ export const EditPlaylist: React.FC<PlaylistProps> = (props: PlaylistProps) => {
     navigation.goBack();
   };
 
-  const goToPlaylist = (param: string | undefined) => {
+  const goToPlaylist = (param: any) => {
     navigation.navigate('Playlist', {...param});
   };
 

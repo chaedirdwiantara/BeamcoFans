@@ -23,7 +23,8 @@ import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
 import CrackEggIcon from './CrackEgg.icon';
 import CrownIcon from './Crown.icon';
-import DefaultAvatarIcon from './DefaultAvatar.icon';
+import {DefaultAvatar} from './DefaultAvatar.icon';
+import {DefaultImage} from './DefaultImage.icon';
 import DonateCoinIcon from './DonateCoin.icon';
 import EditIcon from './Edit.icon';
 import EmailIcon from './Email.icon';
@@ -101,7 +102,8 @@ export {
   CommentIcon,
   CrackEggIcon,
   CrownIcon,
-  DefaultAvatarIcon,
+  DefaultAvatar,
+  DefaultImage,
   DonateCoinIcon,
   EditIcon,
   EmailIcon,

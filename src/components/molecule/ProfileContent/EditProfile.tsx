@@ -26,10 +26,9 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   profile,
   onPressGoBack,
   onPressSave,
-  dataImage,
   setUploadImage,
 }) => {
-  const [bio, setBio] = useState('');
+  const [bio, setBio] = useState(profile.bio || '');
   const [isModalVisible, setModalVisible] = useState({
     modalConfirm: false,
     modalImage: false,
