@@ -16,13 +16,13 @@ const MusicianProfile = (props: ProfileProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const profile = {
-    fullname: 'Kendal Jenner',
-    username: '@kendaljenner',
-    bio: "I'm here to support the musician",
+    fullname: 'Black Pink',
+    username: '@blackpink',
+    bio: 'Black Pink in Your Area',
     backgroundUri:
-      'https://akcdn.detik.net.id/community/media/visual/2021/01/04/frank-lampard-chelsea_169.jpeg?w=700&q=90',
+      'https://img.imageimg.net/artist/blackpink/img/product_1034746.png',
     avatarUri:
-      'https://upload.wikimedia.org/wikipedia/commons/8/8c/Frank_Lampard_2019.jpg',
+      'https://yt3.ggpht.com/hZDUwjoeQqigphL4A1tkg9c6hVp5yXmbboBR7PYFUSFj5PIJSA483NB5v7b0XVoTN9GCku3tqQ=s900-c-k-c0x00ffffff-no-rj',
   };
 
   const onPressGoTo = (

@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
+import {mvs} from 'react-native-size-matters';
 import {color, font} from '../../../theme';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {heightResponsive, widthResponsive} from '../../../utils';
 
 interface filterData {
   filterName: string;
@@ -86,19 +87,18 @@ const styles = StyleSheet.create({
   },
   containerFlatlist: {
     width: '100%',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
   },
   tabStyle: {
-    height: heightPercentage(40),
-    paddingVertical: heightPercentage(8),
-    paddingHorizontal: widthPercentage(15),
+    height: heightResponsive(40),
+    paddingVertical: heightResponsive(8),
+    paddingHorizontal: widthResponsive(13),
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: SelectedColor,
   },
   TextStyle: {
     fontWeight: '700',
-    fontSize: normalize(13),
-    lineHeight: heightPercentage(20),
+    fontSize: mvs(13),
   },
 });

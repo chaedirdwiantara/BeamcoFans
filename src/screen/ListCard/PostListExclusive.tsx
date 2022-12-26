@@ -33,6 +33,7 @@ import ListToFollowMusician from './ListToFollowMusician';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {PostList} from '../../interface/feed.interface';
 import {dateFormat} from '../../utils/date-format';
+import {useProfileHook} from '../../hooks/use-profile.hook';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -49,6 +50,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [commentType, setCommentType] = useState<string>('');
+  const [dataProfileImg, setDataProfileImg] = useState<string>('');
 
   const {
     feedIsLoading,
@@ -60,6 +62,19 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
     setUnlikePost,
     setCommentToPost,
   } = useFeedHook();
+
+  const {dataProfile, getProfileUser} = useProfileHook();
+
+  useEffect(() => {
+    getProfileUser();
+  }, []);
+
+  useEffect(() => {
+    dataProfile?.data.imageProfileUrl !== null &&
+    dataProfile?.data.imageProfileUrl !== undefined
+      ? setDataProfileImg(dataProfile?.data.imageProfileUrl)
+      : '';
+  }, [dataProfile]);
 
   useFocusEffect(
     useCallback(() => {
@@ -223,6 +238,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
         commentValue={commentType}
         onCommentChange={setCommentType}
         handleOnPress={handleReplyOnPress}
+        userAvatarUri={dataProfileImg}
       />
     </>
   );

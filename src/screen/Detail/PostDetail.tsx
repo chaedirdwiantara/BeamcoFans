@@ -18,7 +18,7 @@ import {
   normalize,
   widthResponsive,
 } from '../../utils';
-import {mvs} from 'react-native-size-matters';
+import {ms, mvs} from 'react-native-size-matters';
 import {commentData} from '../../data/comment';
 import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
@@ -26,6 +26,8 @@ import ImageList from '../ListCard/ImageList';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {dateFormat} from '../../utils/date-format';
+import {CommentList} from '../../interface/feed.interface';
+import {useProfileHook} from '../../hooks/use-profile.hook';
 
 type PostDetailProps = NativeStackScreenProps<RootStackParams, 'PostDetail'>;
 
@@ -34,6 +36,20 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
+
+  const {
+    dataPostDetail,
+    dataCmntToCmnt,
+    dataCommentList,
+    setLikePost,
+    setUnlikePost,
+    setCommentToPost,
+    setCommentToComment,
+    getDetailPost,
+    setCommentList,
+  } = useFeedHook();
+
+  const {dataProfile, getProfileUser} = useProfileHook();
 
   const data = route.params;
   const musicianName = data.musician.fullname;
@@ -53,16 +69,11 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     id: string;
     userName: string;
   }>();
-
-  const {
-    dataPostDetail,
-    dataCmntToCmnt,
-    setLikePost,
-    setUnlikePost,
-    setCommentToPost,
-    setCommentToComment,
-    getDetailPost,
-  } = useFeedHook();
+  const [viewMore, setViewMore] = useState<string>('');
+  const [dataMainComment, setDataMainComment] = useState<
+    CommentList[] | undefined
+  >(dataPostDetail?.comments);
+  const [dataProfileImg, setDataProfileImg] = useState<string>('');
 
   const likeOnPress = (id: string, isLiked: boolean) => {
     if (isLiked) {
@@ -79,8 +90,21 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   );
 
   useEffect(() => {
-    dataCmntToCmnt !== null ? getDetailPost({id: data.id}) : null;
-  }, [dataCmntToCmnt]);
+    dataPostDetail !== null && dataCommentList === null
+      ? setDataMainComment(dataPostDetail?.comments)
+      : null;
+  }, [dataPostDetail]);
+
+  useEffect(() => {
+    getProfileUser();
+  }, []);
+
+  useEffect(() => {
+    dataProfile?.data.imageProfileUrl !== null &&
+    dataProfile?.data.imageProfileUrl !== undefined
+      ? setDataProfileImg(dataProfile?.data.imageProfileUrl)
+      : '';
+  }, [dataProfile]);
 
   //? handle comment in commentsection & open modal comment
   useEffect(() => {
@@ -89,6 +113,23 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       setInputCommentModal(!inputCommentModal);
     }
   }, [cmntToCmnt]);
+
+  useEffect(() => {
+    dataCmntToCmnt !== null && viewMore === ''
+      ? getDetailPost({id: data.id})
+      : dataCmntToCmnt !== null && viewMore !== ''
+      ? setCommentList({id: viewMore})
+      : null;
+  }, [dataCmntToCmnt, viewMore]);
+
+  //? handle viewMore in commentsection & call the api list comment
+  useEffect(() => {
+    viewMore !== '' ? setCommentList({id: viewMore}) : null;
+  }, [viewMore]);
+
+  useEffect(() => {
+    dataCommentList !== null ? setDataMainComment(dataCommentList) : null;
+  }, [dataCommentList]);
 
   const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
@@ -212,8 +253,11 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         {/* Comment Section Lvl 1 */}
         {dataPostDetail ? (
           <CommentSection
-            data={dataPostDetail?.comments}
+            data={dataMainComment}
             onComment={setCmntToCmnt}
+            onViewMore={setViewMore}
+            postCommentCount={dataPostDetail.commentsCount}
+            postId={dataPostDetail.id}
           />
         ) : null}
         <ImageModal
@@ -229,6 +273,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           onCommentChange={setCommentType}
           handleOnPress={handleReplyOnPress}
           onModalHide={() => setCmntToCmnt(undefined)}
+          userAvatarUri={dataProfileImg}
         />
       </ScrollView>
     </SafeAreaView>
@@ -246,24 +291,17 @@ const styles = StyleSheet.create({
     maxWidth: widthResponsive(288),
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(13),
-    lineHeight: mvs(20),
+    fontSize: ms(13),
     color: color.Neutral[10],
   },
   readMore: {
     color: color.Pink[100],
     fontFamily: font.InterRegular,
     fontWeight: '400',
-    fontSize: normalize(13),
+    fontSize: ms(13),
   },
   commentContainer: {
     width: '100%',
     paddingHorizontal: widthResponsive(24),
-  },
-  viewMore: {
-    color: color.Pink[100],
-    fontFamily: font.InterRegular,
-    fontWeight: '400',
-    fontSize: normalize(12),
   },
 });

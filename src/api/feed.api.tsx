@@ -74,9 +74,11 @@ export const unlikePost = async (
 };
 
 // => Comment Area
-export const commentList = async (): Promise<ListCommentResponseType> => {
+export const commentList = async (
+  props?: PostPropsTypeA,
+): Promise<ListCommentResponseType> => {
   const {data} = await SsuAPI().request<ListCommentResponseType>({
-    url: '/comments',
+    url: `/comments/${props?.id}`,
     method: 'GET',
   });
 

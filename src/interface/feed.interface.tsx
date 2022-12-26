@@ -54,7 +54,7 @@ export type DetailPostData = {
   createdAt: string;
   updatedAt: string;
   comments: CommentList[];
-  musician: [];
+  musician: MusicianData;
   isLiked: boolean;
 };
 
@@ -85,29 +85,56 @@ export type CommentList = {
   id: string;
   caption: string;
   likesCount: number;
+  repliedTo: string;
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;
-  comments: null | CommentList2[];
+  comments: CommentList2[];
+  isLiked: boolean;
+  timeAgo: string;
+  commentOwner: {
+    UUID: string;
+    fullname: string;
+    username: string;
+    image: string;
+  };
 };
 
 export type CommentList2 = {
   id: string;
   caption: string;
   likesCount: number;
+  repliedTo: string;
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;
-  comments: null | CommentList3[];
+  comments: CommentList3[];
+  isLiked: boolean;
+  timeAgo: string;
+  commentOwner: {
+    UUID: string;
+    fullname: string;
+    username: string;
+    image: string;
+  };
 };
 
 export type CommentList3 = {
   id: string;
   caption: string;
   likesCount: number;
+  repliedTo: string;
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;
+  isLiked: boolean;
+  timeAgo: string;
+  commentOwner: {
+    UUID: string;
+    fullname: string;
+    username: string;
+    image: string;
+  };
 };
 
 export type ListCommentResponseType = {

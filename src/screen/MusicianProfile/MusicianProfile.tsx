@@ -1,32 +1,34 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
-import {ProcessingIcon} from '../../assets/icon';
 import {
-  CreateNewCard,
+  View,
+  StyleSheet,
+  ScrollView,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native';
+import {
   EmptyState,
-  ListCard,
+  Gap,
   SsuStatusBar,
   TabFilter,
   TopNavigation,
   UserInfoCard,
 } from '../../components';
-import {MenuText} from '../../components/atom/MenuText/MenuText';
 import {MusicianListData} from '../../data/topMusician';
-import {TopSongListData} from '../../data/topSong';
-import {elipsisText, heightPercentage, widthResponsive} from '../../utils';
-import TopMusician from '../ListCard/TopMusician';
-import TopSong from '../ListCard/TopSong';
+import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
 import {ProfileHeader} from './ProfileHeader';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import {color} from '../../theme';
+import ExclusiveDailyContent from './ExclusiveDailyContent';
+import ProfileComponent from './ProfileComponent';
+import Album from './Album';
+import Photo from './Photo';
 
-interface NewPlaylistProps {
-  playlist: any;
-  goToPlaylist: () => void;
-}
-
+type OnScrollEventHandler = (
+  event: NativeSyntheticEvent<NativeScrollEvent>,
+) => void;
 interface ProfileContentProps {
   playlist: any;
   profile: any;
@@ -37,23 +39,52 @@ interface ProfileContentProps {
   ) => void;
 }
 
-const NewCreatedPlaylist: React.FC<NewPlaylistProps> = ({
-  playlist,
-  goToPlaylist,
-}) => {
-  return (
-    <TouchableOpacity onPress={goToPlaylist}>
-      <ListCard.MusicList
-        imgUri={playlist?.playlistUri?.path}
-        musicNum={1}
-        musicTitle={elipsisText(playlist?.playlistName, 22)}
-        singerName={'by Weaboo'}
-        containerStyles={{marginTop: heightPercentage(20)}}
-        onPressCard={() => console.log('pressed card')}
-      />
-    </TouchableOpacity>
-  );
+const Dummy = {
+  about:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus',
+  origin: 'Jakarta, Indonesia',
+  yearsActive: '1999 - present',
+  members: 'Once, Ari Lasso, Ahmad Dhani',
+  website: 'www.dealopa.com',
 };
+
+const DummyPhotos = [
+  {
+    imgUri:
+      'https://upload.wikimedia.org/wikipedia/en/e/e7/Born_Pink_Digital.jpeg',
+  },
+  {
+    imgUri:
+      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
+  },
+  {
+    imgUri:
+      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
+  },
+  {
+    imgUri:
+      'https://upload.wikimedia.org/wikipedia/en/e/e7/Born_Pink_Digital.jpeg',
+  },
+  {
+    imgUri:
+      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
+  },
+];
+
+const DummyAlbum = [
+  {
+    albumTitle: 'Born Pink',
+    artistName: 'BlackPink',
+    imgUri:
+      'https://upload.wikimedia.org/wikipedia/en/e/e7/Born_Pink_Digital.jpeg',
+  },
+  {
+    albumTitle: 'The Album',
+    artistName: 'BlackPink',
+    imgUri:
+      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
+  },
+];
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
   profile,
@@ -67,12 +98,20 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
-    {filterName: 'SONG'},
-    {filterName: 'TOP MUSICIAN'},
-    {filterName: 'BADGE'},
+    {filterName: 'PROFILE'},
+    {filterName: 'POST'},
+    {filterName: 'EXCLUSIVE'},
+    {filterName: 'MUSIC'},
+    {filterName: 'FANS'},
   ]);
   const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
+  };
+
+  const handleScroll: OnScrollEventHandler = event => {
+    let offsetY = event.nativeEvent.contentOffset.y;
+    const scrolled = offsetY > 10;
+    setScrollEffect(scrolled);
   };
 
   return (
@@ -88,8 +127,8 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        onScrollBeginDrag={() => setScrollEffect(true)}
-        onMomentumScrollBegin={() => setScrollEffect(false)}>
+        scrollEventThrottle={16}
+        onScroll={handleScroll}>
         <ProfileHeader
           avatarUri={profile.avatarUri}
           backgroundUri={profile.backgroundUri}
@@ -99,56 +138,59 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           onPress={goToEditProfile}
           iconPress={() => onPressGoTo('Setting')}
         />
-        <UserInfoCard
-          type="self"
-          containerStyles={styles.infoCard}
-          onPress={() => onPressGoTo('Following')}
-        />
-        <View style={styles.containerContent}>
-          <TabFilter.Type1
-            filterData={filter}
-            onPress={filterData}
-            selectedIndex={selectedIndex}
+        <View style={styles.infoCard}>
+          <UserInfoCard
+            type=""
+            containerStyles={{paddingHorizontal: widthResponsive(18)}}
+            onPress={() => onPressGoTo('Following')}
           />
-          {filter[selectedIndex].filterName === 'SONG' ? (
-            TopSongListData.length > 0 ? (
-              <View style={{flex: 1}}>
-                <CreateNewCard
-                  num="01"
-                  text="Create New Playlist"
-                  onPress={() => onPressGoTo('CreateNewPlaylist')}
-                />
-                {playlist?.playlistName !== undefined && (
-                  <NewCreatedPlaylist
-                    playlist={playlist}
-                    goToPlaylist={goToPlaylist}
-                  />
-                )}
-                <TopSong scrollable={false} />
-              </View>
-            ) : (
-              <CreateNewCard
-                num="01"
-                text="Default Playlist"
-                onPress={() => onPressGoTo('CreateNewPlaylist')}
-              />
-            )
-          ) : filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
-            MusicianListData.length > 0 ? (
-              <TopMusician type={'profile'} dataMusician={[]} />
-            ) : (
-              <EmptyState text="This user don't have contribution to any musician" />
-            )
-          ) : MusicianListData.length > 0 ? (
-            <MenuText.LeftIconWithSubtitle
-              text="No Room for Speed"
-              subtitle="Be the first jam contributor on 100 artist"
-              onPress={() => null}
-              icon={<ProcessingIcon />}
+          <ExclusiveDailyContent />
+          <Gap height={10} />
+          <View style={styles.containerContent}>
+            <TabFilter.Type1
+              filterData={filter}
+              onPress={filterData}
+              selectedIndex={selectedIndex}
+              flatlistContainerStyle={{paddingHorizontal: widthResponsive(24)}}
             />
-          ) : (
-            <EmptyState text="This user don't have any badge" />
-          )}
+            {filter[selectedIndex].filterName === 'PROFILE' ? (
+              <View style={{width: '100%'}}>
+                <Gap height={24} />
+                <ProfileComponent
+                  title={'About'}
+                  content={Dummy.about}
+                  gap={16}
+                />
+                <Gap height={24} />
+                <ProfileComponent title={'Social Media'} socmed gap={16} />
+                <Gap height={24} />
+                <ProfileComponent title={'Origin'} content={Dummy.origin} />
+                <Gap height={24} />
+                <ProfileComponent
+                  title={'Years Active'}
+                  content={Dummy.yearsActive}
+                />
+                <Gap height={24} />
+                <ProfileComponent title={'Members'} content={Dummy.members} />
+                <Gap height={24} />
+                <ProfileComponent title={'Website'} content={Dummy.website} />
+                <Gap height={24} />
+                <Photo title={'Photos'} data={DummyPhotos} />
+                <Gap height={24} />
+                <Album title={'Album'} data={DummyAlbum} />
+              </View>
+            ) : filter[selectedIndex].filterName === 'POST' ? (
+              MusicianListData.length > 0 ? (
+                <View></View>
+              ) : (
+                <EmptyState text="This musician don't have any post" />
+              )
+            ) : MusicianListData.length > 0 ? (
+              <View></View>
+            ) : (
+              <EmptyState text="This musician don't have any post" />
+            )}
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -160,20 +202,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   infoCard: {
-    position: 'absolute',
-    top: heightPercentage(300),
-    left: widthResponsive(20),
+    width: '100%',
+    marginTop: heightResponsive(-50),
+    marginBottom: heightResponsive(24),
+    alignItems: 'center',
   },
   containerContent: {
-    flex: 1,
-    marginTop: heightPercentage(70),
-    paddingHorizontal: widthResponsive(20),
-    marginBottom: heightPercentage(10),
     width: '100%',
-  },
-  flashlistStyle: {
-    width: '100%',
-    height: '100%',
   },
   topNavStyle: {
     position: 'absolute',

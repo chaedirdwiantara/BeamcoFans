@@ -53,6 +53,7 @@ import SsuOTPTimer from './OtpTimer';
 import {ShowCreditContent} from './SongDetailsContent/ShowCreditContent';
 import {TabFilter} from './TabFilter';
 import TermAndConditions from './Tnc';
+import Title from './Title';
 import {TopupCoinContent} from './TopupCoin';
 import {TopNavigation} from './TopNavigation';
 import {UseReferralContent} from './SettingContent/UseReferralContent';
@@ -114,6 +115,7 @@ export {
   ShowCreditContent,
   TabFilter,
   TermAndConditions,
+  Title,
   TopNavigation,
   TopupCoinContent,
   UseReferralContent,
