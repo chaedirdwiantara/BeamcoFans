@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  InteractionManager,
+} from 'react-native';
 
 import {
   heightPercentage,
@@ -8,18 +14,19 @@ import {
   widthPercentage,
 } from '../../../utils';
 import {Dropdown} from '../DropDown';
-import Color from '../../../theme/Color';
+import {ListAlbum} from './ListAlbum';
 import {ListAvatar} from './ListAvatar';
-import {TopNavigation} from '../TopNavigation';
-import {ArrowLeftIcon, TickCircleIcon} from '../../../assets/icon';
+import Color from '../../../theme/Color';
 import {Gap, SsuToast} from '../../atom';
+import {ModalShare} from '../Modal/ModalShare';
+import {TopNavigation} from '../TopNavigation';
+import {ModalDonate} from '../Modal/ModalDonate';
 import {color, font, typography} from '../../../theme';
+import {ModalSuccessDonate} from '../Modal/ModalSuccessDonate';
 import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
 import {dropDownHeaderSongDetails} from '../../../data/dropdown';
+import {ArrowLeftIcon, TickCircleIcon} from '../../../assets/icon';
 import {ListenersAndDonate} from '../ListenersAndDonate/ListenersAndDonate';
-import {ListAlbum} from './ListAlbum';
-import {ModalDonate} from '../Modal/ModalDonate';
-import {ModalShare} from '../Modal/ModalShare';
 
 interface Props {
   onPressGoBack: () => void;
@@ -33,10 +40,10 @@ export const SongDetailsContent: React.FC<Props> = ({
   goToShowCredit,
 }) => {
   const [toastVisible, setToastVisible] = useState(false);
-  const [isModalVisible, setModalVisible] = useState({
-    modalDonate: false,
-    modalShare: false,
-  });
+  const [modalDonate, setModalDonate] = useState<boolean>(false);
+  const [modalShare, setModalShare] = useState<boolean>(false);
+  const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
+  const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
   useEffect(() => {
     toastVisible &&
@@ -45,26 +52,28 @@ export const SongDetailsContent: React.FC<Props> = ({
       }, 3000);
   }, [toastVisible]);
 
-  const openModal = (name: string) => {
-    setModalVisible({
-      ...isModalVisible,
-      [name]: true,
-    });
-  };
-
-  const closeModal = () => {
-    setModalVisible({
-      modalDonate: false,
-      modalShare: false,
-    });
-  };
+  useEffect(() => {
+    modalSuccessDonate &&
+      setTimeout(() => {
+        setModalSuccessDonate(false);
+      }, 3000);
+  }, [modalSuccessDonate, trigger2ndModal]);
 
   const resultDataMore = (dataResult: any) => {
     if (dataResult.value === '3') {
-      openModal('modalShare');
+      setModalShare(true);
     } else if (dataResult.value === '4') {
       goToShowCredit();
     }
+  };
+
+  const onPressDonate = () => {
+    setModalDonate(false);
+    setTrigger2ndModal(true);
+  };
+
+  const onPressSuccess = () => {
+    setModalSuccessDonate(false);
   };
 
   return (
@@ -101,7 +110,7 @@ export const SongDetailsContent: React.FC<Props> = ({
           </View>
           <ListenersAndDonate
             totalListener={66900}
-            onPress={() => openModal('modalDonate')}
+            onPress={() => setModalDonate(true)}
           />
         </View>
 
@@ -145,17 +154,24 @@ export const SongDetailsContent: React.FC<Props> = ({
 
       <ModalDonate
         totalCoin={'120,000'}
-        modalVisible={isModalVisible.modalDonate}
-        onPressClose={closeModal}
+        onPressDonate={onPressDonate}
+        modalVisible={modalDonate}
+        onModalHide={() => setModalSuccessDonate(true)}
+        onPressClose={() => setModalDonate(false)}
+      />
+
+      <ModalSuccessDonate
+        modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
+        toggleModal={onPressSuccess}
       />
 
       <ModalShare
         url={
           'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0'
         }
-        modalVisible={isModalVisible.modalShare}
-        onPressClose={closeModal}
-        titleModal={'Share Album'}
+        modalVisible={modalShare}
+        onPressClose={() => setModalShare(false)}
+        titleModal={'Share Music'}
         imgUri={
           'https://i.pinimg.com/originals/b3/51/66/b35166174c9bde2d0cc436150a983912.jpg'
         }
@@ -163,7 +179,9 @@ export const SongDetailsContent: React.FC<Props> = ({
         titleSong={'Smoke + Mirror'}
         createdOn={'2019'}
         artist={'Imagine Dragons, The Wekeend'}
-        onPressCopy={() => setToastVisible(true)}
+        onPressCopy={() =>
+          InteractionManager.runAfterInteractions(() => setToastVisible(true))
+        }
       />
 
       <SsuToast
@@ -265,6 +283,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     flexDirection: 'row',
     alignItems: 'center',
+    zIndex: 1,
   },
   textStyle: {
     color: color.Neutral[10],
