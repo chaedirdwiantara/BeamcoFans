@@ -12,14 +12,8 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {
-  elipsisText,
-  heightPercentage,
-  normalize,
-  widthResponsive,
-} from '../../utils';
+import {elipsisText, heightPercentage, widthResponsive} from '../../utils';
 import {ms, mvs} from 'react-native-size-matters';
-import {commentData} from '../../data/comment';
 import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
 import ImageList from '../ListCard/ImageList';
