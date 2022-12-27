@@ -148,10 +148,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
           <>
             {/* Comment Section Lvl 3 */}
             <Gap height={12} />
-            {comments !== null ? (
+            {dataLvl3 !== undefined ? (
               <>
                 <FlatList
-                  data={dataLvl3 === undefined ? comments : dataLvl3}
+                  data={calc(dataLvl3, id)}
                   showsVerticalScrollIndicator={false}
                   scrollEnabled={false}
                   keyExtractor={(_, index) => index.toString()}
@@ -173,24 +173,23 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                     </>
                   )}
                 />
-
-                {commentsCount > 1 &&
-                  (dataLvl3 === undefined ? (
-                    <Text
-                      style={styles.viewMore}
-                      onPress={() => viewMoreOnPress(id, 2)}>
-                      View more reply
-                    </Text>
-                  ) : dataLvl3 !== undefined &&
-                    calc(dataLvl3, id).length != commentsCount ? (
-                    <Text
-                      style={styles.viewMore}
-                      onPress={() => viewMoreOnPress(id, 2)}>
-                      View more reply
-                    </Text>
-                  ) : null)}
               </>
             ) : null}
+            {commentsCount > 1 &&
+              (dataLvl3 === undefined ? (
+                <Text
+                  style={styles.viewMore}
+                  onPress={() => viewMoreOnPress(id, 2)}>
+                  View more reply
+                </Text>
+              ) : dataLvl3 !== undefined &&
+                calc(dataLvl3, id).length != commentsCount ? (
+                <Text
+                  style={styles.viewMore}
+                  onPress={() => viewMoreOnPress(id, 2)}>
+                  View more reply
+                </Text>
+              ) : null)}
           </>
         }
       />
