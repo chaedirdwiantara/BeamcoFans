@@ -79,6 +79,16 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
       : null;
   };
 
+  const calc = (data: CommentList2[] | CommentList3[], item: string) => {
+    let a = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].parentID === item) {
+        a.push(data[i]);
+      }
+    }
+    return a;
+  };
+
   const CommentChildrenLvl3 = (props: CommentList3) => {
     const {
       id,
@@ -141,7 +151,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             {comments !== null ? (
               <>
                 <FlatList
-                  data={comments}
+                  data={dataLvl3 === undefined ? comments : dataLvl3}
                   showsVerticalScrollIndicator={false}
                   scrollEnabled={false}
                   keyExtractor={(_, index) => index.toString()}
@@ -153,6 +163,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                         likesCount={item.likesCount}
                         commentsCount={item.commentsCount}
                         repliedTo={item.repliedTo}
+                        parentID={item.parentID}
                         isLiked={item.isLiked}
                         timeAgo={item.timeAgo}
                         commentOwner={item.commentOwner}
@@ -162,14 +173,30 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                     </>
                   )}
                 />
-                {/* // TODO: PENDING */}
-                {/* {showMoreLvl3 === false && commentsCount > 1 ? (
+
+                {commentsCount > 1 &&
+                  (dataLvl3 === undefined ? (
+                    <Text
+                      style={styles.viewMore}
+                      onPress={() => viewMoreOnPress(id, 2)}>
+                      View more reply
+                    </Text>
+                  ) : dataLvl3 !== undefined &&
+                    calc(dataLvl3, id).length != commentsCount ? (
+                    <Text
+                      style={styles.viewMore}
+                      onPress={() => viewMoreOnPress(id, 2)}>
+                      View more reply
+                    </Text>
+                  ) : null)}
+
+                {commentsCount > 1 && dataLvl3?.length != commentsCount ? (
                   <Text
                     style={styles.viewMore}
                     onPress={() => viewMoreOnPress(id, 3)}>
                     View more reply
                   </Text>
-                ) : null} */}
+                ) : null}
               </>
             ) : null}
           </>
@@ -204,10 +231,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
               <>
                 {/* Comment Section Lvl 2 */}
                 <Gap height={12} />
-                {item.comments !== null ? (
+                {dataLvl2 !== undefined ? (
                   <>
                     <FlatList
-                      data={dataLvl2 === undefined ? item.comments : dataLvl2}
+                      data={calc(dataLvl2, item.id)}
                       showsVerticalScrollIndicator={false}
                       scrollEnabled={false}
                       keyExtractor={(_, index) => index.toString()}
@@ -217,8 +244,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                           caption={item.caption}
                           likesCount={item.likesCount}
                           commentsCount={item.commentsCount}
+                          // @ts-ignore
                           comments={item.comments}
                           repliedTo={item.repliedTo}
+                          parentID={item.parentID}
                           isLiked={item.isLiked}
                           timeAgo={item.timeAgo}
                           commentOwner={item.commentOwner}
@@ -226,17 +255,23 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                         />
                       )}
                     />
-                    {/* // TODO : PENDING */}
-                    {item.commentsCount > 1 &&
-                    dataLvl2?.length != item.commentsCount ? (
-                      <Text
-                        style={styles.viewMore}
-                        onPress={() => viewMoreOnPress(item.id, 2)}>
-                        View more reply
-                      </Text>
-                    ) : null}
                   </>
                 ) : null}
+                {item.commentsCount > 1 &&
+                  (dataLvl2 === undefined ? (
+                    <Text
+                      style={styles.viewMore}
+                      onPress={() => viewMoreOnPress(item.id, 2)}>
+                      View more reply
+                    </Text>
+                  ) : dataLvl2 !== undefined &&
+                    calc(dataLvl2, item.id).length != item.commentsCount ? (
+                    <Text
+                      style={styles.viewMore}
+                      onPress={() => viewMoreOnPress(item.id, 2)}>
+                      View more reply
+                    </Text>
+                  ) : null)}
               </>
             }
           />

@@ -130,14 +130,26 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       dataLoadMore?.map((item: CommentList) => {
         item.commentLevel === 1
           ? setCommentLvl1(dataLoadMore)
-          : item.commentLevel === 2
+          : item.commentLevel === 2 &&
+            commentLvl2 !== undefined &&
+            !commentLvl2?.includes(item)
+          ? setCommentLvl2([...commentLvl2, item])
+          : item.commentLevel === 2 && commentLvl2 == undefined
           ? setCommentLvl2(dataLoadMore)
-          : item.commentLevel === 3
+          : item.commentLevel === 3 &&
+            commentLvl3 !== undefined &&
+            !commentLvl3?.includes(item)
+          ? setCommentLvl3([...commentLvl3, item])
+          : item.commentLevel === 3 && commentLvl3 == undefined
           ? setCommentLvl3(dataLoadMore)
           : null;
       });
     }
   }, [dataLoadMore]);
+
+  useEffect(() => {
+    console.log(commentLvl2, 'commentLvl2');
+  }, [commentLvl2]);
   // !End of Comment experiment
 
   useEffect(() => {
@@ -169,10 +181,6 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       ? setLoadMore({id: viewMore, params: {page: 1, perPage: perPage}})
       : null;
   }, [viewMore]);
-
-  // useEffect(() => {
-  //   dataCommentList !== null ? setDataMainComment(dataCommentList) : null;
-  // }, [dataCommentList]);
 
   const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);

@@ -94,6 +94,7 @@ export type CommentList = {
   caption: string;
   likesCount: number;
   repliedTo: string;
+  parentID: string;
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;
@@ -113,6 +114,7 @@ export type CommentList2 = {
   caption: string;
   likesCount: number;
   repliedTo: string;
+  parentID: string;
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;
@@ -132,6 +134,7 @@ export type CommentList3 = {
   caption: string;
   likesCount: number;
   repliedTo: string;
+  parentID: string;
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;
