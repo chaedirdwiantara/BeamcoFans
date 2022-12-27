@@ -13,11 +13,6 @@ import {
 } from '../../interface/feed.interface';
 import {ms, mvs} from 'react-native-size-matters';
 import {filterParentID} from './function';
-
-interface dataLike {
-  id: string;
-  value: number;
-}
 interface CommentSectionType {
   data: DetailPostData | undefined;
   postCommentCount: number;
@@ -43,7 +38,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     postId,
   } = props;
   const [selectedId, setSelectedId] = useState<number[]>([]);
-  const [selectedIdLvl2, setSelectedIdLvl2] = useState<dataLike[]>([]);
+  const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>([]);
   const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>([]);
   const [showMore, setShowMore] = useState<boolean>(false);
   const [showMoreLvl2, setShowMoreLvl2] = useState<boolean>(false);
@@ -56,23 +51,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
       : setSelectedId([...selectedId, id]);
   };
 
-  useEffect(() => {
-    console.log(selectedIdLvl2, 'selectedIdLvl2');
-  }, [selectedIdLvl2]);
-
   const likeOnPressLvl2 = (id: string) => {
-    if (selectedIdLvl2.length === 0) {
-      setSelectedIdLvl2([{id: id, value: 1}]);
-    } else {
-      for (let i = 0; i < selectedIdLvl2.length; i++) {
-        if (selectedIdLvl2[i].id !== id) {
-          setSelectedIdLvl2([...selectedIdLvl2, {id, value: 1}]);
-        }
-        if (selectedIdLvl2[i].id === id) {
-          setSelectedIdLvl2(selectedIdLvl2.filter(x => x.id !== id));
-        }
-      }
-    }
+    selectedIdLvl2.includes(id)
+      ? setSelectedIdLvl2(selectedIdLvl2.filter((x: string) => x !== id))
+      : setSelectedIdLvl2([...selectedIdLvl2, id]);
   };
 
   const likeOnPressLvl3 = (id: string) => {
@@ -120,8 +102,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         commentCaptionLvl3={caption}
         likeOnPressLvl3={() => likeOnPressLvl3(id)}
         commentOnPressLvl3={() => commentOnPress(id, commentOwner.username)}
-        likePressedLvl3={selectedIdLvl3.includes(id) ? true : false}
-        likeCountLvl3={likesCount}
+        likePressedLvl3={selectedIdLvl3.includes(id)}
+        likeCountLvl3={
+          selectedIdLvl3.includes(id) ? likesCount + 1 : likesCount
+        }
         commentCountLvl3={commentsCount}
       />
     );
@@ -150,8 +134,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         commentCaptionLvl2={caption}
         likeOnPressLvl2={() => likeOnPressLvl2(id)}
         commentOnPressLvl2={() => commentOnPress(id, commentOwner.username)}
-        likePressedLvl2={selectedIdLvl2.some(x => x.id == id)}
-        likeCountLvl2={likesCount}
+        likePressedLvl2={selectedIdLvl2.includes(id)}
+        likeCountLvl2={
+          selectedIdLvl2.includes(id) ? likesCount + 1 : likesCount
+        }
         commentCountLvl2={commentsCount}
         childrenLvl2={
           <>
@@ -205,6 +191,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     );
   };
 
+  //TODO: ADD UNLIKE/LIKE WIRING INTO COMMENTS
+
   return (
     <View style={styles.commentContainer}>
       <FlatList
@@ -221,8 +209,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             artistPostId={item.repliedTo}
             commentCaption={item.caption}
             likeOnPress={() => likeOnPressLvl1(index)}
-            likePressed={selectedId.includes(index) ? true : false}
-            likeCount={item.likesCount}
+            likePressed={selectedId.includes(index)}
+            likeCount={
+              selectedId.includes(index) ? item.likesCount + 1 : item.likesCount
+            }
             commentOnPress={() =>
               commentOnPress(item.id, item.commentOwner.username)
             }
