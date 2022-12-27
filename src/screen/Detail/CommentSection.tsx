@@ -12,6 +12,7 @@ import {
   DetailPostData,
 } from '../../interface/feed.interface';
 import {ms, mvs} from 'react-native-size-matters';
+import {filterParentID} from './function';
 interface CommentSectionType {
   data: DetailPostData | undefined;
   postCommentCount: number;
@@ -79,16 +80,6 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
       : null;
   };
 
-  const calc = (data: CommentList2[] | CommentList3[], item: string) => {
-    let a = [];
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].parentID === item) {
-        a.push(data[i]);
-      }
-    }
-    return a;
-  };
-
   const CommentChildrenLvl3 = (props: CommentList3) => {
     const {
       id,
@@ -151,7 +142,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             {dataLvl3 !== undefined ? (
               <>
                 <FlatList
-                  data={calc(dataLvl3, id)}
+                  data={filterParentID(dataLvl3, id)}
                   showsVerticalScrollIndicator={false}
                   scrollEnabled={false}
                   keyExtractor={(_, index) => index.toString()}
@@ -183,7 +174,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                   View more reply
                 </Text>
               ) : dataLvl3 !== undefined &&
-                calc(dataLvl3, id).length != commentsCount ? (
+                filterParentID(dataLvl3, id).length != commentsCount ? (
                 <Text
                   style={styles.viewMore}
                   onPress={() => viewMoreOnPress(id, 2)}>
@@ -225,7 +216,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                 {dataLvl2 !== undefined ? (
                   <>
                     <FlatList
-                      data={calc(dataLvl2, item.id)}
+                      data={filterParentID(dataLvl2, item.id)}
                       showsVerticalScrollIndicator={false}
                       scrollEnabled={false}
                       keyExtractor={(_, index) => index.toString()}
@@ -256,7 +247,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                       View more reply
                     </Text>
                   ) : dataLvl2 !== undefined &&
-                    calc(dataLvl2, item.id).length != item.commentsCount ? (
+                    filterParentID(dataLvl2, item.id).length !=
+                      item.commentsCount ? (
                     <Text
                       style={styles.viewMore}
                       onPress={() => viewMoreOnPress(item.id, 2)}>

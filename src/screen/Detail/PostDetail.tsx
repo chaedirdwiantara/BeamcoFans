@@ -33,6 +33,7 @@ import {
   DetailPostData,
 } from '../../interface/feed.interface';
 import {useProfileHook} from '../../hooks/use-profile.hook';
+import {duplicateFilter} from './function';
 
 type PostDetailProps = NativeStackScreenProps<RootStackParams, 'PostDetail'>;
 
@@ -113,21 +114,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     }
   };
 
-  // !Comment experiment
-
-  const calc = (
-    newData: CommentList[],
-    oldData: CommentList2[] | CommentList3[],
-  ) => {
-    let a = [];
-    for (let i = 0; i < newData.length; i++) {
-      if (newData[i].parentID !== oldData[i].parentID) {
-        a.push(newData[i]);
-      }
-    }
-    return a;
-  };
-
+  // !Comment Area
   // * First Condition
   useEffect(() => {
     if (dataPostDetail !== null) {
@@ -147,21 +134,20 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         } else if (item.commentLevel === 2 && commentLvl2 === undefined) {
           return setCommentLvl2(dataLoadMore);
         } else if (item.commentLevel === 2 && commentLvl2 !== undefined) {
-          let dataX = calc(dataLoadMore, commentLvl2);
+          let dataX = duplicateFilter(dataLoadMore, commentLvl2);
           const mergedArray = [...commentLvl2, ...dataX];
           return setCommentLvl2(mergedArray);
         } else if (item.commentLevel === 3 && commentLvl3 === undefined) {
           return setCommentLvl3(dataLoadMore);
         } else if (item.commentLevel === 3 && commentLvl3 !== undefined) {
-          let dataX = calc(dataLoadMore, commentLvl3);
+          let dataX = duplicateFilter(dataLoadMore, commentLvl3);
           const mergedArray = [...commentLvl3, ...dataX];
           return setCommentLvl3(mergedArray);
         }
       });
     }
   }, [dataLoadMore]);
-
-  // !End of Comment experiment
+  // !End of Comment
 
   useEffect(() => {
     dataPostDetail !== null ? setDataMainComment(dataPostDetail) : null;
