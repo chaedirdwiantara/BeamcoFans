@@ -189,14 +189,6 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                       View more reply
                     </Text>
                   ) : null)}
-
-                {commentsCount > 1 && dataLvl3?.length != commentsCount ? (
-                  <Text
-                    style={styles.viewMore}
-                    onPress={() => viewMoreOnPress(id, 3)}>
-                    View more reply
-                  </Text>
-                ) : null}
               </>
             ) : null}
           </>
