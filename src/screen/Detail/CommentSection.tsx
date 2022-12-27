@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {elipsisText, heightResponsive, widthResponsive} from '../../utils';
 import {Gap, PostComment} from '../../components';
 import CommentLvlTwo from '../../components/molecule/DetailPost/CommentLvlTwo';
@@ -13,6 +13,11 @@ import {
 } from '../../interface/feed.interface';
 import {ms, mvs} from 'react-native-size-matters';
 import {filterParentID} from './function';
+
+interface dataLike {
+  id: string;
+  value: number;
+}
 interface CommentSectionType {
   data: DetailPostData | undefined;
   postCommentCount: number;
@@ -38,7 +43,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     postId,
   } = props;
   const [selectedId, setSelectedId] = useState<number[]>([]);
-  const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>([]);
+  const [selectedIdLvl2, setSelectedIdLvl2] = useState<dataLike[]>([]);
   const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>([]);
   const [showMore, setShowMore] = useState<boolean>(false);
   const [showMoreLvl2, setShowMoreLvl2] = useState<boolean>(false);
@@ -51,10 +56,23 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
       : setSelectedId([...selectedId, id]);
   };
 
+  useEffect(() => {
+    console.log(selectedIdLvl2, 'selectedIdLvl2');
+  }, [selectedIdLvl2]);
+
   const likeOnPressLvl2 = (id: string) => {
-    selectedIdLvl2.includes(id)
-      ? setSelectedIdLvl2(selectedIdLvl2.filter((x: string) => x !== id))
-      : setSelectedIdLvl2([...selectedIdLvl2, id]);
+    if (selectedIdLvl2.length === 0) {
+      setSelectedIdLvl2([{id: id, value: 1}]);
+    } else {
+      for (let i = 0; i < selectedIdLvl2.length; i++) {
+        if (selectedIdLvl2[i].id !== id) {
+          setSelectedIdLvl2([...selectedIdLvl2, {id, value: 1}]);
+        }
+        if (selectedIdLvl2[i].id === id) {
+          setSelectedIdLvl2(selectedIdLvl2.filter(x => x.id !== id));
+        }
+      }
+    }
   };
 
   const likeOnPressLvl3 = (id: string) => {
@@ -132,7 +150,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         commentCaptionLvl2={caption}
         likeOnPressLvl2={() => likeOnPressLvl2(id)}
         commentOnPressLvl2={() => commentOnPress(id, commentOwner.username)}
-        likePressedLvl2={selectedIdLvl2.includes(id) ? true : false}
+        likePressedLvl2={selectedIdLvl2.some(x => x.id == id)}
         likeCountLvl2={likesCount}
         commentCountLvl2={commentsCount}
         childrenLvl2={
