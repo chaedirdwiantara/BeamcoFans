@@ -28,6 +28,7 @@ const MerchList: FC<MerchListProps> = (props: MerchListProps) => {
             title={item.title}
             owner={item.owner}
             price={item.price}
+            desc={item.desc}
           />
         )}
         estimatedItemSize={150}

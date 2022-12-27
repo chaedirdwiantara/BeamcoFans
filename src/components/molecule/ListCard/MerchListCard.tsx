@@ -25,7 +25,7 @@ interface ListProps extends MerchListType {
 }
 
 const MerchListCard: React.FC<ListProps> = props => {
-  const {title, image, owner, price, desc, containerStyles} = props;
+  const {title, image, owner, price, containerStyles} = props;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
