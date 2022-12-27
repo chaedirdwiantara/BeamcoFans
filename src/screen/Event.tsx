@@ -6,8 +6,9 @@ import {Text} from 'react-native-svg';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {color} from '../theme';
-import CartIcon from '../assets/icon/CartIcon';
-import BoxStore from '../assets/icon/BoxStore';
+import MerchList from './ListCard/MerchList';
+import {MerchListItem} from '../data/merchList';
+import {BoxStore, CartIcon} from '../assets/icon';
 
 export const EventScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(-0);
@@ -51,7 +52,7 @@ export const EventScreen: React.FC = () => {
             {filter[selectedIndex].filterName === 'Concert' ? (
               <Text>Concert</Text>
             ) : (
-              <Text>Merch</Text>
+              <MerchList data={MerchListItem} />
             )}
           </View>
         </View>
