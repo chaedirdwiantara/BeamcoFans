@@ -297,6 +297,6 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: ms(12),
-    marginBottom: heightResponsive(8),
+    marginBottom: heightResponsive(12),
   },
 });

@@ -115,7 +115,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   // !Comment experiment
 
-  const calc = (newData: CommentList[], oldData: CommentList2[]) => {
+  const calc = (
+    newData: CommentList[],
+    oldData: CommentList2[] | CommentList3[],
+  ) => {
     let a = [];
     for (let i = 0; i < newData.length; i++) {
       if (newData[i].parentID !== oldData[i].parentID) {
@@ -139,37 +142,25 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     if (dataLoadMore !== null) {
       setViewMore('');
       dataLoadMore?.map((item: CommentList) => {
-        // item.commentLevel === 1
-        //   ? setCommentLvl1(dataLoadMore)
-        //   : item.commentLevel === 2 && commentLvl2 !== undefined
-        //   ? setCommentLvl2([...commentLvl2, item])
-        //   : item.commentLevel === 2 && commentLvl2 == undefined
-        //   ? setCommentLvl2(dataLoadMore)
-        //   : item.commentLevel === 3 &&
-        //     commentLvl3 !== undefined &&
-        //     !commentLvl3?.includes(item)
-        //   ? setCommentLvl3([...commentLvl3, item])
-        //   : item.commentLevel === 3 && commentLvl3 == undefined
-        //   ? setCommentLvl3(dataLoadMore)
-        //   : null;
-
         if (item.commentLevel === 1) {
           return setCommentLvl1(dataLoadMore);
         } else if (item.commentLevel === 2 && commentLvl2 === undefined) {
           return setCommentLvl2(dataLoadMore);
         } else if (item.commentLevel === 2 && commentLvl2 !== undefined) {
           let dataX = calc(dataLoadMore, commentLvl2);
-          // console.log(dataX, 'dataX');
           const mergedArray = [...commentLvl2, ...dataX];
           return setCommentLvl2(mergedArray);
+        } else if (item.commentLevel === 3 && commentLvl3 === undefined) {
+          return setCommentLvl3(dataLoadMore);
+        } else if (item.commentLevel === 3 && commentLvl3 !== undefined) {
+          let dataX = calc(dataLoadMore, commentLvl3);
+          const mergedArray = [...commentLvl3, ...dataX];
+          return setCommentLvl3(mergedArray);
         }
       });
     }
   }, [dataLoadMore]);
 
-  // useEffect(() => {
-  //   console.log(commentLvl2, 'commentLvl2');
-  // }, [commentLvl2]);
   // !End of Comment experiment
 
   useEffect(() => {
