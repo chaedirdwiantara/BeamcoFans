@@ -4,7 +4,14 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Swiper from 'react-native-swiper';
 import {ArrowLeftIcon, DefaultAvatar, ThreeDotsIcon} from '../../assets/icon';
@@ -60,6 +67,11 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
       : setQuantity(quantity - 1);
   };
 
+  const handleChangeQuantity = (value: string) => {
+    const newValue = value.replace(/[^0-9]/g, '');
+    setQuantity(Number(newValue));
+  };
+
   const sizes: SelectSizeType[] = [
     {
       id: 1,
@@ -98,103 +110,113 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
     },
   ];
   return (
-    <View style={styles.root}>
-      <TopNavigation.Type4
-        title="Merch Detail"
-        maxLengthTitle={20}
-        itemStrokeColor={'white'}
-        rightIcon={<ThreeDotsIcon fill={Color.Neutral[10]} />}
-        rightIconAction={() => null}
-        leftIcon={<ArrowLeftIcon />}
-        leftIconAction={() => navigation.goBack()}
-        containerStyles={{paddingHorizontal: widthPercentage(20)}}
-      />
-      <ScrollView>
-        <View style={{height: heightResponsive(350)}}>
-          <Swiper
-            loop={false}
-            renderPagination={renderPagination}
-            style={styles.swiperContainer}>
-            <View style={styles.slide}>
-              <FastImage
-                source={{uri: data.image}}
-                style={[
-                  {
-                    height: heightResponsive(350),
-                  },
-                ]}
-              />
-            </View>
-            <View style={styles.slide}>
-              <FastImage
-                source={{uri: data.image}}
-                style={[
-                  {
-                    height: heightResponsive(350),
-                  },
-                ]}
-              />
-            </View>
-          </Swiper>
-        </View>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View style={styles.root}>
+        <TopNavigation.Type4
+          title="Merch Detail"
+          maxLengthTitle={20}
+          itemStrokeColor={'white'}
+          rightIcon={<ThreeDotsIcon fill={Color.Neutral[10]} />}
+          rightIconAction={() => null}
+          leftIcon={<ArrowLeftIcon />}
+          leftIconAction={() => navigation.goBack()}
+          containerStyles={{paddingHorizontal: widthPercentage(20)}}
+        />
+        <ScrollView>
+          <View style={{height: heightResponsive(350)}}>
+            <Swiper
+              loop={false}
+              renderPagination={renderPagination}
+              style={styles.swiperContainer}>
+              <View style={styles.slide}>
+                <FastImage
+                  source={{uri: data.image}}
+                  style={[
+                    {
+                      height: heightResponsive(350),
+                    },
+                  ]}
+                />
+              </View>
+              <View style={styles.slide}>
+                <FastImage
+                  source={{uri: data.image}}
+                  style={[
+                    {
+                      height: heightResponsive(350),
+                    },
+                  ]}
+                />
+              </View>
+            </Swiper>
+          </View>
 
-        <View style={styles.descContainer}>
-          <Text style={styles.title}>{data.title}</Text>
-          <View style={styles.owner}>
-            <Text style={styles.ownerLabel}>By</Text>
-            <View style={{marginHorizontal: 5}}>
-              <DefaultAvatar.ProfileIcon width={widthResponsive(24)} />
+          <View style={styles.descContainer}>
+            <Text style={styles.title}>{data.title}</Text>
+            <View style={styles.owner}>
+              <Text style={styles.ownerLabel}>By</Text>
+              <View style={{marginHorizontal: 5}}>
+                <DefaultAvatar.ProfileIcon width={widthResponsive(24)} />
+              </View>
+              {/* <Avatar imgUri={imgUri} size={widthResponsive(44)} /> */}
+              <Text style={styles.ownerLabel}>{data.owner}</Text>
             </View>
-            {/* <Avatar imgUri={imgUri} size={widthResponsive(44)} /> */}
-            <Text style={styles.ownerLabel}>{data.owner}</Text>
+            <Text style={styles.price}>
+              HKD {toCurrency(data.price, {withFraction: false})}
+            </Text>
           </View>
-          <Text style={styles.price}>
-            HKD {toCurrency(data.price, {withFraction: false})}
-          </Text>
-        </View>
-        <SsuDivider />
-        <View style={styles.descContainer}>
-          <Text style={styles.subtitle}>Description</Text>
-          <Text style={styles.desc}>{data.desc}</Text>
-        </View>
-        <SsuDivider />
-        <View style={styles.descContainer}>
-          <View style={styles.attribute}>
-            <Text style={styles.subtitle}>Select Size</Text>
-            <SelectSize
-              selectedSize={selectedSize}
-              sizes={sizes}
-              onPressSize={size => setSelectedSize(size)}
+          <SsuDivider />
+          <View style={styles.descContainer}>
+            <Text style={styles.subtitle}>Description</Text>
+            <Text style={styles.desc}>{data.desc}</Text>
+          </View>
+          <SsuDivider />
+          <View style={styles.descContainer}>
+            <View style={styles.attribute}>
+              <Text style={styles.subtitle}>Select Size</Text>
+              <SelectSize
+                selectedSize={selectedSize}
+                sizes={sizes}
+                onPressSize={size => setSelectedSize(size)}
+              />
+            </View>
+            <View style={styles.attribute}>
+              <Text style={styles.subtitle}>Choose Color</Text>
+              <SelectColor
+                selectedColor={selectedColor}
+                colors={colors}
+                onPressColor={color => setSelectedColor(color)}
+              />
+            </View>
+            <View>
+              <Text style={styles.subtitle}>Quantity</Text>
+              <QuantityInput
+                value={quantity.toString()}
+                onPress={handleQuantity}
+                onChangeQuantity={(value: string) =>
+                  handleChangeQuantity(value)
+                }
+              />
+            </View>
+          </View>
+          <View style={styles.descContainer}>
+            <ButtonGradient
+              label="Buy Now"
+              gradientStyles={{width: '100%'}}
+              containerStyles={{marginBottom: 8}}
+              onPress={() => null}
+            />
+            <Button
+              label="Add to Cart"
+              type="border"
+              containerStyles={{width: '100%'}}
             />
           </View>
-          <View style={styles.attribute}>
-            <Text style={styles.subtitle}>Choose Color</Text>
-            <SelectColor
-              selectedColor={selectedColor}
-              colors={colors}
-              onPressColor={color => setSelectedColor(color)}
-            />
-          </View>
-          <View>
-            <Text style={styles.subtitle}>Quantity</Text>
-            <QuantityInput value={quantity} onPress={handleQuantity} />
-          </View>
-        </View>
-        <View style={styles.descContainer}>
-          <ButtonGradient
-            label="Buy Now"
-            gradientStyles={{width: '100%'}}
-            containerStyles={{marginBottom: 8}}
-            onPress={() => null}
-          />
-          <Button
-            label="Add to Cart"
-            type="border"
-            containerStyles={{width: '100%'}}
-          />
-        </View>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

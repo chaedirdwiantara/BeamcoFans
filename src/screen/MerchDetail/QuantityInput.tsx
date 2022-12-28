@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import React from 'react';
 import {AddIcon, MinusIcon} from '../../assets/icon';
 import {normalize} from '../../utils';
@@ -8,19 +8,29 @@ import Color from '../../theme/Color';
 const QuantityInput = ({
   value,
   onPress,
+  onChangeQuantity,
 }: {
-  value: number;
+  value: string;
   onPress: (type: string) => void;
+  onChangeQuantity: (value: string) => void;
 }) => {
   return (
     <View style={styles.root}>
       <TouchableOpacity
-        disabled={value <= 0}
+        disabled={Number(value) <= 0}
         onPress={() => onPress('decrement')}>
-        <MinusIcon fill={value > 0 ? Color.Neutral[10] : Color.Dark[50]} />
+        <MinusIcon
+          fill={Number(value) > 0 ? Color.Neutral[10] : Color.Dark[50]}
+        />
       </TouchableOpacity>
       <View style={styles.valueContainer}>
-        <Text style={styles.value}>{value}</Text>
+        <TextInput
+          style={styles.value}
+          value={value}
+          keyboardType="numeric"
+          onChangeText={onChangeQuantity}
+        />
+        {/* <InputText style={styles.value}>{value}</Text> */}
       </View>
       <TouchableOpacity onPress={() => onPress('increment')}>
         <AddIcon />
