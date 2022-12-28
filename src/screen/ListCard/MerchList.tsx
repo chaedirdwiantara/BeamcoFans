@@ -1,20 +1,31 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import {StyleSheet} from 'react-native';
 import {heightPercentage} from '../../utils';
 import {FlashList} from '@shopify/flash-list';
 import MerchListCard from '../../components/molecule/ListCard/MerchListCard';
-import {MerchListType} from '../../data/merchList';
+import {useEventHook} from '../../hooks/use-event.hook';
+import {useFocusEffect} from '@react-navigation/native';
 
-interface MerchListProps {
-  data: MerchListType[];
-}
+const MerchList: FC = () => {
+  const {dataMerchList, getListDataMerch} = useEventHook();
 
-const MerchList: FC<MerchListProps> = (props: MerchListProps) => {
-  const {data} = props;
+  useFocusEffect(
+    useCallback(() => {
+      getListDataMerch({
+        countryCode: 'HK',
+        type: 'product',
+      });
+    }, [getListDataMerch]),
+  );
+
+  const filterList = dataMerchList.find(merch => {
+    return merch.name === 'product_latest';
+  });
+
   return (
     <>
       <FlashList
-        data={data}
+        data={filterList?.data}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.ListContainer}
         keyExtractor={item => item.id.toString()}
@@ -24,11 +35,12 @@ const MerchList: FC<MerchListProps> = (props: MerchListProps) => {
             containerStyles={
               index % 2 == 0 ? {marginRight: 10} : {marginLeft: 10}
             }
-            image={item.image}
-            title={item.title}
-            owner={item.owner}
+            image={item.pic}
+            title={item.name}
+            owner={item.organizer?.name}
             price={item.price}
-            desc={item.desc}
+            desc={item.content}
+            currency={item.currencyCode}
           />
         )}
         estimatedItemSize={150}

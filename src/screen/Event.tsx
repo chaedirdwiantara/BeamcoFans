@@ -7,7 +7,6 @@ import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {color} from '../theme';
 import MerchList from './ListCard/MerchList';
-import {MerchListItem} from '../data/merchList';
 import {BoxStore, CartIcon} from '../assets/icon';
 
 export const EventScreen: React.FC = () => {
@@ -33,13 +32,7 @@ export const EventScreen: React.FC = () => {
             leftIconAction={() => null}
             containerStyles={{paddingHorizontal: widthPercentage(20)}}
           />
-          <View
-            style={{
-              marginTop: heightPercentage(8),
-              paddingHorizontal: widthResponsive(24),
-              width: '100%',
-              height: '100%',
-            }}>
+          <View style={styles.listContainer}>
             <TabFilter.Type1
               filterData={filter}
               onPress={filterData}
@@ -52,7 +45,7 @@ export const EventScreen: React.FC = () => {
             {filter[selectedIndex].filterName === 'Concert' ? (
               <Text>Concert</Text>
             ) : (
-              <MerchList data={MerchListItem} />
+              <MerchList />
             )}
           </View>
         </View>
@@ -67,5 +60,11 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: color.Dark[800],
+  },
+  listContainer: {
+    marginTop: heightPercentage(8),
+    paddingHorizontal: widthResponsive(24),
+    width: '100%',
+    height: '100%',
   },
 });
