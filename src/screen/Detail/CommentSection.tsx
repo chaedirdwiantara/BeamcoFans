@@ -39,18 +39,90 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     postCommentCount,
     postId,
   } = props;
-  const [selectedId, setSelectedId] = useState<string[]>([]);
+  const [selectedId, setSelectedId] = useState<string[]>();
+  const [recorder, setRecorder] = useState<string[]>([]);
   const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>([]);
   const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>([]);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
 
-  const likeOnPressLvl1 = (id: string) => {
-    if (selectedId.includes(id)) {
-      setSelectedId(selectedId.filter((x: string) => x !== id));
+  const likeOnPressLvl1 = (id: string, isLiked: boolean) => {
+    if (isLiked === true && selectedId === undefined) {
       onUnlike?.(id);
-    } else {
-      setSelectedId([...selectedId, id]);
+      setSelectedId([]);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (!isLiked && selectedId === undefined) {
       onLike?.(id);
+      setSelectedId([id]);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+  };
+
+  const likeOnPressLvl1II = (id: string, isLiked: boolean) => {
+    if (
+      isLiked === true &&
+      !selectedId?.includes(id) &&
+      !recorder.includes(id)
+    ) {
+      onUnlike?.(id);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (
+      isLiked === false &&
+      !selectedId?.includes(id) &&
+      !recorder.includes(id)
+    ) {
+      onLike?.(id);
+      setSelectedId(selectedId ? [...selectedId, id] : [id]);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (
+      isLiked === true &&
+      !selectedId?.includes(id) &&
+      recorder.includes(id)
+    ) {
+      onLike?.(id);
+      setSelectedId(selectedId ? [...selectedId, id] : [id]);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (
+      isLiked === false &&
+      !selectedId?.includes(id) &&
+      recorder.includes(id)
+    ) {
+      onLike?.(id);
+      setSelectedId(selectedId ? [...selectedId, id] : [id]);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (isLiked === true && selectedId?.includes(id) && recorder.includes(id)) {
+      onUnlike?.(id);
+      setSelectedId(selectedId.filter((x: string) => x !== id));
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (
+      isLiked === false &&
+      selectedId?.includes(id) &&
+      recorder.includes(id)
+    ) {
+      onUnlike?.(id);
+      setSelectedId(selectedId.filter((x: string) => x !== id));
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
     }
   };
 
@@ -210,11 +282,44 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             postDate={item.timeAgo}
             artistPostId={item.repliedTo}
             commentCaption={item.caption}
-            likeOnPress={() => likeOnPressLvl1(item.id)}
-            likePressed={selectedId.includes(item.id)}
+            likeOnPress={() =>
+              selectedId === undefined
+                ? likeOnPressLvl1(item.id, item.isLiked)
+                : likeOnPressLvl1II(item.id, item.isLiked)
+            }
+            likePressed={
+              selectedId === undefined
+                ? item.isLiked
+                : selectedId.includes(item.id) && recorder.includes(item.id)
+                ? true
+                : !selectedId.includes(item.id) && recorder.includes(item.id)
+                ? false
+                : !selectedId.includes(item.id) && !recorder.includes(item.id)
+                ? item.isLiked
+                : item.isLiked
+              //1 && 2 = true
+              // !1 && 2 = false
+              // !1 && !2 = isLiked
+            }
             likeCount={
-              selectedId.includes(item.id)
+              selectedId === undefined
+                ? item.likesCount
+                : selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === true
+                ? item.likesCount
+                : selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === false
                 ? item.likesCount + 1
+                : !selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === true
+                ? item.likesCount - 1
+                : !selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === false
+                ? item.likesCount
                 : item.likesCount
             }
             commentOnPress={() =>

@@ -134,7 +134,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   }, [likeCommentId]);
 
   useEffect(() => {
-    likeCommentId !== '' && setUnlikeComment({id: unlikeCommentId});
+    unlikeCommentId !== '' && setUnlikeComment({id: unlikeCommentId});
   }, [unlikeCommentId]);
 
   // !Comment Area
