@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {elipsisText, heightResponsive, widthResponsive} from '../../utils';
 import {Gap, PostComment} from '../../components';
 import CommentLvlTwo from '../../components/molecule/DetailPost/CommentLvlTwo';
@@ -9,7 +9,6 @@ import {
   CommentList,
   CommentList2,
   CommentList3,
-  DetailPostData,
 } from '../../interface/feed.interface';
 import {ms, mvs} from 'react-native-size-matters';
 import {filterParentID} from './function';
@@ -39,8 +38,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     postCommentCount,
     postId,
   } = props;
-  const [selectedId, setSelectedId] = useState<string[]>();
   const [recorder, setRecorder] = useState<string[]>([]);
+  const [selectedId, setSelectedId] = useState<string[]>();
   const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>();
   const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>();
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
