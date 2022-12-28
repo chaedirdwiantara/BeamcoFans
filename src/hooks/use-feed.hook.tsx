@@ -6,10 +6,12 @@ import {
   commmentToPost,
   commmentUpdate,
   detailPost,
+  likeComment,
   likePost,
   listPost,
   listPostExclusive,
   loadMore,
+  unlikeComment,
   unlikePost,
 } from '../api/feed.api';
 import {ParamsProps} from '../interface/base.interface';
@@ -79,7 +81,6 @@ export const useFeedHook = () => {
     try {
       const response = await likePost(props);
       setDataLike(response.data);
-      getListDataPost();
     } catch (error) {
       console.log(error);
       setDataLike(null);
@@ -93,7 +94,6 @@ export const useFeedHook = () => {
     try {
       const response = await unlikePost(props);
       setDataLike(response.data);
-      getListDataPost();
     } catch (error) {
       console.log(error);
       setDataLike(null);
@@ -113,11 +113,36 @@ export const useFeedHook = () => {
   const [dataCmntToCmnt, setDataCmntToCmnt] = useState<DataComment | null>(
     null,
   );
-  const [dataCommentList, setDataCommentList] = useState<CommentList[] | null>(
-    null,
-  );
   const [dataCommentDetail, setDataCommentDetail] =
     useState<CommentDetailData | null>(null);
+  const [dataLikeComment, setDataLikeComment] = useState<string | null>(null);
+  const [likeCommentLoading, setLikeCommentLoading] = useState(false);
+
+  const setLikeComment = async (props?: PostPropsTypeA) => {
+    setLikeCommentLoading(true);
+    try {
+      const response = await likeComment(props);
+      setDataLikeComment(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataLikeComment(null);
+    } finally {
+      setLikeCommentLoading(false);
+    }
+  };
+
+  const setUnlikeComment = async (props?: PostPropsTypeA) => {
+    setLikeCommentLoading(true);
+    try {
+      const response = await unlikeComment(props);
+      setDataLikeComment(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataLikeComment(null);
+    } finally {
+      setLikeCommentLoading(false);
+    }
+  };
 
   const setLoadMore = async (props?: LoadMoreProps) => {
     setLoadMoreLoading(true);
@@ -211,12 +236,13 @@ export const useFeedHook = () => {
     dataPostList,
     dataLike,
     dataComment,
-    dataCommentList,
     dataCommentDetail,
     commentUpdateLoading,
     commentDeleteLoading,
     dataPostDetail,
     dataCmntToCmnt,
+    dataLikeComment,
+    likeCommentLoading,
     setDataCmntToCmnt,
     getListDataPost,
     getListDataExclusivePost,
@@ -229,5 +255,7 @@ export const useFeedHook = () => {
     setCommentUpdate,
     setCommentDelete,
     getDetailPost,
+    setLikeComment,
+    setUnlikeComment,
   };
 };

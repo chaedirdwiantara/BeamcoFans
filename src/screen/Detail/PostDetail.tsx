@@ -40,7 +40,6 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const {
     dataPostDetail,
     dataCmntToCmnt,
-    dataCommentList,
     dataLoadMore,
     setLikePost,
     setUnlikePost,
@@ -48,6 +47,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setCommentToComment,
     getDetailPost,
     setLoadMore,
+    setLikeComment,
+    setUnlikeComment,
   } = useFeedHook();
 
   const {dataProfile, getProfileUser} = useProfileHook();
@@ -57,7 +58,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const [likePressed, setLikePressed] = useState<boolean>(false);
+  const [likePressed, setLikePressed] = useState<boolean>();
   const [readMore, setReadMore] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
@@ -65,6 +66,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [commentType, setCommentType] = useState<string>('');
+  const [likeCommentId, setLikeCommentId] = useState<string>('');
+  const [unlikeCommentId, setUnlikeCommentId] = useState<string>('');
   const [cmntToCmnt, setCmntToCmnt] = useState<{
     id: string;
     userName: string;
@@ -72,7 +75,6 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [viewMore, setViewMore] = useState<string>('');
   const [dataMainComment, setDataMainComment] = useState<DetailPostData>();
   const [dataProfileImg, setDataProfileImg] = useState<string>('');
-
   const [commentLvl1, setCommentLvl1] = useState<CommentList[] | undefined>();
   const [commentLvl2, setCommentLvl2] = useState<CommentList2[] | undefined>();
   const [commentLvl3, setCommentLvl3] = useState<CommentList3[] | undefined>();
@@ -101,12 +103,39 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   // ? Set Like / Unlike
   const likeOnPress = (id: string, isLiked: boolean) => {
-    if (isLiked) {
-      return setLikePost({id});
-    } else {
-      setUnlikePost({id});
+    if (isLiked === true) {
+      if (likePressed === true) {
+        setUnlikePost({id});
+        setLikePressed(false);
+      } else if (likePressed === false) {
+        setLikePost({id});
+        setLikePressed(true);
+      } else {
+        setUnlikePost({id});
+        setLikePressed(false);
+      }
+    } else if (isLiked === false) {
+      if (likePressed === true) {
+        setUnlikePost({id});
+        setLikePressed(false);
+      } else if (likePressed === false) {
+        setLikePost({id});
+        setLikePressed(true);
+      } else {
+        setLikePost({id});
+        setLikePressed(true);
+      }
     }
   };
+
+  // ? Set LikeComment / UnlikeComment
+  useEffect(() => {
+    likeCommentId !== '' && setLikeComment({id: likeCommentId});
+  }, [likeCommentId]);
+
+  useEffect(() => {
+    likeCommentId !== '' && setUnlikeComment({id: unlikeCommentId});
+  }, [unlikeCommentId]);
 
   // !Comment Area
   // * First Condition
@@ -242,8 +271,26 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
               likeOnPress={() =>
                 likeOnPress(dataPostDetail.id, dataPostDetail.isLiked)
               }
-              likePressed={dataPostDetail.isLiked ? true : false}
-              likeCount={dataPostDetail.likesCount}
+              likePressed={
+                likePressed === undefined
+                  ? dataPostDetail.isLiked
+                  : likePressed === true
+                  ? true
+                  : false
+              }
+              likeCount={
+                likePressed === undefined
+                  ? dataPostDetail.likesCount
+                  : likePressed === true && dataPostDetail.isLiked === true
+                  ? dataPostDetail.likesCount
+                  : likePressed === true && dataPostDetail.isLiked === false
+                  ? dataPostDetail.likesCount + 1
+                  : likePressed === false && dataPostDetail.isLiked === true
+                  ? dataPostDetail.likesCount - 1
+                  : likePressed === false && dataPostDetail.isLiked === false
+                  ? dataPostDetail.likesCount
+                  : dataPostDetail.likesCount
+              }
               commentOnPress={() => commentOnPress(data.id, musicianName)}
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
@@ -304,11 +351,12 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         {/* //! Comment Section Lvl 1 */}
         {dataPostDetail ? (
           <CommentSection
-            data={dataMainComment}
             dataLvl1={commentLvl1}
             dataLvl2={commentLvl2}
             dataLvl3={commentLvl3}
             onComment={setCmntToCmnt}
+            onLike={setLikeCommentId}
+            onUnlike={setUnlikeCommentId}
             onViewMore={setViewMore}
             onSetPage={handleSetPage}
             postCommentCount={dataPostDetail.commentsCount}

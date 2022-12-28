@@ -75,6 +75,28 @@ export const unlikePost = async (
 };
 
 // => Comment Area
+export const likeComment = async (
+  props?: PostPropsTypeA,
+): Promise<LikePostResponseType> => {
+  const {data} = await SsuAPI().request<LikePostResponseType>({
+    url: `/comments/${props?.id}/like`,
+    method: 'POST',
+  });
+
+  return data;
+};
+
+export const unlikeComment = async (
+  props?: PostPropsTypeA,
+): Promise<UnlikePostResponseType> => {
+  const {data} = await SsuAPI().request<UnlikePostResponseType>({
+    url: `/comments/${props?.id}/unlike`,
+    method: 'POST',
+  });
+
+  return data;
+};
+
 export const loadMore = async (
   props?: LoadMoreProps,
 ): Promise<ListCommentResponseType> => {

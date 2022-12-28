@@ -14,10 +14,11 @@ import {
 import {ms, mvs} from 'react-native-size-matters';
 import {filterParentID} from './function';
 interface CommentSectionType {
-  data: DetailPostData | undefined;
   postCommentCount: number;
   postId: string;
   onComment: ({id, userName}: {id: string; userName: string}) => void;
+  onLike?: (id: string) => void;
+  onUnlike?: (id: string) => void;
   onViewMore: (id: string) => void;
   onSetPage: (value: number) => void;
   dataLvl1: CommentList[] | undefined;
@@ -27,40 +28,50 @@ interface CommentSectionType {
 
 const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   const {
-    data,
     dataLvl1,
     dataLvl2,
     dataLvl3,
     onComment,
     onViewMore,
     onSetPage,
+    onLike,
+    onUnlike,
     postCommentCount,
     postId,
   } = props;
-  const [selectedId, setSelectedId] = useState<number[]>([]);
+  const [selectedId, setSelectedId] = useState<string[]>([]);
   const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>([]);
   const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>([]);
-  const [showMore, setShowMore] = useState<boolean>(false);
-  const [showMoreLvl2, setShowMoreLvl2] = useState<boolean>(false);
-  const [showMoreLvl3, setShowMoreLvl3] = useState<boolean>(false);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
 
-  const likeOnPressLvl1 = (id: number) => {
-    selectedId.includes(id)
-      ? setSelectedId(selectedId.filter((x: number) => x !== id))
-      : setSelectedId([...selectedId, id]);
+  const likeOnPressLvl1 = (id: string) => {
+    if (selectedId.includes(id)) {
+      setSelectedId(selectedId.filter((x: string) => x !== id));
+      onUnlike?.(id);
+    } else {
+      setSelectedId([...selectedId, id]);
+      onLike?.(id);
+    }
   };
 
   const likeOnPressLvl2 = (id: string) => {
-    selectedIdLvl2.includes(id)
-      ? setSelectedIdLvl2(selectedIdLvl2.filter((x: string) => x !== id))
-      : setSelectedIdLvl2([...selectedIdLvl2, id]);
+    if (selectedIdLvl2.includes(id)) {
+      setSelectedIdLvl2(selectedIdLvl2.filter((x: string) => x !== id));
+      onUnlike?.(id);
+    } else {
+      setSelectedIdLvl2([...selectedIdLvl2, id]);
+      onLike?.(id);
+    }
   };
 
   const likeOnPressLvl3 = (id: string) => {
-    selectedIdLvl3.includes(id)
-      ? setSelectedIdLvl3(selectedIdLvl3.filter((x: string) => x !== id))
-      : setSelectedIdLvl3([...selectedIdLvl3, id]);
+    if (selectedIdLvl3.includes(id)) {
+      setSelectedIdLvl3(selectedIdLvl3.filter((x: string) => x !== id));
+      onUnlike?.(id);
+    } else {
+      setSelectedIdLvl3([...selectedIdLvl3, id]);
+      onLike?.(id);
+    }
   };
 
   const commentOnPress = (id: string, userName: string) => {
@@ -71,13 +82,6 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   const viewMoreOnPress = (id: string, value: number) => {
     onViewMore?.(id);
     onSetPage?.(value);
-    value === 1
-      ? setShowMore(true)
-      : value === 2
-      ? setShowMoreLvl2(true)
-      : value === 3
-      ? setShowMoreLvl3(true)
-      : null;
   };
 
   const CommentChildrenLvl3 = (props: CommentList3) => {
@@ -191,8 +195,6 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     );
   };
 
-  //TODO: ADD UNLIKE/LIKE WIRING INTO COMMENTS
-
   return (
     <View style={styles.commentContainer}>
       <FlatList
@@ -208,10 +210,12 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             postDate={item.timeAgo}
             artistPostId={item.repliedTo}
             commentCaption={item.caption}
-            likeOnPress={() => likeOnPressLvl1(index)}
-            likePressed={selectedId.includes(index)}
+            likeOnPress={() => likeOnPressLvl1(item.id)}
+            likePressed={selectedId.includes(item.id)}
             likeCount={
-              selectedId.includes(index) ? item.likesCount + 1 : item.likesCount
+              selectedId.includes(item.id)
+                ? item.likesCount + 1
+                : item.likesCount
             }
             commentOnPress={() =>
               commentOnPress(item.id, item.commentOwner.username)
