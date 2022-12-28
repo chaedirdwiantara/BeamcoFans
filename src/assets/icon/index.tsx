@@ -75,6 +75,10 @@ import UserIcon from './User.icon';
 import UserProfileIcon from './UserProfile.icon';
 import VkIcon from './Vk.icon';
 import WeiboIcon from './Weibo.icon';
+import CartIcon from './Cart.icon';
+import BoxStore from './BoxStore.icon';
+import CheckIcon from './Check.icon';
+import MinusIcon from './Minus.icon';
 
 export {
   AddIcon,
@@ -154,4 +158,8 @@ export {
   UserProfileIcon,
   VkIcon,
   WeiboIcon,
+  CartIcon,
+  BoxStore,
+  CheckIcon,
+  MinusIcon,
 };
