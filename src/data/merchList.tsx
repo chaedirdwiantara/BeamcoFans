@@ -6,6 +6,7 @@ export interface MerchListType {
   price: number;
   desc?: string;
   currency?: string;
+  ownerImage?: string;
 }
 
 export const MerchListItem: MerchListType[] = [

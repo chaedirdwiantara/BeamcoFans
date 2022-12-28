@@ -38,6 +38,7 @@ const MerchList: FC = () => {
             image={item.pic}
             title={item.name}
             owner={item.organizer?.name}
+            ownerImage={item.organizer?.pic}
             price={item.price}
             desc={item.content}
             currency={item.currencyCode}
