@@ -1,11 +1,6 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {FC, useState} from 'react';
-import {
-  elipsisText,
-  heightResponsive,
-  normalize,
-  widthResponsive,
-} from '../../utils';
+import {elipsisText, heightResponsive, widthResponsive} from '../../utils';
 import {Gap, PostComment} from '../../components';
 import CommentLvlTwo from '../../components/molecule/DetailPost/CommentLvlTwo';
 import CommentLvlThree from '../../components/molecule/DetailPost/CommentLvlThree';
@@ -16,40 +11,113 @@ import {
   CommentList3,
 } from '../../interface/feed.interface';
 import {ms, mvs} from 'react-native-size-matters';
+import {filterParentID} from './function';
 interface CommentSectionType {
-  data: CommentList[] | undefined;
   postCommentCount: number;
   postId: string;
   onComment: ({id, userName}: {id: string; userName: string}) => void;
+  onLike?: (id: string) => void;
+  onUnlike?: (id: string) => void;
   onViewMore: (id: string) => void;
+  onSetPage: (value: number) => void;
+  dataLvl1: CommentList[] | undefined;
+  dataLvl2: CommentList2[] | undefined;
+  dataLvl3: CommentList3[] | undefined;
 }
 
 const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
-  const {data, onComment, onViewMore, postCommentCount, postId} = props;
-  const [selectedId, setSelectedId] = useState<number[]>([]);
-  const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>([]);
-  const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>([]);
-  const [showMore, setShowMore] = useState<boolean>(false);
-  const [showMoreLvl2, setShowMoreLvl2] = useState<boolean>(false);
-  const [showMoreLvl3, setShowMoreLvl3] = useState<boolean>(false);
+  const {
+    dataLvl1,
+    dataLvl2,
+    dataLvl3,
+    onComment,
+    onViewMore,
+    onSetPage,
+    onLike,
+    onUnlike,
+    postCommentCount,
+    postId,
+  } = props;
+  const [recorder, setRecorder] = useState<string[]>([]);
+  const [selectedId, setSelectedId] = useState<string[]>();
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
 
-  const likeOnPressLvl1 = (id: number) => {
-    selectedId.includes(id)
-      ? setSelectedId(selectedId.filter((x: number) => x !== id))
-      : setSelectedId([...selectedId, id]);
-  };
-
-  const likeOnPressLvl2 = (id: string) => {
-    selectedIdLvl2.includes(id)
-      ? setSelectedIdLvl2(selectedIdLvl2.filter((x: string) => x !== id))
-      : setSelectedIdLvl2([...selectedIdLvl2, id]);
-  };
-
-  const likeOnPressLvl3 = (id: string) => {
-    selectedIdLvl3.includes(id)
-      ? setSelectedIdLvl3(selectedIdLvl3.filter((x: string) => x !== id))
-      : setSelectedIdLvl3([...selectedIdLvl3, id]);
+  const likeOnPress = (id: string, isLiked: boolean) => {
+    if (isLiked === true && selectedId === undefined) {
+      onUnlike?.(id);
+      setSelectedId([]);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (!isLiked && selectedId === undefined) {
+      onLike?.(id);
+      setSelectedId([id]);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (
+      isLiked === true &&
+      !selectedId?.includes(id) &&
+      !recorder.includes(id)
+    ) {
+      onUnlike?.(id);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (
+      isLiked === false &&
+      !selectedId?.includes(id) &&
+      !recorder.includes(id)
+    ) {
+      onLike?.(id);
+      setSelectedId(selectedId ? [...selectedId, id] : [id]);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (
+      isLiked === true &&
+      !selectedId?.includes(id) &&
+      recorder.includes(id)
+    ) {
+      onLike?.(id);
+      setSelectedId(selectedId ? [...selectedId, id] : [id]);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (
+      isLiked === false &&
+      !selectedId?.includes(id) &&
+      recorder.includes(id)
+    ) {
+      onLike?.(id);
+      setSelectedId(selectedId ? [...selectedId, id] : [id]);
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (isLiked === true && selectedId?.includes(id) && recorder.includes(id)) {
+      onUnlike?.(id);
+      setSelectedId(selectedId.filter((x: string) => x !== id));
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
+    if (
+      isLiked === false &&
+      selectedId?.includes(id) &&
+      recorder.includes(id)
+    ) {
+      onUnlike?.(id);
+      setSelectedId(selectedId.filter((x: string) => x !== id));
+      if (!recorder.includes(id)) {
+        setRecorder([...recorder, id]);
+      }
+    }
   };
 
   const commentOnPress = (id: string, userName: string) => {
@@ -59,24 +127,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
 
   const viewMoreOnPress = (id: string, value: number) => {
     onViewMore?.(id);
-    value === 1
-      ? setShowMore(true)
-      : value === 2
-      ? setShowMoreLvl2(true)
-      : value === 3
-      ? setShowMoreLvl3(true)
-      : null;
+    onSetPage?.(value);
   };
-
-  // ? Dummy Temporary until api update is complete
-  // const dummy = {
-  //   imgUri:
-  //     'https://p4.wallpaperbetter.com/wallpaper/704/568/863/k-pop-redvelvet-women-irene-red-velvet-wallpaper-preview.jpg',
-  //   userName: 'Irene',
-  //   userId: 'red-velvet',
-  //   postDate: '2 hours',
-  //   artistPostId: 'black-pink',
-  // };
 
   const CommentChildrenLvl3 = (props: CommentList3) => {
     const {
@@ -98,10 +150,40 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         postDateLvl3={timeAgo}
         userCommentedIdLvl3={repliedTo}
         commentCaptionLvl3={caption}
-        likeOnPressLvl3={() => likeOnPressLvl3(id)}
         commentOnPressLvl3={() => commentOnPress(id, commentOwner.username)}
-        likePressedLvl3={selectedIdLvl3.includes(id) ? true : false}
-        likeCountLvl3={likesCount}
+        likeOnPressLvl3={() => likeOnPress(id, isLiked)}
+        likePressedLvl3={
+          selectedId === undefined
+            ? isLiked
+            : selectedId.includes(id) && recorder.includes(id)
+            ? true
+            : !selectedId.includes(id) && recorder.includes(id)
+            ? false
+            : !selectedId.includes(id) && !recorder.includes(id)
+            ? isLiked
+            : isLiked
+        }
+        likeCountLvl3={
+          selectedId === undefined
+            ? likesCount
+            : selectedId.includes(id) &&
+              recorder.includes(id) &&
+              isLiked === true
+            ? likesCount
+            : selectedId.includes(id) &&
+              recorder.includes(id) &&
+              isLiked === false
+            ? likesCount + 1
+            : !selectedId.includes(id) &&
+              recorder.includes(id) &&
+              isLiked === true
+            ? likesCount - 1
+            : !selectedId.includes(id) &&
+              recorder.includes(id) &&
+              isLiked === false
+            ? likesCount
+            : likesCount
+        }
         commentCountLvl3={commentsCount}
       />
     );
@@ -128,19 +210,49 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         postDateLvl2={timeAgo}
         userCommentedId={repliedTo}
         commentCaptionLvl2={caption}
-        likeOnPressLvl2={() => likeOnPressLvl2(id)}
         commentOnPressLvl2={() => commentOnPress(id, commentOwner.username)}
-        likePressedLvl2={selectedIdLvl2.includes(id) ? true : false}
-        likeCountLvl2={likesCount}
+        likeOnPressLvl2={() => likeOnPress(id, isLiked)}
+        likePressedLvl2={
+          selectedId === undefined
+            ? isLiked
+            : selectedId.includes(id) && recorder.includes(id)
+            ? true
+            : !selectedId.includes(id) && recorder.includes(id)
+            ? false
+            : !selectedId.includes(id) && !recorder.includes(id)
+            ? isLiked
+            : isLiked
+        }
+        likeCountLvl2={
+          selectedId === undefined
+            ? likesCount
+            : selectedId.includes(id) &&
+              recorder.includes(id) &&
+              isLiked === true
+            ? likesCount
+            : selectedId.includes(id) &&
+              recorder.includes(id) &&
+              isLiked === false
+            ? likesCount + 1
+            : !selectedId.includes(id) &&
+              recorder.includes(id) &&
+              isLiked === true
+            ? likesCount - 1
+            : !selectedId.includes(id) &&
+              recorder.includes(id) &&
+              isLiked === false
+            ? likesCount
+            : likesCount
+        }
         commentCountLvl2={commentsCount}
         childrenLvl2={
           <>
             {/* Comment Section Lvl 3 */}
             <Gap height={12} />
-            {comments !== null ? (
+            {dataLvl3 !== undefined ? (
               <>
                 <FlatList
-                  data={comments}
+                  data={filterParentID(dataLvl3, id)}
                   showsVerticalScrollIndicator={false}
                   scrollEnabled={false}
                   keyExtractor={(_, index) => index.toString()}
@@ -152,6 +264,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                         likesCount={item.likesCount}
                         commentsCount={item.commentsCount}
                         repliedTo={item.repliedTo}
+                        parentID={item.parentID}
                         isLiked={item.isLiked}
                         timeAgo={item.timeAgo}
                         commentOwner={item.commentOwner}
@@ -161,16 +274,23 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                     </>
                   )}
                 />
-                {/* // TODO: PENDING */}
-                {/* {showMoreLvl3 === false && commentsCount > 1 ? (
-                  <Text
-                    style={styles.viewMore}
-                    onPress={() => viewMoreOnPress(id, 3)}>
-                    View more reply
-                  </Text>
-                ) : null} */}
               </>
             ) : null}
+            {commentsCount > 1 &&
+              (dataLvl3 === undefined ? (
+                <Text
+                  style={styles.viewMore}
+                  onPress={() => viewMoreOnPress(id, 2)}>
+                  View more reply
+                </Text>
+              ) : dataLvl3 !== undefined &&
+                filterParentID(dataLvl3, id).length != commentsCount ? (
+                <Text
+                  style={styles.viewMore}
+                  onPress={() => viewMoreOnPress(id, 2)}>
+                  View more reply
+                </Text>
+              ) : null)}
           </>
         }
       />
@@ -180,7 +300,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   return (
     <View style={styles.commentContainer}>
       <FlatList
-        data={data}
+        data={dataLvl1}
         showsVerticalScrollIndicator={false}
         scrollEnabled={false}
         keyExtractor={(_, index) => index.toString()}
@@ -192,9 +312,42 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             postDate={item.timeAgo}
             artistPostId={item.repliedTo}
             commentCaption={item.caption}
-            likeOnPress={() => likeOnPressLvl1(index)}
-            likePressed={selectedId.includes(index) ? true : false}
-            likeCount={item.likesCount}
+            likeOnPress={() => likeOnPress(item.id, item.isLiked)}
+            likePressed={
+              selectedId === undefined
+                ? item.isLiked
+                : selectedId.includes(item.id) && recorder.includes(item.id)
+                ? true
+                : !selectedId.includes(item.id) && recorder.includes(item.id)
+                ? false
+                : !selectedId.includes(item.id) && !recorder.includes(item.id)
+                ? item.isLiked
+                : item.isLiked
+              //1 && 2 = true
+              // !1 && 2 = false
+              // !1 && !2 = isLiked
+            }
+            likeCount={
+              selectedId === undefined
+                ? item.likesCount
+                : selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === true
+                ? item.likesCount
+                : selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === false
+                ? item.likesCount + 1
+                : !selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === true
+                ? item.likesCount - 1
+                : !selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === false
+                ? item.likesCount
+                : item.likesCount
+            }
             commentOnPress={() =>
               commentOnPress(item.id, item.commentOwner.username)
             }
@@ -203,10 +356,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
               <>
                 {/* Comment Section Lvl 2 */}
                 <Gap height={12} />
-                {item.comments !== null ? (
+                {dataLvl2 !== undefined ? (
                   <>
                     <FlatList
-                      data={item.comments}
+                      data={filterParentID(dataLvl2, item.id)}
                       showsVerticalScrollIndicator={false}
                       scrollEnabled={false}
                       keyExtractor={(_, index) => index.toString()}
@@ -216,8 +369,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                           caption={item.caption}
                           likesCount={item.likesCount}
                           commentsCount={item.commentsCount}
+                          // @ts-ignore
                           comments={item.comments}
                           repliedTo={item.repliedTo}
+                          parentID={item.parentID}
                           isLiked={item.isLiked}
                           timeAgo={item.timeAgo}
                           commentOwner={item.commentOwner}
@@ -225,23 +380,30 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                         />
                       )}
                     />
-                    {/* // TODO : PENDING */}
-                    {/* {showMoreLvl2 === false && item.commentsCount > 1 ? (
-                      <Text
-                        style={styles.viewMore}
-                        onPress={() => viewMoreOnPress(item.id, 2)}>
-                        View more reply
-                      </Text>
-                    ) : null} */}
                   </>
                 ) : null}
+                {item.commentsCount > 1 &&
+                  (dataLvl2 === undefined ? (
+                    <Text
+                      style={styles.viewMore}
+                      onPress={() => viewMoreOnPress(item.id, 2)}>
+                      View more reply
+                    </Text>
+                  ) : dataLvl2 !== undefined &&
+                    filterParentID(dataLvl2, item.id).length !=
+                      item.commentsCount ? (
+                    <Text
+                      style={styles.viewMore}
+                      onPress={() => viewMoreOnPress(item.id, 2)}>
+                      View more reply
+                    </Text>
+                  ) : null)}
               </>
             }
           />
         )}
       />
-      {/* // TODO : PENDING */}
-      {/* {showMore === false && postCommentCount >= 10 ? (
+      {postCommentCount >= 10 && dataLvl1?.length != postCommentCount ? (
         <Text
           style={[
             styles.viewMore,
@@ -249,10 +411,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
               marginBottom: mvs(20),
             },
           ]}
-          onPress={() => viewMoreOnPress(postId, 3)}>
+          onPress={() => viewMoreOnPress(postId, 1)}>
           View more reply
         </Text>
-      ) : null} */}
+      ) : null}
     </View>
   );
 };
@@ -270,6 +432,6 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: ms(12),
-    marginBottom: heightResponsive(8),
+    marginBottom: heightResponsive(12),
   },
 });

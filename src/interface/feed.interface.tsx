@@ -9,6 +9,14 @@ export type PostPropsTypeB = {
   content: {content: string};
 };
 
+export type LoadMoreProps = {
+  id: string;
+  params: {
+    page: number;
+    perPage: number;
+  };
+};
+
 export type DataComment = {id: string; created_at: string};
 
 // => PostList Area
@@ -86,6 +94,7 @@ export type CommentList = {
   caption: string;
   likesCount: number;
   repliedTo: string;
+  parentID: string;
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;
@@ -105,6 +114,7 @@ export type CommentList2 = {
   caption: string;
   likesCount: number;
   repliedTo: string;
+  parentID: string;
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;
@@ -124,6 +134,7 @@ export type CommentList3 = {
   caption: string;
   likesCount: number;
   repliedTo: string;
+  parentID: string;
   commentsCount: number;
   commentLevel?: number;
   createdAt?: string;

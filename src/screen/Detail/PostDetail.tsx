@@ -12,22 +12,22 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {
-  elipsisText,
-  heightPercentage,
-  normalize,
-  widthResponsive,
-} from '../../utils';
+import {elipsisText, heightPercentage, widthResponsive} from '../../utils';
 import {ms, mvs} from 'react-native-size-matters';
-import {commentData} from '../../data/comment';
 import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
 import ImageList from '../ListCard/ImageList';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {dateFormat} from '../../utils/date-format';
-import {CommentList} from '../../interface/feed.interface';
+import {
+  CommentList,
+  CommentList2,
+  CommentList3,
+  DetailPostData,
+} from '../../interface/feed.interface';
 import {useProfileHook} from '../../hooks/use-profile.hook';
+import {duplicateFilter} from './function';
 
 type PostDetailProps = NativeStackScreenProps<RootStackParams, 'PostDetail'>;
 
@@ -40,24 +40,25 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const {
     dataPostDetail,
     dataCmntToCmnt,
-    dataCommentList,
+    dataLoadMore,
     setLikePost,
     setUnlikePost,
     setCommentToPost,
     setCommentToComment,
     getDetailPost,
-    setCommentList,
+    setLoadMore,
+    setLikeComment,
+    setUnlikeComment,
   } = useFeedHook();
 
   const {dataProfile, getProfileUser} = useProfileHook();
 
   const data = route.params;
   const musicianName = data.musician.fullname;
-  const caption = data.caption;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const [likePressed, setLikePressed] = useState<boolean>(false);
+  const [likePressed, setLikePressed] = useState<boolean>();
   const [readMore, setReadMore] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
@@ -65,36 +66,23 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [commentType, setCommentType] = useState<string>('');
+  const [likeCommentId, setLikeCommentId] = useState<string>('');
+  const [unlikeCommentId, setUnlikeCommentId] = useState<string>('');
   const [cmntToCmnt, setCmntToCmnt] = useState<{
     id: string;
     userName: string;
   }>();
   const [viewMore, setViewMore] = useState<string>('');
-  const [dataMainComment, setDataMainComment] = useState<
-    CommentList[] | undefined
-  >(dataPostDetail?.comments);
+  const [dataMainComment, setDataMainComment] = useState<DetailPostData>();
   const [dataProfileImg, setDataProfileImg] = useState<string>('');
+  const [commentLvl1, setCommentLvl1] = useState<CommentList[] | undefined>();
+  const [commentLvl2, setCommentLvl2] = useState<CommentList2[] | undefined>();
+  const [commentLvl3, setCommentLvl3] = useState<CommentList3[] | undefined>();
+  const [perPage, setPerPage] = useState<number>(10);
+  const [perPage2, setPerPage2] = useState<number>(1);
+  const [activePage, setActivePage] = useState<number>(0);
 
-  const likeOnPress = (id: string, isLiked: boolean) => {
-    if (isLiked) {
-      return setLikePost({id});
-    } else {
-      setUnlikePost({id});
-    }
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      getDetailPost({id: data.id});
-    }, []),
-  );
-
-  useEffect(() => {
-    dataPostDetail !== null && dataCommentList === null
-      ? setDataMainComment(dataPostDetail?.comments)
-      : null;
-  }, [dataPostDetail]);
-
+  // ? Get Profile
   useEffect(() => {
     getProfileUser();
   }, []);
@@ -105,6 +93,88 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       ? setDataProfileImg(dataProfile?.data.imageProfileUrl)
       : '';
   }, [dataProfile]);
+
+  //  ? Get Detail Post
+  useFocusEffect(
+    useCallback(() => {
+      getDetailPost({id: data.id});
+    }, []),
+  );
+
+  // ? Set Like / Unlike
+  const likeOnPress = (id: string, isLiked: boolean) => {
+    if (isLiked === true) {
+      if (likePressed === true) {
+        setUnlikePost({id});
+        setLikePressed(false);
+      } else if (likePressed === false) {
+        setLikePost({id});
+        setLikePressed(true);
+      } else {
+        setUnlikePost({id});
+        setLikePressed(false);
+      }
+    } else if (isLiked === false) {
+      if (likePressed === true) {
+        setUnlikePost({id});
+        setLikePressed(false);
+      } else if (likePressed === false) {
+        setLikePost({id});
+        setLikePressed(true);
+      } else {
+        setLikePost({id});
+        setLikePressed(true);
+      }
+    }
+  };
+
+  // ? Set LikeComment / UnlikeComment
+  useEffect(() => {
+    likeCommentId !== '' && setLikeComment({id: likeCommentId});
+  }, [likeCommentId]);
+
+  useEffect(() => {
+    unlikeCommentId !== '' && setUnlikeComment({id: unlikeCommentId});
+  }, [unlikeCommentId]);
+
+  // !Comment Area
+  // * First Condition
+  useEffect(() => {
+    if (dataPostDetail !== null) {
+      if (commentLvl1 == undefined) {
+        return setCommentLvl1(dataPostDetail?.comments);
+      }
+    }
+  }, [dataPostDetail]);
+
+  // * Load More Condition
+  useEffect(() => {
+    if (dataLoadMore !== null) {
+      setViewMore('');
+      dataLoadMore?.map((item: CommentList) => {
+        if (item.commentLevel === 1) {
+          return setCommentLvl1(dataLoadMore);
+        } else if (item.commentLevel === 2 && commentLvl2 === undefined) {
+          return setCommentLvl2(dataLoadMore);
+        } else if (item.commentLevel === 2 && commentLvl2 !== undefined) {
+          let dataX = duplicateFilter(dataLoadMore, commentLvl2);
+          const mergedArray = [...commentLvl2, ...dataX];
+          return setCommentLvl2(mergedArray);
+        } else if (item.commentLevel === 3 && commentLvl3 === undefined) {
+          return setCommentLvl3(dataLoadMore);
+        } else if (item.commentLevel === 3 && commentLvl3 !== undefined) {
+          let dataX = duplicateFilter(dataLoadMore, commentLvl3);
+          const mergedArray = [...commentLvl3, ...dataX];
+          return setCommentLvl3(mergedArray);
+        }
+      });
+    }
+  }, [dataLoadMore]);
+  // !End of Comment
+
+  useEffect(() => {
+    dataPostDetail !== null ? setDataMainComment(dataPostDetail) : null;
+  }, [dataPostDetail]);
 
   //? handle comment in commentsection & open modal comment
   useEffect(() => {
@@ -118,18 +188,19 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     dataCmntToCmnt !== null && viewMore === ''
       ? getDetailPost({id: data.id})
       : dataCmntToCmnt !== null && viewMore !== ''
-      ? setCommentList({id: viewMore})
+      ? setLoadMore({
+          id: viewMore,
+          params: {page: 1, perPage: activePage === 1 ? perPage : perPage2},
+        })
       : null;
-  }, [dataCmntToCmnt, viewMore]);
+  }, [dataCmntToCmnt, viewMore, activePage]);
 
   //? handle viewMore in commentsection & call the api list comment
   useEffect(() => {
-    viewMore !== '' ? setCommentList({id: viewMore}) : null;
+    viewMore !== ''
+      ? setLoadMore({id: viewMore, params: {page: 1, perPage: perPage}})
+      : null;
   }, [viewMore]);
-
-  useEffect(() => {
-    dataCommentList !== null ? setDataMainComment(dataCommentList) : null;
-  }, [dataCommentList]);
 
   const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
@@ -170,6 +241,14 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setImgUrl(uri);
   };
 
+  const handleSetPage = (value: number) => {
+    if (value === 1) {
+      return setActivePage(1), setPerPage(perPage + 3);
+    } else {
+      return setActivePage(2), setPerPage2(perPage2 + 3);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.root}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -192,8 +271,26 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
               likeOnPress={() =>
                 likeOnPress(dataPostDetail.id, dataPostDetail.isLiked)
               }
-              likePressed={dataPostDetail.isLiked ? true : false}
-              likeCount={dataPostDetail.likesCount}
+              likePressed={
+                likePressed === undefined
+                  ? dataPostDetail.isLiked
+                  : likePressed === true
+                  ? true
+                  : false
+              }
+              likeCount={
+                likePressed === undefined
+                  ? dataPostDetail.likesCount
+                  : likePressed === true && dataPostDetail.isLiked === true
+                  ? dataPostDetail.likesCount
+                  : likePressed === true && dataPostDetail.isLiked === false
+                  ? dataPostDetail.likesCount + 1
+                  : likePressed === false && dataPostDetail.isLiked === true
+                  ? dataPostDetail.likesCount - 1
+                  : likePressed === false && dataPostDetail.isLiked === false
+                  ? dataPostDetail.likesCount
+                  : dataPostDetail.likesCount
+              }
               commentOnPress={() => commentOnPress(data.id, musicianName)}
               tokenOnPress={tokenOnPress}
               shareOnPress={shareOnPress}
@@ -250,12 +347,18 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         <Gap height={12} />
         <SsuDivider />
         <Gap height={20} />
-        {/* Comment Section Lvl 1 */}
+
+        {/* //! Comment Section Lvl 1 */}
         {dataPostDetail ? (
           <CommentSection
-            data={dataMainComment}
+            dataLvl1={commentLvl1}
+            dataLvl2={commentLvl2}
+            dataLvl3={commentLvl3}
             onComment={setCmntToCmnt}
+            onLike={setLikeCommentId}
+            onUnlike={setUnlikeCommentId}
             onViewMore={setViewMore}
+            onSetPage={handleSetPage}
             postCommentCount={dataPostDetail.commentsCount}
             postId={dataPostDetail.id}
           />

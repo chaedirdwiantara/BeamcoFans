@@ -1,15 +1,17 @@
 import {useState} from 'react';
 import {
   commentDetail,
-  commentList,
   commmentDelete,
   commmentToComment,
   commmentToPost,
   commmentUpdate,
   detailPost,
+  likeComment,
   likePost,
   listPost,
   listPostExclusive,
+  loadMore,
+  unlikeComment,
   unlikePost,
 } from '../api/feed.api';
 import {ParamsProps} from '../interface/base.interface';
@@ -18,6 +20,7 @@ import {
   CommentList,
   DataComment,
   DetailPostData,
+  LoadMoreProps,
   PostList,
   PostPropsTypeA,
   PostPropsTypeB,
@@ -78,7 +81,6 @@ export const useFeedHook = () => {
     try {
       const response = await likePost(props);
       setDataLike(response.data);
-      getListDataPost();
     } catch (error) {
       console.log(error);
       setDataLike(null);
@@ -92,7 +94,6 @@ export const useFeedHook = () => {
     try {
       const response = await unlikePost(props);
       setDataLike(response.data);
-      getListDataPost();
     } catch (error) {
       console.log(error);
       setDataLike(null);
@@ -103,30 +104,56 @@ export const useFeedHook = () => {
 
   // Comment Area
   const [commentLoading, setCommentLoading] = useState(false);
-  const [commentListLoading, setCommentListLoading] = useState(false);
+  const [LoadMoreLoading, setLoadMoreLoading] = useState(false);
   const [commentDetailLoading, setCommentDetailLoading] = useState(false);
   const [commentUpdateLoading, setCommentUpdateLoading] = useState(false);
   const [commentDeleteLoading, setCommentDeleteLoading] = useState(false);
   const [dataComment, setDataComment] = useState<DataComment | null>(null);
+  const [dataLoadMore, setDataLoadMore] = useState<CommentList[] | null>(null);
   const [dataCmntToCmnt, setDataCmntToCmnt] = useState<DataComment | null>(
-    null,
-  );
-  const [dataCommentList, setDataCommentList] = useState<CommentList[] | null>(
     null,
   );
   const [dataCommentDetail, setDataCommentDetail] =
     useState<CommentDetailData | null>(null);
+  const [dataLikeComment, setDataLikeComment] = useState<string | null>(null);
+  const [likeCommentLoading, setLikeCommentLoading] = useState(false);
 
-  const setCommentList = async (props?: PostPropsTypeA) => {
-    setCommentListLoading(true);
+  const setLikeComment = async (props?: PostPropsTypeA) => {
+    setLikeCommentLoading(true);
     try {
-      const response = await commentList(props);
-      setDataCommentList(response.data);
+      const response = await likeComment(props);
+      setDataLikeComment(response.data);
     } catch (error) {
       console.log(error);
-      setDataCommentList(null);
+      setDataLikeComment(null);
     } finally {
-      setCommentListLoading(false);
+      setLikeCommentLoading(false);
+    }
+  };
+
+  const setUnlikeComment = async (props?: PostPropsTypeA) => {
+    setLikeCommentLoading(true);
+    try {
+      const response = await unlikeComment(props);
+      setDataLikeComment(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataLikeComment(null);
+    } finally {
+      setLikeCommentLoading(false);
+    }
+  };
+
+  const setLoadMore = async (props?: LoadMoreProps) => {
+    setLoadMoreLoading(true);
+    try {
+      const response = await loadMore(props);
+      setDataLoadMore(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataLoadMore(null);
+    } finally {
+      setLoadMoreLoading(false);
     }
   };
 
@@ -201,19 +228,21 @@ export const useFeedHook = () => {
     feedIsLoading,
     likePostLoading,
     commentLoading,
-    commentListLoading,
+    LoadMoreLoading,
     commentDetailLoading,
+    dataLoadMore,
     feedIsError,
     feedMessage,
     dataPostList,
     dataLike,
     dataComment,
-    dataCommentList,
     dataCommentDetail,
     commentUpdateLoading,
     commentDeleteLoading,
     dataPostDetail,
     dataCmntToCmnt,
+    dataLikeComment,
+    likeCommentLoading,
     setDataCmntToCmnt,
     getListDataPost,
     getListDataExclusivePost,
@@ -221,10 +250,12 @@ export const useFeedHook = () => {
     setUnlikePost,
     setCommentToPost,
     setCommentToComment,
-    setCommentList,
+    setLoadMore,
     setCommentDetail,
     setCommentUpdate,
     setCommentDelete,
     getDetailPost,
+    setLikeComment,
+    setUnlikeComment,
   };
 };
