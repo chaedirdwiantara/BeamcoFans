@@ -8,6 +8,7 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {color} from '../theme';
 import MerchList from './ListCard/MerchList';
 import {BoxStore, CartIcon} from '../assets/icon';
+import ConcertList from './ListCard/ConcertList';
 
 export const EventScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(-0);
@@ -43,7 +44,7 @@ export const EventScreen: React.FC = () => {
               TouchableStyle={{width: widthPercentageToDP(45)}}
             />
             {filter[selectedIndex].filterName === 'Concert' ? (
-              <Text>Concert</Text>
+              <ConcertList />
             ) : (
               <MerchList />
             )}

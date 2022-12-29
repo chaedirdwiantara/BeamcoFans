@@ -79,6 +79,7 @@ import CartIcon from './Cart.icon';
 import BoxStore from './BoxStore.icon';
 import CheckIcon from './Check.icon';
 import MinusIcon from './Minus.icon';
+import TicketIcon from './Ticket.icon';
 
 export {
   AddIcon,
@@ -162,4 +163,5 @@ export {
   BoxStore,
   CheckIcon,
   MinusIcon,
+  TicketIcon,
 };
