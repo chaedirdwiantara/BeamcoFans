@@ -63,11 +63,11 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
   };
 
   const onResendOTP = () => {
-    if (route.params.type === 'email') {
-      sendOtpEmail(route.params.id);
-    } else if (route.params.type === 'phoneNumber') {
-      sendOtpSms(route.params.id);
-    }
+    // if (route.params.type === 'email') {
+    //   sendOtpEmail(route.params.id);
+    // } else if (route.params.type === 'phoneNumber') {
+    //   sendOtpSms(route.params.id);
+    // }
   };
 
   const children = () => {

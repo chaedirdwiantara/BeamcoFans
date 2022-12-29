@@ -120,14 +120,25 @@ export const SignupScreen: React.FC = () => {
 
   useEffect(() => {
     if (!isLoading && !isError && authResult !== null) {
-      navigation.replace('Otp', {
-        id: watch('email'),
-        type: 'email',
-        title: 'Email Verification Code',
-        subtitle: `We have sent you six digits verification code on address ${watch(
-          'email',
-        )} check your inbox and enter verification code here`,
-      });
+      if (watch('registrationType') === 'email') {
+        navigation.replace('Otp', {
+          id: watch('email'),
+          type: 'email',
+          title: 'Email Verification Code',
+          subtitle: `We have sent you six digits verification code on address ${watch(
+            'email',
+          )} check your inbox and enter verification code here`,
+        });
+      } else {
+        navigation.replace('Otp', {
+          id: watch('phoneNumber'),
+          type: 'phoneNumber',
+          title: 'Phone Verification Code',
+          subtitle: `Enter the verification code that we’ve sent to ${
+            countryNumber + watch('phoneNumber')
+          }`,
+        });
+      }
     } else if (!isLoading && isError !== null) {
       setError('termsCondition', {
         type: 'value',
