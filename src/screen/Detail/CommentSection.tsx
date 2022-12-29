@@ -40,11 +40,9 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   } = props;
   const [recorder, setRecorder] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string[]>();
-  const [selectedIdLvl2, setSelectedIdLvl2] = useState<string[]>();
-  const [selectedIdLvl3, setSelectedIdLvl3] = useState<string[]>();
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
 
-  const likeOnPressLvl1 = (id: string, isLiked: boolean) => {
+  const likeOnPress = (id: string, isLiked: boolean) => {
     if (isLiked === true && selectedId === undefined) {
       onUnlike?.(id);
       setSelectedId([]);
@@ -122,170 +120,6 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     }
   };
 
-  const likeOnPressLvl2 = (id: string, isLiked: boolean) => {
-    if (isLiked === true && selectedIdLvl2 === undefined) {
-      onUnlike?.(id);
-      setSelectedIdLvl2([]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (!isLiked && selectedIdLvl2 === undefined) {
-      onLike?.(id);
-      setSelectedIdLvl2([id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === true &&
-      !selectedIdLvl2?.includes(id) &&
-      !recorder.includes(id)
-    ) {
-      onUnlike?.(id);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === false &&
-      !selectedIdLvl2?.includes(id) &&
-      !recorder.includes(id)
-    ) {
-      onLike?.(id);
-      setSelectedIdLvl2(selectedIdLvl2 ? [...selectedIdLvl2, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === true &&
-      !selectedIdLvl2?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      onLike?.(id);
-      setSelectedIdLvl2(selectedIdLvl2 ? [...selectedIdLvl2, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === false &&
-      !selectedIdLvl2?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      onLike?.(id);
-      setSelectedIdLvl2(selectedIdLvl2 ? [...selectedIdLvl2, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === true &&
-      selectedIdLvl2?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      onUnlike?.(id);
-      setSelectedIdLvl2(selectedIdLvl2.filter((x: string) => x !== id));
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === false &&
-      selectedIdLvl2?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      onUnlike?.(id);
-      setSelectedIdLvl2(selectedIdLvl2.filter((x: string) => x !== id));
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-  };
-
-  const likeOnPressLvl3 = (id: string, isLiked: boolean) => {
-    if (isLiked === true && selectedIdLvl3 === undefined) {
-      onUnlike?.(id);
-      setSelectedIdLvl3([]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (!isLiked && selectedIdLvl3 === undefined) {
-      onLike?.(id);
-      setSelectedIdLvl3([id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === true &&
-      !selectedIdLvl3?.includes(id) &&
-      !recorder.includes(id)
-    ) {
-      onUnlike?.(id);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === false &&
-      !selectedIdLvl3?.includes(id) &&
-      !recorder.includes(id)
-    ) {
-      onLike?.(id);
-      setSelectedIdLvl3(selectedIdLvl3 ? [...selectedIdLvl3, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === true &&
-      !selectedIdLvl3?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      onLike?.(id);
-      setSelectedIdLvl3(selectedIdLvl3 ? [...selectedIdLvl3, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === false &&
-      !selectedIdLvl3?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      onLike?.(id);
-      setSelectedIdLvl3(selectedIdLvl3 ? [...selectedIdLvl3, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === true &&
-      selectedIdLvl3?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      onUnlike?.(id);
-      setSelectedIdLvl3(selectedIdLvl3.filter((x: string) => x !== id));
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-    if (
-      isLiked === false &&
-      selectedIdLvl3?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      onUnlike?.(id);
-      setSelectedIdLvl3(selectedIdLvl3.filter((x: string) => x !== id));
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
-      }
-    }
-  };
-
   const commentOnPress = (id: string, userName: string) => {
     setInputCommentModal(!inputCommentModal);
     onComment?.({id, userName});
@@ -317,34 +151,34 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         userCommentedIdLvl3={repliedTo}
         commentCaptionLvl3={caption}
         commentOnPressLvl3={() => commentOnPress(id, commentOwner.username)}
-        likeOnPressLvl3={() => likeOnPressLvl3(id, isLiked)}
+        likeOnPressLvl3={() => likeOnPress(id, isLiked)}
         likePressedLvl3={
-          selectedIdLvl3 === undefined
+          selectedId === undefined
             ? isLiked
-            : selectedIdLvl3.includes(id) && recorder.includes(id)
+            : selectedId.includes(id) && recorder.includes(id)
             ? true
-            : !selectedIdLvl3.includes(id) && recorder.includes(id)
+            : !selectedId.includes(id) && recorder.includes(id)
             ? false
-            : !selectedIdLvl3.includes(id) && !recorder.includes(id)
+            : !selectedId.includes(id) && !recorder.includes(id)
             ? isLiked
             : isLiked
         }
         likeCountLvl3={
-          selectedIdLvl3 === undefined
+          selectedId === undefined
             ? likesCount
-            : selectedIdLvl3.includes(id) &&
+            : selectedId.includes(id) &&
               recorder.includes(id) &&
               isLiked === true
             ? likesCount
-            : selectedIdLvl3.includes(id) &&
+            : selectedId.includes(id) &&
               recorder.includes(id) &&
               isLiked === false
             ? likesCount + 1
-            : !selectedIdLvl3.includes(id) &&
+            : !selectedId.includes(id) &&
               recorder.includes(id) &&
               isLiked === true
             ? likesCount - 1
-            : !selectedIdLvl3.includes(id) &&
+            : !selectedId.includes(id) &&
               recorder.includes(id) &&
               isLiked === false
             ? likesCount
@@ -377,34 +211,34 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         userCommentedId={repliedTo}
         commentCaptionLvl2={caption}
         commentOnPressLvl2={() => commentOnPress(id, commentOwner.username)}
-        likeOnPressLvl2={() => likeOnPressLvl2(id, isLiked)}
+        likeOnPressLvl2={() => likeOnPress(id, isLiked)}
         likePressedLvl2={
-          selectedIdLvl2 === undefined
+          selectedId === undefined
             ? isLiked
-            : selectedIdLvl2.includes(id) && recorder.includes(id)
+            : selectedId.includes(id) && recorder.includes(id)
             ? true
-            : !selectedIdLvl2.includes(id) && recorder.includes(id)
+            : !selectedId.includes(id) && recorder.includes(id)
             ? false
-            : !selectedIdLvl2.includes(id) && !recorder.includes(id)
+            : !selectedId.includes(id) && !recorder.includes(id)
             ? isLiked
             : isLiked
         }
         likeCountLvl2={
-          selectedIdLvl2 === undefined
+          selectedId === undefined
             ? likesCount
-            : selectedIdLvl2.includes(id) &&
+            : selectedId.includes(id) &&
               recorder.includes(id) &&
               isLiked === true
             ? likesCount
-            : selectedIdLvl2.includes(id) &&
+            : selectedId.includes(id) &&
               recorder.includes(id) &&
               isLiked === false
             ? likesCount + 1
-            : !selectedIdLvl2.includes(id) &&
+            : !selectedId.includes(id) &&
               recorder.includes(id) &&
               isLiked === true
             ? likesCount - 1
-            : !selectedIdLvl2.includes(id) &&
+            : !selectedId.includes(id) &&
               recorder.includes(id) &&
               isLiked === false
             ? likesCount
@@ -478,7 +312,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             postDate={item.timeAgo}
             artistPostId={item.repliedTo}
             commentCaption={item.caption}
-            likeOnPress={() => likeOnPressLvl1(item.id, item.isLiked)}
+            likeOnPress={() => likeOnPress(item.id, item.isLiked)}
             likePressed={
               selectedId === undefined
                 ? item.isLiked
