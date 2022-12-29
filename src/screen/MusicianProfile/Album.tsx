@@ -15,31 +15,34 @@ interface dataAlbum {
 interface AlbumProps {
   title: string;
   data: dataAlbum[];
+  errorText: string;
 }
 
 const Album: FC<AlbumProps> = (props: AlbumProps) => {
-  const {title, data} = props;
+  const {title, data, errorText} = props;
 
   return (
     <View style={{marginHorizontal: widthResponsive(24)}}>
       <Title text={title} />
       <Gap height={12} />
-      {data.map((item, i) => (
-        <TouchableOpacity
-          style={styles.container}
-          onPress={() => {}}
-          testID={`album${i}`}>
-          <SquareComp imgUri={item.imgUri} size={widthResponsive(56)} />
-          <View style={styles.textContainer}>
-            <Text style={styles.songTitle} numberOfLines={1}>
-              {item.albumTitle}
-            </Text>
-            <Gap height={4} />
-            <Text style={styles.songDesc} numberOfLines={1}>
-              {item.artistName}
-            </Text>
-          </View>
-          {/* <Dropdown.More
+      {data ? (
+        <View>
+          {data.map((item, i) => (
+            <TouchableOpacity
+              style={styles.container}
+              onPress={() => {}}
+              testID={`album${i}`}>
+              <SquareComp imgUri={item.imgUri} size={widthResponsive(56)} />
+              <View style={styles.textContainer}>
+                <Text style={styles.songTitle} numberOfLines={1}>
+                  {item.albumTitle}
+                </Text>
+                <Gap height={4} />
+                <Text style={styles.songDesc} numberOfLines={1}>
+                  {item.artistName}
+                </Text>
+              </View>
+              {/* <Dropdown.More
               data={dataFilter ? dataFilter : dataMore}
               selectedMenu={onPressMore}
               containerStyle={{
@@ -48,8 +51,12 @@ const Album: FC<AlbumProps> = (props: AlbumProps) => {
                 marginTop: heightPercentage(-8),
               }}
             /> */}
-        </TouchableOpacity>
-      ))}
+            </TouchableOpacity>
+          ))}
+        </View>
+      ) : (
+        <Text style={styles.captionStyle}>{errorText}</Text>
+      )}
     </View>
   );
 };
@@ -80,5 +87,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: ms(10),
     color: color.Dark[100],
+  },
+  captionStyle: {
+    color: color.Neutral[10],
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: ms(12),
   },
 });

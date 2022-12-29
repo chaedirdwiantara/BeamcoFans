@@ -25,13 +25,13 @@ import ExclusiveDailyContent from './ExclusiveDailyContent';
 import ProfileComponent from './ProfileComponent';
 import Album from './Album';
 import Photo from './Photo';
+import {DataDetailMusician} from '../../interface/musician.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
 ) => void;
 interface ProfileContentProps {
-  playlist: any;
-  profile: any;
+  profile: DataDetailMusician;
   goToEditProfile?: () => void;
   goToPlaylist: () => void;
   onPressGoTo: (
@@ -39,56 +39,8 @@ interface ProfileContentProps {
   ) => void;
 }
 
-const Dummy = {
-  about:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus',
-  origin: 'Jakarta, Indonesia',
-  yearsActive: '1999 - present',
-  members: 'Once, Ari Lasso, Ahmad Dhani',
-  website: 'www.dealopa.com',
-};
-
-const DummyPhotos = [
-  {
-    imgUri:
-      'https://upload.wikimedia.org/wikipedia/en/e/e7/Born_Pink_Digital.jpeg',
-  },
-  {
-    imgUri:
-      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
-  },
-  {
-    imgUri:
-      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
-  },
-  {
-    imgUri:
-      'https://upload.wikimedia.org/wikipedia/en/e/e7/Born_Pink_Digital.jpeg',
-  },
-  {
-    imgUri:
-      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
-  },
-];
-
-const DummyAlbum = [
-  {
-    albumTitle: 'Born Pink',
-    artistName: 'BlackPink',
-    imgUri:
-      'https://upload.wikimedia.org/wikipedia/en/e/e7/Born_Pink_Digital.jpeg',
-  },
-  {
-    albumTitle: 'The Album',
-    artistName: 'BlackPink',
-    imgUri:
-      'https://image.winudf.com/v2/image1/Y29tLnBob2ViZWluYy5tdXNpY0NvbWViYWNrQkxBQ0tQSU5LSG93WW91TGlrZVRoYXRfc2NyZWVuXzBfMTYwMTc0NDQ0Nl8wMjc/screen-0.jpg?fakeurl=1&type=.webp',
-  },
-];
-
 export const ProfileContent: React.FC<ProfileContentProps> = ({
   profile,
-  playlist,
   goToEditProfile,
   goToPlaylist,
   onPressGoTo,
@@ -104,6 +56,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
     {filterName: 'MUSIC'},
     {filterName: 'FANS'},
   ]);
+
+  const noDataText = 'No information given.';
+  const noAlbumText = 'No Album Available.';
+  const noMerch = 'No Merch Available';
+
   const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
   };
@@ -130,17 +87,17 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         scrollEventThrottle={16}
         onScroll={handleScroll}>
         <ProfileHeader
-          avatarUri={profile.avatarUri}
-          backgroundUri={profile.backgroundUri}
+          avatarUri={profile.imageProfileUrl}
+          backgroundUri={profile.banner}
           fullname={profile.fullname}
           username={profile.username}
           bio={profile.bio}
+          isFollowed={profile.isFollowed}
           onPress={goToEditProfile}
           iconPress={() => onPressGoTo('Setting')}
         />
         <View style={styles.infoCard}>
           <UserInfoCard
-            type=""
             containerStyles={{paddingHorizontal: widthResponsive(18)}}
             onPress={() => onPressGoTo('Following')}
           />
@@ -158,26 +115,56 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 <Gap height={24} />
                 <ProfileComponent
                   title={'About'}
-                  content={Dummy.about}
+                  content={profile.about ? profile.about : noDataText}
                   gap={16}
                 />
                 <Gap height={24} />
-                <ProfileComponent title={'Social Media'} socmed gap={16} />
+                <ProfileComponent
+                  title={'Social Media'}
+                  gap={16}
+                  socmedSection
+                  socmed={profile.socialMedia}
+                />
                 <Gap height={24} />
-                <ProfileComponent title={'Origin'} content={Dummy.origin} />
+                <ProfileComponent
+                  title={'Origin'}
+                  content={
+                    profile.originCity && profile.originCountry
+                      ? `${profile.originCity}, ${profile.originCountry}`
+                      : noDataText
+                  }
+                />
                 <Gap height={24} />
                 <ProfileComponent
                   title={'Years Active'}
-                  content={Dummy.yearsActive}
+                  content={
+                    profile.yearsActiveFrom && profile.yearsActiveTo
+                      ? `${profile.yearsActiveFrom} - ${profile.yearsActiveTo}`
+                      : noDataText
+                  }
                 />
                 <Gap height={24} />
-                <ProfileComponent title={'Members'} content={Dummy.members} />
+                <ProfileComponent
+                  title={'Members'}
+                  memberSection
+                  members={profile.members}
+                />
                 <Gap height={24} />
-                <ProfileComponent title={'Website'} content={Dummy.website} />
+                <ProfileComponent title={'Website'} content={profile.website} />
                 <Gap height={24} />
-                <Photo title={'Photos'} data={DummyPhotos} />
+                <Photo title={'Photos'} data={profile.photos} />
                 <Gap height={24} />
-                <Album title={'Album'} data={DummyAlbum} />
+                <Album
+                  title={'Album'}
+                  data={profile.albums}
+                  errorText={noAlbumText}
+                />
+                <Gap height={24} />
+                <Album
+                  title={'Merch'}
+                  data={profile.merchs}
+                  errorText={noMerch}
+                />
               </View>
             ) : filter[selectedIndex].filterName === 'POST' ? (
               MusicianListData.length > 0 ? (

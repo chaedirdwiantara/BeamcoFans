@@ -29,7 +29,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   const uuid = route.params.id;
 
-  const {isLoading, isError, dataMusician, getDetailMusician} =
+  const {isLoading, isError, dataDetailMusician, getDetailMusician} =
     useMusicianHook();
 
   //  ? Get Detail Musician
@@ -55,13 +55,14 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   return (
     <View style={styles.root}>
-      <ProfileContent
-        profile={profile}
-        playlist={undefined}
-        onPressGoTo={screenName => onPressGoTo(screenName)}
-        goToEditProfile={goToEditProfile}
-        goToPlaylist={goToPlaylist}
-      />
+      {dataDetailMusician && (
+        <ProfileContent
+          profile={dataDetailMusician}
+          onPressGoTo={screenName => onPressGoTo(screenName)}
+          goToEditProfile={goToEditProfile}
+          goToPlaylist={goToPlaylist}
+        />
+      )}
     </View>
   );
 };

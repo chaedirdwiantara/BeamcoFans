@@ -18,6 +18,9 @@ export type ListMusicianResponseType = {
   meta: PaginationType;
   status: number;
 };
+interface dataAlbum {
+  imgUri: string;
+}
 
 export type DataDetailMusician = {
   uuid: string;
@@ -45,6 +48,9 @@ export type DataDetailMusician = {
   updatedAt: string;
   isFollowed: boolean;
   banner: string;
+  photos: dataAlbum[];
+  albums: [];
+  merchs: [];
 };
 
 export type DetailMusicianResponseType = {

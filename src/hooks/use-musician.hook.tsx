@@ -6,6 +6,7 @@ import {
   unfollowMusician,
 } from '../api/musician.api';
 import {
+  DataDetailMusician,
   FollowMusicianPropsType,
   MusicianList,
 } from '../interface/musician.interface';
@@ -15,6 +16,8 @@ import {PostPropsTypeA} from '../interface/feed.interface';
 export const useMusicianHook = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataMusician, setDataMusician] = useState<MusicianList[]>([]);
+  const [dataDetailMusician, setDataDetailMusician] =
+    useState<DataDetailMusician>();
   const [dataFollow, setDataFollow] = useState<string | null>(null);
   const [isError, setIsError] = useState(false);
 
@@ -34,11 +37,11 @@ export const useMusicianHook = () => {
   const getDetailMusician = async (props?: PostPropsTypeA) => {
     try {
       const response = await detailMusician(props);
-      setDataMusician(response.data);
+      setDataDetailMusician(response.data);
     } catch (error) {
       console.log(error);
       setIsError(true);
-      setDataMusician([]);
+      setDataDetailMusician(undefined);
     } finally {
       setIsLoading(false);
     }
@@ -87,6 +90,7 @@ export const useMusicianHook = () => {
     isError,
     dataMusician,
     dataFollow,
+    dataDetailMusician,
     getListDataMusician,
     setFollowMusician,
     setUnfollowMusician,

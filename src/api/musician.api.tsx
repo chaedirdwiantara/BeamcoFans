@@ -1,5 +1,6 @@
 import SsuAPI from './base';
 import {
+  DetailMusicianResponseType,
   FollowMusicianPropsType,
   FollowMusicianResponseType,
   ListMusicianResponseType,
@@ -21,8 +22,8 @@ export const listMusician = async (
 
 export const detailMusician = async (
   props?: PostPropsTypeA,
-): Promise<ListMusicianResponseType> => {
-  const {data} = await SsuAPI().request<ListMusicianResponseType>({
+): Promise<DetailMusicianResponseType> => {
+  const {data} = await SsuAPI().request<DetailMusicianResponseType>({
     url: `/musicians/${props?.id}`,
     method: 'GET',
   });

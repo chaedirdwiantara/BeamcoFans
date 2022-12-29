@@ -26,6 +26,7 @@ export interface ProfileHeaderProps {
   type?: string;
   onPress?: (params: string) => void;
   iconPress?: (params: string) => void;
+  isFollowed?: boolean;
   containerStyles?: ViewStyle;
 }
 
@@ -41,6 +42,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
     type = '',
     onPress,
     iconPress,
+    isFollowed,
     containerStyles,
   } = props;
 
@@ -69,13 +71,33 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
           <View style={styles.containerFooter}>
             <Text style={styles.description}>{bio}</Text>
             <View style={{flexDirection: 'row'}}>
-              <ButtonGradient
-                label={'Follow'}
-                gradientStyles={styles.btnContainer}
-                onPress={() => {}}
-              />
-              <Gap width={11} />
-              <Button label={'Donate'} containerStyles={styles.btnContainer2} />
+              {isFollowed ? (
+                <>
+                  <ButtonGradient
+                    label={'Unfollow'}
+                    gradientStyles={styles.btnContainer}
+                    onPress={() => {}}
+                  />
+                  <Gap width={11} />
+                  <Button
+                    label={'Donate'}
+                    containerStyles={styles.btnContainer2}
+                  />
+                </>
+              ) : (
+                <>
+                  <ButtonGradient
+                    label={'Follow'}
+                    gradientStyles={styles.btnContainer}
+                    onPress={() => {}}
+                  />
+                  <Gap width={11} />
+                  <Button
+                    label={'Donate'}
+                    containerStyles={styles.btnContainer2}
+                  />
+                </>
+              )}
             </View>
           </View>
         )}
