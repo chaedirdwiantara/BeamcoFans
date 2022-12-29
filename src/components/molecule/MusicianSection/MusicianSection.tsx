@@ -24,7 +24,7 @@ interface MusicianProps {
   musicianName: string;
   imgUri: string;
   containerStyles?: ViewStyle;
-  point?: string | null;
+  point?: number | null;
   isFollowed: boolean;
   followOnPress: () => void;
 }
@@ -36,13 +36,15 @@ interface DataMore {
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const {isFollowed, followOnPress} = props;
-  const textFollow = isFollowed ? 'Unfollow' : 'Follow';
+  const follow = isFollowed ? 'Unfollow' : 'Follow';
+  const [textFollow, setTextFollow] = useState(follow);
+  const [dropdownText, setDropdownText] = useState(follow);
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const isLogin = storage.getString('profile');
   const dataMore = [
-    {label: textFollow, value: '1'},
+    {label: dropdownText, value: '1'},
     {label: 'Send Donation', value: '2'},
     {label: 'Go To Musician', value: '3'},
   ];
@@ -70,6 +72,8 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
     if (dataResult.value === '1') {
       if (isLogin) {
         setToastVisible(true);
+        setTextFollow(isFollowed ? 'Unfollow' : 'Follow');
+        setDropdownText(isFollowed ? 'Follow' : 'Unfollow');
         followOnPress();
       } else {
         setModalGuestVisible(true);

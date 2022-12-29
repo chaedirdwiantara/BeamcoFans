@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -20,12 +20,12 @@ export const EmailScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <EmailContent
         onPressGoBack={onPressGoBack}
         goToChangeEmail={goToChangeEmail}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

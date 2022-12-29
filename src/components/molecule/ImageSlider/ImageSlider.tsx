@@ -22,6 +22,7 @@ import {ListCard, SelectBox} from '../../../components';
 import {DataFavouritesType} from '../../../data/preference';
 import {UpdateProfilePropsType} from '../../../api/profile.api';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {ParamsProps} from '../../../interface/base.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -32,8 +33,14 @@ interface ImageSliderProps {
   data: DataOnboardType[] | DataFavouritesType[];
   onPress: () => void;
   onUpdatePreference?: (props?: UpdateProfilePropsType) => void;
-  setFollowMusician: (props?: FollowMusicianPropsType) => void;
-  setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
+  setFollowMusician: (
+    props?: FollowMusicianPropsType,
+    params?: ParamsProps,
+  ) => void;
+  setUnfollowMusician: (
+    props?: FollowMusicianPropsType,
+    params?: ParamsProps,
+  ) => void;
   dataList?: MusicianList[];
 }
 
@@ -56,8 +63,8 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
 
   const followOnPress = (index: string, isFollowed: boolean) => {
     isFollowed
-      ? setUnfollowMusician({musicianID: index})
-      : setFollowMusician({musicianID: index});
+      ? setUnfollowMusician({musicianID: index}, {filterBy: 'top'})
+      : setFollowMusician({musicianID: index}, {filterBy: 'top'});
   };
 
   const handleNextSlide = () => {

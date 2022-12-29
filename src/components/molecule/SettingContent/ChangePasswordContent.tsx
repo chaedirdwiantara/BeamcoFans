@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import Color from '../../../theme/Color';
 import {Button, SsuInput} from '../../atom';
@@ -36,7 +36,7 @@ export const ChangePasswordContent: React.FC<ChangePasswordProps> = ({
   const onPressSave = () => {};
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type1
         title="Change Password"
         leftIcon={<ArrowLeftIcon />}
@@ -82,7 +82,7 @@ export const ChangePasswordContent: React.FC<ChangePasswordProps> = ({
         onPress={onPressSave}
         containerStyles={styles.button}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

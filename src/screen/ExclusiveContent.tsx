@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../theme/Color';
@@ -15,9 +15,9 @@ export const ExclusiveContentScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <ExclusiveContent onPressGoBack={onPressGoBack} />
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -23,7 +23,8 @@ import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
 import CrackEggIcon from './CrackEgg.icon';
 import CrownIcon from './Crown.icon';
-import DefaultAvatarIcon from './DefaultAvatar.icon';
+import {DefaultAvatar} from './DefaultAvatar.icon';
+import {DefaultImage} from './DefaultImage.icon';
 import DonateCoinIcon from './DonateCoin.icon';
 import EditIcon from './Edit.icon';
 import EmailIcon from './Email.icon';
@@ -74,6 +75,10 @@ import UserIcon from './User.icon';
 import UserProfileIcon from './UserProfile.icon';
 import VkIcon from './Vk.icon';
 import WeiboIcon from './Weibo.icon';
+import CartIcon from './Cart.icon';
+import BoxStore from './BoxStore.icon';
+import CheckIcon from './Check.icon';
+import MinusIcon from './Minus.icon';
 
 export {
   AddIcon,
@@ -101,7 +106,8 @@ export {
   CommentIcon,
   CrackEggIcon,
   CrownIcon,
-  DefaultAvatarIcon,
+  DefaultAvatar,
+  DefaultImage,
   DonateCoinIcon,
   EditIcon,
   EmailIcon,
@@ -152,4 +158,8 @@ export {
   UserProfileIcon,
   VkIcon,
   WeiboIcon,
+  CartIcon,
+  BoxStore,
+  CheckIcon,
+  MinusIcon,
 };

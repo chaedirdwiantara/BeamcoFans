@@ -1,19 +1,26 @@
 import React, {FC} from 'react';
 import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
-import {MusicianListData} from '../../data/topMusician';
 import {
   FollowMusicianPropsType,
   MusicianList,
 } from '../../interface/musician.interface';
+import {heightResponsive} from '../../utils';
+import {ParamsProps} from '../../interface/base.interface';
 import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
 
 interface TopMusicianProps {
   type?: string;
   scrollable?: boolean;
   dataMusician?: MusicianList[];
-  setFollowMusician: (props?: FollowMusicianPropsType) => void;
-  setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
+  setFollowMusician: (
+    props?: FollowMusicianPropsType,
+    params?: ParamsProps,
+  ) => void;
+  setUnfollowMusician: (
+    props?: FollowMusicianPropsType,
+    params?: ParamsProps,
+  ) => void;
 }
 
 const TopMusician: FC<TopMusicianProps> = ({
@@ -25,13 +32,13 @@ const TopMusician: FC<TopMusicianProps> = ({
 }) => {
   const followOnPress = (index: string, isFollowed: boolean) => {
     isFollowed
-      ? setUnfollowMusician({musicianID: index})
-      : setFollowMusician({musicianID: index});
+      ? setUnfollowMusician({musicianID: index}, {filterBy: 'top'})
+      : setFollowMusician({musicianID: index}, {filterBy: 'top'});
   };
 
   return (
     <FlashList
-      data={dataMusician.length > 0 ? dataMusician : MusicianListData}
+      data={dataMusician}
       showsVerticalScrollIndicator={false}
       scrollEnabled={scrollable}
       keyExtractor={item => item.uuid}
@@ -50,7 +57,7 @@ const TopMusician: FC<TopMusicianProps> = ({
           followOnPress={() => followOnPress(item.uuid, item.isFollowed)}
         />
       )}
-      estimatedItemSize={MusicianListData.length}
+      estimatedItemSize={heightResponsive(500)}
     />
   );
 };

@@ -61,6 +61,9 @@ import {AlbumScreen} from '../screen/Album/Album';
 // TopUp
 import {TopupCoinScreen} from '../screen/TopupCoin';
 
+// Merch
+import {MerchDetail} from '../screen/MerchDetail';
+
 import {storage} from '../hooks/use-storage.hook';
 
 // Icon
@@ -70,6 +73,7 @@ import Font from '../theme/Font';
 import Color from '../theme/Color';
 import {normalize} from '../utils';
 import {PostList} from '../interface/feed.interface';
+import {MerchListType} from '../data/merchList';
 
 export type RootStackParams = {
   Account: undefined;
@@ -118,6 +122,7 @@ export type RootStackParams = {
     url: string;
   };
   MusicPlayer: undefined;
+  MerchDetail: MerchListType;
 };
 
 export type MainTabParams = {
@@ -258,6 +263,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="Webview" component={WebviewPage} />
     <RootStack.Screen name="MusicPlayer" component={MusicPlayer} />
     <RootStack.Screen name="TopupCoin" component={TopupCoinScreen} />
+    <RootStack.Screen name="MerchDetail" component={MerchDetail} />
   </RootStack.Navigator>
 );
 

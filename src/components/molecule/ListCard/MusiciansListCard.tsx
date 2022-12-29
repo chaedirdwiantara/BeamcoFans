@@ -10,13 +10,14 @@ import {
 } from '../../../utils';
 import {color, font} from '../../../theme';
 import {Dropdown} from '../DropDown';
+import {DefaultAvatar} from '../../../assets/icon';
 
 export interface ListProps {
   musicianNum?: number | string;
   onPressMore: (data: any) => void;
   musicianName: string;
   imgUri: string;
-  point?: string | null;
+  point?: number | null;
   containerStyles?: ViewStyle;
   dataFilter?: {label: string; value: string}[];
 }
@@ -61,7 +62,11 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
           useGrouping: false,
         })}
       </Text>
-      <Avatar imgUri={imgUri} size={widthResponsive(44)} />
+      {imgUri === null || imgUri === '' ? (
+        <DefaultAvatar.MusicianIcon />
+      ) : (
+        <Avatar imgUri={imgUri} size={widthResponsive(44)} />
+      )}
       <Gap width={8} />
       <View style={styles.textContainer}>
         <Text style={styles.musicianName} numberOfLines={1}>

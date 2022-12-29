@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {FlashList} from '@shopify/flash-list';
-import {StyleSheet, SafeAreaView, View, Text} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
 import {
   elipsisText,
@@ -40,7 +40,7 @@ export const AddSongContent: React.FC<AddSongProps> = ({onPressGoBack}) => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
+    <View style={styles.root}>
       <TopNavigation.Type1
         title="Add Songs"
         leftIcon={<ArrowLeftIcon />}
@@ -99,7 +99,7 @@ export const AddSongContent: React.FC<AddSongProps> = ({onPressGoBack}) => {
         }
         modalStyle={{marginHorizontal: widthPercentage(24)}}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

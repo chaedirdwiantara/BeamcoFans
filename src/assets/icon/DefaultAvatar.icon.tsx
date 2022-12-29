@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Svg, {Circle, Path} from 'react-native-svg';
 import {View} from 'react-native';
+import Svg, {Circle, Path, Mask, G, Ellipse} from 'react-native-svg';
 import {widthPercentage} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
-function DefaultAvatarIcon({
+function ProfileIcon({
   width = widthPercentage(40),
   height = widthPercentage(40),
   fill = 'none',
@@ -27,4 +27,35 @@ function DefaultAvatarIcon({
   );
 }
 
-export default DefaultAvatarIcon;
+function MusicianIcon({
+  width = widthPercentage(44),
+  height = widthPercentage(44),
+  fill = 'none',
+  style,
+}: SvgProps) {
+  return (
+    <View style={[{width, height}, style]}>
+      <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 200 200'}>
+        <Circle cx={100} cy={100} r={100} fill="#222731" />
+        <Mask
+          id="a"
+          style={{
+            maskType: 'alpha',
+          }}
+          maskUnits="userSpaceOnUse"
+          x={0}
+          y={0}
+          width={200}
+          height={200}>
+          <Circle cx={100} cy={100} r={100} fill="#222731" />
+        </Mask>
+        <G mask="url(#a)" fill="#D9D9D9">
+          <Circle cx={99.9378} cy={89.2044} r={34.2044} />
+          <Ellipse cx={99.9378} cy={196.44} rx={61.9378} ry={66.56} />
+        </G>
+      </Svg>
+    </View>
+  );
+}
+
+export const DefaultAvatar = {ProfileIcon, MusicianIcon};

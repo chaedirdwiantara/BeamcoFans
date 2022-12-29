@@ -15,7 +15,7 @@ export const CreateNewPlaylist: React.FC = () => {
     navigation.goBack();
   };
 
-  const goToPlaylist = (params: string | undefined) => {
+  const goToPlaylist = (params: any) => {
     navigation.navigate('Playlist', {...params});
   };
 
