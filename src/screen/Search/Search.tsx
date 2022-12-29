@@ -17,6 +17,7 @@ import {SearchListData, SearchListType} from '../../data/search';
 import {mvs} from 'react-native-size-matters';
 import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
 import {ModalPlayMusic} from '../../components/molecule/Modal/ModalPlayMusic';
+import {useSearchHook} from '../../hooks/use-search.hook';
 
 export const SearchScreen: React.FC = () => {
   const navigation =
@@ -24,50 +25,30 @@ export const SearchScreen: React.FC = () => {
 
   const [state, setState] = useState<string>('');
   const [dataShow, setDataShow] = useState<SearchListType[]>([]);
-  const [forTrigger, setForTrigger] = useState<SearchListType[]>([]);
+  const [forTrigger, setForTrigger] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const resultDataMore = (dataResult: any) => {
-    console.log(dataResult, 'resultDataMenu');
-  };
 
   const [filter, setFilter] = useState([
     {filterName: 'Song'},
     {filterName: 'Musician'},
+    {filterName: 'Fans'},
     {filterName: 'Album'},
-    {filterName: 'Playlist'},
+    {filterName: 'Merch'},
     {filterName: 'Event'},
   ]);
 
-  const filterData = (item: any, index: any) => {
-    let dataFilter = [...SearchListData];
-    dataFilter = dataFilter.filter(x => x.type === item);
-    setDataShow(dataFilter);
-    setSelectedIndex(index);
-  };
+  const {
+    searchLoading,
+    dataSearchFans,
+    dataSearchMusicians,
+    getSearchFans,
+    getSearchMusicians,
+  } = useSearchHook();
 
-  const onSubmit = () => {
-    if (state !== '') {
-      const newData = SearchListData.filter(item => {
-        const singerName = item.singerName
-          ? item.singerName.toUpperCase()
-          : ''.toUpperCase();
-        const musicTitle = item.musicTitle
-          ? item.musicTitle.toUpperCase()
-          : ''.toUpperCase();
-        const searchText = state.toUpperCase();
-        return (
-          singerName.indexOf(searchText) > -1 ||
-          musicTitle.indexOf(searchText) > -1
-        );
-      });
-      setDataShow(newData);
-      setForTrigger(newData);
-    } else {
-      setDataShow([]);
-      setForTrigger([]);
-    }
+  const filterData = (item: any, index: any) => {
+    //TODO: HIT API BASED ON TYPE
+    setSelectedIndex(index);
   };
 
   const goToSongDetails = () => {
@@ -88,19 +69,19 @@ export const SearchScreen: React.FC = () => {
           <SearchBar
             value={state}
             onChangeText={(newText: string) => setState(newText)}
-            onSubmitEditing={onSubmit}
+            onSubmitEditing={() => setForTrigger(true)}
             rightIcon={state !== '' && true}
             reset={() => setState('')}
           />
           <Gap height={16} />
-          {forTrigger.length !== 0 ? (
+          {forTrigger ? (
             <>
               <TabFilter.Type2
                 filterData={filter}
                 onPress={filterData}
                 selectedIndex={selectedIndex}
               />
-              <FlatList
+              {/* <FlatList
                 data={dataShow}
                 renderItem={({item, index}) =>
                   item.type === 'Musician' ? (
@@ -129,7 +110,7 @@ export const SearchScreen: React.FC = () => {
                     />
                   )
                 }
-              />
+              /> */}
             </>
           ) : null}
         </View>
