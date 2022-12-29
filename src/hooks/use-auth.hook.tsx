@@ -49,12 +49,11 @@ export const useAuthHook = () => {
     setIsLoading(true);
     try {
       const response = await registerUser(props);
-      console.log(response);
-      if (response.code !== 200) {
+      if (response.code === 200) {
+        setAuthResult(response);
+      } else {
         setIsError(true);
         setErrorMsg(response.message);
-      } else {
-        setAuthResult(response);
       }
     } catch (error) {
       setIsError(true);
@@ -74,13 +73,18 @@ export const useAuthHook = () => {
     setErrorMsg('');
     try {
       const response = await loginUser(props);
-      if (response.data.accessToken) {
-        storage.set('profile', JSON.stringify(response.data));
-        if (response.data.lastLoginAt === null) {
-          setLoginResult('preference');
-        } else {
-          setLoginResult('home');
+      if (response.code === 200) {
+        if (response.data.accessToken) {
+          storage.set('profile', JSON.stringify(response.data));
+          if (response.data.lastLoginAt === null) {
+            setLoginResult('preference');
+          } else {
+            setLoginResult('home');
+          }
         }
+      } else {
+        setIsError(true);
+        setErrorMsg(response.message);
       }
     } catch (error) {
       setIsError(true);
@@ -97,8 +101,7 @@ export const useAuthHook = () => {
         setErrorMsg(error.response?.data?.message);
         setErrorCode(error.response?.data?.code);
       } else if (error instanceof Error) {
-        setErrorMsg('Email or Username not registered');
-        console.log(error);
+        setErrorMsg(error.message);
       }
     } finally {
       setIsLoading(false);
