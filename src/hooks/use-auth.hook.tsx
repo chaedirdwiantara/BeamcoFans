@@ -84,7 +84,6 @@ export const useAuthHook = () => {
       }
     } catch (error) {
       setIsError(true);
-
       if (
         axios.isAxiosError(error) &&
         error.response?.status &&
@@ -107,6 +106,7 @@ export const useAuthHook = () => {
   };
 
   const onLoginGoogle = async () => {
+    setIsError(false);
     setErrorMsg('');
     GoogleSignin.configure();
     try {
@@ -143,6 +143,8 @@ export const useAuthHook = () => {
   };
 
   const onLoginFacebook = async () => {
+    setIsError(false);
+    setErrorMsg('');
     Settings.setAppID('687852656020966');
     LoginManager.logInWithPermissions(['public_profile', 'email'])
       .then(res => {
@@ -160,6 +162,8 @@ export const useAuthHook = () => {
   };
 
   const onLoginApple = async () => {
+    setIsError(false);
+    setErrorMsg('');
     if (Platform.OS === 'ios') {
       const appleAuthRequestResponse = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
@@ -187,11 +191,11 @@ export const useAuthHook = () => {
   };
 
   const checkUsernameAvailability = async (username: string) => {
+    setIsError(false);
+    setErrorMsg('');
     try {
       const response = await checkUsername(username);
-      setIsError(false);
       setIsValidUsername(response.data);
-      setErrorMsg('');
     } catch (error) {
       setIsError(true);
       setIsValidUsername(false);
@@ -204,6 +208,8 @@ export const useAuthHook = () => {
   };
 
   const confirmEmailOtp = async (email: string, code: string) => {
+    setIsError(false);
+    setErrorMsg('');
     setIsLoading(true);
     try {
       const response = await confirmEmailOtpRegister(email, code);
@@ -239,6 +245,8 @@ export const useAuthHook = () => {
   };
 
   const confirmSmsOtp = async (phoneNumber: string, code: string) => {
+    setIsError(false);
+    setErrorMsg('');
     setIsLoading(true);
     try {
       const response = await confirmSmsOtpLogin(phoneNumber, code);
@@ -264,6 +272,8 @@ export const useAuthHook = () => {
   };
 
   const sendOtpEmail = async (email: string) => {
+    setIsError(false);
+    setErrorMsg('');
     setIsLoading(true);
     try {
       await resendOtpEmail(email);
@@ -285,6 +295,8 @@ export const useAuthHook = () => {
   };
 
   const sendOtpSms = async (phoneNumber: string) => {
+    setIsError(false);
+    setErrorMsg('');
     setIsLoading(true);
     try {
       await resendOtpSms(phoneNumber);
