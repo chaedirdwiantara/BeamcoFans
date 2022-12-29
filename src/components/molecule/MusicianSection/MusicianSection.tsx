@@ -25,8 +25,8 @@ interface MusicianProps {
   imgUri: string;
   containerStyles?: ViewStyle;
   point?: number | null;
-  isFollowed: boolean;
-  followOnPress: () => void;
+  isFollowed?: boolean;
+  followOnPress?: () => void;
 }
 
 interface DataMore {
@@ -74,7 +74,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
         setToastVisible(true);
         setTextFollow(isFollowed ? 'Unfollow' : 'Follow');
         setDropdownText(isFollowed ? 'Follow' : 'Unfollow');
-        followOnPress();
+        followOnPress && followOnPress();
       } else {
         setModalGuestVisible(true);
       }

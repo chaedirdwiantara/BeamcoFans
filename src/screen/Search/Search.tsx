@@ -18,6 +18,7 @@ import {mvs} from 'react-native-size-matters';
 import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
 import {ModalPlayMusic} from '../../components/molecule/Modal/ModalPlayMusic';
 import {useSearchHook} from '../../hooks/use-search.hook';
+import ListResultMusician from './ListResultMusician';
 
 export const SearchScreen: React.FC = () => {
   const navigation =
@@ -28,6 +29,7 @@ export const SearchScreen: React.FC = () => {
   const [forTrigger, setForTrigger] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [modalVisible, setModalVisible] = useState(false);
+  const [typeSearch, setTypeSearch] = useState<string>('');
 
   const filter: string[] = [
     'Song',
@@ -48,6 +50,7 @@ export const SearchScreen: React.FC = () => {
 
   const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
+    setTypeSearch(item);
     if (item === 'Song') {
       // getSearchSongs({keyword: state})
     }
@@ -70,6 +73,10 @@ export const SearchScreen: React.FC = () => {
 
   const goToSongDetails = () => {
     navigation.navigate('MusicPlayer');
+  };
+
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
   };
 
   return (
@@ -98,36 +105,9 @@ export const SearchScreen: React.FC = () => {
                 onPress={filterData}
                 selectedIndex={selectedIndex}
               />
-              {/* <FlatList
-                data={dataShow}
-                renderItem={({item, index}) =>
-                  item.type === 'Musician' ? (
-                    <MusicianSection
-                      musicianNum={(index + 1).toLocaleString('en-US', {
-                        minimumIntegerDigits: 2,
-                        useGrouping: false,
-                      })}
-                      musicianName={item.singerName}
-                      imgUri={item.imgUri}
-                      containerStyles={{marginTop: mvs(20)}}
-                      musicianId={item.id}
-                    />
-                  ) : (
-                    <ListCard.MusicList
-                      imgUri={item.imgUri}
-                      musicNum={(index + 1).toLocaleString('en-US', {
-                        minimumIntegerDigits: 2,
-                        useGrouping: false,
-                      })}
-                      musicTitle={item.musicTitle}
-                      singerName={item.singerName}
-                      onPressMore={resultDataMore}
-                      containerStyles={{marginTop: mvs(20)}}
-                      onPressCard={() => setModalVisible(true)}
-                    />
-                  )
-                }
-              /> */}
+              {dataSearchMusicians && typeSearch === 'Musician' && (
+                <ListResultMusician dataSearchMusicians={dataSearchMusicians} />
+              )}
             </>
           ) : null}
         </View>
