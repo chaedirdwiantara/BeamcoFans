@@ -29,14 +29,14 @@ export const SearchScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [filter, setFilter] = useState([
-    {filterName: 'Song'},
-    {filterName: 'Musician'},
-    {filterName: 'Fans'},
-    {filterName: 'Album'},
-    {filterName: 'Merch'},
-    {filterName: 'Event'},
-  ]);
+  const filter: string[] = [
+    'Song',
+    'Musician',
+    'Fans',
+    'Album',
+    'Merch',
+    'Event',
+  ];
 
   const {
     searchLoading,
@@ -46,9 +46,26 @@ export const SearchScreen: React.FC = () => {
     getSearchMusicians,
   } = useSearchHook();
 
-  const filterData = (item: any, index: any) => {
-    //TODO: HIT API BASED ON TYPE
+  const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
+    if (item === 'Song') {
+      // getSearchSongs({keyword: state})
+    }
+    if (item === 'Musician') {
+      getSearchMusicians({keyword: state});
+    }
+    if (item === 'Fans') {
+      getSearchFans({keyword: state});
+    }
+    if (item === 'Album') {
+      //getSearchAlbums({keyword:state})
+    }
+    if (item === 'Merch') {
+      //getSearchMerchs({keyword:state})
+    }
+    if (item === 'Event') {
+      //getSearchEvents({keyword:state})
+    }
   };
 
   const goToSongDetails = () => {

@@ -4,13 +4,9 @@ import {color, font} from '../../../theme';
 import {normalize} from '../../../utils';
 import {ms, mvs} from 'react-native-size-matters';
 
-interface filterData {
-  filterName: string;
-}
-
 interface TabFilterProps {
-  filterData: Array<filterData>;
-  onPress: (params: string, index: number) => void;
+  filterData: string[];
+  onPress: (item: string, index: number) => void;
   selectedIndex: number;
 }
 
@@ -34,7 +30,7 @@ const Type2: React.FC<TabFilterProps> = ({
               styles.tabStyle,
               {backgroundColor: selectedIndex == index ? MainColor : undefined},
             ]}
-            onPress={() => onPress(item.filterName, index)}>
+            onPress={() => onPress(item, index)}>
             <Text
               style={[
                 styles.TextStyle,
@@ -46,7 +42,7 @@ const Type2: React.FC<TabFilterProps> = ({
                       color: MainColor,
                     },
               ]}>
-              {item.filterName}
+              {item}
             </Text>
           </TouchableOpacity>
         )}
