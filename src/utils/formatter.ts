@@ -18,6 +18,6 @@ const scale = SCREEN_WIDTH / 320;
 }
 
 const elipsisText = (text: string, lengthText: number): string =>
-  text.length > lengthText ? text.substring(0, lengthText - 3) + '...' : text;
+  text?.length > lengthText ? text.substring(0, lengthText - 3) + '...' : text;
 
 export { normalize, elipsisText };
