@@ -44,10 +44,18 @@ export const useAuthHook = () => {
   const [isOtpValid, setIsOtpValid] = useState<boolean | null>(null);
 
   const onRegisterUser = async (props: RegisterPropsType) => {
+    setIsError(false);
+    setErrorMsg('');
     setIsLoading(true);
     try {
       const response = await registerUser(props);
-      setAuthResult(response);
+      console.log(response);
+      if (response.code !== 200) {
+        setIsError(true);
+        setErrorMsg(response.message);
+      } else {
+        setAuthResult(response);
+      }
     } catch (error) {
       setIsError(true);
       if (axios.isAxiosError(error) && error.response?.status === 400) {
@@ -76,6 +84,7 @@ export const useAuthHook = () => {
       }
     } catch (error) {
       setIsError(true);
+
       if (
         axios.isAxiosError(error) &&
         error.response?.status &&
@@ -89,7 +98,8 @@ export const useAuthHook = () => {
         setErrorMsg(error.response?.data?.message);
         setErrorCode(error.response?.data?.code);
       } else if (error instanceof Error) {
-        setErrorMsg(error.message);
+        setErrorMsg('Email or Username not registered');
+        console.log(error);
       }
     } finally {
       setIsLoading(false);
@@ -97,6 +107,7 @@ export const useAuthHook = () => {
   };
 
   const onLoginGoogle = async () => {
+    setErrorMsg('');
     GoogleSignin.configure();
     try {
       await GoogleSignin.hasPlayServices();
