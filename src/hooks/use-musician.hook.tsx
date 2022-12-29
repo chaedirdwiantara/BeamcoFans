@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {
+  detailMusician,
   followMusician,
   listMusician,
   unfollowMusician,
@@ -9,6 +10,7 @@ import {
   MusicianList,
 } from '../interface/musician.interface';
 import {ParamsProps} from '../interface/base.interface';
+import {PostPropsTypeA} from '../interface/feed.interface';
 
 export const useMusicianHook = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +21,19 @@ export const useMusicianHook = () => {
   const getListDataMusician = async (props?: ParamsProps) => {
     try {
       const response = await listMusician(props);
+      setDataMusician(response.data);
+    } catch (error) {
+      console.log(error);
+      setIsError(true);
+      setDataMusician([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getDetailMusician = async (props?: PostPropsTypeA) => {
+    try {
+      const response = await detailMusician(props);
       setDataMusician(response.data);
     } catch (error) {
       console.log(error);
@@ -75,5 +90,6 @@ export const useMusicianHook = () => {
     getListDataMusician,
     setFollowMusician,
     setUnfollowMusician,
+    getDetailMusician,
   };
 };

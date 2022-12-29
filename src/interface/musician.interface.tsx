@@ -19,6 +19,41 @@ export type ListMusicianResponseType = {
   status: number;
 };
 
+export type DataDetailMusician = {
+  uuid: string;
+  username: string;
+  fullname: string;
+  imageProfileUrl: string;
+  email: string;
+  registrationType: string;
+  phoneNumber: number;
+  genre: string[];
+  labels: string;
+  bio: string;
+  about: string;
+  members: string[];
+  website: string;
+  originCountry: string;
+  originCity: string;
+  locationCountry: string;
+  locationCity: string;
+  yearsActiveFrom: string;
+  yearsActiveTo: string;
+  socialMedia: [];
+  followers: number;
+  createdAt: string;
+  updatedAt: string;
+  isFollowed: boolean;
+  banner: string;
+};
+
+export type DetailMusicianResponseType = {
+  code: number;
+  data: DataDetailMusician;
+  message: string;
+  status: number;
+};
+
 export type FollowMusicianResponseType = {
   code: number;
   data: string;

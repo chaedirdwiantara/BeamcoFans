@@ -35,7 +35,7 @@ interface DataMore {
 }
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
-  const {isFollowed, followOnPress} = props;
+  const {isFollowed, followOnPress, musicianId} = props;
   const follow = isFollowed ? 'Unfollow' : 'Follow';
   const [textFollow, setTextFollow] = useState(follow);
   const [dropdownText, setDropdownText] = useState(follow);
@@ -79,7 +79,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
         setModalGuestVisible(true);
       }
     } else if (dataResult.value === '3') {
-      navigation.navigate('MusicianProfile');
+      navigation.navigate('MusicianProfile', {id: musicianId});
     } else {
       if (isLogin) {
         setModalDonate(true);

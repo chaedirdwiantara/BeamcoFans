@@ -116,7 +116,9 @@ export type RootStackParams = {
   PostDetail: PostList;
   SearchScreen: undefined;
   TopupCoin: undefined;
-  MusicianProfile: undefined;
+  MusicianProfile: {
+    id: string;
+  };
   Webview: {
     title: string;
     url: string;

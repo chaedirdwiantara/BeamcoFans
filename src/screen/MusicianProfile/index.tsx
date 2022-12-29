@@ -1,17 +1,19 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {FC, useCallback} from 'react';
 import {ProfileContent} from './MusicianProfile';
 import {color} from '../../theme';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
+import {useMusicianHook} from '../../hooks/use-musician.hook';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-interface ProfileProps {
-  props: {};
-  route: any;
-}
+type PostDetailProps = NativeStackScreenProps<
+  RootStackParams,
+  'MusicianProfile'
+>;
 
-const MusicianProfile = (props: ProfileProps) => {
+const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -24,6 +26,18 @@ const MusicianProfile = (props: ProfileProps) => {
     avatarUri:
       'https://yt3.ggpht.com/hZDUwjoeQqigphL4A1tkg9c6hVp5yXmbboBR7PYFUSFj5PIJSA483NB5v7b0XVoTN9GCku3tqQ=s900-c-k-c0x00ffffff-no-rj',
   };
+
+  const uuid = route.params.id;
+
+  const {isLoading, isError, dataMusician, getDetailMusician} =
+    useMusicianHook();
+
+  //  ? Get Detail Musician
+  useFocusEffect(
+    useCallback(() => {
+      getDetailMusician({id: uuid});
+    }, []),
+  );
 
   const onPressGoTo = (
     screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',

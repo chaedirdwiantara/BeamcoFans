@@ -5,6 +5,7 @@ import {
   ListMusicianResponseType,
 } from '../interface/musician.interface';
 import {ParamsProps} from '../interface/base.interface';
+import {PostPropsTypeA} from '../interface/feed.interface';
 
 export const listMusician = async (
   props?: ParamsProps,
@@ -13,6 +14,17 @@ export const listMusician = async (
     url: '/musicians',
     method: 'GET',
     params: props,
+  });
+
+  return data;
+};
+
+export const detailMusician = async (
+  props?: PostPropsTypeA,
+): Promise<ListMusicianResponseType> => {
+  const {data} = await SsuAPI().request<ListMusicianResponseType>({
+    url: `/musicians/${props?.id}`,
+    method: 'GET',
   });
 
   return data;
