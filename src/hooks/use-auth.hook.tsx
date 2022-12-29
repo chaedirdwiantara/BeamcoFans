@@ -56,9 +56,10 @@ export const useAuthHook = () => {
         setErrorMsg(response.message);
       }
     } catch (error) {
+      console.log(error);
       setIsError(true);
       if (axios.isAxiosError(error) && error.response?.status === 400) {
-        setErrorMsg(error.response?.data?.data);
+        setErrorMsg(error.response?.data?.message);
       } else if (error instanceof Error) {
         setErrorMsg(error.message);
       }

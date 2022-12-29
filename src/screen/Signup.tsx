@@ -30,7 +30,7 @@ interface RegisterInput {
   password: string;
   confirmPassword: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   image: string;
   registrationType: RegistrationType;
   termsCondition: boolean;
@@ -49,15 +49,15 @@ const registerValidation = yup.object({
       .required('This field is required')
       .email('Please use valid email'),
   }),
-  phone: yup.string().when('registrationType', {
-    is: (val: RegistrationType) => val === 'phone',
+  phoneNumber: yup.string().when('registrationType', {
+    is: (val: RegistrationType) => val === 'phoneNumber',
     then: yup
       .string()
       .required('This field is required')
       .matches(/^[0-9]{0,15}$/, 'Only allowed 15 numerical characters'),
   }),
   image: yup.string().when('registrationType', {
-    is: (val: RegistrationType) => val !== 'email',
+    is: (val: RegistrationType) => val !== 'email' && val !== 'phoneNumber',
     then: yup.string().required('Image not found'),
   }),
   password: yup
@@ -77,6 +77,7 @@ export const SignupScreen: React.FC = () => {
   const {isLoading, isError, authResult, errorMsg, onRegisterUser} =
     useAuthHook();
   const [focusInput, setFocusInput] = useState<string | null>(null);
+  const [countryNumber, setCountryNumber] = useState<string | null>(null);
 
   const {
     control,
@@ -85,6 +86,7 @@ export const SignupScreen: React.FC = () => {
     setError,
     setValue,
     watch,
+    clearErrors,
   } = useForm<RegisterInput>({
     resolver: yupResolver(registerValidation),
     mode: 'onChange',
@@ -98,12 +100,22 @@ export const SignupScreen: React.FC = () => {
   });
 
   const handleRegisterUser: SubmitHandler<RegisterInput> = data => {
-    onRegisterUser({
-      fullname: data.fullname,
-      password: data.password,
-      registrationType: data.registrationType,
-      email: data.email,
-    });
+    console.log(countryNumber);
+    if (data.registrationType === 'email') {
+      onRegisterUser({
+        fullname: data.fullname,
+        password: data.password,
+        registrationType: data.registrationType,
+        email: data.email,
+      });
+    } else {
+      onRegisterUser({
+        fullname: data.fullname,
+        password: data.password,
+        registrationType: data.registrationType,
+        phoneNumber: countryNumber + data.phoneNumber,
+      });
+    }
   };
 
   useEffect(() => {
@@ -121,6 +133,7 @@ export const SignupScreen: React.FC = () => {
         type: 'value',
         message: errorMsg,
       });
+      checkErrorCountry(countryNumber);
     }
   }, [isLoading, isError, authResult]);
 
@@ -142,7 +155,22 @@ export const SignupScreen: React.FC = () => {
   };
 
   const resultData = (dataResult: any) => {
+    setCountryNumber(dataResult);
     console.log(dataResult, 'dataResult Select Country');
+  };
+
+  const checkErrorCountry = (data: any) => {
+    if (watch('registrationType') === 'phoneNumber') {
+      if (data === undefined) {
+        setError('phoneNumber', {
+          type: 'value',
+          message: 'Select Country',
+        });
+      } else {
+        setCountryNumber(data);
+        clearErrors('phoneNumber');
+      }
+    }
   };
 
   const handleWebview = (title: string, url: string) => {
@@ -194,11 +222,11 @@ export const SignupScreen: React.FC = () => {
               <View style={styles.verticalSeparatorLoginType} />
               <Text
                 style={
-                  watch('registrationType') === 'phone'
+                  watch('registrationType') === 'phoneNumber'
                     ? styles.loginTypeActive
                     : styles.loginTypeInactive
                 }
-                onPress={() => handleChangeLoginType('phone')}>
+                onPress={() => handleChangeLoginType('phoneNumber')}>
                 Phone Number
               </Text>
             </View>
@@ -226,7 +254,7 @@ export const SignupScreen: React.FC = () => {
             ) : (
               <View>
                 <Controller
-                  name="phone"
+                  name="phoneNumber"
                   control={control}
                   render={({field: {onChange, value}}) => (
                     <Dropdown.Country
@@ -234,10 +262,11 @@ export const SignupScreen: React.FC = () => {
                       onChangeText={onChange}
                       countryData={countryData}
                       numberTyped={resultData}
-                      onFocus={() => handleFocusInput('phone')}
-                      isError={errors?.phone ? true : false}
-                      errorMsg={errors?.phone?.message}
-                      isFocus={focusInput === 'phone'}
+                      onFocus={() => handleFocusInput('phoneNumber')}
+                      isError={errors?.phoneNumber ? true : false}
+                      errorMsg={errors?.phoneNumber?.message}
+                      isFocus={focusInput === 'phoneNumber'}
+                      onSelectCountry={checkErrorCountry}
                     />
                   )}
                 />

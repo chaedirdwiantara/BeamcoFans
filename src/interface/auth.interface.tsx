@@ -2,10 +2,11 @@ import {RegistrationType} from './profile.interface';
 
 export interface RegisterPropsType {
   fullname: string;
-  email: string;
+  email?: string;
   password: string;
   registrationType: RegistrationType;
   image?: string;
+  phoneNumber?: string;
 }
 
 export interface RegisterResponseType {
