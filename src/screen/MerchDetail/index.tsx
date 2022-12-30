@@ -16,6 +16,7 @@ import FastImage from 'react-native-fast-image';
 import Swiper from 'react-native-swiper';
 import {ArrowLeftIcon, DefaultAvatar, ThreeDotsIcon} from '../../assets/icon';
 import {
+  Avatar,
   Button,
   ButtonGradient,
   SsuDivider,
@@ -125,7 +126,7 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
           containerStyles={{paddingHorizontal: widthPercentage(20)}}
         />
         <ScrollView>
-          <View style={{height: heightResponsive(350)}}>
+          <View style={{height: heightResponsive(400)}}>
             <Swiper
               loop={false}
               renderPagination={renderPagination}
@@ -135,17 +136,7 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
                   source={{uri: data.image}}
                   style={[
                     {
-                      height: heightResponsive(350),
-                    },
-                  ]}
-                />
-              </View>
-              <View style={styles.slide}>
-                <FastImage
-                  source={{uri: data.image}}
-                  style={[
-                    {
-                      height: heightResponsive(350),
+                      height: heightResponsive(400),
                     },
                   ]}
                 />
@@ -158,19 +149,26 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
             <View style={styles.owner}>
               <Text style={styles.ownerLabel}>By</Text>
               <View style={{marginHorizontal: 5}}>
-                <DefaultAvatar.ProfileIcon width={widthResponsive(24)} />
+                {data?.ownerImage ? (
+                  <Avatar
+                    imgUri={data?.ownerImage}
+                    size={widthResponsive(24)}
+                  />
+                ) : (
+                  <DefaultAvatar.ProfileIcon width={widthResponsive(24)} />
+                )}
               </View>
-              {/* <Avatar imgUri={imgUri} size={widthResponsive(44)} /> */}
+
               <Text style={styles.ownerLabel}>{data.owner}</Text>
             </View>
             <Text style={styles.price}>
-              HKD {toCurrency(data.price, {withFraction: false})}
+              {data?.currency} {toCurrency(data.price, {withFraction: false})}
             </Text>
           </View>
           <SsuDivider />
           <View style={styles.descContainer}>
             <Text style={styles.subtitle}>Description</Text>
-            <Text style={styles.desc}>{data.desc}</Text>
+            <Text style={styles.desc}>{data.desc ? data.desc : '-'}</Text>
           </View>
           <SsuDivider />
           <View style={styles.descContainer}>

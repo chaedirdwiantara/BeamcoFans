@@ -1,50 +1,31 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC} from 'react';
 import {StyleSheet} from 'react-native';
+import {TicketIcon} from '../../assets/icon';
+import Color from '../../theme/Color';
 import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
+import {EmptyState} from '../../components';
 import {FlashList} from '@shopify/flash-list';
 import MerchListCard from '../../components/molecule/ListCard/MerchListCard';
-import {useEventHook} from '../../hooks/use-event.hook';
-import {useFocusEffect} from '@react-navigation/native';
-import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
-import {EmptyState} from '../../components';
-import {BoxStore} from '../../assets/icon';
-import Color from '../../theme/Color';
 
-const MerchList: FC = () => {
-  const {dataMerchList, getListDataMerch, merchIsLoading} = useEventHook();
-
-  useFocusEffect(
-    useCallback(() => {
-      getListDataMerch({
-        countryCode: 'HK',
-        type: 'product',
-      });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
-  );
-
-  const filterList = dataMerchList.find(merch => {
-    return merch.name === 'product_latest';
-  });
-
+const ConcertList: FC = () => {
   return (
     <>
       <FlashList
-        data={filterList?.data}
+        data={[]}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.ListContainer}
-        keyExtractor={item => item?.id.toString()}
+        // keyExtractor={item => item.id.toString()}
         ListEmptyComponent={
           <EmptyState
             icon={
-              <BoxStore
-                stroke={Color.Dark[500]}
+              <TicketIcon
+                fill={Color.Dark[500]}
                 width={widthResponsive(150)}
                 height={heightResponsive(150)}
                 style={styles.iconEmpty}
               />
             }
-            text="No Merch Available"
+            text="No Event Available"
             containerStyle={styles.containerEmpty}
           />
         }
@@ -66,12 +47,11 @@ const MerchList: FC = () => {
         estimatedItemSize={150}
         numColumns={2}
       />
-      <ModalLoading visible={merchIsLoading} />
     </>
   );
 };
 
-export default MerchList;
+export default ConcertList;
 
 const styles = StyleSheet.create({
   ListContainer: {
