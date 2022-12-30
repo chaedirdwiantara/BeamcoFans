@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import {StyleSheet} from 'react-native';
 import {TicketIcon} from '../../assets/icon';
 import Color from '../../theme/Color';
@@ -6,12 +6,29 @@ import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
 import {EmptyState} from '../../components';
 import {FlashList} from '@shopify/flash-list';
 import MerchListCard from '../../components/molecule/ListCard/MerchListCard';
+import {useEventHook} from '../../hooks/use-event.hook';
+import {useFocusEffect} from '@react-navigation/native';
+import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 
 const ConcertList: FC = () => {
+  const {dataConcertList, getListDataConcert, concertIsLoading} =
+    useEventHook();
+
+  useFocusEffect(
+    useCallback(() => {
+      getListDataConcert();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
+
+  const filterList = dataConcertList.find(concert => {
+    return concert.name === 'event_latest';
+  });
+
   return (
     <>
       <FlashList
-        data={[]}
+        data={filterList?.data}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.ListContainer}
         // keyExtractor={item => item.id.toString()}
@@ -47,6 +64,7 @@ const ConcertList: FC = () => {
         estimatedItemSize={150}
         numColumns={2}
       />
+      <ModalLoading visible={concertIsLoading} />
     </>
   );
 };
