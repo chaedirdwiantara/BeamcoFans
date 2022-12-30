@@ -28,6 +28,7 @@ interface MusicianProps {
   isFollowed?: boolean;
   followersCount?: number;
   followOnPress?: () => void;
+  activeMore?: boolean;
 }
 
 interface DataMore {

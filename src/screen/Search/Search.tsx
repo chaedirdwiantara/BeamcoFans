@@ -19,6 +19,7 @@ import MusicianSection from '../../components/molecule/MusicianSection/MusicianS
 import {ModalPlayMusic} from '../../components/molecule/Modal/ModalPlayMusic';
 import {useSearchHook} from '../../hooks/use-search.hook';
 import ListResultMusician from './ListResultMusician';
+import ListResultFans from './LstResultFans';
 
 export const SearchScreen: React.FC = () => {
   const navigation =
@@ -107,6 +108,9 @@ export const SearchScreen: React.FC = () => {
               />
               {dataSearchMusicians && typeSearch === 'Musician' && (
                 <ListResultMusician dataSearchMusicians={dataSearchMusicians} />
+              )}
+              {dataSearchFans && typeSearch === 'Fans' && (
+                <ListResultFans dataSearchFans={dataSearchFans} />
               )}
             </>
           ) : null}

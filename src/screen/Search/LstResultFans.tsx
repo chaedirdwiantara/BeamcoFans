@@ -2,19 +2,19 @@ import {FlatList, StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
 import {mvs} from 'react-native-size-matters';
-import {ListDataSearchMusician} from '../../interface/search.interface';
+import {ListDataSearchFans} from '../../interface/search.interface';
 
-interface ListResultMusicianProps {
-  dataSearchMusicians: ListDataSearchMusician[];
+interface ListResultFansProps {
+  dataSearchFans: ListDataSearchFans[];
 }
 
-const ListResultMusician: FC<ListResultMusicianProps> = (
-  props: ListResultMusicianProps,
+const ListResultFans: FC<ListResultFansProps> = (
+  props: ListResultFansProps,
 ) => {
-  const {dataSearchMusicians} = props;
+  const {dataSearchFans} = props;
   return (
     <FlatList
-      data={dataSearchMusicians}
+      data={dataSearchFans}
       renderItem={({item, index}) => (
         <MusicianSection
           musicianNum={(index + 1).toLocaleString('en-US', {
@@ -25,7 +25,6 @@ const ListResultMusician: FC<ListResultMusicianProps> = (
           imgUri={item.imageProfileUrl}
           containerStyles={{marginTop: mvs(20)}}
           musicianId={item.uuid}
-          followersCount={item.followers}
           activeMore={false}
         />
       )}
@@ -33,6 +32,6 @@ const ListResultMusician: FC<ListResultMusicianProps> = (
   );
 };
 
-export default ListResultMusician;
+export default ListResultFans;
 
 const styles = StyleSheet.create({});

@@ -22,6 +22,7 @@ export interface ListProps {
   containerStyles?: ViewStyle;
   dataFilter?: {label: string; value: string}[];
   followersCount?: number;
+  activeMore?: boolean;
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -34,6 +35,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     containerStyles,
     dataFilter,
     followersCount,
+    activeMore = true,
   } = props;
 
   // ? Dropdown Menu Example
@@ -83,7 +85,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
       </View>
       <View style={styles.rightContainer}>
         {point ? <Text style={styles.pointStyle}>{`${point} pts`}</Text> : null}
-        {moreMenu()}
+        {activeMore && moreMenu()}
       </View>
     </View>
   );
