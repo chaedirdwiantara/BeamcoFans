@@ -17,6 +17,9 @@ import {SearchListData, SearchListType} from '../../data/search';
 import {mvs} from 'react-native-size-matters';
 import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
 import {ModalPlayMusic} from '../../components/molecule/Modal/ModalPlayMusic';
+import {useSearchHook} from '../../hooks/use-search.hook';
+import ListResultMusician from './ListResultMusician';
+import ListResultFans from './LstResultFans';
 
 export const SearchScreen: React.FC = () => {
   const navigation =
@@ -24,54 +27,57 @@ export const SearchScreen: React.FC = () => {
 
   const [state, setState] = useState<string>('');
   const [dataShow, setDataShow] = useState<SearchListType[]>([]);
-  const [forTrigger, setForTrigger] = useState<SearchListType[]>([]);
+  const [forTrigger, setForTrigger] = useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [modalVisible, setModalVisible] = useState(false);
+  const [typeSearch, setTypeSearch] = useState<string>('');
 
-  const resultDataMore = (dataResult: any) => {
-    console.log(dataResult, 'resultDataMenu');
-  };
+  const filter: string[] = [
+    'Song',
+    'Musician',
+    'Fans',
+    'Album',
+    'Merch',
+    'Event',
+  ];
 
-  const [filter, setFilter] = useState([
-    {filterName: 'Song'},
-    {filterName: 'Musician'},
-    {filterName: 'Album'},
-    {filterName: 'Playlist'},
-    {filterName: 'Event'},
-  ]);
+  const {
+    searchLoading,
+    dataSearchFans,
+    dataSearchMusicians,
+    getSearchFans,
+    getSearchMusicians,
+  } = useSearchHook();
 
-  const filterData = (item: any, index: any) => {
-    let dataFilter = [...SearchListData];
-    dataFilter = dataFilter.filter(x => x.type === item);
-    setDataShow(dataFilter);
+  const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
-  };
-
-  const onSubmit = () => {
-    if (state !== '') {
-      const newData = SearchListData.filter(item => {
-        const singerName = item.singerName
-          ? item.singerName.toUpperCase()
-          : ''.toUpperCase();
-        const musicTitle = item.musicTitle
-          ? item.musicTitle.toUpperCase()
-          : ''.toUpperCase();
-        const searchText = state.toUpperCase();
-        return (
-          singerName.indexOf(searchText) > -1 ||
-          musicTitle.indexOf(searchText) > -1
-        );
-      });
-      setDataShow(newData);
-      setForTrigger(newData);
-    } else {
-      setDataShow([]);
-      setForTrigger([]);
+    setTypeSearch(item);
+    if (item === 'Song') {
+      // getSearchSongs({keyword: state})
+    }
+    if (item === 'Musician') {
+      getSearchMusicians({keyword: state});
+    }
+    if (item === 'Fans') {
+      getSearchFans({keyword: state});
+    }
+    if (item === 'Album') {
+      //getSearchAlbums({keyword:state})
+    }
+    if (item === 'Merch') {
+      //getSearchMerchs({keyword:state})
+    }
+    if (item === 'Event') {
+      //getSearchEvents({keyword:state})
     }
   };
 
   const goToSongDetails = () => {
     navigation.navigate('MusicPlayer');
+  };
+
+  const resultDataMore = (dataResult: any) => {
+    console.log(dataResult, 'resultDataMenu');
   };
 
   return (
@@ -88,48 +94,24 @@ export const SearchScreen: React.FC = () => {
           <SearchBar
             value={state}
             onChangeText={(newText: string) => setState(newText)}
-            onSubmitEditing={onSubmit}
+            onSubmitEditing={() => setForTrigger(true)}
             rightIcon={state !== '' && true}
             reset={() => setState('')}
           />
           <Gap height={16} />
-          {forTrigger.length !== 0 ? (
+          {forTrigger ? (
             <>
               <TabFilter.Type2
                 filterData={filter}
                 onPress={filterData}
                 selectedIndex={selectedIndex}
               />
-              <FlatList
-                data={dataShow}
-                renderItem={({item, index}) =>
-                  item.type === 'Musician' ? (
-                    <MusicianSection
-                      musicianNum={(index + 1).toLocaleString('en-US', {
-                        minimumIntegerDigits: 2,
-                        useGrouping: false,
-                      })}
-                      musicianName={item.singerName}
-                      imgUri={item.imgUri}
-                      containerStyles={{marginTop: mvs(20)}}
-                      musicianId={item.id}
-                    />
-                  ) : (
-                    <ListCard.MusicList
-                      imgUri={item.imgUri}
-                      musicNum={(index + 1).toLocaleString('en-US', {
-                        minimumIntegerDigits: 2,
-                        useGrouping: false,
-                      })}
-                      musicTitle={item.musicTitle}
-                      singerName={item.singerName}
-                      onPressMore={resultDataMore}
-                      containerStyles={{marginTop: mvs(20)}}
-                      onPressCard={() => setModalVisible(true)}
-                    />
-                  )
-                }
-              />
+              {dataSearchMusicians && typeSearch === 'Musician' && (
+                <ListResultMusician dataSearchMusicians={dataSearchMusicians} />
+              )}
+              {dataSearchFans && typeSearch === 'Fans' && (
+                <ListResultFans dataSearchFans={dataSearchFans} />
+              )}
             </>
           ) : null}
         </View>
