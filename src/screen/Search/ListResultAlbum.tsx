@@ -1,17 +1,17 @@
 import {FlatList, StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import {ListCard} from '../../components';
-import {ListDataSearchSongs} from '../../interface/search.interface';
+import {ListDataSearchAlbums} from '../../interface/search.interface';
 import {mvs} from 'react-native-size-matters';
 
-interface ListResultSongProps {
-  dataSearchSongs: ListDataSearchSongs[];
+interface ListResultAlbumProps {
+  dataSearchAlbums: ListDataSearchAlbums[];
 }
 
-const ListResultSong: FC<ListResultSongProps> = (
-  props: ListResultSongProps,
+const ListResultAlbum: FC<ListResultAlbumProps> = (
+  props: ListResultAlbumProps,
 ) => {
-  const {dataSearchSongs} = props;
+  const {dataSearchAlbums} = props;
 
   const resultDataMore = (dataResult: any) => {
     console.log(dataResult, 'resultDataMenu');
@@ -19,7 +19,7 @@ const ListResultSong: FC<ListResultSongProps> = (
 
   return (
     <FlatList
-      data={dataSearchSongs}
+      data={dataSearchAlbums}
       renderItem={({item, index}) => (
         <ListCard.MusicList
           imgUri={item.imageUrl}
@@ -28,7 +28,7 @@ const ListResultSong: FC<ListResultSongProps> = (
             useGrouping: false,
           })}
           musicTitle={item.title}
-          singerName={item.musicianName}
+          singerName={item.title}
           onPressMore={resultDataMore}
           containerStyles={{marginTop: mvs(20)}}
           onPressCard={() => {}}
@@ -39,6 +39,6 @@ const ListResultSong: FC<ListResultSongProps> = (
   );
 };
 
-export default ListResultSong;
+export default ListResultAlbum;
 
 const styles = StyleSheet.create({});

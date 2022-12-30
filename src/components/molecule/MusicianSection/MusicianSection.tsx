@@ -26,6 +26,7 @@ interface MusicianProps {
   containerStyles?: ViewStyle;
   point?: number | null;
   isFollowed?: boolean;
+  followerMode?: boolean;
   followersCount?: number;
   followOnPress?: () => void;
   activeMore?: boolean;
@@ -108,7 +109,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
         {...props}
       />
       <ModalDonate
-        totalCoin="1000"
+        totalCoin={'1000'}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={() => setModalDonate(false)}

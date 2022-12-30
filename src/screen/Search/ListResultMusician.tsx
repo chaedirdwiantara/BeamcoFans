@@ -21,11 +21,12 @@ const ListResultMusician: FC<ListResultMusicianProps> = (
             minimumIntegerDigits: 2,
             useGrouping: false,
           })}
-          musicianName={item.fullname}
-          imgUri={item.imageProfileUrl}
+          musicianName={item?.fullname}
+          imgUri={item?.imageProfileUrl}
           containerStyles={{marginTop: mvs(20)}}
-          musicianId={item.uuid}
-          followersCount={item.followers}
+          musicianId={item?.uuid}
+          followerMode
+          followersCount={item?.followers}
           activeMore={false}
         />
       )}

@@ -1,17 +1,17 @@
 import {FlatList, StyleSheet} from 'react-native';
 import React, {FC} from 'react';
 import {ListCard} from '../../components';
-import {ListDataSearchSongs} from '../../interface/search.interface';
+import {ListDataSearchPlaylist} from '../../interface/search.interface';
 import {mvs} from 'react-native-size-matters';
 
-interface ListResultSongProps {
-  dataSearchSongs: ListDataSearchSongs[];
+interface ListResultPlaylistsProps {
+  dataSearchPlaylists: ListDataSearchPlaylist[];
 }
 
-const ListResultSong: FC<ListResultSongProps> = (
-  props: ListResultSongProps,
+const ListResultPlaylists: FC<ListResultPlaylistsProps> = (
+  props: ListResultPlaylistsProps,
 ) => {
-  const {dataSearchSongs} = props;
+  const {dataSearchPlaylists} = props;
 
   const resultDataMore = (dataResult: any) => {
     console.log(dataResult, 'resultDataMenu');
@@ -19,16 +19,16 @@ const ListResultSong: FC<ListResultSongProps> = (
 
   return (
     <FlatList
-      data={dataSearchSongs}
+      data={dataSearchPlaylists}
       renderItem={({item, index}) => (
         <ListCard.MusicList
-          imgUri={item.imageUrl}
+          imgUri={item.thumbnailUrl}
           musicNum={(index + 1).toLocaleString('en-US', {
             minimumIntegerDigits: 2,
             useGrouping: false,
           })}
-          musicTitle={item.title}
-          singerName={item.musicianName}
+          musicTitle={item.name}
+          singerName={item.name}
           onPressMore={resultDataMore}
           containerStyles={{marginTop: mvs(20)}}
           onPressCard={() => {}}
@@ -39,6 +39,6 @@ const ListResultSong: FC<ListResultSongProps> = (
   );
 };
 
-export default ListResultSong;
+export default ListResultPlaylists;
 
 const styles = StyleSheet.create({});

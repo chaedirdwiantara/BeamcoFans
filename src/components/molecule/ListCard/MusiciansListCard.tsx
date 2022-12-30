@@ -21,6 +21,7 @@ export interface ListProps {
   point?: number | null;
   containerStyles?: ViewStyle;
   dataFilter?: {label: string; value: string}[];
+  followerMode?: boolean;
   followersCount?: number;
   activeMore?: boolean;
 }
@@ -35,6 +36,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     containerStyles,
     dataFilter,
     followersCount,
+    followerMode,
     activeMore = true,
   } = props;
 
@@ -67,20 +69,30 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
           useGrouping: false,
         })}
       </Text>
-      {imgUri === null || imgUri === '' ? (
-        <DefaultAvatar.MusicianIcon />
-      ) : (
+      {imgUri ? (
         <Avatar imgUri={imgUri} size={widthResponsive(44)} />
+      ) : (
+        <DefaultAvatar.MusicianIcon />
       )}
       <Gap width={8} />
       <View style={styles.textContainer}>
         <Text style={styles.musicianName} numberOfLines={1}>
           {musicianName}
         </Text>
-        {followersCount && (
-          <Text style={styles.followersCount} numberOfLines={1}>
-            {`${toCurrency(followersCount, {withFraction: false})} Followers`}
-          </Text>
+        {followerMode && (
+          <View>
+            {followersCount !== 0 ? (
+              <Text style={styles.followersCount} numberOfLines={1}>
+                {`${toCurrency(followersCount, {
+                  withFraction: false,
+                })} Followers`}
+              </Text>
+            ) : (
+              <Text style={styles.followersCount} numberOfLines={1}>
+                0 Followers
+              </Text>
+            )}
+          </View>
         )}
       </View>
       <View style={styles.rightContainer}>
