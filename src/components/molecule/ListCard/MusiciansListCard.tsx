@@ -5,6 +5,7 @@ import {Avatar, Gap} from '../../atom';
 import {
   heightPercentage,
   normalize,
+  toCurrency,
   widthPercentage,
   widthResponsive,
 } from '../../../utils';
@@ -20,6 +21,7 @@ export interface ListProps {
   point?: number | null;
   containerStyles?: ViewStyle;
   dataFilter?: {label: string; value: string}[];
+  followersCount?: number;
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -31,6 +33,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     point,
     containerStyles,
     dataFilter,
+    followersCount,
   } = props;
 
   // ? Dropdown Menu Example
@@ -72,6 +75,11 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
         <Text style={styles.musicianName} numberOfLines={1}>
           {musicianName}
         </Text>
+        {followersCount && (
+          <Text style={styles.followersCount} numberOfLines={1}>
+            {`${toCurrency(followersCount, {withFraction: false})} Followers`}
+          </Text>
+        )}
       </View>
       <View style={styles.rightContainer}>
         {point ? <Text style={styles.pointStyle}>{`${point} pts`}</Text> : null}
@@ -121,5 +129,11 @@ const styles = StyleSheet.create({
     lineHeight: mvs(12),
     color: '#FF87DB',
     paddingRight: widthPercentage(7),
+  },
+  followersCount: {
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(10),
+    color: color.Dark[50],
   },
 });

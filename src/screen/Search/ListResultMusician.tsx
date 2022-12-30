@@ -25,6 +25,7 @@ const ListResultMusician: FC<ListResultMusicianProps> = (
           imgUri={item.imageProfileUrl}
           containerStyles={{marginTop: mvs(20)}}
           musicianId={item.uuid}
+          followersCount={item.followers}
         />
       )}
     />

@@ -26,6 +26,7 @@ interface MusicianProps {
   containerStyles?: ViewStyle;
   point?: number | null;
   isFollowed?: boolean;
+  followersCount?: number;
   followOnPress?: () => void;
 }
 
