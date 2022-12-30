@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
 import {Gap, Title} from '../../components';
 import {color, font} from '../../theme';
@@ -18,45 +18,90 @@ interface ProfileProps {
   title: string;
   content?: string;
   gap?: number;
-  socmed?: boolean;
+  socmedSection?: boolean;
+  socmed?: string[];
+  memberSection?: boolean;
+  members?: string[];
 }
 
 const ProfileComponent: FC<ProfileProps> = (props: ProfileProps) => {
-  const {title, content, gap = 8, socmed} = props;
+  const {
+    title,
+    content,
+    gap = 8,
+    socmedSection,
+    socmed,
+    members,
+    memberSection,
+  } = props;
+
   return (
     <View style={{paddingHorizontal: widthResponsive(24)}}>
       <Title text={title} />
       <Gap height={gap} />
       {content && <Text style={styles.captionStyle}>{content}</Text>}
-      {socmed && (
+      {memberSection && (
+        <View>
+          {members ? (
+            <FlatList
+              horizontal
+              data={members}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{}}
+              renderItem={({item, index}) => (
+                <Text style={styles.captionStyle}>
+                  {members?.length - 1 === index ? item : `${item}, `}
+                </Text>
+              )}
+            />
+          ) : (
+            <Text style={styles.captionStyle}>No information given</Text>
+          )}
+        </View>
+      )}
+      {socmedSection && (
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity>
-            <FbIcon />
-          </TouchableOpacity>
-          <Gap width={16} />
-          <TouchableOpacity>
-            <TwitterIcon />
-          </TouchableOpacity>
-          <Gap width={16} />
-          <TouchableOpacity>
-            <InstagramIcon />
-          </TouchableOpacity>
-          <Gap width={16} />
-          <TouchableOpacity>
-            <TiktokIcon />
-          </TouchableOpacity>
-          <Gap width={16} />
-          <TouchableOpacity>
-            <SnapchatIcon />
-          </TouchableOpacity>
-          <Gap width={16} />
-          <TouchableOpacity>
-            <VkIcon style={{marginTop: ms(-3)}} />
-          </TouchableOpacity>
-          <Gap width={16} />
-          <TouchableOpacity>
-            <WeiboIcon />
-          </TouchableOpacity>
+          {socmed ? (
+            <FlatList
+              horizontal
+              data={socmed}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{}}
+              renderItem={({item, index}) =>
+                item === 'facebook' ? (
+                  <TouchableOpacity style={styles.touchStyle}>
+                    <FbIcon />
+                  </TouchableOpacity>
+                ) : item === 'twitter' ? (
+                  <TouchableOpacity style={styles.touchStyle}>
+                    <TwitterIcon />
+                  </TouchableOpacity>
+                ) : item === 'instagram' ? (
+                  <TouchableOpacity style={styles.touchStyle}>
+                    <InstagramIcon />
+                  </TouchableOpacity>
+                ) : item === 'tiktok' ? (
+                  <TouchableOpacity style={styles.touchStyle}>
+                    <TiktokIcon />
+                  </TouchableOpacity>
+                ) : item === 'snapchat' ? (
+                  <TouchableOpacity style={styles.touchStyle}>
+                    <SnapchatIcon />
+                  </TouchableOpacity>
+                ) : item === 'vk' ? (
+                  <TouchableOpacity style={styles.touchStyle}>
+                    <VkIcon style={{marginTop: ms(-3)}} />
+                  </TouchableOpacity>
+                ) : item === 'weibo' ? (
+                  <TouchableOpacity style={styles.touchStyle}>
+                    <WeiboIcon />
+                  </TouchableOpacity>
+                ) : null
+              }
+            />
+          ) : (
+            <Text style={styles.captionStyle}>No information given</Text>
+          )}
         </View>
       )}
     </View>
@@ -71,5 +116,8 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontWeight: '500',
     fontSize: ms(12),
+  },
+  touchStyle: {
+    marginRight: widthResponsive(16),
   },
 });
