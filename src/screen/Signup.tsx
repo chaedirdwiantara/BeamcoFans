@@ -131,7 +131,7 @@ export const SignupScreen: React.FC = () => {
         });
       } else {
         navigation.replace('Otp', {
-          id: watch('phoneNumber'),
+          id: countryNumber + watch('phoneNumber'),
           type: 'phoneNumber',
           title: 'Phone Verification Code',
           subtitle: `Enter the verification code that we’ve sent to ${

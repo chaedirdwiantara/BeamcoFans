@@ -113,7 +113,7 @@ export const resendOtpSms = async (
   phoneNumber: string,
 ): Promise<ResendOTPResponseType> => {
   const {data} = await SsuAPI().request<ResendOTPResponseType>({
-    url: '/resend-otp/sms/login',
+    url: '/resend-otp/sms',
     method: 'POST',
     data: {
       phoneNumber: phoneNumber,

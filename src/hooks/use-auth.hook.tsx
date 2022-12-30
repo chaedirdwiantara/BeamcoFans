@@ -10,6 +10,7 @@ import {v4 as uuid} from 'uuid';
 import {
   checkUsername,
   confirmEmailOtpRegister,
+  confirmSmsOtpRegister,
   confirmSmsOtpLogin,
   loginSso,
   loginUser,
@@ -229,6 +230,7 @@ export const useAuthHook = () => {
       } else if (response.status === 0) {
         setIsOtpValid(false);
         setIsError(true);
+        setErrorMsg(response.message);
       }
     } catch (error) {
       setIsError(true);
@@ -254,12 +256,24 @@ export const useAuthHook = () => {
     setIsLoading(true);
     try {
       const response = await confirmSmsOtpLogin(phoneNumber, code);
-      // TODO: check the attribute to store the fullname and valuable information
-      // storage.set('profile', JSON.stringify(response.data));
-      setIsOtpValid(true);
+      if (response.status === 1) {
+        if (response.data.lastLoginAt === null) {
+          setLoginResult('preference');
+        } else {
+          setLoginResult('home');
+        }
+        storage.set('profile', JSON.stringify(response.data));
+        setIsOtpValid(true);
+        setIsError(false);
+      } else if (response.status === 0) {
+        setIsOtpValid(false);
+        setIsError(true);
+        setErrorMsg(response.message);
+      }
     } catch (error) {
       setIsError(true);
       setIsOtpValid(false);
+
       if (
         axios.isAxiosError(error) &&
         error.response?.status &&
