@@ -17,7 +17,7 @@ import {
 import {Dropdown} from '../DropDown';
 import {color, font} from '../../../theme';
 import {Gap, SquareImage} from '../../atom';
-import {DefaultAvatar, SoundIcon} from '../../../assets/icon';
+import {DefaultAvatar, DefaultImage, SoundIcon} from '../../../assets/icon';
 
 interface ListProps {
   imgUri: string;
@@ -85,7 +85,7 @@ const MusicListCard: React.FC<ListProps> = ({
       {imgUri ? (
         <SquareImage imgUri={imgUri} size={44} />
       ) : (
-        <DefaultAvatar.MusicianIcon />
+        <DefaultImage.SongCover width={44} height={44} />
       )}
 
       <View style={styles.textContainer}>
