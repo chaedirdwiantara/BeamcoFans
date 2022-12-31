@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Portal} from '@gorhom/portal';
 import Video from 'react-native-video';
@@ -15,29 +15,32 @@ import {color} from '../../../theme';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
 
 interface ModalPlayMusicProps {
-  imgUri: string;
-  musicTitle: string;
-  singerName: string;
   onPressModal: () => void;
 }
 
 export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
-  imgUri,
-  musicTitle,
-  singerName,
   onPressModal,
 }) => {
   const {
+    musicData,
     visible: playerShow,
     currentProgress,
     duration,
     isPlay,
+    setPlayerRef,
     hidePlayer,
     setDurationPlayer,
     setProgressPlayer,
     setPauseSong,
     setPlaySong,
   } = usePlayerHook();
+  const playRef = useRef<Video | null>(null);
+
+  useEffect(() => {
+    if (playRef) {
+      setPlayerRef(playRef);
+    }
+  }, [playRef]);
 
   const handleClose = () => {
     hidePlayer();
@@ -87,9 +90,9 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
           rightIcon={true}
           rightIconComponent={<RightIcon />}
           onPressIcon={() => null}
-          imgUri={imgUri}
-          musicTitle={elipsisText(musicTitle, 22)}
-          singerName={singerName}
+          imgUri={musicData.albumImg}
+          musicTitle={elipsisText(musicData.title, 22)}
+          singerName={musicData.artist}
           onPressCard={onPressModal}
         />
       </View>
@@ -109,6 +112,7 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
         />
       </View>
       <Video
+        ref={playRef}
         source={{
           uri: 'https://storage.googleapis.com/media-ssu/uploads/22222/encoded/190ecdcb42f4/master.m3u8',
         }}
@@ -119,6 +123,9 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
           setProgressPlayer(e.currentTime);
         }}
         paused={!isPlay}
+        onEnd={() => {
+          setPauseSong();
+        }}
       />
     </Portal>
   );

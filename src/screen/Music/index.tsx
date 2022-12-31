@@ -17,6 +17,7 @@ import TitleAndDonate from './TitleAndDonate';
 import {Slider} from '@miblanchard/react-native-slider';
 import {mvs} from 'react-native-size-matters';
 import {songs, SongsProps} from '../../data/music';
+import {usePlayerHook} from '../../hooks/use-player.hook';
 
 export const {width} = Dimensions.get('screen');
 
@@ -26,6 +27,7 @@ export const MusicPlayer = () => {
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
+  const {musicData, duration, currentProgress, seekPlayer} = usePlayerHook();
 
   useEffect(() => {
     scrollX.addListener(({value}) => {
@@ -87,21 +89,24 @@ export const MusicPlayer = () => {
       {/* Title  */}
       <View style={styles.titleStyle}>
         <TitleAndDonate
-          title={songs[songIndex].title}
-          artist={songs[songIndex].artist}
+          title={musicData.title}
+          artist={musicData.artist}
           coinOnPress={coinOnPress}
         />
       </View>
       {/* slider */}
       <View style={styles.sliderStyle}>
         <Slider
-          value={10}
+          value={currentProgress}
           minimumValue={0}
-          maximumValue={100}
+          maximumValue={duration}
           minimumTrackTintColor={color.Success[400]}
           maximumTrackTintColor={color.Dark[400]}
           thumbTintColor={color.Success[400]}
-          onSlidingComplete={() => {}}
+          onSlidingComplete={e => {
+            const seekDuration = e as number[];
+            seekPlayer(seekDuration[0]);
+          }}
           thumbStyle={{width: 8, height: 8}}
           containerStyle={{
             marginBottom: heightResponsive(-12),
@@ -109,8 +114,12 @@ export const MusicPlayer = () => {
           }}
         />
         <View style={styles.progresTextContainer}>
-          <Text style={styles.progresText}>00:00</Text>
-          <Text style={styles.progresText}>03:46</Text>
+          <Text style={styles.progresText}>
+            {new Date((currentProgress + 1) * 1000).toISOString().slice(14, 19)}
+          </Text>
+          <Text style={styles.progresText}>
+            {new Date(duration * 1000).toISOString().slice(14, 19)}
+          </Text>
         </View>
       </View>
       <View style={styles.musiControl}>

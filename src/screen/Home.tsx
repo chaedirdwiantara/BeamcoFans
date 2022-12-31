@@ -7,7 +7,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {
@@ -41,6 +41,7 @@ import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {useSongHook} from '../hooks/use-song.hook';
 import {ParamsProps} from '../interface/base.interface';
 import {usePlayerHook} from '../hooks/use-player.hook';
+import {SongList} from '../interface/song.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -58,21 +59,30 @@ export const HomeScreen: React.FC = () => {
   const {dataSong, getListDataSong} = useSongHook();
   const {dataBanner, getListDataBanner} = useBannerHook();
   const {addFcmToken} = useFcmHook();
-  const {showPlayer, visible: playerVisible} = usePlayerHook();
+  const {
+    isPlay,
+    showPlayer,
+    hidePlayer,
+    visible: playerVisible,
+    setMusicDataPlayer,
+  } = usePlayerHook();
 
   const isLogin = storage.getString('profile');
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     getListDataMusician({filterBy: 'top'});
-  }, []);
-
-  useEffect(() => {
     getListDataBanner();
-  }, []);
-
-  useEffect(() => {
     getListDataSong();
   }, []);
+
+  useEffect(() => {
+    if (isFocused && isPlay) {
+      showPlayer();
+    } else if (!isFocused) {
+      hidePlayer();
+    }
+  }, [isFocused]);
 
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
@@ -155,8 +165,12 @@ export const HomeScreen: React.FC = () => {
     setScrollEffect(scrolled);
   };
 
-  const onPressTopSong = (val: any) => {
-    setSelectedSong(val);
+  const onPressTopSong = (val: SongList) => {
+    setMusicDataPlayer({
+      title: val.title,
+      artist: val.musicianName,
+      albumImg: val.imageUrl,
+    });
     showPlayer();
   };
 
@@ -249,12 +263,7 @@ export const HomeScreen: React.FC = () => {
         onPressClose={() => setModalGuestVisible(false)}
       />
 
-      <ModalPlayMusic
-        imgUri={selectedSong.imgUri || ''}
-        musicTitle={selectedSong.musicTitle || ''}
-        singerName={selectedSong.singerName || ''}
-        onPressModal={() => goToScreen('MusicPlayer')}
-      />
+      <ModalPlayMusic onPressModal={() => goToScreen('MusicPlayer')} />
     </View>
   );
 };

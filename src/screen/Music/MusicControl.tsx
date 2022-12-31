@@ -10,11 +10,12 @@ import {
 } from '../../assets/icon';
 import {heightResponsive, widthResponsive} from '../../utils';
 import {color} from '../../theme';
+import {usePlayerHook} from '../../hooks/use-player.hook';
 
 const MusicControl = () => {
-  const [playeMusic, setPlayMusic] = useState<boolean>(false);
   const [shuffle, setShuffle] = useState<boolean>(false);
   const [repeat, setRepeat] = useState<boolean>(false);
+  const {isPlay, setPlaySong, setPauseSong} = usePlayerHook();
 
   const suffleOnpress = () => {
     setShuffle(!shuffle);
@@ -22,6 +23,14 @@ const MusicControl = () => {
 
   const repeatOnPress = () => {
     setRepeat(!repeat);
+  };
+
+  const handlePlayPaused = () => {
+    if (isPlay) {
+      setPauseSong();
+    } else {
+      setPlaySong();
+    }
   };
 
   return (
@@ -37,9 +46,9 @@ const MusicControl = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => setPlayMusic(!playeMusic)}
+        onPress={handlePlayPaused}
         style={[styles.touchableStyle, {width: widthResponsive(50)}]}>
-        {playeMusic ? <PauseIcon2 /> : <PlayIcon2 />}
+        {isPlay ? <PauseIcon2 /> : <PlayIcon2 />}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => {}} style={styles.touchableStyle}>
