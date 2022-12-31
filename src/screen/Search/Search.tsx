@@ -20,6 +20,9 @@ import {ModalPlayMusic} from '../../components/molecule/Modal/ModalPlayMusic';
 import {useSearchHook} from '../../hooks/use-search.hook';
 import ListResultMusician from './ListResultMusician';
 import ListResultFans from './LstResultFans';
+import ListResultSong from './ListResultSong';
+import ListResultAlbum from './ListResultAlbum';
+import ListResultPlaylists from './ListResultPlaylist';
 
 export const SearchScreen: React.FC = () => {
   const navigation =
@@ -37,6 +40,7 @@ export const SearchScreen: React.FC = () => {
     'Musician',
     'Fans',
     'Album',
+    'Playlist',
     'Merch',
     'Event',
   ];
@@ -45,15 +49,21 @@ export const SearchScreen: React.FC = () => {
     searchLoading,
     dataSearchFans,
     dataSearchMusicians,
+    dataSearchSongs,
+    dataSearchAlbums,
+    dataSearchPlaylists,
+    getSearchAlbums,
+    getSearchPlaylists,
     getSearchFans,
     getSearchMusicians,
+    getSearchSongs,
   } = useSearchHook();
 
   const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
     setTypeSearch(item);
     if (item === 'Song') {
-      // getSearchSongs({keyword: state})
+      getSearchSongs({keyword: state});
     }
     if (item === 'Musician') {
       getSearchMusicians({keyword: state});
@@ -62,10 +72,13 @@ export const SearchScreen: React.FC = () => {
       getSearchFans({keyword: state});
     }
     if (item === 'Album') {
-      //getSearchAlbums({keyword:state})
+      getSearchAlbums({keyword: state});
+    }
+    if (item === 'Playlist') {
+      getSearchPlaylists({keyword: state});
     }
     if (item === 'Merch') {
-      //getSearchMerchs({keyword:state})
+      // getSearchMerchs({keyword:state})
     }
     if (item === 'Event') {
       //getSearchEvents({keyword:state})
@@ -111,6 +124,17 @@ export const SearchScreen: React.FC = () => {
               )}
               {dataSearchFans && typeSearch === 'Fans' && (
                 <ListResultFans dataSearchFans={dataSearchFans} />
+              )}
+              {dataSearchSongs && typeSearch === 'Song' && (
+                <ListResultSong dataSearchSongs={dataSearchSongs} />
+              )}
+              {dataSearchAlbums && typeSearch === 'Album' && (
+                <ListResultAlbum dataSearchAlbums={dataSearchAlbums} />
+              )}
+              {dataSearchPlaylists && typeSearch === 'Playlist' && (
+                <ListResultPlaylists
+                  dataSearchPlaylists={dataSearchPlaylists}
+                />
               )}
             </>
           ) : null}

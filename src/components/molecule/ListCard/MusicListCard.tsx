@@ -17,7 +17,7 @@ import {
 import {Dropdown} from '../DropDown';
 import {color, font} from '../../../theme';
 import {Gap, SquareImage} from '../../atom';
-import {SoundIcon} from '../../../assets/icon';
+import {DefaultAvatar, DefaultImage, SoundIcon} from '../../../assets/icon';
 
 interface ListProps {
   imgUri: string;
@@ -82,7 +82,12 @@ const MusicListCard: React.FC<ListProps> = ({
           })}
         </Text>
       )}
-      <SquareImage imgUri={imgUri} size={44} />
+      {imgUri ? (
+        <SquareImage imgUri={imgUri} size={44} />
+      ) : (
+        <DefaultImage.SongCover width={44} height={44} />
+      )}
+
       <View style={styles.textContainer}>
         <Text style={[styles.songTitle, {color: titleColor}]} numberOfLines={1}>
           {musicTitle}

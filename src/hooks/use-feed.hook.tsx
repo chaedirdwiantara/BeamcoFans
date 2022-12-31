@@ -53,6 +53,7 @@ export const useFeedHook = () => {
     try {
       const response = await listPostExclusive(props);
       setDataPostList(response.data);
+      setFeedMessage(response.message);
     } catch (error) {
       setFeedIsError(true);
     } finally {

@@ -323,9 +323,20 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
         feedMessage === 'you not follow anyone' ? (
         <ListToFollowMusician />
       ) : dataPostList?.length === 0 &&
-        feedMessage === 'you not follow anyone' ? (
+        feedMessage === 'you not subscribe any premium content' ? (
         <EmptyState
           text={`You don't have any exclusive content, try to subscribe your favorite musician`}
+          containerStyle={{
+            justifyContent: 'flex-start',
+            paddingTop: heightPercentage(24),
+          }}
+          icon={<FriedEggIcon />}
+        />
+      ) : dataPostList?.length === 0 &&
+        feedMessage ===
+          'Your subscribed musician has not yet posted any exclusive content.' ? (
+        <EmptyState
+          text={feedMessage}
           containerStyle={{
             justifyContent: 'flex-start',
             paddingTop: heightPercentage(24),

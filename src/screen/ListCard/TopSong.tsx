@@ -18,7 +18,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
   const {onPress, scrollable, type, hideDropdownMore, dataSong} = props;
   const [listSong, setListSong] = useState(dataSong || []);
 
-  const onPressPlay = (item: TopSongProps, index: number) => {
+  const onPressPlay = (item: SongList, index: number) => {
     let newList = [...listSong];
     newList = newList.map(v => ({...v, played: false}));
     newList[index].played = true;
@@ -32,12 +32,12 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
       showsVerticalScrollIndicator={false}
       scrollEnabled={scrollable}
       keyExtractor={item => item.id.toString()}
-      renderItem={({item, index}: any) => (
+      renderItem={({item, index}) => (
         <MusicSection
-          imgUri={item.imageUrl}
+          imgUri={item.imageUrl !== null ? item.imageUrl : ''}
           musicNum={index + 1}
-          musicTitle={elipsisText(item.musicTitle, 22)}
-          singerName={item.singerName}
+          musicTitle={elipsisText(item.title, 22)}
+          singerName={item.musicianName}
           onPressCard={
             type === 'home' ? () => onPressPlay(item, index) : undefined
           }
