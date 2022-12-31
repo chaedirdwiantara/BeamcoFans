@@ -61,9 +61,10 @@ export const HomeScreen: React.FC = () => {
   const {addFcmToken} = useFcmHook();
   const {
     isPlay,
+    visible: playerVisible,
     showPlayer,
     hidePlayer,
-    visible: playerVisible,
+    seekPlayer,
     setMusicDataPlayer,
   } = usePlayerHook();
 
@@ -77,7 +78,7 @@ export const HomeScreen: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (isFocused && isPlay) {
+    if (isFocused) {
       showPlayer();
     } else if (!isFocused) {
       hidePlayer();
@@ -86,12 +87,6 @@ export const HomeScreen: React.FC = () => {
 
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
-  const [selectedSong, setSelectedSong] = useState({
-    musicNum: '',
-    musicTitle: '',
-    singerName: '',
-    imgUri: '',
-  });
 
   useEffect(() => {
     FCMService.getTokenFCM({onGetToken: handleOnGetToken});
@@ -172,6 +167,7 @@ export const HomeScreen: React.FC = () => {
       albumImg: val.imageUrl,
     });
     showPlayer();
+    seekPlayer(0);
   };
 
   const onPressNotif = () => {
