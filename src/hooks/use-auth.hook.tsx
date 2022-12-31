@@ -16,16 +16,16 @@ import {
   registerUser,
   resendOtpEmail,
   resendOtpSms,
+  loginPhoneNumber,
 } from '../api/auth.api';
 import {
+  LoginPhonePropsType,
   LoginPropsType,
-  LoginResponseType,
   RegisterPropsType,
   RegisterResponseType,
 } from '../interface/auth.interface';
 import axios from 'axios';
 import {storage} from '../hooks/use-storage.hook';
-import {getProfile} from '../api/profile.api';
 import {deleteTokenFCM} from '../service/notification';
 
 export const useAuthHook = () => {
@@ -44,14 +44,22 @@ export const useAuthHook = () => {
   const [isOtpValid, setIsOtpValid] = useState<boolean | null>(null);
 
   const onRegisterUser = async (props: RegisterPropsType) => {
+    setIsError(false);
+    setErrorMsg('');
     setIsLoading(true);
     try {
       const response = await registerUser(props);
-      setAuthResult(response);
+      if (response.code === 200) {
+        setAuthResult(response);
+      } else {
+        setIsError(true);
+        setErrorMsg(response.message);
+      }
     } catch (error) {
+      console.log(error);
       setIsError(true);
       if (axios.isAxiosError(error) && error.response?.status === 400) {
-        setErrorMsg(error.response?.data?.data);
+        setErrorMsg(error.response?.data?.message);
       } else if (error instanceof Error) {
         setErrorMsg(error.message);
       }
@@ -60,19 +68,33 @@ export const useAuthHook = () => {
     }
   };
 
-  const onLoginUser = async (props: LoginPropsType) => {
+  const onLoginUser = async (
+    props: LoginPropsType | LoginPhonePropsType,
+    type: string,
+  ) => {
     setIsLoading(true);
     setIsError(false);
     setErrorMsg('');
     try {
-      const response = await loginUser(props);
-      if (response.data.accessToken) {
-        storage.set('profile', JSON.stringify(response.data));
-        if (response.data.lastLoginAt === null) {
-          setLoginResult('preference');
-        } else {
-          setLoginResult('home');
+      let response;
+      if (type === 'email') {
+        response = await loginUser(props);
+      } else {
+        response = await loginPhoneNumber(props);
+      }
+
+      if (response.code === 200 || response.code === 401) {
+        if (response.data.accessToken) {
+          storage.set('profile', JSON.stringify(response.data));
+          if (response.data.lastLoginAt === null) {
+            setLoginResult('preference');
+          } else {
+            setLoginResult('home');
+          }
         }
+      } else if (response.code !== 1010) {
+        setIsError(true);
+        setErrorMsg(response.message);
       }
     } catch (error) {
       setIsError(true);
@@ -97,6 +119,8 @@ export const useAuthHook = () => {
   };
 
   const onLoginGoogle = async () => {
+    setIsError(false);
+    setErrorMsg('');
     GoogleSignin.configure();
     try {
       await GoogleSignin.hasPlayServices();
@@ -132,6 +156,8 @@ export const useAuthHook = () => {
   };
 
   const onLoginFacebook = async () => {
+    setIsError(false);
+    setErrorMsg('');
     Settings.setAppID('687852656020966');
     LoginManager.logInWithPermissions(['public_profile', 'email'])
       .then(res => {
@@ -149,6 +175,8 @@ export const useAuthHook = () => {
   };
 
   const onLoginApple = async () => {
+    setIsError(false);
+    setErrorMsg('');
     if (Platform.OS === 'ios') {
       const appleAuthRequestResponse = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
@@ -176,11 +204,11 @@ export const useAuthHook = () => {
   };
 
   const checkUsernameAvailability = async (username: string) => {
+    setIsError(false);
+    setErrorMsg('');
     try {
       const response = await checkUsername(username);
-      setIsError(false);
       setIsValidUsername(response.data);
-      setErrorMsg('');
     } catch (error) {
       setIsError(true);
       setIsValidUsername(false);
@@ -193,6 +221,8 @@ export const useAuthHook = () => {
   };
 
   const confirmEmailOtp = async (email: string, code: string) => {
+    setIsError(false);
+    setErrorMsg('');
     setIsLoading(true);
     try {
       const response = await confirmEmailOtpRegister(email, code);
@@ -208,6 +238,7 @@ export const useAuthHook = () => {
       } else if (response.status === 0) {
         setIsOtpValid(false);
         setIsError(true);
+        setErrorMsg(response.message);
       }
     } catch (error) {
       setIsError(true);
@@ -228,12 +259,24 @@ export const useAuthHook = () => {
   };
 
   const confirmSmsOtp = async (phoneNumber: string, code: string) => {
+    setIsError(false);
+    setErrorMsg('');
     setIsLoading(true);
     try {
       const response = await confirmSmsOtpLogin(phoneNumber, code);
-      // TODO: check the attribute to store the fullname and valuable information
-      // storage.set('profile', JSON.stringify(response.data));
-      setIsOtpValid(true);
+      if (response.code === 200) {
+        storage.set('profile', JSON.stringify(response.data));
+        if (response.data.lastLoginAt === null) {
+          setLoginResult('preference');
+        } else {
+          setLoginResult('home');
+        }
+        setIsOtpValid(true);
+      } else {
+        setIsOtpValid(false);
+        setIsError(true);
+        setErrorMsg(response.message);
+      }
     } catch (error) {
       setIsError(true);
       setIsOtpValid(false);
@@ -253,6 +296,8 @@ export const useAuthHook = () => {
   };
 
   const sendOtpEmail = async (email: string) => {
+    setIsError(false);
+    setErrorMsg('');
     setIsLoading(true);
     try {
       await resendOtpEmail(email);
@@ -274,6 +319,8 @@ export const useAuthHook = () => {
   };
 
   const sendOtpSms = async (phoneNumber: string) => {
+    setIsError(false);
+    setErrorMsg('');
     setIsLoading(true);
     try {
       await resendOtpSms(phoneNumber);

@@ -33,14 +33,22 @@ const {width, height} = Dimensions.get('screen');
 interface LoginInput {
   user: string;
   password: string;
-  phone: string;
+  phoneNumber: string;
+  loginType: string;
 }
 
 const loginValidation = yup.object({
-  user: yup.string().required('This field is required'),
-  password: yup.string().required('This field is required'),
-  phone: yup.string().when('registrationType', {
-    is: (val: RegistrationType) => val === 'phone',
+  loginType: yup.string(),
+  user: yup.string().when('loginType', {
+    is: (val: RegistrationType) => val === 'email',
+    then: yup.string().required('This field is required'),
+  }),
+  password: yup.string().when('loginType', {
+    is: (val: RegistrationType) => val === 'email',
+    then: yup.string().required('This field is required'),
+  }),
+  phoneNumber: yup.string().when('loginType', {
+    is: (val: RegistrationType) => val === 'phoneNumber',
     then: yup
       .string()
       .required('This field is required')
@@ -63,6 +71,7 @@ export const LoginScreen: React.FC = () => {
     errorMsg,
     errorCode,
     errorData,
+    sendOtpSms,
   } = useAuthHook();
 
   const {
@@ -71,43 +80,81 @@ export const LoginScreen: React.FC = () => {
     formState: {errors},
     setError,
     reset,
+    clearErrors,
+    setValue,
+    watch,
   } = useForm<LoginInput>({
     resolver: yupResolver(loginValidation),
     defaultValues: {
       user: '',
       password: '',
+      phoneNumber: '',
+      loginType: 'email',
     },
   });
-  const [loginType, setLoginType] = useState<RegistrationType>('email');
   const [focusInput, setFocusInput] = useState<
-    'email' | 'password' | 'phone' | null
+    'email' | 'password' | 'phoneNumber' | null
   >(null);
+  const [countryNumber, setCountryNumber] = useState<string | null>(null);
 
   const handleOnLogin: SubmitHandler<LoginInput> = data => {
-    onLoginUser({
-      user: data.user,
-      password: data.password,
-    });
+    if (watch('loginType') === 'email') {
+      onLoginUser(
+        {
+          user: data.user,
+          password: data.password,
+        },
+        'email',
+      );
+    } else {
+      if (checkErrorCountry(countryNumber)) {
+        onLoginUser(
+          {
+            phoneNumber: countryNumber + data.phoneNumber,
+          },
+          'phoneNumber',
+        );
+      }
+    }
   };
 
   useEffect(() => {
-    if (!isLoading && !isError && loginResult !== null) {
-      storage.set('isLogin', true);
-      if (loginResult === 'preference') {
-        navigation.replace('Preference');
-      } else {
-        navigation.replace('MainTab');
+    if (!isLoading && !isError) {
+      if (watch('loginType') === 'email' && loginResult !== null) {
+        storage.set('isLogin', true);
+        if (loginResult === 'preference') {
+          navigation.replace('Preference');
+        } else {
+          navigation.replace('MainTab');
+        }
+      } else if (watch('loginType') === 'phoneNumber') {
+        storage.set('isLogin', true);
+        navigation.navigate('Otp', {
+          id: countryNumber + watch('phoneNumber'),
+          type: 'phoneNumber',
+          title: 'Phone Verification Code',
+          subtitle: `Enter the verification code that we’ve sent to ${
+            countryNumber + watch('phoneNumber')
+          }`,
+        });
       }
     } else if (!isLoading && isError) {
-      if (errorCode === 1016) {
-        navigation.navigate('Otp', {
-          id: errorData,
-          type: errorData.includes('@') ? 'email' : 'phoneNumber',
-          title: 'Email Verification Code',
-          subtitle: `We have sent you six digits verification code on address ${errorData} check your inbox and enter verification code here`,
-        });
+      if (watch('loginType') === 'email') {
+        if (errorCode === 1016) {
+          navigation.navigate('Otp', {
+            id: errorData,
+            type: errorData.includes('@') ? 'email' : 'phoneNumber',
+            title: 'Email Verification Code',
+            subtitle: `We have sent you six digits verification code on address ${errorData} check your inbox and enter verification code here`,
+          });
+        } else {
+          setError('password', {
+            type: 'value',
+            message: errorMsg,
+          });
+        }
       } else {
-        setError('password', {
+        setError('phoneNumber', {
           type: 'value',
           message: errorMsg,
         });
@@ -128,17 +175,36 @@ export const LoginScreen: React.FC = () => {
   };
 
   const resultData = (dataResult: any) => {
+    setCountryNumber(dataResult);
     // setPhoneNum(dataResult);
   };
 
   const handleChangeLoginType = (type: RegistrationType) => {
-    setLoginType(type);
+    setValue('loginType', type);
     handleFocusInput(null);
-    loginType !== type ? reset() : null;
+    watch('loginType') !== type ? reset() : null;
   };
 
-  const handleFocusInput = (focus: 'email' | 'password' | 'phone' | null) => {
+  const handleFocusInput = (
+    focus: 'email' | 'password' | 'phoneNumber' | null,
+  ) => {
     setFocusInput(focus);
+  };
+
+  const checkErrorCountry = (data: any) => {
+    if (watch('loginType') === 'phoneNumber') {
+      if (data === undefined || data === null) {
+        setError('phoneNumber', {
+          type: 'value',
+          message: 'Select Country',
+        });
+        return false;
+      } else {
+        setCountryNumber(data);
+        clearErrors('phoneNumber');
+        return true;
+      }
+    }
   };
 
   const children = () => {
@@ -173,7 +239,7 @@ export const LoginScreen: React.FC = () => {
         <View style={styles.wrapperLoginType}>
           <Text
             style={
-              loginType === 'email'
+              watch('loginType') === 'email'
                 ? styles.loginTypeActive
                 : styles.loginTypeInactive
             }
@@ -183,15 +249,15 @@ export const LoginScreen: React.FC = () => {
           <View style={styles.verticalSeparatorLoginType} />
           <Text
             style={
-              loginType === 'phone'
+              watch('loginType') === 'phoneNumber'
                 ? styles.loginTypeActive
                 : styles.loginTypeInactive
             }
-            onPress={() => handleChangeLoginType('phone')}>
+            onPress={() => handleChangeLoginType('phoneNumber')}>
             Phone Number
           </Text>
         </View>
-        {loginType === 'email' && (
+        {watch('loginType') === 'email' && (
           <View>
             <Controller
               name="user"
@@ -245,11 +311,11 @@ export const LoginScreen: React.FC = () => {
             <Gap height={12} />
           </View>
         )}
-        {loginType === 'phone' && (
+        {watch('loginType') === 'phoneNumber' && (
           <View>
             <Gap height={8} />
             <Controller
-              name="phone"
+              name="phoneNumber"
               control={control}
               render={({field: {onChange, value}}) => (
                 <Dropdown.Country
@@ -257,10 +323,11 @@ export const LoginScreen: React.FC = () => {
                   onChangeText={onChange}
                   countryData={countryData}
                   numberTyped={resultData}
-                  onFocus={() => handleFocusInput('phone')}
-                  isError={errors?.phone ? true : false}
-                  errorMsg={errors?.phone?.message}
-                  isFocus={focusInput === 'phone'}
+                  onFocus={() => handleFocusInput('phoneNumber')}
+                  isError={errors?.phoneNumber ? true : false}
+                  errorMsg={errors?.phoneNumber?.message}
+                  isFocus={focusInput === 'phoneNumber'}
+                  onSelectCountry={checkErrorCountry}
                 />
               )}
             />

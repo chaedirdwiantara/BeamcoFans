@@ -30,13 +30,22 @@ interface SelectCountryProps extends TextInputProps {
   isError?: boolean;
   errorMsg?: string;
   isFocus?: boolean;
+  onSelectCountry: (data: any) => void;
 }
 
 const DropdownSelectCountry: FC<SelectCountryProps> = (
   props: SelectCountryProps,
 ) => {
-  const {countryData, numberTyped, isError, errorMsg, isFocus} = props;
-  const [state, setState] = useState('');
+  const {
+    countryData,
+    numberTyped,
+    isError,
+    errorMsg,
+    isFocus,
+    onChangeText,
+    value: valueNumber,
+    onSelectCountry,
+  } = props;
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState<any>([]);
   const [query, setQuery] = useState('');
@@ -75,6 +84,7 @@ const DropdownSelectCountry: FC<SelectCountryProps> = (
   const countryOnPress = (item: any) => {
     setValue(item);
     setModalVisible(false);
+    onSelectCountry(item.code);
   };
 
   const onEndEditing = () => {
@@ -89,14 +99,12 @@ const DropdownSelectCountry: FC<SelectCountryProps> = (
         marginBottom: isError ? mvs(18.7) : undefined,
       }}>
       <SsuInput.InputText
-        value={state}
-        onChangeText={(newText: any) =>
-          setState(newText.replace(regexNumber, ''))
-        }
+        value={valueNumber}
+        onChangeText={onChangeText}
         placeholder={'Phone Number'}
         keyboardType={'number-pad'}
         fontSize={mvs(12)}
-        onEndEditing={() => numberTyped(value?.code + state)}
+        onEndEditing={() => numberTyped(value?.code)}
         leftIconContainer={{
           width: widthResponsive(55),
           marginLeft: widthResponsive(-12),
