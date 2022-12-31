@@ -1,9 +1,9 @@
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
-import {normalize} from '../../utils';
-import Color from '../../theme/Color';
-import Font from '../../theme/Font';
-import {CheckIcon} from '../../assets/icon';
+import {normalize} from '../../../utils';
+import Color from '../../../theme/Color';
+import Font from '../../../theme/Font';
+import {CheckIcon} from '../../../assets/icon';
 
 export interface SelectColorType {
   id: number;

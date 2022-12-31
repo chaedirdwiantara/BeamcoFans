@@ -1,9 +1,9 @@
 import {View, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import React from 'react';
-import {AddIcon, MinusIcon} from '../../assets/icon';
-import {normalize} from '../../utils';
-import Font from '../../theme/Font';
-import Color from '../../theme/Color';
+import {AddIcon, MinusIcon} from '../../../assets/icon';
+import {normalize} from '../../../utils';
+import Font from '../../../theme/Font';
+import Color from '../../../theme/Color';
 
 const QuantityInput = ({
   value,

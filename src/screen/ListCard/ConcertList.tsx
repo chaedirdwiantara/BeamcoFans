@@ -59,6 +59,7 @@ const ConcertList: FC = () => {
             price={item.price}
             desc={item.content}
             currency={item.currencyCode}
+            type={'concert'}
           />
         )}
         estimatedItemSize={150}

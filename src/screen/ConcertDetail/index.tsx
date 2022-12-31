@@ -52,7 +52,7 @@ const renderPagination = (index: number, total: number) => {
   );
 };
 
-export const MerchDetail: React.FC<MerchDetailProps> = ({
+export const ConcertDetail: React.FC<MerchDetailProps> = ({
   route,
 }: MerchDetailProps) => {
   const data = route.params;
@@ -80,47 +80,33 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
   const sizes: SelectSizeType[] = [
     {
       id: 1,
-      name: 'S',
+      name: 'VIP',
     },
     {
       id: 2,
-      name: 'M',
+      name: 'Platinum',
     },
     {
       id: 3,
-      name: 'L',
+      name: 'Festival',
     },
     {
       id: 4,
-      name: 'XL',
+      name: 'Gold',
+    },
+    {
+      id: 5,
+      name: 'Silver',
     },
   ];
 
-  const colors: SelectColorType[] = [
-    {
-      id: 1,
-      name: '#6ECCAF',
-    },
-    {
-      id: 2,
-      name: '#ADE792',
-    },
-    {
-      id: 3,
-      name: '#F3ECB0',
-    },
-    {
-      id: 4,
-      name: '#FFC0CB',
-    },
-  ];
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.root}>
         <TopNavigation.Type4
-          title="Merch Detail"
+          title="Ticket Detail"
           maxLengthTitle={20}
           itemStrokeColor={'white'}
           rightIcon={<ThreeDotsIcon fill={Color.Neutral[10]} />}
@@ -177,19 +163,11 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
           <SsuDivider />
           <View style={styles.descContainer}>
             <View style={styles.attribute}>
-              <Text style={styles.subtitle}>Select Size</Text>
+              <Text style={styles.subtitle}>Select Class</Text>
               <SelectSize
                 selectedSize={selectedSize}
                 sizes={sizes}
                 onPressSize={size => setSelectedSize(size)}
-              />
-            </View>
-            <View style={styles.attribute}>
-              <Text style={styles.subtitle}>Choose Color</Text>
-              <SelectColor
-                selectedColor={selectedColor}
-                colors={colors}
-                onPressColor={color => setSelectedColor(color)}
               />
             </View>
             <View>
@@ -209,11 +187,6 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
               gradientStyles={{width: '100%'}}
               containerStyles={{marginBottom: 8}}
               onPress={() => null}
-            />
-            <Button
-              label="Add to Cart"
-              type="border"
-              containerStyles={{width: '100%'}}
             />
           </View>
         </ScrollView>
