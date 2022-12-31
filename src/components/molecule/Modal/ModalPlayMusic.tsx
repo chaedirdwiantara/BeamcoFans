@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import {Portal} from '@gorhom/portal';
 import Video from 'react-native-video';
 
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   root: {
     width,
     position: 'absolute',
-    bottom: 64,
+    bottom: Platform.OS === 'ios' ? 84 : 64,
     alignItems: 'center',
     backgroundColor: '#3D1034',
     paddingHorizontal: widthPercentage(15),
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     height: heightPercentage(2),
     flexDirection: 'row',
     position: 'absolute',
-    bottom: 64,
+    bottom: Platform.OS === 'ios' ? 84 : 64,
   },
   greenLine: {
     height: heightPercentage(2),
