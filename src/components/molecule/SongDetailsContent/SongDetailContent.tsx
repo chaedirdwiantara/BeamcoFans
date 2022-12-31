@@ -9,7 +9,7 @@ import {
 
 import {
   heightPercentage,
-  normalize,
+  heightResponsive,
   width,
   widthPercentage,
 } from '../../../utils';
@@ -25,19 +25,27 @@ import {color, font, typography} from '../../../theme';
 import {ModalSuccessDonate} from '../Modal/ModalSuccessDonate';
 import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
 import {dropDownHeaderSongDetails} from '../../../data/dropdown';
-import {ArrowLeftIcon, TickCircleIcon} from '../../../assets/icon';
+import {
+  ArrowLeftIcon,
+  DefaultImage,
+  TickCircleIcon,
+} from '../../../assets/icon';
 import {ListenersAndDonate} from '../ListenersAndDonate/ListenersAndDonate';
+import {DataDetailSong} from '../../../interface/song.interface';
+import {mvs} from 'react-native-size-matters';
 
 interface Props {
   onPressGoBack: () => void;
   goToAlbum: () => void;
   goToShowCredit: () => void;
+  dataDetail: DataDetailSong;
 }
 
 export const SongDetailsContent: React.FC<Props> = ({
   onPressGoBack,
   goToAlbum,
   goToShowCredit,
+  dataDetail,
 }) => {
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
@@ -97,19 +105,28 @@ export const SongDetailsContent: React.FC<Props> = ({
       <ScrollView>
         <View style={{paddingHorizontal: widthPercentage(10)}}>
           <View style={{alignSelf: 'center'}}>
-            <PhotoPlaylist uri="https://cdns-images.dzcdn.net/images/cover/7f7aae26b50cb046c872238b6a2a10c2/264x264.jpg" />
+            {dataDetail.imageUrl ? (
+              <PhotoPlaylist uri={dataDetail.Album.ImageURL} />
+            ) : (
+              <View style={styles.undefinedImg}>
+                <DefaultImage.PlaylistCover width={148} height={148} />
+              </View>
+            )}
           </View>
           <View style={styles.containerTitle}>
             <View>
-              <Text style={styles.titleSong}>{'Thunder'}</Text>
-              <Text style={styles.artist}>
-                {`Imagine Dragons, The Weekend`}
-              </Text>
-              <Text style={styles.albumName}>{`Smoke + Mirror · 2017`}</Text>
+              <Text style={styles.titleSong}>{dataDetail.title}</Text>
+              <Text style={styles.artist}>{`${dataDetail.musicianName}`}</Text>
+              <Text
+                style={
+                  styles.albumName
+                }>{`${dataDetail.Album.Title} · ${dataDetail.Album.ProductionYear}`}</Text>
             </View>
           </View>
           <ListenersAndDonate
-            totalListener={66900}
+            totalListener={
+              dataDetail.listenerCount ? dataDetail.listenerCount : 0
+            }
             onPress={() => setModalDonate(true)}
           />
         </View>
@@ -117,36 +134,30 @@ export const SongDetailsContent: React.FC<Props> = ({
         <View style={styles.separator} />
 
         <View style={styles.containerContent}>
-          <View style={{marginBottom: heightPercentage(15)}}>
+          <View style={{marginBottom: heightResponsive(15)}}>
             <ListAvatar
               title="Musician"
-              text="Imagine Dragons"
-              avatarUri="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_yUUsxR8iCCEoLjrK99teZrFVOZiL13_Khx6W02T6Hez0QZjysSIN0BPWH7QBSH_27Fc&usqp=CAU"
+              text={dataDetail.musicianName}
+              avatarUri={dataDetail.imageUrl}
             />
 
             <ListAvatar
               title="Featuring"
-              text="The Wekeend"
-              avatarUri="https://diskursusnetwork.com/wp-content/uploads/2022/02/The-Weekend-GQ-2015-01.jpg"
+              featuring
+              featuringData={dataDetail.Album.FeaturingArtist}
             />
 
             <Text style={[typography.Subtitle1, styles.titleContent]}>
               Song Description
             </Text>
-            <Text style={styles.description}>
-              {
-                'Born on the sofa of his childhood home, singer Lukas Forchhammer entered the world in unconventional surroundings. His parents resided within the 84 acres of Christiania: an alternative, tightly knit community, formed in 1971 by squatters and artists in Cophenhagen.\n\nRunning water, cars and personal toilets were considered luxuries. The area was described by Lukas as "probably the biggest commune in the world" - so this isnt your run of the mill starting point for a record breaking pop star, but with lyrical references to "at eleven smoking herb and drinking burning liquor" the neighborhood had a big part to play in one of the most ridiculously popular tracks on the planet right now!\n\nSongwriters: Christopher Brown, Lukas Forchhammer, Stefan Forrest, Morten Ristorp Jensen, Morten Pilegaard, David Labrel. For non-commercial use only.'
-              }
-            </Text>
+            <Text style={styles.description}>{dataDetail.description}</Text>
 
             <ListAlbum
               title={'Album'}
-              albumName={'Smoke + Mirror'}
+              albumName={dataDetail.Album.Title}
               onPress={goToAlbum}
-              createdOn={'2020'}
-              imgUri={
-                'https://i.pinimg.com/originals/b3/51/66/b35166174c9bde2d0cc436150a983912.jpg'
-              }
+              createdOn={dataDetail.Album.ProductionYear}
+              imgUri={dataDetail.Album.ImageURL}
             />
           </View>
         </View>
@@ -212,18 +223,18 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Dark[800],
   },
   titleSong: {
-    fontSize: normalize(20),
+    fontSize: mvs(18),
     color: color.Neutral[10],
     fontFamily: font.InterSemiBold,
     lineHeight: heightPercentage(28),
   },
   artist: {
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     color: color.Neutral[50],
     fontFamily: font.InterMedium,
   },
   albumName: {
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     color: color.Dark[50],
     fontFamily: font.InterMedium,
   },
@@ -249,7 +260,6 @@ const styles = StyleSheet.create({
   },
   containerTitle: {
     paddingHorizontal: widthPercentage(12),
-    marginTop: heightPercentage(10),
   },
   containerMore: {
     width: widthPercentage(123),
@@ -262,12 +272,12 @@ const styles = StyleSheet.create({
   },
   artistName: {
     fontFamily: font.InterMedium,
-    fontSize: normalize(15),
+    fontSize: mvs(15),
     lineHeight: heightPercentage(20),
     color: color.Neutral[10],
   },
   description: {
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
     lineHeight: heightPercentage(16),
@@ -287,5 +297,9 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: color.Neutral[10],
+  },
+  undefinedImg: {
+    marginTop: heightResponsive(36),
+    marginBottom: heightResponsive(28),
   },
 });

@@ -2,7 +2,12 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, ImageBackground} from 'react-native';
 import {color} from '../../../theme';
 import {GalleryAddIcon} from '../../../assets/icon';
-import {heightPercentage, widthPercentage} from '../../../utils';
+import {
+  heightPercentage,
+  heightResponsive,
+  widthPercentage,
+  widthResponsive,
+} from '../../../utils';
 
 interface Props {
   uri?: string | undefined;
@@ -29,14 +34,15 @@ export const PhotoPlaylist: React.FC<Props> = ({uri, showIcon, onPress}) => {
 
 const styles = StyleSheet.create({
   root: {
-    width: widthPercentage(148),
+    width: widthResponsive(148),
     height: undefined,
     aspectRatio: 1 / 1,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: color.Success[400],
-    marginVertical: heightPercentage(30),
+    marginTop: heightResponsive(36),
+    marginBottom: heightResponsive(28),
   },
   image: {
     width: '100%',

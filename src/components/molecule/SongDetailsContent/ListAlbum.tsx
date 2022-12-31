@@ -3,6 +3,7 @@ import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 import {SquareImage} from '../../atom';
 import {color, font, typography} from '../../../theme';
+import {DefaultImage} from '../../../assets/icon';
 
 interface ListAlbumProps {
   title?: string;
@@ -26,7 +27,11 @@ export const ListAlbum: React.FC<ListAlbumProps> = ({
       {title && (
         <Text style={[typography.Subtitle1, styles.titleContent]}>{title}</Text>
       )}
-      <SquareImage imgUri={imgUri} size={imgSize} />
+      {imgUri ? (
+        <SquareImage imgUri={imgUri} size={imgSize} />
+      ) : (
+        <DefaultImage.PlaylistCover width={96} height={96} />
+      )}
       <Text style={styles.albumName}>{albumName}</Text>
       <Text style={styles.createdOn}>{`${createdOn} · Album`}</Text>
     </TouchableOpacity>

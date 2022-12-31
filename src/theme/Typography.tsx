@@ -41,7 +41,7 @@ const Typography = {
   },
   Subtitle1: {
     fontFamily: Font.InterMedium,
-    fontSize: normalize(15),
+    fontSize: mvs(15),
     lineHeight: mvs(20),
     letterSpacing: 0.15,
   },
