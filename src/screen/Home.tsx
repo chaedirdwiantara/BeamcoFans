@@ -82,7 +82,7 @@ export const HomeScreen: React.FC = () => {
     } else if (!isFocused) {
       hidePlayer();
     }
-  }, [isFocused]);
+  }, [isFocused, isPlay]);
 
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);

@@ -1,12 +1,13 @@
 import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {storage} from '../../hooks/use-storage.hook';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {GuestContent, ProfileContent} from '../../components';
+import {usePlayerHook} from '../../hooks/use-player.hook';
 
 interface ProfileProps {
   props: {};
@@ -19,6 +20,16 @@ export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {isLoading, dataProfile, getProfileUser} = useProfileHook();
   const isLogin = storage.getString('profile');
+  const isFocused = useIsFocused();
+  const {isPlay, showPlayer, hidePlayer} = usePlayerHook();
+
+  useEffect(() => {
+    if (isFocused && isPlay) {
+      showPlayer();
+    } else if (!isFocused) {
+      hidePlayer();
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     getProfileUser();
