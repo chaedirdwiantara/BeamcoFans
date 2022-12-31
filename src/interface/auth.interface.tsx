@@ -33,6 +33,10 @@ export interface LoginPropsType {
   password: string;
 }
 
+export interface LoginPhonePropsType {
+  phoneNumber: string;
+}
+
 export interface LoginResponseType {
   code: number;
   data: {

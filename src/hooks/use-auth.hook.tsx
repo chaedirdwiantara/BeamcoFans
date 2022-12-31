@@ -10,23 +10,22 @@ import {v4 as uuid} from 'uuid';
 import {
   checkUsername,
   confirmEmailOtpRegister,
-  confirmSmsOtpRegister,
   confirmSmsOtpLogin,
   loginSso,
   loginUser,
   registerUser,
   resendOtpEmail,
   resendOtpSms,
+  loginPhoneNumber,
 } from '../api/auth.api';
 import {
+  LoginPhonePropsType,
   LoginPropsType,
-  LoginResponseType,
   RegisterPropsType,
   RegisterResponseType,
 } from '../interface/auth.interface';
 import axios from 'axios';
 import {storage} from '../hooks/use-storage.hook';
-import {getProfile} from '../api/profile.api';
 import {deleteTokenFCM} from '../service/notification';
 
 export const useAuthHook = () => {
@@ -69,13 +68,22 @@ export const useAuthHook = () => {
     }
   };
 
-  const onLoginUser = async (props: LoginPropsType) => {
+  const onLoginUser = async (
+    props: LoginPropsType | LoginPhonePropsType,
+    type: string,
+  ) => {
     setIsLoading(true);
     setIsError(false);
     setErrorMsg('');
     try {
-      const response = await loginUser(props);
-      if (response.code === 200) {
+      let response;
+      if (type === 'email') {
+        response = await loginUser(props);
+      } else {
+        response = await loginPhoneNumber(props);
+      }
+
+      if (response.code === 200 || response.code === 401) {
         if (response.data.accessToken) {
           storage.set('profile', JSON.stringify(response.data));
           if (response.data.lastLoginAt === null) {
@@ -84,7 +92,7 @@ export const useAuthHook = () => {
             setLoginResult('home');
           }
         }
-      } else {
+      } else if (response.code !== 1010) {
         setIsError(true);
         setErrorMsg(response.message);
       }
@@ -256,16 +264,15 @@ export const useAuthHook = () => {
     setIsLoading(true);
     try {
       const response = await confirmSmsOtpLogin(phoneNumber, code);
-      if (response.status === 1) {
+      if (response.code === 200) {
+        storage.set('profile', JSON.stringify(response.data));
         if (response.data.lastLoginAt === null) {
           setLoginResult('preference');
         } else {
           setLoginResult('home');
         }
-        storage.set('profile', JSON.stringify(response.data));
         setIsOtpValid(true);
-        setIsError(false);
-      } else if (response.status === 0) {
+      } else {
         setIsOtpValid(false);
         setIsError(true);
         setErrorMsg(response.message);
@@ -273,7 +280,6 @@ export const useAuthHook = () => {
     } catch (error) {
       setIsError(true);
       setIsOtpValid(false);
-
       if (
         axios.isAxiosError(error) &&
         error.response?.status &&
