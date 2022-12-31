@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Portal} from '@gorhom/portal';
+import Video from 'react-native-video';
 
 import {
   elipsisText,
@@ -8,8 +10,9 @@ import {
   widthPercentage,
 } from '../../../utils';
 import {ListCard} from '../ListCard';
-import {PauseIcon, PlayIcon} from '../../../assets/icon';
+import {CloseIcon, PauseIcon, PlayIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
+import {usePlayerHook} from '../../../hooks/use-player.hook';
 
 interface ModalPlayMusicProps {
   imgUri: string;
@@ -24,27 +27,62 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
   singerName,
   onPressModal,
 }) => {
-  const [played, setPlayed] = useState(true);
+  const {
+    visible: playerShow,
+    currentProgress,
+    duration,
+    isPlay,
+    hidePlayer,
+    setDurationPlayer,
+    setProgressPlayer,
+    setPauseSong,
+    setPlaySong,
+  } = usePlayerHook();
+
+  const handleClose = () => {
+    hidePlayer();
+    setPauseSong();
+  };
+
+  const handlePlayPaused = () => {
+    if (isPlay) {
+      setPauseSong();
+    } else {
+      setPlaySong();
+    }
+  };
 
   const RightIcon = () => {
     return (
-      <>
-        {played ? (
-          <TouchableOpacity onPress={() => setPlayed(false)}>
-            <PauseIcon />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity onPress={() => setPlayed(true)}>
-            <PlayIcon />
-          </TouchableOpacity>
-        )}
-      </>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity onPress={handlePlayPaused}>
+          {isPlay ? (
+            <PauseIcon fill={'#FFFFFF'} stroke={'#FFFFFF'} />
+          ) : (
+            <PlayIcon fill={'#FFFFFF'} stroke={'#FFFFFF'} />
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{marginLeft: 30, marginRight: 20}}
+          onPress={handleClose}>
+          <CloseIcon
+            width={widthPercentage(25)}
+            height={widthPercentage(25)}
+            fill={'#FFFFFF'}
+            stroke={'#FFFFFF'}
+          />
+        </TouchableOpacity>
+      </View>
     );
   };
 
   return (
-    <>
-      <View style={styles.root}>
+    <Portal>
+      <View style={[styles.root, {display: playerShow ? 'flex' : 'none'}]}>
         <ListCard.MusicList
           rightIcon={true}
           rightIconComponent={<RightIcon />}
@@ -55,11 +93,34 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
           onPressCard={onPressModal}
         />
       </View>
-      <View style={styles.containerLine}>
-        <View style={[styles.greenLine, {width: '30%'}]} />
-        <View style={[styles.grayLine, {width: '70%'}]} />
+      <View
+        style={[styles.containerLine, {display: playerShow ? 'flex' : 'none'}]}>
+        <View
+          style={[
+            styles.greenLine,
+            {width: `${(currentProgress / duration) * 100}%`},
+          ]}
+        />
+        <View
+          style={[
+            styles.grayLine,
+            {width: `${100 - (currentProgress / duration) * 100}%`},
+          ]}
+        />
       </View>
-    </>
+      <Video
+        source={{
+          uri: 'https://storage.googleapis.com/media-ssu/uploads/22222/encoded/190ecdcb42f4/master.m3u8',
+        }}
+        onLoad={e => {
+          setDurationPlayer(e.duration);
+        }}
+        onProgress={e => {
+          setProgressPlayer(e.currentTime);
+        }}
+        paused={!isPlay}
+      />
+    </Portal>
   );
 };
 
@@ -67,7 +128,7 @@ const styles = StyleSheet.create({
   root: {
     width,
     position: 'absolute',
-    bottom: 0,
+    bottom: 64,
     alignItems: 'center',
     backgroundColor: '#3D1034',
     paddingHorizontal: widthPercentage(15),
@@ -77,6 +138,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: heightPercentage(2),
     flexDirection: 'row',
+    position: 'absolute',
+    bottom: 64,
   },
   greenLine: {
     height: heightPercentage(2),

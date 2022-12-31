@@ -40,6 +40,7 @@ import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {useSongHook} from '../hooks/use-song.hook';
 import {ParamsProps} from '../interface/base.interface';
+import {usePlayerHook} from '../hooks/use-player.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -57,6 +58,7 @@ export const HomeScreen: React.FC = () => {
   const {dataSong, getListDataSong} = useSongHook();
   const {dataBanner, getListDataBanner} = useBannerHook();
   const {addFcmToken} = useFcmHook();
+  const {showPlayer, visible: playerVisible} = usePlayerHook();
 
   const isLogin = storage.getString('profile');
 
@@ -72,7 +74,6 @@ export const HomeScreen: React.FC = () => {
     getListDataSong();
   }, []);
 
-  const [modalVisible, setModalVisible] = useState(false);
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
   const [selectedSong, setSelectedSong] = useState({
@@ -156,7 +157,7 @@ export const HomeScreen: React.FC = () => {
 
   const onPressTopSong = (val: any) => {
     setSelectedSong(val);
-    setModalVisible(true);
+    showPlayer();
   };
 
   const onPressNotif = () => {
@@ -205,7 +206,7 @@ export const HomeScreen: React.FC = () => {
           style={[
             styles.containerContent,
             {
-              marginBottom: modalVisible
+              marginBottom: playerVisible
                 ? heightPercentage(90)
                 : heightPercentage(25),
             },
@@ -248,14 +249,12 @@ export const HomeScreen: React.FC = () => {
         onPressClose={() => setModalGuestVisible(false)}
       />
 
-      {modalVisible && (
-        <ModalPlayMusic
-          imgUri={selectedSong.imgUri || ''}
-          musicTitle={selectedSong.musicTitle || ''}
-          singerName={selectedSong.singerName || ''}
-          onPressModal={() => goToScreen('MusicPlayer')}
-        />
-      )}
+      <ModalPlayMusic
+        imgUri={selectedSong.imgUri || ''}
+        musicTitle={selectedSong.musicTitle || ''}
+        singerName={selectedSong.singerName || ''}
+        onPressModal={() => goToScreen('MusicPlayer')}
+      />
     </View>
   );
 };
