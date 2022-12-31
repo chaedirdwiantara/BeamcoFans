@@ -21,6 +21,7 @@ interface TopMusicianProps {
     props?: FollowMusicianPropsType,
     params?: ParamsProps,
   ) => void;
+  emptyState?: Element;
 }
 
 const TopMusician: FC<TopMusicianProps> = ({
@@ -29,6 +30,7 @@ const TopMusician: FC<TopMusicianProps> = ({
   dataMusician,
   setFollowMusician,
   setUnfollowMusician,
+  emptyState,
 }) => {
   const followOnPress = (index: string, isFollowed: boolean) => {
     isFollowed
@@ -42,6 +44,7 @@ const TopMusician: FC<TopMusicianProps> = ({
       showsVerticalScrollIndicator={false}
       scrollEnabled={scrollable}
       keyExtractor={item => item.uuid}
+      ListEmptyComponent={emptyState ?? null}
       renderItem={({item, index}) => (
         <MusicianSection
           musicianId={item.uuid}
@@ -57,7 +60,7 @@ const TopMusician: FC<TopMusicianProps> = ({
           followOnPress={() => followOnPress(item.uuid, item.isFollowed)}
         />
       )}
-      estimatedItemSize={heightResponsive(500)}
+      // estimatedItemSize={heightResponsive(500)}
     />
   );
 };

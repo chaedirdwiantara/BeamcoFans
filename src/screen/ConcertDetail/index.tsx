@@ -3,7 +3,7 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -29,6 +29,9 @@ import SelectColor, {
 import SelectSize, {
   SelectSizeType,
 } from '../../components/molecule/EventDetail/SelectSize';
+import {useMusicianHook} from '../../hooks/use-musician.hook';
+import {ParamsProps} from '../../interface/base.interface';
+import {FollowMusicianPropsType} from '../../interface/musician.interface';
 import {RootStackParams} from '../../navigations';
 import Color from '../../theme/Color';
 import Font from '../../theme/Font';
@@ -39,6 +42,7 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../utils';
+import TopMusician from '../ListCard/TopMusician';
 
 type MerchDetailProps = NativeStackScreenProps<RootStackParams, 'MerchDetail'>;
 
@@ -56,6 +60,12 @@ export const ConcertDetail: React.FC<MerchDetailProps> = ({
   route,
 }: MerchDetailProps) => {
   const data = route.params;
+  const {
+    dataMusician,
+    getListDataMusician,
+    setFollowMusician,
+    setUnfollowMusician,
+  } = useMusicianHook();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [selectedSize, setSelectedSize] = useState<
@@ -99,6 +109,11 @@ export const ConcertDetail: React.FC<MerchDetailProps> = ({
       name: 'Silver',
     },
   ];
+
+  useEffect(() => {
+    getListDataMusician({filterBy: 'top'});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -162,6 +177,25 @@ export const ConcertDetail: React.FC<MerchDetailProps> = ({
           </View>
           <SsuDivider />
           <View style={styles.descContainer}>
+            <View style={styles.attribute}>
+              <Text style={styles.subtitle}>Line Up</Text>
+              <TopMusician
+                dataMusician={dataMusician ? dataMusician : []}
+                setFollowMusician={(
+                  props?: FollowMusicianPropsType,
+                  params?: ParamsProps,
+                ) => setFollowMusician(props, params)}
+                setUnfollowMusician={(
+                  props?: FollowMusicianPropsType,
+                  params?: ParamsProps,
+                ) => setUnfollowMusician(props, params)}
+                emptyState={
+                  <View>
+                    <Text style={styles.desc}>-</Text>
+                  </View>
+                }
+              />
+            </View>
             <View style={styles.attribute}>
               <Text style={styles.subtitle}>Select Class</Text>
               <SelectSize
@@ -230,7 +264,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: Font.InterMedium,
     fontSize: normalize(12),
-    marginBottom: 8,
+    marginBottom: heightResponsive(8),
   },
   descContainer: {
     paddingHorizontal: normalize(24),
@@ -257,6 +291,6 @@ const styles = StyleSheet.create({
     fontFamily: Font.InterBold,
   },
   attribute: {
-    marginBottom: 20,
+    marginBottom: heightResponsive(24),
   },
 });
