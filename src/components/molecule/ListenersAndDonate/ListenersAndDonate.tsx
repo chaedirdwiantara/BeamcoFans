@@ -9,6 +9,7 @@ import {
 import {Gap} from '../../atom';
 import {color, font} from '../../../theme';
 import {DonateCoinIcon} from '../../../assets/icon';
+import {mvs} from 'react-native-size-matters';
 
 interface ListenersAndDonateProps {
   totalListener: number;
@@ -44,12 +45,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   totalListener: {
-    fontSize: normalize(13),
+    fontSize: mvs(13),
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
   },
   textListener: {
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     color: color.Dark[50],
     fontFamily: font.InterRegular,
   },

@@ -3,6 +3,9 @@ import React, {FC} from 'react';
 import {ListCard} from '../../components';
 import {ListDataSearchSongs} from '../../interface/search.interface';
 import {mvs} from 'react-native-size-matters';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../../navigations';
 
 interface ListResultSongProps {
   dataSearchSongs: ListDataSearchSongs[];
@@ -13,8 +16,11 @@ const ListResultSong: FC<ListResultSongProps> = (
 ) => {
   const {dataSearchSongs} = props;
 
-  const resultDataMore = (dataResult: any) => {
-    console.log(dataResult, 'resultDataMenu');
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const handleOnPress = (id: number) => {
+    navigation.navigate('SongDetails', {id});
   };
 
   return (
@@ -29,9 +35,8 @@ const ListResultSong: FC<ListResultSongProps> = (
           })}
           musicTitle={item.title}
           singerName={item.musicianName}
-          onPressMore={resultDataMore}
           containerStyles={{marginTop: mvs(20)}}
-          onPressCard={() => {}}
+          onPressCard={() => handleOnPress(item.id)}
           hideDropdownMore
         />
       )}

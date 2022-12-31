@@ -111,7 +111,9 @@ export type RootStackParams = {
   SignInGuest: undefined;
   ShippingInformation: undefined;
   ShowCredit: undefined;
-  SongDetails: undefined;
+  SongDetails: {
+    id: number;
+  };
   Notification: undefined;
   PostDetail: PostList;
   SearchScreen: undefined;

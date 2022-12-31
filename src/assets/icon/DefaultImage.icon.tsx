@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View} from 'react-native';
 import Svg, {Rect, Path} from 'react-native-svg';
-import {widthPercentage} from '../../utils';
+import {widthResponsive} from '../../utils';
 import {SvgProps} from '../../interface/svg.interface';
 
 function SongCover({
-  width = widthPercentage(148),
-  height = widthPercentage(148),
+  width = widthResponsive(148),
+  height = widthResponsive(148),
   fill = 'none',
   style,
 }: SvgProps) {
@@ -32,8 +32,8 @@ function SongCover({
 }
 
 function PlaylistCover({
-  width = widthPercentage(148),
-  height = widthPercentage(148),
+  width = widthResponsive(148),
+  height = widthResponsive(148),
   fill = 'none',
   style,
 }: SvgProps) {
