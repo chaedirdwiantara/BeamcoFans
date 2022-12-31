@@ -7,6 +7,7 @@ export interface MerchListType {
   desc?: string;
   currency?: string;
   ownerImage?: string;
+  type?: 'merch' | 'concert';
 }
 
 export const MerchListItem: MerchListType[] = [

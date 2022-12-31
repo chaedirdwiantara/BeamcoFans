@@ -1,8 +1,8 @@
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, TouchableOpacity, StyleSheet, ScrollView} from 'react-native';
 import React from 'react';
-import {normalize, widthResponsive} from '../../utils';
-import Color from '../../theme/Color';
-import Font from '../../theme/Font';
+import {normalize, widthResponsive} from '../../../utils';
+import Color from '../../../theme/Color';
+import Font from '../../../theme/Font';
 
 export interface SelectSizeType {
   id: number;
@@ -35,7 +35,7 @@ const SelectSize = ({
   onPressSize: (size: SelectSizeType) => void;
 }) => {
   return (
-    <View style={styles.buttonContainer}>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       {sizes?.length > 0 &&
         sizes?.map((size, index) => {
           return (
@@ -53,7 +53,7 @@ const SelectSize = ({
             />
           );
         })}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -74,8 +74,5 @@ const styles = StyleSheet.create({
     fontSize: normalize(12),
     color: Color.Neutral[10],
     fontFamily: Font.InterMedium,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
   },
 });

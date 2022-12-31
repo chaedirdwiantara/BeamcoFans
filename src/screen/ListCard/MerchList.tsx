@@ -15,10 +15,7 @@ const MerchList: FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getListDataMerch({
-        countryCode: 'HK',
-        type: 'product',
-      });
+      getListDataMerch();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
@@ -61,6 +58,7 @@ const MerchList: FC = () => {
             price={item.price}
             desc={item.content}
             currency={item.currencyCode}
+            type={'merch'}
           />
         )}
         estimatedItemSize={150}

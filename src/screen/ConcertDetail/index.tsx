@@ -3,7 +3,7 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -29,6 +29,9 @@ import SelectColor, {
 import SelectSize, {
   SelectSizeType,
 } from '../../components/molecule/EventDetail/SelectSize';
+import {useMusicianHook} from '../../hooks/use-musician.hook';
+import {ParamsProps} from '../../interface/base.interface';
+import {FollowMusicianPropsType} from '../../interface/musician.interface';
 import {RootStackParams} from '../../navigations';
 import Color from '../../theme/Color';
 import Font from '../../theme/Font';
@@ -39,6 +42,7 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../utils';
+import TopMusician from '../ListCard/TopMusician';
 
 type MerchDetailProps = NativeStackScreenProps<RootStackParams, 'MerchDetail'>;
 
@@ -52,10 +56,16 @@ const renderPagination = (index: number, total: number) => {
   );
 };
 
-export const MerchDetail: React.FC<MerchDetailProps> = ({
+export const ConcertDetail: React.FC<MerchDetailProps> = ({
   route,
 }: MerchDetailProps) => {
   const data = route.params;
+  const {
+    dataMusician,
+    getListDataMusician,
+    setFollowMusician,
+    setUnfollowMusician,
+  } = useMusicianHook();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [selectedSize, setSelectedSize] = useState<
@@ -80,47 +90,38 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
   const sizes: SelectSizeType[] = [
     {
       id: 1,
-      name: 'S',
+      name: 'VIP',
     },
     {
       id: 2,
-      name: 'M',
+      name: 'Platinum',
     },
     {
       id: 3,
-      name: 'L',
+      name: 'Festival',
     },
     {
       id: 4,
-      name: 'XL',
+      name: 'Gold',
+    },
+    {
+      id: 5,
+      name: 'Silver',
     },
   ];
 
-  const colors: SelectColorType[] = [
-    {
-      id: 1,
-      name: '#6ECCAF',
-    },
-    {
-      id: 2,
-      name: '#ADE792',
-    },
-    {
-      id: 3,
-      name: '#F3ECB0',
-    },
-    {
-      id: 4,
-      name: '#FFC0CB',
-    },
-  ];
+  useEffect(() => {
+    getListDataMusician({filterBy: 'top'});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.root}>
         <TopNavigation.Type4
-          title="Merch Detail"
+          title="Ticket Detail"
           maxLengthTitle={20}
           itemStrokeColor={'white'}
           rightIcon={<ThreeDotsIcon fill={Color.Neutral[10]} />}
@@ -177,19 +178,30 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
           <SsuDivider />
           <View style={styles.descContainer}>
             <View style={styles.attribute}>
-              <Text style={styles.subtitle}>Select Size</Text>
+              <Text style={styles.subtitle}>Line Up</Text>
+              <TopMusician
+                dataMusician={dataMusician ? dataMusician : []}
+                setFollowMusician={(
+                  props?: FollowMusicianPropsType,
+                  params?: ParamsProps,
+                ) => setFollowMusician(props, params)}
+                setUnfollowMusician={(
+                  props?: FollowMusicianPropsType,
+                  params?: ParamsProps,
+                ) => setUnfollowMusician(props, params)}
+                emptyState={
+                  <View>
+                    <Text style={styles.desc}>-</Text>
+                  </View>
+                }
+              />
+            </View>
+            <View style={styles.attribute}>
+              <Text style={styles.subtitle}>Select Class</Text>
               <SelectSize
                 selectedSize={selectedSize}
                 sizes={sizes}
                 onPressSize={size => setSelectedSize(size)}
-              />
-            </View>
-            <View style={styles.attribute}>
-              <Text style={styles.subtitle}>Choose Color</Text>
-              <SelectColor
-                selectedColor={selectedColor}
-                colors={colors}
-                onPressColor={color => setSelectedColor(color)}
               />
             </View>
             <View>
@@ -209,11 +221,6 @@ export const MerchDetail: React.FC<MerchDetailProps> = ({
               gradientStyles={{width: '100%'}}
               containerStyles={{marginBottom: 8}}
               onPress={() => null}
-            />
-            <Button
-              label="Add to Cart"
-              type="border"
-              containerStyles={{width: '100%'}}
             />
           </View>
         </ScrollView>
@@ -257,7 +264,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: Font.InterMedium,
     fontSize: normalize(12),
-    marginBottom: 8,
+    marginBottom: heightResponsive(8),
   },
   descContainer: {
     paddingHorizontal: normalize(24),
@@ -284,6 +291,6 @@ const styles = StyleSheet.create({
     fontFamily: Font.InterBold,
   },
   attribute: {
-    marginBottom: 20,
+    marginBottom: heightResponsive(24),
   },
 });
