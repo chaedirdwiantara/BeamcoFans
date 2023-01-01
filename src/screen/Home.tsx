@@ -78,7 +78,7 @@ export const HomeScreen: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (isFocused) {
+    if (isFocused && isPlay) {
       showPlayer();
     } else if (!isFocused) {
       hidePlayer();
