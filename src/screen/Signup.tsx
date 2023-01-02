@@ -137,6 +137,7 @@ export const SignupScreen: React.FC = () => {
           subtitle: `Enter the verification code that we’ve sent to ${
             countryNumber + watch('phoneNumber')
           }`,
+          context: 'register',
         });
       }
     } else if (!isLoading && isError !== null) {
@@ -146,6 +147,7 @@ export const SignupScreen: React.FC = () => {
       });
       checkErrorCountry(countryNumber);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, isError, authResult]);
 
   const handleOnPressBack = () => {

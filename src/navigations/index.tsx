@@ -100,6 +100,7 @@ export type RootStackParams = {
     type: 'email' | 'phoneNumber';
     title: string;
     subtitle: string;
+    context?: string;
   };
   PhoneNumber: undefined;
   Playlist: undefined;

@@ -163,7 +163,7 @@ export const useAuthHook = () => {
       .then(res => {
         console.log(res);
         if (!res.isCancelled) {
-          AccessToken.getCurrentAccessToken().then(token => {
+          AccessToken.getCurrentAccessToken().then(_token => {
             // console.log(token);
             // TODO: get email from FB graphapi after apps is live
           });
@@ -198,6 +198,7 @@ export const useAuthHook = () => {
         state,
       });
       const response = await appleAuthAndroid.signIn();
+      console.log(response);
     }
 
     // TODO: store the user id of apple to db
@@ -258,12 +259,16 @@ export const useAuthHook = () => {
     }
   };
 
-  const confirmSmsOtp = async (phoneNumber: string, code: string) => {
+  const confirmSmsOtp = async (
+    phoneNumber: string,
+    code: string,
+    context: string,
+  ) => {
     setIsError(false);
     setErrorMsg('');
     setIsLoading(true);
     try {
-      const response = await confirmSmsOtpLogin(phoneNumber, code);
+      const response = await confirmSmsOtpLogin(phoneNumber, code, context);
       if (response.code === 200) {
         storage.set('profile', JSON.stringify(response.data));
         if (response.data.lastLoginAt === null) {

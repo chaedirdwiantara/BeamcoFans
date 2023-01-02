@@ -71,7 +71,6 @@ export const LoginScreen: React.FC = () => {
     errorMsg,
     errorCode,
     errorData,
-    sendOtpSms,
   } = useAuthHook();
 
   const {
@@ -136,6 +135,7 @@ export const LoginScreen: React.FC = () => {
           subtitle: `Enter the verification code that we’ve sent to ${
             countryNumber + watch('phoneNumber')
           }`,
+          context: 'login',
         });
       }
     } else if (!isLoading && isError) {
@@ -160,6 +160,7 @@ export const LoginScreen: React.FC = () => {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, isError, loginResult, errorCode]);
 
   const handleOnPressBack = () => {
