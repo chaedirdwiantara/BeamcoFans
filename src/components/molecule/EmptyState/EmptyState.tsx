@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, ViewStyle} from 'react-native';
-import {width} from '../../../utils';
+import {normalize, width} from '../../../utils';
 import Color from '../../../theme/Color';
 import {CrackEggIcon} from '../../../assets/icon';
 import Typography from '../../../theme/Typography';
@@ -32,5 +32,7 @@ const styles = StyleSheet.create({
     color: Color.Neutral[10],
     textAlign: 'center',
     maxWidth: width * 0.8,
+    fontSize: normalize(15),
+    fontFamily: 'Inter-Medium',
   },
 });

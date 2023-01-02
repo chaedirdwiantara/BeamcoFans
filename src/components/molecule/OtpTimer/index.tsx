@@ -80,34 +80,37 @@ const SsuOTPTimer: FC<Props> = props => {
 
   const renderTimer = () => {
     return (
-      <View style={styles.renderTimer}>
-        <Text style={styles.renderTimeText}>
-          You can resend recovery code after <Text>00:{timer}</Text>
-        </Text>
-        <Button
-          label={'Resend Code'}
-          disabled={true}
-          type="border"
-          containerStyles={{
-            backgroundColor: color.Dark[50],
-            width: '100%',
-            height: mvs(40),
-            borderWidth: 0,
-          }}
-        />
-        <SsuToast
-          modalVisible={modalVisible}
-          onBackPressed={() => setModalVisible(false)}
-          children={
-            <View style={[styles.modalContainer]}>
-              <Text style={[styles.textStyle]}>
-                We've just resend a new code!
-              </Text>
-            </View>
-          }
-          modalStyle={{marginHorizontal: ms(24)}}
-        />
-      </View>
+      <>
+        <View style={styles.renderTimer}>
+          <Text style={styles.renderTimeText}>
+            You can resend recovery code after <Text>00:{timer}</Text>
+          </Text>
+          <Button
+            label={'Resend Code'}
+            disabled={true}
+            type="border"
+            containerStyles={{
+              backgroundColor: color.Dark[50],
+              width: '100%',
+              height: mvs(40),
+              borderWidth: 0,
+              aspectRatio: undefined,
+            }}
+          />
+          <SsuToast
+            modalVisible={modalVisible}
+            onBackPressed={() => setModalVisible(false)}
+            children={
+              <View style={[styles.modalContainer]}>
+                <Text style={[styles.textStyle]}>
+                  We've just resend a new code!
+                </Text>
+              </View>
+            }
+            modalStyle={{marginHorizontal: ms(24)}}
+          />
+        </View>
+      </>
     );
   };
 

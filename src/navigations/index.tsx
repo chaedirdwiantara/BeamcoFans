@@ -74,6 +74,7 @@ import Color from '../theme/Color';
 import {normalize} from '../utils';
 import {PostList} from '../interface/feed.interface';
 import {MerchListType} from '../data/merchList';
+import {ConcertDetail} from '../screen/ConcertDetail';
 
 export type RootStackParams = {
   Account: undefined;
@@ -127,6 +128,7 @@ export type RootStackParams = {
   };
   MusicPlayer: undefined;
   MerchDetail: MerchListType;
+  ConcertDetail: MerchListType;
 };
 
 export type MainTabParams = {
@@ -268,6 +270,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="MusicPlayer" component={MusicPlayer} />
     <RootStack.Screen name="TopupCoin" component={TopupCoinScreen} />
     <RootStack.Screen name="MerchDetail" component={MerchDetail} />
+    <RootStack.Screen name="ConcertDetail" component={ConcertDetail} />
   </RootStack.Navigator>
 );
 

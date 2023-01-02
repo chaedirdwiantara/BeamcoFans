@@ -3,7 +3,7 @@ export type RegistrationType =
   | 'facebook'
   | 'google'
   | 'apple'
-  | 'phone';
+  | 'phoneNumber';
 
 export type FavGenreType = {
   id: number;

@@ -1,6 +1,7 @@
 import {
   ConfirmEmailOTPRegisterResponseType,
   ConfirmSmsOTPLoginResponseType,
+  LoginPhonePropsType,
   LoginPropsType,
   LoginResponseType,
   RegisterPropsType,
@@ -24,7 +25,7 @@ export const registerUser = async (
 };
 
 export const loginUser = async (
-  loginProps: LoginPropsType,
+  loginProps: LoginPropsType | LoginPhonePropsType,
 ): Promise<LoginResponseType> => {
   const {data} = await SsuAPI().request<LoginResponseType>({
     url: '/login',
@@ -47,6 +48,18 @@ export const loginSso = async (
       registrationType: registrationType,
     },
   });
+  return data;
+};
+
+export const loginPhoneNumber = async (
+  loginProps: LoginPropsType | LoginPhonePropsType,
+): Promise<LoginResponseType> => {
+  const {data} = await SsuAPI().request<LoginResponseType>({
+    url: '/login-phone-number',
+    method: 'POST',
+    data: loginProps,
+  });
+
   return data;
 };
 
@@ -113,7 +126,7 @@ export const resendOtpSms = async (
   phoneNumber: string,
 ): Promise<ResendOTPResponseType> => {
   const {data} = await SsuAPI().request<ResendOTPResponseType>({
-    url: '/resend-otp/sms/login',
+    url: '/resend-otp/sms',
     method: 'POST',
     data: {
       phoneNumber: phoneNumber,

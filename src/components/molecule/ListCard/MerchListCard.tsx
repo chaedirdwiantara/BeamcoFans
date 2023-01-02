@@ -25,12 +25,16 @@ interface ListProps extends MerchListType {
 }
 
 const MerchListCard: React.FC<ListProps> = props => {
-  const {title, image, owner, price, containerStyles} = props;
+  const {title, image, owner, price, containerStyles, currency, type} = props;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const onPressCard = (data: MerchListType) => {
-    navigation.navigate('MerchDetail', data);
+    if (type === 'merch') {
+      navigation.navigate('MerchDetail', data);
+    } else {
+      navigation.navigate('ConcertDetail', data);
+    }
   };
 
   return (
@@ -58,7 +62,7 @@ const MerchListCard: React.FC<ListProps> = props => {
           {owner}
         </Text>
         <Text style={styles.price}>
-          HKD {toCurrency(price, {withFraction: false})}
+          {currency} {toCurrency(price, {withFraction: false})}
         </Text>
       </View>
     </TouchableOpacity>

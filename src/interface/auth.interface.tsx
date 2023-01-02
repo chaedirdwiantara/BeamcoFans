@@ -2,10 +2,11 @@ import {RegistrationType} from './profile.interface';
 
 export interface RegisterPropsType {
   fullname: string;
-  email: string;
+  email?: string;
   password: string;
   registrationType: RegistrationType;
   image?: string;
+  phoneNumber?: string;
 }
 
 export interface RegisterResponseType {
@@ -30,6 +31,10 @@ export interface RegisterResponseType {
 export interface LoginPropsType {
   user: string;
   password: string;
+}
+
+export interface LoginPhonePropsType {
+  phoneNumber: string;
 }
 
 export interface LoginResponseType {
@@ -77,6 +82,7 @@ export interface ConfirmEmailOTPRegisterResponseType {
 export interface ConfirmSmsOTPLoginResponseType {
   code: number;
   data: {
+    lastLoginAt: null;
     uuid: string;
     accessToken: string;
     accessTokenExpiresAt: string;

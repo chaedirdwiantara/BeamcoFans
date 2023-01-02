@@ -21,6 +21,7 @@ export type ListSongResponseType = {
 };
 
 export type FeaturingArtist = {
+  Uuid: string;
   ImageURL: string;
   ArtistsName: string;
 };
