@@ -62,7 +62,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [readMore, setReadMore] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
-  const [imgUrl, setImgUrl] = useState<string>('');
+  const [imgUrl, setImgUrl] = useState<number>(-1);
   const [musicianId, setMusicianId] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [commentType, setCommentType] = useState<string>('');
@@ -236,9 +236,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setReadMore(!readMore);
   };
 
-  const toggleModalOnPress = (uri: string) => {
+  const toggleModalOnPress = (index: number) => {
     setModalVisible(!isModalVisible);
-    setImgUrl(uri);
+    setImgUrl(index);
   };
 
   const handleSetPage = (value: number) => {
@@ -366,7 +366,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         <ImageModal
           toggleModal={() => setModalVisible(!isModalVisible)}
           modalVisible={isModalVisible}
-          image={imgUrl}
+          imageIdx={imgUrl}
+          dataImage={dataPostDetail?.image}
         />
         <CommentInputModal
           toggleModal={() => setInputCommentModal(!inputCommentModal)}
