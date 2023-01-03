@@ -1,6 +1,7 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
+  InteractionManager,
   Platform,
   SafeAreaView,
   StyleSheet,
@@ -8,14 +9,21 @@ import {
   View,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {CommentInputModal, Dropdown, Gap, ListCard} from '../../components';
+import {
+  CommentInputModal,
+  Dropdown,
+  Gap,
+  ListCard,
+  ModalShare,
+  SsuToast,
+} from '../../components';
 import {
   DataDropDownType,
   DropDownFilterType,
   DropDownSortType,
 } from '../../data/dropdown';
 import {PostListType} from '../../data/postlist';
-import {color, font} from '../../theme';
+import {color, font, typography} from '../../theme';
 import {
   elipsisText,
   heightPercentage,
@@ -28,7 +36,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import ImageList from './ImageList';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
-import {FriedEggIcon} from '../../assets/icon';
+import {FriedEggIcon, TickCircleIcon} from '../../assets/icon';
 import ListToFollowMusician from './ListToFollowMusician';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {PostList} from '../../interface/feed.interface';
@@ -53,6 +61,8 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [dataProfileImg, setDataProfileImg] = useState<string>('');
   const [recorder, setRecorder] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string[]>();
+  const [modalShare, setModalShare] = useState<boolean>(false);
+  const [toastVisible, setToastVisible] = useState(false);
 
   const {
     feedIsLoading,
@@ -194,7 +204,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const shareOnPress = () => {
-    console.log('share');
+    setModalShare(true);
   };
 
   return (
@@ -353,6 +363,36 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
         handleOnPress={handleReplyOnPress}
         userAvatarUri={dataProfileImg}
       />
+      <ModalShare
+        url={
+          'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0'
+        }
+        modalVisible={modalShare}
+        onPressClose={() => setModalShare(false)}
+        titleModal={'Share Feed'}
+        hideMusic
+        onPressCopy={() =>
+          InteractionManager.runAfterInteractions(() => setToastVisible(true))
+        }
+      />
+      <SsuToast
+        modalVisible={toastVisible}
+        onBackPressed={() => setToastVisible(false)}
+        children={
+          <View style={[styles.modalContainer]}>
+            <TickCircleIcon
+              width={widthResponsive(21)}
+              height={heightPercentage(20)}
+              stroke={color.Neutral[10]}
+            />
+            <Gap width={widthResponsive(7)} />
+            <Text style={[typography.Button2, styles.textStyle]}>
+              Link have been copied to clipboard!
+            </Text>
+          </View>
+        }
+        modalStyle={{marginHorizontal: widthResponsive(24)}}
+      />
     </>
   );
 };
@@ -367,6 +407,21 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: normalize(13),
     lineHeight: mvs(20),
+    color: color.Neutral[10],
+  },
+  modalContainer: {
+    width: '100%',
+    position: 'absolute',
+    bottom: heightPercentage(22),
+    height: heightPercentage(36),
+    backgroundColor: color.Success[400],
+    paddingHorizontal: widthResponsive(12),
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    zIndex: 1,
+  },
+  textStyle: {
     color: color.Neutral[10],
   },
 });
