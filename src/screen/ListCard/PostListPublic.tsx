@@ -14,7 +14,9 @@ import {
   Dropdown,
   Gap,
   ListCard,
+  ModalDonate,
   ModalShare,
+  ModalSuccessDonate,
   SsuToast,
 } from '../../components';
 import {
@@ -63,6 +65,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const [selectedId, setSelectedId] = useState<string[]>();
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
+  const [modalDonate, setModalDonate] = useState<boolean>(false);
+  const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
+  const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
   const {
     feedIsLoading,
@@ -199,16 +204,28 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     setCommentType('');
   };
 
-  const tokenOnPress = () => {
-    console.log('token');
-  };
-
   const shareOnPress = () => {
     setModalShare(true);
   };
 
-  const resultDataMore = (dataResult: any) => {
-    console.log(dataResult, 'resultDataMenu');
+  //Credit onPress
+  const tokenOnPress = () => {
+    setModalDonate(true);
+  };
+
+  const onPressDonate = () => {
+    setModalDonate(false);
+    setTrigger2ndModal(true);
+  };
+
+  const onPressSuccess = () => {
+    setModalSuccessDonate(false);
+  };
+
+  const onPressCloseModalDonate = () => {
+    setModalDonate(false);
+    setModalSuccessDonate(false);
+    setTrigger2ndModal(false);
   };
 
   return (
@@ -384,6 +401,17 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           </View>
         }
         modalStyle={{marginHorizontal: widthResponsive(24)}}
+      />
+      <ModalDonate
+        totalCoin={'1000'}
+        onPressDonate={onPressDonate}
+        modalVisible={modalDonate}
+        onPressClose={onPressCloseModalDonate}
+        onModalHide={() => setModalSuccessDonate(true)}
+      />
+      <ModalSuccessDonate
+        modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
+        toggleModal={onPressSuccess}
       />
     </>
   );

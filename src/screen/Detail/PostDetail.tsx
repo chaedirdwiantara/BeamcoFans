@@ -12,7 +12,9 @@ import {
   CommentInputModal,
   DetailPost,
   Gap,
+  ModalDonate,
   ModalShare,
+  ModalSuccessDonate,
   SsuDivider,
   SsuToast,
   TopNavigation,
@@ -93,6 +95,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [activePage, setActivePage] = useState<number>(0);
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
+  const [modalDonate, setModalDonate] = useState<boolean>(false);
+  const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
+  const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
   // ? Get Profile
   useEffect(() => {
@@ -236,8 +241,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setCommentType('');
   };
 
+  //Credit onPress
   const tokenOnPress = () => {
-    console.log('token');
+    setModalDonate(true);
   };
 
   const shareOnPress = () => {
@@ -259,6 +265,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     } else {
       return setActivePage(2), setPerPage2(perPage2 + 3);
     }
+  };
+
+  const onPressDonate = () => {
+    setModalDonate(false);
+    setTrigger2ndModal(true);
+  };
+
+  const onPressSuccess = () => {
+    setModalSuccessDonate(false);
   };
 
   return (
@@ -420,6 +435,18 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             </View>
           }
           modalStyle={{marginHorizontal: widthResponsive(24)}}
+        />
+        <ModalDonate
+          totalCoin={'1000'}
+          onPressDonate={onPressDonate}
+          modalVisible={modalDonate}
+          onPressClose={() => setModalDonate(false)}
+          onModalHide={() => setModalSuccessDonate(true)}
+        />
+
+        <ModalSuccessDonate
+          modalVisible={modalSuccessDonate && trigger2ndModal}
+          toggleModal={onPressSuccess}
         />
       </ScrollView>
     </SafeAreaView>
