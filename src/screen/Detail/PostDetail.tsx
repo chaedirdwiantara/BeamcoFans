@@ -1,11 +1,20 @@
-import {LogBox, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  InteractionManager,
+  LogBox,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {FC, useCallback, useEffect, useState} from 'react';
-import {color, font} from '../../theme';
+import {color, font, typography} from '../../theme';
 import {
   CommentInputModal,
   DetailPost,
   Gap,
+  ModalShare,
   SsuDivider,
+  SsuToast,
   TopNavigation,
 } from '../../components';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -28,6 +37,7 @@ import {
 } from '../../interface/feed.interface';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {duplicateFilter} from './function';
+import {TickCircleIcon} from '../../assets/icon';
 
 type PostDetailProps = NativeStackScreenProps<RootStackParams, 'PostDetail'>;
 
@@ -81,6 +91,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [perPage, setPerPage] = useState<number>(10);
   const [perPage2, setPerPage2] = useState<number>(1);
   const [activePage, setActivePage] = useState<number>(0);
+  const [modalShare, setModalShare] = useState<boolean>(false);
+  const [toastVisible, setToastVisible] = useState(false);
 
   // ? Get Profile
   useEffect(() => {
@@ -229,7 +241,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   };
 
   const shareOnPress = () => {
-    console.log('share');
+    setModalShare(true);
   };
 
   const readMoreOnPress = () => {
@@ -379,6 +391,36 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           onModalHide={() => setCmntToCmnt(undefined)}
           userAvatarUri={dataProfileImg}
         />
+        <ModalShare
+          url={
+            'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0'
+          }
+          modalVisible={modalShare}
+          onPressClose={() => setModalShare(false)}
+          titleModal={'Share Feed'}
+          hideMusic
+          onPressCopy={() =>
+            InteractionManager.runAfterInteractions(() => setToastVisible(true))
+          }
+        />
+        <SsuToast
+          modalVisible={toastVisible}
+          onBackPressed={() => setToastVisible(false)}
+          children={
+            <View style={[styles.modalContainer]}>
+              <TickCircleIcon
+                width={widthResponsive(21)}
+                height={heightPercentage(20)}
+                stroke={color.Neutral[10]}
+              />
+              <Gap width={widthResponsive(7)} />
+              <Text style={[typography.Button2, styles.textStyle]}>
+                Link have been copied to clipboard!
+              </Text>
+            </View>
+          }
+          modalStyle={{marginHorizontal: widthResponsive(24)}}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -407,5 +449,20 @@ const styles = StyleSheet.create({
   commentContainer: {
     width: '100%',
     paddingHorizontal: widthResponsive(24),
+  },
+  modalContainer: {
+    width: '100%',
+    position: 'absolute',
+    bottom: heightPercentage(22),
+    height: heightPercentage(36),
+    backgroundColor: color.Success[400],
+    paddingHorizontal: widthResponsive(12),
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    zIndex: 1,
+  },
+  textStyle: {
+    color: color.Neutral[10],
   },
 });
