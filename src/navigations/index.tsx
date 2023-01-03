@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Platform} from 'react-native';
 import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
@@ -154,8 +154,8 @@ const TabScreen = () => (
       tabBarShowLabel: false,
       headerShown: false,
       tabBarStyle: {
-        paddingBottom: 0,
-        height: 64,
+        paddingBottom: Platform.OS === 'ios' ? 20 : 0,
+        height: Platform.OS === 'ios' ? 84 : 64,
         backgroundColor: '#0F1319',
         borderTopColor: Color.Dark[800],
       },

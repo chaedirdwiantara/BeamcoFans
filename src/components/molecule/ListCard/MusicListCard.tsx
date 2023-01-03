@@ -20,7 +20,7 @@ import {Gap, SquareImage} from '../../atom';
 import {DefaultAvatar, DefaultImage, SoundIcon} from '../../../assets/icon';
 
 interface ListProps {
-  imgUri: string;
+  imgUri: string | null;
   onPressMore?: (data: any) => void;
   onPressCard?: () => void;
   musicNum?: number | string;

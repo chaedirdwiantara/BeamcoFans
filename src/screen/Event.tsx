@@ -1,19 +1,30 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {storage} from '../hooks/use-storage.hook';
 import {GuestContent, TabFilter, TopNavigation} from '../components';
-import {Text} from 'react-native-svg';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {color} from '../theme';
 import MerchList from './ListCard/MerchList';
 import {BoxStore, CartIcon} from '../assets/icon';
 import ConcertList from './ListCard/ConcertList';
+import {useIsFocused} from '@react-navigation/native';
+import {usePlayerHook} from '../hooks/use-player.hook';
 
 export const EventScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(-0);
   const [filter] = useState([{filterName: 'Concert'}, {filterName: 'Merch'}]);
   const isLogin = storage.getString('profile');
+  const isFocused = useIsFocused();
+  const {isPlay, showPlayer, hidePlayer} = usePlayerHook();
+
+  useEffect(() => {
+    if (isFocused && isPlay) {
+      showPlayer();
+    } else if (!isFocused) {
+      hidePlayer();
+    }
+  }, [isFocused]);
 
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);

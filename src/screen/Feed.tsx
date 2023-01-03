@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 
@@ -10,6 +10,8 @@ import PostListExclusive from './ListCard/PostListExclusive';
 import {GuestContent, TabFilter, TopNavigation} from '../components';
 import {PostlistData, PostlistDataExclusive} from '../data/postlist';
 import {dropDownDataCategory, dropDownDataSort} from '../data/dropdown';
+import {useIsFocused} from '@react-navigation/native';
+import {usePlayerHook} from '../hooks/use-player.hook';
 
 export const FeedScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(-0);
@@ -18,6 +20,16 @@ export const FeedScreen: React.FC = () => {
     {filterName: 'Exclusive'},
   ]);
   const isLogin = storage.getString('profile');
+  const isFocused = useIsFocused();
+  const {isPlay, showPlayer, hidePlayer} = usePlayerHook();
+
+  useEffect(() => {
+    if (isFocused && isPlay) {
+      showPlayer();
+    } else if (!isFocused) {
+      hidePlayer();
+    }
+  }, [isFocused]);
 
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);

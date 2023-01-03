@@ -98,6 +98,7 @@ export type DataDetailSong = {
   publishedDate: string;
   isPublished: boolean;
   isFeaturing: boolean;
+  featuringArtist: FeaturingArtist[];
   likesCount: number;
   shareCount: number;
   listenerCount: number;
