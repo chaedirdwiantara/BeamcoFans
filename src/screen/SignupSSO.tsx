@@ -8,22 +8,25 @@ import {
   ScrollView,
 } from 'react-native';
 import {useForm, SubmitHandler, Controller} from 'react-hook-form';
-import {Button, Gap, SsuDivider, SsuInput} from '../components/atom';
+import {Button, Gap, SsuInput} from '../components/atom';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {useAuthHook} from '../hooks/use-auth.hook';
 import {RegistrationType} from '../interface/profile.interface';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import {RootStackParams} from '../navigations';
-import {EmailIcon, FullNameIcon, LockIcon} from '../assets/icon';
+import {FullNameIcon, LockIcon} from '../assets/icon';
 import {color, font} from '../theme';
-import {Dropdown, SsuStatusBar, TermAndConditions} from '../components';
-import {countryData} from '../data/dropdown';
+import {SsuStatusBar, TermAndConditions} from '../components';
 import {heightResponsive, widthResponsive} from '../utils';
 import {AppleLogo, FacebookLogo, GoogleLogo} from '../assets/logo';
 import {ms, mvs} from 'react-native-size-matters';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
+import {storage} from '../hooks/use-storage.hook';
 
 interface RegisterInput {
   fullname: string;
@@ -49,17 +52,6 @@ const registerValidation = yup.object({
       .required('This field is required')
       .email('Please use valid email'),
   }),
-  phoneNumber: yup.string().when('registrationType', {
-    is: (val: RegistrationType) => val === 'phoneNumber',
-    then: yup
-      .string()
-      .required('This field is required')
-      .matches(/^[0-9]{0,15}$/, 'Only allowed 15 numerical characters'),
-  }),
-  image: yup.string().when('registrationType', {
-    is: (val: RegistrationType) => val !== 'email' && val !== 'phoneNumber',
-    then: yup.string().required('Image not found'),
-  }),
   password: yup
     .string()
     .required('This field is required')
@@ -71,13 +63,21 @@ const registerValidation = yup.object({
   termsCondition: yup.bool().oneOf([true], 'Please agree before continue.'),
 });
 
-export const SignupScreen: React.FC = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {isLoading, isError, authResult, errorMsg, onRegisterUser} =
-    useAuthHook();
+type RegisterProps = NativeStackScreenProps<RootStackParams, 'SignupSSO'>;
+
+export const SignupSSOScreen: React.FC<RegisterProps> = ({
+  navigation,
+  route,
+}: RegisterProps) => {
+  const {
+    isLoading,
+    isError,
+    authResult,
+    errorMsg,
+    onRegisterUser,
+    loginResult,
+  } = useAuthHook();
   const [focusInput, setFocusInput] = useState<string | null>(null);
-  const [countryNumber, setCountryNumber] = useState<string | null>(null);
 
   const {
     control,
@@ -94,57 +94,31 @@ export const SignupScreen: React.FC = () => {
       fullname: '',
       password: '',
       confirmPassword: '',
-      registrationType: 'email',
+      registrationType: 'apple',
       termsCondition: false,
     },
   });
 
   const handleRegisterUser: SubmitHandler<RegisterInput> = data => {
-    if (data.registrationType === 'email') {
-      onRegisterUser({
-        fullname: data.fullname,
-        password: data.password,
-        registrationType: data.registrationType,
-        email: data.email,
-      });
-    } else {
-      onRegisterUser({
-        fullname: data.fullname,
-        password: data.password,
-        registrationType: data.registrationType,
-        phoneNumber: countryNumber + data.phoneNumber,
-      });
-    }
+    onRegisterUser({
+      fullname: data.fullname,
+      password: data.password,
+      registrationType: route.params?.ssoType,
+      email: route.params?.email,
+      image: 'https://picsum.photos/200',
+      externalUserID: route.params?.ssoId,
+    });
   };
 
   useEffect(() => {
     if (!isLoading && !isError && authResult !== null) {
-      if (watch('registrationType') === 'email') {
-        navigation.replace('Otp', {
-          id: watch('email'),
-          type: 'email',
-          title: 'Email Verification Code',
-          subtitle: `We have sent you six digits verification code on address ${watch(
-            'email',
-          )} check your inbox and enter verification code here`,
-        });
-      } else {
-        navigation.replace('Otp', {
-          id: countryNumber + watch('phoneNumber'),
-          type: 'phoneNumber',
-          title: 'Phone Verification Code',
-          subtitle: `Enter the verification code that we’ve sent to ${
-            countryNumber + watch('phoneNumber')
-          }`,
-          context: 'register',
-        });
-      }
+      storage.set('isLogin', true);
+      navigation.replace('Preference');
     } else if (!isLoading && isError !== null) {
       setError('termsCondition', {
         type: 'value',
         message: errorMsg,
       });
-      checkErrorCountry(countryNumber);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, isError, authResult]);
@@ -153,36 +127,8 @@ export const SignupScreen: React.FC = () => {
     navigation.goBack();
   };
 
-  const handleOnPressSignIn = () => {
-    navigation.navigate('Login');
-  };
-
-  const handleChangeLoginType = (loginType: RegistrationType) => {
-    setValue('registrationType', loginType);
-    handleFocusInput(null);
-  };
-
   const handleFocusInput = (focus: string | null) => {
     setFocusInput(focus);
-  };
-
-  const resultData = (dataResult: any) => {
-    setCountryNumber(dataResult);
-    console.log(dataResult, 'dataResult Select Country');
-  };
-
-  const checkErrorCountry = (data: any) => {
-    if (watch('registrationType') === 'phoneNumber') {
-      if (data === undefined) {
-        setError('phoneNumber', {
-          type: 'value',
-          message: 'Select Country',
-        });
-      } else {
-        setCountryNumber(data);
-        clearErrors('phoneNumber');
-      }
-    }
   };
 
   const handleWebview = (title: string, url: string) => {
@@ -205,86 +151,6 @@ export const SignupScreen: React.FC = () => {
           <View>
             <Text style={styles.titleStyle}>Sign Up</Text>
             <Gap height={24} />
-            <View
-              style={{
-                flexDirection: 'row',
-                width: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <GoogleLogo />
-              <Gap width={24} />
-              <FacebookLogo />
-              {Platform.OS === 'ios' ? <Gap width={24} /> : null}
-              {Platform.OS === 'ios' ? <AppleLogo /> : null}
-            </View>
-            <Gap height={20} />
-            <SsuDivider text={'or'} />
-            <Gap height={20} />
-            <View style={styles.wrapperLoginType}>
-              <Text
-                style={
-                  watch('registrationType') === 'email'
-                    ? styles.loginTypeActive
-                    : styles.loginTypeInactive
-                }
-                onPress={() => handleChangeLoginType('email')}>
-                Email
-              </Text>
-              <View style={styles.verticalSeparatorLoginType} />
-              <Text
-                style={
-                  watch('registrationType') === 'phoneNumber'
-                    ? styles.loginTypeActive
-                    : styles.loginTypeInactive
-                }
-                onPress={() => handleChangeLoginType('phoneNumber')}>
-                Phone Number
-              </Text>
-            </View>
-            <Gap height={16} />
-            {watch('registrationType') === 'email' ? (
-              <Controller
-                name="email"
-                control={control}
-                render={({field: {onChange, value}}) => (
-                  <SsuInput.InputText
-                    value={value}
-                    onChangeText={onChange}
-                    placeholder={'Email'}
-                    leftIcon={<EmailIcon stroke={color.Dark[50]} />}
-                    onFocus={() => handleFocusInput('email')}
-                    onBlur={() => {
-                      handleFocusInput(null);
-                    }}
-                    isError={errors?.email ? true : false}
-                    errorMsg={errors?.email?.message}
-                    isFocus={focusInput === 'email'}
-                  />
-                )}
-              />
-            ) : (
-              <View>
-                <Controller
-                  name="phoneNumber"
-                  control={control}
-                  render={({field: {onChange, value}}) => (
-                    <Dropdown.Country
-                      value={value}
-                      onChangeText={onChange}
-                      countryData={countryData}
-                      numberTyped={resultData}
-                      onFocus={() => handleFocusInput('phoneNumber')}
-                      isError={errors?.phoneNumber ? true : false}
-                      errorMsg={errors?.phoneNumber?.message}
-                      isFocus={focusInput === 'phoneNumber'}
-                      onSelectCountry={checkErrorCountry}
-                    />
-                  )}
-                />
-              </View>
-            )}
-            <Gap height={8} />
             <Controller
               name="fullname"
               control={control}
@@ -337,7 +203,7 @@ export const SignupScreen: React.FC = () => {
                 <SsuInput.InputText
                   value={value}
                   onChangeText={onChange}
-                  placeholder={'Repeat'}
+                  placeholder={'Repeat Password'}
                   leftIcon={<LockIcon stroke={color.Dark[50]} />}
                   password
                   onFocus={() => {
@@ -392,20 +258,6 @@ export const SignupScreen: React.FC = () => {
               containerStyles={{width: '100%'}}
               onPress={handleOnPressBack}
             />
-          </View>
-          <View>
-            <Text style={styles.forgotPassStyle}>
-              Already have an Account?{' '}
-              <Text
-                onPress={() => handleOnPressSignIn()}
-                style={{
-                  fontFamily: font.InterRegular,
-                  fontWeight: '700',
-                  fontSize: mvs(12),
-                }}>
-                Sign In
-              </Text>
-            </Text>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

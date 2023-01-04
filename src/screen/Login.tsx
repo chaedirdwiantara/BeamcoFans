@@ -19,14 +19,23 @@ import {RootStackParams} from '../navigations';
 import SsuSheet from '../components/atom/SsuSheet';
 import {color, font} from '../theme';
 import {ms, mvs} from 'react-native-size-matters';
-import {Button, Dropdown, Gap, SsuDivider, SsuInput} from '../components';
+import {
+  Button,
+  Dropdown,
+  Gap,
+  SsuDivider,
+  SsuInput,
+  SsuToast,
+} from '../components';
 import {LockIcon, UserIcon} from '../assets/icon';
 import {countryData} from '../data/dropdown';
 import {AppleLogo, FacebookLogo, GoogleLogo, SSULogo} from '../assets/logo';
 import type {RegistrationType} from '../interface/profile.interface';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import {storage} from '../hooks/use-storage.hook';
-import {heightResponsive} from '../utils';
+import {heightResponsive, normalize} from '../utils';
+import {LoginResponseType} from '../interface/auth.interface';
+import {ErrorProp} from '../interface/error.interface';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -71,6 +80,13 @@ export const LoginScreen: React.FC = () => {
     errorMsg,
     errorCode,
     errorData,
+    ssoEmail,
+    ssoRegistered,
+    ssoError,
+    ssoErrorMsg,
+    setSsoError,
+    ssoType,
+    ssoId,
   } = useAuthHook();
 
   const {
@@ -116,6 +132,17 @@ export const LoginScreen: React.FC = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (ssoRegistered !== null && !ssoRegistered) {
+      navigation.navigate('SignupSSO', {
+        email: ssoEmail,
+        ssoType: ssoType as RegistrationType,
+        ssoId: ssoId,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ssoRegistered]);
 
   useEffect(() => {
     if (!isLoading && !isError) {
@@ -368,6 +395,16 @@ export const LoginScreen: React.FC = () => {
         <Text style={styles.forgotPassStyle} onPress={handleOnPressForgotPass}>
           I forgot my Password
         </Text>
+        <SsuToast
+          modalVisible={ssoError}
+          onBackPressed={() => setSsoError(false)}
+          children={
+            <View style={[styles.modalContainer]}>
+              <Text style={[styles.textStyle]}>{ssoErrorMsg}</Text>
+            </View>
+          }
+          modalStyle={{marginHorizontal: ms(24)}}
+        />
       </>
     );
   };
@@ -464,5 +501,23 @@ const styles = StyleSheet.create({
     fontSize: mvs(12),
     maxWidth: '80%',
     textAlign: 'center',
+  },
+  modalContainer: {
+    backgroundColor: color.Error[400],
+    paddingVertical: mvs(16),
+    paddingHorizontal: ms(12),
+    borderRadius: 4,
+    height: mvs(48),
+    width: '100%',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: mvs(22),
+  },
+  textStyle: {
+    color: color.Neutral[10],
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(13),
+    lineHeight: mvs(15),
   },
 });

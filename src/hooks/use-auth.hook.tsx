@@ -21,12 +21,15 @@ import {
 import {
   LoginPhonePropsType,
   LoginPropsType,
+  LoginResponseType,
   RegisterPropsType,
   RegisterResponseType,
 } from '../interface/auth.interface';
 import axios from 'axios';
 import {storage} from '../hooks/use-storage.hook';
 import {deleteTokenFCM} from '../service/notification';
+import {ErrorProp} from '../interface/error.interface';
+import {RegistrationType} from '../interface/profile.interface';
 
 export const useAuthHook = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +45,12 @@ export const useAuthHook = () => {
     null,
   );
   const [isOtpValid, setIsOtpValid] = useState<boolean | null>(null);
+  const [ssoRegistered, setSsoRegistered] = useState<boolean | null>(null);
+  const [ssoError, setSsoError] = useState<boolean>(false);
+  const [ssoErrorMsg, setSsoErrorMsg] = useState<string>('');
+  const [ssoEmail, setSsoEmail] = useState<string>('');
+  const [ssoType, setSsoType] = useState<RegistrationType>();
+  const [ssoId, setSsoId] = useState<string>('');
 
   const onRegisterUser = async (props: RegisterPropsType) => {
     setIsError(false);
@@ -127,12 +136,13 @@ export const useAuthHook = () => {
       const userInfo = await GoogleSignin.signIn();
       setIsLoading(true);
       const response = await loginSso(userInfo.user.email, 'google');
-      storage.set('profile', JSON.stringify(response.data));
-      if (response.data.lastLoginAt === null) {
-        setLoginResult('preference');
-      } else {
-        setLoginResult('home');
-      }
+      console.log(response);
+      // storage.set('profile', JSON.stringify(response.data));
+      // if (response.data.lastLoginAt === null) {
+      //   setLoginResult('preference');
+      // } else {
+      //   setLoginResult('home');
+      // }
     } catch (error) {
       setIsError(true);
       if (
@@ -176,32 +186,53 @@ export const useAuthHook = () => {
 
   const onLoginApple = async () => {
     setIsError(false);
+    setSsoRegistered(null);
+    setSsoEmail('');
     setErrorMsg('');
-    if (Platform.OS === 'ios') {
+    try {
       const appleAuthRequestResponse = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
-        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
       });
 
-      if (!appleAuthRequestResponse.identityToken) {
-        throw new Error('Apple Sign-In failed - no identify token returned');
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        const response = await loginSso(appleAuthRequestResponse.user, 'apple');
+        if (response.code === 1003) {
+          setSsoEmail(appleAuthRequestResponse.email ?? '');
+          setSsoId(appleAuthRequestResponse.user);
+          setSsoType('apple');
+          setSsoRegistered(false);
+        } else if (response.code === 200) {
+          setSsoRegistered(true);
+          if (response.data.accessToken) {
+            storage.set('profile', JSON.stringify(response.data));
+            if (response.data.lastLoginAt === null) {
+              setLoginResult('preference');
+            } else {
+              setLoginResult('home');
+            }
+          }
+        } else {
+          setSsoError(true);
+          setSsoErrorMsg(response.message);
+        }
       }
-    } else if (Platform.OS === 'android') {
-      const rawNonce = uuid();
-      const state = uuid();
-      appleAuthAndroid.configure({
-        clientId: 'io.sunnysideup.user',
-        redirectUri: 'https://sunnysideup.io/example',
-        responseType: appleAuthAndroid.ResponseType.ALL,
-        scope: appleAuthAndroid.Scope.ALL,
-        nonce: rawNonce,
-        state,
-      });
-      const response = await appleAuthAndroid.signIn();
-      console.log(response);
+    } catch (error) {
+      setSsoError(true);
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status &&
+        error.response?.status >= 400
+      ) {
+        setSsoErrorMsg(error.response?.data?.message);
+      } else if (error instanceof Error) {
+        setSsoErrorMsg(error.message);
+      }
     }
-
-    // TODO: store the user id of apple to db
   };
 
   const checkUsernameAvailability = async (username: string) => {
@@ -376,5 +407,12 @@ export const useAuthHook = () => {
     sendOtpEmail,
     sendOtpSms,
     onLogout,
+    ssoRegistered,
+    ssoEmail,
+    ssoError,
+    ssoErrorMsg,
+    setSsoError,
+    ssoType,
+    ssoId,
   };
 };
