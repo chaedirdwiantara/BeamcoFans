@@ -102,7 +102,9 @@ export type RootStackParams = {
     subtitle: string;
   };
   PhoneNumber: undefined;
-  Playlist: undefined;
+  Playlist: {
+    id: number;
+  };
   Preference: undefined;
   Referral: undefined;
   ReferralCode: undefined;
