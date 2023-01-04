@@ -20,13 +20,14 @@ import {font} from '../../../theme';
 import {ListCard} from '../ListCard';
 import {TabFilter} from '../TabFilter';
 import Color from '../../../theme/Color';
+import {SettingIcon} from '../../../assets/icon';
 import {ProfileHeader} from './components/Header';
 import {EmptyState} from '../EmptyState/EmptyState';
 import {TopSongListData} from '../../../data/topSong';
-import TopSong from '../../../screen/ListCard/TopSong';
 import {UserInfoCard} from '../UserInfoCard/UserInfoCard';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
-import {SettingIcon} from '../../../assets/icon';
+import {Playlist} from '../../../interface/playlist.interface';
+import ListPlaylist from '../../../screen/ListCard/ListPlaylist';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -41,7 +42,8 @@ interface ProfileContentProps {
   playlist: any;
   profile: any;
   goToEditProfile: () => void;
-  goToPlaylist: () => void;
+  goToPlaylist: (id: number) => void;
+  dataPlaylist: Playlist[];
   onPressGoTo: (
     screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
   ) => void;
@@ -71,11 +73,12 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   goToEditProfile,
   goToPlaylist,
   onPressGoTo,
+  dataPlaylist,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
-    {filterName: 'SONG'},
+    {filterName: 'PLAYLIST'},
     {filterName: 'TOP MUSICIAN'},
     {filterName: 'BADGE'},
   ]);
@@ -125,7 +128,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             onPress={filterData}
             selectedIndex={selectedIndex}
           />
-          {filter[selectedIndex].filterName === 'SONG' ? (
+          {filter[selectedIndex].filterName === 'PLAYLIST' ? (
             TopSongListData.length > 0 ? (
               <View>
                 <CreateNewCard
@@ -139,9 +142,9 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                     goToPlaylist={goToPlaylist}
                   />
                 )}
-                <TopSong
-                  hideDropdownMore={true}
-                  onPress={() => null}
+                <ListPlaylist
+                  data={dataPlaylist}
+                  onPress={goToPlaylist}
                   scrollable={false}
                 />
               </View>
@@ -163,7 +166,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             //   />
             // ) :
             <EmptyState
-              text="This user don't have contribution to any musician"
+              text="You don't have contribution to any musician"
               containerStyle={{marginTop: heightPercentage(30)}}
             />
           ) : (
@@ -178,7 +181,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             //   />
             // ) :
             <EmptyState
-              text="This user don't have any badge"
+              text="You don't have any badge"
               containerStyle={{marginTop: heightPercentage(30)}}
             />
           )}
