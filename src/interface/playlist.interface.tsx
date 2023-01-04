@@ -1,9 +1,10 @@
-export type ListPlaylist = {
+export type Playlist = {
   id: number;
   name: string;
   description: string;
   thumbnailUrl: string;
   createdAt: string;
+  createdBy: string;
   updatedAt: string;
   isPublic: boolean;
   totalSong: number;
@@ -17,9 +18,21 @@ export type PlaylistPropsType = {
   isPublic: boolean;
 };
 
+export type AddSongPropsType = {
+  playlistId: number;
+  songId: number;
+};
+
 export type PlaylistResponseType = {
   code: number;
-  data: ListPlaylist[];
+  data: Playlist[];
+  message: string;
+  status: number;
+};
+
+export type CreatePlaylistResponseType = {
+  code: number;
+  data: Playlist;
   message: string;
   status: number;
 };

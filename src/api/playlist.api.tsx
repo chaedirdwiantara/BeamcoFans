@@ -23,8 +23,8 @@ export const getListPlaylist = async (
 
 export const detailPlaylist = async (
   props?: PostPropsTypeA,
-): Promise<PlaylistResponseType> => {
-  const {data} = await SsuAPI().request<PlaylistResponseType>({
+): Promise<CreatePlaylistResponseType> => {
+  const {data} = await SsuAPI().request<CreatePlaylistResponseType>({
     url: `/playlists/${props?.id}`,
     method: 'GET',
   });
