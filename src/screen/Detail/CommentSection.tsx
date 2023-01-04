@@ -15,7 +15,17 @@ import {filterParentID} from './function';
 interface CommentSectionType {
   postCommentCount: number;
   postId: string;
-  onComment: ({id, userName}: {id: string; userName: string}) => void;
+  onComment: ({
+    id,
+    userName,
+    commentLvl,
+    parentID,
+  }: {
+    id: string;
+    userName: string;
+    commentLvl: number;
+    parentID: string;
+  }) => void;
   onLike?: (id: string) => void;
   onUnlike?: (id: string) => void;
   onViewMore: (id: string) => void;
@@ -120,9 +130,14 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     }
   };
 
-  const commentOnPress = (id: string, userName: string) => {
+  const commentOnPress = (
+    id: string,
+    userName: string,
+    commentLvl: number,
+    parentID: string,
+  ) => {
     setInputCommentModal(!inputCommentModal);
-    onComment?.({id, userName});
+    onComment?.({id, userName, commentLvl, parentID});
   };
 
   const viewMoreOnPress = (id: string, value: number) => {
@@ -141,6 +156,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
       timeAgo,
       commentOwner,
       commentLevel,
+      parentID,
     } = props;
     return (
       <CommentLvlThree
@@ -150,7 +166,9 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         postDateLvl3={timeAgo}
         userCommentedIdLvl3={repliedTo}
         commentCaptionLvl3={caption}
-        commentOnPressLvl3={() => commentOnPress(id, commentOwner.username)}
+        commentOnPressLvl3={() =>
+          commentOnPress(id, commentOwner.username, 3, parentID)
+        }
         likeOnPressLvl3={() => likeOnPress(id, isLiked)}
         likePressedLvl3={
           selectedId === undefined
@@ -201,6 +219,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
       timeAgo,
       commentOwner,
       commentLevel,
+      parentID,
     } = props;
     return (
       <CommentLvlTwo
@@ -210,7 +229,9 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         postDateLvl2={timeAgo}
         userCommentedId={repliedTo}
         commentCaptionLvl2={caption}
-        commentOnPressLvl2={() => commentOnPress(id, commentOwner.username)}
+        commentOnPressLvl2={() =>
+          commentOnPress(id, commentOwner.username, 2, parentID)
+        }
         likeOnPressLvl2={() => likeOnPress(id, isLiked)}
         likePressedLvl2={
           selectedId === undefined
@@ -264,7 +285,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                         likesCount={item.likesCount}
                         commentsCount={item.commentsCount}
                         repliedTo={item.repliedTo}
-                        parentID={item.parentID}
+                        parentID={item?.parentID}
                         isLiked={item.isLiked}
                         timeAgo={item.timeAgo}
                         commentOwner={item.commentOwner}
@@ -280,14 +301,14 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
               (dataLvl3 === undefined ? (
                 <Text
                   style={styles.viewMore}
-                  onPress={() => viewMoreOnPress(id, 2)}>
+                  onPress={() => viewMoreOnPress(id, 3)}>
                   View more reply
                 </Text>
               ) : dataLvl3 !== undefined &&
                 filterParentID(dataLvl3, id).length != commentsCount ? (
                 <Text
                   style={styles.viewMore}
-                  onPress={() => viewMoreOnPress(id, 2)}>
+                  onPress={() => viewMoreOnPress(id, 3)}>
                   View more reply
                 </Text>
               ) : null)}
@@ -349,7 +370,12 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                 : item.likesCount
             }
             commentOnPress={() =>
-              commentOnPress(item.id, item.commentOwner.username)
+              commentOnPress(
+                item.id,
+                item.commentOwner.username,
+                1,
+                item?.parentID,
+              )
             }
             commentCount={item.commentsCount}
             children={
@@ -372,7 +398,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                           // @ts-ignore
                           comments={item.comments}
                           repliedTo={item.repliedTo}
-                          parentID={item.parentID}
+                          parentID={item?.parentID}
                           isLiked={item.isLiked}
                           timeAgo={item.timeAgo}
                           commentOwner={item.commentOwner}

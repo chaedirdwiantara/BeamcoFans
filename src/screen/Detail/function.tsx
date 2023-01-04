@@ -4,24 +4,6 @@ import {
   CommentList3,
 } from '../../interface/feed.interface';
 
-export const duplicateFilter = (
-  newData: CommentList[],
-  oldData: CommentList2[] | CommentList3[],
-) => {
-  let a = [];
-  for (let i = 0; i < newData.length; i++) {
-    if (newData[i].parentID !== oldData[i].parentID) {
-      a.push(newData[i]);
-    } else if (
-      newData[i].parentID === oldData[i].parentID &&
-      newData[i].id !== oldData[i].id
-    ) {
-      a.push(newData[i]);
-    }
-  }
-  return a;
-};
-
 export const filterParentID = (
   data: CommentList2[] | CommentList3[],
   item: string,

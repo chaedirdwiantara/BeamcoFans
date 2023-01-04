@@ -38,7 +38,6 @@ import {
   DetailPostData,
 } from '../../interface/feed.interface';
 import {useProfileHook} from '../../hooks/use-profile.hook';
-import {duplicateFilter} from './function';
 import {TickCircleIcon} from '../../assets/icon';
 
 type PostDetailProps = NativeStackScreenProps<RootStackParams, 'PostDetail'>;
@@ -83,26 +82,30 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [cmntToCmnt, setCmntToCmnt] = useState<{
     id: string;
     userName: string;
+    commentLvl: number;
+    parentID: string;
   }>();
   const [viewMore, setViewMore] = useState<string>('');
-  const [dataMainComment, setDataMainComment] = useState<DetailPostData>();
   const [dataProfileImg, setDataProfileImg] = useState<string>('');
-  const [commentLvl1, setCommentLvl1] = useState<CommentList[] | undefined>();
-  const [commentLvl2, setCommentLvl2] = useState<CommentList2[] | undefined>();
-  const [commentLvl3, setCommentLvl3] = useState<CommentList3[] | undefined>();
-  const [perPage, setPerPage] = useState<number>(10);
-  const [perPage2, setPerPage2] = useState<number>(1);
+  const [commentLvl1, setCommentLvl1] = useState<CommentList[]>();
+  const [commentLvl2, setCommentLvl2] = useState<CommentList2[]>();
+  const [commentLvl3, setCommentLvl3] = useState<CommentList3[]>();
   const [activePage, setActivePage] = useState<number>(0);
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
+  const [delStaticComment, setDelStaticComment] = useState<number>(-1);
 
   // ? Get Profile
   useEffect(() => {
     getProfileUser();
   }, []);
+
+  useEffect(() => {
+    console.log(delStaticComment, 'delStaticComment');
+  }, [delStaticComment]);
 
   useEffect(() => {
     dataProfile?.data.imageProfileUrl !== null &&
@@ -154,7 +157,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     unlikeCommentId !== '' && setUnlikeComment({id: unlikeCommentId});
   }, [unlikeCommentId]);
 
-  // !Comment Area
+  // !LoadMore Area
   // * First Condition
   useEffect(() => {
     if (dataPostDetail !== null) {
@@ -169,60 +172,118 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     if (dataLoadMore !== null) {
       setViewMore('');
       dataLoadMore?.map((item: CommentList) => {
-        if (item.commentLevel === 1) {
+        if (item.commentLevel === 1 && commentLvl1 === undefined) {
           return setCommentLvl1(dataLoadMore);
+        } else if (item.commentLevel === 1 && commentLvl1 !== undefined) {
+          return setCommentLvl2([...commentLvl1, ...dataLoadMore]);
         } else if (item.commentLevel === 2 && commentLvl2 === undefined) {
           return setCommentLvl2(dataLoadMore);
         } else if (item.commentLevel === 2 && commentLvl2 !== undefined) {
-          let dataX = duplicateFilter(dataLoadMore, commentLvl2);
-          const mergedArray = [...commentLvl2, ...dataX];
+          const mergedArray = [...commentLvl2, ...dataLoadMore];
           return setCommentLvl2(mergedArray);
         } else if (item.commentLevel === 3 && commentLvl3 === undefined) {
           return setCommentLvl3(dataLoadMore);
         } else if (item.commentLevel === 3 && commentLvl3 !== undefined) {
-          let dataX = duplicateFilter(dataLoadMore, commentLvl3);
-          const mergedArray = [...commentLvl3, ...dataX];
+          const mergedArray = [...commentLvl3, ...dataLoadMore];
           return setCommentLvl3(mergedArray);
         }
       });
     }
   }, [dataLoadMore]);
-  // !End of Comment
 
   useEffect(() => {
-    dataPostDetail !== null ? setDataMainComment(dataPostDetail) : null;
-  }, [dataPostDetail]);
-
-  //? handle comment in commentsection & open modal comment
-  useEffect(() => {
-    if (cmntToCmnt !== undefined) {
-      setUserName(cmntToCmnt.userName);
-      setInputCommentModal(!inputCommentModal);
-    }
-  }, [cmntToCmnt]);
-
-  useEffect(() => {
-    dataCmntToCmnt !== null && viewMore === ''
+    // dataCmntToCmnt !== null &&
+    viewMore === '' && activePage === 0
       ? getDetailPost({id: data.id})
-      : dataCmntToCmnt !== null && viewMore !== ''
+      : //  dataCmntToCmnt !== null &&
+      viewMore !== '' && activePage !== 0
       ? setLoadMore({
           id: viewMore,
-          params: {page: 1, perPage: activePage === 1 ? perPage : perPage2},
+          params: {page: activePage, perPage: 3},
         })
       : null;
   }, [dataCmntToCmnt, viewMore, activePage]);
+  // !End of LoadMore
 
-  //? handle viewMore in commentsection & call the api list comment
-  useEffect(() => {
-    viewMore !== ''
-      ? setLoadMore({id: viewMore, params: {page: 1, perPage: perPage}})
-      : null;
-  }, [viewMore]);
-
+  // ! Comment Area
   const commentOnPress = (id: string, username: string) => {
     setInputCommentModal(!inputCommentModal);
     setMusicianId(id);
     setUserName(username);
+  };
+
+  const staticID = '0';
+
+  useEffect(() => {
+    if (delStaticComment == 1 && commentLvl1?.length === 1) {
+      for (var i = 0; i < commentLvl1.length; i++) {
+        if (commentLvl1[i]?.id === staticID) {
+          return setCommentLvl1(
+            commentLvl1.filter((x: CommentList) => x.id !== staticID),
+          );
+        }
+      }
+    } else if (delStaticComment == 2 && commentLvl2?.length === 1) {
+      for (var i = 0; i < commentLvl2.length; i++) {
+        if (commentLvl2[i]?.id === staticID) {
+          return setCommentLvl2(
+            commentLvl2.filter((x: CommentList2) => x.id !== staticID),
+          );
+        }
+      }
+    } else if (delStaticComment == 3 && commentLvl3?.length === 1) {
+      for (var i = 0; i < commentLvl3.length; i++) {
+        if (commentLvl3[i]?.id === staticID) {
+          return setCommentLvl3(
+            commentLvl3.filter((x: CommentList3) => x.id !== staticID),
+          );
+        }
+      }
+    }
+  }, [delStaticComment, commentLvl1]);
+
+  const handleRealTimeComment = () => {
+    setDelStaticComment(-1);
+    let comment = [
+      {
+        id: staticID,
+        caption: commentType,
+        likesCount: 0,
+        repliedTo: cmntToCmnt?.userName ? cmntToCmnt?.userName : '',
+        parentID: cmntToCmnt?.id ? cmntToCmnt?.id : '',
+        commentsCount: 0,
+        commentLevel: cmntToCmnt?.commentLvl,
+        createdAt: '',
+        comments: [],
+        isLiked: false,
+        timeAgo: 'just now',
+        commentOwner: {
+          UUID: dataProfile?.data.uuid ? dataProfile?.data.uuid : '',
+          fullname: dataProfile?.data.fullname
+            ? dataProfile?.data.fullname
+            : '',
+          username: dataProfile?.data.username
+            ? dataProfile?.data.username
+            : '',
+          image: dataProfile?.data.imageProfileUrl
+            ? dataProfile?.data.imageProfileUrl
+            : '',
+        },
+      },
+    ];
+    if (cmntToCmnt?.commentLvl === 1 && commentLvl2 !== undefined) {
+      return setCommentLvl2([...commentLvl2, ...comment]);
+    } else if (cmntToCmnt?.commentLvl === 1 && commentLvl2 === undefined) {
+      return setCommentLvl2(comment);
+    } else if (cmntToCmnt?.commentLvl === 2 && commentLvl3 !== undefined) {
+      return setCommentLvl3([...commentLvl3, ...comment]);
+    } else if (cmntToCmnt?.commentLvl === 1 && commentLvl3 === undefined) {
+      return setCommentLvl3(comment);
+    } else if (cmntToCmnt?.commentLvl === 3 && commentLvl3 !== undefined) {
+      return setCommentLvl3([...commentLvl3, ...comment]);
+    } else if (cmntToCmnt?.commentLvl === 1 && commentLvl3 === undefined) {
+      return setCommentLvl3(comment);
+    }
   };
 
   const handleReplyOnPress = () => {
@@ -237,11 +298,26 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           content: {content: commentType},
         })
       : null;
+    handleRealTimeComment();
     setInputCommentModal(false);
     setCommentType('');
   };
+  // ! End Of Comment area
 
-  //Credit onPress
+  const handleSetPage = (value: number) => {
+    setActivePage(activePage + 1);
+    setDelStaticComment(value);
+  };
+
+  //? handle comment in commentsection & open modal comment
+  useEffect(() => {
+    if (cmntToCmnt !== undefined) {
+      setUserName(cmntToCmnt.userName);
+      setInputCommentModal(!inputCommentModal);
+    }
+  }, [cmntToCmnt]);
+
+  //? Credit onPress
   const tokenOnPress = () => {
     setModalDonate(true);
   };
@@ -257,14 +333,6 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const toggleModalOnPress = (index: number) => {
     setModalVisible(!isModalVisible);
     setImgUrl(index);
-  };
-
-  const handleSetPage = (value: number) => {
-    if (value === 1) {
-      return setActivePage(1), setPerPage(perPage + 3);
-    } else {
-      return setActivePage(2), setPerPage2(perPage2 + 3);
-    }
   };
 
   const onPressDonate = () => {

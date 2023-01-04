@@ -193,7 +193,7 @@ export const useFeedHook = () => {
       setDataCmntToCmnt(response.data);
     } catch (error) {
       console.log(error);
-      setDataComment(null);
+      setDataCmntToCmnt(null);
     } finally {
       setCommentLoading(false);
     }
