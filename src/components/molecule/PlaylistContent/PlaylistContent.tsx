@@ -35,7 +35,7 @@ import {SongList} from '../../../interface/song.interface';
 
 interface Props {
   onPressGoBack: () => void;
-  goBackProfile: (type: string) => void;
+  goBackProfile: () => void;
   goToEditPlaylist: () => void;
   goToAddSong: () => void;
   dataDetail: Playlist;
@@ -79,7 +79,7 @@ export const PlaylistContent: React.FC<Props> = ({
         }
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
-        leftIconAction={() => goBackProfile('')}
+        leftIconAction={goBackProfile}
         rightIconAction={() => null}
         containerStyles={{paddingHorizontal: widthPercentage(20)}}
       />
@@ -153,7 +153,7 @@ export const PlaylistContent: React.FC<Props> = ({
         title="Delete"
         subtitle="Are you sure you want to delete this playlist?"
         onPressClose={() => setModalVisible(false)}
-        onPressOk={() => goBackProfile('delete')}
+        onPressOk={goBackProfile}
       />
     </View>
   );

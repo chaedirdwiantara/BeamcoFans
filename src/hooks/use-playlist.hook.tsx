@@ -1,8 +1,7 @@
 import {useState} from 'react';
 import {SongList} from '../interface/song.interface';
 import {ParamsProps} from '../interface/base.interface';
-import {Playlist} from '../interface/playlist.interface';
-import {PostPropsTypeA} from '../interface/feed.interface';
+import {Playlist, PlaylistPropsTypeA} from '../interface/playlist.interface';
 import {detailPlaylist, getListPlaylist, listSongs} from '../api/playlist.api';
 
 export const usePlaylistHook = () => {
@@ -27,7 +26,7 @@ export const usePlaylistHook = () => {
     }
   };
 
-  const getDetailPlaylist = async (props?: PostPropsTypeA) => {
+  const getDetailPlaylist = async (props?: PlaylistPropsTypeA) => {
     setPlaylistLoading(true);
     setPlaylistError(false);
     try {
@@ -42,7 +41,7 @@ export const usePlaylistHook = () => {
   };
 
   const getListSongsPlaylist = async (
-    params?: PostPropsTypeA,
+    params?: PlaylistPropsTypeA,
     props?: ParamsProps,
   ) => {
     try {

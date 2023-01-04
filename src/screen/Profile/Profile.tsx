@@ -70,11 +70,10 @@ export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
       {isLogin ? (
         <ProfileContent
           profile={profile}
-          playlist={params}
-          onPressGoTo={screenName => onPressGoTo(screenName)}
-          goToEditProfile={goToEditProfile}
           goToPlaylist={goToPlaylist}
           dataPlaylist={dataPlaylist}
+          goToEditProfile={goToEditProfile}
+          onPressGoTo={screenName => onPressGoTo(screenName)}
         />
       ) : (
         <GuestContent />

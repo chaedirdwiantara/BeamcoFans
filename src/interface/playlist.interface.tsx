@@ -1,3 +1,7 @@
+export type PlaylistPropsTypeA = {
+  id: number;
+};
+
 export type Playlist = {
   id: number;
   name: string;
