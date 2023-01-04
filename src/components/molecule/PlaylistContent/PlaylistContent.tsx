@@ -9,9 +9,11 @@ import {
 
 import {
   heightPercentage,
+  heightResponsive,
   normalize,
   width,
   widthPercentage,
+  widthResponsive,
 } from '../../../utils';
 import {Gap} from '../../atom';
 import {Dropdown} from '../DropDown';
@@ -19,24 +21,33 @@ import Color from '../../../theme/Color';
 import {PhotoPlaylist} from './PhotoPlaylist';
 import {TopNavigation} from '../TopNavigation';
 import {ModalConfirm} from '../Modal/ModalConfirm';
+import {dateFormat} from '../../../utils/date-format';
 import TopSong from '../../../screen/ListCard/TopSong';
 import {color, font, typography} from '../../../theme';
 import {SongTitlePlay} from '../SongTitlePlay/SongTitlePlay';
-import {ArrowLeftIcon, MusicSquareAddIcon} from '../../../assets/icon';
+import {Playlist} from '../../../interface/playlist.interface';
+import {
+  ArrowLeftIcon,
+  DefaultImage,
+  MusicSquareAddIcon,
+} from '../../../assets/icon';
+import {SongList} from '../../../interface/song.interface';
 
 interface Props {
-  playlist: any;
   onPressGoBack: () => void;
   goBackProfile: (type: string) => void;
   goToEditPlaylist: () => void;
   goToAddSong: () => void;
+  dataDetail: Playlist;
+  listSongs: SongList[] | undefined;
 }
 
 export const PlaylistContent: React.FC<Props> = ({
-  playlist,
   goBackProfile,
   goToEditPlaylist,
   goToAddSong,
+  dataDetail,
+  listSongs,
 }) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -76,13 +87,24 @@ export const PlaylistContent: React.FC<Props> = ({
       <ScrollView>
         <View style={{paddingHorizontal: widthPercentage(10)}}>
           <View style={{alignSelf: 'center'}}>
-            <PhotoPlaylist uri={playlist?.playlistUri?.path} />
+            {dataDetail?.thumbnailUrl ? (
+              <PhotoPlaylist uri={dataDetail?.thumbnailUrl} />
+            ) : (
+              <DefaultImage.PlaylistCover
+                width={widthResponsive(148)}
+                height={widthResponsive(148)}
+                style={{
+                  marginTop: heightResponsive(36),
+                  marginBottom: heightResponsive(28),
+                }}
+              />
+            )}
           </View>
           <SongTitlePlay
-            title={playlist?.playlistName}
-            totalSong={1000}
-            createdDate={'December 7, 2022'}
-            createdBy={'Weeblab'}
+            title={dataDetail?.name}
+            totalSong={dataDetail?.totalSong}
+            createdDate={dateFormat(dataDetail?.createdAt)}
+            createdBy={dataDetail?.createdBy}
             avatarUri={
               'https://thisis-images.scdn.co/37i9dQZF1DZ06evO2YqUuI-large.jpg'
             }
@@ -100,20 +122,28 @@ export const PlaylistContent: React.FC<Props> = ({
         <View style={styles.separator} />
 
         <View style={styles.containerContent}>
-          {playlist?.playlistDesc && (
+          {dataDetail?.description && (
             <View style={{marginBottom: heightPercentage(15)}}>
               <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
                 Description
               </Text>
-              <Text style={styles.description}>{playlist?.playlistDesc}</Text>
+              <Text style={styles.description}>{dataDetail.description}</Text>
             </View>
           )}
 
           <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
             Song List
           </Text>
-          <View style={{}}>
-            <TopSong hideDropdownMore={true} onPress={() => null} />
+          <View>
+            {listSongs === null || listSongs?.length === 0 ? (
+              <Text style={styles.description}>No Song Added</Text>
+            ) : (
+              <TopSong
+                dataSong={listSongs}
+                hideDropdownMore={true}
+                onPress={() => null}
+              />
+            )}
           </View>
         </View>
       </ScrollView>
