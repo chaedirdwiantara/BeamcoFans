@@ -50,7 +50,6 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
   } = props;
   const [recorder, setRecorder] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string[]>();
-  const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
 
   const likeOnPress = (id: string, isLiked: boolean) => {
     if (isLiked === true && selectedId === undefined) {
@@ -136,7 +135,6 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     commentLvl: number,
     parentID: string,
   ) => {
-    setInputCommentModal(!inputCommentModal);
     onComment?.({id, userName, commentLvl, parentID});
   };
 

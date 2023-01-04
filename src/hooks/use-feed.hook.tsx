@@ -177,7 +177,6 @@ export const useFeedHook = () => {
     try {
       const response = await commmentToPost(props);
       setDataComment(response.data);
-      getDetailPost(props);
     } catch (error) {
       console.log(error);
       setDataComment(null);

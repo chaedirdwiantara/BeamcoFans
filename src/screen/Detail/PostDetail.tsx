@@ -40,6 +40,13 @@ import {
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {TickCircleIcon} from '../../assets/icon';
 
+type cmntToCmnt = {
+  id: string;
+  userName: string;
+  commentLvl: number;
+  parentID: string;
+};
+
 type PostDetailProps = NativeStackScreenProps<RootStackParams, 'PostDetail'>;
 
 export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
@@ -79,18 +86,17 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [commentType, setCommentType] = useState<string>('');
   const [likeCommentId, setLikeCommentId] = useState<string>('');
   const [unlikeCommentId, setUnlikeCommentId] = useState<string>('');
-  const [cmntToCmnt, setCmntToCmnt] = useState<{
-    id: string;
-    userName: string;
-    commentLvl: number;
-    parentID: string;
-  }>();
+  const [cmntToCmnt, setCmntToCmnt] = useState<cmntToCmnt>();
+  const [cmntToCmntLvl0, setCmntToCmntLvl0] = useState<cmntToCmnt>();
   const [viewMore, setViewMore] = useState<string>('');
   const [dataProfileImg, setDataProfileImg] = useState<string>('');
   const [commentLvl1, setCommentLvl1] = useState<CommentList[]>();
   const [commentLvl2, setCommentLvl2] = useState<CommentList2[]>();
   const [commentLvl3, setCommentLvl3] = useState<CommentList3[]>();
   const [activePage, setActivePage] = useState<number>(0);
+  const [activePage2, setActivePage2] = useState<number>(0);
+  const [activePage3, setActivePage3] = useState<number>(0);
+  const [value, setValue] = useState<number>(0);
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
@@ -102,10 +108,6 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   useEffect(() => {
     getProfileUser();
   }, []);
-
-  useEffect(() => {
-    console.log(delStaticComment, 'delStaticComment');
-  }, [delStaticComment]);
 
   useEffect(() => {
     dataProfile?.data.imageProfileUrl !== null &&
@@ -192,14 +194,22 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   }, [dataLoadMore]);
 
   useEffect(() => {
-    // dataCmntToCmnt !== null &&
-    viewMore === '' && activePage === 0
+    viewMore === '' && value === 0
       ? getDetailPost({id: data.id})
-      : //  dataCmntToCmnt !== null &&
-      viewMore !== '' && activePage !== 0
+      : viewMore !== '' && value === 1
       ? setLoadMore({
           id: viewMore,
           params: {page: activePage, perPage: 3},
+        })
+      : viewMore !== '' && value === 2
+      ? setLoadMore({
+          id: viewMore,
+          params: {page: activePage2, perPage: 3},
+        })
+      : viewMore !== '' && value === 3
+      ? setLoadMore({
+          id: viewMore,
+          params: {page: activePage3, perPage: 3},
         })
       : null;
   }, [dataCmntToCmnt, viewMore, activePage]);
@@ -215,7 +225,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const staticID = '0';
 
   useEffect(() => {
-    if (delStaticComment == 1 && commentLvl1?.length === 1) {
+    if (delStaticComment == 1 && commentLvl1?.length == 11) {
       for (var i = 0; i < commentLvl1.length; i++) {
         if (commentLvl1[i]?.id === staticID) {
           return setCommentLvl1(
@@ -271,17 +281,21 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         },
       },
     ];
-    if (cmntToCmnt?.commentLvl === 1 && commentLvl2 !== undefined) {
+    if (cmntToCmntLvl0?.commentLvl === 0 && commentLvl1 !== undefined) {
+      return setCommentLvl1([...commentLvl1, ...comment]);
+    } else if (cmntToCmntLvl0?.commentLvl === 0 && commentLvl1 === undefined) {
+      return setCommentLvl1(comment);
+    } else if (cmntToCmnt?.commentLvl === 1 && commentLvl2 !== undefined) {
       return setCommentLvl2([...commentLvl2, ...comment]);
     } else if (cmntToCmnt?.commentLvl === 1 && commentLvl2 === undefined) {
       return setCommentLvl2(comment);
     } else if (cmntToCmnt?.commentLvl === 2 && commentLvl3 !== undefined) {
       return setCommentLvl3([...commentLvl3, ...comment]);
-    } else if (cmntToCmnt?.commentLvl === 1 && commentLvl3 === undefined) {
+    } else if (cmntToCmnt?.commentLvl === 2 && commentLvl3 === undefined) {
       return setCommentLvl3(comment);
     } else if (cmntToCmnt?.commentLvl === 3 && commentLvl3 !== undefined) {
       return setCommentLvl3([...commentLvl3, ...comment]);
-    } else if (cmntToCmnt?.commentLvl === 1 && commentLvl3 === undefined) {
+    } else if (cmntToCmnt?.commentLvl === 3 && commentLvl3 === undefined) {
       return setCommentLvl3(comment);
     }
   };
@@ -298,6 +312,12 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           content: {content: commentType},
         })
       : null;
+    setCmntToCmntLvl0({
+      id: '0',
+      userName: dataProfile?.data.fullname ? dataProfile.data.fullname : '',
+      commentLvl: 0,
+      parentID: dataPostDetail?.id ? dataPostDetail.id : '0',
+    });
     handleRealTimeComment();
     setInputCommentModal(false);
     setCommentType('');
@@ -305,8 +325,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   // ! End Of Comment area
 
   const handleSetPage = (value: number) => {
-    setActivePage(activePage + 1);
     setDelStaticComment(value);
+    setValue(value);
+    if (value === 1) {
+      setActivePage(activePage + 1);
+    } else if (value === 2) {
+      setActivePage2(activePage2 + 1);
+    } else if (value === 3) {
+      setActivePage3(activePage3 + 1);
+    }
   };
 
   //? handle comment in commentsection & open modal comment
