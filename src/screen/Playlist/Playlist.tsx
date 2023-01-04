@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -6,6 +6,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {PlaylistContent} from '../../components';
+import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 
 interface PlaylistProps {
   props: {};
@@ -16,6 +17,17 @@ export const PlaylistScreen: React.FC<PlaylistProps> = (
   props: PlaylistProps,
 ) => {
   const {params} = props?.route;
+  const {
+    dataDetailPlaylist,
+    dataSongsPlaylist,
+    getDetailPlaylist,
+    getListSongsPlaylist,
+  } = usePlaylistHook();
+
+  useEffect(() => {
+    getDetailPlaylist({id: params.id});
+    getListSongsPlaylist({id: params.id});
+  }, []);
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -39,13 +51,16 @@ export const PlaylistScreen: React.FC<PlaylistProps> = (
 
   return (
     <View style={styles.root}>
-      <PlaylistContent
-        playlist={params}
-        onPressGoBack={onPressGoBack}
-        goToEditPlaylist={goToEditPlaylist}
-        goBackProfile={goBackProfile}
-        goToAddSong={goToAddSong}
-      />
+      {dataDetailPlaylist && (
+        <PlaylistContent
+          onPressGoBack={onPressGoBack}
+          goToEditPlaylist={goToEditPlaylist}
+          goBackProfile={goBackProfile}
+          goToAddSong={goToAddSong}
+          dataDetail={dataDetailPlaylist}
+          listSongs={dataSongsPlaylist}
+        />
+      )}
     </View>
   );
 };
