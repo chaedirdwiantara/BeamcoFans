@@ -10,14 +10,12 @@ import {
 } from 'react-native';
 
 import {
-  elipsisText,
-  heightPercentage,
-  normalize,
   width,
+  normalize,
   widthPercentage,
+  heightPercentage,
 } from '../../../utils';
 import {font} from '../../../theme';
-import {ListCard} from '../ListCard';
 import {TabFilter} from '../TabFilter';
 import Color from '../../../theme/Color';
 import {SettingIcon} from '../../../assets/icon';
@@ -33,13 +31,7 @@ type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
 ) => void;
 
-interface NewPlaylistProps {
-  playlist: any;
-  goToPlaylist: () => void;
-}
-
 interface ProfileContentProps {
-  playlist: any;
   profile: any;
   goToEditProfile: () => void;
   goToPlaylist: (id: number) => void;
@@ -49,27 +41,8 @@ interface ProfileContentProps {
   ) => void;
 }
 
-const NewCreatedPlaylist: React.FC<NewPlaylistProps> = ({
-  playlist,
-  goToPlaylist,
-}) => {
-  return (
-    <TouchableOpacity onPress={goToPlaylist}>
-      <ListCard.MusicList
-        imgUri={playlist?.playlistUri?.path}
-        musicNum={'01'}
-        musicTitle={elipsisText(playlist?.playlistName, 22)}
-        singerName={'by Weaboo'}
-        containerStyles={{marginTop: heightPercentage(20)}}
-        hideDropdownMore={true}
-      />
-    </TouchableOpacity>
-  );
-};
-
 export const ProfileContent: React.FC<ProfileContentProps> = ({
   profile,
-  playlist,
   goToEditProfile,
   goToPlaylist,
   onPressGoTo,
@@ -136,12 +109,6 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                   text="Create New Playlist"
                   onPress={() => onPressGoTo('CreateNewPlaylist')}
                 />
-                {playlist?.playlistName !== undefined && (
-                  <NewCreatedPlaylist
-                    playlist={playlist}
-                    goToPlaylist={goToPlaylist}
-                  />
-                )}
                 <ListPlaylist
                   data={dataPlaylist}
                   onPress={goToPlaylist}
