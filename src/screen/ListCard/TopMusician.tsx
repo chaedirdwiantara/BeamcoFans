@@ -5,7 +5,6 @@ import {
   FollowMusicianPropsType,
   MusicianList,
 } from '../../interface/musician.interface';
-import {heightResponsive} from '../../utils';
 import {ParamsProps} from '../../interface/base.interface';
 import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
 
