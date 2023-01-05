@@ -1,7 +1,3 @@
-export type PlaylistPropsTypeA = {
-  id: number;
-};
-
 export type Playlist = {
   id: number;
   name: string;
@@ -13,6 +9,10 @@ export type Playlist = {
   isPublic: boolean;
   totalSong: number;
   ordering: number;
+};
+
+export type PlaylistPropsTypeA = {
+  id: number;
 };
 
 export type PlaylistPropsType = {
@@ -34,7 +34,7 @@ export type PlaylistResponseType = {
   status: number;
 };
 
-export type CreatePlaylistResponseType = {
+export type PlaylistResponseTypeB = {
   code: number;
   data: Playlist;
   message: string;

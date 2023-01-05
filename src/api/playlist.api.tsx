@@ -1,7 +1,7 @@
 import SsuAPI from './baseSemeru';
 import {
   AddSongPropsType,
-  CreatePlaylistResponseType,
+  PlaylistResponseTypeB,
   PlaylistPropsType,
   PlaylistPropsTypeA,
   PlaylistResponseType,
@@ -23,8 +23,8 @@ export const getListPlaylist = async (
 
 export const detailPlaylist = async (
   props?: PlaylistPropsTypeA,
-): Promise<CreatePlaylistResponseType> => {
-  const {data} = await SsuAPI().request<CreatePlaylistResponseType>({
+): Promise<PlaylistResponseTypeB> => {
+  const {data} = await SsuAPI().request<PlaylistResponseTypeB>({
     url: `/playlists/${props?.id}`,
     method: 'GET',
   });
@@ -34,8 +34,8 @@ export const detailPlaylist = async (
 
 export const createPlaylist = async (
   props?: PlaylistPropsType,
-): Promise<CreatePlaylistResponseType> => {
-  const {data} = await SsuAPI().request<CreatePlaylistResponseType>({
+): Promise<PlaylistResponseTypeB> => {
+  const {data} = await SsuAPI().request<PlaylistResponseTypeB>({
     url: '/playlists',
     method: 'POST',
     data: props,
@@ -47,8 +47,8 @@ export const createPlaylist = async (
 export const updatePlaylist = async (
   params?: PlaylistPropsTypeA,
   props?: PlaylistPropsType,
-): Promise<PlaylistResponseType> => {
-  const {data} = await SsuAPI().request<PlaylistResponseType>({
+): Promise<PlaylistResponseTypeB> => {
+  const {data} = await SsuAPI().request<PlaylistResponseTypeB>({
     url: `/playlists/${params?.id}`,
     method: 'PATCH',
     data: props,
@@ -59,8 +59,8 @@ export const updatePlaylist = async (
 
 export const deletePlaylist = async (
   params?: PlaylistPropsTypeA,
-): Promise<PlaylistResponseType> => {
-  const {data} = await SsuAPI().request<PlaylistResponseType>({
+): Promise<PlaylistResponseTypeB> => {
+  const {data} = await SsuAPI().request<PlaylistResponseTypeB>({
     url: `/playlists/${params?.id}`,
     method: 'DELETE',
   });
