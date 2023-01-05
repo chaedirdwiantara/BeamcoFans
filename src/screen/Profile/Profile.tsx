@@ -1,13 +1,18 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {storage} from '../../hooks/use-storage.hook';
+import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {GuestContent, ProfileContent} from '../../components';
-import {usePlayerHook} from '../../hooks/use-player.hook';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 
 interface ProfileProps {
@@ -33,10 +38,12 @@ export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
     }
   }, [isFocused]);
 
-  useEffect(() => {
-    getPlaylist();
-    getProfileUser();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getPlaylist();
+      getProfileUser();
+    }, []),
+  );
 
   const onPressGoTo = (
     screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',

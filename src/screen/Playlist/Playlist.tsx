@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {StyleSheet, View} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
@@ -20,17 +21,19 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
     getListSongsPlaylist,
   } = usePlaylistHook();
 
-  useEffect(() => {
-    getDetailPlaylist({id: route.params.id});
-    getListSongsPlaylist({id: route.params.id});
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getDetailPlaylist({id: route.params.id});
+      getListSongsPlaylist({id: route.params.id});
+    }, []),
+  );
 
   const onPressGoBack = () => {
     navigation.goBack();
   };
 
   const goToEditPlaylist = () => {
-    navigation.navigate('EditPlaylist', {...route.params});
+    navigation.navigate('EditPlaylist', dataDetailPlaylist);
   };
 
   const goBackProfile = () => {
