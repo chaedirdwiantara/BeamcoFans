@@ -15,6 +15,11 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../../utils';
+import {
+  ArrowLeftIcon,
+  DefaultImage,
+  MusicSquareAddIcon,
+} from '../../../assets/icon';
 import {Gap} from '../../atom';
 import {Dropdown} from '../DropDown';
 import Color from '../../../theme/Color';
@@ -24,14 +29,10 @@ import {ModalConfirm} from '../Modal/ModalConfirm';
 import {dateFormat} from '../../../utils/date-format';
 import TopSong from '../../../screen/ListCard/TopSong';
 import {color, font, typography} from '../../../theme';
+import {deletePlaylist} from '../../../api/playlist.api';
+import {SongList} from '../../../interface/song.interface';
 import {SongTitlePlay} from '../SongTitlePlay/SongTitlePlay';
 import {Playlist} from '../../../interface/playlist.interface';
-import {
-  ArrowLeftIcon,
-  DefaultImage,
-  MusicSquareAddIcon,
-} from '../../../assets/icon';
-import {SongList} from '../../../interface/song.interface';
 
 interface Props {
   onPressGoBack: () => void;
@@ -57,6 +58,15 @@ export const PlaylistContent: React.FC<Props> = ({
     {label: 'Share Playlist', value: 'SharePlaylist'},
     {label: 'Delete Playlist', value: 'DeletePlaylist'},
   ];
+
+  const onPressDelete = async () => {
+    try {
+      await deletePlaylist(dataDetail);
+      goBackProfile();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const resultDataMore = (dataResult: any) => {
     if (dataResult?.value === 'DeletePlaylist') {
@@ -153,7 +163,7 @@ export const PlaylistContent: React.FC<Props> = ({
         title="Delete"
         subtitle="Are you sure you want to delete this playlist?"
         onPressClose={() => setModalVisible(false)}
-        onPressOk={goBackProfile}
+        onPressOk={onPressDelete}
       />
     </View>
   );
