@@ -226,8 +226,8 @@ export const RootStackScreen = () => (
     initialRouteName={
       storage.getBoolean('isLogin')
         ? 'MainTab'
-        : storage.getBoolean('isOnboard')
-        ? 'SignInGuest'
+        : storage.getBoolean('isGuest')
+        ? 'MainTab'
         : 'Boarding'
     }>
     <RootStack.Screen name="Boarding" component={OnboardScreen} />

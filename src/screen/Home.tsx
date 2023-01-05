@@ -68,13 +68,14 @@ export const HomeScreen: React.FC = () => {
     setMusicDataPlayer,
   } = usePlayerHook();
 
-  const isLogin = storage.getString('profile');
+  const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
 
   useEffect(() => {
     getListDataMusician({filterBy: 'top'});
     getListDataBanner();
     getListDataSong();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ export const HomeScreen: React.FC = () => {
     } else if (!isFocused) {
       hidePlayer();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused, isPlay]);
 
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
@@ -104,6 +106,7 @@ export const HomeScreen: React.FC = () => {
         message: data.data?.body,
       });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const registerFcm = (token: string) => {
@@ -182,7 +185,7 @@ export const HomeScreen: React.FC = () => {
     <View style={styles.root}>
       <SsuStatusBar type="black" />
       <TopNavigation.Type5
-        name={profileStorage()?.fullname || ''}
+        name={profileStorage()?.fullname ?? ''}
         profileUri={
           'https://static.republika.co.id/uploads/member/images/news/5bgj1x0cea.jpg'
         }
@@ -194,7 +197,7 @@ export const HomeScreen: React.FC = () => {
         points={isLogin ? 100000 : 0}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
         onPressCoin={onPressCoin}
-        guest={isLogin === undefined}
+        guest={!isLogin}
       />
 
       <ScrollView
