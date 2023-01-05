@@ -34,8 +34,6 @@ import type {RegistrationType} from '../interface/profile.interface';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import {storage} from '../hooks/use-storage.hook';
 import {heightResponsive, normalize} from '../utils';
-import {LoginResponseType} from '../interface/auth.interface';
-import {ErrorProp} from '../interface/error.interface';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -142,11 +140,11 @@ export const LoginScreen: React.FC = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ssoRegistered]);
+  }, [ssoRegistered, loginResult]);
 
   useEffect(() => {
     if (!isLoading && !isError) {
-      if (watch('loginType') === 'email' && loginResult !== null) {
+      if (watch('loginType') !== 'phoneNumber' && loginResult !== null) {
         storage.set('isLogin', true);
         if (loginResult === 'preference') {
           navigation.replace('Preference');

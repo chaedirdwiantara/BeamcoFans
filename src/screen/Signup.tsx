@@ -6,9 +6,10 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import {useForm, SubmitHandler, Controller} from 'react-hook-form';
-import {Button, Gap, SsuDivider, SsuInput} from '../components/atom';
+import {Button, Gap, SsuDivider, SsuInput, SsuToast} from '../components/atom';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {useAuthHook} from '../hooks/use-auth.hook';
@@ -20,10 +21,11 @@ import {EmailIcon, FullNameIcon, LockIcon} from '../assets/icon';
 import {color, font} from '../theme';
 import {Dropdown, SsuStatusBar, TermAndConditions} from '../components';
 import {countryData} from '../data/dropdown';
-import {heightResponsive, widthResponsive} from '../utils';
+import {heightResponsive, normalize, widthResponsive} from '../utils';
 import {AppleLogo, FacebookLogo, GoogleLogo} from '../assets/logo';
 import {ms, mvs} from 'react-native-size-matters';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
+import {storage} from '../hooks/use-storage.hook';
 
 interface RegisterInput {
   fullname: string;
@@ -74,8 +76,22 @@ const registerValidation = yup.object({
 export const SignupScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {isLoading, isError, authResult, errorMsg, onRegisterUser} =
-    useAuthHook();
+  const {
+    isLoading,
+    isError,
+    authResult,
+    errorMsg,
+    onRegisterUser,
+    onLoginApple,
+    ssoEmail,
+    ssoRegistered,
+    ssoError,
+    ssoErrorMsg,
+    setSsoError,
+    ssoType,
+    ssoId,
+    loginResult,
+  } = useAuthHook();
   const [focusInput, setFocusInput] = useState<string | null>(null);
   const [countryNumber, setCountryNumber] = useState<string | null>(null);
 
@@ -192,6 +208,28 @@ export const SignupScreen: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    if (ssoRegistered !== null && !ssoRegistered) {
+      navigation.navigate('SignupSSO', {
+        email: ssoEmail,
+        ssoType: ssoType as RegistrationType,
+        ssoId: ssoId,
+      });
+    } else if (
+      ssoRegistered !== null &&
+      ssoRegistered &&
+      loginResult !== null
+    ) {
+      storage.set('isLogin', true);
+      if (loginResult === 'preference') {
+        navigation.replace('Preference');
+      } else {
+        navigation.replace('MainTab');
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ssoRegistered, loginResult]);
+
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
@@ -216,7 +254,11 @@ export const SignupScreen: React.FC = () => {
               <Gap width={24} />
               <FacebookLogo />
               {Platform.OS === 'ios' ? <Gap width={24} /> : null}
-              {Platform.OS === 'ios' ? <AppleLogo /> : null}
+              {Platform.OS === 'ios' ? (
+                <TouchableOpacity onPress={onLoginApple}>
+                  <AppleLogo />
+                </TouchableOpacity>
+              ) : null}
             </View>
             <Gap height={20} />
             <SsuDivider text={'or'} />
@@ -410,6 +452,16 @@ export const SignupScreen: React.FC = () => {
         </ScrollView>
       </KeyboardAvoidingView>
       <ModalLoading visible={isLoading} />
+      <SsuToast
+        modalVisible={ssoError}
+        onBackPressed={() => setSsoError(false)}
+        children={
+          <View style={[styles.modalContainer]}>
+            <Text style={[styles.textStyle]}>{ssoErrorMsg}</Text>
+          </View>
+        }
+        modalStyle={{marginHorizontal: ms(24)}}
+      />
     </View>
   );
 };
@@ -467,5 +519,23 @@ const styles = StyleSheet.create({
     fontSize: mvs(12),
     alignSelf: 'center',
     marginTop: heightResponsive(100),
+  },
+  modalContainer: {
+    backgroundColor: color.Error[400],
+    paddingVertical: mvs(16),
+    paddingHorizontal: ms(12),
+    borderRadius: 4,
+    height: mvs(48),
+    width: '100%',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: mvs(22),
+  },
+  textStyle: {
+    color: color.Neutral[10],
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(13),
+    lineHeight: mvs(15),
   },
 });

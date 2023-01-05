@@ -13,17 +13,12 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {useAuthHook} from '../hooks/use-auth.hook';
 import {RegistrationType} from '../interface/profile.interface';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParams} from '../navigations';
 import {FullNameIcon, LockIcon} from '../assets/icon';
 import {color, font} from '../theme';
 import {SsuStatusBar, TermAndConditions} from '../components';
 import {heightResponsive, widthResponsive} from '../utils';
-import {AppleLogo, FacebookLogo, GoogleLogo} from '../assets/logo';
 import {ms, mvs} from 'react-native-size-matters';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import {storage} from '../hooks/use-storage.hook';
@@ -69,14 +64,8 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
   navigation,
   route,
 }: RegisterProps) => {
-  const {
-    isLoading,
-    isError,
-    authResult,
-    errorMsg,
-    onRegisterUser,
-    loginResult,
-  } = useAuthHook();
+  const {isLoading, isError, authResult, errorMsg, onRegisterUser} =
+    useAuthHook();
   const [focusInput, setFocusInput] = useState<string | null>(null);
 
   const {
@@ -84,9 +73,6 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
     handleSubmit,
     formState: {errors},
     setError,
-    setValue,
-    watch,
-    clearErrors,
   } = useForm<RegisterInput>({
     resolver: yupResolver(registerValidation),
     mode: 'onChange',
@@ -112,6 +98,7 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
 
   useEffect(() => {
     if (!isLoading && !isError && authResult !== null) {
+      storage.set('profile', JSON.stringify(authResult.data));
       storage.set('isLogin', true);
       navigation.replace('Preference');
     } else if (!isLoading && isError !== null) {

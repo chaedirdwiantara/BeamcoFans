@@ -1,12 +1,7 @@
 import {useState} from 'react';
-import {Platform} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {Settings, LoginManager, AccessToken} from 'react-native-fbsdk-next';
-import {
-  appleAuth,
-  appleAuthAndroid,
-} from '@invertase/react-native-apple-authentication';
-import {v4 as uuid} from 'uuid';
+import {appleAuth} from '@invertase/react-native-apple-authentication';
 import {
   checkUsername,
   confirmEmailOtpRegister,
@@ -21,14 +16,12 @@ import {
 import {
   LoginPhonePropsType,
   LoginPropsType,
-  LoginResponseType,
   RegisterPropsType,
   RegisterResponseType,
 } from '../interface/auth.interface';
 import axios from 'axios';
 import {storage} from '../hooks/use-storage.hook';
 import {deleteTokenFCM} from '../service/notification';
-import {ErrorProp} from '../interface/error.interface';
 import {RegistrationType} from '../interface/profile.interface';
 
 export const useAuthHook = () => {
