@@ -129,29 +129,35 @@ export const useAuthHook = () => {
       const userInfo = await GoogleSignin.signIn();
       setIsLoading(true);
       const response = await loginSso(userInfo.user.email, 'google');
-      console.log(response);
-      // storage.set('profile', JSON.stringify(response.data));
-      // if (response.data.lastLoginAt === null) {
-      //   setLoginResult('preference');
-      // } else {
-      //   setLoginResult('home');
-      // }
+      if (response.code === 1003) {
+        setSsoEmail(userInfo.user.email ?? '');
+        setSsoId(userInfo.user.id);
+        setSsoType('google');
+        setSsoRegistered(false);
+      } else if (response.code === 200) {
+        setSsoRegistered(true);
+        if (response.data.accessToken) {
+          storage.set('profile', JSON.stringify(response.data));
+          if (response.data.lastLoginAt === null) {
+            setLoginResult('preference');
+          } else {
+            setLoginResult('home');
+          }
+        }
+      } else {
+        setSsoError(true);
+        setSsoErrorMsg(response.message);
+      }
     } catch (error) {
-      setIsError(true);
+      setSsoError(true);
       if (
         axios.isAxiosError(error) &&
         error.response?.status &&
         error.response?.status >= 400
       ) {
-        if (error.response?.data?.data?.email) {
-          setErrorData(error.response?.data?.data?.email);
-        } else if (error.response?.data?.data?.phoneNumber) {
-          setErrorData(error.response?.data?.data?.phoneNumber);
-        }
-        setErrorMsg(error.response?.data?.message);
-        setErrorCode(error.response?.data?.code);
+        setSsoErrorMsg(error.response?.data?.message);
       } else if (error instanceof Error) {
-        setErrorMsg(error.message);
+        setSsoErrorMsg(error.message);
       }
     } finally {
       setIsLoading(false);
