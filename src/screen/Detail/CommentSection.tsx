@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC, useState} from 'react';
 import {elipsisText, heightResponsive, widthResponsive} from '../../utils';
 import {Gap, PostComment} from '../../components';
@@ -297,18 +297,22 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             ) : null}
             {commentsCount > 1 &&
               (dataLvl3 === undefined ? (
-                <Text
-                  style={styles.viewMore}
-                  onPress={() => viewMoreOnPress(id, 3)}>
-                  View more reply
-                </Text>
+                <TouchableOpacity>
+                  <Text
+                    style={styles.viewMore}
+                    onPress={() => viewMoreOnPress(id, 3)}>
+                    View more reply
+                  </Text>
+                </TouchableOpacity>
               ) : dataLvl3 !== undefined &&
                 filterParentID(dataLvl3, id).length != commentsCount ? (
-                <Text
-                  style={styles.viewMore}
-                  onPress={() => viewMoreOnPress(id, 3)}>
-                  View more reply
-                </Text>
+                <TouchableOpacity>
+                  <Text
+                    style={styles.viewMore}
+                    onPress={() => viewMoreOnPress(id, 3)}>
+                    View more reply
+                  </Text>
+                </TouchableOpacity>
               ) : null)}
           </>
         }
@@ -408,19 +412,17 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                 ) : null}
                 {item.commentsCount > 1 &&
                   (dataLvl2 === undefined ? (
-                    <Text
-                      style={styles.viewMore}
+                    <TouchableOpacity
                       onPress={() => viewMoreOnPress(item.id, 2)}>
-                      View more reply
-                    </Text>
+                      <Text style={styles.viewMore}>View more reply</Text>
+                    </TouchableOpacity>
                   ) : dataLvl2 !== undefined &&
                     filterParentID(dataLvl2, item.id).length !=
                       item.commentsCount ? (
-                    <Text
-                      style={styles.viewMore}
+                    <TouchableOpacity
                       onPress={() => viewMoreOnPress(item.id, 2)}>
-                      View more reply
-                    </Text>
+                      <Text style={styles.viewMore}>View more reply</Text>
+                    </TouchableOpacity>
                   ) : null)}
               </>
             }
@@ -428,16 +430,17 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
         )}
       />
       {postCommentCount >= 10 && dataLvl1?.length != postCommentCount ? (
-        <Text
-          style={[
-            styles.viewMore,
-            {
-              marginBottom: mvs(20),
-            },
-          ]}
-          onPress={() => viewMoreOnPress(postId, 1)}>
-          View more reply
-        </Text>
+        <TouchableOpacity onPress={() => viewMoreOnPress(postId, 1)}>
+          <Text
+            style={[
+              styles.viewMore,
+              {
+                marginBottom: mvs(20),
+              },
+            ]}>
+            View more reply
+          </Text>
+        </TouchableOpacity>
       ) : null}
     </View>
   );
