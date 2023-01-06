@@ -20,28 +20,28 @@ import {
   BottomSheetGuest,
 } from '../components';
 import Color from '../theme/Color';
-import {RootStackParams} from '../navigations';
 import {dataSlider} from '../data/home';
 import TopSong from './ListCard/TopSong';
 import {SearchIcon} from '../assets/icon';
 import PostList from './ListCard/PostList';
 import {PostlistData} from '../data/postlist';
+import {RootStackParams} from '../navigations';
 import TopMusician from './ListCard/TopMusician';
 import {useFcmHook} from '../hooks/use-fcm.hook';
 import {storage} from '../hooks/use-storage.hook';
+import {useSongHook} from '../hooks/use-song.hook';
+import {SongList} from '../interface/song.interface';
 import * as FCMService from '../service/notification';
+import {usePlayerHook} from '../hooks/use-player.hook';
 import {useBannerHook} from '../hooks/use-banner.hook';
+import {ParamsProps} from '../interface/base.interface';
 import {profileStorage} from '../hooks/use-storage.hook';
 import {useMusicianHook} from '../hooks/use-musician.hook';
+import {FollowMusicianPropsType} from '../interface/musician.interface';
+import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
-import {FollowMusicianPropsType} from '../interface/musician.interface';
-import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
-import {useSongHook} from '../hooks/use-song.hook';
-import {ParamsProps} from '../interface/base.interface';
-import {usePlayerHook} from '../hooks/use-player.hook';
-import {SongList} from '../interface/song.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,

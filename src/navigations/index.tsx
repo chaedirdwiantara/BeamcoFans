@@ -72,11 +72,14 @@ import {CrownIcon, FeedIcon, HomeIcon, UserProfileIcon} from '../assets/icon';
 import Font from '../theme/Font';
 import Color from '../theme/Color';
 import {normalize} from '../utils';
-import {PostList} from '../interface/feed.interface';
 import {MerchListType} from '../data/merchList';
 import {ConcertDetail} from '../screen/ConcertDetail';
 import {SignupSSOScreen} from '../screen/SignupSSO';
 import {RegistrationType} from '../interface/profile.interface';
+
+// interface
+import {PostList} from '../interface/feed.interface';
+import {Playlist} from '../interface/playlist.interface';
 
 export type RootStackParams = {
   Account: undefined;
@@ -89,7 +92,7 @@ export type RootStackParams = {
   CreateNewPlaylist: undefined;
   DonationAndSubscription: undefined;
   EditProfile: undefined;
-  EditPlaylist: undefined;
+  EditPlaylist: Playlist;
   Email: undefined;
   ExclusiveContent: undefined;
   Following: undefined;
@@ -105,7 +108,9 @@ export type RootStackParams = {
     context?: string;
   };
   PhoneNumber: undefined;
-  Playlist: undefined;
+  Playlist: {
+    id: number;
+  };
   Preference: undefined;
   Referral: undefined;
   ReferralCode: undefined;
