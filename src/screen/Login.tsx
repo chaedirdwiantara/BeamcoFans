@@ -132,6 +132,7 @@ export const LoginScreen: React.FC = () => {
   };
 
   useEffect(() => {
+    storage.delete('isGuest');
     if (ssoRegistered !== null && !ssoRegistered) {
       navigation.navigate('SignupSSO', {
         email: ssoEmail,
@@ -143,6 +144,7 @@ export const LoginScreen: React.FC = () => {
   }, [ssoRegistered, loginResult]);
 
   useEffect(() => {
+    storage.delete('isGuest');
     if (!isLoading && !isError) {
       if (watch('loginType') !== 'phoneNumber' && loginResult !== null) {
         storage.set('isLogin', true);

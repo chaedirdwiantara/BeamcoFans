@@ -134,6 +134,7 @@ export const SignupScreen: React.FC = () => {
   };
 
   useEffect(() => {
+    storage.delete('isGuest');
     if (!isLoading && !isError && authResult !== null) {
       if (watch('registrationType') === 'email') {
         navigation.replace('Otp', {
