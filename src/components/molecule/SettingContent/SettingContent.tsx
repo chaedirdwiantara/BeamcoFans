@@ -43,9 +43,13 @@ export const SettingContent: React.FC<SettingProps> = ({
   const onPress = (val: string) => {
     if (val === 'Send Report') {
       setIsVisible(true);
-    } else if (val === 'Terms Conditions' || val === 'Privacy Policy') {
-      const path = val === 'Terms Conditions' ? 'tos' : 'privacy-policy';
+    } else if (val === 'Terms and Conditions' || val === 'Privacy Policy') {
+      const path = val === 'Terms and Conditions' ? 'tos' : 'privacy-policy';
       handleWebview(val, `https://sunnysideup.io/marketplace/${path}`);
+    } else if (val === 'Donation & Subscription') {
+      onPressGoTo('DonationAndSubscription');
+    } else if (val === 'Preference') {
+      onPressGoTo('PreferenceSetting');
     } else {
       onPressGoTo(val.replace(/\s/g, ''));
     }
