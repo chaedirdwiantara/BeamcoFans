@@ -97,6 +97,7 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
   };
 
   useEffect(() => {
+    storage.delete('isGuest');
     if (!isLoading && !isError && authResult !== null) {
       storage.set('profile', JSON.stringify(authResult.data));
       storage.set('isLogin', true);

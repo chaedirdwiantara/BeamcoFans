@@ -91,6 +91,7 @@ export const SignupScreen: React.FC = () => {
     ssoType,
     ssoId,
     loginResult,
+    onLoginGoogle,
   } = useAuthHook();
   const [focusInput, setFocusInput] = useState<string | null>(null);
   const [countryNumber, setCountryNumber] = useState<string | null>(null);
@@ -134,6 +135,7 @@ export const SignupScreen: React.FC = () => {
   };
 
   useEffect(() => {
+    storage.delete('isGuest');
     if (!isLoading && !isError && authResult !== null) {
       if (watch('registrationType') === 'email') {
         navigation.replace('Otp', {
@@ -250,7 +252,9 @@ export const SignupScreen: React.FC = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <GoogleLogo />
+              <TouchableOpacity onPress={onLoginGoogle}>
+                <GoogleLogo />
+              </TouchableOpacity>
               <Gap width={24} />
               <FacebookLogo />
               {Platform.OS === 'ios' ? <Gap width={24} /> : null}

@@ -6,6 +6,7 @@ import Color from '../../../theme/Color';
 import {height, normalize, width} from '../../../utils';
 import Typography from '../../../theme/Typography';
 import {Button, ButtonGradient, LoginDescription} from '../../';
+import {storage} from '../../../hooks/use-storage.hook';
 
 interface GuestProps {
   onPress: (screenName: 'Login' | 'Signup' | 'MainTab') => void;
@@ -43,7 +44,10 @@ export const SignInGuestContent: React.FC<GuestProps> = ({onPress}) => {
           label="Explore As Guest"
           borderColor="transparent"
           textStyles={{fontSize: normalize(14), color: Color.Pink.linear}}
-          onPress={() => onPress('MainTab')}
+          onPress={() => {
+            storage.set('isGuest', true);
+            onPress('MainTab');
+          }}
         />
       </View>
     </View>
