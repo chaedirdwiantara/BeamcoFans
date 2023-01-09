@@ -155,7 +155,6 @@ export const LoginScreen: React.FC = () => {
           navigation.replace('MainTab');
         }
       } else if (watch('loginType') === 'phoneNumber') {
-        storage.set('isLogin', true);
         navigation.navigate('Otp', {
           id: countryNumber + watch('phoneNumber'),
           type: 'phoneNumber',
