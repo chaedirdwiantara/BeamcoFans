@@ -114,7 +114,7 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
       <Video
         ref={playRef}
         source={{
-          uri: 'https://storage.googleapis.com/media-ssu/uploads/22222/encoded/190ecdcb42f4/master.m3u8',
+          uri: musicData.musicUrl,
         }}
         onLoad={e => {
           setDurationPlayer(e.duration);

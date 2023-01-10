@@ -10,6 +10,7 @@ export type SongList = {
   songDuration: number;
   lyrics: string;
   transcodedSongUrl: string;
+  originalSongUrl: string;
 };
 
 export type ListSongResponseType = {

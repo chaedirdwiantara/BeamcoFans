@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {
   NextIcon,
@@ -15,7 +15,7 @@ import {usePlayerHook} from '../../hooks/use-player.hook';
 const MusicControl = () => {
   const [shuffle, setShuffle] = useState<boolean>(false);
   const [repeat, setRepeat] = useState<boolean>(false);
-  const {isPlay, setPlaySong, setPauseSong} = usePlayerHook();
+  const {isPlay, setPlaySong, setPauseSong, setNextPrevTrack} = usePlayerHook();
 
   const suffleOnpress = () => {
     setShuffle(!shuffle);
@@ -33,6 +33,14 @@ const MusicControl = () => {
     }
   };
 
+  const handleNextTrack = () => {
+    setNextPrevTrack('next');
+  };
+
+  const handlePrevTrack = () => {
+    setNextPrevTrack('prev');
+  };
+
   return (
     <View style={styles.bottomIconWrapper}>
       <TouchableOpacity
@@ -41,7 +49,7 @@ const MusicControl = () => {
         <ShuffleIcon fill={shuffle ? color.Success[400] : undefined} />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => {}} style={styles.touchableStyle}>
+      <TouchableOpacity onPress={handlePrevTrack} style={styles.touchableStyle}>
         <PreviousIcon />
       </TouchableOpacity>
 
@@ -51,7 +59,7 @@ const MusicControl = () => {
         {isPlay ? <PauseIcon2 /> : <PlayIcon2 />}
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => {}} style={styles.touchableStyle}>
+      <TouchableOpacity onPress={handleNextTrack} style={styles.touchableStyle}>
         <NextIcon />
       </TouchableOpacity>
 

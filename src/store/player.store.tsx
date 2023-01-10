@@ -1,6 +1,7 @@
 import React from 'react';
 import create from 'zustand';
 import Video from 'react-native-video';
+import {SongList} from '../interface/song.interface';
 
 interface PlayerState {
   playerRef: React.MutableRefObject<Video | null>;
@@ -14,15 +15,21 @@ interface PlayerState {
   play: boolean;
   setPlay: (by: boolean) => void;
   musicData: {
+    id: number;
     title: string;
     artist: string;
     albumImg: string | null;
+    musicUrl: string;
   };
   setMusicData: (by: {
+    id: number;
     title: string;
     artist: string;
     albumImg: string | null;
+    musicUrl: string;
   }) => void;
+  playlist: SongList[];
+  setPlaylist: (by: SongList[]) => void;
 }
 
 export const usePlayerStore = create<PlayerState>()(set => ({
@@ -37,9 +44,13 @@ export const usePlayerStore = create<PlayerState>()(set => ({
   play: false,
   setPlay: by => set(state => ({play: by})),
   musicData: {
+    id: 0,
     title: '',
     artist: '',
     albumImg: '',
+    musicUrl: '',
   },
   setMusicData: by => set(state => ({musicData: by})),
+  playlist: [],
+  setPlaylist: by => set(state => ({playlist: by})),
 }));

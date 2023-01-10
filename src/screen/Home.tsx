@@ -71,6 +71,7 @@ export const HomeScreen: React.FC = () => {
     hidePlayer,
     seekPlayer,
     setMusicDataPlayer,
+    setPlaylistSong,
   } = usePlayerHook();
   const {
     dataSearchMusicians,
@@ -185,10 +186,13 @@ export const HomeScreen: React.FC = () => {
   };
 
   const onPressTopSong = (val: SongList) => {
+    setPlaylistSong(dataSong);
     setMusicDataPlayer({
+      id: val.id,
       title: val.title,
       artist: val.musicianName,
       albumImg: val.imageUrl,
+      musicUrl: val.originalSongUrl,
     });
     showPlayer();
     seekPlayer(0);
