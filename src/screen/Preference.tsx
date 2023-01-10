@@ -25,7 +25,7 @@ export const PreferenceScreen: React.FC = () => {
   } = useMusicianHook();
 
   useEffect(() => {
-    getListDataMusician({filterBy: 'top'});
+    getListDataMusician({perPage: 5});
   }, []);
 
   const goToScreenReferral = () => {

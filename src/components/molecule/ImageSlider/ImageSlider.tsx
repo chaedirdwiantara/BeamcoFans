@@ -63,8 +63,8 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
 
   const followOnPress = (index: string, isFollowed: boolean) => {
     isFollowed
-      ? setUnfollowMusician({musicianID: index}, {filterBy: 'top'})
-      : setFollowMusician({musicianID: index}, {filterBy: 'top'});
+      ? setUnfollowMusician({musicianID: index}, {perPage: 5})
+      : setFollowMusician({musicianID: index}, {perPage: 5});
   };
 
   const handleNextSlide = () => {
