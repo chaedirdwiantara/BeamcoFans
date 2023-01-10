@@ -16,12 +16,9 @@ import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
 import {
   heightPercentage,
-  normalize,
   width,
   widthPercentage,
   kFormatter,
-  kFormatter2,
-  toCurrency,
 } from '../../../utils';
 
 interface UserInfoCardProps {
@@ -71,19 +68,19 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
           isFollowing ? onPress() : null;
         };
 
-        return (
-          <View key={i} style={styles.containerItem}>
-            <Item
-              point={isFollowing ? totalFollowing : val.point}
-              title={val.title}
-              onPress={newOnPress}
-            />
-
-            {listItem.length !== i + 1 && (
-              <View style={[styles.separator, newStyles]} />
-            )}
-          </View>
-        );
+        if (val.title === 'LINE') {
+          return <View key={i} style={styles.separator} />;
+        } else {
+          return (
+            <View style={[{width: '30%'}, newStyles]}>
+              <Item
+                point={isFollowing ? totalFollowing : val.point}
+                title={val.title}
+                onPress={newOnPress}
+              />
+            </View>
+          );
+        }
       })}
     </View>
   );
@@ -102,16 +99,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: 12,
   },
-  containerItem: {
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-  },
   separator: {
     width: mvs(1),
     height: heightPercentage(18),
     backgroundColor: '#D1D1D1',
-    marginHorizontal: widthPercentage(15),
   },
   itemStyle: {
     alignItems: 'center',
