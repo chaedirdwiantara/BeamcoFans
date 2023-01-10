@@ -1,5 +1,6 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
+  Dimensions,
   FlatList,
   InteractionManager,
   Platform,
@@ -29,6 +30,7 @@ import {color, font, typography} from '../../theme';
 import {
   elipsisText,
   heightPercentage,
+  heightResponsive,
   normalize,
   widthPercentage,
   widthResponsive,
@@ -44,6 +46,9 @@ import {PostList} from '../../interface/feed.interface';
 import {dateFormat} from '../../utils/date-format';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {TickCircleIcon} from '../../assets/icon';
+import categoryNormalize from '../../utils/categoryNormalize';
+
+const {height} = Dimensions.get('screen');
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -272,9 +277,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{
             paddingBottom:
-              Platform.OS === 'ios'
-                ? heightPercentage(160)
-                : heightPercentage(180),
+              height >= 800 ? heightResponsive(220) : heightResponsive(160),
           }}
           renderItem={({item}) => (
             <ListCard.PostList
@@ -282,7 +285,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
               musicianId={`@${item.musician.username}`}
               imgUri={item.musician.imageProfileUrl}
               postDate={dateFormat(item.createdAt)}
-              category={item.category}
+              category={categoryNormalize(item.category)}
               onPress={() => cardOnPress(item)}
               likeOnPress={() => likeOnPress(item.id, item.isLiked)}
               likePressed={
@@ -335,14 +338,16 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                       flexDirection: 'row',
                     }}>
                     <SafeAreaView style={{flex: 1}}>
-                      <ImageList
-                        imgData={item.image}
-                        width={143}
-                        height={69.5}
-                        heightType2={142}
-                        widthType2={289}
-                        onPress={() => {}}
-                      />
+                      {item.image !== null ? (
+                        <ImageList
+                          imgData={item.image}
+                          width={143}
+                          height={69.5}
+                          heightType2={142}
+                          widthType2={289}
+                          onPress={() => {}}
+                        />
+                      ) : null}
                     </SafeAreaView>
                   </View>
                 </View>
