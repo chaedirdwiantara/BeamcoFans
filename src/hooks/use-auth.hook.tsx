@@ -12,6 +12,9 @@ import {
   resendOtpEmail,
   resendOtpSms,
   loginPhoneNumber,
+  forgotPasswordEmail,
+  confirmEmailOtpForgotPassword,
+  changePassword,
 } from '../api/auth.api';
 import {
   LoginPhonePropsType,
@@ -84,6 +87,7 @@ export const useAuthHook = () => {
       } else {
         response = await loginPhoneNumber(props);
       }
+      console.log({response});
 
       if (response.code === 200 || response.code === 401) {
         if (response.data.accessToken) {
@@ -257,6 +261,7 @@ export const useAuthHook = () => {
     setIsLoading(true);
     try {
       const response = await confirmEmailOtpRegister(email, code);
+      console.log({response});
       if (response.status === 1) {
         if (response.data.lastLoginAt === null) {
           setLoginResult('preference');
@@ -272,6 +277,7 @@ export const useAuthHook = () => {
         setErrorMsg(response.message);
       }
     } catch (error) {
+      console.log(error);
       setIsError(true);
       setIsOtpValid(false);
       if (
@@ -385,6 +391,113 @@ export const useAuthHook = () => {
     }
   };
 
+  const forgotPassword = async (email: string) => {
+    setIsError(false);
+    setErrorMsg('');
+    setIsLoading(true);
+    try {
+      const response = await forgotPasswordEmail(email);
+      if (response.code === 200) {
+        setIsError(false);
+      } else {
+        setIsError(true);
+        setErrorMsg(response.message);
+      }
+    } catch (error) {
+      setIsError(true);
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status &&
+        error.response?.status >= 400
+      ) {
+        setErrorMsg(error.response?.data?.message);
+        setErrorCode(error.response?.data?.code);
+      } else if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const confirmEmailOtpFP = async (email: string, code: string) => {
+    setIsError(false);
+    setErrorMsg('');
+    setIsLoading(true);
+    try {
+      const response = await confirmEmailOtpForgotPassword(email, code);
+      if (response.code === 200) {
+        setIsOtpValid(true);
+        setIsError(false);
+      } else if (response.status === 0) {
+        setIsOtpValid(false);
+        setIsError(true);
+        setErrorMsg(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsError(true);
+      setIsOtpValid(false);
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status &&
+        error.response?.status >= 400
+      ) {
+        setErrorMsg(error.response?.data?.message);
+        setErrorCode(error.response?.data?.code);
+      } else if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onChangePassword = async (
+    email: string,
+    code: string,
+    password: string,
+  ) => {
+    setIsLoading(true);
+    setIsError(false);
+    setErrorMsg('');
+    try {
+      const response = await changePassword(email, code, password);
+      if (response.code === 200) {
+        if (response.data.accessToken) {
+          storage.set('profile', JSON.stringify(response.data));
+          if (response.data.lastLoginAt === null) {
+            setLoginResult('preference');
+          } else {
+            setLoginResult('home');
+          }
+        }
+      } else {
+        setIsError(true);
+        setErrorMsg(response.message);
+      }
+    } catch (error) {
+      setIsError(true);
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status &&
+        error.response?.status >= 400
+      ) {
+        if (error.response?.data?.data?.email) {
+          setErrorData(error.response?.data?.data?.email);
+        } else if (error.response?.data?.data?.phoneNumber) {
+          setErrorData(error.response?.data?.data?.phoneNumber);
+        }
+        setErrorMsg(error.response?.data?.message);
+        setErrorCode(error.response?.data?.code);
+      } else if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -413,5 +526,8 @@ export const useAuthHook = () => {
     setSsoError,
     ssoType,
     ssoId,
+    forgotPassword,
+    confirmEmailOtpFP,
+    onChangePassword,
   };
 };
