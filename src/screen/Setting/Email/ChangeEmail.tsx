@@ -6,6 +6,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../../../theme/Color';
 import {RootStackParams} from '../../../navigations';
 import {ChangeEmailContent} from '../../../components';
+import {profileStorage} from '../../../hooks/use-storage.hook';
 
 export const ChangeEmailScreen: React.FC = () => {
   const navigation =
@@ -17,7 +18,10 @@ export const ChangeEmailScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <ChangeEmailContent onPressGoBack={onPressGoBack} />
+      <ChangeEmailContent
+        email={profileStorage()?.email}
+        onPressGoBack={onPressGoBack}
+      />
     </View>
   );
 };

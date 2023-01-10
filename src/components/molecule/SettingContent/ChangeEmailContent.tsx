@@ -8,14 +8,16 @@ import {ArrowLeftIcon} from '../../../assets/icon';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 
 interface ChangeEmailProps {
+  email: string | undefined;
   onPressGoBack: () => void;
 }
 
 export const ChangeEmailContent: React.FC<ChangeEmailProps> = ({
+  email,
   onPressGoBack,
 }) => {
   const [state, setState] = useState({
-    oldEmail: 'H@sunnysideup.io',
+    oldEmail: email,
     newEmail: '',
     verifCode: '',
   });
