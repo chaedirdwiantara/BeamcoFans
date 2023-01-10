@@ -50,12 +50,13 @@ export const useMusicianHook = () => {
   const setFollowMusician = async (
     props?: FollowMusicianPropsType,
     params?: ParamsProps,
+    notTriggeredGetList?: boolean | undefined,
   ) => {
     setIsLoading(true);
     try {
       const response = await followMusician(props);
       setDataFollow(response.data);
-      getListDataMusician(params);
+      !notTriggeredGetList && getListDataMusician(params);
     } catch (error) {
       console.log(error);
       setIsError(true);
@@ -69,12 +70,13 @@ export const useMusicianHook = () => {
   const setUnfollowMusician = async (
     props?: FollowMusicianPropsType,
     params?: ParamsProps,
+    notTriggeredGetList?: boolean | undefined,
   ) => {
     setIsLoading(true);
     try {
       const response = await unfollowMusician(props);
       setDataFollow(response.data);
-      getListDataMusician(params);
+      !notTriggeredGetList && getListDataMusician(params);
     } catch (error) {
       console.log(error);
       setIsError(true);

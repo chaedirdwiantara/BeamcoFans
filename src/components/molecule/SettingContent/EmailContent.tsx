@@ -9,11 +9,13 @@ import {MenuText} from '../../atom/MenuText/MenuText';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 
 interface EmailProps {
+  email: string | undefined;
   onPressGoBack: () => void;
   goToChangeEmail: () => void;
 }
 
 export const EmailContent: React.FC<EmailProps> = ({
+  email,
   onPressGoBack,
   goToChangeEmail,
 }) => {
@@ -28,7 +30,7 @@ export const EmailContent: React.FC<EmailProps> = ({
       />
       <SsuInput.InputLabel
         label="Email"
-        value={'H@sunnysideup.io'}
+        value={email}
         editable={false}
         containerInputStyles={{borderBottomWidth: 0}}
         containerStyles={styles.containerInput}

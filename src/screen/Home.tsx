@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,7 +7,11 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
-import {useNavigation, useIsFocused} from '@react-navigation/native';
+import {
+  useNavigation,
+  useIsFocused,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {
@@ -34,6 +38,7 @@ import {SongList} from '../interface/song.interface';
 import * as FCMService from '../service/notification';
 import {usePlayerHook} from '../hooks/use-player.hook';
 import {useBannerHook} from '../hooks/use-banner.hook';
+import {useSearchHook} from '../hooks/use-search.hook';
 import {ParamsProps} from '../interface/base.interface';
 import {profileStorage} from '../hooks/use-storage.hook';
 import {useMusicianHook} from '../hooks/use-musician.hook';
@@ -67,16 +72,32 @@ export const HomeScreen: React.FC = () => {
     seekPlayer,
     setMusicDataPlayer,
   } = usePlayerHook();
+  const {
+    dataSearchMusicians,
+    dataSearchSongs,
+    getSearchMusicians,
+    getSearchSongs,
+  } = useSearchHook();
 
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    getListDataMusician({filterBy: 'top'});
     getListDataBanner();
-    getListDataSong();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (isLogin) {
+        getListDataMusician({filterBy: 'top'});
+        getListDataSong();
+      } else {
+        getSearchMusicians({keyword: '', filterBy: 'top'});
+        getSearchSongs({keyword: '', filterBy: 'top'});
+      }
+    }, []),
+  );
 
   useEffect(() => {
     if (isFocused && isPlay) {
@@ -231,7 +252,7 @@ export const HomeScreen: React.FC = () => {
           />
           {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
             <TopMusician
-              dataMusician={dataMusician ? dataMusician : []}
+              dataMusician={isLogin ? dataMusician : dataSearchMusicians}
               setFollowMusician={(
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,
@@ -243,7 +264,7 @@ export const HomeScreen: React.FC = () => {
             />
           ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
             <TopSong
-              dataSong={dataSong ? dataSong : []}
+              dataSong={isLogin ? dataSong : dataSearchSongs}
               onPress={onPressTopSong}
               type={'home'}
             />

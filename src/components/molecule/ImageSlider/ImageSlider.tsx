@@ -63,8 +63,8 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
 
   const followOnPress = (index: string, isFollowed: boolean) => {
     isFollowed
-      ? setUnfollowMusician({musicianID: index}, {filterBy: 'top'})
-      : setFollowMusician({musicianID: index}, {filterBy: 'top'});
+      ? setUnfollowMusician({musicianID: index}, {perPage: 5})
+      : setFollowMusician({musicianID: index}, {perPage: 5});
   };
 
   const handleNextSlide = () => {
@@ -93,7 +93,10 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   const handleScroll: OnScrollEventHandler = event => {
     let offsetX = event.nativeEvent.contentOffset.x;
     const page = Math.ceil(offsetX / width);
-    page < 3 ? setActiveIndexSlide(Math.ceil(offsetX / width)) : onPress;
+    const totalPage = type === 'Preference' ? 4 : 3;
+    page < totalPage
+      ? setActiveIndexSlide(Math.ceil(offsetX / width))
+      : onPress;
   };
 
   const onPressNext =
@@ -211,6 +214,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
+    // marginBottom: heightPercentage(20)
   },
   image: {
     width,

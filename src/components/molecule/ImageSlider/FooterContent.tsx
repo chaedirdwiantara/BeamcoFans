@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     width: widthPercentage(327),
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: heightPercentage(40),
+    marginTop: heightPercentage(40),
   },
   btnContainer: {
     width: widthPercentage(155),
