@@ -5,6 +5,7 @@ import {FlashList} from '@shopify/flash-list';
 import {SongList} from '../../interface/song.interface';
 import {elipsisText, heightResponsive} from '../../utils';
 import {ListDataSearchSongs} from '../../interface/search.interface';
+import {usePlayerHook} from '../../hooks/use-player.hook';
 
 interface TopSongPropsScreen {
   type?: string;
@@ -28,9 +29,10 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
     rightIconComponent,
     onPressIcon,
   } = props;
+  const {musicData, isPlay} = usePlayerHook();
 
   return (
-    <FlashList
+    <FlashList<SongList | ListDataSearchSongs>
       data={dataSong}
       showsVerticalScrollIndicator={false}
       scrollEnabled={scrollable}
@@ -43,7 +45,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
           singerName={item.musicianName}
           onPressCard={type === 'home' ? () => onPress(item) : undefined}
           containerStyles={{marginTop: mvs(20)}}
-          played={type === 'home' ? item.played : false}
+          played={type === 'home' ? isPlay && item.id === musicData.id : false}
           hideDropdownMore={hideDropdownMore}
           rightIcon={rightIcon}
           rightIconComponent={rightIconComponent}
@@ -51,6 +53,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
         />
       )}
       estimatedItemSize={heightResponsive(500)}
+      extraData={[musicData, isPlay]}
     />
   );
 };
