@@ -13,16 +13,27 @@ import {color} from '../../theme';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 
 const MusicControl = () => {
-  const [shuffle, setShuffle] = useState<boolean>(false);
-  const [repeat, setRepeat] = useState<boolean>(false);
-  const {isPlay, setPlaySong, setPauseSong, setNextPrevTrack} = usePlayerHook();
+  const {
+    isPlay,
+    isShuffle,
+    repeat,
+    setPlaySong,
+    setPauseSong,
+    setNextPrevTrack,
+    setShufflePlayer,
+    setRepeatPlayer,
+  } = usePlayerHook();
 
-  const suffleOnpress = () => {
-    setShuffle(!shuffle);
+  const shuffleOnpress = () => {
+    setShufflePlayer(!isShuffle);
   };
 
   const repeatOnPress = () => {
-    setRepeat(!repeat);
+    if (repeat === 'off') {
+      setRepeatPlayer('all');
+    } else {
+      setRepeatPlayer('off');
+    }
   };
 
   const handlePlayPaused = () => {
@@ -44,9 +55,9 @@ const MusicControl = () => {
   return (
     <View style={styles.bottomIconWrapper}>
       <TouchableOpacity
-        onPress={suffleOnpress}
+        onPress={shuffleOnpress}
         style={[styles.touchableStyle, {alignItems: 'flex-start'}]}>
-        <ShuffleIcon fill={shuffle ? color.Success[400] : undefined} />
+        <ShuffleIcon fill={isShuffle ? color.Success[400] : undefined} />
       </TouchableOpacity>
 
       <TouchableOpacity onPress={handlePrevTrack} style={styles.touchableStyle}>
@@ -66,7 +77,7 @@ const MusicControl = () => {
       <TouchableOpacity
         onPress={repeatOnPress}
         style={[styles.touchableStyle, {alignItems: 'flex-end'}]}>
-        <RepeatIcon fill={repeat ? color.Success[400] : undefined} />
+        <RepeatIcon fill={repeat !== 'off' ? color.Success[400] : undefined} />
       </TouchableOpacity>
     </View>
   );

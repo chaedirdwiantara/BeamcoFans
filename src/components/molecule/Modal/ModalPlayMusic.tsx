@@ -27,12 +27,16 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
     currentProgress,
     duration,
     isPlay,
+    repeat,
+    playlist,
     setPlayerRef,
     hidePlayer,
     setDurationPlayer,
     setProgressPlayer,
     setPauseSong,
     setPlaySong,
+    seekPlayer,
+    setNextPrevTrack,
   } = usePlayerHook();
   const playRef = useRef<Video | null>(null);
 
@@ -117,14 +121,23 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
           uri: musicData.musicUrl,
         }}
         onLoad={e => {
+          seekPlayer(0);
           setDurationPlayer(e.duration);
         }}
         onProgress={e => {
           setProgressPlayer(e.currentTime);
         }}
         paused={!isPlay}
+        repeat={
+          musicData.id < playlist[playlist.length - 1].id || repeat !== 'off'
+        }
         onEnd={() => {
-          setPauseSong();
+          if (
+            musicData.id < playlist[playlist.length - 1].id ||
+            repeat !== 'off'
+          ) {
+            setNextPrevTrack('next');
+          }
         }}
       />
     </Portal>
