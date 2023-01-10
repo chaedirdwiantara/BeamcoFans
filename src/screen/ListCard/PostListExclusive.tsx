@@ -1,5 +1,6 @@
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
+  Dimensions,
   FlatList,
   InteractionManager,
   Platform,
@@ -29,6 +30,7 @@ import {color, font, typography} from '../../theme';
 import {
   elipsisText,
   heightPercentage,
+  heightResponsive,
   normalize,
   widthPercentage,
   widthResponsive,
@@ -45,6 +47,8 @@ import {PostList} from '../../interface/feed.interface';
 import {dateFormat} from '../../utils/date-format';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import categoryNormalize from '../../utils/categoryNormalize';
+
+const {height} = Dimensions.get('screen');
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -273,9 +277,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
           keyExtractor={(_, index) => index.toString()}
           contentContainerStyle={{
             paddingBottom:
-              Platform.OS === 'ios'
-                ? heightPercentage(130)
-                : heightPercentage(180),
+              height >= 800 ? heightResponsive(220) : heightResponsive(160),
           }}
           renderItem={({item}) => (
             <ListCard.PostList
