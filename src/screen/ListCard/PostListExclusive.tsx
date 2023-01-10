@@ -335,7 +335,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                       flexDirection: 'row',
                     }}>
                     <SafeAreaView style={{flex: 1}}>
-                      {item.image !== null ?? (
+                      {item.image !== null ? (
                         <ImageList
                           imgData={item.image}
                           width={143}
@@ -344,7 +344,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                           widthType2={289}
                           onPress={() => {}}
                         />
-                      )}
+                      ) : null}
                     </SafeAreaView>
                   </View>
                 </View>
