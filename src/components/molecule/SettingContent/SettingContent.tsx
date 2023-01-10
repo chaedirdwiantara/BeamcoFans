@@ -96,7 +96,10 @@ export const SettingContent: React.FC<SettingProps> = ({
         removeFcmToken(token);
       },
     });
-    navigation.replace('SignInGuest');
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'SignInGuest'}],
+    });
   };
 
   return (
