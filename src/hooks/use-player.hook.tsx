@@ -101,9 +101,9 @@ export const usePlayerHook = () => {
         newSong = playerStore.playlist.filter(
           ar => ar.id === getShuffleTrack(),
         )[0];
-      } else if (playerStore.musicData.id < playerStore.playlist[0].id) {
+      } else if (playerStore.musicData.id > playerStore.playlist[0].id) {
         newSong = playerStore.playlist.filter(
-          ar => ar.id < playerStore.musicData.id,
+          ar => ar.id === playerStore.musicData.id - 1,
         )[0];
       } else {
         newSong = playerStore.playlist[playerStore.playlist.length - 1];
