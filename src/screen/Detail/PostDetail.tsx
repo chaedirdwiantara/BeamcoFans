@@ -40,6 +40,8 @@ import {
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {TickCircleIcon} from '../../assets/icon';
 import {makeId} from './function';
+import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
+import categoryNormalize from '../../utils/categoryNormalize';
 
 type cmntToCmnt = {
   id: string;
@@ -60,6 +62,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     dataPostDetail,
     dataCmntToCmnt,
     dataLoadMore,
+    feedIsLoading,
     setLikePost,
     setUnlikePost,
     setCommentToPost,
@@ -434,7 +437,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
               musicianId={`@${data.musician.username}`}
               imgUri={data.musician.imageProfileUrl}
               postDate={dateFormat(data.updatedAt)}
-              category={data.category}
+              category={categoryNormalize(data.category)}
               likeOnPress={() =>
                 likeOnPress(dataPostDetail.id, dataPostDetail.isLiked)
               }
@@ -588,6 +591,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           modalVisible={modalSuccessDonate && trigger2ndModal}
           toggleModal={onPressSuccess}
         />
+        <ModalLoading visible={feedIsLoading} />
       </ScrollView>
     </SafeAreaView>
   );
