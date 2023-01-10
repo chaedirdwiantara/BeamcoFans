@@ -385,7 +385,7 @@ export const useAuthHook = () => {
   const onLogout = async () => {
     try {
       storage.clearAll();
-      storage.set('isOnboard', true);
+      storage.set('skipOnboard', true);
       await deleteTokenFCM();
     } catch (err) {
       console.log(err);
