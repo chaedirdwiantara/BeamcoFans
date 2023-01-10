@@ -151,11 +151,16 @@ export const ForgotPassword: FC = () => {
       } else if (watch('page') === 'newPass') {
         if (!isError && loginResult !== null) {
           storage.set('isLogin', true);
-          navigation.pop();
           if (loginResult === 'preference') {
-            navigation.replace('Preference');
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'Preference'}],
+            });
           } else {
-            navigation.replace('MainTab');
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'MainTab'}],
+            });
           }
         }
       }
@@ -198,8 +203,10 @@ export const ForgotPassword: FC = () => {
   };
 
   const onPressConfirm = async () => {
-    navigation.pop();
-    navigation.replace('Login');
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Login'}],
+    });
   };
 
   //  email
