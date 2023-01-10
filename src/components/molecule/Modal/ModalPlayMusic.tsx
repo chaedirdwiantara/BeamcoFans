@@ -129,7 +129,7 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
         }}
         paused={!isPlay}
         repeat={
-          musicData.id < playlist[playlist.length - 1].id || repeat !== 'off'
+          musicData?.id < playlist[playlist?.length - 1]?.id || repeat !== 'off'
         }
         onEnd={() => {
           if (
