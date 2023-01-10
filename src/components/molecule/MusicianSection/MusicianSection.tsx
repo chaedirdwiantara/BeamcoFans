@@ -39,9 +39,15 @@ interface DataMore {
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const {isFollowed, followOnPress, musicianId} = props;
-  const follow = isFollowed ? 'Unfollow' : 'Follow';
-  const [textFollow, setTextFollow] = useState(follow);
-  const [dropdownText, setDropdownText] = useState(follow);
+
+  useEffect(() => {
+    const follow = isFollowed ? 'Unfollow' : 'Follow';
+    setTextFollow(follow);
+    setDropdownText(follow);
+  }, [isFollowed]);
+
+  const [textFollow, setTextFollow] = useState('Follow');
+  const [dropdownText, setDropdownText] = useState('Follow');
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
