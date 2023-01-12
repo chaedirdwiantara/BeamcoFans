@@ -35,7 +35,6 @@ import {
   CommentList,
   CommentList2,
   CommentList3,
-  DetailPostData,
 } from '../../interface/feed.interface';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {TickCircleIcon} from '../../assets/icon';
