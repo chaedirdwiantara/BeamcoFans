@@ -8,7 +8,6 @@ import PostListPublic from './ListCard/PostListPublic';
 import {heightPercentage, widthResponsive} from '../utils';
 import PostListExclusive from './ListCard/PostListExclusive';
 import {GuestContent, TabFilter, TopNavigation} from '../components';
-import {PostlistData, PostlistDataExclusive} from '../data/postlist';
 import {dropDownDataCategory, dropDownDataSort} from '../data/dropdown';
 import {useIsFocused} from '@react-navigation/native';
 import {usePlayerHook} from '../hooks/use-player.hook';
@@ -63,13 +62,11 @@ export const FeedScreen: React.FC = () => {
               <PostListPublic
                 dataRightDropdown={dropDownDataCategory}
                 dataLeftDropdown={dropDownDataSort}
-                data={PostlistData}
               />
             ) : (
               <PostListExclusive
                 dataRightDropdown={dropDownDataCategory}
                 dataLeftDropdown={dropDownDataSort}
-                data={PostlistDataExclusive}
               />
             )}
           </View>
