@@ -3,8 +3,6 @@ import {
   Dimensions,
   FlatList,
   InteractionManager,
-  Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -25,7 +23,6 @@ import {
   DropDownFilterType,
   DropDownSortType,
 } from '../../data/dropdown';
-import {PostListType} from '../../data/postlist';
 import {color, font, typography} from '../../theme';
 import {
   elipsisText,
@@ -53,13 +50,13 @@ const {height} = Dimensions.get('screen');
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
   dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
-  data: PostListType[];
+  uuidMusician?: string;
 }
 
 const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {dataRightDropdown, dataLeftDropdown, data} = props;
+  const {dataRightDropdown, dataLeftDropdown, uuidMusician = ''} = props;
 
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
@@ -100,8 +97,10 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
 
   useFocusEffect(
     useCallback(() => {
-      getListDataExclusivePost();
-    }, []),
+      uuidMusician !== ''
+        ? getListDataExclusivePost({musician_uuid: uuidMusician})
+        : getListDataExclusivePost();
+    }, [uuidMusician]),
   );
 
   const resultDataFilter = (dataResultFilter: DataDropDownType) => {
@@ -271,90 +270,99 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
         </View>
       </View>
       {dataPostList !== null && dataPostList.length !== 0 ? (
-        <FlatList
-          data={dataPostList}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(_, index) => index.toString()}
-          contentContainerStyle={{
-            paddingBottom:
-              height >= 800 ? heightResponsive(220) : heightResponsive(160),
-          }}
-          renderItem={({item}) => (
-            <ListCard.PostList
-              musicianName={item.musician.fullname}
-              musicianId={`@${item.musician.username}`}
-              imgUri={item.musician.imageProfileUrl}
-              postDate={dateFormat(item.createdAt)}
-              category={categoryNormalize(item.category)}
-              onPress={() => cardOnPress(item)}
-              likeOnPress={() => likeOnPress(item.id, item.isLiked)}
-              likePressed={
-                selectedId === undefined
-                  ? item.isLiked
-                  : selectedId.includes(item.id) && recorder.includes(item.id)
-                  ? true
-                  : !selectedId.includes(item.id) && recorder.includes(item.id)
-                  ? false
-                  : !selectedId.includes(item.id) && !recorder.includes(item.id)
-                  ? item.isLiked
-                  : item.isLiked
-              }
-              likeCount={
-                selectedId === undefined
-                  ? item.likesCount
-                  : selectedId.includes(item.id) &&
-                    recorder.includes(item.id) &&
-                    item.isLiked === true
-                  ? item.likesCount
-                  : selectedId.includes(item.id) &&
-                    recorder.includes(item.id) &&
-                    item.isLiked === false
-                  ? item.likesCount + 1
-                  : !selectedId.includes(item.id) &&
-                    recorder.includes(item.id) &&
-                    item.isLiked === true
-                  ? item.likesCount - 1
-                  : !selectedId.includes(item.id) &&
-                    recorder.includes(item.id) &&
-                    item.isLiked === false
-                  ? item.likesCount
-                  : item.likesCount
-              }
-              commentOnPress={() =>
-                commentOnPress(item.id, item.musician.username)
-              }
-              tokenOnPress={tokenOnPress}
-              shareOnPress={shareOnPress}
-              containerStyles={{marginTop: mvs(16)}}
-              commentCount={item.commentsCount}
-              children={
-                <View style={{width: '100%'}}>
-                  <Text style={styles.childrenPostTitle}>
-                    {elipsisText(item.caption, 600)}
-                  </Text>
-                  <Gap height={4} />
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                    }}>
-                    <SafeAreaView style={{flex: 1}}>
-                      {item.image !== null ? (
-                        <ImageList
-                          imgData={item.image}
-                          width={143}
-                          height={69.5}
-                          heightType2={142}
-                          widthType2={289}
-                          onPress={() => {}}
-                        />
-                      ) : null}
-                    </SafeAreaView>
+        <View style={{flex: 1}}>
+          <FlatList
+            data={dataPostList}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(_, index) => index.toString()}
+            contentContainerStyle={{
+              flexGrow: 1,
+              paddingBottom:
+                uuidMusician !== ''
+                  ? undefined
+                  : height >= 800
+                  ? heightResponsive(220)
+                  : heightResponsive(160),
+            }}
+            renderItem={({item}) => (
+              <ListCard.PostList
+                musicianName={item.musician.fullname}
+                musicianId={`@${item.musician.username}`}
+                imgUri={item.musician.imageProfileUrl}
+                postDate={dateFormat(item.createdAt)}
+                category={categoryNormalize(item.category)}
+                onPress={() => cardOnPress(item)}
+                likeOnPress={() => likeOnPress(item.id, item.isLiked)}
+                likePressed={
+                  selectedId === undefined
+                    ? item.isLiked
+                    : selectedId.includes(item.id) && recorder.includes(item.id)
+                    ? true
+                    : !selectedId.includes(item.id) &&
+                      recorder.includes(item.id)
+                    ? false
+                    : !selectedId.includes(item.id) &&
+                      !recorder.includes(item.id)
+                    ? item.isLiked
+                    : item.isLiked
+                }
+                likeCount={
+                  selectedId === undefined
+                    ? item.likesCount
+                    : selectedId.includes(item.id) &&
+                      recorder.includes(item.id) &&
+                      item.isLiked === true
+                    ? item.likesCount
+                    : selectedId.includes(item.id) &&
+                      recorder.includes(item.id) &&
+                      item.isLiked === false
+                    ? item.likesCount + 1
+                    : !selectedId.includes(item.id) &&
+                      recorder.includes(item.id) &&
+                      item.isLiked === true
+                    ? item.likesCount - 1
+                    : !selectedId.includes(item.id) &&
+                      recorder.includes(item.id) &&
+                      item.isLiked === false
+                    ? item.likesCount
+                    : item.likesCount
+                }
+                commentOnPress={() =>
+                  commentOnPress(item.id, item.musician.username)
+                }
+                tokenOnPress={tokenOnPress}
+                shareOnPress={shareOnPress}
+                containerStyles={{marginTop: mvs(16)}}
+                commentCount={item.commentsCount}
+                children={
+                  <View style={{width: '100%'}}>
+                    <Text style={styles.childrenPostTitle}>
+                      {elipsisText(item.caption, 600)}
+                    </Text>
+                    <Gap height={4} />
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                      }}>
+                      <View style={{height: '100%', width: '100%'}}>
+                        {item.image !== null ? (
+                          <ImageList
+                            imgData={item.image}
+                            width={143}
+                            height={69.5}
+                            heightType2={142}
+                            widthType2={289}
+                            onPress={() => {}}
+                          />
+                        ) : null}
+                      </View>
+                    </View>
                   </View>
-                </View>
-              }
-            />
-          )}
-        />
+                }
+              />
+            )}
+          />
+        </View>
       ) : dataPostList?.length === 0 &&
         feedMessage === 'you not follow anyone' ? (
         <ListToFollowMusician />

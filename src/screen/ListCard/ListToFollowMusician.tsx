@@ -1,10 +1,12 @@
-import {FlatList, StyleSheet, Text} from 'react-native';
+import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useCallback} from 'react';
 import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {color, font} from '../../theme';
 import {useMusicianHook} from '../../hooks/use-musician.hook';
 import {useFocusEffect} from '@react-navigation/native';
+import {heightResponsive} from '../../utils';
+const {height} = Dimensions.get('screen');
 
 const ListToFollowMusician = () => {
   const {
@@ -21,16 +23,17 @@ const ListToFollowMusician = () => {
   );
 
   return (
-    <>
+    <View>
       <Text style={styles.textStyle}>People who might fit your interest</Text>
       <FlatList
         data={dataMusician}
+        scrollEnabled={true}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({item, index}) => (
           <ListCard.FollowMusician
             musicianName={item.fullname}
-            imgUri={`${item.imageProfileUrl}`}
+            imgUri={item.imageProfileUrl}
             followerCount={item.followers}
             followOnPress={() =>
               item.isFollowed
@@ -41,8 +44,12 @@ const ListToFollowMusician = () => {
             containerStyles={{marginTop: mvs(20)}}
           />
         )}
+        contentContainerStyle={{
+          paddingBottom:
+            height >= 800 ? heightResponsive(360) : heightResponsive(300),
+        }}
       />
-    </>
+    </View>
   );
 };
 

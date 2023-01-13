@@ -14,4 +14,5 @@ export type ParamsProps = {
   fansUUID?: string;
   keyword?: string;
   perPage?: number;
+  musician_uuid?: string;
 };
