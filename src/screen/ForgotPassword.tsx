@@ -114,12 +114,6 @@ export const ForgotPassword: FC = () => {
     confirmEmailOtpFP(watch('email'), otp);
     setCode(otp);
   };
-  const handleOnPressBack = () => {
-    navigation.goBack();
-  };
-  const handleOtpBack = () => {
-    // setPage('emailInput');
-  };
 
   const handleOnPressSubmit: SubmitHandler<
     ForgotPasswordProps
@@ -162,6 +156,11 @@ export const ForgotPassword: FC = () => {
               routes: [{name: 'MainTab'}],
             });
           }
+        } else {
+          setError('confirmPassword', {
+            type: 'value',
+            message: errorMsg,
+          });
         }
       }
     }
@@ -172,7 +171,11 @@ export const ForgotPassword: FC = () => {
     if (watch('page') === 'newPass') {
       openModal('modalConfirm');
       return true;
-    } else {
+    } else if (watch('page') === 'otp') {
+      setValue('page', 'emailInput');
+      return false;
+    } else if (watch('page') === 'emailInput') {
+      navigation.goBack();
       return false;
     }
   }
@@ -258,7 +261,7 @@ export const ForgotPassword: FC = () => {
           borderColor="transparent"
           textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
           containerStyles={{width: '100%'}}
-          onPress={handleOnPressBack}
+          onPress={handleBackButtonClick}
         />
         <Gap height={10} />
       </>
@@ -300,7 +303,7 @@ export const ForgotPassword: FC = () => {
           borderColor="transparent"
           textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
           containerStyles={{width: '100%'}}
-          onPress={handleOtpBack}
+          onPress={handleBackButtonClick}
         />
         <Gap height={10} />
       </>
