@@ -110,7 +110,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                   onPress={() => onPressGoTo('CreateNewPlaylist')}
                 />
                 <ListPlaylist
-                  data={dataPlaylist}
+                  data={dataPlaylist === null ? [] : dataPlaylist}
                   onPress={goToPlaylist}
                   scrollable={false}
                 />
