@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -13,6 +13,7 @@ import {FollowMusicianPropsType} from '../../interface/musician.interface';
 export const FollowingScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const [search, setSearch] = useState<string>('');
 
   const {
     dataMusician,
@@ -23,8 +24,8 @@ export const FollowingScreen: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getListDataMusician({fansUUID: profileStorage()?.uuid});
-    }, []),
+      getListDataMusician({fansUUID: profileStorage()?.uuid, keyword: search});
+    }, [search]),
   );
 
   const onPressGoBack = () => {
@@ -34,11 +35,13 @@ export const FollowingScreen: React.FC = () => {
   return (
     <View style={styles.root}>
       <FollowingList
+        search={search}
+        setSearch={setSearch}
         setFollowMusician={(props?: FollowMusicianPropsType) =>
-          setFollowMusician(props, {}, true)
+          setFollowMusician(props, {keyword: search}, true)
         }
         setUnfollowMusician={(props?: FollowMusicianPropsType) =>
-          setUnfollowMusician(props, {}, true)
+          setUnfollowMusician(props, {keyword: search}, true)
         }
         dataList={dataMusician}
         onPressGoBack={onPressGoBack}
