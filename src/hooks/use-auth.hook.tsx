@@ -15,6 +15,7 @@ import {
   forgotPasswordEmail,
   confirmEmailOtpForgotPassword,
   changePassword,
+  changePasswordSetting,
 } from '../api/auth.api';
 import {
   LoginPhonePropsType,
@@ -499,6 +500,45 @@ export const useAuthHook = () => {
     }
   };
 
+  const onChangePasswordSetting = async (
+    password: string,
+    newPassword: string,
+  ) => {
+    setIsLoading(true);
+    setIsError(false);
+    setErrorMsg('');
+    try {
+      const response = await changePasswordSetting(password, newPassword);
+      if (response.code === 200) {
+        if (response.data.accessToken) {
+          storage.set('profile', JSON.stringify(response.data));
+        }
+      } else {
+        setIsError(true);
+        setErrorMsg(response.message);
+      }
+    } catch (error) {
+      setIsError(true);
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status &&
+        error.response?.status >= 400
+      ) {
+        if (error.response?.data?.data?.email) {
+          setErrorData(error.response?.data?.data?.email);
+        } else if (error.response?.data?.data?.phoneNumber) {
+          setErrorData(error.response?.data?.data?.phoneNumber);
+        }
+        setErrorMsg(error.response?.data?.message);
+        setErrorCode(error.response?.data?.code);
+      } else if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -530,5 +570,6 @@ export const useAuthHook = () => {
     forgotPassword,
     confirmEmailOtpFP,
     onChangePassword,
+    onChangePasswordSetting,
   };
 };
