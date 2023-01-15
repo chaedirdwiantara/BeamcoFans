@@ -8,6 +8,8 @@ import {
 } from '../interface/search.interface';
 import SsuAPI from './basePublic';
 import SsuAPISemeru from './baseSemeruPublic';
+import {PaginationType} from '../interface/base.interface';
+import {ListBannerResponseType} from '../interface/banner.interface';
 
 export const fansSearch = async (
   props?: SearchProps,
@@ -62,6 +64,18 @@ export const playlistSearch = async (
 ): Promise<ListSearchPlaylistsResponseType> => {
   const {data} = await SsuAPISemeru().request<ListSearchPlaylistsResponseType>({
     url: '/playlists',
+    method: 'GET',
+    params: props,
+  });
+
+  return data;
+};
+
+export const listBannerPublic = async (
+  props?: PaginationType,
+): Promise<ListBannerResponseType> => {
+  const {data} = await SsuAPI().request<ListBannerResponseType>({
+    url: '/banner',
     method: 'GET',
     params: props,
   });
