@@ -12,6 +12,7 @@ import {RootStackParams} from '../../navigations';
 import {storage} from '../../hooks/use-storage.hook';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useProfileHook} from '../../hooks/use-profile.hook';
+import {profileStorage} from '../../hooks/use-storage.hook';
 import {GuestContent, ProfileContent} from '../../components';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 
@@ -40,7 +41,7 @@ export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
 
   useFocusEffect(
     useCallback(() => {
-      getPlaylist();
+      getPlaylist({uuid: profileStorage()?.uuid});
       getProfileUser();
     }, []),
   );
