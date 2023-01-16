@@ -16,13 +16,7 @@ import {profileStorage} from '../../hooks/use-storage.hook';
 import {GuestContent, ProfileContent} from '../../components';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 
-interface ProfileProps {
-  props: {};
-  route: any;
-}
-
-export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
-  const {params} = props?.route;
+export const ProfileScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataProfile, getProfileUser} = useProfileHook();
@@ -41,8 +35,8 @@ export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
 
   useFocusEffect(
     useCallback(() => {
-      getPlaylist({uuid: profileStorage()?.uuid});
       getProfileUser();
+      getPlaylist({uuid: profileStorage()?.uuid});
     }, []),
   );
 
@@ -53,7 +47,7 @@ export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
   };
 
   const goToEditProfile = () => {
-    navigation.navigate('EditProfile', {...params, ...dataProfile});
+    navigation.navigate('EditProfile', {...dataProfile});
   };
 
   const goToPlaylist = (id: number) => {
@@ -61,16 +55,12 @@ export const ProfileScreen: React.FC<ProfileProps> = (props: ProfileProps) => {
   };
 
   const profile = {
-    fullname: dataProfile?.data.fullname,
-    username: '@' + dataProfile?.data.username,
-    bio:
-      params?.bio ||
-      dataProfile?.data.about ||
-      "I'm here to support the musician",
-    backgroundUri:
-      params?.backgroundUri?.path || dataProfile?.data?.banner || null,
-    avatarUri: params?.avatarUri?.path || dataProfile?.data.imageProfileUrl,
-    totalFollowing: dataProfile?.data.following,
+    fullname: dataProfile?.fullname,
+    username: '@' + dataProfile?.username,
+    bio: dataProfile?.about || "I'm here to support the musician",
+    backgroundUri: dataProfile?.banner || null,
+    avatarUri: dataProfile?.imageProfileUrl,
+    totalFollowing: dataProfile?.following,
   };
 
   return (
