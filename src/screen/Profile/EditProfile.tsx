@@ -18,8 +18,10 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
   const dataProfile = route.params;
   const {updateProfileUser} = useProfileHook();
 
-  const [avatarUri, setAvatarUri] = useState('');
-  const [backgroundUri, setBackgroundUri] = useState('');
+  const [avatarUri, setAvatarUri] = useState(
+    dataProfile?.imageProfileUrl || '',
+  );
+  const [backgroundUri, setBackgroundUri] = useState(dataProfile?.banner || '');
 
   const goBack = () => {
     navigation.goBack();
@@ -56,8 +58,8 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
     fullname: dataProfile?.fullname,
     username: '@' + dataProfile?.username,
     bio: dataProfile?.about || "I'm here to support the musician",
-    avatarUri: avatarUri || dataProfile?.imageProfileUrl,
-    backgroundUri: backgroundUri || dataProfile?.banner,
+    avatarUri: avatarUri,
+    backgroundUri: backgroundUri,
   };
 
   return (
