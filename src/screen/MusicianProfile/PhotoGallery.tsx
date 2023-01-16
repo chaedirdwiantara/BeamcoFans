@@ -1,14 +1,14 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const Gallery = () => {
+const PhotoGallery = () => {
   return (
     <View>
-      <Text>Gallery</Text>
+      <Text>PhotoGallery</Text>
     </View>
   );
 };
 
-export default Gallery;
+export default PhotoGallery;
 
 const styles = StyleSheet.create({});

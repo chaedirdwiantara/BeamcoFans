@@ -14,6 +14,7 @@ import {HomeScreen} from '../screen/Home';
 import {LoginScreen} from '../screen/Login';
 import {OnboardScreen} from '../screen/Onboard';
 import {Otp} from '../screen/Otp';
+import PhotoGallery from '../screen/MusicianProfile/PhotoGallery';
 import {PreferenceScreen} from '../screen/Preference';
 import {ReferralScreen} from '../screen/Referral';
 import {SignInGuestScreen} from '../screen/SignInGuest';
@@ -110,6 +111,7 @@ export type RootStackParams = {
     context?: string;
   };
   PhoneNumber: undefined;
+  PhotoGallery: undefined;
   Playlist: {
     id: number;
   };
@@ -297,6 +299,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="TopupCoin" component={TopupCoinScreen} />
     <RootStack.Screen name="MerchDetail" component={MerchDetail} />
     <RootStack.Screen name="ConcertDetail" component={ConcertDetail} />
+    <RootStack.Screen name="PhotoGallery" component={PhotoGallery} />
   </RootStack.Navigator>
 );
 

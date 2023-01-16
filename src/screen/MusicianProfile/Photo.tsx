@@ -13,10 +13,11 @@ interface dataAlbum {
 interface PhotoProps {
   title: string;
   data: dataAlbum[];
+  photoOnpress: () => void;
 }
 
 const Photo: FC<PhotoProps> = (props: PhotoProps) => {
-  const {title, data} = props;
+  const {title, data, photoOnpress} = props;
   return (
     <View style={{marginHorizontal: widthResponsive(24), width: '100%'}}>
       <Title text={title} />
@@ -53,7 +54,9 @@ const Photo: FC<PhotoProps> = (props: PhotoProps) => {
                       size={widthResponsive(76)}
                     />
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.textNumberStyle}>
+                  <TouchableOpacity
+                    style={styles.textNumberStyle}
+                    onPress={photoOnpress}>
                     <Text style={styles.textPhotos}>{`+${
                       data.length - 3
                     }`}</Text>
