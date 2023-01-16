@@ -1,57 +1,78 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Image} from 'react-native-image-crop-picker';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
 import Color from '../../theme/Color';
-import {RootStackParams} from '../../navigations';
 import {EditProfile} from '../../components';
+import {RootStackParams} from '../../navigations';
+import {uploadImage} from '../../api/uploadImage.api';
 import {useProfileHook} from '../../hooks/use-profile.hook';
-import {useUploadImageHook} from '../../hooks/use-uploadImage.hook';
 
-interface ProfileProps {
-  props: {};
-  route: any;
-}
+type EditProfileProps = NativeStackScreenProps<RootStackParams, 'EditProfile'>;
 
-export const EditProfileScreen: React.FC<ProfileProps> = (
-  props: ProfileProps,
-) => {
-  const {params} = props?.route;
-
+export const EditProfileScreen: React.FC<EditProfileProps> = ({
+  navigation,
+  route,
+}: EditProfileProps) => {
+  const dataProfile = route.params;
   const {updateProfileUser} = useProfileHook();
-  const {dataImage, setUploadImage} = useUploadImageHook();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const [avatarUri, setAvatarUri] = useState('');
+  const [backgroundUri, setBackgroundUri] = useState('');
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const onPressSave = (param: any) => {
-    updateProfileUser({
-      about: param.bio,
-    });
-    navigation.navigate('Profile', {...param});
+  const onPressSave = (param: {bio: string}) => {
+    updateProfileUser(
+      {
+        about: param.bio,
+        imageProfileUrl: avatarUri,
+        banner: backgroundUri,
+      },
+      true,
+    );
+    navigation.goBack();
+  };
+
+  const setResetImage = (type: string) => {
+    type === 'avatarUri' ? setAvatarUri('') : setBackgroundUri('');
+  };
+
+  const setUploadImage = async (image: Image, type: string) => {
+    try {
+      const response = await uploadImage(image);
+      type === 'avatarUri'
+        ? setAvatarUri(response.data)
+        : setBackgroundUri(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const profile = {
-    fullname: params?.data?.fullname || 'Kendal Jenner',
-    username: '@' + params?.data?.username || 'kendaljenner',
-    bio:
-      params?.bio || params?.data?.about || "I'm here to support the musician",
-    backgroundUri: params?.backgroundUri?.path || params?.data?.banner || null,
-    avatarUri: params?.avatarUri?.path || params?.data?.imageProfileUrl,
+    fullname: dataProfile?.fullname,
+    username: '@' + dataProfile?.username,
+    bio: dataProfile?.about || "I'm here to support the musician",
+    avatarUri: avatarUri || dataProfile?.imageProfileUrl,
+    backgroundUri: backgroundUri || dataProfile?.banner,
   };
 
   return (
     <View style={styles.root}>
       <EditProfile
         profile={profile}
-        onPressGoBack={goBack}
         type={'edit'}
+        onPressGoBack={goBack}
         onPressSave={onPressSave}
-        dataImage={dataImage}
-        setUploadImage={(image: any) => setUploadImage(image)}
+        setUploadImage={(image: Image, type: string) =>
+          setUploadImage(image, type)
+        }
+        setResetImage={(type: string) => {
+          setResetImage(type);
+        }}
       />
     </View>
   );
