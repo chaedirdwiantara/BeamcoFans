@@ -6,19 +6,20 @@ import {
   UpdateProfilePropsType,
 } from '../api/profile.api';
 import {applyReferral} from '../api/referral.api';
-import {ProfileResponseType} from '../interface/profile.interface';
+import {ProfileResponseData} from '../interface/profile.interface';
 
 export const useProfileHook = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isValidReferral, setIsValidReferral] = useState<boolean | null>(null);
-  const [dataProfile, setDataProfile] = useState<ProfileResponseType>();
+  const [dataProfile, setDataProfile] = useState<ProfileResponseData | null>(
+    null,
+  );
 
   const getProfileUser = async () => {
     try {
       const response = await getProfile();
-      console.log(response);
-      setDataProfile(response);
+      setDataProfile(response.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -26,9 +27,16 @@ export const useProfileHook = () => {
     }
   };
 
-  const updateProfileUser = async (props?: UpdateProfilePropsType) => {
+  const updateProfileUser = async (
+    props?: UpdateProfilePropsType,
+    triggered?: boolean,
+  ) => {
     try {
+      setDataProfile(null);
       await updateProfile(props);
+      if (triggered) {
+        getProfileUser();
+      }
     } catch (error) {
       console.log(error);
     } finally {

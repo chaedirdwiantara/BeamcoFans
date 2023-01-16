@@ -10,6 +10,26 @@ export type FavGenreType = {
   name: string;
 };
 
+export type ProfileResponseData = {
+  uuid: string;
+  username: string;
+  email: string;
+  fullname: string;
+  about: string | null;
+  banner: string | null;
+  imageProfileUrl: string | null;
+  phoneNumber: string | null;
+  registrationType: RegistrationType;
+  favoriteGenres: FavGenreType[];
+  moods: MoodsType[];
+  expectation: ExpectationType[];
+  isValid: boolean;
+  following: number | null;
+  songAdded: number | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type MoodsType = {
   id: number;
   name: string;
@@ -22,25 +42,7 @@ export type ExpectationType = {
 
 export type ProfileResponseType = {
   code: number;
-  data: {
-    uuid: string;
-    username: string;
-    email: string;
-    fullname: string;
-    about: string | null;
-    banner: string | null;
-    imageProfileUrl: string | null;
-    phoneNumber: string | null;
-    registrationType: RegistrationType;
-    favoriteGenres: FavGenreType[];
-    moods: MoodsType[];
-    expectation: ExpectationType[];
-    isValid: boolean;
-    following: number | null;
-    songAdded: number | null;
-    createdAt: string;
-    updatedAt: string;
-  };
+  data: ProfileResponseData;
   message: string;
   status: number;
 };
