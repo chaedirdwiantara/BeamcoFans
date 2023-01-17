@@ -14,13 +14,15 @@ import {
   width,
   widthPercentage,
 } from '../../../utils';
-import {color, font} from '../../../theme';
 import {Dropdown} from '../DropDown';
+import {color, font} from '../../../theme';
 import {PhotoPlaylist} from './PhotoPlaylist';
 import {TopNavigation} from '../TopNavigation';
 import {ArrowLeftIcon} from '../../../assets/icon';
 import {ModalConfirm} from '../Modal/ModalConfirm';
+import {Image} from 'react-native-image-crop-picker';
 import {dataVisibility} from '../../../data/playlist';
+import {uploadImage} from '../../../api/uploadImage.api';
 import {createPlaylist} from '../../../api/playlist.api';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {Button, ButtonGradient, SsuInput} from '../../atom';
@@ -39,6 +41,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
     playlistName: '',
     playlistDesc: '',
     isPublic: '',
+    thumbnailUrl: '',
   });
 
   const [isModalVisible, setModalVisible] = useState({
@@ -46,7 +49,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
     modalImage: false,
   });
   const [playlistUri, setPlaylistUri] = useState({
-    path: undefined,
+    path: '',
   });
   const [focusInput, setFocusInput] = useState<'name' | 'description' | null>(
     null,
@@ -60,11 +63,22 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
   };
 
   const resetImage = () => {
-    setPlaylistUri({path: undefined});
+    setPlaylistUri({path: ''});
+    setState({...state, thumbnailUrl: ''});
     closeModal();
   };
 
-  const sendUri = (val: React.SetStateAction<{path: undefined}>) => {
+  const setUploadImage = async (image: Image) => {
+    try {
+      const response = await uploadImage(image);
+      setState({...state, thumbnailUrl: response.data});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendUri = (val: Image) => {
+    setUploadImage(val);
     setPlaylistUri(val);
   };
 
@@ -91,8 +105,8 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
       const payload = {
         name: state.playlistName,
         description: state.playlistDesc,
-        thumbnailUrl: '',
-        isPublic: state.isPublic,
+        thumbnailUrl: state.thumbnailUrl,
+        isPublic: state.isPublic === 'Public',
       };
       const response = await createPlaylist(payload);
       goToPlaylist(response.data.id);

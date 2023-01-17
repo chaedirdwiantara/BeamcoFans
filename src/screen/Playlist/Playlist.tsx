@@ -41,7 +41,7 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
   };
 
   const goToAddSong = () => {
-    navigation.navigate('AddSong');
+    navigation.navigate('AddSong', dataDetailPlaylist);
   };
 
   return (

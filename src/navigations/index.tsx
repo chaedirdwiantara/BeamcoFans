@@ -92,7 +92,7 @@ import {AlbumData} from '../interface/musician.interface';
 export type RootStackParams = {
   Account: undefined;
   AddToPlaylist: undefined;
-  AddSong: undefined;
+  AddSong: Playlist;
   Album: AlbumData;
   Boarding: undefined;
   ChangeEmail: undefined;

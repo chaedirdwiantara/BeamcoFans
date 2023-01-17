@@ -1,10 +1,21 @@
 import {useState} from 'react';
 import {SongList} from '../interface/song.interface';
 import {ParamsProps} from '../interface/base.interface';
-import {Playlist, PlaylistPropsTypeA} from '../interface/playlist.interface';
-import {detailPlaylist, getListPlaylist, listSongs} from '../api/playlist.api';
+import {
+  AddSongPropsType,
+  Playlist,
+  PlaylistPropsTypeA,
+} from '../interface/playlist.interface';
+import {
+  addSong,
+  detailPlaylist,
+  getListPlaylist,
+  listSongs,
+} from '../api/playlist.api';
+import {useSongHook} from './use-song.hook';
 
 export const usePlaylistHook = () => {
+  const {getListDataSong} = useSongHook();
   const [playlistLoading, setPlaylistLoading] = useState<boolean>(false);
   const [playlistError, setPlaylistError] = useState<boolean>(false);
   const [dataPlaylist, setDataPlaylist] = useState<Playlist[]>([]);
@@ -55,6 +66,17 @@ export const usePlaylistHook = () => {
     }
   };
 
+  const setAddSongToPlaylist = async (props?: AddSongPropsType) => {
+    try {
+      await addSong(props);
+      getListDataSong();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPlaylistLoading(false);
+    }
+  };
+
   return {
     playlistLoading,
     playlistError,
@@ -64,5 +86,6 @@ export const usePlaylistHook = () => {
     getPlaylist,
     getDetailPlaylist,
     getListSongsPlaylist,
+    setAddSongToPlaylist,
   };
 };
