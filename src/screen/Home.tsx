@@ -196,7 +196,7 @@ export const HomeScreen: React.FC = () => {
       title: val.title,
       artist: val.musicianName,
       albumImg: val.imageUrl,
-      musicUrl: val.originalSongUrl,
+      musicUrl: val.transcodedSongUrl[1].encodedHlsUrl,
     });
     showPlayer();
     seekPlayer(0);

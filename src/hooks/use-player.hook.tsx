@@ -115,7 +115,7 @@ export const usePlayerHook = () => {
       title: newSong.title,
       artist: newSong.musicianName,
       albumImg: newSong.imageUrl,
-      musicUrl: newSong.originalSongUrl,
+      musicUrl: newSong.transcodedSongUrl[1].encodedHlsUrl,
     });
   };
 
