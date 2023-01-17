@@ -17,7 +17,7 @@ interface DropdownMoreProps {
   containerStyle?: ViewStyle;
 }
 
-const itemBg = color.Dark[900];
+const itemBg = color.Dark[600];
 
 const DropdownMore: React.FC<DropdownMoreProps> = (
   props: DropdownMoreProps,
