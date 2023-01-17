@@ -72,6 +72,7 @@ export const ProfileScreen: React.FC = () => {
           dataPlaylist={dataPlaylist}
           goToEditProfile={goToEditProfile}
           onPressGoTo={screenName => onPressGoTo(screenName)}
+          showCreateCard
         />
       ) : (
         <GuestContent />

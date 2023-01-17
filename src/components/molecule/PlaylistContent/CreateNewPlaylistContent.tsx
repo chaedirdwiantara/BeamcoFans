@@ -222,7 +222,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
               label="Cancel"
               containerStyles={styles.btnContainer}
               textStyles={{color: color.Pink.linear}}
-              onPress={() => null}
+              onPress={onPressGoBack}
             />
             <ButtonGradient
               label={'Create'}

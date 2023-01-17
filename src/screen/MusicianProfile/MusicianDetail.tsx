@@ -25,6 +25,7 @@ import ExclusiveDailyContent from './ExclusiveDailyContent';
 import {
   AlbumData,
   DataDetailMusician,
+  FollowMusicianPropsType,
 } from '../../interface/musician.interface';
 import {PostList} from '../../interface/feed.interface';
 import PostListPublic from '../ListCard/PostListPublic';

@@ -39,6 +39,7 @@ interface ProfileContentProps {
   onPressGoTo: (
     screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
   ) => void;
+  showCreateCard: boolean;
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -47,6 +48,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   goToPlaylist,
   onPressGoTo,
   dataPlaylist,
+  showCreateCard
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollEffect, setScrollEffect] = useState(false);
@@ -88,7 +90,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           onPress={goToEditProfile}
           iconPress={() => onPressGoTo('Setting')}
           scrollEffect={scrollEffect}
-          noEdit
+          noEdit={!showCreateCard}
         />
         <UserInfoCard
           type="self"
@@ -105,6 +107,13 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           {filter[selectedIndex].filterName === 'PLAYLIST' ? (
             TopSongListData.length > 0 ? (
               <View>
+                {showCreateCard && (
+                  <CreateNewCard
+                    num="00"
+                    text="Create New Playlist"
+                    onPress={() => onPressGoTo('CreateNewPlaylist')}
+                  />
+                )}
                 <ListPlaylist
                   data={dataPlaylist === null ? [] : dataPlaylist}
                   onPress={goToPlaylist}
