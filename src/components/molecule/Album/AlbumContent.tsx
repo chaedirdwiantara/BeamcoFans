@@ -29,12 +29,14 @@ import {
   ModalShare,
   ModalSuccessDonate,
 } from '../';
+import {SongList} from '../../../interface/song.interface';
 
 interface Props {
+  dataSong: SongList[] | null;
   onPressGoBack: () => void;
 }
 
-export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
+export const AlbumContent: React.FC<Props> = ({dataSong, onPressGoBack}) => {
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalShare, setModalShare] = useState<boolean>(false);
@@ -126,7 +128,11 @@ export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
             Song List
           </Text>
           <View style={{marginBottom: heightPercentage(30)}}>
-            <TopSong onPress={() => null} hideDropdownMore={true} />
+            <TopSong
+              dataSong={dataSong}
+              onPress={() => null}
+              hideDropdownMore={true}
+            />
           </View>
         </View>
       </ScrollView>

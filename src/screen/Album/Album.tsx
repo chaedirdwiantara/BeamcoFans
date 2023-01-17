@@ -1,13 +1,22 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {AlbumContent} from '../../components';
+import {useSongHook} from '../../hooks/use-song.hook';
 
 export const AlbumScreen: React.FC = () => {
+  const {dataSong, getListDataSong} = useSongHook();
+
+  useFocusEffect(
+    useCallback(() => {
+      getListDataSong({albumID: 1});
+    }, []),
+  );
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -17,7 +26,7 @@ export const AlbumScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <AlbumContent onPressGoBack={onPressGoBack} />
+      <AlbumContent dataSong={dataSong} onPressGoBack={onPressGoBack} />
     </View>
   );
 };
