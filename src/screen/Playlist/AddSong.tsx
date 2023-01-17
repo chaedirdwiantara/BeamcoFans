@@ -1,17 +1,21 @@
 import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
-import {RootStackParams} from '../../navigations';
 import {AddSongContent} from '../../components';
+import {RootStackParams} from '../../navigations';
 import {useSongHook} from '../../hooks/use-song.hook';
+import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 
-export const AddSongScreen: React.FC = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+type AddSongProps = NativeStackScreenProps<RootStackParams, 'AddSong'>;
+
+export const AddSongScreen: React.FC<AddSongProps> = ({
+  navigation,
+  route,
+}: AddSongProps) => {
   const {dataSong, getListDataSong} = useSongHook();
+  const {setAddSongToPlaylist} = usePlaylistHook();
 
   useEffect(() => {
     getListDataSong();
@@ -23,7 +27,12 @@ export const AddSongScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <AddSongContent listSongs={dataSong} onPressGoBack={onPressGoBack} />
+      <AddSongContent
+        playlist={route.params}
+        listSongs={dataSong}
+        onPressGoBack={onPressGoBack}
+        setAddSongToPlaylist={setAddSongToPlaylist}
+      />
     </View>
   );
 };

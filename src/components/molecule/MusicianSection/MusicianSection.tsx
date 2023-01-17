@@ -63,6 +63,10 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
+  const goToMusician = () => {
+    navigation.navigate('MusicianProfile', {id: musicianId});
+  };
+
   useEffect(() => {
     toastVisible &&
       setTimeout(() => {
@@ -88,7 +92,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
         setModalGuestVisible(true);
       }
     } else if (dataResult.value === '3') {
-      navigation.navigate('MusicianProfile', {id: musicianId});
+      goToMusician();
     } else {
       if (isLogin) {
         setModalDonate(true);
@@ -112,6 +116,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
       <ListCard.MusicianList
         dataFilter={dataMore}
         onPressMore={resultDataMore}
+        onPressImage={goToMusician}
         {...props}
       />
       <ModalDonate

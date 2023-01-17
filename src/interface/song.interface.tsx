@@ -1,6 +1,7 @@
 import {PaginationType} from './base.interface';
 
 export type SongList = {
+  isAddedToThisPlaylist: boolean;
   played: boolean;
   id: number;
   title: string;

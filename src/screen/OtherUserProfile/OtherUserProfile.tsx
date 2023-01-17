@@ -68,6 +68,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
           dataPlaylist={dataPlaylist}
           goToEditProfile={() => {}}
           onPressGoTo={() => {}}
+          showCreateCard={false}
         />
       ) : (
         <GuestContent />

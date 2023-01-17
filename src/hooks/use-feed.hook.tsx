@@ -10,6 +10,7 @@ import {
   likePost,
   listPost,
   listPostExclusive,
+  listTopPost,
   loadMore,
   unlikeComment,
   unlikePost,
@@ -29,6 +30,7 @@ import {
 export const useFeedHook = () => {
   const [feedIsLoading, setFeedIsLoading] = useState(false);
   const [dataPostList, setDataPostList] = useState<PostList[]>([]);
+  const [dataTopPost, setDataTopPost] = useState<PostList[]>([]);
   const [dataPostDetail, setDataPostDetail] = useState<DetailPostData>();
   const [feedIsError, setFeedIsError] = useState<boolean>(false);
   const [feedMessage, setFeedMessage] = useState<string>('');
@@ -40,6 +42,19 @@ export const useFeedHook = () => {
       const response = await listPost(props);
       setDataPostList(response.data);
       setFeedMessage(response.message);
+    } catch (error) {
+      setFeedIsError(true);
+    } finally {
+      setFeedIsLoading(false);
+    }
+  };
+
+  const getListTopPost = async (props?: ParamsProps) => {
+    setFeedIsLoading(true);
+    setFeedIsError(false);
+    try {
+      const response = await listTopPost(props);
+      setDataTopPost(response.data);
     } catch (error) {
       setFeedIsError(true);
     } finally {
@@ -243,6 +258,7 @@ export const useFeedHook = () => {
     dataCmntToCmnt,
     dataLikeComment,
     likeCommentLoading,
+    dataTopPost,
     setDataCmntToCmnt,
     getListDataPost,
     getListDataExclusivePost,
@@ -257,5 +273,6 @@ export const useFeedHook = () => {
     getDetailPost,
     setLikeComment,
     setUnlikeComment,
+    getListTopPost,
   };
 };

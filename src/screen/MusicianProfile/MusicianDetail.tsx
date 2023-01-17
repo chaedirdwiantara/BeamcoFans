@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import {
   Gap,
+  ModalDonate,
+  ModalSuccessDonate,
   SsuStatusBar,
   TabFilter,
   TopNavigation,
@@ -23,7 +25,9 @@ import ExclusiveDailyContent from './ExclusiveDailyContent';
 import {
   AlbumData,
   DataDetailMusician,
+  FollowMusicianPropsType,
 } from '../../interface/musician.interface';
+import {PostList} from '../../interface/feed.interface';
 import PostListPublic from '../ListCard/PostListPublic';
 import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
 import PostListExclusive from '../ListCard/PostListExclusive';
@@ -36,12 +40,16 @@ interface MusicianDetailProps {
   profile: DataDetailMusician;
   uuid: string;
   dataAlbum: AlbumData[];
+  setFollowMusician: (props?: FollowMusicianPropsType) => void;
+  setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
 }
 
 export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   profile,
   uuid,
   dataAlbum,
+  setFollowMusician,
+  setUnfollowMusician,
 }) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -54,6 +62,9 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     {filterName: 'MUSIC'},
     {filterName: 'FANS'},
   ]);
+  const [modalDonate, setModalDonate] = useState<boolean>(false);
+  const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
+  const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
   const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
@@ -63,6 +74,25 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     let offsetY = event.nativeEvent.contentOffset.y;
     const scrolled = offsetY > 10;
     setScrollEffect(scrolled);
+  };
+
+  const cardOnPress = (data: PostList) => {
+    navigation.navigate('PostDetail', data);
+  };
+
+  const followOnPress = (isFollowed: boolean) => {
+    isFollowed
+      ? setUnfollowMusician({musicianID: profile.uuid})
+      : setFollowMusician({musicianID: profile.uuid});
+  };
+
+  const onPressDonate = () => {
+    setModalDonate(false);
+    setTrigger2ndModal(true);
+  };
+
+  const onPressSuccess = () => {
+    setModalSuccessDonate(false);
   };
 
   return (
@@ -87,6 +117,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           username={profile.username}
           bio={profile.bio}
           isFollowed={profile.isFollowed}
+          followOnPress={followOnPress}
+          onPressDonate={() => setModalDonate(true)}
         />
         <View style={styles.infoCard}>
           <UserInfoCard
@@ -132,6 +164,19 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           </View>
         </View>
       </ScrollView>
+
+      <ModalDonate
+        totalCoin={'1000'}
+        onPressDonate={onPressDonate}
+        modalVisible={modalDonate}
+        onPressClose={() => setModalDonate(false)}
+        onModalHide={() => setModalSuccessDonate(true)}
+      />
+
+      <ModalSuccessDonate
+        modalVisible={modalSuccessDonate && trigger2ndModal}
+        toggleModal={onPressSuccess}
+      />
     </View>
   );
 };

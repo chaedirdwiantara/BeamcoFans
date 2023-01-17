@@ -1,5 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {Avatar, Gap} from '../../atom';
 import {
@@ -16,6 +22,7 @@ import {DefaultAvatar} from '../../../assets/icon';
 export interface ListProps {
   musicianNum?: number | string;
   onPressMore: (data: any) => void;
+  onPressImage?: () => void;
   musicianName: string;
   imgUri: string;
   point?: number | null;
@@ -30,6 +37,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
   const {
     musicianNum,
     onPressMore,
+    onPressImage,
     musicianName,
     imgUri,
     point,
@@ -69,31 +77,35 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
           useGrouping: false,
         })}
       </Text>
-      {imgUri ? (
-        <Avatar imgUri={imgUri} size={widthResponsive(44)} />
-      ) : (
-        <DefaultAvatar.MusicianIcon />
-      )}
+      <TouchableOpacity activeOpacity={1} onPress={onPressImage}>
+        {imgUri ? (
+          <Avatar imgUri={imgUri} size={widthResponsive(44)} />
+        ) : (
+          <DefaultAvatar.MusicianIcon />
+        )}
+      </TouchableOpacity>
       <Gap width={8} />
       <View style={styles.textContainer}>
-        <Text style={styles.musicianName} numberOfLines={1}>
-          {musicianName}
-        </Text>
-        {followerMode && (
-          <View>
-            {followersCount !== 0 ? (
-              <Text style={styles.followersCount} numberOfLines={1}>
-                {`${toCurrency(followersCount, {
-                  withFraction: false,
-                })} Followers`}
-              </Text>
-            ) : (
-              <Text style={styles.followersCount} numberOfLines={1}>
-                0 Followers
-              </Text>
-            )}
-          </View>
-        )}
+        <TouchableOpacity activeOpacity={1} onPress={onPressImage}>
+          <Text style={styles.musicianName} numberOfLines={1}>
+            {musicianName}
+          </Text>
+          {followerMode && (
+            <View>
+              {followersCount !== 0 ? (
+                <Text style={styles.followersCount} numberOfLines={1}>
+                  {`${toCurrency(followersCount, {
+                    withFraction: false,
+                  })} Followers`}
+                </Text>
+              ) : (
+                <Text style={styles.followersCount} numberOfLines={1}>
+                  0 Followers
+                </Text>
+              )}
+            </View>
+          )}
+        </TouchableOpacity>
       </View>
       <View style={styles.rightContainer}>
         {point ? <Text style={styles.pointStyle}>{`${point} pts`}</Text> : null}

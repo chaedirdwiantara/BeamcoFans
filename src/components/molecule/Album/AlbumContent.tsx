@@ -29,12 +29,23 @@ import {
   ModalShare,
   ModalSuccessDonate,
 } from '../';
+import {SongList} from '../../../interface/song.interface';
+import {AlbumData} from '../../../interface/musician.interface';
+import {dateFormat} from '../../../utils/date-format';
 
 interface Props {
+  dataSong: SongList[] | null;
+  detailAlbum: AlbumData;
   onPressGoBack: () => void;
 }
 
-export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
+export const AlbumContent: React.FC<Props> = ({
+  detailAlbum,
+  dataSong,
+  onPressGoBack,
+}) => {
+  console.log('detailAlbum', detailAlbum);
+  
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalShare, setModalShare] = useState<boolean>(false);
@@ -91,12 +102,12 @@ export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
       <ScrollView>
         <View style={{paddingHorizontal: widthPercentage(10)}}>
           <View style={{alignSelf: 'center'}}>
-            <PhotoPlaylist uri="https://i.pinimg.com/originals/b3/51/66/b35166174c9bde2d0cc436150a983912.jpg" />
+            <PhotoPlaylist uri={detailAlbum.imageUrl} />
           </View>
           <SongTitlePlay
-            title={'Smoke + Mirror'}
-            totalSong={10}
-            createdDate={'December 7, 2017'}
+            title={detailAlbum.title}
+            totalSong={dataSong?.length || 0}
+            createdDate={dateFormat(detailAlbum.createdAt)}
             createdBy={'Imagine Dragons'}
             avatarUri={
               'https://thisis-images.scdn.co/37i9dQZF1DZ06evO2YqUuI-large.jpg'
@@ -115,18 +126,18 @@ export const AlbumContent: React.FC<Props> = ({onPressGoBack}) => {
             <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
               Description
             </Text>
-            <Text style={styles.description}>
-              {
-                "Born on the sofa of his childhood home, singer Lukas Forchhammer entered the world in unconventional surroundings. His parents' resided within the 84 acres of Christiania: an alternative, tightly knit community, formed in 1971 by squatters and artists in Cophenhagen. "
-              }
-            </Text>
+            <Text style={styles.description}>{detailAlbum.description}</Text>
           </View>
 
           <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
             Song List
           </Text>
           <View style={{marginBottom: heightPercentage(30)}}>
-            <TopSong onPress={() => null} hideDropdownMore={true} />
+            <TopSong
+              dataSong={dataSong}
+              onPress={() => null}
+              hideDropdownMore={true}
+            />
           </View>
         </View>
       </ScrollView>

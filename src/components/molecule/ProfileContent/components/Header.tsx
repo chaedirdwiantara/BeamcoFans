@@ -54,7 +54,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
     iconPress,
     containerStyles,
     scrollEffect,
-    noEdit,
+    noEdit = true,
   } = props;
 
   const iconRight = () => {

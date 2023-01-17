@@ -15,7 +15,7 @@ interface TopSongPropsScreen {
   hideDropdownMore?: boolean;
   rightIcon?: boolean;
   rightIconComponent?: React.ReactNode;
-  onPressIcon?: (data: any) => void;
+  onPressIcon?: (data: number) => void;
 }
 
 const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
@@ -49,7 +49,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
           hideDropdownMore={hideDropdownMore}
           rightIcon={rightIcon}
           rightIconComponent={rightIconComponent}
-          onPressIcon={onPressIcon}
+          onPressIcon={() => onPressIcon(item.id)}
         />
       )}
       estimatedItemSize={heightResponsive(500)}

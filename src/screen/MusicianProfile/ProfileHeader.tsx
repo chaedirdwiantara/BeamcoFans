@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -26,6 +26,8 @@ export interface ProfileHeaderProps {
   iconPress?: (params: string) => void;
   isFollowed?: boolean;
   containerStyles?: ViewStyle;
+  followOnPress: (isFollowed: boolean) => void;
+  onPressDonate: () => void;
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = (
@@ -42,7 +44,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
     iconPress,
     isFollowed,
     containerStyles,
+    followOnPress,
+    onPressDonate,
   } = props;
+
+  const [followed, setFollowed] = useState(isFollowed);
 
   const viewMoreOnPress = (params: string) => {
     onPress?.(params);
@@ -71,17 +77,23 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
             <Text style={styles.description}>{bio}</Text>
             <Gap height={16} />
             <View style={{flexDirection: 'row'}}>
-              {isFollowed ? (
+              {followed ? (
                 <>
-                  <ButtonGradient
-                    label={'Unfollow'}
-                    gradientStyles={styles.btnContainer}
-                    onPress={() => {}}
+                  <Button
+                    type="border"
+                    label="Following"
+                    containerStyles={styles.btnContainer}
+                    textStyles={{color: color.Pink.linear}}
+                    onPress={() => {
+                      setFollowed(false);
+                      followOnPress(true);
+                    }}
                   />
                   <Gap width={11} />
                   <Button
                     label={'Donate'}
                     containerStyles={styles.btnContainer2}
+                    onPress={onPressDonate}
                   />
                 </>
               ) : (
@@ -89,12 +101,16 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                   <ButtonGradient
                     label={'Follow'}
                     gradientStyles={styles.btnContainer}
-                    onPress={() => {}}
+                    onPress={() => {
+                      setFollowed(true);
+                      followOnPress(false);
+                    }}
                   />
                   <Gap width={11} />
                   <Button
                     label={'Donate'}
                     containerStyles={styles.btnContainer2}
+                    onPress={onPressDonate}
                   />
                 </>
               )}
