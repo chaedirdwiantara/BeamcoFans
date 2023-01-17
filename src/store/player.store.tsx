@@ -15,6 +15,7 @@ interface PlayerState {
     artist: string;
     albumImg: string | null;
     musicUrl: string;
+    musicianId: string;
   };
   playlist: SongList[];
   isShuffle: boolean;
@@ -30,6 +31,7 @@ interface PlayerState {
     artist: string;
     albumImg: string | null;
     musicUrl: string;
+    musicianId: string;
   }) => void;
   setPlaylist: (by: SongList[]) => void;
   setShuffle: (by: boolean) => void;
@@ -48,6 +50,7 @@ export const usePlayerStore = create<PlayerState>()(set => ({
     artist: '',
     albumImg: '',
     musicUrl: '',
+    musicianId: '',
   },
   playlist: [],
   isShuffle: false,

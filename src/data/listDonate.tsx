@@ -9,15 +9,15 @@ export const listDonate: ListDonateType[] = [
     selected: false,
   },
   {
-    text: 'Recurring Donation Weekly',
+    text: 'Donation Weekly',
     selected: false,
   },
   {
-    text: 'Recurring Donation Monthly',
+    text: 'Donation Monthly',
     selected: false,
   },
   {
-    text: 'Recurling Donation Yearly',
+    text: 'Donation Yearly',
     selected: false,
   },
 ];

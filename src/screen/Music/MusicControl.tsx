@@ -6,6 +6,7 @@ import {
   PlayIcon2,
   PreviousIcon,
   RepeatIcon,
+  RepeatOneIcon,
   ShuffleIcon,
 } from '../../assets/icon';
 import {heightResponsive, widthResponsive} from '../../utils';
@@ -29,10 +30,21 @@ const MusicControl = () => {
   };
 
   const repeatOnPress = () => {
-    if (repeat === 'off') {
-      setRepeatPlayer('all');
-    } else {
-      setRepeatPlayer('off');
+    switch (repeat) {
+      case 'off':
+        setRepeatPlayer('all');
+        break;
+
+      case 'all':
+        setRepeatPlayer('one');
+        break;
+
+      case 'one':
+        setRepeatPlayer('off');
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -77,7 +89,13 @@ const MusicControl = () => {
       <TouchableOpacity
         onPress={repeatOnPress}
         style={[styles.touchableStyle, {alignItems: 'flex-end'}]}>
-        <RepeatIcon fill={repeat !== 'off' ? color.Success[400] : undefined} />
+        {repeat === 'off' ? (
+          <RepeatIcon fill={undefined} />
+        ) : repeat === 'all' ? (
+          <RepeatIcon fill={color.Success[400]} />
+        ) : (
+          <RepeatOneIcon fill={color.Success[400]} />
+        )}
       </TouchableOpacity>
     </View>
   );
