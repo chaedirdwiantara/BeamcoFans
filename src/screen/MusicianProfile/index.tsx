@@ -9,6 +9,7 @@ import {useMusicianHook} from '../../hooks/use-musician.hook';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AlbumData} from '../../interface/musician.interface';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
+import {FollowMusicianPropsType} from '../../interface/musician.interface';
 
 type PostDetailProps = NativeStackScreenProps<
   RootStackParams,
@@ -26,8 +27,10 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     isError,
     dataDetailMusician,
     dataAlbum,
-    getDetailMusician,
     getAlbum,
+    getDetailMusician,
+    setFollowMusician,
+    setUnfollowMusician,
   } = useMusicianHook();
 
   //  ? Get Detail Musician
@@ -51,6 +54,12 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           profile={dataDetailMusician}
           uuid={uuid}
           dataAlbum={dataAlbum}
+          setFollowMusician={(props?: FollowMusicianPropsType) =>
+            setFollowMusician(props, {}, true)
+          }
+          setUnfollowMusician={(props?: FollowMusicianPropsType) =>
+            setUnfollowMusician(props, {}, true)
+          }
         />
       )}
       <ModalLoading visible={isLoading} />
