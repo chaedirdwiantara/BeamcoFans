@@ -77,7 +77,10 @@ import {normalize} from '../utils';
 import {MerchListType} from '../data/merchList';
 import {ConcertDetail} from '../screen/ConcertDetail';
 import {SignupSSOScreen} from '../screen/SignupSSO';
-import {RegistrationType} from '../interface/profile.interface';
+import {
+  ProfileResponseData,
+  RegistrationType,
+} from '../interface/profile.interface';
 
 // interface
 import {PostList} from '../interface/feed.interface';
@@ -93,7 +96,7 @@ export type RootStackParams = {
   ChangePassword: undefined;
   CreateNewPlaylist: undefined;
   DonationAndSubscription: undefined;
-  EditProfile: undefined;
+  EditProfile: ProfileResponseData;
   EditPlaylist: Playlist;
   Email: undefined;
   ExclusiveContent: undefined;

@@ -11,11 +11,11 @@ export const usePlaylistHook = () => {
   const [dataDetailPlaylist, setDataDetailPlaylist] = useState<Playlist>();
   const [dataSongsPlaylist, setDataSongsPlaylist] = useState<SongList[]>();
 
-  const getPlaylist = async () => {
+  const getPlaylist = async (props?: ParamsProps) => {
     setPlaylistLoading(true);
     setPlaylistError(false);
     try {
-      const response = await getListPlaylist();
+      const response = await getListPlaylist(props);
       setDataPlaylist(response.data);
     } catch (error) {
       console.log(error);

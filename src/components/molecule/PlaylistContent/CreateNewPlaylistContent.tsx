@@ -38,8 +38,9 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
   const [state, setState] = useState({
     playlistName: '',
     playlistDesc: '',
-    isPublic: true,
+    isPublic: '',
   });
+
   const [isModalVisible, setModalVisible] = useState({
     modalConfirm: false,
     modalImage: false,
@@ -91,7 +92,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
         name: state.playlistName,
         description: state.playlistDesc,
         thumbnailUrl: '',
-        isPublic: true,
+        isPublic: state.isPublic,
       };
       const response = await createPlaylist(payload);
       goToPlaylist(response.data.id);
@@ -103,6 +104,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
 
   const disabledButton = checkEmptyProperties({
     playlistName: state.playlistName,
+    isPublic: state.isPublic,
   });
   const colorDisabled = [color.Dark[50], color.Dark[50]];
   const defaultGradient = ['#F98FD9', '#FF70D4'];
@@ -194,7 +196,9 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
             data={dataVisibility}
             placeHolder={'Visibility'}
             dropdownLabel={'Visibility'}
-            textTyped={(newText: string) => onChangeText('isPublic', newText)}
+            textTyped={(newText: {label: string; value: string}) =>
+              onChangeText('isPublic', newText.value)
+            }
             containerStyles={{marginTop: heightPercentage(15)}}
           />
 

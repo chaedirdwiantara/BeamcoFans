@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, Platform} from 'react-native';
+import {Image} from 'react-native-image-crop-picker';
 
 import {ModalConfirm} from '../..';
 import {SsuInput} from '../../atom';
@@ -10,15 +11,14 @@ import Typography from '../../../theme/Typography';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
-import {UploadImageResponseType} from '../../../interface/uploadImage.interface';
 
 interface EditProfileProps {
   profile: any;
   type: string;
   onPressGoBack: () => void;
-  onPressSave: (params: any) => void;
-  dataImage: UploadImageResponseType | undefined;
-  setUploadImage: (image: any) => void;
+  onPressSave: (params: {bio: string}) => void;
+  setUploadImage: (image: Image, type: string) => void;
+  setResetImage: (type: string) => void;
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({
@@ -27,6 +27,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   onPressGoBack,
   onPressSave,
   setUploadImage,
+  setResetImage,
 }) => {
   const [bio, setBio] = useState(profile.bio || '');
   const [isModalVisible, setModalVisible] = useState({
@@ -57,6 +58,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
 
   const resetImage = () => {
     setUri({...uri, [uriType]: null});
+    setResetImage(uriType);
     closeModal();
   };
 
@@ -67,8 +69,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     });
   };
 
-  const sendUri = (val: {assets: string[]; path: string}) => {
-    setUploadImage(val);
+  const sendUri = (val: Image) => {
+    setUploadImage(val, uriType);
     setUri({...uri, [uriType]: val});
   };
 
@@ -142,7 +144,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         title="Edit Profile"
         subtitle="Are you sure to finish edit profile?"
         onPressClose={closeModal}
-        onPressOk={() => onPressSave({...uri, bio})}
+        onPressOk={() => onPressSave({bio})}
       />
     </View>
   );

@@ -186,3 +186,19 @@ export const changePassword = async (
 
   return data;
 };
+
+export const changePasswordSetting = async (
+  password: string,
+  newPassword: string,
+): Promise<LoginResponseType> => {
+  const {data} = await SsuAPI().request<LoginResponseType>({
+    url: '/change-password',
+    method: 'POST',
+    data: {
+      password: password,
+      newPassword: newPassword,
+    },
+  });
+
+  return data;
+};

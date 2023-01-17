@@ -6,10 +6,13 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {ChangePasswordContent} from '../../components';
+import {useAuthHook} from '../../hooks/use-auth.hook';
 
 export const ChangePasswordScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const {onChangePasswordSetting} = useAuthHook();
 
   const onPressGoBack = () => {
     navigation.goBack();
@@ -17,7 +20,10 @@ export const ChangePasswordScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <ChangePasswordContent onPressGoBack={onPressGoBack} />
+      <ChangePasswordContent
+        onChangePassword={onChangePasswordSetting}
+        onPressGoBack={onPressGoBack}
+      />
     </View>
   );
 };

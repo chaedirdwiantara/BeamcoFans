@@ -22,6 +22,8 @@ interface FollowingListProps {
   setFollowMusician: (props?: FollowMusicianPropsType) => void;
   setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
   dataList?: MusicianList[];
+  search: string;
+  setSearch: (value: string) => void;
 }
 
 export const FollowingList: React.FC<FollowingListProps> = ({
@@ -29,8 +31,9 @@ export const FollowingList: React.FC<FollowingListProps> = ({
   setFollowMusician,
   setUnfollowMusician,
   onPressGoBack,
+  search,
+  setSearch,
 }) => {
-  const [search, setSearch] = useState('');
   const [listFollowing, setListFollowing] = useState(dataList);
 
   useEffect(() => {

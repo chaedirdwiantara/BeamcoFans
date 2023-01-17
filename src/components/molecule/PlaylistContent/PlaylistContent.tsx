@@ -115,9 +115,7 @@ export const PlaylistContent: React.FC<Props> = ({
             totalSong={dataDetail?.totalSong}
             createdDate={dateFormat(dataDetail?.createdAt)}
             createdBy={dataDetail?.createdBy}
-            avatarUri={
-              'https://thisis-images.scdn.co/37i9dQZF1DZ06evO2YqUuI-large.jpg'
-            }
+            avatarUri={dataDetail?.playlistOwner?.image}
           />
 
           <TouchableOpacity

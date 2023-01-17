@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {
   albumSearch,
   fansSearch,
+  listBannerPublic,
   musicianSearch,
   playlistSearch,
   songSearch,
@@ -14,6 +15,8 @@ import {
   ListDataSearchSongs,
   SearchProps,
 } from '../interface/search.interface';
+import {BannerList} from '../interface/banner.interface';
+import {PaginationType} from '../interface/base.interface';
 
 export const useSearchHook = () => {
   const [searchLoading, setSearchLoading] = useState<boolean>(false);
@@ -39,6 +42,7 @@ export const useSearchHook = () => {
   const [dataSearchEvents, setDataSearchEvents] = useState<
     ListDataSearchMusician[] | null
   >(null);
+  const [dataPublicBanner, setDataPublicBanner] = useState<BannerList[]>([]);
 
   const getSearchFans = async (props?: SearchProps) => {
     setSearchLoading(true);
@@ -130,6 +134,19 @@ export const useSearchHook = () => {
     }
   };
 
+  const getListDataBannerPublic = async (props?: PaginationType) => {
+    setSearchLoading(true);
+    try {
+      const response = await listBannerPublic(props);
+      setDataPublicBanner(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataPublicBanner([]);
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
   return {
     searchLoading,
     dataSearchFans,
@@ -137,10 +154,12 @@ export const useSearchHook = () => {
     dataSearchSongs,
     dataSearchAlbums,
     dataSearchPlaylists,
+    dataPublicBanner,
     getSearchFans,
     getSearchMusicians,
     getSearchAlbums,
     getSearchSongs,
     getSearchPlaylists,
+    getListDataBannerPublic,
   };
 };

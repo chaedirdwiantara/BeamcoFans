@@ -24,7 +24,6 @@ import {
   BottomSheetGuest,
 } from '../components';
 import Color from '../theme/Color';
-import {dataSlider} from '../data/home';
 import TopSong from './ListCard/TopSong';
 import {SearchIcon} from '../assets/icon';
 import PostList from './ListCard/PostList';
@@ -76,16 +75,21 @@ export const HomeScreen: React.FC = () => {
   const {
     dataSearchMusicians,
     dataSearchSongs,
+    dataPublicBanner,
     getSearchMusicians,
     getSearchSongs,
+    getListDataBannerPublic,
   } = useSearchHook();
 
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    getListDataBanner();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (isLogin) {
+      getListDataBanner();
+    } else {
+      getListDataBannerPublic();
+    }
   }, []);
 
   useFocusEffect(
@@ -237,7 +241,7 @@ export const HomeScreen: React.FC = () => {
           />
         </TouchableOpacity>
         <Carousel
-          data={isLogin && dataBanner?.length > 0 ? dataBanner : dataSlider}
+          data={isLogin ? dataBanner : dataPublicBanner}
           onPressBanner={handleWebview}
         />
         <View

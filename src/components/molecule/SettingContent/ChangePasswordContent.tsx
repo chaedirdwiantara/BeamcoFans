@@ -8,10 +8,12 @@ import {ArrowLeftIcon} from '../../../assets/icon';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 
 interface ChangePasswordProps {
+  onChangePassword: (password: string, newPassword: string) => void;
   onPressGoBack: () => void;
 }
 
 export const ChangePasswordContent: React.FC<ChangePasswordProps> = ({
+  onChangePassword,
   onPressGoBack,
 }) => {
   const [state, setState] = useState({
@@ -33,7 +35,7 @@ export const ChangePasswordContent: React.FC<ChangePasswordProps> = ({
     });
   };
 
-  const onPressSave = () => {};
+  const onPressChange = () => {};
 
   return (
     <View style={styles.root}>
@@ -79,7 +81,7 @@ export const ChangePasswordContent: React.FC<ChangePasswordProps> = ({
 
       <Button
         label="Change Password"
-        onPress={onPressSave}
+        onPress={onPressChange}
         containerStyles={styles.button}
       />
     </View>
