@@ -443,6 +443,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setModalSuccessDonate(false);
   };
 
+  const handleToDetail = (id: string) => {
+    navigation.navigate('MusicianProfile', {id});
+  };
+
   return (
     <SafeAreaView style={styles.root}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -457,6 +461,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         <View style={styles.bodyContainer}>
           {dataPostDetail ? (
             <DetailPost
+              toDetailOnPress={() => handleToDetail(data.musician.uuid)}
               musicianName={musicianName}
               musicianId={`@${data.musician.username}`}
               imgUri={data.musician.imageProfileUrl}
