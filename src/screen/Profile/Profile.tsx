@@ -47,7 +47,7 @@ export const ProfileScreen: React.FC = () => {
   };
 
   const goToEditProfile = () => {
-    navigation.navigate('EditProfile', {...dataProfile});
+    navigation.navigate('EditProfile', {...dataProfile?.data});
   };
 
   const goToPlaylist = (id: number) => {
