@@ -115,7 +115,7 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
           ]}
         />
       </View>
-      {/* {musicData.musicUrl !== '' && (
+      {musicData.musicUrl !== '' && (
         <Video
           ref={playRef}
           source={{
@@ -147,7 +147,7 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
             }
           }}
         />
-      )} */}
+      )}
     </Portal>
   );
 };

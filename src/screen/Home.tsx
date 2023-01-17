@@ -201,10 +201,8 @@ export const HomeScreen: React.FC = () => {
       musicUrl: val.transcodedSongUrl[1].encodedHlsUrl,
       musicianId: val.musicianId,
     });
-    setShufflePlayer(true);
-    setNextPrevTrack('next');
-    // showPlayer();
-    // seekPlayer(0);
+    showPlayer();
+    seekPlayer(0);
   };
 
   const onPressNotif = () => {
