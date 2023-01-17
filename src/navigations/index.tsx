@@ -83,6 +83,7 @@ import {RegistrationType} from '../interface/profile.interface';
 // interface
 import {PostList} from '../interface/feed.interface';
 import {Playlist} from '../interface/playlist.interface';
+import {imageUriProps} from '../screen/MusicianProfile/DataMusician';
 
 export type RootStackParams = {
   Account: undefined;
@@ -111,7 +112,7 @@ export type RootStackParams = {
     context?: string;
   };
   PhoneNumber: undefined;
-  PhotoGallery: undefined;
+  PhotoGallery: {imageData: string[]; userName: string};
   Playlist: {
     id: number;
   };
