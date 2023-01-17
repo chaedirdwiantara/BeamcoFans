@@ -87,13 +87,13 @@ import {
 // interface
 import {PostList} from '../interface/feed.interface';
 import {Playlist} from '../interface/playlist.interface';
-import {imageUriProps} from '../screen/MusicianProfile/DataMusician';
+import {AlbumData} from '../interface/musician.interface';
 
 export type RootStackParams = {
   Account: undefined;
   AddToPlaylist: undefined;
   AddSong: undefined;
-  Album: undefined;
+  Album: AlbumData;
   Boarding: undefined;
   ChangeEmail: undefined;
   ChangePassword: undefined;

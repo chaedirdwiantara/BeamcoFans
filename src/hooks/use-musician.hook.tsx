@@ -2,13 +2,16 @@ import {useState} from 'react';
 import {
   detailMusician,
   followMusician,
+  getAlbumById,
   listMusician,
   unfollowMusician,
 } from '../api/musician.api';
 import {
+  AlbumData,
   DataDetailMusician,
   FollowMusicianPropsType,
   MusicianList,
+  paramsTypeUuid,
 } from '../interface/musician.interface';
 import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
@@ -16,6 +19,7 @@ import {PostPropsTypeA} from '../interface/feed.interface';
 export const useMusicianHook = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataMusician, setDataMusician] = useState<MusicianList[]>([]);
+  const [dataAlbum, setDataAlbum] = useState<AlbumData[]>([]);
   const [dataDetailMusician, setDataDetailMusician] =
     useState<DataDetailMusician>();
   const [dataFollow, setDataFollow] = useState<string | null>(null);
@@ -35,6 +39,7 @@ export const useMusicianHook = () => {
   };
 
   const getDetailMusician = async (props?: PostPropsTypeA) => {
+    setIsLoading(true);
     try {
       const response = await detailMusician(props);
       setDataDetailMusician(response.data);
@@ -42,6 +47,20 @@ export const useMusicianHook = () => {
       console.log(error);
       setIsError(true);
       setDataDetailMusician(undefined);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getAlbum = async (props?: paramsTypeUuid) => {
+    setIsLoading(true);
+    try {
+      const response = await getAlbumById(props);
+      setDataAlbum(response.data);
+    } catch (error) {
+      console.log(error);
+      setIsError(true);
+      setDataAlbum([]);
     } finally {
       setIsLoading(false);
     }
@@ -93,9 +112,11 @@ export const useMusicianHook = () => {
     dataMusician,
     dataFollow,
     dataDetailMusician,
+    dataAlbum,
     getListDataMusician,
     setFollowMusician,
     setUnfollowMusician,
     getDetailMusician,
+    getAlbum,
   };
 };
