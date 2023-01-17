@@ -71,6 +71,8 @@ export const HomeScreen: React.FC = () => {
     seekPlayer,
     setMusicDataPlayer,
     setPlaylistSong,
+    setNextPrevTrack,
+    setShufflePlayer,
   } = usePlayerHook();
   const {
     dataSearchMusicians,
@@ -197,9 +199,12 @@ export const HomeScreen: React.FC = () => {
       artist: val.musicianName,
       albumImg: val.imageUrl,
       musicUrl: val.transcodedSongUrl[1].encodedHlsUrl,
+      musicianId: val.musicianId,
     });
-    showPlayer();
-    seekPlayer(0);
+    setShufflePlayer(true);
+    setNextPrevTrack('next');
+    // showPlayer();
+    // seekPlayer(0);
   };
 
   const onPressNotif = () => {

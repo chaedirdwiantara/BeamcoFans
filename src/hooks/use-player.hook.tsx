@@ -16,14 +16,23 @@ export const usePlayerHook = () => {
     artist,
     albumImg,
     musicUrl,
+    musicianId,
   }: {
     id: number;
     title: string;
     artist: string;
     albumImg: string | null;
     musicUrl: string;
+    musicianId: string;
   }) => {
-    playerStore.setMusicData({id, title, artist, albumImg, musicUrl});
+    playerStore.setMusicData({
+      id,
+      title,
+      artist,
+      albumImg,
+      musicUrl,
+      musicianId,
+    });
   };
 
   const showPlayer = () => {
@@ -83,8 +92,12 @@ export const usePlayerHook = () => {
     let newSong: SongList | null = null;
     if (type === 'next') {
       if (playerStore.isShuffle) {
+        // newSong = playerStore.playlist.filter(
+        //   ar => ar.id === getShuffleTrack(),
+        // )[0];
+        // TODO: need to be fixed for getting the logic on shuffle
         newSong = playerStore.playlist.filter(
-          ar => ar.id === getShuffleTrack(),
+          ar => ar.id > playerStore.musicData.id,
         )[0];
       } else if (
         playerStore.musicData.id <
@@ -116,6 +129,7 @@ export const usePlayerHook = () => {
       artist: newSong.musicianName,
       albumImg: newSong.imageUrl,
       musicUrl: newSong.transcodedSongUrl[1].encodedHlsUrl,
+      musicianId: newSong.musicianId,
     });
   };
 

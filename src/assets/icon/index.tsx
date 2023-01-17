@@ -53,7 +53,8 @@ import MusicSquareIcon from './MusicSquare.icon';
 import MusicSquareAddIcon from './MusicSquareAdd.icon';
 import NextIcon from './Next.icon';
 import NotificationIcon from './Notification.icon';
-import RepeatIcon from './RepeatOne.icon';
+import RepeatIcon from './Repeaticon';
+import RepeatOneIcon from './RepeatOne.icon';
 import PauseIcon from './Pause.icon';
 import PauseIcon2 from './Pause2.icon';
 import PlayIcon from './Play.icon';
@@ -146,6 +147,7 @@ export {
   ProcessingIcon,
   PublicIcon,
   RepeatIcon,
+  RepeatOneIcon,
   SaveIcon,
   SearchIcon,
   SettingIcon,

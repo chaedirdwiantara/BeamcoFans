@@ -115,7 +115,7 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
           ]}
         />
       </View>
-      {musicData.musicUrl !== '' && (
+      {/* {musicData.musicUrl !== '' && (
         <Video
           ref={playRef}
           source={{
@@ -141,11 +141,13 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
                 musicData.id < playlist[playlist.length - 1].id) ||
               repeat !== 'off'
             ) {
-              setNextPrevTrack('next');
+              if (repeat === 'all') {
+                setNextPrevTrack('next');
+              }
             }
           }}
         />
-      )}
+      )} */}
     </Portal>
   );
 };
