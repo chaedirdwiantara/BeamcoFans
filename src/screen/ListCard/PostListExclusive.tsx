@@ -89,9 +89,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   }, []);
 
   useEffect(() => {
-    dataProfile?.imageProfileUrl !== null &&
-    dataProfile?.imageProfileUrl !== undefined
-      ? setDataProfileImg(dataProfile?.imageProfileUrl)
+    dataProfile?.data.imageProfileUrl !== null &&
+    dataProfile?.data.imageProfileUrl !== undefined
+      ? setDataProfileImg(dataProfile?.data.imageProfileUrl)
       : '';
   }, [dataProfile]);
 

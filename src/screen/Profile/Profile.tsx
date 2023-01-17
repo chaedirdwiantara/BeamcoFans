@@ -55,12 +55,12 @@ export const ProfileScreen: React.FC = () => {
   };
 
   const profile = {
-    fullname: dataProfile?.fullname,
-    username: '@' + dataProfile?.username,
-    bio: dataProfile?.about || "I'm here to support the musician",
-    backgroundUri: dataProfile?.banner || null,
-    avatarUri: dataProfile?.imageProfileUrl,
-    totalFollowing: dataProfile?.following,
+    fullname: dataProfile?.data.fullname,
+    username: '@' + dataProfile?.data.username,
+    bio: dataProfile?.data.about || "I'm here to support the musician",
+    backgroundUri: dataProfile?.data.banner || null,
+    avatarUri: dataProfile?.data.imageProfileUrl,
+    totalFollowing: dataProfile?.data.following,
   };
 
   return (

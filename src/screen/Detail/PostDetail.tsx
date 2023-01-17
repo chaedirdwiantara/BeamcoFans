@@ -125,9 +125,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   // ? Set profile picture for profile img
   useEffect(() => {
-    dataProfile?.imageProfileUrl !== null &&
-    dataProfile?.imageProfileUrl !== undefined
-      ? setDataProfileImg(dataProfile?.imageProfileUrl)
+    dataProfile?.data.imageProfileUrl !== null &&
+    dataProfile?.data.imageProfileUrl !== undefined
+      ? setDataProfileImg(dataProfile?.data.imageProfileUrl)
       : '';
   }, [dataProfile]);
 
@@ -281,7 +281,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setUserName(username);
     setCmntToCmntLvl0({
       id: makeId(5),
-      userName: dataProfile?.fullname ? dataProfile.fullname : '',
+      userName: dataProfile?.data.fullname ? dataProfile.data.fullname : '',
       commentLvl: 0,
       parentID: dataPostDetail?.id ? dataPostDetail.id : '0',
     });
@@ -332,11 +332,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         isLiked: false,
         timeAgo: 'just now',
         commentOwner: {
-          UUID: dataProfile?.uuid ? dataProfile?.uuid : '',
-          fullname: dataProfile?.fullname ? dataProfile?.fullname : '',
-          username: dataProfile?.username ? dataProfile?.username : '',
-          image: dataProfile?.imageProfileUrl
-            ? dataProfile?.imageProfileUrl
+          UUID: dataProfile?.data.uuid ? dataProfile?.data.uuid : '',
+          fullname: dataProfile?.data.fullname
+            ? dataProfile?.data.fullname
+            : '',
+          username: dataProfile?.data.username
+            ? dataProfile?.data.username
+            : '',
+          image: dataProfile?.data.imageProfileUrl
+            ? dataProfile?.data.imageProfileUrl
             : '',
         },
       },
