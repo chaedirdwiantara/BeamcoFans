@@ -1,25 +1,26 @@
 import axios from 'axios';
 import {useState} from 'react';
 import {
+  getOtherUserProfile,
   getProfile,
   updateProfile,
   UpdateProfilePropsType,
 } from '../api/profile.api';
 import {applyReferral} from '../api/referral.api';
-import {ProfileResponseData} from '../interface/profile.interface';
+import {PostPropsTypeA} from '../interface/feed.interface';
+import {ProfileResponseType} from '../interface/profile.interface';
 
 export const useProfileHook = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isValidReferral, setIsValidReferral] = useState<boolean | null>(null);
-  const [dataProfile, setDataProfile] = useState<ProfileResponseData | null>(
-    null,
-  );
+  const [dataProfile, setDataProfile] = useState<ProfileResponseType>();
 
   const getProfileUser = async () => {
     try {
       const response = await getProfile();
-      setDataProfile(response.data);
+      console.log(response);
+      setDataProfile(response);
     } catch (error) {
       console.log(error);
     } finally {
@@ -27,16 +28,21 @@ export const useProfileHook = () => {
     }
   };
 
-  const updateProfileUser = async (
-    props?: UpdateProfilePropsType,
-    triggered?: boolean,
-  ) => {
+  const getOtherProfileUser = async (props?: PostPropsTypeA) => {
     try {
-      setDataProfile(null);
+      const response = await getOtherUserProfile(props);
+      console.log(response);
+      setDataProfile(response);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateProfileUser = async (props?: UpdateProfilePropsType) => {
+    try {
       await updateProfile(props);
-      if (triggered) {
-        getProfileUser();
-      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -88,5 +94,6 @@ export const useProfileHook = () => {
     updateProfileUser,
     applyReferralUser,
     updateProfilePreference,
+    getOtherProfileUser,
   };
 };
