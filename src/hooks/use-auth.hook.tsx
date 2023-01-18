@@ -128,6 +128,7 @@ export const useAuthHook = () => {
   const onLoginGoogle = async () => {
     setIsError(false);
     setErrorMsg('');
+    setSsoRegistered(null);
     GoogleSignin.configure();
     try {
       await GoogleSignin.hasPlayServices();
@@ -561,6 +562,7 @@ export const useAuthHook = () => {
     sendOtpSms,
     onLogout,
     ssoRegistered,
+    setSsoRegistered,
     ssoEmail,
     ssoError,
     ssoErrorMsg,
