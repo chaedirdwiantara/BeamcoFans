@@ -35,7 +35,7 @@ import {ChangeEmailScreen} from '../screen/Setting/Email/ChangeEmail';
 import {ChangePasswordScreen} from '../screen/Setting/ChangePassword';
 import {LanguageScreen} from '../screen/Setting/Language';
 import {ReferralCodeSetting} from '../screen/Setting/ReferralCode';
-import {PhoneNumberScreen} from '../screen/Setting/PhoneNumber';
+import {PhoneNumberScreen} from '../screen/Setting/PhoneNumber/PhoneNumber';
 import {ShippingInformationScreen} from '../screen/Setting/ShippingInformation';
 import {DonationAndSubscription} from '../screen/Setting/DonationAndSubscription';
 import {SendReportScreen} from '../screen/Setting/SendReport';
@@ -88,6 +88,9 @@ import {
 import {PostList} from '../interface/feed.interface';
 import {Playlist} from '../interface/playlist.interface';
 import {AlbumData} from '../interface/musician.interface';
+import {imageUriProps} from '../screen/MusicianProfile/DataMusician';
+import {ChangePNScreen} from '../screen/Setting/PhoneNumber/ChangePN';
+import {OtpPNScreen} from '../screen/Setting/PhoneNumber/OTP';
 
 export type RootStackParams = {
   Account: undefined;
@@ -97,6 +100,15 @@ export type RootStackParams = {
   Boarding: undefined;
   ChangeEmail: undefined;
   ChangePassword: undefined;
+  ChangePhoneNumber: {
+    type: 'Add' | 'Change';
+    oldPhone: string;
+  };
+  OtpPhoneNumber: {
+    countryNumber: string;
+    phoneNumber: string;
+    type: 'Add' | 'Change';
+  };
   CreateNewPlaylist: undefined;
   DonationAndSubscription: undefined;
   EditProfile: ProfileResponseData;
@@ -116,7 +128,10 @@ export type RootStackParams = {
     subtitle: string;
     context?: string;
   };
-  PhoneNumber: undefined;
+  PhoneNumber: {
+    info?: boolean;
+    message?: string;
+  };
   PhotoGallery: {imageData: string[]; userName: string};
   Playlist: {
     id: number;
@@ -264,6 +279,8 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
     <RootStack.Screen name="Email" component={EmailScreen} />
     <RootStack.Screen name="PhoneNumber" component={PhoneNumberScreen} />
+    <RootStack.Screen name="ChangePhoneNumber" component={ChangePNScreen} />
+    <RootStack.Screen name="OtpPhoneNumber" component={OtpPNScreen} />
     <RootStack.Screen
       name="PreferenceSetting"
       component={PreferenceSettingScreen}
