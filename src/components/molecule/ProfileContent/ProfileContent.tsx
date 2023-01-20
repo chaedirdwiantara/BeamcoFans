@@ -48,7 +48,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   goToPlaylist,
   onPressGoTo,
   dataPlaylist,
-  showCreateCard
+  showCreateCard,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollEffect, setScrollEffect] = useState(false);
@@ -91,6 +91,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           iconPress={() => onPressGoTo('Setting')}
           scrollEffect={scrollEffect}
           noEdit={!showCreateCard}
+          backIcon={!showCreateCard}
         />
         <UserInfoCard
           type="self"
