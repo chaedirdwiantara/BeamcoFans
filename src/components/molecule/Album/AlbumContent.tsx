@@ -44,8 +44,6 @@ export const AlbumContent: React.FC<Props> = ({
   dataSong,
   onPressGoBack,
 }) => {
-  console.log('detailAlbum', detailAlbum);
-  
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalShare, setModalShare] = useState<boolean>(false);
