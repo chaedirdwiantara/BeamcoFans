@@ -8,12 +8,15 @@ import SsuAPIPublicRinjani from './basePublic';
 
 export type UpdateProfilePropsType = {
   fullname?: string;
+  username?: string;
   favoriteGeneres?: number[];
   moods?: number[];
   expectations?: number[];
   imageProfileUrl?: string;
   banner?: string;
   about?: string;
+  locationCountry?: string;
+  gender?: string;
 };
 
 export const getProfile = async (): Promise<ProfileResponseType> => {
