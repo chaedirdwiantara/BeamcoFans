@@ -12,10 +12,8 @@ import {
   getListPlaylist,
   listSongs,
 } from '../api/playlist.api';
-import {useSongHook} from './use-song.hook';
 
 export const usePlaylistHook = () => {
-  const {getListDataSong} = useSongHook();
   const [playlistLoading, setPlaylistLoading] = useState<boolean>(false);
   const [playlistError, setPlaylistError] = useState<boolean>(false);
   const [dataPlaylist, setDataPlaylist] = useState<Playlist[]>([]);
@@ -69,7 +67,6 @@ export const usePlaylistHook = () => {
   const setAddSongToPlaylist = async (props?: AddSongPropsType) => {
     try {
       await addSong(props);
-      getListDataSong();
     } catch (error) {
       console.log(error);
     } finally {

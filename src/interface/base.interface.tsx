@@ -16,5 +16,6 @@ export type ParamsProps = {
   perPage?: number;
   musician_uuid?: string;
   uuid?: string;
+  playlistID?: number;
   albumID?: number;
 };
