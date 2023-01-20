@@ -6,6 +6,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {PlaylistContent} from '../../components';
+import {useBackHandler} from '../../utils/useBackHandler';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 
 type PlaylistProps = NativeStackScreenProps<RootStackParams, 'Playlist'>;
@@ -28,20 +29,29 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
     }, []),
   );
 
+  const goBackProfile = () => {
+    navigation.navigate('Profile');
+  };
+
+  useBackHandler(() => {
+    goBackProfile();
+    return true;
+  });
+
   const onPressGoBack = () => {
     navigation.goBack();
   };
 
   const goToEditPlaylist = () => {
-    navigation.navigate('EditPlaylist', dataDetailPlaylist);
-  };
-
-  const goBackProfile = () => {
-    navigation.navigate('Profile');
+    if (dataDetailPlaylist !== undefined) {
+      navigation.navigate('EditPlaylist', dataDetailPlaylist);
+    }
   };
 
   const goToAddSong = () => {
-    navigation.navigate('AddSong', dataDetailPlaylist);
+    if (dataDetailPlaylist !== undefined) {
+      navigation.navigate('AddSong', dataDetailPlaylist);
+    }
   };
 
   return (

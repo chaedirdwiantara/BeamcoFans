@@ -44,7 +44,10 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
           musicTitle={elipsisText(item.title, 22)}
           singerName={item.musicianName}
           onPressCard={type === 'home' ? () => onPress(item) : undefined}
-          containerStyles={{marginTop: mvs(20)}}
+          containerStyles={{
+            marginTop: mvs(20),
+            marginBottom: index === dataSong?.length - 1 ? mvs(20) : 0,
+          }}
           played={type === 'home' ? isPlay && item.id === musicData.id : false}
           hideDropdownMore={hideDropdownMore}
           rightIcon={rightIcon}
