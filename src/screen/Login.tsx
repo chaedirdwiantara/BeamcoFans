@@ -146,7 +146,12 @@ export const LoginScreen: React.FC = () => {
   useEffect(() => {
     storage.delete('isGuest');
     if (!isLoading && !isError) {
-      if (watch('loginType') !== 'phoneNumber' && loginResult !== null) {
+      if (
+        (watch('loginType') === 'email' && loginResult !== null) ||
+        (watch('loginType') === 'phoneNumber' &&
+          ssoRegistered !== null &&
+          loginResult !== null)
+      ) {
         storage.set('isLogin', true);
         if (loginResult === 'preference') {
           navigation.reset({
@@ -159,7 +164,10 @@ export const LoginScreen: React.FC = () => {
             routes: [{name: 'MainTab'}],
           });
         }
-      } else if (watch('loginType') === 'phoneNumber') {
+      } else if (
+        watch('loginType') === 'phoneNumber' &&
+        ssoRegistered === null
+      ) {
         navigation.navigate('Otp', {
           id: countryNumber + watch('phoneNumber'),
           type: 'phoneNumber',
