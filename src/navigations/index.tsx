@@ -91,6 +91,7 @@ import {AlbumData} from '../interface/musician.interface';
 import {imageUriProps} from '../screen/MusicianProfile/DataMusician';
 import {ChangePNScreen} from '../screen/Setting/PhoneNumber/ChangePN';
 import {OtpPNScreen} from '../screen/Setting/PhoneNumber/OTP';
+import {SplashScreen} from '../screen/SplashScreen';
 
 export type RootStackParams = {
   Account: undefined;
@@ -169,6 +170,7 @@ export type RootStackParams = {
   MusicPlayer: undefined;
   MerchDetail: MerchListType;
   ConcertDetail: MerchListType;
+  SplashScreen: undefined;
 };
 
 export type MainTabParams = {
@@ -256,11 +258,12 @@ export const RootStackScreen = () => (
   <RootStack.Navigator
     screenOptions={screenOption}
     initialRouteName={
-      storage.getBoolean('isLogin') || storage.getBoolean('isGuest')
-        ? 'MainTab'
-        : storage.getBoolean('skipOnboard')
-        ? 'SignInGuest'
-        : 'Boarding'
+      'SplashScreen'
+      // storage.getBoolean('isLogin') || storage.getBoolean('isGuest')
+      //   ? 'MainTab'
+      //   : storage.getBoolean('skipOnboard')
+      //   ? 'SignInGuest'
+      //   : 'Boarding'
     }>
     <RootStack.Screen name="Boarding" component={OnboardScreen} />
     <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
@@ -324,6 +327,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="ConcertDetail" component={ConcertDetail} />
     <RootStack.Screen name="PhotoGallery" component={PhotoGallery} />
     <RootStack.Screen name="OtherUserProfile" component={OtherUserProfile} />
+    <RootStack.Screen name="SplashScreen" component={SplashScreen} />
   </RootStack.Navigator>
 );
 
