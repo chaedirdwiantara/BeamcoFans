@@ -205,6 +205,7 @@ export const useAuthHook = () => {
 
       if (credentialState === appleAuth.State.AUTHORIZED) {
         const response = await loginSso(appleAuthRequestResponse.user, 'apple');
+        console.log({response});
         if (response.code === 1003) {
           setSsoEmail(appleAuthRequestResponse.email ?? '');
           setSsoId(appleAuthRequestResponse.user);

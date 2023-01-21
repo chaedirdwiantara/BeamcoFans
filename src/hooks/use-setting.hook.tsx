@@ -33,27 +33,28 @@ export const useSettingHook = () => {
     }
   };
 
-  const changePhoneNumber = async (props?: EmailPhoneProps) => {
-    setIsLoading(true);
-    setIsError(false);
-    try {
-      await updatePhoneNumber(props);
-    } catch (error) {
-      console.log(error);
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const getVerificationCode = async (props?: EmailPhoneVerifProps) => {
     setIsLoading(true);
     setIsError(false);
+    setErrorMsg('');
     try {
-      await getVerifCode(props);
+      const resp = await getVerifCode(props);
+      if (resp.code !== 200) {
+        setIsError(true);
+        setErrorMsg(resp.message as string);
+      }
     } catch (error) {
       console.log(error);
       setIsError(true);
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status &&
+        error.response?.status >= 400
+      ) {
+        setErrorMsg(error.response?.data?.message);
+      } else if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -112,6 +113,37 @@ export const useSettingHook = () => {
         setErrorMsg(resp.message as string);
       } else {
         setSuccessMsg(resp.message as string);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsError(true);
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status &&
+        error.response?.status >= 400
+      ) {
+        setErrorMsg(error.response?.data?.message);
+      } else if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const changePhoneNumber = async (props?: EmailPhoneProps) => {
+    setIsLoading(true);
+    setIsError(false);
+    setErrorMsg('');
+    setSuccessMsg('');
+    try {
+      const resp = await updatePhoneNumber(props);
+      console.log({resp});
+      if (resp.code !== 200) {
+        setIsError(true);
+        setErrorMsg(resp.message as string);
+      } else {
+        setSuccessMsg(resp.data as string);
       }
     } catch (error) {
       console.log(error);

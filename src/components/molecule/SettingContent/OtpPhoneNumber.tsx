@@ -53,6 +53,8 @@ export const OtpPhoneNumber: React.FC<OtpPNProps> = ({
 
   const {
     addNewPhoneNumber,
+    changePhoneNumber,
+    getVerificationCode,
     isError,
     isLoading,
     errorMsg,
@@ -89,16 +91,27 @@ export const OtpPhoneNumber: React.FC<OtpPNProps> = ({
   }, [isValidating]);
 
   const onPressSave = async () => {
-    await addNewPhoneNumber({
-      phoneNumber: countryNumber + phoneNumber,
-      code: getValues('code'),
-    });
     closeModal();
     setIsSubmit(true);
+    if (type === 'Add') {
+      await addNewPhoneNumber({
+        phoneNumber: countryNumber + phoneNumber,
+        code: getValues('code'),
+      });
+    } else {
+      await changePhoneNumber({
+        phoneNumber: countryNumber + phoneNumber,
+        code: getValues('code'),
+      });
+    }
   };
 
-  const onResendOTP = () => {
-    sendOtpSms(countryNumber + phoneNumber, 'addPhoneNumber');
+  const onResendOTP = async () => {
+    type === 'Add'
+      ? await sendOtpSms(countryNumber + phoneNumber, 'addPhoneNumber')
+      : await getVerificationCode({
+          phoneNumber: countryNumber + phoneNumber,
+        });
   };
 
   useEffect(() => {

@@ -33,27 +33,16 @@ interface ChangePNProps {
 }
 
 interface InputProps {
-  oldPhoneNumber: string;
   newPhoneNumber: string;
   password: string;
   type: PhoneSettingTypeProps;
 }
 
 const validation = yup.object({
-  oldPhoneNumber: yup.string().when('type', {
-    is: (val: PhoneSettingTypeProps) => val === 'Change',
-    then: yup
-      .string()
-      .required('This field is required')
-      .matches(/^[0-9]{0,15}$/, 'Only allowed 15 numerical characters'),
-  }),
-  newPhoneNumber: yup.string().when('type', {
-    is: (val: PhoneSettingTypeProps) => val === 'Add',
-    then: yup
-      .string()
-      .required('This field is required')
-      .matches(/^[0-9]{0,15}$/, 'Only allowed 15 numerical characters'),
-  }),
+  newPhoneNumber: yup
+    .string()
+    .required('This field is required')
+    .matches(/^[0-9]{0,15}$/, 'Only allowed 15 numerical characters'),
   password: yup.string().when('type', {
     is: (val: PhoneSettingTypeProps) => val === 'Add',
     then: yup
@@ -67,13 +56,20 @@ export const ChangePNContent: React.FC<ChangePNProps> = ({
   onPressGoBack,
   type,
   onSuccess,
+  oldPhone,
 }) => {
   const [focusInput, setFocusInput] = useState<string | null>(null);
   const [countryNumber, setCountryNumber] = useState<string | null>(null);
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const {verificationPasswordPhone, isError, isLoading, errorMsg, setIsError} =
-    useSettingHook();
+  const {
+    verificationPasswordPhone,
+    getVerificationCode,
+    isError,
+    isLoading,
+    errorMsg,
+    setIsError,
+  } = useSettingHook();
 
   const {
     control,
@@ -86,7 +82,6 @@ export const ChangePNContent: React.FC<ChangePNProps> = ({
     resolver: yupResolver(validation),
     mode: 'onChange',
     defaultValues: {
-      oldPhoneNumber: '',
       newPhoneNumber: '',
       password: '',
       type: type,
@@ -125,10 +120,17 @@ export const ChangePNContent: React.FC<ChangePNProps> = ({
 
   const onPressSave = async () => {
     checkErrorCountry(countryNumber);
-    await verificationPasswordPhone({
-      phoneNumber: countryNumber + getValues('newPhoneNumber'),
-      password: getValues('password'),
-    });
+    if (type === 'Add') {
+      await verificationPasswordPhone({
+        phoneNumber: countryNumber + getValues('newPhoneNumber'),
+        password: getValues('password'),
+      });
+    } else {
+      await getVerificationCode({
+        phoneNumber: countryNumber + getValues('newPhoneNumber'),
+      });
+    }
+
     setIsSubmit(true);
   };
 
@@ -156,6 +158,20 @@ export const ChangePNContent: React.FC<ChangePNProps> = ({
         containerStyles={{marginBottom: heightPercentage(15)}}
       />
 
+      {type === 'Change' && (
+        <>
+          <Gap height={10} />
+          <SsuInput.InputLabel
+            label="Old Phone Number"
+            value={oldPhone}
+            editable={false}
+            containerInputStyles={{borderBottomWidth: 0}}
+            containerStyles={styles.containerInput}
+          />
+          <Gap height={10} />
+        </>
+      )}
+
       <Gap height={10} />
       <Controller
         name="newPhoneNumber"
@@ -163,7 +179,7 @@ export const ChangePNContent: React.FC<ChangePNProps> = ({
         render={({field: {onChange, value}}) => (
           <Dropdown.Country
             type="label"
-            labelText="Phone Number"
+            labelText={`${type === 'Change' && 'New '}Phone Number`}
             value={value}
             onChangeText={onChange}
             countryData={countryData}
@@ -179,25 +195,29 @@ export const ChangePNContent: React.FC<ChangePNProps> = ({
         )}
       />
 
-      <Gap height={20} />
-      <Controller
-        name="password"
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <SsuInput.InputLabel
-            label="Current Password"
-            password
-            value={value}
-            onChangeText={text => {
-              onChange(text);
-              setIsError(false);
-            }}
-            placeholder={'Input Password'}
-            isError={errors?.password ? true : false}
-            errorMsg={errors?.password?.message}
+      {type === 'Add' && (
+        <>
+          <Gap height={20} />
+          <Controller
+            name="password"
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <SsuInput.InputLabel
+                label="Current Password"
+                password
+                value={value}
+                onChangeText={text => {
+                  onChange(text);
+                  setIsError(false);
+                }}
+                placeholder={'Input Password'}
+                isError={errors?.password ? true : false}
+                errorMsg={errors?.password?.message}
+              />
+            )}
           />
-        )}
-      />
+        </>
+      )}
 
       {isError ? (
         <View style={styles.containerErrorMsg}>
@@ -251,5 +271,10 @@ const styles = StyleSheet.create({
     fontSize: normalize(10),
     lineHeight: mvs(12),
     maxWidth: '90%',
+  },
+  containerInput: {
+    width: '100%',
+    alignSelf: 'center',
+    marginTop: heightPercentage(15),
   },
 });
