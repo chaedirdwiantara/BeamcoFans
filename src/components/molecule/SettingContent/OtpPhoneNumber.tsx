@@ -92,7 +92,7 @@ export const OtpPhoneNumber: React.FC<OtpPNProps> = ({
 
   const onPressSave = async () => {
     closeModal();
-    setIsSubmit(true);
+
     if (type === 'Add') {
       await addNewPhoneNumber({
         phoneNumber: countryNumber + phoneNumber,
@@ -104,6 +104,7 @@ export const OtpPhoneNumber: React.FC<OtpPNProps> = ({
         code: getValues('code'),
       });
     }
+    setIsSubmit(true);
   };
 
   const onResendOTP = async () => {

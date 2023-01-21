@@ -19,6 +19,7 @@ export const OtpPNScreen: React.FC<OtpPNProps> = ({
   };
 
   const onSuccess = (msg: string) => {
+    navigation.pop(1);
     navigation.replace('PhoneNumber', {
       info: true,
       message: msg,
