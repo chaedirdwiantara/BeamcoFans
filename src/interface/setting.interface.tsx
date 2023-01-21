@@ -9,4 +9,22 @@ export type EmailPhoneVerifProps = {
   phoneNumber?: string;
 };
 
-export type EmailPhoneResponseType = {};
+export type VerifPasswordPhone = {
+  phoneNumber: string;
+  password: string;
+};
+
+export type OtpPhoneScreen = {
+  phoneNumber: string;
+  countryNumber: string | null;
+  type: PhoneSettingTypeProps;
+};
+
+export type PhoneSettingTypeProps = 'Add' | 'Change';
+
+export type EmailPhoneResponseType = {
+  code: number;
+  data: any;
+  message: string | undefined;
+  status: number;
+};

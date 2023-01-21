@@ -206,6 +206,7 @@ export const useAuthHook = () => {
 
       if (credentialState === appleAuth.State.AUTHORIZED) {
         const response = await loginSso(appleAuthRequestResponse.user, 'apple');
+        console.log({response});
         if (response.code === 1003) {
           setSsoEmail(appleAuthRequestResponse.email ?? '');
           setSsoId(appleAuthRequestResponse.user);
@@ -361,12 +362,16 @@ export const useAuthHook = () => {
     }
   };
 
-  const sendOtpSms = async (phoneNumber: string) => {
+  const sendOtpSms = async (phoneNumber: string, context?: string) => {
     setIsError(false);
     setErrorMsg('');
     setIsLoading(true);
     try {
-      await resendOtpSms(phoneNumber);
+      const resp = await resendOtpSms(phoneNumber, context);
+      if (resp.code !== 200) {
+        setIsError(true);
+        setErrorMsg(resp.message);
+      }
     } catch (error) {
       setIsError(true);
       if (
