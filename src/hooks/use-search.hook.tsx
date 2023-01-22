@@ -17,10 +17,11 @@ import {
 } from '../interface/search.interface';
 import {BannerList} from '../interface/banner.interface';
 import {PaginationType} from '../interface/base.interface';
+import {searchEvent} from '../api/event.api';
 
 export const useSearchHook = () => {
   const [searchLoading, setSearchLoading] = useState<boolean>(false);
-  const [searchError, setSearchError] = useState<string>('');
+  // const [searchError, setSearchError] = useState<string>('');
   const [dataSearchFans, setDataSearchFans] = useState<
     ListDataSearchFans[] | null
   >(null);
@@ -35,12 +36,6 @@ export const useSearchHook = () => {
   >(null);
   const [dataSearchPlaylists, setDataSearchPlaylists] = useState<
     ListDataSearchPlaylist[] | null
-  >(null);
-  const [dataSearchMerchs, setDataSearchMerchs] = useState<
-    ListDataSearchMusician[] | null
-  >(null);
-  const [dataSearchEvents, setDataSearchEvents] = useState<
-    ListDataSearchMusician[] | null
   >(null);
   const [dataPublicBanner, setDataPublicBanner] = useState<BannerList[]>([]);
 
@@ -109,28 +104,30 @@ export const useSearchHook = () => {
   };
 
   const getSearchMerchs = async (props?: SearchProps) => {
-    setSearchLoading(true);
     try {
-      const response = await musicianSearch(props);
-      setDataSearchMerchs(response.data);
+      const response = await searchEvent({
+        type: 'merch',
+        query: props?.keyword,
+      });
+      return {
+        data: response?.data,
+      };
     } catch (error) {
       console.log(error);
-      setDataSearchMerchs(null);
-    } finally {
-      setSearchLoading(false);
     }
   };
 
   const getSearchEvents = async (props?: SearchProps) => {
-    setSearchLoading(true);
     try {
-      const response = await musicianSearch(props);
-      setDataSearchEvents(response.data);
+      const response = await searchEvent({
+        type: 'event',
+        query: props?.keyword,
+      });
+      return {
+        data: response?.data,
+      };
     } catch (error) {
       console.log(error);
-      setDataSearchEvents(null);
-    } finally {
-      setSearchLoading(false);
     }
   };
 
@@ -161,5 +158,7 @@ export const useSearchHook = () => {
     getSearchSongs,
     getSearchPlaylists,
     getListDataBannerPublic,
+    getSearchMerchs,
+    getSearchEvents,
   };
 };
