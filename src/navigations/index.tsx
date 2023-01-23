@@ -88,7 +88,6 @@ import {
 import {PostList} from '../interface/feed.interface';
 import {Playlist} from '../interface/playlist.interface';
 import {AlbumData} from '../interface/musician.interface';
-import {imageUriProps} from '../screen/MusicianProfile/DataMusician';
 import {ChangePNScreen} from '../screen/Setting/PhoneNumber/ChangePN';
 import {OtpPNScreen} from '../screen/Setting/PhoneNumber/OTP';
 import {SplashScreen} from '../screen/SplashScreen';
@@ -257,14 +256,7 @@ const RootStack = createNativeStackNavigator<RootStackParams>();
 export const RootStackScreen = () => (
   <RootStack.Navigator
     screenOptions={screenOption}
-    initialRouteName={
-      'SplashScreen'
-      // storage.getBoolean('isLogin') || storage.getBoolean('isGuest')
-      //   ? 'MainTab'
-      //   : storage.getBoolean('skipOnboard')
-      //   ? 'SignInGuest'
-      //   : 'Boarding'
-    }>
+    initialRouteName={'SplashScreen'}>
     <RootStack.Screen name="Boarding" component={OnboardScreen} />
     <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
     <RootStack.Screen name="AddToPlaylist" component={AddToPlaylistScreen} />
