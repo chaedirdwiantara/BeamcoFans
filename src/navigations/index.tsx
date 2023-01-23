@@ -70,8 +70,6 @@ import {TopupCoinScreen} from '../screen/TopupCoin';
 // Merch
 import {MerchDetail} from '../screen/MerchDetail';
 
-import {storage} from '../hooks/use-storage.hook';
-
 // Icon
 import {CrownIcon, FeedIcon, HomeIcon, UserProfileIcon} from '../assets/icon';
 
@@ -157,7 +155,8 @@ export type RootStackParams = {
   ShippingInformation: undefined;
   ShowCredit: undefined;
   SongDetails: {
-    id: number;
+    songId: number;
+    musicianId: string;
   };
   Notification: undefined;
   PostDetail: PostList;
