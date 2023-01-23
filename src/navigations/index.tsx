@@ -141,9 +141,7 @@ export type RootStackParams = {
   PushNotification: undefined;
   Referral: undefined;
   ReferralCode: undefined;
-  SendReport: {
-    title: string;
-  };
+  SendReport: {title: string};
   Setting: undefined;
   Signup: undefined;
   SignupSSO: {
