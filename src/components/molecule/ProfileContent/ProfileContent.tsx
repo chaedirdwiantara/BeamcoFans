@@ -18,7 +18,7 @@ import {
 import {font} from '../../../theme';
 import {TabFilter} from '../TabFilter';
 import Color from '../../../theme/Color';
-import {SettingIcon} from '../../../assets/icon';
+import {Gap, SsuToast} from '../../atom';
 import {ProfileHeader} from './components/Header';
 import {EmptyState} from '../EmptyState/EmptyState';
 import {TopSongListData} from '../../../data/topSong';
@@ -26,6 +26,7 @@ import {UserInfoCard} from '../UserInfoCard/UserInfoCard';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import {Playlist} from '../../../interface/playlist.interface';
 import ListPlaylist from '../../../screen/ListCard/ListPlaylist';
+import {CheckCircle2Icon, SettingIcon} from '../../../assets/icon';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -40,6 +41,9 @@ interface ProfileContentProps {
     screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
   ) => void;
   showCreateCard: boolean;
+  toastVisible: boolean;
+  setToastVisible: (param: boolean) => void;
+  toastText: string;
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -49,6 +53,9 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   onPressGoTo,
   dataPlaylist,
   showCreateCard,
+  toastVisible,
+  setToastVisible,
+  toastText,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollEffect, setScrollEffect] = useState(false);
@@ -160,6 +167,20 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           )}
         </View>
       </ScrollView>
+
+      <SsuToast
+        modalVisible={toastVisible}
+        onBackPressed={() => setToastVisible(false)}
+        children={
+          <View style={[styles.modalContainer]}>
+            <CheckCircle2Icon />
+            <Gap width={4} />
+            <Text style={[styles.textStyle]} numberOfLines={2}>
+              {toastText}
+            </Text>
+          </View>
+        }
+      />
     </View>
   );
 };
@@ -203,5 +224,19 @@ const styles = StyleSheet.create({
   },
   topIos: {
     top: heightPercentage(15),
+  },
+  modalContainer: {
+    width: '100%',
+    position: 'absolute',
+    bottom: heightPercentage(22),
+    height: heightPercentage(36),
+    backgroundColor: Color.Success[400],
+    paddingHorizontal: widthPercentage(12),
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textStyle: {
+    color: Color.Neutral[10],
   },
 });

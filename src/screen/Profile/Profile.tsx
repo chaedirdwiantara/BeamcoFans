@@ -1,22 +1,30 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {
   useFocusEffect,
   useIsFocused,
   useNavigation,
 } from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
-import {RootStackParams} from '../../navigations';
 import {storage} from '../../hooks/use-storage.hook';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {profileStorage} from '../../hooks/use-storage.hook';
 import {GuestContent, ProfileContent} from '../../components';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
+import {MainTabParams, RootStackParams} from '../../navigations';
 
-export const ProfileScreen: React.FC = () => {
+type ProfileProps = NativeStackScreenProps<MainTabParams, 'Profile'>;
+
+export const ProfileScreen: React.FC<ProfileProps> = ({
+  route,
+}: ProfileProps) => {
+  const {showToast, deletePlaylist} = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataProfile, getProfileUser} = useProfileHook();
@@ -24,6 +32,25 @@ export const ProfileScreen: React.FC = () => {
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
   const {isPlay, showPlayer, hidePlayer} = usePlayerHook();
+  const [toastText, setToastText] = useState<string>('');
+  const [toastVisible, setToastVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (showToast !== undefined && !deletePlaylist) {
+      setToastVisible(showToast);
+      setToastText('Your Profile have been updated!');
+    } else if (deletePlaylist !== undefined) {
+      setToastVisible(deletePlaylist);
+      setToastText('Playlist have been deleted!');
+    }
+  }, [route.params]);
+
+  useEffect(() => {
+    toastVisible &&
+      setTimeout(() => {
+        setToastVisible(false);
+      }, 3000);
+  }, [toastVisible]);
 
   useEffect(() => {
     if (isFocused && isPlay) {
@@ -75,6 +102,9 @@ export const ProfileScreen: React.FC = () => {
           goToEditProfile={goToEditProfile}
           onPressGoTo={screenName => onPressGoTo(screenName)}
           showCreateCard
+          toastVisible={toastVisible}
+          setToastVisible={setToastVisible}
+          toastText={toastText}
         />
       ) : (
         <GuestContent />
