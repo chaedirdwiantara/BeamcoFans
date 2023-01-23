@@ -39,6 +39,7 @@ export type ListSearchMusicianResponseType = {
 
 export type ListDataSearchSongs = {
   id: number;
+  musicianId: string;
   musicianName: string;
   title: string;
   description: string;

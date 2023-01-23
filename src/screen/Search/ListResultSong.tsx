@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList} from 'react-native';
 import React, {FC} from 'react';
 import {ListCard} from '../../components';
 import {ListDataSearchSongs} from '../../interface/search.interface';
@@ -19,8 +19,11 @@ const ListResultSong: FC<ListResultSongProps> = (
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const handleOnPress = (id: number) => {
-    navigation.navigate('SongDetails', {id});
+  const handleOnPress = (songId: number) => {
+    navigation.navigate('SongDetails', {
+      songId,
+      musicianId: 'f90c7d34-5a56-45d5-833f-171c8766b4af',
+    });
   };
 
   return (
@@ -45,5 +48,3 @@ const ListResultSong: FC<ListResultSongProps> = (
 };
 
 export default ListResultSong;
-
-const styles = StyleSheet.create({});
