@@ -121,7 +121,9 @@ export const HomeScreen: React.FC = () => {
   useEffect(() => {
     FCMService.getTokenFCM({onGetToken: handleOnGetToken});
     FCMService.createNotificationListener({
-      onRegister: token => registerFcm(token),
+      onRegister: token => {
+        registerFcm(token);
+      },
       onNotification: data => {
         onNotification(data);
       },
