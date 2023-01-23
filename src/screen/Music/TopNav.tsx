@@ -6,12 +6,8 @@ import {widthResponsive} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
-import {NativeModules, Platform} from 'react-native';
 
-const {StatusBarManager} = NativeModules;
-const barHeight = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
-
-const TopNav = ({id}: {id: number}) => {
+const TopNav = ({songId, musicianId}: {songId: number; musicianId: string}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   return (
@@ -25,7 +21,9 @@ const TopNav = ({id}: {id: number}) => {
       }
       leftIconAction={navigation.goBack}
       rightIcon={<AudioMusic />}
-      rightIconAction={() => navigation.navigate('SongDetails', {id})}
+      rightIconAction={() =>
+        navigation.navigate('SongDetails', {songId, musicianId})
+      }
       itemStrokeColor={'white'}
       containerStyles={{
         borderBottomWidth: 0,
