@@ -25,7 +25,7 @@ export const PreferenceScreen: React.FC = () => {
   } = useMusicianHook();
 
   useEffect(() => {
-    getListDataMusician({perPage: 5});
+    getListDataMusician();
   }, []);
 
   const goToScreenReferral = () => {
@@ -42,14 +42,12 @@ export const PreferenceScreen: React.FC = () => {
         onUpdatePreference={(props?: UpdateProfilePropsType) =>
           updateProfilePreference(props)
         }
-        setFollowMusician={(
-          props?: FollowMusicianPropsType,
-          params?: ParamsProps,
-        ) => setFollowMusician(props, params)}
-        setUnfollowMusician={(
-          props?: FollowMusicianPropsType,
-          params?: ParamsProps,
-        ) => setUnfollowMusician(props, params)}
+        setFollowMusician={(props?: FollowMusicianPropsType) =>
+          setFollowMusician(props, {}, true)
+        }
+        setUnfollowMusician={(props?: FollowMusicianPropsType) =>
+          setUnfollowMusician(props, {}, true)
+        }
         dataList={dataMusician}
       />
     </View>

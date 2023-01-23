@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   Text,
   View,
@@ -10,6 +10,12 @@ import {
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
 
+import {
+  heightPercentage,
+  heightResponsive,
+  width,
+  widthPercentage,
+} from '../../../utils';
 import Color from '../../../theme/Color';
 import {FooterContent} from './FooterContent';
 import {
@@ -21,8 +27,6 @@ import {DataOnboardType} from '../../../data/onboard';
 import {ListCard, SelectBox} from '../../../components';
 import {DataFavouritesType} from '../../../data/preference';
 import {UpdateProfilePropsType} from '../../../api/profile.api';
-import {heightPercentage, width, widthPercentage} from '../../../utils';
-import {ParamsProps} from '../../../interface/base.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -33,14 +37,8 @@ interface ImageSliderProps {
   data: DataOnboardType[] | DataFavouritesType[];
   onPress: () => void;
   onUpdatePreference?: (props?: UpdateProfilePropsType) => void;
-  setFollowMusician: (
-    props?: FollowMusicianPropsType,
-    params?: ParamsProps,
-  ) => void;
-  setUnfollowMusician: (
-    props?: FollowMusicianPropsType,
-    params?: ParamsProps,
-  ) => void;
+  setFollowMusician: (props?: FollowMusicianPropsType) => void;
+  setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
   dataList?: MusicianList[];
 }
 
@@ -60,11 +58,27 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
     [],
   );
   const [activeIndexSlide, setActiveIndexSlide] = useState<number>(0);
+  const [listMusician, setListMusician] = useState(dataList);
+
+  useEffect(() => {
+    if (dataList !== undefined) {
+      setListMusician(dataList);
+    }
+  }, [dataList]);
 
   const followOnPress = (index: string, isFollowed: boolean) => {
+    if (listMusician !== undefined) {
+      const newList = listMusician.map(val => ({
+        ...val,
+        isFollowed: val.uuid === index ? !val.isFollowed : val.isFollowed,
+      }));
+
+      setListMusician(newList);
+    }
+
     isFollowed
-      ? setUnfollowMusician({musicianID: index}, {perPage: 5})
-      : setFollowMusician({musicianID: index}, {perPage: 5});
+      ? setUnfollowMusician({musicianID: index})
+      : setFollowMusician({musicianID: index});
   };
 
   const handleNextSlide = () => {
@@ -156,23 +170,34 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                   <Text style={[Typography.Heading4, styles.title]}>
                     {item.title}
                   </Text>
-                  {dataList &&
-                    dataList?.map((item, index) => (
-                      <View
-                        key={index}
-                        style={{width, paddingHorizontal: widthPercentage(15)}}>
-                        <ListCard.FollowMusician
-                          musicianName={item.fullname}
-                          imgUri={item.imageProfileUrl || ''}
-                          containerStyles={{marginTop: mvs(20)}}
-                          followerCount={item.followers}
-                          followOnPress={() =>
-                            followOnPress(item.uuid, item.isFollowed)
-                          }
-                          stateButton={item.isFollowed}
-                        />
-                      </View>
-                    ))}
+                  <View style={{height: '65%'}}>
+                    <ScrollView>
+                      {listMusician &&
+                        listMusician?.map((item, index) => (
+                          <View
+                            key={index}
+                            style={{
+                              width,
+                              paddingHorizontal: widthPercentage(15),
+                              paddingBottom:
+                                index === listMusician.length - 1
+                                  ? heightResponsive(20)
+                                  : 0,
+                            }}>
+                            <ListCard.FollowMusician
+                              musicianName={item.fullname}
+                              imgUri={item.imageProfileUrl || ''}
+                              containerStyles={{marginTop: mvs(20)}}
+                              followerCount={item.followers}
+                              followOnPress={() =>
+                                followOnPress(item.uuid, item.isFollowed)
+                              }
+                              stateButton={item.isFollowed}
+                            />
+                          </View>
+                        ))}
+                    </ScrollView>
+                  </View>
                 </View>
               );
             } else {
