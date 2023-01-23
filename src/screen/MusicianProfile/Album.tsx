@@ -1,24 +1,35 @@
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
-import {Gap, SquareImage, Title} from '../../components';
-import {heightResponsive, widthResponsive} from '../../utils';
-import {color, font} from '../../theme';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {ms} from 'react-native-size-matters';
-import SquareComp from './SquareComp';
-import {AlbumData} from '../../interface/musician.interface';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+import SquareComp from './SquareComp';
+import {color, font} from '../../theme';
+import {Gap, Title} from '../../components';
+import {DefaultImage} from '../../assets/icon';
 import {RootStackParams} from '../../navigations';
+import {heightResponsive, widthResponsive} from '../../utils';
+import {AlbumData} from '../../interface/musician.interface';
 
 interface AlbumProps {
   title: string;
   data: AlbumData[];
   errorText: string;
   artistName: string;
+  titleStyle?: ViewStyle;
+  containerStyles?: ViewStyle;
 }
 
 const Album: FC<AlbumProps> = (props: AlbumProps) => {
-  const {title, data, errorText, artistName} = props;
+  const {title, titleStyle, data, errorText, artistName, containerStyles} =
+    props;
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -28,8 +39,8 @@ const Album: FC<AlbumProps> = (props: AlbumProps) => {
   };
 
   return (
-    <View style={{marginHorizontal: widthResponsive(24)}}>
-      <Title text={title} />
+    <View style={[{marginHorizontal: widthResponsive(24)}, containerStyles]}>
+      <Title text={title} textStyle={titleStyle} />
       <Gap height={12} />
       {data ? (
         <View>
@@ -38,7 +49,14 @@ const Album: FC<AlbumProps> = (props: AlbumProps) => {
               style={styles.container}
               onPress={() => handleToDetail(item)}
               testID={`album${i}`}>
-              <SquareComp imgUri={item.imageUrl} size={widthResponsive(56)} />
+              {item.imageUrl ? (
+                <SquareComp imgUri={item.imageUrl} size={widthResponsive(56)} />
+              ) : (
+                <DefaultImage.PlaylistCover
+                  width={widthResponsive(56)}
+                  height={widthResponsive(56)}
+                />
+              )}
               <View style={styles.textContainer}>
                 <Text style={styles.songTitle} numberOfLines={1}>
                   {item.title}
