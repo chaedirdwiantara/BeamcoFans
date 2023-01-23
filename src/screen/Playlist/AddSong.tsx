@@ -6,6 +6,7 @@ import Color from '../../theme/Color';
 import {AddSongContent} from '../../components';
 import {RootStackParams} from '../../navigations';
 import {useSongHook} from '../../hooks/use-song.hook';
+import {useBackHandler} from '../../utils/useBackHandler';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 import {AddSongPropsType} from '../../interface/playlist.interface';
 
@@ -27,6 +28,11 @@ export const AddSongScreen: React.FC<AddSongProps> = ({
   const onPressGoBack = () => {
     navigation.goBack();
   };
+
+  useBackHandler(() => {
+    onPressGoBack();
+    return true;
+  });
 
   const onPressAddSong = (props?: AddSongPropsType) => {
     setAddSongToPlaylist(props);

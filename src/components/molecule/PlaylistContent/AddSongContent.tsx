@@ -77,6 +77,7 @@ export const AddSongContent: React.FC<AddSongProps> = ({
             rightIcon={true}
             rightIconComponent={<AddCircleIcon />}
             onPressIcon={onPressIcon}
+            activeOpacity={1}
           />
         </View>
       </ScrollView>
