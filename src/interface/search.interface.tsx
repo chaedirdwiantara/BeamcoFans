@@ -25,6 +25,8 @@ export type ListDataSearchMusician = {
   email: string;
   imageProfileUrl: string;
   followers: number;
+  point?: number;
+  isFollowed?: boolean;
 };
 
 export type ListSearchMusicianResponseType = {
@@ -37,6 +39,7 @@ export type ListSearchMusicianResponseType = {
 
 export type ListDataSearchSongs = {
   id: number;
+  musicianId: string;
   musicianName: string;
   title: string;
   description: string;

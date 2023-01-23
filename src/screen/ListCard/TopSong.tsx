@@ -16,6 +16,7 @@ interface TopSongPropsScreen {
   rightIcon?: boolean;
   rightIconComponent?: React.ReactNode;
   onPressIcon?: (data: number) => void;
+  activeOpacity?: number;
 }
 
 const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
@@ -28,6 +29,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
     rightIcon,
     rightIconComponent,
     onPressIcon,
+    activeOpacity,
   } = props;
   const {musicData, isPlay} = usePlayerHook();
 
@@ -46,13 +48,14 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
           onPressCard={type === 'home' ? () => onPress(item) : undefined}
           containerStyles={{
             marginTop: mvs(20),
-            marginBottom: index === dataSong?.length - 1 ? mvs(20) : 0,
+            marginBottom: index + 1 === dataSong?.length ? mvs(20) : 0,
           }}
           played={type === 'home' ? isPlay && item.id === musicData.id : false}
           hideDropdownMore={hideDropdownMore}
           rightIcon={rightIcon}
           rightIconComponent={rightIconComponent}
-          onPressIcon={() => onPressIcon(item.id)}
+          onPressIcon={() => onPressIcon && onPressIcon(item.id)}
+          activeOpacity={activeOpacity}
         />
       )}
       estimatedItemSize={heightResponsive(500)}

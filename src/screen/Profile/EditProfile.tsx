@@ -1,13 +1,17 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Image} from 'react-native-image-crop-picker';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 
 import Color from '../../theme/Color';
 import {EditProfile} from '../../components';
-import {RootStackParams} from '../../navigations';
 import {uploadImage} from '../../api/uploadImage.api';
 import {useProfileHook} from '../../hooks/use-profile.hook';
+import {MainTabParams, RootStackParams} from '../../navigations';
 
 type EditProfileProps = NativeStackScreenProps<RootStackParams, 'EditProfile'>;
 
@@ -15,6 +19,7 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
   navigation,
   route,
 }: EditProfileProps) => {
+  const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const dataProfile = route.params;
   const {updateProfileUser} = useProfileHook();
 
@@ -28,15 +33,12 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
   };
 
   const onPressSave = (param: {bio: string}) => {
-    updateProfileUser(
-      {
-        about: param.bio,
-        imageProfileUrl: avatarUri,
-        banner: backgroundUri,
-      },
-      true,
-    );
-    navigation.goBack();
+    updateProfileUser({
+      about: param.bio,
+      imageProfileUrl: avatarUri,
+      banner: backgroundUri,
+    });
+    navigation2.navigate('Profile', {showToast: true});
   };
 
   const setResetImage = (type: string) => {

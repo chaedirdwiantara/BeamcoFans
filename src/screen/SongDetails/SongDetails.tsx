@@ -1,41 +1,44 @@
 import React, {useCallback} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {SongDetailsContent} from '../../components';
 import {useSongHook} from '../../hooks/use-song.hook';
+import {useMusicianHook} from '../../hooks/use-musician.hook';
 
 type SongDetailProps = NativeStackScreenProps<RootStackParams, 'SongDetails'>;
 
 export const SongDetailsScreen: React.FC<SongDetailProps> = ({
   route,
 }: SongDetailProps) => {
-  const songId = route.params.id;
+  const {songId, musicianId} = route.params;
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const {isLoadingSong, isErrorSong, dataDetailSong, getDetailSong} =
-    useSongHook();
+  const {dataDetailSong, getDetailSong} = useSongHook();
+  const {dataAlbum, getAlbum} = useMusicianHook();
 
-  //  ? Get Detail Song
   useFocusEffect(
     useCallback(() => {
       getDetailSong({id: songId.toString()});
     }, []),
   );
 
+  useFocusEffect(
+    useCallback(() => {
+      getAlbum({uuid: musicianId});
+    }, []),
+  );
+
   const onPressGoBack = () => {
     navigation.goBack();
-  };
-
-  const goToAlbum = () => {
-    navigation.navigate('Album');
   };
 
   const goToShowCredit = () => {
@@ -47,9 +50,9 @@ export const SongDetailsScreen: React.FC<SongDetailProps> = ({
       {dataDetailSong && (
         <SongDetailsContent
           onPressGoBack={onPressGoBack}
-          goToAlbum={goToAlbum}
           goToShowCredit={goToShowCredit}
           dataDetail={dataDetailSong}
+          dataAlbum={dataAlbum}
         />
       )}
     </View>

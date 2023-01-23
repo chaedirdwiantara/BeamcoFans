@@ -137,16 +137,7 @@ export const SearchScreen: React.FC = () => {
             </>
           ) : null}
         </View>
-        {modalVisible && (
-          <ModalPlayMusic
-            imgUri={
-              'https://cdns-images.dzcdn.net/images/cover/7f7aae26b50cb046c872238b6a2a10c2/264x264.jpg'
-            }
-            musicTitle={'Thunder'}
-            singerName={'Imagine Dragons, The Wekeend'}
-            onPressModal={goToSongDetails}
-          />
-        )}
+        {modalVisible && <ModalPlayMusic onPressModal={goToSongDetails} />}
       </View>
     </>
   );

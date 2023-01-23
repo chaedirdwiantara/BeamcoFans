@@ -28,6 +28,8 @@ export type ProfileResponseData = {
   songAdded: number | null;
   createdAt: string;
   updatedAt: string;
+  locationCountry: string;
+  gender: string;
 };
 
 export type MoodsType = {

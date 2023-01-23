@@ -198,6 +198,7 @@ export const EditPlaylistContent: React.FC<EditPlaylistProps> = ({
         </View>
 
         <Dropdown.Input
+          initialValue={isPublic}
           data={dataVisibility}
           placeHolder={'Visibility'}
           dropdownLabel={'Visibility'}

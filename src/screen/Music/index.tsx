@@ -76,7 +76,7 @@ export const MusicPlayer: FC<MusicProps> = ({navigation}: MusicProps) => {
     <View style={styles.container}>
       <SsuStatusBar type="black" />
       <View style={styles.topNavStyle}>
-        <TopNav />
+        <TopNav songId={musicData.id} musicianId={musicData.musicianId} />
       </View>
       <View style={styles.mainContainer}>
         {/* image */}

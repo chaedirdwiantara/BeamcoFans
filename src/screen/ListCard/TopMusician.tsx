@@ -33,14 +33,14 @@ const TopMusician: FC<TopMusicianProps> = ({
   setUnfollowMusician,
   emptyState,
 }) => {
-  const followOnPress = (index: string, isFollowed: boolean) => {
+  const followOnPress = (index: string, isFollowed?: boolean) => {
     isFollowed
       ? setUnfollowMusician({musicianID: index}, {filterBy: 'top'})
       : setFollowMusician({musicianID: index}, {filterBy: 'top'});
   };
 
   return (
-    <FlashList
+    <FlashList<MusicianList | ListDataSearchMusician>
       data={dataMusician}
       showsVerticalScrollIndicator={false}
       scrollEnabled={scrollable}

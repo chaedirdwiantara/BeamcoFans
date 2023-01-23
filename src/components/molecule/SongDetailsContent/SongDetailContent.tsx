@@ -6,6 +6,7 @@ import {
   ScrollView,
   InteractionManager,
 } from 'react-native';
+import {mvs} from 'react-native-size-matters';
 
 import {
   heightPercentage,
@@ -13,8 +14,12 @@ import {
   width,
   widthPercentage,
 } from '../../../utils';
+import {
+  ArrowLeftIcon,
+  DefaultImage,
+  TickCircleIcon,
+} from '../../../assets/icon';
 import {Dropdown} from '../DropDown';
-import {ListAlbum} from './ListAlbum';
 import {ListAvatar} from './ListAvatar';
 import Color from '../../../theme/Color';
 import {Gap, SsuToast} from '../../atom';
@@ -22,28 +27,24 @@ import {ModalShare} from '../Modal/ModalShare';
 import {TopNavigation} from '../TopNavigation';
 import {ModalDonate} from '../Modal/ModalDonate';
 import {color, font, typography} from '../../../theme';
+import Album from '../../../screen/MusicianProfile/Album';
 import {ModalSuccessDonate} from '../Modal/ModalSuccessDonate';
 import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
+import {AlbumData} from '../../../interface/musician.interface';
 import {dropDownHeaderSongDetails} from '../../../data/dropdown';
-import {
-  ArrowLeftIcon,
-  DefaultImage,
-  TickCircleIcon,
-} from '../../../assets/icon';
-import {ListenersAndDonate} from '../ListenersAndDonate/ListenersAndDonate';
 import {DataDetailSong} from '../../../interface/song.interface';
-import {mvs} from 'react-native-size-matters';
+import {ListenersAndDonate} from '../ListenersAndDonate/ListenersAndDonate';
 
 interface Props {
+  dataAlbum: AlbumData[];
   onPressGoBack: () => void;
-  goToAlbum: () => void;
   goToShowCredit: () => void;
   dataDetail: DataDetailSong;
 }
 
 export const SongDetailsContent: React.FC<Props> = ({
+  dataAlbum,
   onPressGoBack,
-  goToAlbum,
   goToShowCredit,
   dataDetail,
 }) => {
@@ -52,6 +53,8 @@ export const SongDetailsContent: React.FC<Props> = ({
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
+
+  const noAlbumText = 'No Album Available.';
 
   useEffect(() => {
     toastVisible &&
@@ -152,12 +155,13 @@ export const SongDetailsContent: React.FC<Props> = ({
             </Text>
             <Text style={styles.description}>{dataDetail.description}</Text>
 
-            <ListAlbum
+            <Album
               title={'Album'}
-              albumName={dataDetail.Album.Title}
-              onPress={goToAlbum}
-              createdOn={dataDetail.Album.ProductionYear}
-              imgUri={dataDetail.Album.ImageURL}
+              titleStyle={styles.titleAlbumStyle}
+              data={dataAlbum}
+              artistName={dataDetail.musicianName}
+              errorText={noAlbumText}
+              containerStyles={{marginHorizontal: 0}}
             />
           </View>
         </View>
@@ -250,6 +254,14 @@ const styles = StyleSheet.create({
     paddingTop: heightPercentage(12),
   },
   titleContent: {
+    color: color.Success[500],
+    paddingTop: heightPercentage(12),
+  },
+  titleAlbumStyle: {
+    fontFamily: font.InterMedium,
+    fontSize: mvs(15),
+    lineHeight: mvs(20),
+    letterSpacing: 0.15,
     color: color.Success[500],
     paddingTop: heightPercentage(12),
   },

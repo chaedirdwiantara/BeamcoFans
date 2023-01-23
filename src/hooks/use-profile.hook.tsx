@@ -11,8 +11,8 @@ import {PostPropsTypeA} from '../interface/feed.interface';
 import {ProfileResponseType} from '../interface/profile.interface';
 
 export const useProfileHook = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const [isValidReferral, setIsValidReferral] = useState<boolean | null>(null);
   const [dataProfile, setDataProfile] = useState<ProfileResponseType>();
 

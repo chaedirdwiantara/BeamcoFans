@@ -4,22 +4,26 @@ export interface PropsType {
 }
 
 export const dataGender: PropsType[] = [
-  {label: 'Male', value: 'Male'},
-  {label: 'Female', value: 'Female'},
-  {label: 'Non-binary', value: 'Non-binary'},
-  {label: 'Trans', value: 'Trans'},
+  {label: 'Male', value: 'male'},
+  {label: 'Female', value: 'female'},
+  {label: 'Non-binary', value: 'non_binary'},
+  {label: 'Trans', value: 'trans'},
   {
     label: 'My gender identity is not listed',
-    value: 'My gender identity is not listed',
+    value: 'my_gender_is_not_listed',
+  },
+  {
+    label: 'Prefer not say',
+    value: 'prefer_not_say',
   },
 ];
 
 export const dataLocation: PropsType[] = [
-  {label: 'Afganistan', value: 'Afganistan'},
-  {label: 'Argentina', value: 'Argentina'},
-  {label: 'Brazil', value: 'Brazil'},
-  {label: 'China', value: 'China'},
-  {label: 'Denmark', value: 'Denmark'},
-  {label: 'Indonesia', value: 'Indonesia'},
-  {label: 'Singapore', value: 'Singapore'},
+  {label: 'Afganistan', value: 'afganistan'},
+  {label: 'Argentina', value: 'argentina'},
+  {label: 'Brazil', value: 'brazil'},
+  {label: 'China', value: 'china'},
+  {label: 'Denmark', value: 'denmark'},
+  {label: 'Indonesia', value: 'indonesia'},
+  {label: 'Singapore', value: 'singapore'},
 ];

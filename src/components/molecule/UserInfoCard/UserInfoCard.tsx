@@ -55,11 +55,6 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
   const listItem: InfoProfileType[] =
     type === 'self' ? infoProfileUser : infoProfileArtist;
 
-  const newStyles = type !== 'self' && {
-    backgroundColor: 'transparent',
-    marginHorizontal: widthPercentage(5),
-  };
-
   return (
     <View style={[styles.root, containerStyles]}>
       {listItem.map((val, i) => {
@@ -72,7 +67,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
           return <View key={i} style={styles.separator} />;
         } else {
           return (
-            <View style={[{width: '30%'}, newStyles]}>
+            <View style={{width: type === 'self' ? '30%' : '20%'}}>
               <Item
                 point={isFollowing ? totalFollowing : val.point}
                 title={val.title}
