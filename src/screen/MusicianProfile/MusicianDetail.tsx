@@ -121,10 +121,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           onPressDonate={() => setModalDonate(true)}
         />
         <View style={styles.infoCard}>
-          <UserInfoCard
-            containerStyles={{paddingHorizontal: widthResponsive(18)}}
-            onPress={() => {}}
-          />
+          <UserInfoCard onPress={() => {}} />
           <ExclusiveDailyContent />
           <Gap height={10} />
           <View style={styles.containerContent}>

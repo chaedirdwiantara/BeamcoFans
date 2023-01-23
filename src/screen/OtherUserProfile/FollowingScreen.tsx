@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -13,6 +13,8 @@ import {FollowMusicianPropsType} from '../../interface/musician.interface';
 export const FollowingScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const [search, setSearch] = useState<string>('');
 
   const {
     dataMusician,
@@ -42,6 +44,8 @@ export const FollowingScreen: React.FC = () => {
         }
         dataList={dataMusician}
         onPressGoBack={onPressGoBack}
+        search={search}
+        setSearch={setSearch}
       />
     </View>
   );

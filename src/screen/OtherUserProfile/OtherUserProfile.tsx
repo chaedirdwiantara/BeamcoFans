@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {
   useFocusEffect,
@@ -34,6 +34,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
   const {isPlay, showPlayer, hidePlayer} = usePlayerHook();
+  const [toastVisible, setToastVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (isFocused && isPlay) {
@@ -69,6 +70,9 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
           goToEditProfile={() => {}}
           onPressGoTo={() => {}}
           showCreateCard={false}
+          toastVisible={toastVisible}
+          setToastVisible={setToastVisible}
+          toastText={''}
         />
       ) : (
         <GuestContent />
