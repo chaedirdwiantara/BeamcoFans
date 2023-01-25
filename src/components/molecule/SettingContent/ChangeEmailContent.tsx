@@ -58,7 +58,7 @@ export const ChangeEmailContent: React.FC<ChangeEmailProps> = ({
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const {
-    verificationPasswordPhone,
+    verificationPasswordSetting,
     getVerificationCode,
     isError,
     isLoading,
@@ -108,7 +108,7 @@ export const ChangeEmailContent: React.FC<ChangeEmailProps> = ({
   const onPressSave = async () => {
     checkErrorCountry(countryNumber);
     if (type === 'Add') {
-      await verificationPasswordPhone({
+      await verificationPasswordSetting({
         email: getValues('newEmail'),
         password: getValues('password'),
       });

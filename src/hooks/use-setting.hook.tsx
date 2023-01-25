@@ -61,7 +61,7 @@ export const useSettingHook = () => {
     }
   };
 
-  const verificationPasswordPhone = async (props?: VerifPasswordSetting) => {
+  const verificationPasswordSetting = async (props?: VerifPasswordSetting) => {
     setIsLoading(true);
     setIsError(false);
     setErrorMsg('');
@@ -219,7 +219,7 @@ export const useSettingHook = () => {
     changePhoneNumber,
     getVerificationCode,
     setVerificationCode,
-    verificationPasswordPhone,
+    verificationPasswordSetting,
     errorMsg,
     setIsError,
     addNewPhoneNumber,
