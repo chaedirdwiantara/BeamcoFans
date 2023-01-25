@@ -33,7 +33,7 @@ const ListToFollowMusician = () => {
         renderItem={({item, index}) => (
           <ListCard.FollowMusician
             musicianName={item.fullname}
-            imgUri={item.imageProfileUrl}
+            imgUri={item.imageProfileUrls}
             followerCount={item.followers}
             followOnPress={() =>
               item.isFollowed
