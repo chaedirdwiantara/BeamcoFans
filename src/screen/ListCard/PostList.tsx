@@ -40,9 +40,8 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import ImageList from './ImageList';
-import {storage} from '../../hooks/use-storage.hook';
+import {profileStorage, storage} from '../../hooks/use-storage.hook';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
-import ListToFollowMusician from './ListToFollowMusician';
 import {PostList} from '../../interface/feed.interface';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {dateFormat} from '../../utils/date-format';
@@ -91,6 +90,10 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
+
+  // * UPDATE HOOKS
+  const [selectedIdPost, setSelectedIdPost] = useState<string>();
+  const [selectedMenu, setSelectedMenu] = useState<DataDropDownType>();
 
   useFocusEffect(
     useCallback(() => {
@@ -253,6 +256,15 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     navigation.navigate('MusicianProfile', {id});
   };
 
+  // ! UPDATE COMMENT AREA
+  useEffect(() => {
+    if (selectedIdPost !== undefined && selectedMenu !== undefined) {
+      console.log('selectedIdPost', selectedIdPost);
+      console.log('selectedMenu', selectedMenu);
+    }
+  }, [selectedIdPost, selectedMenu]);
+  // ! END OF UPDATE COMMENT AREA
+
   return (
     <>
       <View style={styles.container}>
@@ -354,6 +366,10 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   tokenOnPress={tokenOnPress}
                   shareOnPress={shareOnPress}
                   commentCount={item.commentsCount}
+                  myPost={item.musician.uuid === profileStorage()?.uuid}
+                  selectedMenu={setSelectedMenu}
+                  idPost={item.id}
+                  selectedIdPost={setSelectedIdPost}
                   children={
                     <View style={{width: '100%'}}>
                       <Text style={styles.childrenPostTitle}>
