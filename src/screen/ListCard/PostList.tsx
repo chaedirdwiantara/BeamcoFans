@@ -249,6 +249,10 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     setTrigger2ndModal(false);
   };
 
+  const handleToDetailMusician = (id: string) => {
+    navigation.navigate('MusicianProfile', {id});
+  };
+
   return (
     <>
       <View style={styles.container}>
@@ -299,6 +303,9 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
             renderItem={({item, index}) => (
               <>
                 <ListCard.PostList
+                  toDetailOnPress={() =>
+                    handleToDetailMusician(item.musician.uuid)
+                  }
                   musicianName={item.musician.fullname}
                   musicianId={`@${item.musician.username}`}
                   imgUri={item.musician.imageProfileUrl}
