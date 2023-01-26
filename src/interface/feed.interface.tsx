@@ -30,13 +30,18 @@ export type MusicianData = {
   followers: number;
 };
 
+export type imageTypes = {
+  image: string;
+  presetName: string;
+};
+
 export type PostList = {
   id: string;
   caption: string;
   likesCount: number;
   commentsCount: number;
   category: string;
-  image: string[];
+  images: imageTypes[][];
   createdAt: string;
   updatedAt: string;
   isPremium: boolean;
@@ -58,7 +63,7 @@ export type DetailPostData = {
   likesCount: number;
   commentsCount: number;
   category: string;
-  image: string[];
+  images: imageTypes[][];
   createdAt: string;
   updatedAt: string;
   comments: CommentList[];
