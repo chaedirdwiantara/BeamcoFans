@@ -273,12 +273,16 @@ export const useAuthHook = () => {
     }
   };
 
-  const confirmEmailOtp = async (email: string, code: string) => {
+  const confirmEmailOtp = async (
+    email: string,
+    code: string,
+    context: string,
+  ) => {
     setIsError(false);
     setErrorMsg('');
     setIsLoading(true);
     try {
-      const response = await confirmEmailOtpRegister(email, code);
+      const response = await confirmEmailOtpRegister(email, code, context);
       console.log({response});
       if (response.status === 1) {
         if (response.data.lastLoginAt === null) {
@@ -354,12 +358,12 @@ export const useAuthHook = () => {
     }
   };
 
-  const sendOtpEmail = async (email: string) => {
+  const sendOtpEmail = async (email: string, context?: string) => {
     setIsError(false);
     setErrorMsg('');
     setIsLoading(true);
     try {
-      await resendOtpEmail(email);
+      await resendOtpEmail(email, context);
     } catch (error) {
       setIsError(true);
       if (

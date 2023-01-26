@@ -26,7 +26,7 @@ const {width, height} = Dimensions.get('screen');
 type OtpProps = NativeStackScreenProps<RootStackParams, 'Otp'>;
 
 export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
-  const timer = 12;
+  const timer = 30;
   const {
     isError,
     errorMsg,
@@ -63,7 +63,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
 
   const onCodeComplete = (code: string) => {
     if (route.params.type === 'email') {
-      confirmEmailOtp(route.params.id, code);
+      confirmEmailOtp(route.params.id, code, 'register');
     } else if (route.params.type === 'phoneNumber') {
       confirmSmsOtp(route.params.id, code, route.params.context as string);
     }
@@ -71,7 +71,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
 
   const onResendOTP = () => {
     if (route.params.type === 'email') {
-      sendOtpEmail(route.params.id);
+      sendOtpEmail(route.params.id, 'register');
     } else if (route.params.type === 'phoneNumber') {
       sendOtpSms(route.params.id, route.params.context as string);
     }

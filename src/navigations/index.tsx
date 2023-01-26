@@ -91,6 +91,11 @@ import {AlbumData} from '../interface/musician.interface';
 import {ChangePNScreen} from '../screen/Setting/PhoneNumber/ChangePN';
 import {OtpPNScreen} from '../screen/Setting/PhoneNumber/OTP';
 import {SplashScreen} from '../screen/SplashScreen';
+import {
+  OtpEmailScreen as OtpEmailProps,
+  OtpPhoneScreen,
+} from '../interface/setting.interface';
+import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
 
 export type RootStackParams = {
   Account: undefined;
@@ -98,22 +103,25 @@ export type RootStackParams = {
   AddSong: Playlist;
   Album: AlbumData;
   Boarding: undefined;
-  ChangeEmail: undefined;
+  ChangeEmail: {
+    type: 'Add' | 'Change';
+    oldEmail: string;
+  };
+  OtpEmail: OtpEmailProps;
   ChangePassword: undefined;
   ChangePhoneNumber: {
     type: 'Add' | 'Change';
     oldPhone: string;
   };
-  OtpPhoneNumber: {
-    countryNumber: string;
-    phoneNumber: string;
-    type: 'Add' | 'Change';
-  };
+  OtpPhoneNumber: OtpPhoneScreen;
   CreateNewPlaylist: undefined;
   DonationAndSubscription: undefined;
   EditProfile: ProfileResponseData;
   EditPlaylist: Playlist;
-  Email: undefined;
+  Email: {
+    info?: boolean;
+    message?: string;
+  };
   ExclusiveContent: undefined;
   Following: undefined;
   ForgotPassword: undefined;
@@ -289,6 +297,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="Referral" component={ReferralScreen} />
     <RootStack.Screen name="Account" component={AccountScreen} />
     <RootStack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
+    <RootStack.Screen name="OtpEmail" component={OtpEmailScreen} />
     <RootStack.Screen name="Email" component={EmailScreen} />
     <RootStack.Screen name="PhoneNumber" component={PhoneNumberScreen} />
     <RootStack.Screen name="ChangePhoneNumber" component={ChangePNScreen} />

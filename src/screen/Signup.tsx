@@ -145,6 +145,7 @@ export const SignupScreen: React.FC = () => {
           subtitle: `We have sent you six digits verification code on address ${watch(
             'email',
           )} check your inbox and enter verification code here`,
+          context: 'register',
         });
       } else {
         navigation.replace('Otp', {

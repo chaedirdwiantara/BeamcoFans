@@ -186,6 +186,7 @@ export const LoginScreen: React.FC = () => {
             type: errorData.includes('@') ? 'email' : 'phoneNumber',
             title: 'Email Verification Code',
             subtitle: `We have sent you six digits verification code on address ${errorData} check your inbox and enter verification code here`,
+            context: 'login',
           });
         } else {
           setError('password', {
