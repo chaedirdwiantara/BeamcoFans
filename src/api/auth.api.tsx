@@ -80,13 +80,15 @@ export const checkUsername = async (
 export const confirmEmailOtpRegister = async (
   email: string,
   code: string,
+  context: string,
 ): Promise<ConfirmEmailOTPRegisterResponseType> => {
   const {data} = await SsuAPI().request<ConfirmEmailOTPRegisterResponseType>({
-    url: '/confirm-otp/email/register',
+    url: '/confirm-otp/email',
     method: 'POST',
     data: {
       email: email,
       code: code,
+      context: context,
     },
   });
 

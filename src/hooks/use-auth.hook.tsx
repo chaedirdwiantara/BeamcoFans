@@ -273,12 +273,16 @@ export const useAuthHook = () => {
     }
   };
 
-  const confirmEmailOtp = async (email: string, code: string) => {
+  const confirmEmailOtp = async (
+    email: string,
+    code: string,
+    context: string,
+  ) => {
     setIsError(false);
     setErrorMsg('');
     setIsLoading(true);
     try {
-      const response = await confirmEmailOtpRegister(email, code);
+      const response = await confirmEmailOtpRegister(email, code, context);
       console.log({response});
       if (response.status === 1) {
         if (response.data.lastLoginAt === null) {
