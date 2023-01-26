@@ -33,11 +33,11 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
   const {dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
-  const {isPlay, showPlayer, hidePlayer} = usePlayerHook();
+  const {isPlaying, showPlayer, hidePlayer} = usePlayerHook();
   const [toastVisible, setToastVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isFocused && isPlay) {
+    if (isFocused && isPlaying) {
       showPlayer();
     } else if (!isFocused) {
       hidePlayer();

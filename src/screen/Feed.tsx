@@ -20,10 +20,10 @@ export const FeedScreen: React.FC = () => {
   ]);
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
-  const {isPlay, showPlayer, hidePlayer} = usePlayerHook();
+  const {isPlaying, showPlayer, hidePlayer} = usePlayerHook();
 
   useEffect(() => {
-    if (isFocused && isPlay) {
+    if (isFocused && isPlaying) {
       showPlayer();
     } else if (!isFocused) {
       hidePlayer();

@@ -1,4 +1,5 @@
-import TrackPlayer, {Event, State} from 'react-native-track-player';
+import TrackPlayer, {Event, RepeatMode, State} from 'react-native-track-player';
+import {usePlayerStore} from '../store/player.store';
 
 let wasPausedByDuck = false;
 
@@ -62,14 +63,37 @@ export async function PlaybackService() {
   );
 
   TrackPlayer.addEventListener(Event.PlaybackQueueEnded, event => {
-    console.log('Event.PlaybackQueueEnded', event);
+    // console.log('Event.PlaybackQueueEnded', event);
   });
 
   TrackPlayer.addEventListener(Event.PlaybackTrackChanged, event => {
-    console.log('Event.PlaybackTrackChanged', event);
+    // console.log('Event.PlaybackTrackChanged', event);
   });
 
-  TrackPlayer.addEventListener(Event.PlaybackProgressUpdated, event => {
-    console.log('Event.PlaybackProgressUpdated', event);
+  TrackPlayer.addEventListener(Event.PlaybackProgressUpdated, async event => {
+    const track = await TrackPlayer.getCurrentTrack();
+    const isShuffle = usePlayerStore.getState().isShuffle;
+    if (
+      isShuffle &&
+      event.duration - event.position < 1 &&
+      track === event.track
+    ) {
+      try {
+        const _repeat = await TrackPlayer.getRepeatMode();
+        if (_repeat !== RepeatMode.Track) {
+          const currentIndex = await TrackPlayer.getCurrentTrack();
+          if (currentIndex !== null) {
+            const queue = await TrackPlayer.getQueue();
+            let nextIndex = currentIndex;
+            while (nextIndex === currentIndex) {
+              nextIndex = Math.floor(Math.random() * queue.length);
+            }
+            TrackPlayer.skip(nextIndex);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   });
 }
