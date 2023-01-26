@@ -203,13 +203,12 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    // borderBottomWidth: 1,
-    // borderBottomColor: color.Dark[500],
   },
   socialContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   socialIcon: {
     flexDirection: 'row',
