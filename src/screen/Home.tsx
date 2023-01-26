@@ -64,15 +64,11 @@ export const HomeScreen: React.FC = () => {
   const {dataBanner, getListDataBanner} = useBannerHook();
   const {addFcmToken} = useFcmHook();
   const {
-    isPlay,
+    isPlaying,
     visible: playerVisible,
     showPlayer,
     hidePlayer,
-    seekPlayer,
-    setMusicDataPlayer,
-    setPlaylistSong,
-    setNextPrevTrack,
-    setShufflePlayer,
+    addPlaylist,
   } = usePlayerHook();
   const {
     dataSearchMusicians,
@@ -107,13 +103,13 @@ export const HomeScreen: React.FC = () => {
   );
 
   useEffect(() => {
-    if (isFocused && isPlay) {
+    if (isFocused && isPlaying) {
       showPlayer();
     } else if (!isFocused) {
       hidePlayer();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFocused, isPlay]);
+  }, [isFocused, isPlaying]);
 
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
@@ -194,17 +190,8 @@ export const HomeScreen: React.FC = () => {
   };
 
   const onPressTopSong = (val: SongList) => {
-    setPlaylistSong(dataSong);
-    setMusicDataPlayer({
-      id: val.id,
-      title: val.title,
-      artist: val.musicianName,
-      albumImg: val.imageUrl,
-      musicUrl: val.transcodedSongUrl[1].encodedHlsUrl,
-      musicianId: val.musicianId,
-    });
+    addPlaylist({dataSong: dataSong, playSongId: val.id, isPlay: true});
     showPlayer();
-    seekPlayer(0);
   };
 
   const onPressNotif = () => {

@@ -31,7 +31,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const {dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
-  const {isPlay, showPlayer, hidePlayer} = usePlayerHook();
+  const {isPlaying, showPlayer, hidePlayer} = usePlayerHook();
   const [toastText, setToastText] = useState<string>('');
   const [toastVisible, setToastVisible] = useState<boolean>(false);
 
@@ -53,7 +53,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   }, [toastVisible]);
 
   useEffect(() => {
-    if (isFocused && isPlay) {
+    if (isFocused && isPlaying) {
       showPlayer();
     } else if (!isFocused) {
       hidePlayer();

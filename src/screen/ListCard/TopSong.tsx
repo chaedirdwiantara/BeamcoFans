@@ -31,7 +31,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
     onPressIcon,
     activeOpacity,
   } = props;
-  const {musicData, isPlay} = usePlayerHook();
+  const {currentTrack, isPlaying} = usePlayerHook();
 
   return (
     <FlashList<SongList | ListDataSearchSongs>
@@ -50,7 +50,9 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
             marginTop: mvs(20),
             marginBottom: index + 1 === dataSong?.length ? mvs(20) : 0,
           }}
-          played={type === 'home' ? isPlay && item.id === musicData.id : false}
+          played={
+            type === 'home' ? isPlaying && item.id === currentTrack?.id : false
+          }
           hideDropdownMore={hideDropdownMore}
           rightIcon={rightIcon}
           rightIconComponent={rightIconComponent}
@@ -59,7 +61,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
         />
       )}
       estimatedItemSize={heightResponsive(500)}
-      extraData={[musicData, isPlay]}
+      extraData={[currentTrack, isPlaying]}
     />
   );
 };
