@@ -83,12 +83,22 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     navigation.navigate('Playlist', {id});
   };
 
+  const banners =
+    dataProfile?.data !== undefined && dataProfile?.data.banners?.length > 0
+      ? dataProfile?.data.banners[2].image
+      : null;
+
+  const avatar =
+    dataProfile?.data !== undefined && dataProfile?.data.images?.length > 0
+      ? dataProfile?.data.images[2].image
+      : null;
+
   const profile = {
     fullname: dataProfile?.data.fullname,
     username: '@' + dataProfile?.data.username,
     bio: dataProfile?.data.about || "I'm here to support the musician",
-    backgroundUri: dataProfile?.data.banner || null,
-    avatarUri: dataProfile?.data.imageProfileUrl,
+    backgroundUri: banners,
+    avatarUri: avatar,
     totalFollowing: dataProfile?.data.following,
   };
 
