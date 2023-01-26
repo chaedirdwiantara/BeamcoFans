@@ -1,8 +1,9 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {SSULogo} from '../assets/logo';
+import {ModalUpdate} from '../components/molecule/Modal/ModalUpdate';
 import {storage} from '../hooks/use-storage.hook';
 import {RootStackParams} from '../navigations';
 import Color from '../theme/Color';
@@ -15,7 +16,14 @@ type SplashScrennProps = NativeStackScreenProps<
 export const SplashScreen: React.FC<SplashScrennProps> = ({
   navigation,
 }: SplashScrennProps) => {
-  useEffect(() => {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  const onUpdate = () => {
+    null;
+  };
+
+  const onCancel = () => {
+    setModalVisible(false);
     setTimeout(() => {
       navigation.replace(
         storage.getBoolean('isLogin') || storage.getBoolean('isGuest')
@@ -24,6 +32,12 @@ export const SplashScreen: React.FC<SplashScrennProps> = ({
           ? 'SignInGuest'
           : 'Boarding',
       );
+    }, 500);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setModalVisible(true);
     }, 2000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -31,6 +45,11 @@ export const SplashScreen: React.FC<SplashScrennProps> = ({
   return (
     <View style={styles.root}>
       <SSULogo width={mvs(120)} height={mvs(120)} />
+      <ModalUpdate
+        modalVisible={modalVisible}
+        onPressOk={onUpdate}
+        onPressClose={onCancel}
+      />
     </View>
   );
 };

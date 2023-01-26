@@ -1,5 +1,8 @@
 import {useState} from 'react';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import {Settings, LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import {
@@ -154,7 +157,7 @@ export const useAuthHook = () => {
         setSsoError(true);
         setSsoErrorMsg(response.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       setSsoError(true);
       if (
         axios.isAxiosError(error) &&
@@ -162,8 +165,20 @@ export const useAuthHook = () => {
         error.response?.status >= 400
       ) {
         setSsoErrorMsg(error.response?.data?.message);
-      } else if (error instanceof Error) {
-        setSsoErrorMsg(error.message);
+      } else {
+        if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+          // user cancelled the login flow
+          setSsoErrorMsg('Login cancelled');
+        } else if (error.code === statusCodes.IN_PROGRESS) {
+          // operation (e.g. sign in) is in progress already
+          setSsoErrorMsg('Process sign in already running');
+        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+          // play services not available or outdated
+          setSsoErrorMsg('Play services not available or outdated');
+        } else {
+          // some other error happened
+          setSsoErrorMsg('Error occured unknow error');
+        }
       }
     } finally {
       setIsLoading(false);
