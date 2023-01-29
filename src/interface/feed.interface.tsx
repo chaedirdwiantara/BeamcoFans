@@ -20,19 +20,20 @@ export type LoadMoreProps = {
 export type DataComment = {id: string; created_at: string};
 
 // => PostList Area
+
+export type imageTypes = {
+  image: string;
+  presetName: string;
+};
+
 export type MusicianData = {
   uuid: string;
   username: string;
   fullname: string;
   email: string;
   isFollowed: boolean;
-  imageProfileUrl: string;
+  imageProfileUrls: imageTypes[][];
   followers: number;
-};
-
-export type imageTypes = {
-  image: string;
-  presetName: string;
 };
 
 export type PostList = {

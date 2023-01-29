@@ -94,9 +94,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   }, []);
 
   useEffect(() => {
-    dataProfile?.data.imageProfileUrl !== null &&
-    dataProfile?.data.imageProfileUrl !== undefined
-      ? setDataProfileImg(dataProfile?.data.imageProfileUrl)
+    dataProfile?.data.images.length !== 0 &&
+    dataProfile?.data.images !== undefined
+      ? setDataProfileImg(dataProfile?.data.images[0].image)
       : '';
   }, [dataProfile]);
 
@@ -304,7 +304,11 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                   }
                   musicianName={item.musician.fullname}
                   musicianId={`@${item.musician.username}`}
-                  imgUri={item.musician.imageProfileUrl}
+                  imgUri={
+                    item.musician.imageProfileUrls.length !== 0
+                      ? item.musician.imageProfileUrls[0][0].image
+                      : ''
+                  }
                   postDate={dateFormat(item.createdAt)}
                   category={categoryNormalize(item.category)}
                   onPress={() => cardOnPress(item)}
@@ -382,7 +386,6 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                     </View>
                   }
                 />
-                <Gap height={16} />
               </>
             )}
           />
