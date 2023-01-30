@@ -1,3 +1,5 @@
+import {imageTypes} from './base.interface';
+
 export type RegistrationType =
   | 'email'
   | 'facebook'
@@ -10,11 +12,6 @@ export type FavGenreType = {
   name: string;
 };
 
-export type images = {
-  image: 'https://yt3.googleusercontent.com/ytc/AL5GRJXpF3TYVsKsURBxqMQ3eby_zyTY95IdIcfXzNOMUw=s900-c-k-c0x00ffffff-no-rj';
-  presetName: 'thumbnail';
-};
-
 export type ProfileResponseData = {
   uuid: string;
   username: string;
@@ -22,7 +19,7 @@ export type ProfileResponseData = {
   fullname: string;
   about: string | null;
   banner: string | null;
-  images: images[];
+  images: imageTypes[];
   phoneNumber: string | null;
   registrationType: RegistrationType;
   favoriteGenres: FavGenreType[];
@@ -33,6 +30,8 @@ export type ProfileResponseData = {
   songAdded: number | null;
   createdAt: string;
   updatedAt: string;
+  referralFrom: string | null;
+  banners: imageTypes[];
   locationCountry: string;
   gender: string;
 };

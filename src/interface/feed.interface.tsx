@@ -83,6 +83,8 @@ export type DetailPostData = {
   comments: CommentList[];
   musician: MusicianData;
   isLiked: boolean;
+  quoteToPost: QuoteToPost;
+  isPremium: boolean;
 };
 
 export type DetailPostResponseType = {
