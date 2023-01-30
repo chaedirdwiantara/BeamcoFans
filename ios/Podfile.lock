@@ -569,6 +569,8 @@ PODS:
     - React-perflogger (= 0.70.2)
   - RNAppleAuthentication (2.2.2):
     - React-Core
+  - RNCClipboard (1.11.1):
+    - React-Core
   - RNFastImage (8.6.3):
     - React-Core
     - SDWebImage (~> 5.11.1)
@@ -692,6 +694,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
+  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
@@ -840,6 +843,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
+  RNCClipboard:
+    :path: "../node_modules/@react-native-clipboard/clipboard"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNFBApp:
@@ -946,6 +951,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 80065f60af4f4b05603661070c8622bb3740bf16
   ReactCommon: 1209130f460e4aa9d255ddc75fa0a827ebf93dfb
   RNAppleAuthentication: 0571c08da8c327ae2afc0261b48b4a515b0286a6
+  RNCClipboard: 2834e1c4af68697089cdd455ee4a4cdd198fa7dd
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBApp: a6a92a67882cde38e6b466a446312de6c6c9b384
   RNFBMessaging: 4a184e1af5bff970cbf70eab2263c85f612683eb
@@ -965,4 +971,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: a83c83312cb22d2167115f4a742d08183e1a8c46
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
