@@ -36,6 +36,18 @@ export type MusicianData = {
   followers: number;
 };
 
+export type QuoteToPost = {
+  targetId: string;
+  targetType: string;
+  title: string;
+  musician: string;
+  coverImage: imageTypes[];
+  encodeDashUrl: string;
+  encodeHlsUrl: string;
+  startAt: string;
+  endAt: string;
+};
+
 export type PostList = {
   id: string;
   caption: string;
@@ -48,6 +60,7 @@ export type PostList = {
   isPremium: boolean;
   musician: MusicianData;
   isLiked: boolean;
+  quoteToPost: QuoteToPost;
 };
 
 export type ListPostResponseType = {
