@@ -34,3 +34,34 @@ export type OtpEmailScreen = {
   email: string;
   type: PhoneSettingTypeProps;
 };
+
+export type ChangePasswordProps = {
+  password: string;
+  newPassword: string;
+  repeatPassword: string;
+};
+
+export type ChangePasswordResponseType = {
+  code: number;
+  data: string | null;
+  message: string;
+  status: number;
+};
+
+export type DataShippingProps = {
+  email: string;
+  phoneNumber: string;
+  fullname: string;
+  province: string;
+  country: string;
+  postalCode: number;
+  city: string;
+  address: string;
+};
+
+export type ShippingResponseType = {
+  code: number;
+  data: DataShippingProps;
+  message: string;
+  status: number;
+};
