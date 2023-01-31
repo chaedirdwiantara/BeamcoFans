@@ -668,6 +668,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             toDetailOnPress={handleToDetailCommentator}
             selectedMenu={setSelectedMenu}
             selectedIdComment={setIdComment}
+            profileUUID={dataProfile?.data.uuid ? dataProfile.data.uuid : ''}
           />
         ) : null}
         <ImageModal
