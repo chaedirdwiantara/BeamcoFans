@@ -12,14 +12,20 @@ export type FavGenreType = {
   name: string;
 };
 
+export type ListImageType = {
+  length: number;
+  image: string;
+  presetName: string;
+};
+
 export type ProfileResponseData = {
   uuid: string;
   username: string;
   email: string;
   fullname: string;
   about: string | null;
-  banner: string | null;
-  images: imageTypes[];
+  banners: ListImageType[];
+  images: ListImageType[];
   phoneNumber: string | null;
   registrationType: RegistrationType;
   favoriteGenres: FavGenreType[];
@@ -34,6 +40,9 @@ export type ProfileResponseData = {
   banners: imageTypes[];
   locationCountry: string;
   gender: string;
+  followers: number;
+  fans: number;
+  bio: string | null;
 };
 
 export type MoodsType = {

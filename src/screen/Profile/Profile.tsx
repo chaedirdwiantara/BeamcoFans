@@ -31,7 +31,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const {dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
-  const {isPlay, showPlayer, hidePlayer} = usePlayerHook();
+  const {isPlaying, showPlayer, hidePlayer} = usePlayerHook();
   const [toastText, setToastText] = useState<string>('');
   const [toastVisible, setToastVisible] = useState<boolean>(false);
 
@@ -53,7 +53,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   }, [toastVisible]);
 
   useEffect(() => {
-    if (isFocused && isPlay) {
+    if (isFocused && isPlaying) {
       showPlayer();
     } else if (!isFocused) {
       hidePlayer();
@@ -83,12 +83,22 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     navigation.navigate('Playlist', {id});
   };
 
+  const banners =
+    dataProfile?.data !== undefined && dataProfile?.data.banners?.length > 0
+      ? dataProfile?.data.banners[2].image
+      : null;
+
+  const avatar =
+    dataProfile?.data !== undefined && dataProfile?.data.images?.length > 0
+      ? dataProfile?.data.images[2].image
+      : null;
+
   const profile = {
     fullname: dataProfile?.data.fullname,
     username: '@' + dataProfile?.data.username,
     bio: dataProfile?.data.about || "I'm here to support the musician",
-    backgroundUri: dataProfile?.data.banner || null,
-    avatarUri: dataProfile?.data.imageProfileUrl,
+    backgroundUri: banners,
+    avatarUri: avatar,
     totalFollowing: dataProfile?.data.following,
   };
 

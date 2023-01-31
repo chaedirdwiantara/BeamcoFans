@@ -1,13 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {
-  Dimensions,
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import SsuSheet from '../components/atom/SsuSheet';
@@ -20,13 +12,14 @@ import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import RenderMessage from '../components/molecule/OtpInput/RenderMessage';
 import {SSULogo} from '../assets/logo';
 import {storage} from '../hooks/use-storage.hook';
+import {KeyboardShift} from '../components/molecule/KeyboardShift';
 
 const {width, height} = Dimensions.get('screen');
 
 type OtpProps = NativeStackScreenProps<RootStackParams, 'Otp'>;
 
 export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
-  const timer = 12;
+  const timer = 30;
   const {
     isError,
     errorMsg,
@@ -63,7 +56,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
 
   const onCodeComplete = (code: string) => {
     if (route.params.type === 'email') {
-      confirmEmailOtp(route.params.id, code);
+      confirmEmailOtp(route.params.id, code, 'register');
     } else if (route.params.type === 'phoneNumber') {
       confirmSmsOtp(route.params.id, code, route.params.context as string);
     }
@@ -71,7 +64,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
 
   const onResendOTP = () => {
     if (route.params.type === 'email') {
-      sendOtpEmail(route.params.id);
+      sendOtpEmail(route.params.id, 'register');
     } else if (route.params.type === 'phoneNumber') {
       sendOtpSms(route.params.id, route.params.context as string);
     }
@@ -133,9 +126,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{flex: 1}}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardShift>
       <View style={styles.root}>
         <Image
           source={require('../assets/background/signin-guest.png')}
@@ -144,7 +135,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
         <SsuSheet children={children()} topChild={topChild()} />
         <ModalLoading visible={isLoading} />
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardShift>
   );
 };
 

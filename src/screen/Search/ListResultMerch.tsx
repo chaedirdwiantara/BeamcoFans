@@ -18,10 +18,10 @@ const ListResultMerch: FC<Props> = ({keyword}: Props) => {
 
   const {
     data: dataMerchList,
-    isLoading,
     refetch,
     isRefetching,
     isFetched,
+    isLoading,
   } = useQuery(['/search-merch'], () => getSearchMerchs({keyword: keyword}));
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const ListResultMerch: FC<Props> = ({keyword}: Props) => {
 
   return (
     <View style={styles.container}>
-      {isFetched && !isLoading && (
+      {isFetched && !isRefetching && (
         <FlashList
           data={dataMerchList?.data}
           showsVerticalScrollIndicator={false}
@@ -72,7 +72,7 @@ const ListResultMerch: FC<Props> = ({keyword}: Props) => {
         />
       )}
 
-      {isRefetching && (
+      {(isRefetching || isLoading) && (
         <View style={styles.loadingContainer}>
           <Text style={styles.loading}>Loading...</Text>
         </View>

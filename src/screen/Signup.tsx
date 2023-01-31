@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  KeyboardAvoidingView,
   Platform,
   ScrollView,
   TouchableOpacity,
@@ -26,6 +25,7 @@ import {AppleLogo, FacebookLogo, GoogleLogo} from '../assets/logo';
 import {ms, mvs} from 'react-native-size-matters';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import {storage} from '../hooks/use-storage.hook';
+import {KeyboardShift} from '../components/molecule/KeyboardShift';
 
 interface RegisterInput {
   fullname: string;
@@ -145,6 +145,7 @@ export const SignupScreen: React.FC = () => {
           subtitle: `We have sent you six digits verification code on address ${watch(
             'email',
           )} check your inbox and enter verification code here`,
+          context: 'register',
         });
       } else {
         navigation.replace('Otp', {
@@ -241,10 +242,7 @@ export const SignupScreen: React.FC = () => {
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
-      <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={heightResponsive(10)}>
+      <KeyboardShift>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollView}>
@@ -460,7 +458,7 @@ export const SignupScreen: React.FC = () => {
             </Text>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </KeyboardShift>
       <ModalLoading visible={isLoading} />
       <SsuToast
         modalVisible={ssoError}
@@ -528,7 +526,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: mvs(12),
     alignSelf: 'center',
-    marginTop: heightResponsive(100),
+    marginTop: heightResponsive(50),
   },
   modalContainer: {
     backgroundColor: color.Error[400],

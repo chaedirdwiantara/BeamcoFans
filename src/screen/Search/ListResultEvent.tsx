@@ -18,10 +18,10 @@ const ListResultEvent: FC<Props> = ({keyword}: Props) => {
 
   const {
     data: dataEventList,
-    isLoading,
     refetch,
     isRefetching,
     isFetched,
+    isLoading,
   } = useQuery(['/search-event'], () => getSearchEvents({keyword: keyword}));
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const ListResultEvent: FC<Props> = ({keyword}: Props) => {
 
   return (
     <View style={styles.container}>
-      {isFetched && !isLoading && (
+      {isFetched && !isRefetching && (
         <FlashList
           data={dataEventList?.data}
           showsVerticalScrollIndicator={false}
@@ -72,7 +72,7 @@ const ListResultEvent: FC<Props> = ({keyword}: Props) => {
         />
       )}
 
-      {isRefetching && (
+      {(isRefetching || isLoading) && (
         <View style={styles.loadingContainer}>
           <Text style={styles.loading}>Loading...</Text>
         </View>

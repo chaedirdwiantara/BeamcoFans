@@ -490,6 +490,9 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
+  - react-native-track-player (3.2.0):
+    - React-Core
+    - SwiftAudioEx (= 0.15.3)
   - react-native-video (6.0.0-alpha.4):
     - React-Core
     - react-native-video/Video (= 6.0.0-alpha.4)
@@ -566,6 +569,8 @@ PODS:
     - React-perflogger (= 0.70.2)
   - RNAppleAuthentication (2.2.2):
     - React-Core
+  - RNCClipboard (1.11.1):
+    - React-Core
   - RNFastImage (8.6.3):
     - React-Core
     - SDWebImage (~> 5.11.1)
@@ -609,6 +614,7 @@ PODS:
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
   - SocketRocket (0.6.0)
+  - SwiftAudioEx (0.15.3)
   - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -672,6 +678,7 @@ DEPENDENCIES:
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-track-player (from `../node_modules/react-native-track-player`)
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -687,6 +694,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
+  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
@@ -744,6 +752,7 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageWebPCoder
     - SocketRocket
+    - SwiftAudioEx
     - TOCropViewController
     - YogaKit
 
@@ -802,6 +811,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-mmkv"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-track-player:
+    :path: "../node_modules/react-native-track-player"
   react-native-video:
     :path: "../node_modules/react-native-video"
   react-native-webview:
@@ -832,6 +843,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
+  RNCClipboard:
+    :path: "../node_modules/@react-native-clipboard/clipboard"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNFBApp:
@@ -922,6 +935,7 @@ SPEC CHECKSUMS:
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
   react-native-mmkv: 69b9c003f10afdd01addf7c6ee784ce42ee2eff3
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
+  react-native-track-player: 0c26d981b5097910486cbbeb6d8f5352d41be069
   react-native-video: b2a6434fa0cc7a5381985ca2af8f8c570f110743
   react-native-webview: a71da846ed2e9085440e1d6659c04e285528834b
   React-perflogger: 6009895616a455781293950bbd63d53cfc7ffbc5
@@ -937,6 +951,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 80065f60af4f4b05603661070c8622bb3740bf16
   ReactCommon: 1209130f460e4aa9d255ddc75fa0a827ebf93dfb
   RNAppleAuthentication: 0571c08da8c327ae2afc0261b48b4a515b0286a6
+  RNCClipboard: 2834e1c4af68697089cdd455ee4a4cdd198fa7dd
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBApp: a6a92a67882cde38e6b466a446312de6c6c9b384
   RNFBMessaging: 4a184e1af5bff970cbf70eab2263c85f612683eb
@@ -949,6 +964,7 @@ SPEC CHECKSUMS:
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
+  SwiftAudioEx: 83eabba2940924fc1c0d5cb0896049921365229c
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 043f8eb97345d0171f27fead4d1849cacf0472a5
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

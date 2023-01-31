@@ -3,7 +3,11 @@ import {
   EmailPhoneProps,
   EmailPhoneVerifProps,
   EmailPhoneResponseType,
-  VerifPasswordPhone,
+  VerifPasswordSetting,
+  ChangePasswordProps,
+  ChangePasswordResponseType,
+  ShippingResponseType,
+  DataShippingProps,
 } from '../interface/setting.interface';
 
 export const updateEmail = async (
@@ -54,8 +58,8 @@ export const setVerifCode = async (
   return data;
 };
 
-export const verifPasswordPhone = async (
-  props?: VerifPasswordPhone,
+export const verifPasswordSetting = async (
+  props?: VerifPasswordSetting,
 ): Promise<EmailPhoneResponseType> => {
   const {data} = await SsuAPI().request<EmailPhoneResponseType>({
     url: '/account/verif-password',
@@ -71,6 +75,51 @@ export const addPhoneNumber = async (
 ): Promise<EmailPhoneResponseType> => {
   const {data} = await SsuAPI().request<EmailPhoneResponseType>({
     url: '/account/add-phone',
+    method: 'POST',
+    data: props,
+  });
+
+  return data;
+};
+
+export const addEmail = async (
+  props?: EmailPhoneProps,
+): Promise<EmailPhoneResponseType> => {
+  const {data} = await SsuAPI().request<EmailPhoneResponseType>({
+    url: '/account/add-email',
+    method: 'POST',
+    data: props,
+  });
+
+  return data;
+};
+
+export const updatePassword = async (
+  props?: ChangePasswordProps,
+): Promise<ChangePasswordResponseType> => {
+  const {data} = await SsuAPI().request<ChangePasswordResponseType>({
+    url: '/change-password',
+    method: 'POST',
+    data: props,
+  });
+
+  return data;
+};
+
+export const getShipping = async (): Promise<ShippingResponseType> => {
+  const {data} = await SsuAPI().request<ShippingResponseType>({
+    url: '/shipping',
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const updateShipping = async (
+  props?: DataShippingProps,
+): Promise<ShippingResponseType> => {
+  const {data} = await SsuAPI().request<ShippingResponseType>({
+    url: '/shipping/update',
     method: 'POST',
     data: props,
   });

@@ -8,13 +8,11 @@ import {RootStackParams} from '../../navigations';
 import {SendReportContent} from '../../components';
 
 type SendReportProps = NativeStackScreenProps<RootStackParams, 'SendReport'>;
-
 export const SendReportScreen: React.FC<SendReportProps> = ({
   navigation,
   route,
 }: SendReportProps) => {
   const {title} = route.params;
-
   const onPressGoBack = () => {
     navigation.goBack();
   };

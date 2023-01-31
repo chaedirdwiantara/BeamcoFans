@@ -23,10 +23,18 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
   const dataProfile = route.params;
   const {updateProfileUser} = useProfileHook();
 
-  const [avatarUri, setAvatarUri] = useState(
-    dataProfile?.imageProfileUrl || '',
-  );
-  const [backgroundUri, setBackgroundUri] = useState(dataProfile?.banner || '');
+  const banners =
+    dataProfile !== undefined && dataProfile.banners?.length > 0
+      ? dataProfile.banners[2].image
+      : null;
+
+  const avatar =
+    dataProfile !== undefined && dataProfile.images?.length > 0
+      ? dataProfile.images[2].image
+      : null;
+
+  const [avatarUri, setAvatarUri] = useState(avatar || '');
+  const [backgroundUri, setBackgroundUri] = useState(banners || '');
 
   const goBack = () => {
     navigation.goBack();

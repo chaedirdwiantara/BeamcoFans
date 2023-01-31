@@ -1,58 +1,83 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
   Text,
   Platform,
   KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 
-import {Button, SsuInput} from '../../atom';
+import {Button, Gap, SsuInput} from '../../atom';
 import {GiftIcon} from '../../../assets/icon';
 import {color, typography} from '../../../theme';
+import {useProfileHook} from '../../../hooks/use-profile.hook';
 import ReferralImage from '../../../assets/image/Referral.image';
+import {ReferralActivated} from '../ReferralContent/ReferralContent';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 
 interface ReferralProps {}
 
 export const UseReferralContent: React.FC<ReferralProps> = ({}) => {
   const [refCode, setRefCode] = useState<string>('');
-  const [error, setError] = useState<boolean>(false);
+  const [mode, setMode] = useState<string>('');
+  const {isValidReferral, errorMsg, applyReferralUser} = useProfileHook();
 
-  const onPressSave = () => {};
+  useEffect(() => {
+    if (isValidReferral) {
+      setMode('success');
+    }
+  }, [isValidReferral]);
+
+  const onApplyReferral = () => {
+    applyReferralUser(refCode);
+  };
 
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.root}>
-        <ReferralImage
-          width={widthPercentage(220)}
-          height={widthPercentage(220)}
-          style={{marginTop: heightPercentage(40)}}
-        />
-        <Text style={[typography.Heading5, styles.text]}>
-          {'Get 5% Sunny Side Up Credits every transaction'}
-        </Text>
+        {mode === 'success' ? (
+          <View style={{marginTop: heightPercentage(60)}}>
+            <Text style={[typography.Heading6, styles.text]}>
+              {'Your 5% Comission for every transaction have been activated!'}
+            </Text>
+            <Gap height={heightPercentage(30)} />
+            <ReferralActivated refCode={refCode} />
+          </View>
+        ) : (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{alignItems: 'center'}}>
+            <ReferralImage
+              width={widthPercentage(220)}
+              height={widthPercentage(220)}
+              style={{marginTop: heightPercentage(40)}}
+            />
+            <Text style={[typography.Heading5, styles.text]}>
+              {'Get 5% Sunny Side Up Credits every transaction'}
+            </Text>
 
-        <SsuInput.InputText
-          value={refCode}
-          isError={error}
-          placeholder={'Referral Code'}
-          errorMsg={'Referral code invalid'}
-          leftIcon={<GiftIcon />}
-          fontColor={color.Neutral[10]}
-          borderColor={color.Pink.linear}
-          onChangeText={(newText: string) => setRefCode(newText)}
-          containerStyles={{width: '90%', marginTop: heightPercentage(20)}}
-        />
+            <SsuInput.InputText
+              value={refCode}
+              placeholder={'Referral Code'}
+              errorMsg={errorMsg}
+              isError={errorMsg !== ''}
+              leftIcon={<GiftIcon />}
+              fontColor={color.Neutral[10]}
+              borderColor={color.Pink.linear}
+              onChangeText={(newText: string) => setRefCode(newText)}
+              containerStyles={{marginTop: heightPercentage(20)}}
+            />
+            <Button
+              label="Submit"
+              onPress={onApplyReferral}
+              containerStyles={styles.button}
+            />
+          </ScrollView>
+        )}
       </View>
-
-      <Button
-        label="Submit"
-        onPress={onPressSave}
-        containerStyles={styles.button}
-      />
     </KeyboardAvoidingView>
   );
 };
@@ -61,7 +86,6 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: color.Dark[800],
     alignItems: 'center',
-    paddingHorizontal: widthPercentage(12),
   },
   text: {
     maxWidth: width * 0.9,
@@ -74,5 +98,6 @@ const styles = StyleSheet.create({
     marginTop: heightPercentage(30),
     alignSelf: 'center',
     backgroundColor: color.Pink[200],
+    marginBottom: heightPercentage(20),
   },
 });
