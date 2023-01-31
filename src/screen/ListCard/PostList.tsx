@@ -443,7 +443,8 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                                 widthType2={289}
                                 onPress={() => {}}
                               />
-                              {item.images.length === 0 && (
+                              {item.images.length === 0 &&
+                              item.quoteToPost.encodeHlsUrl ? (
                                 <MusicListPreview
                                   hideClose
                                   targetId={item.quoteToPost.targetId}
@@ -474,7 +475,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                                   }
                                   isIdNowPlaying={item.id === idNowPlaying}
                                 />
-                              )}
+                              ) : null}
                             </View>
                           </View>
                         </>
