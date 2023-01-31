@@ -39,7 +39,7 @@ const description2 =
 const friendReferral = "Your Friend's Referral Code";
 const refCannotBeChanged = 'Referral code can not be changed';
 
-const ReferralActivated: React.FC<ActivatedProps> = ({refCode}) => {
+export const ReferralActivated: React.FC<ActivatedProps> = ({refCode}) => {
   return (
     <View style={styles.containerActivated}>
       <View style={styles.containerReferralCode}>

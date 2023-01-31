@@ -4,6 +4,10 @@ import {
   EmailPhoneVerifProps,
   EmailPhoneResponseType,
   VerifPasswordSetting,
+  ChangePasswordProps,
+  ChangePasswordResponseType,
+  ShippingResponseType,
+  DataShippingProps,
 } from '../interface/setting.interface';
 
 export const updateEmail = async (
@@ -83,6 +87,39 @@ export const addEmail = async (
 ): Promise<EmailPhoneResponseType> => {
   const {data} = await SsuAPI().request<EmailPhoneResponseType>({
     url: '/account/add-email',
+    method: 'POST',
+    data: props,
+  });
+
+  return data;
+};
+
+export const updatePassword = async (
+  props?: ChangePasswordProps,
+): Promise<ChangePasswordResponseType> => {
+  const {data} = await SsuAPI().request<ChangePasswordResponseType>({
+    url: '/change-password',
+    method: 'POST',
+    data: props,
+  });
+
+  return data;
+};
+
+export const getShipping = async (): Promise<ShippingResponseType> => {
+  const {data} = await SsuAPI().request<ShippingResponseType>({
+    url: '/shipping',
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const updateShipping = async (
+  props?: DataShippingProps,
+): Promise<ShippingResponseType> => {
+  const {data} = await SsuAPI().request<ShippingResponseType>({
+    url: '/shipping/update',
     method: 'POST',
     data: props,
   });
