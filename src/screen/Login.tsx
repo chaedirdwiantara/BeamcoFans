@@ -6,7 +6,6 @@ import {
   Image,
   Dimensions,
   Platform,
-  KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -34,6 +33,7 @@ import type {RegistrationType} from '../interface/profile.interface';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import {storage} from '../hooks/use-storage.hook';
 import {heightResponsive, normalize} from '../utils';
+import {KeyboardShift} from '../components/molecule/KeyboardShift';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -442,9 +442,7 @@ export const LoginScreen: React.FC = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{flex: 1}}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardShift>
       <View style={styles.root}>
         <Image
           source={require('../assets/background/signin-guest.png')}
@@ -453,7 +451,7 @@ export const LoginScreen: React.FC = () => {
         <SsuSheet children={children()} topChild={topChild()} />
         <ModalLoading visible={isLoading} />
       </View>
-    </KeyboardAvoidingView>
+    </KeyboardShift>
   );
 };
 
