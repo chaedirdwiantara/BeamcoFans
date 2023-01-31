@@ -488,10 +488,9 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
             )}
           />
         </View>
-      ) : dataTopPost?.length === 0 &&
-        feedMessage === 'musician not have post' ? (
+      ) : dataTopPost?.length === 0 ? (
         <EmptyState
-          text={`Your following musician don't have any post, try to follow more musician`}
+          text={feedMessage}
           containerStyle={{
             justifyContent: 'flex-start',
             paddingTop: heightPercentage(24),
