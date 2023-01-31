@@ -1,4 +1,4 @@
-import {PaginationType} from './base.interface';
+import {imageTypes, PaginationType} from './base.interface';
 
 export type SongList = {
   isAddedToThisPlaylist: boolean;
@@ -43,7 +43,7 @@ export type DataAlbum = {
   MusicianID: string;
   Title: string;
   Description: string;
-  ImageURL: string;
+  ImageURL: imageTypes[];
   FeaturingArtist: FeaturingArtist[];
   PublishedDate: string;
   IsPublished: boolean;
@@ -73,7 +73,7 @@ export type RelatedSongs = {
   title: string;
   description: string;
   songWriter: string[];
-  imageUrl: string;
+  imageUrl: imageTypes[];
   publishedDate: string;
   isPublished: true;
   isFeaturing: false;
@@ -98,6 +98,18 @@ export type RelatedSongs = {
   Album: DataAlbum;
 };
 
+export type TranscodedSongUrl = {
+  trackId: string;
+  songId: number;
+  sessionId: string;
+  encodedDashUrl: string;
+  encodedHlsUrl: string;
+  quality: number;
+  bitrate: string;
+  presetName: string;
+  encodeStatus: string;
+};
+
 export type DataDetailSong = {
   id: number;
   musicianId: string;
@@ -106,7 +118,7 @@ export type DataDetailSong = {
   title: string;
   description: string;
   songWriter: string[];
-  imageUrl: string;
+  imageUrl: imageTypes[];
   publishedDate: string;
   isPublished: boolean;
   isFeaturing: boolean;
@@ -120,7 +132,8 @@ export type DataDetailSong = {
   lyrics: string;
   copyright: string;
   originalSongUrl: string;
-  transcodedSongUrl: string;
+  IsAddedToPlaylist: boolean;
+  transcodedSongUrl: TranscodedSongUrl[];
   drmFileUrl: string;
   drmKey: string;
   language: string;

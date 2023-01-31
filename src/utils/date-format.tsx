@@ -6,5 +6,23 @@ const dateFormat = (ISOStringDate: string) => {
   });
   return today;
 };
+const dateFormatFullYear = (ISOStringDate: string) => {
+  const today = new Date(ISOStringDate).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+  return today;
+};
 
-export {dateFormat};
+const dateLongMonth = (ISOStringDate: string) => {
+  const today = new Date(ISOStringDate).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  // February 14, 2020
+  return today;
+};
+
+export {dateFormat, dateFormatFullYear, dateLongMonth};
