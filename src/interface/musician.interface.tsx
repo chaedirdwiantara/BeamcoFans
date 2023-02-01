@@ -75,7 +75,7 @@ export type AlbumData = {
   id: number;
   title: string;
   description: string;
-  imageUrl: string;
+  imageUrl: imageTypes[];
   featuringArtist: string[];
   genre: string;
   subgenre: string;

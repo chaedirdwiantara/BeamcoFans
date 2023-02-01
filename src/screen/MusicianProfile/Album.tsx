@@ -17,6 +17,7 @@ import {DefaultImage} from '../../assets/icon';
 import {RootStackParams} from '../../navigations';
 import {heightResponsive, widthResponsive} from '../../utils';
 import {AlbumData} from '../../interface/musician.interface';
+import {dummySongImg} from '../../data/image';
 
 interface AlbumProps {
   title: string;
@@ -50,7 +51,14 @@ const Album: FC<AlbumProps> = (props: AlbumProps) => {
               onPress={() => handleToDetail(item)}
               testID={`album${i}`}>
               {item.imageUrl ? (
-                <SquareComp imgUri={item.imageUrl} size={widthResponsive(56)} />
+                <SquareComp
+                  imgUri={
+                    item.imageUrl.length !== 0
+                      ? item.imageUrl[0].image
+                      : dummySongImg
+                  }
+                  size={widthResponsive(56)}
+                />
               ) : (
                 <DefaultImage.PlaylistCover
                   width={widthResponsive(56)}
