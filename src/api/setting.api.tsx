@@ -1,4 +1,5 @@
 import SsuAPI from './base';
+import SsuAPIGeneral from './baseRinjaniNew';
 import {
   EmailPhoneProps,
   EmailPhoneVerifProps,
@@ -8,6 +9,8 @@ import {
   ChangePasswordResponseType,
   ShippingResponseType,
   DataShippingProps,
+  SendReportProps,
+  SendReportResponseType,
 } from '../interface/setting.interface';
 
 export const updateEmail = async (
@@ -120,6 +123,18 @@ export const updateShipping = async (
 ): Promise<ShippingResponseType> => {
   const {data} = await SsuAPI().request<ShippingResponseType>({
     url: '/shipping/update',
+    method: 'POST',
+    data: props,
+  });
+
+  return data;
+};
+
+export const sendReport = async (
+  props?: SendReportProps,
+): Promise<SendReportResponseType> => {
+  const {data} = await SsuAPIGeneral().request<SendReportResponseType>({
+    url: '/feedback',
     method: 'POST',
     data: props,
   });
