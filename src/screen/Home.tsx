@@ -63,8 +63,6 @@ export const HomeScreen: React.FC = () => {
   } = useMusicianHook();
 
   const {dataProfile, getProfileUser} = useProfileHook();
-  console.log('dataProfile', dataProfile);
-  
   const {dataSong, getListDataSong} = useSongHook();
   const {dataBanner, getListDataBanner} = useBannerHook();
   const {addFcmToken} = useFcmHook();

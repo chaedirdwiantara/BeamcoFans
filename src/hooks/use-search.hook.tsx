@@ -7,14 +7,23 @@ import {
   playlistSearch,
   songSearch,
 } from '../api/search.api';
-import {SearchProps} from '../interface/search.interface';
+import {
+  ListDataSearchMusician,
+  ListDataSearchSongs,
+  SearchProps,
+} from '../interface/search.interface';
+import {searchEvent} from '../api/event.api';
 import {BannerList} from '../interface/banner.interface';
 import {PaginationType} from '../interface/base.interface';
-import {searchEvent} from '../api/event.api';
 
 export const useSearchHook = () => {
   const [searchLoading, setSearchLoading] = useState<boolean>(false);
-  // const [searchError, setSearchError] = useState<string>('');
+  const [dataSearchMusicians, setDataSearchMusicians] = useState<
+    ListDataSearchMusician[]
+  >([]);
+  const [dataSearchSongs, setDataSearchSongs] = useState<ListDataSearchSongs[]>(
+    [],
+  );
   const [dataPublicBanner, setDataPublicBanner] = useState<BannerList[]>([]);
 
   const getSearchFans = async (props?: SearchProps) => {
@@ -31,6 +40,7 @@ export const useSearchHook = () => {
   const getSearchMusicians = async (props?: SearchProps) => {
     try {
       const response = await musicianSearch(props);
+      setDataSearchMusicians(response?.data);
       return {
         data: response?.data,
       };
@@ -42,7 +52,7 @@ export const useSearchHook = () => {
   const getSearchSongs = async (props?: SearchProps) => {
     try {
       const response = await songSearch(props);
-      console.log(response.data);
+      setDataSearchSongs(response.data);
       return {
         data: response?.data,
       };
@@ -118,6 +128,8 @@ export const useSearchHook = () => {
   return {
     searchLoading,
     dataPublicBanner,
+    dataSearchMusicians,
+    dataSearchSongs,
     getSearchFans,
     getSearchMusicians,
     getSearchAlbums,
