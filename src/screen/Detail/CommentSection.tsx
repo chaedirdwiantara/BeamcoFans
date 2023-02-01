@@ -156,6 +156,10 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
     onSetPage?.(value);
   };
 
+  const selectedLvl1 = (value: DataDropDownType) => {
+    console.log('VALUE', value);
+  };
+
   const CommentChildrenLvl3 = (props: CommentList3) => {
     const {
       id,
@@ -396,7 +400,7 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
               )
             }
             commentCount={item.commentsCount}
-            selectedMenu={selectedMenu}
+            selectedMenu={selectedLvl1}
             idComment={item.id}
             selectedIdComment={selectedIdComment}
             showEdit={profileUUID === item.commentOwner.UUID}
