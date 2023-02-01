@@ -109,15 +109,13 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   );
 
   const {
-    currentProgress,
-    duration,
-    isPlay,
-    musicData,
     seekPlayer,
-    setMusicDataPlayer,
     setPlaySong,
     setPauseSong,
     hidePlayer,
+    isPlaying,
+    playerProgress,
+    addPlaylistFeed,
   } = usePlayerHook();
 
   const resultDataFilter = (dataResultFilter: any) => {
@@ -138,6 +136,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     isLogin
       ? navigation.navigate('PostDetail', data)
       : setModalGuestVisible(true);
+    setPauseSong();
   };
 
   const likeOnPress = (id: string, isLiked: boolean) => {
@@ -286,26 +285,20 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
 
   // ! MUSIC AREA
   const onPressPlaySong = (val: PostList) => {
-    setMusicDataPlayer({
-      id: parseInt(val.quoteToPost.targetId),
-      title: val.quoteToPost.title,
-      artist: val.quoteToPost.musician,
-      albumImg:
-        val.quoteToPost.coverImage[1]?.image !== undefined
-          ? val.quoteToPost.coverImage[1].image
-          : dummySongImg,
-      musicUrl: val.quoteToPost.encodeHlsUrl,
-      musicianId: val.musician.uuid,
+    let data = [val];
+    addPlaylistFeed({
+      dataSong: data,
+      playSongId: Number(val.quoteToPost.targetId),
+      isPlay: true,
     });
     setPlaySong();
-    seekPlayer(0);
     setPauseModeOn(true);
     setIdNowPlaing(val.id);
     hidePlayer();
   };
 
   const handlePausePlay = () => {
-    if (isPlay) {
+    if (isPlaying) {
       setPauseSong();
     } else {
       setPlaySong();
@@ -463,16 +456,12 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                                   endAt={item.quoteToPost.endAt}
                                   postList={item}
                                   onPress={onPressPlaySong}
-                                  isPlay={isPlay}
+                                  isPlay={isPlaying}
                                   playOrPause={handlePausePlay}
                                   pauseModeOn={pauseModeOn}
-                                  currentProgress={currentProgress}
-                                  duration={duration}
+                                  currentProgress={playerProgress.position}
+                                  duration={playerProgress.duration}
                                   seekPlayer={seekPlayer}
-                                  playNow={
-                                    musicData.id ===
-                                    parseInt(item.quoteToPost.targetId)
-                                  }
                                   isIdNowPlaying={item.id === idNowPlaying}
                                 />
                               ) : null}
