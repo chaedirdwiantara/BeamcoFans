@@ -27,7 +27,7 @@ const ImageList: FC<ImageListProps> = (props: ImageListProps) => {
 
   return (
     <View style={styles.container}>
-      {imgData.length === 1 && (
+      {imgData?.length === 1 && (
         <>
           <SquareImage
             imgUri={imgData && imgData[0][2].image}
