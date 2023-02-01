@@ -1,3 +1,5 @@
+import {imageTypes} from './base.interface';
+
 export type SearchProps = {
   keyword: string;
   filterBy?: string;
@@ -44,7 +46,7 @@ export type ListDataSearchSongs = {
   title: string;
   description: string;
   songWriter: string[];
-  imageUrl: string;
+  imageUrl: imageTypes[];
   publishedDate: string;
   copyright: string;
   language: string;
@@ -64,7 +66,7 @@ export type ListDataSearchAlbums = {
   id: number;
   title: string;
   description: string;
-  imageUrl: string;
+  imageUrl: imageTypes[];
   featuringArtist: string[];
   genre: string;
   copyrightProducer: string[];
@@ -104,3 +106,7 @@ export type ListSearchPlaylistsResponseType = {
   meta: [];
   status: number;
 };
+
+export interface KeywordProps {
+  keyword: string;
+}
