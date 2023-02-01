@@ -5,10 +5,11 @@ import SquareComp from './SquareComp';
 import {widthResponsive} from '../../utils';
 import {color, font} from '../../theme';
 import {ms} from 'react-native-size-matters';
+import {photos} from '../../interface/musician.interface';
 
 interface PhotoProps {
   title: string;
-  data: string[];
+  data: photos[];
   photoOnpress: () => void;
 }
 
@@ -25,7 +26,10 @@ const Photo: FC<PhotoProps> = (props: PhotoProps) => {
             <>
               {data.length <= 4 && (
                 <>
-                  <SquareComp imgUri={item} size={widthResponsive(76)} />
+                  <SquareComp
+                    imgUri={item.images[0].image}
+                    size={widthResponsive(76)}
+                  />
                   <Gap width={8} />
                 </>
               )}
@@ -38,7 +42,10 @@ const Photo: FC<PhotoProps> = (props: PhotoProps) => {
                       width: widthResponsive(76),
                       opacity: 0.2,
                     }}>
-                    <SquareComp imgUri={item} size={widthResponsive(76)} />
+                    <SquareComp
+                      imgUri={item.images[0].image}
+                      size={widthResponsive(76)}
+                    />
                   </View>
                   <View style={styles.textNumberStyle}>
                     <Text style={styles.textPhotos}>{`+${
@@ -48,7 +55,10 @@ const Photo: FC<PhotoProps> = (props: PhotoProps) => {
                 </TouchableOpacity>
               ) : data.length > 4 && i < 3 ? (
                 <>
-                  <SquareComp imgUri={item} size={widthResponsive(76)} />
+                  <SquareComp
+                    imgUri={item.images[0].image}
+                    size={widthResponsive(76)}
+                  />
                   <Gap width={8} />
                 </>
               ) : null}
