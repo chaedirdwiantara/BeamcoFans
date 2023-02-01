@@ -47,6 +47,9 @@ import {useFeedHook} from '../../hooks/use-feed.hook';
 import {dateFormat} from '../../utils/date-format';
 import categoryNormalize from '../../utils/categoryNormalize';
 import {TickCircleIcon} from '../../assets/icon';
+import {usePlayerHook} from '../../hooks/use-player.hook';
+import MusicListPreview from '../../components/molecule/MusicPreview/MusicListPreview';
+import {dummySongImg} from '../../data/image';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -95,11 +98,25 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
   const [selectedMenu, setSelectedMenu] = useState<DataDropDownType>();
 
+  //* MUSIC HOOKS
+  const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
+  const [idNowPlaying, setIdNowPlaing] = useState<string>();
+
   useFocusEffect(
     useCallback(() => {
       getListTopPost();
     }, []),
   );
+
+  const {
+    seekPlayer,
+    setPlaySong,
+    setPauseSong,
+    hidePlayer,
+    isPlaying,
+    playerProgress,
+    addPlaylistFeed,
+  } = usePlayerHook();
 
   const resultDataFilter = (dataResultFilter: any) => {
     const dates = new Date();
@@ -119,6 +136,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     isLogin
       ? navigation.navigate('PostDetail', data)
       : setModalGuestVisible(true);
+    setPauseSong();
   };
 
   const likeOnPress = (id: string, isLiked: boolean) => {
@@ -265,6 +283,29 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   }, [selectedIdPost, selectedMenu]);
   // ! END OF UPDATE COMMENT AREA
 
+  // ! MUSIC AREA
+  const onPressPlaySong = (val: PostList) => {
+    let data = [val];
+    addPlaylistFeed({
+      dataSong: data,
+      playSongId: Number(val.quoteToPost.targetId),
+      isPlay: true,
+    });
+    setPlaySong();
+    setPauseModeOn(true);
+    setIdNowPlaing(val.id);
+    hidePlayer();
+  };
+
+  const handlePausePlay = () => {
+    if (isPlaying) {
+      setPauseSong();
+    } else {
+      setPlaySong();
+    }
+  };
+  // ! END OF MUSIC AREA
+
   return (
     <>
       <View style={styles.container}>
@@ -320,7 +361,11 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   }
                   musicianName={item.musician.fullname}
                   musicianId={`@${item.musician.username}`}
-                  imgUri={item.musician.imageProfileUrl}
+                  imgUri={
+                    item.musician.imageProfileUrls.length !== 0
+                      ? item.musician.imageProfileUrls[0][0].image
+                      : ''
+                  }
                   postDate={dateFormat(item.createdAt)}
                   category={categoryNormalize(item.category)}
                   onPress={() => cardOnPress(item)}
@@ -391,6 +436,35 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                                 widthType2={289}
                                 onPress={() => {}}
                               />
+                              {item.images.length === 0 &&
+                              item.quoteToPost.encodeHlsUrl ? (
+                                <MusicListPreview
+                                  hideClose
+                                  targetId={item.quoteToPost.targetId}
+                                  targetType={item.quoteToPost.targetType}
+                                  title={item.quoteToPost.title}
+                                  musician={item.quoteToPost.musician}
+                                  coverImage={
+                                    item.quoteToPost.coverImage[1]?.image !==
+                                    undefined
+                                      ? item.quoteToPost.coverImage[1].image
+                                      : ''
+                                  }
+                                  encodeDashUrl={item.quoteToPost.encodeDashUrl}
+                                  encodeHlsUrl={item.quoteToPost.encodeHlsUrl}
+                                  startAt={item.quoteToPost.startAt}
+                                  endAt={item.quoteToPost.endAt}
+                                  postList={item}
+                                  onPress={onPressPlaySong}
+                                  isPlay={isPlaying}
+                                  playOrPause={handlePausePlay}
+                                  pauseModeOn={pauseModeOn}
+                                  currentProgress={playerProgress.position}
+                                  duration={playerProgress.duration}
+                                  seekPlayer={seekPlayer}
+                                  isIdNowPlaying={item.id === idNowPlaying}
+                                />
+                              ) : null}
                             </View>
                           </View>
                         </>
@@ -403,10 +477,9 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
             )}
           />
         </View>
-      ) : dataTopPost?.length === 0 &&
-        feedMessage === 'musician not have post' ? (
+      ) : dataTopPost?.length === 0 ? (
         <EmptyState
-          text={`Your following musician don't have any post, try to follow more musician`}
+          text={feedMessage}
           containerStyle={{
             justifyContent: 'flex-start',
             paddingTop: heightPercentage(24),

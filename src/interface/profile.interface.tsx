@@ -1,3 +1,5 @@
+import {imageTypes} from './base.interface';
+
 export type RegistrationType =
   | 'email'
   | 'facebook'
@@ -34,6 +36,8 @@ export type ProfileResponseData = {
   songAdded: number | null;
   createdAt: string;
   updatedAt: string;
+  referralFrom: string | null;
+  banners: imageTypes[];
   locationCountry: string;
   gender: string;
   followers: number;
