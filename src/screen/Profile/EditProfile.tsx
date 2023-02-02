@@ -33,8 +33,9 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
       ? dataProfile.images[2].image
       : null;
 
-  const [avatarUri, setAvatarUri] = useState(avatar || '');
-  const [backgroundUri, setBackgroundUri] = useState(banners || '');
+  const [avatarUri, setAvatarUri] = useState<string>(avatar || '');
+  const [backgroundUri, setBackgroundUri] = useState<string>(banners || '');
+  const [imageLoading, setImageLoading] = useState<boolean>(false);
 
   const goBack = () => {
     navigation.goBack();
@@ -54,13 +55,18 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
   };
 
   const setUploadImage = async (image: Image, type: string) => {
+    setImageLoading(true);
     try {
       const response = await uploadImage(image);
+      console.log('response', response);
+
       type === 'avatarUri'
         ? setAvatarUri(response.data)
         : setBackgroundUri(response.data);
     } catch (error) {
-      console.log(error);
+      console.log('error', error);
+    } finally {
+      setImageLoading(false);
     }
   };
 
@@ -85,6 +91,7 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
         setResetImage={(type: string) => {
           setResetImage(type);
         }}
+        imageLoading={imageLoading}
       />
     </View>
   );

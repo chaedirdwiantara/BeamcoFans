@@ -8,6 +8,7 @@ import Color from '../../../theme/Color';
 import {TopNavigation} from '../TopNavigation';
 import {ProfileHeader} from './components/Header';
 import Typography from '../../../theme/Typography';
+import {ModalLoading} from '../ModalLoading/ModalLoading';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
@@ -19,6 +20,7 @@ interface EditProfileProps {
   onPressSave: (params: {bio: string}) => void;
   setUploadImage: (image: Image, type: string) => void;
   setResetImage: (type: string) => void;
+  imageLoading: boolean;
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({
@@ -28,6 +30,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   onPressSave,
   setUploadImage,
   setResetImage,
+  imageLoading,
 }) => {
   const [bio, setBio] = useState(profile.bio || '');
   const [isModalVisible, setModalVisible] = useState({
