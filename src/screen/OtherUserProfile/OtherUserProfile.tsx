@@ -17,6 +17,7 @@ import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {GuestContent, ProfileContent} from '../../components';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
+import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 
 type OtherProfileProps = NativeStackScreenProps<
   RootStackParams,
@@ -29,7 +30,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
   const data = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {dataProfile, getOtherProfileUser} = useProfileHook();
+  const {dataProfile, isLoading, getOtherProfileUser} = useProfileHook();
   const {dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
@@ -55,8 +56,14 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
     fullname: dataProfile?.data.fullname,
     username: '@' + dataProfile?.data.username,
     bio: dataProfile?.data.about,
-    backgroundUri: dataProfile?.data?.banner,
-    avatarUri: dataProfile?.data.imageProfileUrl,
+    backgroundUri:
+      dataProfile?.data?.banners.length !== 0
+        ? dataProfile?.data?.banners[3].image
+        : '',
+    avatarUri:
+      dataProfile?.data.images.length !== 0
+        ? dataProfile?.data.images[1].image
+        : '',
     totalFollowing: dataProfile?.data.following,
   };
 
@@ -74,6 +81,8 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
           setToastVisible={setToastVisible}
           toastText={''}
         />
+      ) : isLogin && isLoading ? (
+        <ModalLoading visible={isLoading} />
       ) : (
         <GuestContent />
       )}

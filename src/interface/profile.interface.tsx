@@ -24,8 +24,8 @@ export type ProfileResponseData = {
   email: string;
   fullname: string;
   about: string | null;
-  banners: ListImageType[];
-  images: ListImageType[];
+  banners: imageTypes[];
+  images: imageTypes[];
   phoneNumber: string | null;
   registrationType: RegistrationType;
   favoriteGenres: FavGenreType[];
@@ -37,7 +37,6 @@ export type ProfileResponseData = {
   createdAt: string;
   updatedAt: string;
   referralFrom: string | null;
-  banners: imageTypes[];
   locationCountry: string;
   gender: string;
   followers: number;

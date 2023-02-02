@@ -15,11 +15,14 @@ export const useProfileHook = () => {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [isValidReferral, setIsValidReferral] = useState<boolean | null>(null);
   const [dataProfile, setDataProfile] = useState<ProfileResponseType>();
+  const [dataUserCheck, setDataUserCheck] = useState<'Musician' | 'Fans' | ''>(
+    '',
+  );
 
   const getProfileUser = async () => {
+    setIsLoading(true);
     try {
       const response = await getProfile();
-      console.log(response);
       setDataProfile(response);
     } catch (error) {
       console.log(error);
@@ -29,11 +32,26 @@ export const useProfileHook = () => {
   };
 
   const getOtherProfileUser = async (props?: PostPropsTypeA) => {
+    setIsLoading(true);
     try {
       const response = await getOtherUserProfile(props);
-      console.log(response);
       setDataProfile(response);
     } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getCheckUser = async (props?: PostPropsTypeA) => {
+    setIsLoading(true);
+    try {
+      const response = await getOtherUserProfile(props);
+      response.data === null
+        ? setDataUserCheck('Musician')
+        : setDataUserCheck('Fans');
+    } catch (error) {
+      setDataUserCheck('');
       console.log(error);
     } finally {
       setIsLoading(false);
@@ -97,10 +115,13 @@ export const useProfileHook = () => {
     errorMsg,
     isValidReferral,
     dataProfile,
+    dataUserCheck,
+    setDataUserCheck,
     getProfileUser,
     updateProfileUser,
     applyReferralUser,
     updateProfilePreference,
     getOtherProfileUser,
+    getCheckUser,
   };
 };
