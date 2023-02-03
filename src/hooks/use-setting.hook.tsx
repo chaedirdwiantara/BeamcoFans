@@ -3,6 +3,8 @@ import {useState} from 'react';
 import {
   addEmail,
   addPhoneNumber,
+  getListGenre,
+  getListMood,
   getShipping,
   getVerifCode,
   setVerifCode,
@@ -16,6 +18,7 @@ import {
   DataShippingProps,
   EmailPhoneProps,
   EmailPhoneVerifProps,
+  PreferenceList,
   VerifPasswordSetting,
 } from '../interface/setting.interface';
 
@@ -27,6 +30,8 @@ export const useSettingHook = () => {
   const [fetchData, setFetchData] = useState(true);
   const [dataShippingInfo, setDataShippingInfo] =
     useState<DataShippingProps | null>(null);
+  const [listMood, setListMood] = useState<PreferenceList[]>([]);
+  const [listGenre, setListGenre] = useState<PreferenceList[]>([]);
 
   const getVerificationCode = async (props?: EmailPhoneVerifProps) => {
     setIsLoading(true);
@@ -265,6 +270,25 @@ export const useSettingHook = () => {
     }
   };
 
+  const getListPreference = async () => {
+    setIsError(false);
+    setIsLoading(true);
+    try {
+      const genre = await getListGenre();
+      const mood = await getListMood();
+
+      setListMood(mood.data);
+      setListGenre(genre.data);
+    } catch (error) {
+      console.log({error});
+      setListMood([]);
+      setListGenre([]);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -272,6 +296,8 @@ export const useSettingHook = () => {
     successMsg,
     dataShippingInfo,
     fetchData,
+    listGenre,
+    listMood,
     changeEmail,
     changePhoneNumber,
     getVerificationCode,
@@ -282,5 +308,6 @@ export const useSettingHook = () => {
     addNewEmail,
     changePassword,
     getShippingInfo,
+    getListPreference,
   };
 };

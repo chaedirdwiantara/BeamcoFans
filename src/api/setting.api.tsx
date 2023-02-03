@@ -11,6 +11,8 @@ import {
   DataShippingProps,
   SendReportProps,
   SendReportResponseType,
+  PreferenceReaponseType,
+  PreferenceProps,
 } from '../interface/setting.interface';
 
 export const updateEmail = async (
@@ -137,6 +139,30 @@ export const sendReport = async (
     url: '/feedback',
     method: 'POST',
     data: props,
+  });
+
+  return data;
+};
+
+export const getListMood = async (
+  props?: PreferenceProps,
+): Promise<PreferenceReaponseType> => {
+  const {data} = await SsuAPI().request<PreferenceReaponseType>({
+    url: '/moods',
+    method: 'GET',
+    params: props,
+  });
+
+  return data;
+};
+
+export const getListGenre = async (
+  props?: PreferenceProps,
+): Promise<PreferenceReaponseType> => {
+  const {data} = await SsuAPI().request<PreferenceReaponseType>({
+    url: '/favorite-genres',
+    method: 'GET',
+    params: props,
   });
 
   return data;

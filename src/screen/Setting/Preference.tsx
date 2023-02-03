@@ -1,58 +1,45 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
-import {ArrowLeftIcon} from '../../assets/icon';
-import {Button, Dropdown, Gap, TopNavigation} from '../../components';
-import {dataGenres} from '../../data/Settings/genre';
-import {dataMoods} from '../../data/Settings/mood';
-import {heightPercentage, widthPercentage} from '../../utils';
-import {mvs} from 'react-native-size-matters';
+import {widthPercentage} from '../../utils';
+import PreferenceContent from '../../components/molecule/SettingContent/PreferenceContent';
+import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
+import {useSettingHook} from '../../hooks/use-setting.hook';
+import {useProfileHook} from '../../hooks/use-profile.hook';
+import {ProfileResponseData} from '../../interface/profile.interface';
 
 export const PreferenceSettingScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {getListPreference, listGenre, listMood, isLoading} = useSettingHook();
+  const {dataProfile, getProfileUser} = useProfileHook();
+
+  useEffect(() => {
+    getProfileUser();
+    getListPreference();
+  }, []);
 
   const onPressGoBack = () => {
     navigation.goBack();
   };
 
+  useEffect(() => {
+    console.log({listMood});
+  }, [listMood]);
+
   return (
     <View style={styles.root}>
-      <TopNavigation.Type1
-        title="Preference"
-        leftIcon={<ArrowLeftIcon />}
-        itemStrokeColor={Color.Neutral[10]}
-        leftIconAction={onPressGoBack}
-        containerStyles={{marginBottom: heightPercentage(15)}}
+      <PreferenceContent
+        onPressGoBack={onPressGoBack}
+        moods={listMood}
+        genres={listGenre}
+        profile={dataProfile}
       />
-      <Dropdown.Multi
-        data={dataGenres}
-        placeHolder={'Select Genre'}
-        dropdownLabel={'Genre'}
-        textTyped={(_newText: string) => null}
-        containerStyles={{marginTop: heightPercentage(15)}}
-        initialValue={[]}
-      />
-      <Gap height={10} />
-      <Dropdown.Multi
-        data={dataMoods}
-        placeHolder={'Select Mood'}
-        dropdownLabel={'Mood'}
-        textTyped={(_newText: string) => null}
-        containerStyles={{marginTop: heightPercentage(15)}}
-        initialValue={[]}
-      />
-      <Gap height={40} />
-      <Button
-        label="Save"
-        textStyles={{fontSize: mvs(14)}}
-        containerStyles={{width: '100%'}}
-        onPress={() => null}
-      />
+      <ModalLoading visible={isLoading || !dataProfile} />
     </View>
   );
 };
