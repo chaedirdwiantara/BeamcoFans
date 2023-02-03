@@ -19,7 +19,7 @@ export const PhotoPlaylist: React.FC<Props> = ({uri, showIcon, onPress}) => {
       <ImageBackground
         source={{uri: uri}}
         resizeMode="cover"
-        imageStyle={{borderRadius: 8}}
+        // imageStyle={{borderRadius: 8}}
         style={styles.image}>
         {showIcon && <GalleryAddIcon />}
       </ImageBackground>
