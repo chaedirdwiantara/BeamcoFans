@@ -18,6 +18,7 @@ import {
   EmailPhoneVerifProps,
   VerifPasswordSetting,
 } from '../interface/setting.interface';
+import {storage} from './use-storage.hook';
 
 export const useSettingHook = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -226,11 +227,11 @@ export const useSettingHook = () => {
     setSuccessMsg('');
     try {
       const resp = await updatePassword(props);
-      console.log({resp});
       if (resp.code !== 200) {
         setIsError(true);
         setErrorMsg(resp.message as string);
       } else {
+        storage.set('profile', JSON.stringify(resp.data));
         setSuccessMsg(resp.data as string);
       }
     } catch (error) {
