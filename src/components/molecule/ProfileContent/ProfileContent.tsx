@@ -23,6 +23,7 @@ import {ProfileHeader} from './components/Header';
 import {EmptyState} from '../EmptyState/EmptyState';
 import {TopSongListData} from '../../../data/topSong';
 import {UserInfoCard} from '../UserInfoCard/UserInfoCard';
+import {ModalLoading} from '../ModalLoading/ModalLoading';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import {Playlist} from '../../../interface/playlist.interface';
 import ListPlaylist from '../../../screen/ListCard/ListPlaylist';
@@ -44,6 +45,7 @@ interface ProfileContentProps {
   toastVisible: boolean;
   setToastVisible: (param: boolean) => void;
   toastText: string;
+  isLoading: boolean;
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -56,6 +58,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   toastVisible,
   setToastVisible,
   toastText,
+  isLoading,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollEffect, setScrollEffect] = useState(false);
@@ -75,7 +78,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.root}>
       {scrollEffect && (
         <View style={styles.containerStickyHeader}>
           <Text style={[styles.name, styles.topIos]}>{profile.fullname}</Text>
@@ -181,13 +184,15 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           </View>
         }
       />
+
+      <ModalLoading visible={isLoading} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: Color.Dark[50],
+    flex: 1,
   },
   infoCard: {
     position: 'absolute',

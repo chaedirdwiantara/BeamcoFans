@@ -133,6 +133,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
           ]}>{`${bio.length}/110`}</Text>
       </View>
 
+      <ModalLoading visible={imageLoading} />
+
       <ModalImagePicker
         title={titleModalPicker}
         modalVisible={isModalVisible.modalImage}

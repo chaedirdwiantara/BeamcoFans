@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {InteractionManager, StyleSheet, View} from 'react-native';
 import {Image} from 'react-native-image-crop-picker';
 import {
   NativeStackNavigationProp,
@@ -12,6 +12,7 @@ import {EditProfile} from '../../components';
 import {uploadImage} from '../../api/uploadImage.api';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {MainTabParams, RootStackParams} from '../../navigations';
+import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 
 type EditProfileProps = NativeStackScreenProps<RootStackParams, 'EditProfile'>;
 
@@ -21,7 +22,7 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
 }: EditProfileProps) => {
   const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const dataProfile = route.params;
-  const {updateProfileUser} = useProfileHook();
+  const {isLoading, updateProfileUser} = useProfileHook();
 
   const banners =
     dataProfile !== undefined && dataProfile.banners?.length > 0
@@ -42,11 +43,14 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
   };
 
   const onPressSave = (param: {bio: string}) => {
-    updateProfileUser({
-      about: param.bio,
-      imageProfileUrl: avatarUri,
-      banner: backgroundUri,
-    });
+    updateProfileUser(
+      {
+        about: param.bio,
+        imageProfileUrl: avatarUri,
+        banner: backgroundUri,
+      },
+      true,
+    );
     navigation2.navigate('Profile', {showToast: true});
   };
 
@@ -55,16 +59,14 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
   };
 
   const setUploadImage = async (image: Image, type: string) => {
-    setImageLoading(true);
+    InteractionManager.runAfterInteractions(() => setImageLoading(true));
     try {
       const response = await uploadImage(image);
-      console.log('response', response);
-
       type === 'avatarUri'
         ? setAvatarUri(response.data)
         : setBackgroundUri(response.data);
     } catch (error) {
-      console.log('error', error);
+      console.log(error);
     } finally {
       setImageLoading(false);
     }
@@ -93,6 +95,7 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
         }}
         imageLoading={imageLoading}
       />
+      <ModalLoading visible={isLoading} />
     </View>
   );
 };
