@@ -117,17 +117,19 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
               : ''
           }
           backgroundUri={
-            profile.banners.length !== 0 ? profile.banners[1].image : ''
+            profile.banners !== null && profile.banners.length !== 0
+              ? profile.banners[1].image
+              : ''
           }
-          fullname={profile.fullname}
-          username={profile.username}
-          bio={profile.bio}
-          isFollowed={profile.isFollowed}
+          fullname={profile?.fullname}
+          username={profile?.username}
+          bio={profile?.bio}
+          isFollowed={profile?.isFollowed}
           followOnPress={followOnPress}
           onPressDonate={() => setModalDonate(true)}
         />
         <View style={styles.infoCard}>
-          <UserInfoCard onPress={() => {}} />
+          <UserInfoCard onPress={() => {}} profile={profile} />
           <ExclusiveDailyContent />
           <Gap height={10} />
           <View style={styles.containerContent}>

@@ -371,7 +371,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             ? dataProfile?.data.username
             : '',
           image: dataProfile?.data.images
-            ? dataProfile?.data.images[0].image
+            ? dataProfile?.data.images[0]?.image
             : '',
         },
       },

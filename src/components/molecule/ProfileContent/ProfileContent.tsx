@@ -105,6 +105,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           containerStyles={styles.infoCard}
           totalFollowing={profile.totalFollowing}
           onPress={() => onPressGoTo('Following')}
+          selfProfile={profile.data}
         />
         <View style={styles.containerContent}>
           <TabFilter.Type1
