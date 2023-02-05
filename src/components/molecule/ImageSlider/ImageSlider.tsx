@@ -186,13 +186,14 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                             }}>
                             <ListCard.FollowMusician
                               musicianName={item.fullname}
-                              imgUri={item.imageProfileUrl || ''}
+                              imgUri={item.imageProfileUrls}
                               containerStyles={{marginTop: mvs(20)}}
                               followerCount={item.followers}
                               followOnPress={() =>
                                 followOnPress(item.uuid, item.isFollowed)
                               }
                               stateButton={item.isFollowed}
+                              toDetailOnPress={() => null}
                             />
                           </View>
                         ))}

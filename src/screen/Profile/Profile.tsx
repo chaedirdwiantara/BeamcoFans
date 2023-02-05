@@ -27,8 +27,8 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const {showToast, deletePlaylist} = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {dataProfile, getProfileUser} = useProfileHook();
-  const {dataPlaylist, getPlaylist} = usePlaylistHook();
+  const {isLoading, dataProfile, getProfileUser} = useProfileHook();
+  const {playlistLoading, dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
   const {isPlaying, showPlayer, hidePlayer} = usePlayerHook();
@@ -115,6 +115,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
           toastVisible={toastVisible}
           setToastVisible={setToastVisible}
           toastText={toastText}
+          isLoading={isLoading || playlistLoading}
         />
       ) : (
         <GuestContent />

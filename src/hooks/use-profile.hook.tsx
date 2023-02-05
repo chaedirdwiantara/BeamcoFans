@@ -17,6 +17,7 @@ export const useProfileHook = () => {
   const [dataProfile, setDataProfile] = useState<ProfileResponseType>();
 
   const getProfileUser = async () => {
+    setIsLoading(true);
     try {
       const response = await getProfile();
       console.log(response);
@@ -44,6 +45,7 @@ export const useProfileHook = () => {
     props?: UpdateProfilePropsType,
     trigger?: boolean,
   ) => {
+    setIsLoading(true);
     try {
       await updateProfile(props);
       if (trigger) {

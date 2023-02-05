@@ -24,6 +24,7 @@ interface FollowingListProps {
   dataList?: MusicianList[];
   search: string;
   setSearch: (value: string) => void;
+  goToMusician: (value: string) => void;
 }
 
 export const FollowingList: React.FC<FollowingListProps> = ({
@@ -33,6 +34,7 @@ export const FollowingList: React.FC<FollowingListProps> = ({
   onPressGoBack,
   search,
   setSearch,
+  goToMusician,
 }) => {
   const [listFollowing, setListFollowing] = useState(dataList);
 
@@ -82,11 +84,12 @@ export const FollowingList: React.FC<FollowingListProps> = ({
           <View key={i} style={{width, paddingHorizontal: widthPercentage(20)}}>
             <ListCard.FollowMusician
               musicianName={val.fullname}
-              imgUri={val.imageProfileUrl || ''}
+              imgUri={val.imageProfileUrls}
               containerStyles={{marginTop: heightPercentage(10)}}
               followerCount={val.followers}
               followOnPress={() => followOnPress(val.uuid, val.isFollowed)}
               stateButton={val.isFollowed}
+              toDetailOnPress={() => goToMusician(val.uuid)}
             />
           </View>
         ))}
