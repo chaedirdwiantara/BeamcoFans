@@ -78,3 +78,18 @@ export type SendReportResponseType = {
   message: string;
   status: number;
 };
+
+export type PreferenceList = {
+  id: number;
+  name: string;
+};
+
+export type PreferenceReaponseType = {
+  code: number;
+  data: PreferenceList[];
+};
+
+export type PreferenceProps = {
+  page: number;
+  perPage: number;
+};

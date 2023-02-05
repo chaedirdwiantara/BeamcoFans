@@ -13,6 +13,7 @@ import {ProfileResponseType} from '../interface/profile.interface';
 export const useProfileHook = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
+  const [successMsg, setSuccessMsg] = useState<string>('');
   const [isValidReferral, setIsValidReferral] = useState<boolean | null>(null);
   const [dataProfile, setDataProfile] = useState<ProfileResponseType>();
 
@@ -60,10 +61,23 @@ export const useProfileHook = () => {
   };
 
   const updateProfilePreference = async (props?: UpdateProfilePropsType) => {
+    setIsLoading(true);
+    setErrorMsg('');
+    setSuccessMsg('');
     try {
-      await updateProfile(props);
+      const resp = await updateProfile(props);
+      console.log({resp});
+      setSuccessMsg(resp.message);
     } catch (error) {
-      console.log(error);
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status &&
+        error.response?.status >= 400
+      ) {
+        setErrorMsg(error.response?.data?.message);
+      } else if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -97,6 +111,7 @@ export const useProfileHook = () => {
   return {
     isLoading,
     errorMsg,
+    successMsg,
     isValidReferral,
     dataProfile,
     getProfileUser,

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {MultiSelect} from 'react-native-element-dropdown';
 import {ms, mvs} from 'react-native-size-matters';
@@ -6,9 +6,9 @@ import {color, font} from '../../../theme';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 import {CheckBox} from '../../atom';
 
-interface dataProps {
+export interface dataProps {
   label: string;
-  value?: string;
+  value?: number;
 }
 
 interface InputDropdownProps {
@@ -17,7 +17,8 @@ interface InputDropdownProps {
   dropdownLabel: string;
   textTyped: (data: any) => void;
   containerStyles?: ViewStyle;
-  initialValue?: string[] | null;
+  initialValue?: (number | undefined)[] | null;
+  setValues: (val: string[]) => void;
 }
 
 const borderColor = color.Dark[500];
@@ -34,9 +35,10 @@ const MultiDropdown: React.FC<InputDropdownProps> = (
     dropdownLabel,
     textTyped,
     containerStyles,
+    setValues,
   } = props;
 
-  const [value, setValue] = useState(initialValue || []);
+  const [value, setValue] = useState(initialValue ?? []);
 
   const isSelected = (item: any) => {
     return value.find(val => item.value === val) ? true : false;
@@ -60,8 +62,24 @@ const MultiDropdown: React.FC<InputDropdownProps> = (
   };
 
   const mappingValue = () => {
-    return value.toString();
+    const array: dataProps[] = [];
+    value.map(val => {
+      const find = data.find(item => item.value === val);
+      if (find) {
+        array.push(find);
+      }
+    });
+
+    return array.map(item => {
+      return item.label;
+    });
   };
+
+  useEffect(() => {
+    if (initialValue) {
+      setValue(initialValue);
+    }
+  }, [initialValue]);
 
   return (
     <View style={[styles.container, containerStyles]}>
@@ -75,11 +93,12 @@ const MultiDropdown: React.FC<InputDropdownProps> = (
         maxHeight={mvs(300)}
         labelField="label"
         valueField="value"
-        placeholder={value.length > 0 ? mappingValue() : placeHolder}
+        placeholder={value.length > 0 ? mappingValue().toString() : placeHolder}
         value={value}
         onChange={item => {
           setValue(item);
           textTyped(item);
+          setValues(item);
         }}
         fontFamily={font.InterRegular}
         showsVerticalScrollIndicator={false}
