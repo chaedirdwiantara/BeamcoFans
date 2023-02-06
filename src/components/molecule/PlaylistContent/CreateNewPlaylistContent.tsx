@@ -54,6 +54,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
   const [focusInput, setFocusInput] = useState<'name' | 'description' | null>(
     null,
   );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onChangeText = (key: string, value: string) => {
     setState({
@@ -101,6 +102,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
   };
 
   const onPressConfirm = async () => {
+    setIsLoading(true);
     try {
       const payload = {
         name: state.playlistName,
@@ -113,6 +115,8 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
       closeModal();
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -248,6 +252,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
           subtitle="Are you sure you want to save your new playlist?"
           onPressClose={closeModal}
           onPressOk={onPressConfirm}
+          disabled={isLoading}
         />
       </View>
     </KeyboardAvoidingView>
