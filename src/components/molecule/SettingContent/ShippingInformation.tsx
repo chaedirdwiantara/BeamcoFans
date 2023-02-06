@@ -7,7 +7,7 @@ import {
   ScrollView,
   Text,
 } from 'react-native';
-import {mvs} from 'react-native-size-matters';
+import {ms} from 'react-native-size-matters';
 
 import {
   heightPercentage,
@@ -195,7 +195,7 @@ export const ShippingInformationContent: React.FC<ShippingInformationProps> = ({
               onChangeText={(newText: string) =>
                 onChangeText('postalCode', newText)
               }
-              inputStyles={{minHeight: mvs(55)}}
+              inputStyles={{minHeight: ms(56)}}
               containerStyles={{marginTop: heightPercentage(15), width: '45%'}}
             />
 
