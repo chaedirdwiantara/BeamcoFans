@@ -3,19 +3,22 @@ import {StyleSheet, View, Text} from 'react-native';
 
 import {
   heightPercentage,
+  normalize,
   width,
   widthPercentage,
   widthResponsive,
 } from '../../../utils';
 import {Dropdown} from '../DropDown';
 import Color from '../../../theme/Color';
-import {typography} from '../../../theme';
+import {color, font, typography} from '../../../theme';
 import {TopNavigation} from '../TopNavigation';
 import {updateProfile} from '../../../api/profile.api';
 import {Button, Gap, SsuInput, SsuToast} from '../../atom';
-import {ArrowLeftIcon, TickCircleIcon} from '../../../assets/icon';
+import {ArrowLeftIcon, ErrorIcon, TickCircleIcon} from '../../../assets/icon';
 import {dataGender, dataLocation} from '../../../data/Settings/account';
 import {ProfileResponseType} from '../../../interface/profile.interface';
+import axios from 'axios';
+import {ms, mvs} from 'react-native-size-matters';
 
 interface AccountProps {
   profile: ProfileResponseType;
@@ -26,6 +29,13 @@ export const AccountContent: React.FC<AccountProps> = ({
   profile,
   onPressGoBack,
 }) => {
+  const defautProfile = {
+    username: profile?.data.username || '',
+    fullname: profile?.data.fullname || '',
+    gender: profile?.data.gender || '',
+    locationCountry: profile?.data.locationCountry || '',
+  };
+
   const [state, setState] = useState({
     username: profile?.data.username || '',
     fullname: profile?.data.fullname || '',
@@ -40,6 +50,7 @@ export const AccountContent: React.FC<AccountProps> = ({
   });
   const [errorMsg, setErrorMsg] = useState('');
   const [toastVisible, setToastVisible] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(true);
 
   useEffect(() => {
     toastVisible &&
@@ -64,13 +75,23 @@ export const AccountContent: React.FC<AccountProps> = ({
       setToastVisible(true);
       setErrorMsg('');
     } catch (error) {
-      setErrorState({
-        ...errorState,
-        username: true,
-      });
-      console.log(error);
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status &&
+        error.response?.status >= 400
+      ) {
+        setErrorMsg(error.response?.data?.message);
+      } else if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
     }
   };
+
+  useEffect(() => {
+    if (JSON.stringify(state) !== JSON.stringify(defautProfile))
+      setDisabledButton(false);
+    else setDisabledButton(true);
+  }, [state]);
 
   return (
     <View style={styles.root}>
@@ -124,10 +145,19 @@ export const AccountContent: React.FC<AccountProps> = ({
         containerStyles={{marginTop: heightPercentage(15)}}
       />
 
+      {errorMsg !== '' ? (
+        <View style={styles.containerErrorMsg}>
+          <ErrorIcon fill={color.Error[400]} />
+          <Gap width={ms(4)} />
+          <Text style={styles.errorMsg}>{errorMsg}</Text>
+        </View>
+      ) : null}
+
       <Button
         label="SAVE"
         onPress={onPressSave}
-        containerStyles={styles.button}
+        disabled={disabledButton}
+        containerStyles={disabledButton ? styles.buttonDisabled : styles.button}
       />
 
       <SsuToast
@@ -165,11 +195,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthPercentage(12),
   },
   button: {
-    width: width * 0.9,
+    width: '100%',
     aspectRatio: widthPercentage(327 / 36),
     marginTop: heightPercentage(25),
     alignSelf: 'center',
     backgroundColor: Color.Pink[200],
+  },
+  buttonDisabled: {
+    width: '100%',
+    aspectRatio: widthPercentage(327 / 36),
+    marginTop: heightPercentage(25),
+    alignSelf: 'center',
+    backgroundColor: Color.Dark[50],
   },
   modalContainer: {
     width: '100%',
@@ -182,5 +219,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 1,
+  },
+  containerErrorMsg: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingTop: mvs(15),
+    alignItems: 'center',
+  },
+  errorMsg: {
+    color: color.Error[400],
+    fontFamily: font.InterRegular,
+    fontSize: normalize(10),
+    lineHeight: mvs(12),
+    maxWidth: '90%',
   },
 });

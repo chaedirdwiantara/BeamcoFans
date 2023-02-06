@@ -300,6 +300,12 @@ export const useSettingHook = () => {
       console.log({error});
       setListMood([]);
       setListGenre([]);
+      setListExpectation([]);
+      setListPreference({
+        mood: [],
+        genre: [],
+        expectation: [],
+      });
       setIsError(true);
     } finally {
       setIsLoading(false);
