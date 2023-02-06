@@ -33,6 +33,7 @@ interface UserInfoCardProps {
   rank?: number;
   containerStyles?: ViewStyle;
   onPress: () => void;
+  totalCountlikedSong?: number;
 }
 
 type Props = {
@@ -58,6 +59,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
     onPress,
     profile,
     selfProfile,
+    totalCountlikedSong,
   } = props;
   const infoProfileArtist = [
     {
@@ -88,7 +90,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
       title: 'FOLLOWING',
     },
     {
-      point: selfProfile?.totalLiked ? selfProfile.totalLiked : 0,
+      point: totalCountlikedSong ? totalCountlikedSong : 0,
       title: 'LIKED SONGS',
     },
     {

@@ -44,6 +44,7 @@ interface ProfileContentProps {
   toastVisible: boolean;
   setToastVisible: (param: boolean) => void;
   toastText: string;
+  totalCountlikedSong?: number;
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -55,6 +56,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   showCreateCard,
   toastVisible,
   setToastVisible,
+  totalCountlikedSong,
   toastText,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -106,6 +108,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           totalFollowing={profile.totalFollowing}
           onPress={() => onPressGoTo('Following')}
           selfProfile={profile.data}
+          totalCountlikedSong={totalCountlikedSong}
         />
         <View style={styles.containerContent}>
           <TabFilter.Type1

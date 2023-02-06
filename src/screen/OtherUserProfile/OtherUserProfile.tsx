@@ -30,7 +30,13 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
   const data = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {dataProfile, isLoading, getOtherProfileUser} = useProfileHook();
+  const {
+    dataProfile,
+    isLoading,
+    getOtherProfileUser,
+    dataCountLiked,
+    getUserCountLikedSong,
+  } = useProfileHook();
   const {dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
@@ -49,6 +55,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
     useCallback(() => {
       getPlaylist();
       getOtherProfileUser({id: data.id});
+      getUserCountLikedSong({uuid: data.id});
     }, []),
   );
 
@@ -80,6 +87,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
           toastVisible={toastVisible}
           setToastVisible={setToastVisible}
           toastText={''}
+          totalCountlikedSong={dataCountLiked?.countLikedSong}
         />
       ) : isLogin && isLoading ? (
         <ModalLoading visible={isLoading} />

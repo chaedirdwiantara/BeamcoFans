@@ -1,10 +1,13 @@
+import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
 import {
+  CountLikedResponseType,
   ProfileResponseType,
   UpdateProfileResponseType,
 } from '../interface/profile.interface';
 import SsuAPI from './base';
 import SsuAPIPublicRinjani from './basePublic';
+import BaseSemeruPublic from './baseSemeruPublic';
 
 export type UpdateProfilePropsType = {
   fullname?: string;
@@ -46,6 +49,17 @@ export const updateProfile = async (
     url: '/update-profile',
     method: 'PATCH',
     data: props,
+  });
+
+  return data;
+};
+
+export const countLikedSong = async (
+  props?: ParamsProps,
+): Promise<CountLikedResponseType> => {
+  const {data} = await BaseSemeruPublic().request<CountLikedResponseType>({
+    url: `/fans/${props?.uuid}`,
+    method: 'GET',
   });
 
   return data;
