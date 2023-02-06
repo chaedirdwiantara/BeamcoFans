@@ -42,6 +42,11 @@ export type ProfileResponseData = {
   followers: number;
   fans: number;
   bio: string | null;
+  totalLiked: number;
+  points: {
+    daily: number;
+    lasUpdated: string;
+  };
 };
 
 export type MoodsType = {
@@ -79,6 +84,18 @@ export type ApplyReferralResponseType = {
     username: string;
     appliedAt: string;
   };
+  message: string;
+  status: number;
+};
+
+export type DataCountLiked = {
+  uuid: string;
+  countLikedSong: number;
+};
+
+export type CountLikedResponseType = {
+  code: number;
+  data: DataCountLiked;
   message: string;
   status: number;
 };
