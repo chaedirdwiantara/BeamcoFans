@@ -167,3 +167,15 @@ export const getListGenre = async (
 
   return data;
 };
+
+export const getListExpectations = async (
+  props?: PreferenceProps,
+): Promise<PreferenceReaponseType> => {
+  const {data} = await SsuAPI().request<PreferenceReaponseType>({
+    url: '/expectations',
+    method: 'GET',
+    params: props,
+  });
+
+  return data;
+};
