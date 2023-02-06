@@ -49,14 +49,15 @@ target 'SsuUser' do
       # Set `mac_catalyst_enabled` to `true` in order to apply patches
       # necessary for Mac Catalyst builds
       :mac_catalyst_enabled => false
-      installer.generated_projects.each do |project|
-        project.targets.each do |target|
-            target.build_configurations.each do |config|
-                config.build_settings["DEVELOPMENT_TEAM"] = "2385WX7747"
-            end
-        end
-      end
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
+    installer.generated_projects.each do |project|
+      project.targets.each do |target|
+          target.build_configurations.each do |config|
+            config.build_settings['CODE_SIGNING_ALLOWED'] = "NO"
+            config.build_settings["DEVELOPMENT_TEAM"] = "2385WX7747"
+          end
+      end
+    end
   end
 end
