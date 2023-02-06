@@ -27,7 +27,7 @@ export const listMusician = async (
 export const detailMusician = async (
   props?: PostPropsTypeA,
 ): Promise<DetailMusicianResponseType> => {
-  const {data} = await SsuPublicRinjani().request<DetailMusicianResponseType>({
+  const {data} = await SsuAPI().request<DetailMusicianResponseType>({
     url: `/musicians/${props?.id}`,
     method: 'GET',
   });

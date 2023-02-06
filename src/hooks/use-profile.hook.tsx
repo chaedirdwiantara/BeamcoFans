@@ -1,14 +1,19 @@
 import axios from 'axios';
 import {useState} from 'react';
 import {
+  countLikedSong,
   getOtherUserProfile,
   getProfile,
   updateProfile,
   UpdateProfilePropsType,
 } from '../api/profile.api';
 import {applyReferral} from '../api/referral.api';
+import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
-import {ProfileResponseType} from '../interface/profile.interface';
+import {
+  DataCountLiked,
+  ProfileResponseType,
+} from '../interface/profile.interface';
 
 export const useProfileHook = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -16,12 +21,15 @@ export const useProfileHook = () => {
   const [successMsg, setSuccessMsg] = useState<string>('');
   const [isValidReferral, setIsValidReferral] = useState<boolean | null>(null);
   const [dataProfile, setDataProfile] = useState<ProfileResponseType>();
+  const [dataUserCheck, setDataUserCheck] = useState<'Musician' | 'Fans' | ''>(
+    '',
+  );
+  const [dataCountLiked, setCountLiked] = useState<DataCountLiked>();
 
   const getProfileUser = async () => {
     setIsLoading(true);
     try {
       const response = await getProfile();
-      console.log(response);
       setDataProfile(response);
     } catch (error) {
       console.log(error);
@@ -31,11 +39,26 @@ export const useProfileHook = () => {
   };
 
   const getOtherProfileUser = async (props?: PostPropsTypeA) => {
+    setIsLoading(true);
     try {
       const response = await getOtherUserProfile(props);
-      console.log(response);
       setDataProfile(response);
     } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getCheckUser = async (props?: PostPropsTypeA) => {
+    setIsLoading(true);
+    try {
+      const response = await getOtherUserProfile(props);
+      response.data === null
+        ? setDataUserCheck('Musician')
+        : setDataUserCheck('Fans');
+    } catch (error) {
+      setDataUserCheck('');
       console.log(error);
     } finally {
       setIsLoading(false);
@@ -108,16 +131,33 @@ export const useProfileHook = () => {
     }
   };
 
+  const getUserCountLikedSong = async (props?: ParamsProps) => {
+    setIsLoading(true);
+    try {
+      const response = await countLikedSong(props);
+      setCountLiked(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     errorMsg,
     successMsg,
     isValidReferral,
     dataProfile,
+    dataUserCheck,
+    dataCountLiked,
+    setDataUserCheck,
     getProfileUser,
     updateProfileUser,
     applyReferralUser,
     updateProfilePreference,
     getOtherProfileUser,
+    getCheckUser,
+    getUserCountLikedSong,
   };
 };

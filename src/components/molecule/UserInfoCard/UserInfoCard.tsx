@@ -7,11 +7,9 @@ import {
   ViewStyle,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {
-  infoProfileArtist,
-  InfoProfileType,
-  infoProfileUser,
-} from '../../../data/profile';
+import {InfoProfileType} from '../../../data/profile';
+import {DataDetailMusician} from '../../../interface/musician.interface';
+import {ProfileResponseData} from '../../../interface/profile.interface';
 import Color from '../../../theme/Color';
 import Font from '../../../theme/Font';
 import {
@@ -22,6 +20,8 @@ import {
 } from '../../../utils';
 
 interface UserInfoCardProps {
+  profile?: DataDetailMusician;
+  selfProfile?: ProfileResponseData;
   type?: string;
   totalFollowing?: number;
   favSong?: number;
@@ -33,6 +33,7 @@ interface UserInfoCardProps {
   rank?: number;
   containerStyles?: ViewStyle;
   onPress: () => void;
+  totalCountlikedSong?: number;
 }
 
 type Props = {
@@ -51,7 +52,52 @@ const Item: FC<Props> = ({point, title, onPress}) => {
 };
 
 const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
-  const {type = '', containerStyles, totalFollowing, onPress} = props;
+  const {
+    type = '',
+    containerStyles,
+    totalFollowing,
+    onPress,
+    profile,
+    selfProfile,
+    totalCountlikedSong,
+  } = props;
+  const infoProfileArtist = [
+    {
+      point: profile?.fans ? profile.fans : 0,
+      title: 'FANS',
+    },
+    {
+      point: profile?.followers ? profile.followers : 0,
+      title: 'FOLLOWERS',
+    },
+    {
+      point: profile?.totalRelease ? profile.totalRelease : 0,
+      title: 'RELEASE',
+    },
+    {
+      point: profile?.totalPlaylist ? profile.totalPlaylist : 0,
+      title: 'PLAYLIST',
+    },
+    {
+      point: profile?.rank ? profile.rank : 0,
+      title: 'RANK',
+    },
+  ];
+
+  const infoProfileUser = [
+    {
+      point: selfProfile?.following ? selfProfile.following : 0,
+      title: 'FOLLOWING',
+    },
+    {
+      point: totalCountlikedSong ? totalCountlikedSong : 0,
+      title: 'LIKED SONGS',
+    },
+    {
+      point: selfProfile?.points.daily ? selfProfile.points.daily : 0,
+      title: 'POINTS',
+    },
+  ];
   const listItem: InfoProfileType[] =
     type === 'self' ? infoProfileUser : infoProfileArtist;
 
