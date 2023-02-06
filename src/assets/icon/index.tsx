@@ -42,6 +42,7 @@ import GalleryEditIcon from './GalleryEdit.icon';
 import GiftIcon from './Gift.icon';
 import HeartIcon from './Heart.icon';
 import HomeIcon from './Home.icon';
+import InfoCircleIcon from './InfoCircle.icon';
 import InstagramIcon from './Instagram.icon';
 import KeyIcon from './Key.icon';
 import LockIcon from './Lock.icon.';
@@ -128,6 +129,7 @@ export {
   GiftIcon,
   HeartIcon,
   HomeIcon,
+  InfoCircleIcon,
   InstagramIcon,
   KeyIcon,
   LockIcon,
