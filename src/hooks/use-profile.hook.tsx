@@ -66,7 +66,7 @@ export const useProfileHook = () => {
     setSuccessMsg('');
     try {
       const resp = await updateProfile(props);
-      console.log({resp});
+      console.log({props});
       setSuccessMsg(resp.message);
     } catch (error) {
       if (

@@ -93,3 +93,9 @@ export type PreferenceProps = {
   page: number;
   perPage: number;
 };
+
+export type ListAllPreference = {
+  mood: PreferenceList[];
+  genre: PreferenceList[];
+  expectation: PreferenceList[];
+};

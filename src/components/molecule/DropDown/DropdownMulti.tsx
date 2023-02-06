@@ -18,7 +18,7 @@ interface InputDropdownProps {
   textTyped: (data: any) => void;
   containerStyles?: ViewStyle;
   initialValue?: (number | undefined)[] | null;
-  setValues: (val: string[]) => void;
+  setValues: (val: number[]) => void;
 }
 
 const borderColor = color.Dark[500];
