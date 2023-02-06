@@ -51,7 +51,9 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
       },
       true,
     );
-    navigation2.navigate('Profile', {showToast: true});
+    setTimeout(() => {
+      navigation2.navigate('Profile', {showToast: true});
+    }, 500);
   };
 
   const setResetImage = (type: string) => {

@@ -15,9 +15,7 @@ import SsuAPI from './base';
 export const registerUser = async (
   registerProps: RegisterPropsType,
 ): Promise<RegisterResponseType> => {
-  const {data} = await SsuAPI({
-    cookie: registerProps.toString(),
-  }).request<RegisterResponseType>({
+  const {data} = await SsuAPI().request<RegisterResponseType>({
     url: '/register',
     method: 'POST',
     data: registerProps,
@@ -29,9 +27,7 @@ export const registerUser = async (
 export const loginUser = async (
   loginProps: LoginPropsType | LoginPhonePropsType,
 ): Promise<LoginResponseType> => {
-  const {data} = await SsuAPI({
-    cookie: loginProps.toString(),
-  }).request<LoginResponseType>({
+  const {data} = await SsuAPI().request<LoginResponseType>({
     url: '/login',
     method: 'POST',
     data: loginProps,
@@ -44,9 +40,7 @@ export const loginSso = async (
   user: string,
   registrationType: RegistrationType,
 ): Promise<LoginResponseType> => {
-  const {data} = await SsuAPI({
-    cookie: user,
-  }).request<LoginResponseType>({
+  const {data} = await SsuAPI().request<LoginResponseType>({
     url: '/login-sso',
     method: 'POST',
     data: {
@@ -60,9 +54,7 @@ export const loginSso = async (
 export const loginPhoneNumber = async (
   loginProps: LoginPropsType | LoginPhonePropsType,
 ): Promise<LoginResponseType> => {
-  const {data} = await SsuAPI({
-    cookie: loginProps.toString(),
-  }).request<LoginResponseType>({
+  const {data} = await SsuAPI().request<LoginResponseType>({
     url: '/login-phone-number',
     method: 'POST',
     data: loginProps,
@@ -90,9 +82,7 @@ export const confirmEmailOtpRegister = async (
   code: string,
   context: string,
 ): Promise<ConfirmEmailOTPRegisterResponseType> => {
-  const {data} = await SsuAPI({
-    cookie: email,
-  }).request<ConfirmEmailOTPRegisterResponseType>({
+  const {data} = await SsuAPI().request<ConfirmEmailOTPRegisterResponseType>({
     url: '/confirm-otp/email',
     method: 'POST',
     data: {
@@ -110,9 +100,7 @@ export const confirmSmsOtpLogin = async (
   code: string,
   context: string,
 ): Promise<ConfirmSmsOTPLoginResponseType> => {
-  const {data} = await SsuAPI({
-    cookie: phoneNumber,
-  }).request<ConfirmSmsOTPLoginResponseType>({
+  const {data} = await SsuAPI().request<ConfirmSmsOTPLoginResponseType>({
     url: '/confirm-otp/sms',
     method: 'POST',
     data: {
@@ -192,9 +180,7 @@ export const changePassword = async (
   code: string,
   password: string,
 ): Promise<LoginResponseType> => {
-  const {data} = await SsuAPI({
-    cookie: email,
-  }).request<LoginResponseType>({
+  const {data} = await SsuAPI().request<LoginResponseType>({
     url: '/confirm-change-password',
     method: 'POST',
     data: {
