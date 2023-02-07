@@ -88,7 +88,6 @@ export const HomeScreen: React.FC = () => {
   useEffect(() => {
     if (isLogin) {
       getListDataBanner();
-      getProfileUser();
     } else {
       getListDataBannerPublic();
     }
@@ -99,6 +98,7 @@ export const HomeScreen: React.FC = () => {
       if (isLogin) {
         getListDataMusician({filterBy: 'top'});
         getListDataSong();
+        getProfileUser();
       } else {
         getSearchMusicians({keyword: '', filterBy: 'top'});
         getSearchSongs({keyword: '', filterBy: 'top'});
