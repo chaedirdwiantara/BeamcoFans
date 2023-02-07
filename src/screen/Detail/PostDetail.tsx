@@ -708,7 +708,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
               musicianId={`@${data.musician.username}`}
               imgUri={
                 data.musician.imageProfileUrls.length !== 0
-                  ? data.musician.imageProfileUrls[0][0]?.image
+                  ? data.musician.imageProfileUrls[0]?.image
                   : ''
               }
               postDate={dateFormat(data.updatedAt)}
