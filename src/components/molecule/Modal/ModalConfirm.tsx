@@ -18,7 +18,8 @@ interface ModalConfirmProps {
 export const ModalConfirm: React.FC<ModalConfirmProps> = (
   props: ModalConfirmProps,
 ) => {
-  const {title, subtitle, modalVisible, onPressClose, onPressOk, disabled} = props;
+  const {title, subtitle, modalVisible, onPressClose, onPressOk, disabled} =
+    props;
   return (
     <Modal
       isVisible={modalVisible}
