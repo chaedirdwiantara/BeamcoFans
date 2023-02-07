@@ -15,8 +15,7 @@ export const LoginDescription: React.FC<LoginDescriptionProps> = ({
   containerStyle,
 }) => {
   const title = 'Begin Today';
-  const description =
-    'Sign In or Register to explore full features and support the musician';
+  const description = 'Sign In or Register to Explore All Our Features';
 
   return (
     <View style={[styles.root, containerStyle]}>

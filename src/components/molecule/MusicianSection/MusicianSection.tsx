@@ -54,8 +54,8 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const isLogin = storage.getString('profile');
   const dataMore = [
     {label: dropdownText, value: '1'},
-    {label: 'Send Donation', value: '2'},
-    {label: 'Go To Musician', value: '3'},
+    {label: 'Tip', value: '2'},
+    {label: 'Go to Profile', value: '3'},
   ];
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);

@@ -56,7 +56,7 @@ const MusicListCard: React.FC<ListProps> = ({
   // ? Dropdown Menu Example
   const dataMore = [
     {label: 'Add to Playlist', value: '1'},
-    {label: 'Send Donation', value: '2'},
+    {label: 'Tip', value: '2'},
     {label: 'Add to Queue', value: '3'},
     {label: 'Share Music', value: '4'},
     {label: 'Show Credits', value: '5'},

@@ -118,7 +118,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
         <Text style={styles.titleStyle}>Begin Today</Text>
         <Gap height={12} />
         <Text style={[styles.descStyle, {textAlign: 'center'}]}>
-          Sign in or Register to explore full features and support the musician
+          Sign In or Register to Explore All Our Features
         </Text>
         <Gap height={160} />
       </View>

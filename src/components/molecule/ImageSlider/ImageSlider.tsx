@@ -60,11 +60,11 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
       list: data.genre,
     },
     {
-      title: "What's Fit Your Moods",
+      title: 'Current Mood?',
       list: data.mood,
     },
     {
-      title: "I'm here to",
+      title: "I'm Here To",
       list: data.expectation,
     },
     {

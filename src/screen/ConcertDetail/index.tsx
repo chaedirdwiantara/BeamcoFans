@@ -181,7 +181,7 @@ export const ConcertDetail: React.FC<MerchDetailProps> = ({
           <SsuDivider />
           <View style={styles.descContainer}>
             <View style={styles.attribute}>
-              <Text style={styles.subtitle}>Line Up</Text>
+              <Text style={styles.subtitle}>Line-Up</Text>
               <TopMusician
                 dataMusician={dataMusician ? dataMusician : []}
                 setFollowMusician={(

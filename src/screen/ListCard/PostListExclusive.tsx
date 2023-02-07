@@ -466,7 +466,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       ) : dataPostList?.length === 0 &&
         feedMessage === 'you not subscribe any premium content' ? (
         <EmptyState
-          text={`You don't have any exclusive content, try to subscribe your favorite musician`}
+          text={`You don’t have access to any exclusive content. Try subscribing to your favorite musician`}
           containerStyle={{
             justifyContent: 'flex-start',
             paddingTop: heightPercentage(24),

@@ -25,7 +25,7 @@ export const SignInGuestContent: React.FC<GuestProps> = ({onPress}) => {
       </View>
       <View style={styles.containerBottom}>
         <Text style={[Typography.Heading4, styles.title]}>
-          {"Let's the fans grow with their musician"}
+          {"Become a Part of Your Favourite Musician's Story"}
         </Text>
         <ButtonGradient
           label="Sign In"
