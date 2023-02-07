@@ -37,11 +37,11 @@ export const infoProfileArtist: InfoProfileType[] = [
   },
   {
     point: 44,
-    title: 'RELEASE',
+    title: 'RELEASES',
   },
   {
     point: 4,
-    title: 'PLAYLIST',
+    title: 'PLAYLISTS',
   },
   {
     point: 11,

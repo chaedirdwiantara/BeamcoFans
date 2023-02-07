@@ -182,13 +182,13 @@ export const OtpPhoneNumber: React.FC<OtpPNProps> = ({
           control={control}
           render={({field: {onChange, value}}) => (
             <SsuInput.InputLabel
-              label="Input Verification codes"
+              label="Enter Verification Codes"
               value={value}
               onChangeText={text => {
                 onChange(text);
                 setIsError(false);
               }}
-              placeholder={'Input Verification codes'}
+              placeholder={'Enter Verification Codes'}
               isError={errors?.code ? true : false}
               errorMsg={errorMsg}
             />

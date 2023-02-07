@@ -152,7 +152,7 @@ export const SignupScreen: React.FC = () => {
           id: countryNumber + watch('phoneNumber'),
           type: 'phoneNumber',
           title: 'Phone Verification Code',
-          subtitle: `Enter the verification code that we’ve sent to ${
+          subtitle: `Enter the verification code that we sent to ${
             countryNumber + watch('phoneNumber')
           }`,
           context: 'register',
@@ -445,7 +445,7 @@ export const SignupScreen: React.FC = () => {
           </View>
           <View>
             <Text style={styles.forgotPassStyle}>
-              Already have an Account?{' '}
+              Already Have an Account?{' '}
               <Text
                 onPress={() => handleOnPressSignIn()}
                 style={{

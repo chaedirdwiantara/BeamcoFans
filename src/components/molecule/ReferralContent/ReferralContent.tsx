@@ -34,10 +34,9 @@ interface ActivatedProps {
 const title1 = 'Do you have a referral code?';
 const title2 = 'Referral Activated';
 const description1 = 'Enter your code to jumpstart your Sunny Side Up Journey!';
-const description2 =
-  'Congratulations! Now you will get 5% credit every transaction!';
+const description2 = 'Congratulations! You will now get 50 free credits!';
 const friendReferral = "Your Friend's Referral Code";
-const refCannotBeChanged = 'Referral code can not be changed';
+const refCannotBeChanged = 'Referral code cannot be changed';
 
 export const ReferralActivated: React.FC<ActivatedProps> = ({refCode}) => {
   return (

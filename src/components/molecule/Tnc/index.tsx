@@ -21,9 +21,9 @@ const TermAndConditions: React.FC<
           <Text
             style={[styles.textStyle, {color: color.Success[400]}]}
             onPress={onTncPress}>
-            Terms Conditions{' '}
+            Terms of Use{' '}
           </Text>
-          and{' '}
+          &{' '}
           <Text
             style={[styles.textStyle, {color: color.Success[400]}]}
             onPress={onPrivacyPress}>

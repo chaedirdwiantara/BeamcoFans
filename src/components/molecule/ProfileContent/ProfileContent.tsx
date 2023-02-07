@@ -153,7 +153,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             //   />
             // ) :
             <EmptyState
-              text="You don't have contribution to any musician"
+              text="You don't have contribution to any musicians"
               containerStyle={{marginTop: heightPercentage(30)}}
             />
           ) : (
@@ -168,7 +168,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             //   />
             // ) :
             <EmptyState
-              text="You don't have any badge"
+              text="You don't have any badges"
               containerStyle={{marginTop: heightPercentage(30)}}
             />
           )}

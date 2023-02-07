@@ -5,7 +5,7 @@ export const menuSetting: string[] = [
   'Phone Number',
   'Shipping Information',
   'Preference',
-  'Donation & Subscription',
+  'Tips & Subscription',
   'Referral Code',
   'Language',
   'Push Notification',

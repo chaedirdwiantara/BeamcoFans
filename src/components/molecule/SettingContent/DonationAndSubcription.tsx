@@ -100,7 +100,7 @@ export const DASContent: FC<DASProps> = ({onPressGoBack}) => {
       <ModalConfirm
         modalVisible={isModalVisible}
         title="Unsubscribe"
-        subtitle="Are you sure you want to unsubscribe Dialog Dini Hari?"
+        subtitle="Are you sure you want to unsubscribe to [Musician Name]?"
         onPressClose={() => setModalVisible(false)}
         onPressOk={() => setModalVisible(false)}
       />

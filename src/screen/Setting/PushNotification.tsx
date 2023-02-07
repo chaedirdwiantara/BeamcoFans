@@ -29,12 +29,12 @@ export const PushNotificationScreen: React.FC = () => {
         containerStyles={{marginBottom: heightPercentage(15)}}
       />
       <Text style={[typography.Subtitle1, {color: color.Neutral[10]}]}>
-        Turn On Push Notification
+        Turn On Push Notifications
       </Text>
       <Gap height={heightPercentage(10)} />
       <Text style={[typography.Subtitle2, {color: color.Neutral[10]}]}>
-        You haven't activated push notifications on your cellphone. Activate now
-        to settings and get the latest info!
+        You haven't activated push notifications on your phone. Activate now to
+        get the latest info!
       </Text>
       <Button
         label="Turn Off"

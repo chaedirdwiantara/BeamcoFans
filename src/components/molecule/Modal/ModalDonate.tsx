@@ -65,11 +65,11 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
   const children = () => {
     return (
       <>
-        <Text style={styles.titleStyle}>{'Donate'}</Text>
+        <Text style={styles.titleStyle}>{'Tip'}</Text>
         <View style={styles.separator} />
         <View style={styles.containerContent}>
           <Text style={[typography.Subtitle1, {color: color.Neutral[10]}]}>
-            Donation Type
+            Tip Type
           </Text>
           <Gap height={heightPercentage(20)} />
           {donateList.map((val, i) => (
@@ -120,7 +120,7 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
         </View>
 
         <Button
-          label="Donate"
+          label="Tip"
           containerStyles={styles.btnDonate}
           onPress={onPressDonate}
         />

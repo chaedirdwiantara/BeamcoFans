@@ -5,7 +5,7 @@ const categoryNormalize = (text: string) => {
       textResult = 'Backstage';
       break;
     case 'behind_the_scene':
-      textResult = 'Behind The Scene';
+      textResult = 'Behind The Scenes';
       break;
     case 'otr':
       textResult = 'Tour';
