@@ -49,6 +49,8 @@ import LockIcon from './Lock.icon.';
 import LogOutIcon from './Logout.icon';
 import LoveIcon from './Love.icon';
 import MedalIcon from './Medal.icon';
+import MenuIcon from './Menu.icon';
+import MinusCircleIcon from './MinusCircle.icon';
 import MusicPlaylistIcon from './MusicPlaylist.icon';
 import MusicSquareIcon from './MusicSquare.icon';
 import MusicSquareAddIcon from './MusicSquareAdd.icon';
@@ -136,6 +138,8 @@ export {
   LogOutIcon,
   LoveIcon,
   MedalIcon,
+  MenuIcon,
+  MinusCircleIcon,
   MusicPlaylistIcon,
   MusicSquareIcon,
   MusicSquareAddIcon,
