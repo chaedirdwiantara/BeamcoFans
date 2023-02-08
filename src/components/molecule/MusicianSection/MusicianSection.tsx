@@ -44,7 +44,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
     const follow = isFollowed ? 'Unfollow' : 'Follow';
     setTextFollow(follow);
     setDropdownText(follow);
-  }, [isFollowed]);
+  }, []);
 
   const [textFollow, setTextFollow] = useState('Follow');
   const [dropdownText, setDropdownText] = useState('Follow');

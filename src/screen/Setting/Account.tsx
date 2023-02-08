@@ -7,14 +7,17 @@ import Color from '../../theme/Color';
 import {AccountContent} from '../../components';
 import {RootStackParams} from '../../navigations';
 import {useProfileHook} from '../../hooks/use-profile.hook';
+import {useLocationHook} from '../../hooks/use-location.hook';
 
 export const AccountScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataProfile, getProfileUser} = useProfileHook();
+  const {dataAllCountry, getDataAllCountry} = useLocationHook();
 
   useEffect(() => {
     getProfileUser();
+    getDataAllCountry();
   }, []);
 
   const onPressGoBack = () => {
@@ -24,7 +27,11 @@ export const AccountScreen: React.FC = () => {
   return (
     <View style={styles.root}>
       {dataProfile && (
-        <AccountContent profile={dataProfile} onPressGoBack={onPressGoBack} />
+        <AccountContent
+          dataAllCountry={dataAllCountry !== undefined ? dataAllCountry : []}
+          profile={dataProfile}
+          onPressGoBack={onPressGoBack}
+        />
       )}
     </View>
   );

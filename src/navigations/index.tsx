@@ -92,11 +92,11 @@ import {ChangePNScreen} from '../screen/Setting/PhoneNumber/ChangePN';
 import {OtpPNScreen} from '../screen/Setting/PhoneNumber/OTP';
 import {SplashScreen} from '../screen/SplashScreen';
 import {
+  DataShippingProps,
   OtpEmailScreen as OtpEmailProps,
   OtpPhoneScreen,
 } from '../interface/setting.interface';
 import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
-import {SongList} from '../interface/song.interface';
 
 export type RootStackParams = {
   Account: undefined;
@@ -118,10 +118,7 @@ export type RootStackParams = {
   CreateNewPlaylist: undefined;
   DonationAndSubscription: undefined;
   EditProfile: ProfileResponseData;
-  EditPlaylist: {
-    data: Playlist;
-    listSongs: SongList[];
-  };
+  EditPlaylist: Playlist;
   Email: {
     info?: boolean;
     message?: string;
@@ -162,7 +159,9 @@ export type RootStackParams = {
     ssoId: string;
   };
   SignInGuest: undefined;
-  ShippingInformation: undefined;
+  ShippingInformation: {
+    data: DataShippingProps | null;
+  };
   ShowCredit: undefined;
   SongDetails: {
     songId: number;

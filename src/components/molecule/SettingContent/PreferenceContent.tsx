@@ -13,7 +13,7 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../../utils';
-import formatValueName from '../../../utils/formatValueName';
+import {formatValueName} from '../../../utils/formatValueName';
 import {Button, Gap, SsuToast} from '../../atom';
 import {Dropdown} from '../DropDown';
 import {dataProps} from '../DropDown/DropdownMulti';

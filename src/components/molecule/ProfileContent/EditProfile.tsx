@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, Platform} from 'react-native';
+import {mvs} from 'react-native-size-matters';
 import {Image} from 'react-native-image-crop-picker';
 
 import {ModalConfirm} from '../..';
@@ -11,7 +12,7 @@ import Typography from '../../../theme/Typography';
 import {ModalLoading} from '../ModalLoading/ModalLoading';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {heightPercentage, width, widthPercentage} from '../../../utils';
 
 interface EditProfileProps {
   profile: any;
@@ -42,7 +43,6 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     avatarUri: {path: null},
     backgroundUri: {path: null},
   });
-  const [focusInput, setFocusInput] = useState(false);
 
   const openModalConfirm = () => {
     setModalVisible({
@@ -112,19 +112,18 @@ export const EditProfile: React.FC<EditProfileProps> = ({
       />
       <View style={styles.textAreaContainer}>
         <Text style={[Typography.Overline, styles.label]}>Bio</Text>
-        <SsuInput.InputText
+        <SsuInput.InputLabel
+          label=""
           value={bio}
           onChangeText={(newText: string) => setBio(newText)}
-          placeholder={'Type here...'}
-          containerStyles={styles.textArea}
+          placeholder={'Playlist Name'}
+          inputStyles={styles.inputBio}
           maxLength={110}
           multiline
-          numberOfLines={4}
-          fontColor={Color.Neutral[10]}
-          inputStyles={styles.inputBio}
-          onFocus={() => setFocusInput(true)}
-          onBlur={() => setFocusInput(false)}
-          isFocus={focusInput}
+          numberOfLines={3}
+          containerStyles={{
+            marginBottom: heightPercentage(4),
+          }}
         />
         <Text
           style={[
@@ -160,11 +159,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   label: {
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     color: Color.Dark[50],
-    marginBottom: heightPercentage(5),
     marginTop: heightPercentage(20),
     lineHeight: heightPercentage(20),
+    marginBottom: Platform.OS === 'ios' ? heightPercentage(5) : 0,
   },
   textAreaContainer: {
     width: '90%',
@@ -175,12 +174,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   inputBio: {
+    width: width * 0.9,
     textAlignVertical: 'top',
-    paddingHorizontal: widthPercentage(10),
-    height: Platform.OS === 'ios' ? heightPercentage(60) : undefined,
+    paddingHorizontal: widthPercentage(4),
+    height: Platform.OS === 'ios' ? heightPercentage(80) : undefined,
   },
   length: {
-    fontSize: normalize(12),
+    fontSize: mvs(11),
     marginTop: heightPercentage(5),
   },
 });
