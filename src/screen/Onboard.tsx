@@ -22,10 +22,12 @@ export const OnboardScreen: React.FC = () => {
     <View style={styles.root}>
       <SsuStatusBar type="black" />
       <ImageSlider
-        data={dataOnboard}
+        type="Onboard"
+        data={dataOnboard as any}
         onPress={goToScreenGuest}
         setFollowMusician={() => null}
         setUnfollowMusician={() => null}
+        isLoading={false}
       />
     </View>
   );

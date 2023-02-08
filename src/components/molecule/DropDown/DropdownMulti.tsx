@@ -71,7 +71,7 @@ const MultiDropdown: React.FC<InputDropdownProps> = (
     });
 
     return array.map(item => {
-      return item.label;
+      return ' ' + item.label;
     });
   };
 
