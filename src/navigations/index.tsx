@@ -96,6 +96,7 @@ import {
   OtpPhoneScreen,
 } from '../interface/setting.interface';
 import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
+import {SongList} from '../interface/song.interface';
 
 export type RootStackParams = {
   Account: undefined;
@@ -117,7 +118,10 @@ export type RootStackParams = {
   CreateNewPlaylist: undefined;
   DonationAndSubscription: undefined;
   EditProfile: ProfileResponseData;
-  EditPlaylist: Playlist;
+  EditPlaylist: {
+    data: Playlist;
+    listSongs: SongList[];
+  };
   Email: {
     info?: boolean;
     message?: string;

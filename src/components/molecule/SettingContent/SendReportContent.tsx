@@ -107,7 +107,7 @@ export const SendReportContent: React.FC<SendReportProps> = ({
       <SsuInput.InputLabel
         value={state.email}
         onChangeText={(newText: string) => onChangeText('email', newText)}
-        placeholder={'Enter your email'}
+        placeholder={'Enter Your Email'}
         containerStyles={styles.textInput}
         inputStyles={styles.inputDesc}
       />

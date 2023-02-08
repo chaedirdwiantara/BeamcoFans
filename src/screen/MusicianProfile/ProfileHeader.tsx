@@ -91,7 +91,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                   />
                   <Gap width={11} />
                   <Button
-                    label={'Donate'}
+                    label={'Tip'}
                     containerStyles={styles.btnContainer2}
                     onPress={onPressDonate}
                   />
@@ -108,7 +108,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                   />
                   <Gap width={11} />
                   <Button
-                    label={'Donate'}
+                    label={'Tip'}
                     containerStyles={styles.btnContainer2}
                     onPress={onPressDonate}
                   />

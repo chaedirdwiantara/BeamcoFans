@@ -10,7 +10,6 @@ import PreferenceContent from '../../components/molecule/SettingContent/Preferen
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 import {useSettingHook} from '../../hooks/use-setting.hook';
 import {useProfileHook} from '../../hooks/use-profile.hook';
-import {ProfileResponseData} from '../../interface/profile.interface';
 
 export const PreferenceSettingScreen: React.FC = () => {
   const navigation =
@@ -26,10 +25,6 @@ export const PreferenceSettingScreen: React.FC = () => {
   const onPressGoBack = () => {
     navigation.goBack();
   };
-
-  useEffect(() => {
-    console.log({listMood});
-  }, [listMood]);
 
   return (
     <View style={styles.root}>

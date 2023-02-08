@@ -1,45 +1,80 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
+import * as yup from 'yup';
+import {Controller, useForm} from 'react-hook-form';
+import {ms, mvs} from 'react-native-size-matters';
+import {yupResolver} from '@hookform/resolvers/yup';
 
 import {
   heightPercentage,
+  normalize,
   width,
   widthPercentage,
   widthResponsive,
 } from '../../../utils';
 import {Dropdown} from '../DropDown';
 import Color from '../../../theme/Color';
-import {typography} from '../../../theme';
 import {TopNavigation} from '../TopNavigation';
-import {updateProfile} from '../../../api/profile.api';
+import {font, typography} from '../../../theme';
 import {Button, Gap, SsuInput, SsuToast} from '../../atom';
-import {ArrowLeftIcon, TickCircleIcon} from '../../../assets/icon';
+import {useProfileHook} from '../../../hooks/use-profile.hook';
 import {dataGender, dataLocation} from '../../../data/Settings/account';
 import {ProfileResponseType} from '../../../interface/profile.interface';
+import {ArrowLeftIcon, ErrorIcon, TickCircleIcon} from '../../../assets/icon';
 
 interface AccountProps {
   profile: ProfileResponseType;
   onPressGoBack: () => void;
 }
 
+interface InputProps {
+  username: string;
+  fullname: string;
+  gender: string;
+  locationCountry: string;
+}
+
+const validation = yup.object({
+  username: yup
+    .string()
+    .required('Username can not be blank, set a username')
+    .matches(
+      /^.{4,9}[a-z0-9]$/,
+      'Username should be between 5 to 10 alphanumeric characters',
+    ),
+  fullname: yup
+    .string()
+    .required('Full Name can not be blank, please input your Full Name')
+    .matches(/^.{3,21}$/, 'Full Name should be between 3 to 21 characters'),
+  gender: yup.string(),
+  locationCountry: yup.string(),
+});
+
 export const AccountContent: React.FC<AccountProps> = ({
   profile,
   onPressGoBack,
 }) => {
-  const [state, setState] = useState({
-    username: profile?.data.username || '',
-    fullname: profile?.data.fullname || '',
-    gender: profile?.data.gender || '',
-    locationCountry: profile?.data.locationCountry || '',
+  const [disabledButton, setDisabledButton] = useState<boolean>(true);
+  const [toastVisible, setToastVisible] = useState<boolean>(false);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const {updateProfilePreference, isError, isLoading, errorMsg, setIsError} =
+    useProfileHook();
+
+  const {
+    control,
+    handleSubmit,
+    formState: {errors, isValid, isValidating},
+    getValues,
+  } = useForm<InputProps>({
+    resolver: yupResolver(validation),
+    mode: 'onChange',
+    defaultValues: {
+      username: profile?.data.username || '',
+      fullname: profile?.data.fullname || '',
+      gender: profile?.data.gender || '',
+      locationCountry: profile?.data.locationCountry || '',
+    },
   });
-  const [errorState, setErrorState] = useState({
-    username: false,
-    fullname: false,
-    gender: false,
-    locationCountry: false,
-  });
-  const [errorMsg, setErrorMsg] = useState('');
-  const [toastVisible, setToastVisible] = useState(false);
 
   useEffect(() => {
     toastVisible &&
@@ -48,29 +83,35 @@ export const AccountContent: React.FC<AccountProps> = ({
       }, 3000);
   }, [toastVisible]);
 
-  const onChangeText = (key: string, value: string) => {
-    if (key === 'fullname') {
-      setErrorState({...errorState, fullname: value === ''});
+  useEffect(() => {
+    if (isValid) {
+      setDisabledButton(false);
+    } else {
+      setDisabledButton(true);
     }
-    setState({
-      ...state,
-      [key]: value,
-    });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isValidating, isValid]);
 
   const onPressSave = async () => {
-    try {
-      await updateProfile(state);
-      setToastVisible(true);
-      setErrorMsg('');
-    } catch (error) {
-      setErrorState({
-        ...errorState,
-        username: true,
-      });
-      console.log(error);
-    }
+    await updateProfilePreference({
+      username: getValues('username'),
+      fullname: getValues('fullname'),
+      gender: getValues('gender'),
+      locationCountry: getValues('locationCountry'),
+    });
+
+    setIsSubmit(true);
   };
+
+  useEffect(() => {
+    if (isSubmit) {
+      if (!isError && !isLoading) {
+        setToastVisible(true);
+      }
+      setIsSubmit(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmit]);
 
   return (
     <View style={styles.root}>
@@ -82,52 +123,95 @@ export const AccountContent: React.FC<AccountProps> = ({
         containerStyles={{marginBottom: heightPercentage(15)}}
       />
 
-      <SsuInput.InputLabel
-        label="Username"
-        value={state.username}
-        isError={errorState.username}
-        placeholder="Add Username"
-        errorMsg={errorMsg}
-        onChangeText={(newText: string) => onChangeText('username', newText)}
-        containerStyles={{marginTop: heightPercentage(15)}}
+      <Controller
+        name="username"
+        control={control}
+        render={({field: {onChange, value}}) => (
+          <SsuInput.InputLabel
+            label="Username"
+            value={value}
+            onChangeText={text => {
+              onChange(text.toLowerCase());
+              setIsError(false);
+            }}
+            placeholder={'Add Username'}
+            isError={errors?.username ? true : false}
+            errorMsg={errors?.username?.message}
+            containerStyles={{marginTop: heightPercentage(15)}}
+          />
+        )}
       />
 
-      <SsuInput.InputLabel
-        label="Full Name"
-        placeholder="Add Full Name"
-        value={state.fullname}
-        isError={errorState.fullname}
-        errorMsg={'Full Name can not be blank, please input your Full Name'}
-        onChangeText={(newText: string) => onChangeText('fullname', newText)}
-        containerStyles={{marginTop: heightPercentage(15)}}
+      <Controller
+        name="fullname"
+        control={control}
+        render={({field: {onChange, value}}) => (
+          <SsuInput.InputLabel
+            label="Full Name"
+            value={value}
+            onChangeText={text => {
+              onChange(text);
+              setIsError(false);
+            }}
+            placeholder={'Add Full Name'}
+            isError={errors?.fullname ? true : false}
+            errorMsg={errors?.fullname?.message}
+            containerStyles={{marginTop: heightPercentage(15)}}
+          />
+        )}
       />
 
-      <Dropdown.Input
-        initialValue={state.gender}
-        data={dataGender}
-        placeHolder={'Select Gender'}
-        dropdownLabel={'Gender'}
-        textTyped={(newText: {label: string; value: string}) =>
-          onChangeText('gender', newText.value)
-        }
-        containerStyles={{marginTop: heightPercentage(15)}}
+      <Controller
+        name="gender"
+        control={control}
+        render={({field: {onChange, value}}) => (
+          <Dropdown.Input
+            initialValue={value}
+            data={dataGender}
+            placeHolder={'Select Gender'}
+            dropdownLabel={'Gender'}
+            textTyped={(newText: {label: string; value: string}) =>
+              onChange(newText.value)
+            }
+            containerStyles={{marginTop: heightPercentage(15)}}
+            isError={errors?.gender ? true : false}
+            errorMsg={errors?.gender?.message}
+          />
+        )}
       />
 
-      <Dropdown.Input
-        initialValue={state.locationCountry}
-        data={dataLocation}
-        placeHolder={'Search Country'}
-        dropdownLabel={'Location'}
-        textTyped={(newText: {label: string; value: string}) =>
-          onChangeText('locationCountry', newText.value)
-        }
-        containerStyles={{marginTop: heightPercentage(15)}}
+      <Controller
+        name="locationCountry"
+        control={control}
+        render={({field: {onChange, value}}) => (
+          <Dropdown.Input
+            initialValue={value}
+            data={dataLocation}
+            placeHolder={'Search Country'}
+            dropdownLabel={'Location'}
+            textTyped={(newText: {label: string; value: string}) =>
+              onChange(newText.value)
+            }
+            containerStyles={{marginTop: heightPercentage(15)}}
+            isError={errors?.locationCountry ? true : false}
+            errorMsg={errors?.locationCountry?.message}
+          />
+        )}
       />
+
+      {isError ? (
+        <View style={styles.containerErrorMsg}>
+          <ErrorIcon fill={Color.Error[400]} />
+          <Gap width={ms(4)} />
+          <Text style={styles.errorMsg}>{errorMsg}</Text>
+        </View>
+      ) : null}
 
       <Button
         label="SAVE"
-        onPress={onPressSave}
-        containerStyles={styles.button}
+        onPress={handleSubmit(onPressSave)}
+        containerStyles={disabledButton ? styles.buttonDisabled : styles.button}
+        disabled={disabledButton}
       />
 
       <SsuToast
@@ -182,5 +266,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     zIndex: 1,
+  },
+  containerErrorMsg: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingTop: mvs(4),
+    alignItems: 'center',
+  },
+  errorMsg: {
+    color: Color.Error[400],
+    fontFamily: font.InterRegular,
+    fontSize: normalize(10),
+    lineHeight: mvs(12),
+    maxWidth: '90%',
+  },
+  buttonDisabled: {
+    width: '100%',
+    aspectRatio: widthPercentage(327 / 36),
+    marginTop: heightPercentage(25),
+    alignSelf: 'center',
+    backgroundColor: Color.Dark[50],
   },
 });

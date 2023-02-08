@@ -466,7 +466,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       ) : dataPostList?.length === 0 &&
         feedMessage === 'musician not have post' ? (
         <EmptyState
-          text={`Your following musician don't have any post, try to follow more musician`}
+          text={`This musician doesn't seem to have any posts right now. Try following more musicians`}
           containerStyle={{
             justifyContent: 'flex-start',
             paddingTop: heightPercentage(24),

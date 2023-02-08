@@ -172,7 +172,7 @@ export const LoginScreen: React.FC = () => {
           id: countryNumber + watch('phoneNumber'),
           type: 'phoneNumber',
           title: 'Phone Verification Code',
-          subtitle: `Enter the verification code that we’ve sent to ${
+          subtitle: `Enter the verification code that we sent to ${
             countryNumber + watch('phoneNumber')
           }`,
           context: 'login',
@@ -185,7 +185,7 @@ export const LoginScreen: React.FC = () => {
             id: errorData,
             type: errorData.includes('@') ? 'email' : 'phoneNumber',
             title: 'Email Verification Code',
-            subtitle: `We have sent you six digits verification code on address ${errorData} check your inbox and enter verification code here`,
+            subtitle: `We have sent a 6-digit verification code to your email ${errorData}. Check your inbox and enter the verification code here`,
             context: 'login',
           });
         } else {
@@ -407,7 +407,7 @@ export const LoginScreen: React.FC = () => {
         </Text>
         <Gap height={8} />
         <Text style={styles.forgotPassStyle} onPress={handleOnPressForgotPass}>
-          I forgot my Password
+          I Forgot My Password
         </Text>
         <SsuToast
           modalVisible={ssoError}
@@ -434,7 +434,7 @@ export const LoginScreen: React.FC = () => {
         <Text style={styles.titleStyle}>Begin Today</Text>
         <Gap height={12} />
         <Text style={styles.descStyle}>
-          Sign in or Register to explore full features and support the musician
+          Sign In or Register to Explore All Our Features
         </Text>
         {height >= 800 ? <Gap height={82} /> : <Gap height={40} />}
       </View>

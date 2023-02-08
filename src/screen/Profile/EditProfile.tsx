@@ -51,7 +51,9 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
       },
       true,
     );
-    navigation2.navigate('Profile', {showToast: true});
+    setTimeout(() => {
+      navigation2.navigate('Profile', {showToast: true});
+    }, 500);
   };
 
   const setResetImage = (type: string) => {
@@ -75,7 +77,7 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
   const profile = {
     fullname: dataProfile?.fullname,
     username: '@' + dataProfile?.username,
-    bio: dataProfile?.about || "I'm here to support the musician",
+    bio: dataProfile?.about || "I'm here to support the musicians",
     avatarUri: avatarUri,
     backgroundUri: backgroundUri,
   };

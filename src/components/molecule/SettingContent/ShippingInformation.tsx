@@ -7,7 +7,7 @@ import {
   ScrollView,
   Text,
 } from 'react-native';
-import {mvs} from 'react-native-size-matters';
+import {ms} from 'react-native-size-matters';
 
 import {
   heightPercentage,
@@ -187,18 +187,6 @@ export const ShippingInformationContent: React.FC<ShippingInformationProps> = ({
           </View>
 
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <SsuInput.InputLabel
-              label="Postal Code"
-              placeholder="Add Postal Code"
-              value={state.postalCode}
-              keyboardType={'number-pad'}
-              onChangeText={(newText: string) =>
-                onChangeText('postalCode', newText)
-              }
-              inputStyles={{minHeight: mvs(55)}}
-              containerStyles={{marginTop: heightPercentage(15), width: '45%'}}
-            />
-
             <Dropdown.Input
               data={dataCity}
               placeHolder={'Select City'}
@@ -207,6 +195,18 @@ export const ShippingInformationContent: React.FC<ShippingInformationProps> = ({
               textTyped={(newText: {label: string; value: string}) =>
                 onChangeText('city', newText.value)
               }
+              containerStyles={{marginTop: heightPercentage(15), width: '45%'}}
+            />
+
+            <SsuInput.InputLabel
+              label="Postal Code"
+              placeholder="Add Postal Code"
+              value={state.postalCode}
+              keyboardType={'number-pad'}
+              onChangeText={(newText: string) =>
+                onChangeText('postalCode', newText)
+              }
+              inputStyles={{minHeight: ms(56)}}
               containerStyles={{marginTop: heightPercentage(15), width: '45%'}}
             />
           </View>

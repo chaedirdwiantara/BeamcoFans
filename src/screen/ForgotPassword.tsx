@@ -218,10 +218,10 @@ export const ForgotPassword: FC = () => {
     return (
       <>
         <View style={styles.otpTitleContainer}>
-          <Text style={styles.titleStyle}>Update your password</Text>
+          <Text style={styles.titleStyle}>Update Your Password</Text>
           <Gap height={8} />
           <Text style={styles.descStyle}>
-            Input your email address to recover your password
+            Enter Your Email Address to Recover Your Password
           </Text>
         </View>
 
@@ -235,7 +235,7 @@ export const ForgotPassword: FC = () => {
               errorMsg={errors?.email?.message ?? errorMsg}
               value={value}
               onChangeText={onChange}
-              placeholder={'Enter your email'}
+              placeholder={'Enter Your Email Address'}
               leftIcon={<EmailIcon stroke={color.Dark[50]} />}
               onFocus={() => {
                 handleFocusInput('email');

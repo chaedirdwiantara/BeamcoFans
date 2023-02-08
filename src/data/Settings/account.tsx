@@ -34,13 +34,13 @@ export const dataCity: PropsType[] = [
 ];
 
 export const dataGender: PropsType[] = [
-  {label: 'Male', value: 'Male'},
-  {label: 'Female', value: 'Female'},
-  {label: 'Non-binary', value: 'Non-binary'},
-  {label: 'Trans', value: 'Trans'},
+  {label: 'Male', value: 'male'},
+  {label: 'Female', value: 'female'},
+  {label: 'Non-binary', value: 'non_binary'},
+  {label: 'Trans', value: 'trans'},
   {
     label: 'My gender identity is not listed',
-    value: 'My gender identity is not listed',
+    value: 'my_gender_identity_is_not_listed',
   },
 ];
 

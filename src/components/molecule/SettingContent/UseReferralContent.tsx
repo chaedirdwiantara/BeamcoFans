@@ -56,7 +56,7 @@ export const UseReferralContent: React.FC<ReferralProps> = ({}) => {
               style={{marginTop: heightPercentage(40)}}
             />
             <Text style={[typography.Heading5, styles.text]}>
-              {'Get 5% Sunny Side Up Credits every transaction'}
+              {'Earn 50 free credits'}
             </Text>
 
             <SsuInput.InputText

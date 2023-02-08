@@ -36,7 +36,7 @@ export const dataFavourites: DataFavouritesType[] = [
     ],
   },
   {
-    title: "What's Fit Your Moods",
+    title: 'Current Mood?',
     favorites: [
       'Chill',
       'Calm',
@@ -55,7 +55,7 @@ export const dataFavourites: DataFavouritesType[] = [
     ],
   },
   {
-    title: "I'm here to",
+    title: "I'm Here To",
     favorites: [
       'Support The Artist',
       'Free Music',

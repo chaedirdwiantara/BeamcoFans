@@ -35,7 +35,7 @@ export const ReferAFriend: React.FC<ReferralProps> = ({}) => {
         style={{marginTop: heightPercentage(40), alignSelf: 'center'}}
       />
       <Text style={[typography.Heading6, styles.text]}>
-        {'Refer & Earn 5% Commission for every transaction'}
+        {'Refer a friend and earn 50 free credits'}
       </Text>
 
       <Text style={[typography.Overline, styles.useUsername]}>
@@ -53,13 +53,13 @@ export const ReferAFriend: React.FC<ReferralProps> = ({}) => {
 
       <View style={{alignSelf: 'center'}}>
         <Button
-          label="Refer a friends using link"
+          label="Refer a friend using link"
           onPress={copyToClipboard}
           containerStyles={styles.button}
         />
         <Button
           type="border"
-          label="Read Terms and Conditions"
+          label="Read Terms of Use"
           borderColor="transparent"
           textStyles={{color: color.Pink.linear}}
           containerStyles={{width: width * 0.9}}
