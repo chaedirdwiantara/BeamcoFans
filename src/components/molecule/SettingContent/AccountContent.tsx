@@ -16,15 +16,17 @@ import {Dropdown} from '../DropDown';
 import Color from '../../../theme/Color';
 import {TopNavigation} from '../TopNavigation';
 import {font, typography} from '../../../theme';
+import {DataDropDownType} from '../../../data/dropdown';
+import {dataGender} from '../../../data/Settings/account';
 import {Button, Gap, SsuInput, SsuToast} from '../../atom';
 import {useProfileHook} from '../../../hooks/use-profile.hook';
-import {dataGender, dataLocation} from '../../../data/Settings/account';
 import {ProfileResponseType} from '../../../interface/profile.interface';
 import {ArrowLeftIcon, ErrorIcon, TickCircleIcon} from '../../../assets/icon';
 
 interface AccountProps {
   profile: ProfileResponseType;
   onPressGoBack: () => void;
+  dataAllCountry: DataDropDownType[];
 }
 
 interface InputProps {
@@ -53,6 +55,7 @@ const validation = yup.object({
 export const AccountContent: React.FC<AccountProps> = ({
   profile,
   onPressGoBack,
+  dataAllCountry,
 }) => {
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
@@ -185,8 +188,9 @@ export const AccountContent: React.FC<AccountProps> = ({
         control={control}
         render={({field: {onChange, value}}) => (
           <Dropdown.Input
+            type="location"
             initialValue={value}
-            data={dataLocation}
+            data={dataAllCountry}
             placeHolder={'Search Country'}
             dropdownLabel={'Location'}
             textTyped={(newText: {label: string; value: string}) =>
