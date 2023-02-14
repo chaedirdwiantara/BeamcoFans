@@ -372,6 +372,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   ? heightPercentage(25)
                   : heightPercentage(40),
             }}
+            onTouchEnd={handleEndScroll}
             renderItem={({item, index}) => (
               <>
                 <ListCard.PostList
