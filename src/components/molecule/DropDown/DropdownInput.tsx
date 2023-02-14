@@ -23,6 +23,7 @@ interface InputDropdownProps {
   errorMsg?: string;
   type?: string;
   showSearch?: boolean;
+  disable?: boolean;
 }
 
 const borderColor = color.Dark[500];
@@ -43,6 +44,7 @@ const InputDropdown: React.FC<InputDropdownProps> = (
     errorMsg,
     type = '',
     showSearch,
+    disable,
   } = props;
   const initValue = {label: initialValue, value: initialValue};
 
@@ -74,6 +76,7 @@ const InputDropdown: React.FC<InputDropdownProps> = (
           textTyped(item);
           setIsFocus(false);
         }}
+        disable={disable}
         fontFamily={font.InterRegular}
         showsVerticalScrollIndicator={false}
         autoScroll={false}

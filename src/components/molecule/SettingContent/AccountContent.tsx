@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, InteractionManager} from 'react-native';
 import * as yup from 'yup';
 import {Controller, useForm} from 'react-hook-form';
 import {ms, mvs} from 'react-native-size-matters';
@@ -16,6 +16,7 @@ import {Dropdown} from '../DropDown';
 import Color from '../../../theme/Color';
 import {TopNavigation} from '../TopNavigation';
 import {font, typography} from '../../../theme';
+import {ModalConfirm} from '../Modal/ModalConfirm';
 import {DataDropDownType} from '../../../data/dropdown';
 import {dataGender} from '../../../data/Settings/account';
 import {Button, Gap, SsuInput, SsuToast} from '../../atom';
@@ -57,6 +58,9 @@ export const AccountContent: React.FC<AccountProps> = ({
   onPressGoBack,
   dataAllCountry,
 }) => {
+  const [type, setType] = useState('Edit');
+  const [changes, setChanges] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
@@ -95,7 +99,15 @@ export const AccountContent: React.FC<AccountProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isValidating, isValid]);
 
-  const onPressSave = async () => {
+  const onPressSave = () => {
+    if (type === 'Edit') {
+      setType('Simpan');
+    } else {
+      changes ? setShowModal(true) : setType('Edit');
+    }
+  };
+
+  const onPressConfirm = async () => {
     await updateProfilePreference({
       username: getValues('username'),
       fullname: getValues('fullname'),
@@ -103,13 +115,16 @@ export const AccountContent: React.FC<AccountProps> = ({
       locationCountry: getValues('locationCountry'),
     });
 
+    setType('Edit');
     setIsSubmit(true);
+    setShowModal(false);
+    setChanges(false);
   };
 
   useEffect(() => {
     if (isSubmit) {
       if (!isError && !isLoading) {
-        setToastVisible(true);
+        InteractionManager.runAfterInteractions(() => setToastVisible(true));
       }
       setIsSubmit(false);
     }
@@ -133,9 +148,11 @@ export const AccountContent: React.FC<AccountProps> = ({
           <SsuInput.InputLabel
             label="Username"
             value={value}
+            editable={type === 'Simpan'}
             onChangeText={text => {
               onChange(text.toLowerCase());
               setIsError(false);
+              setChanges(true);
             }}
             placeholder={'Add Username'}
             isError={errors?.username ? true : false}
@@ -152,9 +169,11 @@ export const AccountContent: React.FC<AccountProps> = ({
           <SsuInput.InputLabel
             label="Full Name"
             value={value}
+            editable={type === 'Simpan'}
             onChangeText={text => {
               onChange(text);
               setIsError(false);
+              setChanges(true);
             }}
             placeholder={'Add Full Name'}
             isError={errors?.fullname ? true : false}
@@ -171,11 +190,13 @@ export const AccountContent: React.FC<AccountProps> = ({
           <Dropdown.Input
             initialValue={value}
             data={dataGender}
+            disable={type !== 'Simpan'}
             placeHolder={'Select Gender'}
             dropdownLabel={'Gender'}
-            textTyped={(newText: {label: string; value: string}) =>
-              onChange(newText.value)
-            }
+            textTyped={(newText: {label: string; value: string}) => {
+              onChange(newText.value);
+              setChanges(true);
+            }}
             containerStyles={{marginTop: heightPercentage(15)}}
             isError={errors?.gender ? true : false}
             errorMsg={errors?.gender?.message}
@@ -191,11 +212,13 @@ export const AccountContent: React.FC<AccountProps> = ({
             type="location"
             initialValue={value}
             data={dataAllCountry}
+            disable={type !== 'Simpan'}
             placeHolder={'Search Country'}
             dropdownLabel={'Location'}
-            textTyped={(newText: {label: string; value: string}) =>
-              onChange(newText.value)
-            }
+            textTyped={(newText: {label: string; value: string}) => {
+              onChange(newText.value);
+              setChanges(true);
+            }}
             containerStyles={{marginTop: heightPercentage(15)}}
             isError={errors?.locationCountry ? true : false}
             errorMsg={errors?.locationCountry?.message}
@@ -212,10 +235,18 @@ export const AccountContent: React.FC<AccountProps> = ({
       ) : null}
 
       <Button
-        label="SAVE"
+        label={type}
         onPress={handleSubmit(onPressSave)}
         containerStyles={disabledButton ? styles.buttonDisabled : styles.button}
         disabled={disabledButton}
+      />
+
+      <ModalConfirm
+        modalVisible={showModal}
+        title="Account"
+        subtitle="Are you sure you want to update your account?"
+        onPressClose={() => setShowModal(false)}
+        onPressOk={handleSubmit(onPressConfirm)}
       />
 
       <SsuToast
