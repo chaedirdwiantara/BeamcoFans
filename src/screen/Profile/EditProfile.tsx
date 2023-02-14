@@ -22,7 +22,7 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
 }: EditProfileProps) => {
   const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const dataProfile = route.params;
-  const {isLoading, updateProfileUser} = useProfileHook();
+  const {isLoading, updateProfileUser, deleteValueProfile} = useProfileHook();
 
   const banners =
     dataProfile !== undefined && dataProfile.banners?.length > 0
@@ -96,6 +96,7 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
           setResetImage(type);
         }}
         imageLoading={imageLoading}
+        deleteValueProfile={deleteValueProfile}
       />
       <ModalLoading visible={isLoading} />
     </View>
