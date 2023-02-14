@@ -1,28 +1,26 @@
 import {ImageSourcePropType} from 'react-native';
+import i18n from '../locale';
 
 export interface DataOnboardType {
   title: string;
   uri?: ImageSourcePropType;
-  subtitle?: string;
+  subtitle?: string | null;
 }
 
 export const dataOnboard: DataOnboardType[] = [
   {
     uri: require('../assets/background/onboard-1.png'),
-    title: "Become a Part of Your Favourite Musician's Story",
-    subtitle:
-      "We're excited to welcome you to our community of musicians and fans",
+    title: i18n.t('Onboarding.Step1.Title'),
+    subtitle: i18n.t('Onboarding.Step1.Description'),
   },
   {
     uri: require('../assets/background/onboard-2.png'),
-    title: 'Grow With Your Favourite Musicians',
-    subtitle:
-      'Our tools enable you to personally support the growth and success of your favourite musicians',
+    title: i18n.t('Onboarding.Step2.Title'),
+    subtitle: i18n.t('Onboarding.Step2.Description'),
   },
   {
     uri: require('../assets/background/onboard-3.png'),
-    title: 'Get Rewarded and Recognised',
-    subtitle:
-      "We're all about enabling musicians and fans growing together. So flex your clout as the No.1 superfan",
+    title: i18n.t('Onboarding.Step3.Title'),
+    subtitle: i18n.t('Onboarding.Step3.Description'),
   },
 ];
