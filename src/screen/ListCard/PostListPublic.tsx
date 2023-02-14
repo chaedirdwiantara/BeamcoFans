@@ -135,7 +135,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
 
   const cardOnPress = (data: PostList) => {
     navigation.navigate('PostDetail', data);
-    setPauseSong();
   };
 
   const likeOnPress = (id: string, isLiked: boolean) => {
