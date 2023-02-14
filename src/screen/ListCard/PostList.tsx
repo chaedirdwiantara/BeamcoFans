@@ -92,6 +92,16 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     addPlaylistFeed,
   } = usePlayerHook();
 
+  const {
+    seekPlayer,
+    setPlaySong,
+    setPauseSong,
+    hidePlayer,
+    isPlaying,
+    playerProgress,
+    addPlaylistFeed,
+  } = usePlayerHook();
+
   const [dataCategory, setDataCategory] = useState<PostList[]>(dataTopPost);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
