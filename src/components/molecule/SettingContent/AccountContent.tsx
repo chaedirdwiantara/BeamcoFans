@@ -60,7 +60,7 @@ export const AccountContent: React.FC<AccountProps> = ({
   dataAllCountry,
 }) => {
   const {t} = useTranslation();
-  const [type, setType] = useState('Edit');
+  const [type, setType] = useState(t('Btn.Edit'));
   const [changes, setChanges] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
@@ -102,10 +102,10 @@ export const AccountContent: React.FC<AccountProps> = ({
   }, [isValidating, isValid]);
 
   const onPressSave = () => {
-    if (type === 'Edit') {
-      setType('Simpan');
+    if (type === t('Btn.Edit')) {
+      setType(t('Btn.Save'));
     } else {
-      changes ? setShowModal(true) : setType('Edit');
+      changes ? setShowModal(true) : setType(t('Btn.Edit'));
     }
   };
 
@@ -150,7 +150,7 @@ export const AccountContent: React.FC<AccountProps> = ({
           <SsuInput.InputLabel
             label={t('Setting.Account.Label.Username') || ''}
             value={value}
-            editable={type === 'Simpan'}
+            editable={type === t('Btn.Save')}
             onChangeText={text => {
               onChange(text.toLowerCase());
               setIsError(false);
@@ -171,13 +171,13 @@ export const AccountContent: React.FC<AccountProps> = ({
           <SsuInput.InputLabel
             label={t('Setting.Account.Label.Fullname') || ''}
             value={value}
-            editable={type === 'Simpan'}
+            editable={type === t('Btn.Save')}
             onChangeText={text => {
               onChange(text);
               setIsError(false);
               setChanges(true);
             }}
-            placeholder={'Add Full Name'}
+            placeholder={t('Setting.Account.Placeholder.Fullname') || ''}
             isError={errors?.fullname ? true : false}
             errorMsg={errors?.fullname?.message}
             containerStyles={{marginTop: heightPercentage(15)}}
@@ -192,13 +192,13 @@ export const AccountContent: React.FC<AccountProps> = ({
           <Dropdown.Input
             initialValue={value}
             data={dataGender}
-            disable={type !== 'Simpan'}
-            placeHolder={'Select Gender'}
+            disable={type !== t('Btn.Save')}
+            placeHolder={t('Setting.Account.Placeholder.Gender')}
+            dropdownLabel={t('Setting.Account.Label.Gender')}
             textTyped={(newText: {label: string; value: string}) => {
               onChange(newText.value);
               setChanges(true);
             }}
-            dropdownLabel={t('Setting.Account.Label.Gender')}
             containerStyles={{marginTop: heightPercentage(15)}}
             isError={errors?.gender ? true : false}
             errorMsg={errors?.gender?.message}
@@ -214,13 +214,13 @@ export const AccountContent: React.FC<AccountProps> = ({
             type="location"
             initialValue={value}
             data={dataAllCountry}
-            disable={type !== 'Simpan'}
+            disable={type !== t('Btn.Save')}
             placeHolder={'Search Country'}
+            dropdownLabel={t('Setting.Account.Label.Location')}
             textTyped={(newText: {label: string; value: string}) => {
               onChange(newText.value);
               setChanges(true);
             }}
-            dropdownLabel={t('Setting.Account.Label.Location')}
             containerStyles={{marginTop: heightPercentage(15)}}
             isError={errors?.locationCountry ? true : false}
             errorMsg={errors?.locationCountry?.message}
@@ -237,7 +237,7 @@ export const AccountContent: React.FC<AccountProps> = ({
       ) : null}
 
       <Button
-        label={t('Btn.Save')}
+        label={type || ''}
         onPress={handleSubmit(onPressSave)}
         containerStyles={disabledButton ? styles.buttonDisabled : styles.button}
         disabled={disabledButton}
@@ -245,7 +245,7 @@ export const AccountContent: React.FC<AccountProps> = ({
 
       <ModalConfirm
         modalVisible={showModal}
-        title="Account"
+        title={t('Setting.Account.Title') || ''}
         subtitle="Are you sure you want to update your account?"
         onPressClose={() => setShowModal(false)}
         onPressOk={handleSubmit(onPressConfirm)}
