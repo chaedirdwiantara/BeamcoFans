@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useForm, SubmitHandler, Controller} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 import {Button, Gap, SsuDivider, SsuInput, SsuToast} from '../components/atom';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -95,6 +96,7 @@ export const SignupScreen: React.FC = () => {
     loginResult,
     onLoginGoogle,
   } = useAuthHook();
+  const {t} = useTranslation();
   const [focusInput, setFocusInput] = useState<string | null>(null);
   const [countryNumber, setCountryNumber] = useState<string | null>(null);
 
@@ -249,7 +251,7 @@ export const SignupScreen: React.FC = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollView}>
           <View>
-            <Text style={styles.titleStyle}>Sign Up</Text>
+            <Text style={styles.titleStyle}>{t('SignUp.Title')}</Text>
             <Gap height={24} />
             <View
               style={{
@@ -281,7 +283,7 @@ export const SignupScreen: React.FC = () => {
                     : styles.loginTypeInactive
                 }
                 onPress={() => handleChangeLoginType('email')}>
-                Email
+                {t('SignUp.Email')}
               </Text>
               <View style={styles.verticalSeparatorLoginType} />
               <Text
@@ -291,7 +293,7 @@ export const SignupScreen: React.FC = () => {
                     : styles.loginTypeInactive
                 }
                 onPress={() => handleChangeLoginType('phoneNumber')}>
-                Phone Number
+                {t('SignUp.Phone')}
               </Text>
             </View>
             <Gap height={16} />
@@ -303,7 +305,7 @@ export const SignupScreen: React.FC = () => {
                   <SsuInput.InputText
                     value={value}
                     onChangeText={onChange}
-                    placeholder={'Email'}
+                    placeholder={t('SignUp.Email') || ''}
                     leftIcon={<EmailIcon stroke={color.Dark[50]} />}
                     onFocus={() => handleFocusInput('email')}
                     onBlur={() => {
@@ -344,7 +346,7 @@ export const SignupScreen: React.FC = () => {
                 <SsuInput.InputText
                   value={value}
                   onChangeText={onChange}
-                  placeholder={'Full Name'}
+                  placeholder={t('SignUp.FullName') || ''}
                   leftIcon={<FullNameIcon stroke={color.Dark[50]} />}
                   onFocus={() => {
                     handleFocusInput('fullname');
@@ -366,7 +368,7 @@ export const SignupScreen: React.FC = () => {
                 <SsuInput.InputText
                   value={value}
                   onChangeText={onChange}
-                  placeholder={'Password'}
+                  placeholder={t('SignUp.Password') || ''}
                   leftIcon={<LockIcon stroke={color.Dark[50]} />}
                   password
                   onFocus={() => {
@@ -389,7 +391,7 @@ export const SignupScreen: React.FC = () => {
                 <SsuInput.InputText
                   value={value}
                   onChangeText={onChange}
-                  placeholder={'Repeat'}
+                  placeholder={t('SignUp.PasswordRepeat') || ''}
                   leftIcon={<LockIcon stroke={color.Dark[50]} />}
                   password
                   onFocus={() => {
@@ -430,14 +432,14 @@ export const SignupScreen: React.FC = () => {
             />
             <Gap height={20} />
             <Button
-              label="Submit"
+              label={t('Btn.Submit')}
               textStyles={{fontSize: mvs(14)}}
               containerStyles={{width: '100%'}}
               onPress={handleSubmit(handleRegisterUser)}
             />
             <Gap height={4} />
             <Button
-              label="Back"
+              label={t('Btn.Back')}
               type="border"
               borderColor="transparent"
               textStyles={{fontSize: mvs(14), color: color.Pink.linear}}
@@ -447,7 +449,7 @@ export const SignupScreen: React.FC = () => {
           </View>
           <View>
             <Text style={styles.forgotPassStyle}>
-              Already Have an Account?{' '}
+              {t('SignUp.Footer')}
               <Text
                 onPress={() => handleOnPressSignIn()}
                 style={{
@@ -455,7 +457,7 @@ export const SignupScreen: React.FC = () => {
                   fontWeight: '700',
                   fontSize: mvs(12),
                 }}>
-                Sign In
+                {t('Btn.SignIn')}
               </Text>
             </Text>
           </View>
