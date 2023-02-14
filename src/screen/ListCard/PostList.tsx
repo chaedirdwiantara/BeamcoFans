@@ -80,6 +80,16 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     getListTopPost,
   } = useFeedHook();
 
+  const {
+    seekPlayer,
+    setPlaySong,
+    setPauseSong,
+    hidePlayer,
+    isPlaying,
+    playerProgress,
+    addPlaylistFeed,
+  } = usePlayerHook();
+
   const [dataCategory, setDataCategory] = useState<PostList[]>(dataTopPost);
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
   const [musicianId, setMusicianId] = useState<string>('');
@@ -93,6 +103,9 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(15);
+  const [dataMain, setDataMain] = useState<PostList[]>([]);
 
   // * UPDATE HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
@@ -104,19 +117,14 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
 
   useFocusEffect(
     useCallback(() => {
-      getListTopPost();
+      getListTopPost({page: page, perPage: perPage});
     }, []),
   );
 
-  const {
-    seekPlayer,
-    setPlaySong,
-    setPauseSong,
-    hidePlayer,
-    isPlaying,
-    playerProgress,
-    addPlaylistFeed,
-  } = usePlayerHook();
+  //* set response data list post to main data
+  useEffect(() => {
+    dataTopPost.length !== 0 && setDataMain([...dataMain, ...dataTopPost]);
+  }, [dataTopPost]);
 
   const resultDataFilter = (dataResultFilter: any) => {
     const dates = new Date();
@@ -128,8 +136,18 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
 
   const resultDataCategory = (dataResultCategory: DataDropDownType) => {
     dataResultCategory.label === 'All'
-      ? getListTopPost()
-      : getListTopPost({category: dataResultCategory.value});
+      ? getListTopPost({page: page, perPage: perPage})
+      : getListTopPost({
+          page: page,
+          perPage: perPage,
+          category: dataResultCategory.value,
+        });
+  };
+
+  //* Handle when end of Scroll
+  const handleEndScroll = () => {
+    getListTopPost({page: page + 1, perPage: perPage});
+    setPage(page + 1);
   };
 
   const cardOnPress = (data: PostList) => {
@@ -336,14 +354,14 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      {dataTopPost !== null && dataTopPost.length !== 0 ? (
+      {dataMain !== null && dataMain.length !== 0 ? (
         <View
           style={{
             flex: 1,
             marginHorizontal: widthResponsive(-24),
           }}>
           <FlatList
-            data={dataTopPost}
+            data={dataMain}
             showsVerticalScrollIndicator={false}
             keyExtractor={(_, index) => index.toString()}
             contentContainerStyle={{
@@ -352,6 +370,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   ? heightPercentage(25)
                   : heightPercentage(40),
             }}
+            onTouchEnd={handleEndScroll}
             renderItem={({item, index}) => (
               <>
                 <ListCard.PostList
@@ -472,7 +491,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
             )}
           />
         </View>
-      ) : dataTopPost?.length === 0 ? (
+      ) : dataMain?.length === 0 ? (
         <EmptyState
           text={feedMessage}
           containerStyle={{

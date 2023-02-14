@@ -74,6 +74,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(15);
+  const [dataMain, setDataMain] = useState<PostList[]>([]);
 
   // * UPDATE HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
@@ -120,18 +123,41 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   useFocusEffect(
     useCallback(() => {
       uuidMusician !== ''
-        ? getListDataExclusivePost({musician_uuid: uuidMusician})
-        : getListDataExclusivePost();
+        ? getListDataExclusivePost({
+            page: page,
+            perPage: perPage,
+            musician_uuid: uuidMusician,
+          })
+        : getListDataExclusivePost({page: page, perPage: perPage});
     }, [uuidMusician]),
   );
 
+  //* set response data list post to main data
+  useEffect(() => {
+    dataPostList.length !== 0 && setDataMain([...dataMain, ...dataPostList]);
+  }, [dataPostList]);
+
   const resultDataFilter = (dataResultFilter: DataDropDownType) => {
-    getListDataExclusivePost({sortBy: dataResultFilter.label.toLowerCase()});
+    getListDataExclusivePost({
+      page: page,
+      perPage: perPage,
+      sortBy: dataResultFilter.label.toLowerCase(),
+    });
   };
   const resultDataCategory = (dataResultCategory: DataDropDownType) => {
     dataResultCategory.label === 'All'
-      ? getListDataExclusivePost()
-      : getListDataExclusivePost({category: dataResultCategory.value});
+      ? getListDataExclusivePost({page: page, perPage: perPage})
+      : getListDataExclusivePost({
+          page: page,
+          perPage: perPage,
+          category: dataResultCategory.value,
+        });
+  };
+
+  //* Handle when end of Scroll
+  const handleEndScroll = () => {
+    getListDataExclusivePost({page: page + 1, perPage: perPage});
+    setPage(page + 1);
   };
 
   const cardOnPress = (data: PostList) => {
@@ -321,10 +347,10 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
           />
         </View>
       </View>
-      {dataPostList !== null && dataPostList.length !== 0 ? (
+      {dataMain !== null && dataMain.length !== 0 ? (
         <View style={{flex: 1, marginHorizontal: widthResponsive(-24)}}>
           <FlatList
-            data={dataPostList}
+            data={dataMain}
             showsVerticalScrollIndicator={false}
             keyExtractor={(_, index) => index.toString()}
             contentContainerStyle={{
@@ -336,6 +362,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                   ? heightResponsive(220)
                   : heightResponsive(160),
             }}
+            onEndReached={handleEndScroll}
             renderItem={({item}) => (
               <>
                 <ListCard.PostList
@@ -459,10 +486,9 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
             )}
           />
         </View>
-      ) : dataPostList?.length === 0 &&
-        feedMessage === 'you not follow anyone' ? (
+      ) : dataMain?.length === 0 && feedMessage === 'you not follow anyone' ? (
         <ListToFollowMusician />
-      ) : dataPostList?.length === 0 &&
+      ) : dataMain?.length === 0 &&
         feedMessage === 'you not subscribe any premium content' ? (
         <EmptyState
           text={`You don’t have access to any exclusive content. Try subscribing to your favorite musician`}
@@ -472,7 +498,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
           }}
           icon={<FriedEggIcon />}
         />
-      ) : dataPostList?.length === 0 &&
+      ) : dataMain?.length === 0 &&
         feedMessage ===
           'Your subscribed musician has not yet posted any exclusive content.' ? (
         <EmptyState
