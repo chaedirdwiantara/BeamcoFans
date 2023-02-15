@@ -40,8 +40,8 @@ interface DataMore {
 }
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
-  const {isFollowed, followOnPress, userId, type} = props;
   const {t} = useTranslation();
+  const {isFollowed, followOnPress, userId, type} = props;
 
   const followText = isFollowed
     ? t('Home.Tab.TopMusician.Unfollow')
