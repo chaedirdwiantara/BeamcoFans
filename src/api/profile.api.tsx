@@ -2,6 +2,7 @@ import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
 import {
   CountLikedResponseType,
+  DeleteProfileResponseType,
   ProfileResponseType,
   UpdateProfileResponseType,
 } from '../interface/profile.interface';
@@ -60,6 +61,18 @@ export const countLikedSong = async (
   const {data} = await BaseSemeruPublic().request<CountLikedResponseType>({
     url: `/fans/${props?.uuid}`,
     method: 'GET',
+  });
+
+  return data;
+};
+
+export const deleteProfile = async (
+  props?: ParamsProps,
+): Promise<DeleteProfileResponseType> => {
+  const {data} = await SsuAPI().request<DeleteProfileResponseType>({
+    url: '/profile',
+    method: 'DELETE',
+    data: props,
   });
 
   return data;

@@ -39,7 +39,6 @@ import {usePlayerHook} from '../hooks/use-player.hook';
 import {useBannerHook} from '../hooks/use-banner.hook';
 import {useSearchHook} from '../hooks/use-search.hook';
 import {ParamsProps} from '../interface/base.interface';
-import {profileStorage} from '../hooks/use-storage.hook';
 import {useProfileHook} from '../hooks/use-profile.hook';
 import {useMusicianHook} from '../hooks/use-musician.hook';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
@@ -210,7 +209,7 @@ export const HomeScreen: React.FC = () => {
     <View style={styles.root}>
       <SsuStatusBar type="black" />
       <TopNavigation.Type5
-        name={profileStorage()?.fullname ?? ''}
+        name={dataProfile?.data?.fullname ?? ''}
         profileUri={dataProfile?.data?.images[1]?.image || ''}
         leftIconAction={() => console.log('Left Icon Pressed')}
         rightIcon={rightIconComp()}

@@ -12,6 +12,7 @@ import Typography from '../../../theme/Typography';
 import {ModalLoading} from '../ModalLoading/ModalLoading';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
+import {ParamsProps} from '../../../interface/base.interface';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 
 interface EditProfileProps {
@@ -22,6 +23,7 @@ interface EditProfileProps {
   setUploadImage: (image: Image, type: string) => void;
   setResetImage: (type: string) => void;
   imageLoading: boolean;
+  deleteValueProfile: (props?: ParamsProps) => void;
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({
@@ -32,6 +34,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   setUploadImage,
   setResetImage,
   imageLoading,
+  deleteValueProfile,
 }) => {
   const [bio, setBio] = useState(profile.bio || '');
   const [isModalVisible, setModalVisible] = useState({
@@ -40,8 +43,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   });
   const [uriType, setUriType] = useState('');
   const [uri, setUri] = useState({
-    avatarUri: {path: null},
-    backgroundUri: {path: null},
+    avatarUri: {path: profile.avatarUri || null},
+    backgroundUri: {path: profile.backgroundUri || null},
   });
 
   const openModalConfirm = () => {
@@ -62,6 +65,11 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   const resetImage = () => {
     setUri({...uri, [uriType]: null});
     setResetImage(uriType);
+
+    const valueName = uriType === 'avatarUri' ? 'imageProfileUrl' : 'banner';
+    deleteValueProfile({
+      context: valueName,
+    });
     closeModal();
   };
 
@@ -77,16 +85,12 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     setUri({...uri, [uriType]: val});
   };
 
-  const avatarUri = uri?.avatarUri?.path || profile.avatarUri || null;
-  const backgroundUri =
-    uri?.backgroundUri?.path || profile.backgroundUri || null;
-
   const titleModalPicker =
     uriType === 'avatarUri' ? 'Edit Display Profile' : 'Edit Header';
   const hideMenuDelete =
     uriType === 'avatarUri'
-      ? avatarUri !== null && avatarUri !== ''
-      : backgroundUri !== null && backgroundUri !== '';
+      ? uri.avatarUri !== null && uri.avatarUri?.path !== null
+      : uri.backgroundUri !== null && uri.backgroundUri?.path !== null;
 
   const newColor = bio.length === 110 ? Color.Error[400] : Color.Neutral[10];
 
@@ -103,8 +107,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
       />
       <ProfileHeader
         type={type}
-        avatarUri={avatarUri}
-        backgroundUri={backgroundUri}
+        avatarUri={uri.avatarUri?.path}
+        backgroundUri={uri.backgroundUri?.path}
         fullname={profile.fullname}
         username={profile.username}
         containerStyles={{height: heightPercentage(206)}}

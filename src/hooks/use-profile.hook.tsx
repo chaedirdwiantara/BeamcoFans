@@ -2,6 +2,7 @@ import axios from 'axios';
 import {useState} from 'react';
 import {
   countLikedSong,
+  deleteProfile,
   getOtherUserProfile,
   getProfile,
   updateProfile,
@@ -151,6 +152,17 @@ export const useProfileHook = () => {
     }
   };
 
+  const deleteValueProfile = async (props?: ParamsProps) => {
+    setIsLoading(true);
+    try {
+      await deleteProfile(props);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -169,5 +181,6 @@ export const useProfileHook = () => {
     getOtherProfileUser,
     getCheckUser,
     getUserCountLikedSong,
+    deleteValueProfile,
   };
 };

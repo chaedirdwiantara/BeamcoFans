@@ -99,3 +99,10 @@ export type CountLikedResponseType = {
   message: string;
   status: number;
 };
+
+export type DeleteProfileResponseType = {
+  code: number;
+  data: string;
+  message: string;
+  status: number;
+};
