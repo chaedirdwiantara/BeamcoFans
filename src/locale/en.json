@@ -94,6 +94,19 @@
     "Musician": "Who To Follow"
   },
   "Home": {
+    "Topbar": {
+      "Hi": "Hi, {{name}}",
+      "Search": {
+        "Title": "Search",
+        "Song": "Song",
+        "Musician": "Musician",
+        "Fans": "Fans",
+        "Album": "Album",
+        "Merch": "Merch",
+        "Event": "Event",
+        "Playlist": "Playlist"
+      }
+    },
     "Tab": {
       "TopMusician": "TOP MUSICIAN",
       "TopSong": "TOP SONG",

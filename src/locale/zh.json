@@ -94,6 +94,19 @@
     "Musician": "Who To Follow"
   },
   "Home": {
+    "Topbar": {
+      "Hi": "您好, {{name}}",
+      "Search": {
+        "Title": "搜索",
+        "Song": "歌曲",
+        "Musician": "音樂家",
+        "Fans": "樂迷",
+        "Album": "專輯",
+        "Merch": "產品",
+        "Event": "活動",
+        "Playlist": "播放清單"
+      }
+    },
     "Tab": {
       "TopMusician": "TOP MUSICIAN",
       "TopSong": "TOP SONG",
