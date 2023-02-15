@@ -86,5 +86,18 @@
       "Title": "Set New Password",
       "Subtitle": "Are you sure you want to leave your progress unsaved?"
     }
+  },
+  "Preference": {
+    "Genre": "Select Your Favorite Genres",
+    "Mood": "Current Mood?",
+    "Support": "I’m Here To",
+    "Musician": "Who To Follow"
+  },
+  "Home": {
+    "Tab": {
+      "TopMusician": "TOP MUSICIAN",
+      "TopSong": "TOP SONG",
+      "TopPost": "TOP POST"
+    }
   }
 }

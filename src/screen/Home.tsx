@@ -46,6 +46,7 @@ import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
+import {useTranslation} from 'react-i18next';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -80,6 +81,7 @@ export const HomeScreen: React.FC = () => {
     getSearchSongs,
     getListDataBannerPublic,
   } = useSearchHook();
+  const {t} = useTranslation();
 
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
@@ -152,9 +154,9 @@ export const HomeScreen: React.FC = () => {
 
   const [selectedIndex, setSelectedIndex] = useState(-0);
   const [filter] = useState([
-    {filterName: 'TOP MUSICIAN'},
-    {filterName: 'TOP SONG'},
-    {filterName: 'TOP POST'},
+    {filterName: t('Home.Tab.TopMusician')},
+    {filterName: t('Home.Tab.TopSong')},
+    {filterName: t('Home.Tab.TopPost')},
   ]);
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
@@ -251,7 +253,7 @@ export const HomeScreen: React.FC = () => {
             onPress={filterData}
             selectedIndex={selectedIndex}
           />
-          {filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
+          {filter[selectedIndex].filterName === t('Home.Tab.TopMusician') ? (
             <TopMusician
               dataMusician={isLogin ? dataMusician : dataSearchMusicians}
               setFollowMusician={(
@@ -263,7 +265,7 @@ export const HomeScreen: React.FC = () => {
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
             />
-          ) : filter[selectedIndex].filterName === 'TOP SONG' ? (
+          ) : filter[selectedIndex].filterName === t('Home.Tab.TopSong') ? (
             <TopSong
               dataSong={isLogin ? dataSong : dataSearchSongs}
               onPress={onPressTopSong}

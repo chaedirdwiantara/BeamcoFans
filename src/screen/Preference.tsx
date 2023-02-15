@@ -23,7 +23,6 @@ export const PreferenceScreen: React.FC = () => {
     setUnfollowMusician,
   } = useMusicianHook();
   const {getListPreference, listPreference, isLoading} = useSettingHook();
-
   useEffect(() => {
     getListDataMusician();
     getListPreference();
