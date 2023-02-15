@@ -14,10 +14,21 @@
     }
   },
   "Login": {
-    "Title": "Begin Today",
+    "Title": "Login",
+    "Begin": "Begin Today",
     "Description": "Sign In or Register to Explore All Our Features",
     "Footer": "Become a Part of Your Favourite Musician's Story",
-    "ExploreGuest": "Explore as Guest"
+    "ExploreGuest": "Explore as Guest",
+    "DontHaveAccount": "Dont Have an Account?",
+    "ForgotPassword": "I Forgot My Password",
+    "Form": {
+      "Email": "Email",
+      "PhoneNumber": "Phone Number"
+    },
+    "Placeholder": {
+      "EmailOrUsername": "Email or Username",
+      "Password": "Password"
+    }
   },
   "SignUp": {
     "Title": "Sign Up",

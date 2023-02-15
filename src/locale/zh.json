@@ -14,10 +14,21 @@
     }
   },
   "Login": {
-    "Title": "即日開始",
+    "Title": "登入",
+    "Begin": "即日開始",
     "Description": "登入或註冊以探索完整功能並支持音樂人",
     "Footer": "讓樂迷與喜愛的音樂人一起成長",
-    "ExploreGuest": "以訪客身份瀏覽"
+    "ExploreGuest": "以訪客身份瀏覽",
+    "DontHaveAccount": "沒有帳號？",
+    "ForgotPassword": "忘記密碼",
+    "Form": {
+      "Email": "電子郵箱",
+      "PhoneNumber": "電話號碼"
+    },
+    "Placeholder": {
+      "EmailOrUsername": "電子郵箱或用戶名稱",
+      "Password": "密碼"
+    }
   },
   "SignUp": {
     "Title": "註冊",

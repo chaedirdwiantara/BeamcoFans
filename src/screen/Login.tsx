@@ -34,6 +34,7 @@ import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import {storage} from '../hooks/use-storage.hook';
 import {heightResponsive, normalize} from '../utils';
 import {KeyboardShift} from '../components/molecule/KeyboardShift';
+import {useTranslation} from 'react-i18next';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -66,7 +67,7 @@ const loginValidation = yup.object({
 export const LoginScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-
+  const {t} = useTranslation();
   const {
     onLoginUser,
     onLoginGoogle,
@@ -252,7 +253,7 @@ export const LoginScreen: React.FC = () => {
   const children = () => {
     return (
       <>
-        <Text style={styles.titleStyle}>Sign In</Text>
+        <Text style={styles.titleStyle}>{t('Login.Title')}</Text>
         <Gap height={16} />
         <View
           style={{
@@ -286,7 +287,7 @@ export const LoginScreen: React.FC = () => {
                 : styles.loginTypeInactive
             }
             onPress={() => handleChangeLoginType('email')}>
-            Email
+            {t('Login.Form.Email')}
           </Text>
           <View style={styles.verticalSeparatorLoginType} />
           <Text
@@ -296,7 +297,7 @@ export const LoginScreen: React.FC = () => {
                 : styles.loginTypeInactive
             }
             onPress={() => handleChangeLoginType('phoneNumber')}>
-            Phone Number
+            {t('Login.Form.PhoneNumber')}
           </Text>
         </View>
         {watch('loginType') === 'email' && (
@@ -308,7 +309,7 @@ export const LoginScreen: React.FC = () => {
                 <SsuInput.InputText
                   value={value}
                   onChangeText={onChange}
-                  placeholder={'Email or Username'}
+                  placeholder={t('Login.Placeholder.EmailOrUsername') || ''}
                   leftIcon={
                     <UserIcon
                       stroke={color.Dark[50]}
@@ -335,7 +336,7 @@ export const LoginScreen: React.FC = () => {
                 <SsuInput.InputText
                   value={value}
                   onChangeText={onChange}
-                  placeholder={'Password'}
+                  placeholder={t('Login.Placeholder.Password') || ''}
                   leftIcon={<LockIcon stroke={color.Dark[50]} />}
                   password
                   isError={errors?.password ? true : false}
@@ -377,7 +378,7 @@ export const LoginScreen: React.FC = () => {
         )}
         <Gap height={16} />
         <Button
-          label="Submit"
+          label={t('Btn.Submit')}
           textStyles={{fontSize: mvs(14)}}
           containerStyles={{width: '100%'}}
           onPress={handleSubmit(handleOnLogin)}
@@ -385,7 +386,7 @@ export const LoginScreen: React.FC = () => {
         <Gap height={4} />
         <Button
           type="border"
-          label="Back"
+          label={t('Btn.Back')}
           borderColor="transparent"
           textStyles={{fontSize: mvs(14), color: color.Pink.linear}}
           containerStyles={{width: '100%'}}
@@ -393,7 +394,7 @@ export const LoginScreen: React.FC = () => {
         />
         <Gap height={18} />
         <Text style={styles.forgotPassStyle}>
-          Dont Have an Account?{' '}
+          {t('Login.DontHaveAccount')}{' '}
           <Text
             onPress={() => handleOnPressSignUp()}
             style={{
@@ -402,12 +403,12 @@ export const LoginScreen: React.FC = () => {
               fontSize: mvs(12),
               lineHeight: mvs(16),
             }}>
-            Sign Up
+            {t('SignUp.Title')}
           </Text>
         </Text>
         <Gap height={8} />
         <Text style={styles.forgotPassStyle} onPress={handleOnPressForgotPass}>
-          I Forgot My Password
+          {t('Login.ForgotPassword')}
         </Text>
         <SsuToast
           modalVisible={ssoError}
@@ -431,11 +432,9 @@ export const LoginScreen: React.FC = () => {
           alignItems: 'center',
         }}>
         <SSULogo />
-        <Text style={styles.titleStyle}>Begin Today</Text>
+        <Text style={styles.titleStyle}>{t('Login.Begin')}</Text>
         <Gap height={12} />
-        <Text style={styles.descStyle}>
-          Sign In or Register to Explore All Our Features
-        </Text>
+        <Text style={styles.descStyle}>{t('Login.Description')}</Text>
         {height >= 800 ? <Gap height={82} /> : <Gap height={40} />}
       </View>
     );
