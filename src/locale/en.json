@@ -1,4 +1,11 @@
 {
+  "General": {
+    "Or": "Or",
+    "Begin": "Begin Today",
+    "TopDescription": "Sign In or Register to Explore All Our Features",
+    "Yes": "Yes",
+    "No": "No"
+  },
   "Onboarding": {
     "Step1": {
       "Title": "Become a Part of Your Favourite Musician's Story",
@@ -15,8 +22,6 @@
   },
   "Login": {
     "Title": "Login",
-    "Begin": "Begin Today",
-    "Description": "Sign In or Register to Explore All Our Features",
     "Footer": "Become a Part of Your Favourite Musician's Story",
     "ExploreGuest": "Explore as Guest",
     "DontHaveAccount": "Dont Have an Account?",
@@ -45,6 +50,18 @@
     },
     "Footer": "Already Have an Account? "
   },
+  "OTP": {
+    "Phone": {
+      "Title": "Phone Verification Code",
+      "Subtitle": "Enter the verification code that we sent to {{phone}}"
+    },
+    "Email": {
+      "Title": "Email Verification Code",
+      "Subtitle": "We have sent a 6-digit verification code to your email {{email}}. Check your inbox and enter the verification code here"
+    },
+    "ResendAfter": "You can resend recovery code after ",
+    "ResendSuccess": "We've just resend a new code!"
+  },
   "Btn": {
     "Next": "Next",
     "Skip": "Skip",
@@ -52,6 +69,22 @@
     "SignIn": "Sign In",
     "SignUp": "Sign Up",
     "Submit": "Submit",
-    "Back": "Back"
+    "Back": "Back",
+    "ResendCode": "Resend Code"
+  },
+  "ForgotPassword": {
+    "Title": "Update Your Password",
+    "Subtitle": "Enter Your Email Address to Recover Your Password",
+    "Placeholder": {
+      "Email": "Enter Your Email Address"
+    },
+    "Otp": {
+      "Title": "Input OTP",
+      "Subtitle": "Enter the recovery code we just sent to"
+    },
+    "Modal": {
+      "Title": "Set New Password",
+      "Subtitle": "Are you sure you want to leave your progress unsaved?"
+    }
   }
 }

@@ -16,8 +16,8 @@ export const LoginDescription: React.FC<LoginDescriptionProps> = ({
   containerStyle,
 }) => {
   const {t} = useTranslation();
-  const title = t('Login.Title');
-  const description = t('Login.Description');
+  const title = t('General.Begin');
+  const description = t('General.TopDescription');
 
   return (
     <View style={[styles.root, containerStyle]}>

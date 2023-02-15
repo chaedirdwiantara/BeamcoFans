@@ -1,4 +1,11 @@
 {
+  "General": {
+    "Or": "或",
+    "Begin": "即日開始",
+    "TopDescription": "登入或註冊以探索完整功能並支持音樂人",
+    "Yes": "是的",
+    "No": "不"
+  },
   "Onboarding": {
     "Step1": {
       "Title": "讓樂迷與喜愛的音樂人一起成長",
@@ -15,8 +22,6 @@
   },
   "Login": {
     "Title": "登入",
-    "Begin": "即日開始",
-    "Description": "登入或註冊以探索完整功能並支持音樂人",
     "Footer": "讓樂迷與喜愛的音樂人一起成長",
     "ExploreGuest": "以訪客身份瀏覽",
     "DontHaveAccount": "沒有帳號？",
@@ -45,6 +50,18 @@
     },
     "Footer": "已有帳號？"
   },
+  "OTP": {
+    "Phone": {
+      "Title": "短信驗證碼",
+      "Subtitle": "請輸入發送至 {{phone}} 的驗證碼"
+    },
+    "Email": {
+      "Title": "電郵驗證碼",
+      "Subtitle": "我們已將六位驗證碼發送至地址 {{email}} 檢查您的收件箱並在此處輸入驗證碼"
+    },
+    "ResendAfter": "You can resend recovery code after ",
+    "ResendSuccess": "We've just resend a new code!"
+  },
   "Btn": {
     "Next": "下一步",
     "Skip": "略過",
@@ -52,6 +69,22 @@
     "SignIn": "登入",
     "SignUp": "註冊",
     "Submit": "提交",
-    "Back": "返回"
+    "Back": "返回",
+    "ResendCode": "重發驗證碼"
+  },
+  "ForgotPassword": {
+    "Title": "更改密碼",
+    "Subtitle": "請輸入電郵地址以取回密碼",
+    "Placeholder": {
+      "Email": "請輸入電郵地址以取回密碼"
+    },
+    "Otp": {
+      "Title": "Input OTP",
+      "Subtitle": "Enter the recovery code we just sent to"
+    },
+    "Modal": {
+      "Title": "Set New Password",
+      "Subtitle": "Are you sure you want to leave your progress unsaved?"
+    }
   }
 }

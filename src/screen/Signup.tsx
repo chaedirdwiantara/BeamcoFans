@@ -145,20 +145,18 @@ export const SignupScreen: React.FC = () => {
         navigation.replace('Otp', {
           id: watch('email'),
           type: 'email',
-          title: 'Email Verification Code',
-          subtitle: `We have sent you six digits verification code on address ${watch(
-            'email',
-          )} check your inbox and enter verification code here`,
+          title: t('OTP.Email.Title'),
+          subtitle: t('OTP.Email.Subtitle', {email: watch('email')}),
           context: 'register',
         });
       } else {
         navigation.replace('Otp', {
           id: countryNumber + watch('phoneNumber'),
           type: 'phoneNumber',
-          title: 'Phone Verification Code',
-          subtitle: `Enter the verification code that we sent to ${
-            countryNumber + watch('phoneNumber')
-          }`,
+          title: t('OTP.Phone.Title'),
+          subtitle: t('OTP.Phone.Subtitle', {
+            phone: countryNumber + watch('phoneNumber'),
+          }),
           context: 'register',
         });
       }
@@ -273,7 +271,7 @@ export const SignupScreen: React.FC = () => {
               ) : null}
             </View>
             <Gap height={20} />
-            <SsuDivider text={'or'} />
+            <SsuDivider text={t('General.Or') || ''} />
             <Gap height={20} />
             <View style={styles.wrapperLoginType}>
               <Text

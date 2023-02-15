@@ -13,6 +13,7 @@ import RenderMessage from '../components/molecule/OtpInput/RenderMessage';
 import {SSULogo} from '../assets/logo';
 import {storage} from '../hooks/use-storage.hook';
 import {KeyboardShift} from '../components/molecule/KeyboardShift';
+import {useTranslation} from 'react-i18next';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -31,6 +32,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
     sendOtpEmail,
     sendOtpSms,
   } = useAuthHook();
+  const {t} = useTranslation();
 
   useEffect(() => {
     if (!isLoading && !isError && isOtpValid === true) {
@@ -96,7 +98,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
         <Gap height={4} />
         <Button
           type="border"
-          label="Back"
+          label={t('Btn.Back')}
           borderColor="transparent"
           textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
           containerStyles={{width: '100%'}}
@@ -115,10 +117,10 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
           paddingHorizontal: widthResponsive(48),
         }}>
         <SSULogo />
-        <Text style={styles.titleStyle}>Begin Today</Text>
+        <Text style={styles.titleStyle}>{t('General.Begin')}</Text>
         <Gap height={12} />
         <Text style={[styles.descStyle, {textAlign: 'center'}]}>
-          Sign In or Register to Explore All Our Features
+          {t('General.TopDescription')}
         </Text>
         <Gap height={160} />
       </View>

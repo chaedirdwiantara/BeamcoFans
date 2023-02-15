@@ -172,10 +172,10 @@ export const LoginScreen: React.FC = () => {
         navigation.navigate('Otp', {
           id: countryNumber + watch('phoneNumber'),
           type: 'phoneNumber',
-          title: 'Phone Verification Code',
-          subtitle: `Enter the verification code that we sent to ${
-            countryNumber + watch('phoneNumber')
-          }`,
+          title: t('OTP.Phone.Title'),
+          subtitle: t('OTP.Phone.Subtitle', {
+            phone: countryNumber + watch('phoneNumber'),
+          }),
           context: 'login',
         });
       }
@@ -185,8 +185,8 @@ export const LoginScreen: React.FC = () => {
           navigation.navigate('Otp', {
             id: errorData,
             type: errorData.includes('@') ? 'email' : 'phoneNumber',
-            title: 'Email Verification Code',
-            subtitle: `We have sent a 6-digit verification code to your email ${errorData}. Check your inbox and enter the verification code here`,
+            title: t('OTP.Email.Title'),
+            subtitle: t('OTP.Email.Subtitle', {email: errorData}),
             context: 'login',
           });
         } else {
@@ -277,7 +277,7 @@ export const LoginScreen: React.FC = () => {
           ) : null}
         </View>
         <Gap height={16} />
-        <SsuDivider text={'Or'} />
+        <SsuDivider text={t('General.Or') || ''} />
         <Gap height={20} />
         <View style={styles.wrapperLoginType}>
           <Text
@@ -432,9 +432,9 @@ export const LoginScreen: React.FC = () => {
           alignItems: 'center',
         }}>
         <SSULogo />
-        <Text style={styles.titleStyle}>{t('Login.Begin')}</Text>
+        <Text style={styles.titleStyle}>{t('General.Begin')}</Text>
         <Gap height={12} />
-        <Text style={styles.descStyle}>{t('Login.Description')}</Text>
+        <Text style={styles.descStyle}>{t('General.TopDescription')}</Text>
         {height >= 800 ? <Gap height={82} /> : <Gap height={40} />}
       </View>
     );
