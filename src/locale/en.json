@@ -91,7 +91,9 @@
     "Genre": "Select Your Favorite Genres",
     "Mood": "Current Mood?",
     "Support": "I’m Here To",
-    "Musician": "Who To Follow"
+    "Musician": "Who To Follow",
+    "Follow": "Follow",
+    "Following": "Following"
   },
   "Home": {
     "Topbar": {
@@ -108,9 +110,40 @@
       }
     },
     "Tab": {
-      "TopMusician": "TOP MUSICIAN",
-      "TopSong": "TOP SONG",
-      "TopPost": "TOP POST"
+      "TopMusician": {
+        "Title": "TOP MUSICIAN",
+        "Follow": "Follow",
+        "Unfollow": "Unfollow",
+        "Tip": "Tip",
+        "Profile": "Go to Profile"
+      },
+      "TopSong": {
+        "Title": "TOP SONG",
+        "Playlist": "Add to Playlist",
+        "Tip": "Send Tip",
+        "Queue": "Add to Queue",
+        "Share": "Share Music",
+        "Credit": "Show Credits"
+      },
+      "TopPost": {
+        "Title": "TOP POST",
+        "Filter": {
+          "Title": "Filter by",
+          "Today": "Today",
+          "LastWeek": "Last Week",
+          "ThisMonth": "This Month"
+        },
+        "Category": {
+          "Title": "Category",
+          "All": "All",
+          "ComingUp": "Coming Up",
+          "Tour": "Tour",
+          "DailyLife": "Daily Life",
+          "BTS": "Behind The Scenes",
+          "Backstage": "Backstage",
+          "Highlight": "Highlight Post"
+        }
+      }
     }
   }
 }

@@ -91,7 +91,9 @@
     "Genre": "選擇您喜歡的類型",
     "Mood": "適合你的氣氛？",
     "Support": "我是來這裡...",
-    "Musician": "Who To Follow"
+    "Musician": "Who To Follow",
+    "Follow": "追蹤",
+    "Following": "正在追蹤"
   },
   "Home": {
     "Topbar": {
@@ -108,9 +110,40 @@
       }
     },
     "Tab": {
-      "TopMusician": "TOP MUSICIAN",
-      "TopSong": "TOP SONG",
-      "TopPost": "TOP POST"
+      "TopMusician": {
+        "Title": "TOP MUSICIAN",
+        "Follow": "追蹤",
+        "Unfollow": "取消关注",
+        "Tip": "捐贈",
+        "Profile": "進入音樂人頁面"
+      },
+      "TopSong": {
+        "Title": "TOP SONG",
+        "Playlist": "儲存至播放清單",
+        "Tip": "捐贈",
+        "Queue": "加入序列",
+        "Share": "分享歌曲",
+        "Credit": "顯示積分"
+      },
+      "TopPost": {
+        "Title": "TOP POST",
+        "Filter": {
+          "Title": "篩選",
+          "Today": "今天",
+          "LastWeek": "上週",
+          "ThisMonth": "本月"
+        },
+        "Category": {
+          "Title": "分類",
+          "All": "全部",
+          "ComingUp": "快將推出",
+          "Tour": "演出",
+          "DailyLife": "日常生活",
+          "BTS": "幕後花絮",
+          "Backstage": "後台",
+          "Highlight": "突出显示帖子"
+        }
+      }
     }
   }
 }
