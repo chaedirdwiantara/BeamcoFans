@@ -145,5 +145,15 @@
         }
       }
     }
+  },
+  "Feed": {
+    "Title": "Feed",
+    "Public": "Public",
+    "Exclusive": "Exclusive",
+    "Sort": {
+      "Title": "Sort by",
+      "Latest": "Latest",
+      "Popular": "Popular"
+    }
   }
 }

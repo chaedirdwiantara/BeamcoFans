@@ -145,5 +145,15 @@
         }
       }
     }
+  },
+  "Feed": {
+    "Title": "動態",
+    "Public": "公開",
+    "Exclusive": "專屬內容",
+    "Sort": {
+      "Title": "排序方式",
+      "Latest": "最新的",
+      "Popular": "最新的"
+    }
   }
 }

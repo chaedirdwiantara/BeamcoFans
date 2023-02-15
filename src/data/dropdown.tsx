@@ -74,8 +74,8 @@ export interface DropDownSortType {
 }
 
 export const dropDownDataSort: DropDownSortType[] = [
-  {label: 'Latest', value: '1'},
-  {label: 'Popular', value: '2'},
+  {label: i18n.t('Feed.Sort.Latest'), value: '1'},
+  {label: i18n.t('Feed.Sort.Popular'), value: '2'},
 ];
 
 export const dropDownDataSubscription: DataDropDownType[] = [
