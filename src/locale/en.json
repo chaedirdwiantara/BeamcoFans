@@ -70,7 +70,9 @@
     "SignUp": "Sign Up",
     "Submit": "Submit",
     "Back": "Back",
-    "ResendCode": "Resend Code"
+    "ResendCode": "Resend Code",
+    "BuyNow": "Buy Now",
+    "AddToCart": "Add to Cart"
   },
   "ForgotPassword": {
     "Title": "Update Your Password",
@@ -154,6 +156,25 @@
       "Title": "Sort by",
       "Latest": "Latest",
       "Popular": "Popular"
+    }
+  },
+  "Event": {
+    "Title": "Event",
+    "Quantity": "Quantity",
+    "Description": "Description",
+    "Concert": {
+      "Title": "Concert",
+      "NoConcert": "No Event Available",
+      "Detail": "Ticket Details",
+      "LineUp": "Line-Up",
+      "Class": "Select Class"
+    },
+    "Merch": {
+      "Title": "Merch",
+      "NoMerch": "No Merch Available",
+      "Detail": "Merch Details",
+      "Size": "Size",
+      "Color": "Color"
     }
   }
 }
