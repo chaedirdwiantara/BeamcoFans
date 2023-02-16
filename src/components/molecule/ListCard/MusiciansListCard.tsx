@@ -79,9 +79,13 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
       </Text>
       <TouchableOpacity activeOpacity={1} onPress={onPressImage}>
         {imgUri ? (
-          <Avatar imgUri={imgUri} size={widthResponsive(44)} />
+          <TouchableOpacity onPress={onPressImage}>
+            <Avatar imgUri={imgUri} size={widthResponsive(44)} />
+          </TouchableOpacity>
         ) : (
-          <DefaultAvatar.MusicianIcon />
+          <TouchableOpacity onPress={onPressImage}>
+            <DefaultAvatar.MusicianIcon />
+          </TouchableOpacity>
         )}
       </TouchableOpacity>
       <Gap width={8} />

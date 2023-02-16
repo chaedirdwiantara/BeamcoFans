@@ -19,7 +19,7 @@ import {storage} from '../../../hooks/use-storage.hook';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 
 interface MusicianProps {
-  musicianId: string;
+  userId: string;
   musicianNum: string;
   musicianName: string;
   imgUri: string;
@@ -30,6 +30,7 @@ interface MusicianProps {
   followersCount?: number;
   followOnPress?: () => void;
   activeMore?: boolean;
+  type?: string;
 }
 
 interface DataMore {
@@ -38,7 +39,7 @@ interface DataMore {
 }
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
-  const {isFollowed, followOnPress, musicianId} = props;
+  const {isFollowed, followOnPress, userId, type} = props;
 
   useEffect(() => {
     const follow = isFollowed ? 'Unfollow' : 'Follow';
@@ -63,8 +64,12 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
-  const goToMusician = () => {
-    navigation.navigate('MusicianProfile', {id: musicianId});
+  const handleNavigate = () => {
+    if (type === 'fans') {
+      navigation.navigate('OtherUserProfile', {id: userId});
+    } else {
+      navigation.navigate('MusicianProfile', {id: userId});
+    }
   };
 
   useEffect(() => {
@@ -92,7 +97,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
         setModalGuestVisible(true);
       }
     } else if (dataResult.value === '3') {
-      goToMusician();
+      handleNavigate();
     } else {
       if (isLogin) {
         setModalDonate(true);
@@ -116,7 +121,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
       <ListCard.MusicianList
         dataFilter={dataMore}
         onPressMore={resultDataMore}
-        onPressImage={goToMusician}
+        onPressImage={handleNavigate}
         {...props}
       />
       <ModalDonate
