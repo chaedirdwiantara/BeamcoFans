@@ -15,6 +15,7 @@ import {Button, ButtonGradient, SsuInput} from '../../atom';
 import {CheckCircleIcon, GiftIcon} from '../../../assets/icon';
 import ReferralImage from '../../../assets/image/Referral.image';
 import {heightPercentage, widthPercentage} from '../../../utils';
+import {useTranslation} from 'react-i18next';
 
 const {width} = Dimensions.get('window');
 
@@ -65,6 +66,7 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
   errorMsg,
   isValidRef,
 }) => {
+  const {t} = useTranslation();
   const [refCode, setRefCode] = useState<string>('');
   const [type, setType] = useState<string>('input');
   const [focusInput, setFocusInput] = useState<string | null>(null);
@@ -123,13 +125,13 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
           <View style={styles.footer}>
             <Button
               type="border"
-              label="Maybe Later"
+              label={t('Btn.MaybeLater')}
               containerStyles={styles.btnContainer}
               textStyles={{color: Color.Pink.linear}}
               onPress={onSkip}
             />
             <Button
-              label="Submit"
+              label={t('Btn.Submit')}
               disabled={emptyString}
               containerStyles={{
                 width: widthPercentage(155),

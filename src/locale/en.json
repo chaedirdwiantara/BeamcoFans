@@ -4,7 +4,8 @@
     "Begin": "Begin Today",
     "TopDescription": "Sign In or Register to Explore All Our Features",
     "Yes": "Yes",
-    "No": "No"
+    "No": "No",
+    "NoVerifCode": "Didn’t receive verification codes? click to resend"
   },
   "Onboarding": {
     "Step1": {
@@ -74,7 +75,15 @@
     "BuyNow": "Buy Now",
     "AddToCart": "Add to Cart",
     "Cancel": "Cancel",
-    "Purchase": "Purchase"
+    "Purchase": "Purchase",
+    "Save": "Save",
+    "Edit": "Edit",
+    "VerificationCode": "Send Verification Code",
+    "TurnOff": "Turn Off",
+    "TurnOn": "Turn On",
+    "SignOut": "Sign Out",
+    "MaybeLater": "Maybe Later",
+    "Send": "Send"
   },
   "ForgotPassword": {
     "Title": "Update Your Password",
@@ -249,6 +258,173 @@
     "Year": "Year",
     "Support": "Add support to your plan",
     "Optional": "Support (optional)"
+  },
+  "Setting": {
+    "Title": "Settings",
+    "EnterVerifCode": "Enter Verification Code",
+    "Account": {
+      "Title": "Account",
+      "Label": {
+        "Username": "Username",
+        "Fullname": "Full Name",
+        "Gender": "Gender",
+        "Location": "Location"
+      },
+      "Placeholder": {
+        "Username": "Add Username",
+        "Fullname": "Add Full Name",
+        "Gender": "Select Gender",
+        "Location": "Select Location"
+      }
+    },
+    "Password": {
+      "Title": "Change Password",
+      "Label": {
+        "Old": "Input Old Password",
+        "New": "New Password",
+        "Repeat": "Repeat Password"
+      }
+    },
+    "Email": {
+      "Title": "Email",
+      "Label": {
+        "Add": "Add Email",
+        "Change": "Change Email",
+        "Old": "Old Email",
+        "New": "New Email",
+        "Sso": "SSO Email Can`t Be Changed",
+        "Password": "Current Password"
+      },
+      "Placeholder": {
+        "Email": "Add Email"
+      }
+    },
+    "Phone": {
+      "Title": "Phone Number",
+      "Label": {
+        "Change": "Change Phone Number",
+        "Add": "Add Phone Number",
+        "Old": "Old Phone Number",
+        "New": "New Phone Number",
+        "Password": "Current Password"
+      }
+    },
+    "Shipping": {
+      "Title": "Shipping Information",
+      "Label": {
+        "Email": "Email",
+        "Phone": "Phone Number",
+        "Fullname": "Full Name",
+        "State": "State/Province",
+        "Country": "Country",
+        "Postal": "Postal Code",
+        "City": "City",
+        "Address": "Address"
+      },
+      "Placeholder": {
+        "Email": "Add Email",
+        "Phone": "Add Phone Number",
+        "Fullname": "Add Full Name",
+        "State": "Select State/Province",
+        "Country": "Select Country",
+        "Postal": "Add Postal Code",
+        "City": "Select City",
+        "Address": "Add Address"
+      }
+    },
+    "Preference": {
+      "Title": "Preferences",
+      "Label": {
+        "Genre": "Genre",
+        "Mood": "Mood"
+      },
+      "Placeholder": {
+        "Genre": "Select Genre",
+        "Mood": "Select Mood"
+      }
+    },
+    "Tips": {
+      "Title": "Tips & Subscriptions",
+      "Tab": {
+        "Donation": "Donation",
+        "Subs": "Subscription"
+      },
+      "Filter": {
+        "Duration": "Duration",
+        "All": "All",
+        "OneTime": "One Time",
+        "Weekly": "Weekly",
+        "Monthly": "Monthly",
+        "Yearly": "Yearly"
+      },
+      "Label": {
+        "Past": "Past",
+        "Current": "Current"
+      },
+      "Menu": {
+        "Donation": {
+          "GoToMusician": "Go To Musician",
+          "Stop": "Stop Donation"
+        },
+        "Subs": {
+          "GoToMusician": "Go To Musician",
+          "Unsubs": "Unsubscribe"
+        }
+      }
+    },
+    "Referral": {
+      "Title": "Referral Code",
+      "ReferFriend": {
+        "Title": "REFER A FRIEND",
+        "Text1": "Refer a friend and earn 50 free credits",
+        "Text2": "Use your @username as referral code",
+        "Btn1": "Refer a friend using link",
+        "Btn2": "Read Terms of Use"
+      },
+      "UseRefer": {
+        "Title": "USE REFERRAL",
+        "Text1": "Earn 50 free credits",
+        "Text2": "Your Friend’s Referral Code",
+        "Text3": "Refferal code can not be changed"
+      }
+    },
+    "Language": {
+      "Title": "Language",
+      "Placeholder": "Select Language"
+    },
+    "Notification": {
+      "Title": "Push Notifications",
+      "Label": {
+        "Title": "Turn On Push Notifications",
+        "Subtitle": "You haven't activated push notifications on your phone. Activate now to get the latest info!"
+      }
+    },
+    "Report": {
+      "Title": "Send Report",
+      "Modal": {
+        "Title": "Need help?",
+        "Bug": "Report a Bug",
+        "TextBug": "Something in the app is broken or doesn’t work as expected",
+        "Suggest": "Suggest an Improvement",
+        "TextSuggest": "New ideas or desired enhancement for this app"
+      },
+      "Placeholder": {
+        "Email": "Enter your email",
+        "Text": "How can we improve your experience using this app?"
+      }
+    },
+    "Helps": {
+      "Title": "Helps"
+    },
+    "TnC": {
+      "Title": "Terms and Service"
+    },
+    "Privacy": {
+      "Title": "Privacy Policy"
+    },
+    "Version": {
+      "Title": "Version"
+    }
   },
   "Modal": {
     "EditProfile": {

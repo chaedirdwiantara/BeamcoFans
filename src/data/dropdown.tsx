@@ -79,11 +79,11 @@ export const dropDownDataSort: DropDownSortType[] = [
 ];
 
 export const dropDownDataSubscription: DataDropDownType[] = [
-  {label: 'All', value: '1'},
-  {label: 'One Time', value: '2'},
-  {label: 'Weekly', value: '3'},
-  {label: 'Monthly', value: '4'},
-  {label: 'Yearly', value: '5'},
+  {label: i18n.t('Setting.Tips.Filter.All'), value: '1'},
+  {label: i18n.t('Setting.Tips.Filter.OneTime'), value: '2'},
+  {label: i18n.t('Setting.Tips.Filter.Weekly'), value: '3'},
+  {label: i18n.t('Setting.Tips.Filter.Monthly'), value: '4'},
+  {label: i18n.t('Setting.Tips.Filter.Yearly'), value: '5'},
 ];
 
 export const dropDownHeaderAlbum: DataDropDownType[] = [
@@ -100,8 +100,8 @@ export const dropDownHeaderSongDetails: DataDropDownType[] = [
 ];
 
 export const dropDownSubscription: DataDropDownType[] = [
-  {label: 'Go to Profile', value: '1'},
-  {label: 'Unsubscribe', value: '2'},
+  {label: i18n.t('Setting.Tips.Menu.Subs.GoToMusician'), value: '1'},
+  {label: i18n.t('Setting.Tips.Menu.Subs.Unsubs'), value: '2'},
 ];
 
 export const dataUpdateComment: DataDropDownType[] = [

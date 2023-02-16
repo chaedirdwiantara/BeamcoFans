@@ -23,6 +23,7 @@ import {Button, Gap, SsuInput, SsuToast} from '../../atom';
 import {useProfileHook} from '../../../hooks/use-profile.hook';
 import {ProfileResponseType} from '../../../interface/profile.interface';
 import {ArrowLeftIcon, ErrorIcon, TickCircleIcon} from '../../../assets/icon';
+import {useTranslation} from 'react-i18next';
 
 interface AccountProps {
   profile: ProfileResponseType;
@@ -58,6 +59,7 @@ export const AccountContent: React.FC<AccountProps> = ({
   onPressGoBack,
   dataAllCountry,
 }) => {
+  const {t} = useTranslation();
   const [type, setType] = useState('Edit');
   const [changes, setChanges] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -134,7 +136,7 @@ export const AccountContent: React.FC<AccountProps> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type1
-        title="Account"
+        title={t('Setting.Account.Title')}
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
         leftIconAction={onPressGoBack}
@@ -146,7 +148,7 @@ export const AccountContent: React.FC<AccountProps> = ({
         control={control}
         render={({field: {onChange, value}}) => (
           <SsuInput.InputLabel
-            label="Username"
+            label={t('Setting.Account.Label.Username') || ''}
             value={value}
             editable={type === 'Simpan'}
             onChangeText={text => {
@@ -167,7 +169,7 @@ export const AccountContent: React.FC<AccountProps> = ({
         control={control}
         render={({field: {onChange, value}}) => (
           <SsuInput.InputLabel
-            label="Full Name"
+            label={t('Setting.Account.Label.Fullname') || ''}
             value={value}
             editable={type === 'Simpan'}
             onChangeText={text => {
@@ -192,11 +194,11 @@ export const AccountContent: React.FC<AccountProps> = ({
             data={dataGender}
             disable={type !== 'Simpan'}
             placeHolder={'Select Gender'}
-            dropdownLabel={'Gender'}
             textTyped={(newText: {label: string; value: string}) => {
               onChange(newText.value);
               setChanges(true);
             }}
+            dropdownLabel={t('Setting.Account.Label.Gender')}
             containerStyles={{marginTop: heightPercentage(15)}}
             isError={errors?.gender ? true : false}
             errorMsg={errors?.gender?.message}
@@ -214,11 +216,11 @@ export const AccountContent: React.FC<AccountProps> = ({
             data={dataAllCountry}
             disable={type !== 'Simpan'}
             placeHolder={'Search Country'}
-            dropdownLabel={'Location'}
             textTyped={(newText: {label: string; value: string}) => {
               onChange(newText.value);
               setChanges(true);
             }}
+            dropdownLabel={t('Setting.Account.Label.Location')}
             containerStyles={{marginTop: heightPercentage(15)}}
             isError={errors?.locationCountry ? true : false}
             errorMsg={errors?.locationCountry?.message}
@@ -235,7 +237,7 @@ export const AccountContent: React.FC<AccountProps> = ({
       ) : null}
 
       <Button
-        label={type}
+        label={t('Btn.Save')}
         onPress={handleSubmit(onPressSave)}
         containerStyles={disabledButton ? styles.buttonDisabled : styles.button}
         disabled={disabledButton}

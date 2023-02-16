@@ -22,6 +22,7 @@ import * as FCMService from '../../../service/notification';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {height, heightPercentage, width, widthPercentage} from '../../../utils';
 import {ModalConfirm} from '../Modal/ModalConfirm';
+import {useTranslation} from 'react-i18next';
 
 interface SettingProps {
   onPressGoBack: () => void;
@@ -39,6 +40,7 @@ export const SettingContent: React.FC<SettingProps> = ({
     modalReport: false,
     modalConfirm: false,
   });
+  const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {onLogout} = useAuthHook();
@@ -51,8 +53,13 @@ export const SettingContent: React.FC<SettingProps> = ({
         modalConfirm: false,
       });
     } else if (val === 'Terms and Conditions' || val === 'Privacy Policy') {
-      const path = val === 'Terms and Conditions' ? 'tos' : 'privacy-policy';
-      handleWebview(val, `https://sunnysideup.io/marketplace/${path}`);
+      const path = val === t('Setting.TnC.Title') ? 'tos' : 'privacy-policy';
+      handleWebview(
+        val === 'Terms and Conditions'
+          ? t('Setting.TnC.Title')
+          : t('Setting.Privacy.Title'),
+        `https://sunnysideup.io/marketplace/${path}`,
+      );
     } else if (val === 'Tips & Subscription') {
       onPressGoTo('DonationAndSubscription');
     } else if (val === 'Preferences') {
@@ -84,17 +91,15 @@ export const SettingContent: React.FC<SettingProps> = ({
     return (
       <View style={styles.card}>
         <Text style={[typography.Heading6, {color: color.Neutral[10]}]}>
-          Need help?
+          {t('Setting.Report.Modal.Title')}
         </Text>
         <ListReport
-          title={'Report a bug'}
-          subtitle={
-            'Something in the app is broken or doesn’t work as expected'
-          }
+          title={t('Setting.Report.Modal.Bug')}
+          subtitle={t('Setting.Report.Modal.TextBug')}
         />
         <ListReport
-          title={'Suggest an improvement'}
-          subtitle={'New ideas or desired enhancement for this app'}
+          title={t('Setting.Report.Modal.Suggest')}
+          subtitle={t('Setting.Report.Modal.TextSuggest')}
         />
       </View>
     );
@@ -123,7 +128,7 @@ export const SettingContent: React.FC<SettingProps> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type1
-        title="Settings"
+        title={t('Setting.Title')}
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={color.Neutral[10]}
         leftIconAction={onPressGoBack}
@@ -133,14 +138,14 @@ export const SettingContent: React.FC<SettingProps> = ({
         {listMenu.map((val, i) => (
           <MenuText.RightIcon
             key={i}
-            text={val}
+            text={val.text}
             containerStyles={{marginTop: heightPercentage(12)}}
-            onPress={() => onPress(val)}
+            onPress={() => onPress(val.value)}
           />
         ))}
         <View style={styles.containerText}>
           <Text style={[Typography.Button2, styles.textVersion]}>
-            {'Version 1.0.0'}
+            {`${t('Setting.Version.Title')} 1.0.0`}
           </Text>
         </View>
       </ScrollView>
@@ -156,7 +161,7 @@ export const SettingContent: React.FC<SettingProps> = ({
           }>
           <LogOutIcon />
           <Text style={[Typography.Button2, styles.textSignOut]}>
-            {'Sign Out'}
+            {t('Btn.SignOut')}
           </Text>
         </TouchableOpacity>
       </View>

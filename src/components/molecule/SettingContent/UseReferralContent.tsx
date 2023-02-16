@@ -15,10 +15,12 @@ import {useProfileHook} from '../../../hooks/use-profile.hook';
 import ReferralImage from '../../../assets/image/Referral.image';
 import {ReferralActivated} from '../ReferralContent/ReferralContent';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {useTranslation} from 'react-i18next';
 
 interface ReferralProps {}
 
 export const UseReferralContent: React.FC<ReferralProps> = ({}) => {
+  const {t} = useTranslation();
   const [refCode, setRefCode] = useState<string>('');
   const [mode, setMode] = useState<string>('');
   const {isValidReferral, errorMsg, applyReferralUser} = useProfileHook();
@@ -56,12 +58,12 @@ export const UseReferralContent: React.FC<ReferralProps> = ({}) => {
               style={{marginTop: heightPercentage(40)}}
             />
             <Text style={[typography.Heading5, styles.text]}>
-              {'Earn 50 free credits'}
+              {t('Setting.Referral.UseRefer.Text1')}
             </Text>
 
             <SsuInput.InputText
               value={refCode}
-              placeholder={'Referral Code'}
+              placeholder={t('Setting.Referral.UseRefer.Text2')}
               errorMsg={errorMsg}
               isError={errorMsg !== ''}
               leftIcon={<GiftIcon />}
@@ -71,7 +73,7 @@ export const UseReferralContent: React.FC<ReferralProps> = ({}) => {
               containerStyles={{marginTop: heightPercentage(20)}}
             />
             <Button
-              label="Submit"
+              label={t('Btn.Submit')}
               onPress={onApplyReferral}
               containerStyles={styles.button}
             />
