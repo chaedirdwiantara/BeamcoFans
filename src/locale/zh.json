@@ -73,7 +73,8 @@
     "ResendCode": "重發驗證碼",
     "BuyNow": "立即購買",
     "AddToCart": "加到購物車",
-    "Cancel": "取消"
+    "Cancel": "取消",
+    "Purchase": "購買"
   },
   "ForgotPassword": {
     "Title": "更改密碼",
@@ -235,6 +236,19 @@
       "Music": "MUSIC",
       "Fans": "樂迷"
     }
+  },
+  "ExclusiveContent": {
+    "Title": "專屬內容",
+    "Content": "內容",
+    "Choose": "選擇一個計劃",
+    "Weekly": "每週",
+    "Monthly": "每月",
+    "Yearly": "每年",
+    "Week": "週",
+    "Month": "月",
+    "Year": "年",
+    "Support": "為您的計劃添加支援",
+    "Optional": "支援（可選）"
   },
   "Modal": {
     "EditProfile": {

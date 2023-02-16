@@ -73,7 +73,8 @@
     "ResendCode": "Resend Code",
     "BuyNow": "Buy Now",
     "AddToCart": "Add to Cart",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "Purchase": "Purchase"
   },
   "ForgotPassword": {
     "Title": "Update Your Password",
@@ -235,6 +236,19 @@
       "Music": "MUSIC",
       "Fans": "FANS"
     }
+  },
+  "ExclusiveContent": {
+    "Title": "Exclusive Content",
+    "Content": "Content",
+    "Choose": "Choose A Plan",
+    "Weekly": "Weekly",
+    "Monthly": "Monthly",
+    "Yearly": "Yearly",
+    "Week": "Week",
+    "Month": "Month",
+    "Year": "Year",
+    "Support": "Add support to your plan",
+    "Optional": "Support (optional)"
   },
   "Modal": {
     "EditProfile": {
