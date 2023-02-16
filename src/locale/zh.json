@@ -72,7 +72,8 @@
     "Back": "返回",
     "ResendCode": "重發驗證碼",
     "BuyNow": "立即購買",
-    "AddToCart": "加到購物車"
+    "AddToCart": "加到購物車",
+    "Cancel": "取消"
   },
   "ForgotPassword": {
     "Title": "更改密碼",
@@ -195,6 +196,21 @@
       "Playlist": "PLAYLIST",
       "TopMusician": "TOP MUSICIAN",
       "Badge": "BADGE"
+    },
+    "Edit": {
+      "Title": "編輯個人資料",
+      "Bio": "簡介",
+      "ProfilePicture": "修改頭像",
+      "HeaderPicture": "修改標題圖片",
+      "Take": "拍攝照片",
+      "Add": "由相簿添加",
+      "Delete": "刪除照片"
+    }
+  },
+  "Modal": {
+    "EditProfile": {
+      "Title": "Edit Profile",
+      "Subtitle": "Are you sure to finish edit profile?"
     }
   }
 }

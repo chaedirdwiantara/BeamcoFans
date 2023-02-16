@@ -14,6 +14,7 @@ import {ModalImagePicker} from '../Modal/ModalImagePicker';
 import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
 import {ParamsProps} from '../../../interface/base.interface';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {useTranslation} from 'react-i18next';
 
 interface EditProfileProps {
   profile: any;
@@ -36,6 +37,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   imageLoading,
   deleteValueProfile,
 }) => {
+  const {t} = useTranslation();
   const [bio, setBio] = useState(profile.bio || '');
   const [isModalVisible, setModalVisible] = useState({
     modalConfirm: false,
@@ -86,7 +88,9 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   };
 
   const titleModalPicker =
-    uriType === 'avatarUri' ? 'Edit Display Profile' : 'Edit Header';
+    uriType === 'avatarUri'
+      ? t('Profile.Edit.ProfilePicture')
+      : t('Profile.Edit.HeaderPicture');
   const hideMenuDelete =
     uriType === 'avatarUri'
       ? uri.avatarUri !== null && uri.avatarUri?.path !== null
@@ -97,7 +101,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
-        title="Edit Profile"
+        title={t('Profile.Edit.Title')}
         rightIcon={<SaveIcon />}
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
@@ -115,7 +119,9 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         iconPress={openModalImage}
       />
       <View style={styles.textAreaContainer}>
-        <Text style={[Typography.Overline, styles.label]}>Bio</Text>
+        <Text style={[Typography.Overline, styles.label]}>
+          {t('Profile.Edit.Bio')}
+        </Text>
         <SsuInput.InputLabel
           label=""
           value={bio}
@@ -149,8 +155,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
 
       <ModalConfirm
         modalVisible={isModalVisible.modalConfirm}
-        title="Edit Profile"
-        subtitle="Are you sure to finish edit profile?"
+        title={t('Modal.EditProfile.Title') || ''}
+        subtitle={t('Modal.EditProfile.Subtitle') || ''}
         onPressClose={closeModal}
         onPressOk={() => onPressSave({bio})}
       />

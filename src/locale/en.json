@@ -72,7 +72,8 @@
     "Back": "Back",
     "ResendCode": "Resend Code",
     "BuyNow": "Buy Now",
-    "AddToCart": "Add to Cart"
+    "AddToCart": "Add to Cart",
+    "Cancel": "Cancel"
   },
   "ForgotPassword": {
     "Title": "Update Your Password",
@@ -195,6 +196,21 @@
       "Playlist": "PLAYLIST",
       "TopMusician": "TOP MUSICIAN",
       "Badge": "BADGE"
+    },
+    "Edit": {
+      "Title": "Edit Profile",
+      "Bio": "Bio",
+      "ProfilePicture": "Edit Display Profile",
+      "HeaderPicture": "Edit Header",
+      "Take": "Take Photo",
+      "Add": "Add Photo From Gallery",
+      "Delete": "Delete Photo"
+    }
+  },
+  "Modal": {
+    "EditProfile": {
+      "Title": "Edit Profile",
+      "Subtitle": "Are you sure to finish edit profile?"
     }
   }
 }
