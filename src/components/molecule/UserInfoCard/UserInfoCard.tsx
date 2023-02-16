@@ -67,23 +67,23 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
   const infoProfileArtist = [
     {
       point: profile?.fans ? profile.fans : 0,
-      title: 'FANS',
+      title: t('Musician.Label.Fans'),
     },
     {
       point: profile?.followers ? profile.followers : 0,
-      title: 'FOLLOWERS',
+      title: t('Musician.Label.Followers'),
     },
     {
       point: profile?.totalRelease ? profile.totalRelease : 0,
-      title: 'RELEASES',
+      title: t('Musician.Label.Releases'),
     },
     {
       point: profile?.totalPlaylist ? profile.totalPlaylist : 0,
-      title: 'PLAYLISTS',
+      title: t('Musician.Label.Playlists'),
     },
     {
       point: profile?.rank ? profile.rank : 0,
-      title: 'RANK',
+      title: t('Musician.Label.Rank'),
     },
   ];
 

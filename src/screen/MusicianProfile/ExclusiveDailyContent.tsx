@@ -9,6 +9,7 @@ import {SSULogo} from '../../assets/logo';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
+import {useTranslation} from 'react-i18next';
 
 const dummy = {
   imgUri:
@@ -20,11 +21,12 @@ const dummy = {
 const ExclusiveDailyContent = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {t} = useTranslation();
   const [isShowComponent, setIsShowComponent] = useState<boolean>(true);
   return (
     <View style={styles.container}>
       <View style={styles.titleStyle}>
-        <Title text={'Exclusive Daily Content'} />
+        <Title text={t('Musician.Label.Exclusive')} />
         <TouchableOpacity onPress={() => setIsShowComponent(!isShowComponent)}>
           {isShowComponent ? <ChevronUp /> : <ChevronDown2 />}
         </TouchableOpacity>

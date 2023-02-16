@@ -181,9 +181,9 @@
   "Profile": {
     "Label": {
       "Description": "I'm here to support musicians",
-      "Following": "Following",
-      "Liked": "Liked Songs",
-      "Point": "Points",
+      "Following": "FOLLOWING",
+      "Liked": "LIKED SONGS",
+      "Point": "POINTS",
       "CreatedBy": "Created by",
       "NoMusician": "You don’t have contributions to any musicians",
       "NoBadge": "You don’t have any badges"
@@ -205,6 +205,35 @@
       "Take": "Take Photo",
       "Add": "Add Photo From Gallery",
       "Delete": "Delete Photo"
+    }
+  },
+  "Musician": {
+    "Label": {
+      "Fans": "FANS",
+      "Follow": "FOLLOW",
+      "Following": " FOLLOWING",
+      "Tip": "Tip",
+      "Followers": "FOLLOWERS",
+      "Releases": "RELEASES",
+      "Playlists": "PLAYLIST",
+      "Rank": "RANK",
+      "About": "About",
+      "Social": "Social Media",
+      "Origin": "Origin",
+      "Active": "Years Active",
+      "Members": "Members",
+      "Website": "Website",
+      "Photos": "Photos",
+      "Album": "Album",
+      "Merch": "Merch",
+      "Exclusive": "Exclusive Daily Content"
+    },
+    "Tab": {
+      "Profile": "PROFILE",
+      "Post": "POST",
+      "Exclusive": "EXCLUSIVE",
+      "Music": "MUSIC",
+      "Fans": "FANS"
     }
   },
   "Modal": {
