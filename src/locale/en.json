@@ -176,5 +176,25 @@
       "Size": "Size",
       "Color": "Color"
     }
+  },
+  "Profile": {
+    "Label": {
+      "Description": "I'm here to support musicians",
+      "Following": "Following",
+      "Liked": "Liked Songs",
+      "Point": "Points",
+      "CreatedBy": "Created by",
+      "NoMusician": "You don’t have contributions to any musicians",
+      "NoBadge": "You don’t have any badges"
+    },
+    "Button": {
+      "Edit": "Edit Profile",
+      "CreatePlaylist": "Create New Playlist"
+    },
+    "Tab": {
+      "Playlist": "PLAYLIST",
+      "TopMusician": "TOP MUSICIAN",
+      "Badge": "BADGE"
+    }
   }
 }

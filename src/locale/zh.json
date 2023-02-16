@@ -176,5 +176,25 @@
       "Size": "尺碼",
       "Color": "顏色"
     }
+  },
+  "Profile": {
+    "Label": {
+      "Description": "我是來支持音樂人的",
+      "Following": "追蹤中",
+      "Liked": "喜歡的歌曲",
+      "Point": "積分",
+      "CreatedBy": "製作的",
+      "NoMusician": "您尚未對任何音樂人作出貢獻",
+      "NoBadge": "你尚未有任何徽章"
+    },
+    "Button": {
+      "Edit": "編輯個人資料",
+      "CreatePlaylist": "新增播放清單"
+    },
+    "Tab": {
+      "Playlist": "PLAYLIST",
+      "TopMusician": "TOP MUSICIAN",
+      "Badge": "BADGE"
+    }
   }
 }

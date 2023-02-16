@@ -1,4 +1,5 @@
 import React, {FC} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   View,
   Text,
@@ -61,6 +62,8 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
     selfProfile,
     totalCountlikedSong,
   } = props;
+  const {t} = useTranslation();
+
   const infoProfileArtist = [
     {
       point: profile?.fans ? profile.fans : 0,
@@ -87,15 +90,15 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
   const infoProfileUser = [
     {
       point: selfProfile?.following ? selfProfile.following : 0,
-      title: 'FOLLOWING',
+      title: t('Profile.Label.Following'),
     },
     {
       point: totalCountlikedSong ? totalCountlikedSong : 0,
-      title: 'LIKED SONGS',
+      title: t('Profile.Label.Liked'),
     },
     {
       point: selfProfile?.points.daily ? selfProfile.points.daily : 0,
-      title: 'POINTS',
+      title: t('Profile.Label.Point'),
     },
   ];
   const listItem: InfoProfileType[] =
@@ -104,7 +107,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
   return (
     <View style={[styles.root, containerStyles]}>
       {listItem.map((val, i) => {
-        const isFollowing = val.title === 'FOLLOWING';
+        const isFollowing = val.title === t('Profile.Label.Following');
         const newOnPress = () => {
           isFollowing ? onPress() : null;
         };
