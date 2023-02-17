@@ -240,14 +240,14 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
             />
             <Gap height={20} />
             <Button
-              label="Submit"
+              label={t('Btn.Submit')}
               textStyles={{fontSize: mvs(14)}}
               containerStyles={{width: '100%'}}
               onPress={handleSubmit(handleRegisterUser)}
             />
             <Gap height={4} />
             <Button
-              label="Back"
+              label={t('Btn.Back')}
               type="border"
               borderColor="transparent"
               textStyles={{fontSize: mvs(14), color: color.Pink.linear}}

@@ -62,7 +62,7 @@ const SsuOTPTimer: FC<Props> = props => {
     return (
       <View style={styles.resend}>
         <Button
-          label="Resend Code"
+          label={t('Btn.ResendCode')}
           onPress={() => {
             setModalVisible(true);
             setResend(true);

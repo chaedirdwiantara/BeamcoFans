@@ -334,7 +334,9 @@ export const ForgotPassword: FC = () => {
     return (
       <>
         <View style={styles.otpTitleContainer}>
-          <Text style={styles.titleStyle}>Set New Password</Text>
+          <Text style={styles.titleStyle}>
+            {t('ForgotPassword.Modal.Title')}
+          </Text>
         </View>
 
         <Gap height={16} />

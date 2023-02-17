@@ -331,6 +331,7 @@ export const SignupScreen: React.FC = () => {
                       errorMsg={errors?.phoneNumber?.message}
                       isFocus={focusInput === 'phoneNumber'}
                       onSelectCountry={checkErrorCountry}
+                      placeholder={t('Login.Form.PhoneNumber') || ''}
                     />
                   )}
                 />

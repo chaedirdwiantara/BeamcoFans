@@ -86,7 +86,8 @@
     "MaybeLater": "Maybe Later",
     "Send": "Send",
     "Create": "Create",
-    "Reply": "Reply"
+    "Reply": "Reply",
+    "GoToHome": "Go To Home"
   },
   "ForgotPassword": {
     "Title": "Update Your Password",
@@ -394,6 +395,12 @@
         "Text1": "Earn 50 free credits",
         "Text2": "Your Friend’s Referral Code",
         "Text3": "Refferal code can not be changed"
+      },
+      "OnBoard": {
+        "Title": "Do you have a referral code?",
+        "Subtitle": "Enter your code to jumpstart your Sunny Side Up Journey!",
+        "Actived": "Referral Activated",
+        "Success": "Congratulations! now you will get 5% credit every transaction!"
       }
     },
     "Language": {

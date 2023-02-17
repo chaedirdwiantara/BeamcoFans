@@ -85,7 +85,8 @@
     "MaybeLater": "以後再說",
     "Send": "發送",
     "Create": "創造",
-    "Reply": "回复"
+    "Reply": "回复",
+    "GoToHome": "回主頁"
   },
   "ForgotPassword": {
     "Title": "更改密碼",
@@ -393,6 +394,12 @@
         "Text1": "於每筆交易獲取 5% Sunny Side Up 積分",
         "Text2": "你朋友的推薦碼",
         "Text3": "推薦碼無法更改"
+      },
+      "OnBoard": {
+        "Title": "你有推薦碼嗎？",
+        "Subtitle": "輸入您的推薦碼以快速啟動您的 Sunny Side Up 之旅！",
+        "Actived": "推薦已激活",
+        "Success": "恭喜！ 現在您每筆交易將獲得 5% 的積分！"
       }
     },
     "Language": {
