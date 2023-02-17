@@ -361,7 +361,11 @@
       },
       "Label": {
         "Past": "Past",
-        "Current": "Current"
+        "Current": "Current",
+        "TipType": "Tip Type",
+        "AddMoreCoin": "Add More Coin",
+        "YourCoin": "Your Coin",
+        "InputDonation": "Input Donation"
       },
       "Menu": {
         "Donation": {

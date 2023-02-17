@@ -361,7 +361,11 @@
       },
       "Label": {
         "Past": "過去",
-        "Current": "現有/進行中"
+        "Current": "現有/進行中",
+        "TipType": "單筆",
+        "AddMoreCoin": "Add More Coin",
+        "YourCoin": "Your Coin",
+        "InputDonation": "Input Donation"
       },
       "Menu": {
         "Donation": {

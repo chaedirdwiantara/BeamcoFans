@@ -1,3 +1,5 @@
+import i18n from '../locale';
+
 export interface ListDonateType {
   text: string;
   selected: boolean;
@@ -5,19 +7,19 @@ export interface ListDonateType {
 
 export const listDonate: ListDonateType[] = [
   {
-    text: 'One Time',
+    text: i18n.t('Setting.Tips.Filter.OneTime'),
     selected: false,
   },
   {
-    text: 'Weekly',
+    text: i18n.t('Setting.Tips.Filter.Weekly'),
     selected: false,
   },
   {
-    text: 'Monthly',
+    text: i18n.t('Setting.Tips.Filter.Monthly'),
     selected: false,
   },
   {
-    text: 'Yearly',
+    text: i18n.t('Setting.Tips.Filter.Yearly'),
     selected: false,
   },
 ];
