@@ -84,7 +84,8 @@
     "SignOut": "Sign Out",
     "MaybeLater": "Maybe Later",
     "Send": "Send",
-    "Create": "Create"
+    "Create": "Create",
+    "Reply": "Reply"
   },
   "ForgotPassword": {
     "Title": "Update Your Password",
@@ -468,6 +469,15 @@
       "Genre": "Genre",
       "Release": "Release Date",
       "Copyright": "Copyright"
+    }
+  },
+  "Post": {
+    "Title": "Post",
+    "Label": {
+      "RepliedTo": "replied to"
+    },
+    "Placeholder": {
+      "Write": "Write your reply"
     }
   },
   "Modal": {

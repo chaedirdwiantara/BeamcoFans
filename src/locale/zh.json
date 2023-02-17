@@ -84,7 +84,8 @@
     "SignOut": "Sign Out",
     "MaybeLater": "Maybe Later",
     "Send": "發送",
-    "Create": "創造"
+    "Create": "創造",
+    "Reply": "回复"
   },
   "ForgotPassword": {
     "Title": "更改密碼",
@@ -469,6 +470,15 @@
       "Genre": "類型",
       "Release": "發布日期",
       "Copyright": "版權"
+    }
+  },
+  "Post": {
+    "Title": "帖",
+    "Label": {
+      "RepliedTo": "回復了"
+    },
+    "Placeholder": {
+      "Write": "Write your reply"
     }
   },
   "Modal": {
