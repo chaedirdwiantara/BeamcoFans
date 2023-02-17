@@ -65,7 +65,7 @@ const TopMusician: FC<TopMusicianProps> = ({
       ListEmptyComponent={emptyState ?? null}
       renderItem={({item, index}) => (
         <MusicianSection
-          musicianId={item.uuid}
+          userId={item.uuid}
           musicianNum={(index + 1).toLocaleString('en-US', {
             minimumIntegerDigits: 2,
             useGrouping: false,

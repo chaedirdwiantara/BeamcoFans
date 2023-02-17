@@ -255,6 +255,7 @@ export const useFeedHook = () => {
     dataLikeComment,
     likeCommentLoading,
     dataTopPost,
+    setDataLoadMore,
     setDataComment,
     getListDataPost,
     getListDataExclusivePost,

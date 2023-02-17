@@ -9,7 +9,7 @@ export type ListDataSearchFans = {
   username: string;
   fullname: string;
   email: string;
-  imageProfileUrl: string;
+  imageProfileUrls: imageTypes[];
 };
 
 export type ListSearchFansResponseType = {
