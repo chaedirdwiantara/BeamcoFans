@@ -82,7 +82,7 @@
     "TurnOff": "關閉",
     "TurnOn": "打開",
     "SignOut": "Sign Out",
-    "MaybeLater": "Maybe Later",
+    "MaybeLater": "以後再說",
     "Send": "發送",
     "Create": "創造",
     "Reply": "回复"
@@ -486,9 +486,12 @@
       "Write": "Write your reply"
     }
   },
+  "Notification": {
+    "Title": "通知"
+  },
   "Modal": {
     "EditProfile": {
-      "Title": "Edit Profile",
+      "Title": "編輯個人資料",
       "Subtitle": "Are you sure to finish edit profile?"
     },
     "Playlist": {
@@ -512,7 +515,11 @@
       "Success": "We’ve received your feedback. Thank you for helping us make sunny Side Up better.",
       "Back": "Back to Settings"
     },
-    "SignOut": "Are you sure you want to sign out?"
+    "SignOut": "Are you sure you want to sign out?",
+    "Guest": {
+      "Title": "註冊或登入",
+      "Subtitle": "您正以訪客身份探索，註冊或登錄以享受完整內容"
+    }
   },
   "EmptyState": {
     "Donate": "你還沒有獎勵任何音樂人，嘗試捐贈你喜歡的音樂人",
@@ -532,5 +539,13 @@
     "NoMerch": "未有產品",
     "NoInfo": "No Information Given.",
     "NoPhoto": "No Photos Available"
+  },
+  "Guest": {
+    "Title": "立即註冊與音樂人互動",
+    "Subtitle": "註冊後，你就可以",
+    "UnlimitedSong": "無限播放歌曲",
+    "GetEvent": "取得最新活動資訊",
+    "GetExclusive": "獲取獨家內容",
+    "Support": "支持你的音樂人"
   }
 }

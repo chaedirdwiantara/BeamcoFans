@@ -486,6 +486,9 @@
       "Write": "Write your reply"
     }
   },
+  "Notification": {
+    "Title": "Notification"
+  },
   "Modal": {
     "EditProfile": {
       "Title": "Edit Profile",
@@ -512,7 +515,11 @@
       "Success": "We’ve received your feedback. Thank you for helping us make sunny Side Up better.",
       "Back": "Back to Settings"
     },
-    "SignOut": "Are you sure you want to sign out?"
+    "SignOut": "Are you sure you want to sign out?",
+    "Guest": {
+      "Title": "Sign Up or Sign In",
+      "Subtitle": "You are exploring as guest, sign up or sign in to enoy full content"
+    }
   },
   "EmptyState": {
     "Donate": "Seems like you aren’t rewarded any musician yet, try to donate your favorite musician",
@@ -532,5 +539,13 @@
     "NoMerch": "No Merch Available",
     "NoInfo": "No Information Given.",
     "NoPhoto": "No Photos Available"
+  },
+  "Guest": {
+    "Title": "Sign Up to Interact with Musician",
+    "Subtitle": "When you are sign up, you can",
+    "UnlimitedSong": "Play Unlimited Song",
+    "GetEvent": "Get Latest Event Update",
+    "GetExclusive": "Get Exclusive Content",
+    "Support": "Support Your Musician"
   }
 }

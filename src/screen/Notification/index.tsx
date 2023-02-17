@@ -6,14 +6,16 @@ import {notifData} from '../../data/notification';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
+import {useTranslation} from 'react-i18next';
 
 export const Notification = () => {
+  const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   return (
     <View style={styles.root}>
       <TopNavigation.Type1
-        title="Notification"
+        title={t('Notification.Title')}
         leftIconAction={() => navigation.goBack()}
         maxLengthTitle={20}
         itemStrokeColor={color.Neutral[10]}

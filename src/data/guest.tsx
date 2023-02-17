@@ -3,6 +3,7 @@ import HandImage from '../assets/image/Hand.image';
 import TicketImage from '../assets/image/Ticket.image';
 import MusicPlayerImage from '../assets/image/MusicPlayer.image';
 import ContentPhoneImage from '../assets/image/ContentPhone.image';
+import i18n from '../locale';
 
 export interface ListContentType {
   image: React.ReactNode;
@@ -11,19 +12,19 @@ export interface ListContentType {
 
 export const listContentGuest: ListContentType[] = [
   {
-    text: 'Play Unlimited\nSong',
+    text: i18n.t('Guest.UnlimitedSong'),
     image: <MusicPlayerImage />,
   },
   {
-    text: 'Get Latest\nEvent Update',
+    text: i18n.t('Guest.GetEvent'),
     image: <TicketImage />,
   },
   {
-    text: 'Get Exclusive\nContent',
+    text: i18n.t('Guest.GetExclusive'),
     image: <ContentPhoneImage />,
   },
   {
-    text: 'Support Your\nMusician',
+    text: i18n.t('Guest.Support'),
     image: <HandImage />,
   },
 ];
