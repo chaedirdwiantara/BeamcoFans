@@ -83,7 +83,8 @@
     "TurnOn": "Turn On",
     "SignOut": "Sign Out",
     "MaybeLater": "Maybe Later",
-    "Send": "Send"
+    "Send": "Send",
+    "Create": "Create"
   },
   "ForgotPassword": {
     "Title": "Update Your Password",
@@ -424,6 +425,49 @@
     },
     "Version": {
       "Title": "Version"
+    }
+  },
+  "Music": {
+    "Label": {
+      "NowPlaying": "Now Playing",
+      "SongDetails": "Song Details",
+      "SongDesc": "Song Description",
+      "AddToMyPlaylist": "Add to My Playlist",
+      "By": "by",
+      "SongList": "Song List",
+      "AddSong": "Add Song",
+      "CreatedOn": "Created on",
+      "NoSong": "No Song Added",
+      "Songs": "Songs"
+    },
+    "NewPlaylist": {
+      "Title": "New Playlist",
+      "Cover": "Edit Playlist Cover",
+      "Placeholder": {
+        "Name": "Playlist Name",
+        "Desc": "Playlist Description"
+      },
+      "Visibility": {
+        "Title": "Visibility",
+        "Public": "Public",
+        "Private": "Private"
+      }
+    },
+    "Playlist": {
+      "Edit": "Edit Playlist",
+      "Delete": "Delete Playlist",
+      "Share": "Share Playlist"
+    },
+    "Credit": {
+      "Title": "Show Credit",
+      "SingBy": "Sing By",
+      "Featuring": "Featuring",
+      "Writer": "Song Writer",
+      "Format": "Format",
+      "Label": "Label Name",
+      "Genre": "Genre",
+      "Release": "Release Date",
+      "Copyright": "Copyright"
     }
   },
   "Modal": {

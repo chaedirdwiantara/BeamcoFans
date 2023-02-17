@@ -83,7 +83,8 @@
     "TurnOn": "打開",
     "SignOut": "Sign Out",
     "MaybeLater": "Maybe Later",
-    "Send": "發送"
+    "Send": "發送",
+    "Create": "創造"
   },
   "ForgotPassword": {
     "Title": "更改密碼",
@@ -424,6 +425,50 @@
     },
     "Version": {
       "Title": "版本"
+    }
+  },
+  "Music": {
+    "Label": {
+      "NowPlaying": "正在播放",
+      "SongDetails": "歌曲詳情",
+      "SongDesc": "歌曲描述",
+      "SingBy": "唱",
+      "AddToMyPlaylist": "新增到我的播放清單",
+      "By": "由 ",
+      "SongList": "歌曲列表",
+      "AddSong": "新增歌曲",
+      "CreatedOn": "製作於",
+      "NoSong": "No Song Added",
+      "Songs": "歌曲"
+    },
+    "NewPlaylist": {
+      "Title": "New Playlist",
+      "Cover": "Edit Playlist Cover",
+      "Placeholder": {
+        "Name": "Playlist Name",
+        "Desc": "Playlist Description"
+      },
+      "Visibility": {
+        "Title": "Visibility",
+        "Public": "公開",
+        "Private": "私人"
+      }
+    },
+    "Playlist": {
+      "Edit": "Edit Playlist",
+      "Delete": "Delete Playlist",
+      "Share": "Share Playlist"
+    },
+    "Credit": {
+      "Title": "顯示製作人",
+      "SingBy": "唱",
+      "Featuring": "特色",
+      "Writer": "作曲",
+      "Format": "格式",
+      "Label": "唱片公司",
+      "Genre": "類型",
+      "Release": "發布日期",
+      "Copyright": "版權"
     }
   },
   "Modal": {

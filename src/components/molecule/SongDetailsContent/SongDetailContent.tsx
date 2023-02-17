@@ -34,6 +34,7 @@ import {AlbumData} from '../../../interface/musician.interface';
 import {dropDownHeaderSongDetails} from '../../../data/dropdown';
 import {DataDetailSong} from '../../../interface/song.interface';
 import {ListenersAndDonate} from '../ListenersAndDonate/ListenersAndDonate';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   dataAlbum: AlbumData[];
@@ -48,6 +49,7 @@ export const SongDetailsContent: React.FC<Props> = ({
   goToShowCredit,
   dataDetail,
 }) => {
+  const {t} = useTranslation();
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalShare, setModalShare] = useState<boolean>(false);
@@ -90,7 +92,7 @@ export const SongDetailsContent: React.FC<Props> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
-        title="Song Details"
+        title={t('Music.Label.SongDetails')}
         rightIcon={
           <Dropdown.More
             data={dropDownHeaderSongDetails}
@@ -139,7 +141,7 @@ export const SongDetailsContent: React.FC<Props> = ({
         <View style={styles.containerContent}>
           <View style={{marginBottom: heightResponsive(15)}}>
             <ListAvatar
-              title="Musician"
+              title={t('Home.Topbar.Search.Musician')}
               text={dataDetail.musicianName}
               avatarUri={
                 dataDetail.imageUrl.length > 0
@@ -158,12 +160,12 @@ export const SongDetailsContent: React.FC<Props> = ({
             ) : null}
 
             <Text style={[typography.Subtitle1, styles.titleContent]}>
-              Song Description
+              {t('Music.Label.SongDesc')}
             </Text>
             <Text style={styles.description}>{dataDetail.description}</Text>
 
             <Album
-              title={'Album'}
+              title={t('Home.Topbar.Search.Album')}
               titleStyle={styles.titleAlbumStyle}
               data={dataAlbum}
               artistName={dataDetail.musicianName}
