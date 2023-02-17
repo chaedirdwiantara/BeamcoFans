@@ -8,8 +8,10 @@ import {useSearchHook} from '../../hooks/use-search.hook';
 import {heightPercentage, heightResponsive} from '../../utils';
 import Color from '../../theme/Color';
 import {EmptyState} from '../../components';
+import {useTranslation} from 'react-i18next';
 
 const ListResultFans: FC<KeywordProps> = ({keyword}: KeywordProps) => {
+  const {t} = useTranslation();
   const {getSearchFans} = useSearchHook();
 
   const {

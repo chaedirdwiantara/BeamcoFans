@@ -11,8 +11,10 @@ import {useQuery} from 'react-query';
 import Color from '../../theme/Color';
 import {heightPercentage, heightResponsive} from '../../utils';
 import {EmptyState} from '../../components';
+import {useTranslation} from 'react-i18next';
 
 const ListResultMusician: FC<KeywordProps> = ({keyword}: KeywordProps) => {
+  const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
