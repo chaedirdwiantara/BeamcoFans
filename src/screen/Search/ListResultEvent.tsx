@@ -38,7 +38,7 @@ const ListResultEvent: FC<Props> = ({keyword}: Props) => {
           keyExtractor={item => item?.id.toString()}
           ListEmptyComponent={
             <EmptyState
-              text="Event not found"
+              text={t('EmptyState.Search.Event') || ''}
               containerStyle={styles.containerEmpty}
             />
           }

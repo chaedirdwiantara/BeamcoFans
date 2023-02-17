@@ -238,7 +238,8 @@
       "Photos": "相片",
       "Album": "專輯",
       "Merch": "產品",
-      "Exclusive": "專屬每日內容"
+      "Exclusive": "專屬每日內容",
+      "Musicians": "People who might fit your interest"
     },
     "Tab": {
       "Profile": "人資料",
@@ -512,5 +513,24 @@
       "Back": "Back to Settings"
     },
     "SignOut": "Are you sure you want to sign out?"
+  },
+  "EmptyState": {
+    "Donate": "你還沒有獎勵任何音樂人，嘗試捐贈你喜歡的音樂人",
+    "Exclusive": "You don’t have access to any exclusive content. Try subsrcibing to your favorite musician",
+    "NoData": "No data available",
+    "FollowMusician": "This musician doesn't seem to have any posts right now. Try following more musicians",
+    "Search": {
+      "Album": "Album not found",
+      "Event": "Event not found",
+      "Merch": "Merch not found",
+      "Musician": "Musician not found",
+      "Playlist": "Playlist not found",
+      "Song": "Song not found",
+      "Fans": "Fans not found"
+    },
+    "NoAlbum": "No Album Available",
+    "NoMerch": "未有產品",
+    "NoInfo": "No Information Given.",
+    "NoPhoto": "No Photos Available"
   }
 }

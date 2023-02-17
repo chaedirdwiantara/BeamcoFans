@@ -52,7 +52,7 @@ const ListResultFans: FC<KeywordProps> = ({keyword}: KeywordProps) => {
           )}
           ListEmptyComponent={
             <EmptyState
-              text="Fans not found"
+              text={t('EmptyState.Search.Fans') || ''}
               containerStyle={styles.containerEmpty}
             />
           }

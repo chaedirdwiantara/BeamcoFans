@@ -56,7 +56,7 @@ export const SongDetailsContent: React.FC<Props> = ({
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
-  const noAlbumText = 'No Album Available.';
+  const noAlbumText = t('EmptyState.NoAlbum');
 
   useEffect(() => {
     toastVisible &&

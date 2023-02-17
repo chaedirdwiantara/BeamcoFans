@@ -6,6 +6,7 @@ import {widthResponsive} from '../../utils';
 import {color, font} from '../../theme';
 import {ms} from 'react-native-size-matters';
 import {photos} from '../../interface/musician.interface';
+import {useTranslation} from 'react-i18next';
 
 interface PhotoProps {
   title: string;
@@ -14,6 +15,7 @@ interface PhotoProps {
 }
 
 const Photo: FC<PhotoProps> = (props: PhotoProps) => {
+  const {t} = useTranslation();
   const {title, data, photoOnpress} = props;
 
   return (
@@ -66,7 +68,7 @@ const Photo: FC<PhotoProps> = (props: PhotoProps) => {
           ))}
         </View>
       ) : (
-        <Text style={styles.captionStyle}>No Photos available</Text>
+        <Text style={styles.captionStyle}>{t('EmptyState.NoPhoto')}</Text>
       )}
     </View>
   );

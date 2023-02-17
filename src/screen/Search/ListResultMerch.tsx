@@ -38,7 +38,7 @@ const ListResultMerch: FC<Props> = ({keyword}: Props) => {
           keyExtractor={item => item?.id.toString()}
           ListEmptyComponent={
             <EmptyState
-              text="Merch not found"
+              text={t('EmptyState.Search.Merch') || ''}
               containerStyle={styles.containerEmpty}
             />
           }

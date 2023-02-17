@@ -94,7 +94,7 @@ export const DASContent: FC<DASProps> = ({onPressGoBack}) => {
         />
       ) : (
         <EmptyState
-          text="Seems like you aren’t rewarded any musician yet, try to donate your favorite musician"
+          text={t('EmptyState.Donate') || ''}
           containerStyle={styles.emptyState}
         />
       )}

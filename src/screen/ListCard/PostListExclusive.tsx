@@ -504,7 +504,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       ) : dataMain?.length === 0 &&
         feedMessage === 'you not subscribe any premium content' ? (
         <EmptyState
-          text={`You don’t have access to any exclusive content. Try subscribing to your favorite musician`}
+          text={t('EmptyState.Donate') || ''}
           containerStyle={{
             justifyContent: 'flex-start',
             paddingTop: heightPercentage(24),
@@ -515,7 +515,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
         feedMessage ===
           'Your subscribed musician has not yet posted any exclusive content.' ? (
         <EmptyState
-          text={feedMessage}
+          text={t('EmptyState.Exclusive') || ''}
           containerStyle={{
             justifyContent: 'flex-start',
             paddingTop: heightPercentage(24),
@@ -524,7 +524,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
         />
       ) : (
         <EmptyState
-          text={'No data available'}
+          text={t('EmptyState.NoData') || ''}
           containerStyle={{
             justifyContent: 'flex-start',
             paddingTop: heightPercentage(24),

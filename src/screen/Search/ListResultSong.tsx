@@ -60,7 +60,7 @@ const ListResultSong: FC<KeywordProps> = ({keyword}: KeywordProps) => {
           )}
           ListEmptyComponent={
             <EmptyState
-              text="Song not found"
+              text={t('EmptyState.Search.Song') || ''}
               containerStyle={styles.containerEmpty}
             />
           }

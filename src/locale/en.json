@@ -239,7 +239,8 @@
       "Photos": "Photos",
       "Album": "Album",
       "Merch": "Merch",
-      "Exclusive": "Exclusive Daily Content"
+      "Exclusive": "Exclusive Daily Content",
+      "Musicians": "People who might fit your interest"
     },
     "Tab": {
       "Profile": "PROFILE",
@@ -512,5 +513,24 @@
       "Back": "Back to Settings"
     },
     "SignOut": "Are you sure you want to sign out?"
+  },
+  "EmptyState": {
+    "Donate": "Seems like you aren’t rewarded any musician yet, try to donate your favorite musician",
+    "Exclusive": "You don’t have access to any exclusive content. Try subscribing to your favorite musician",
+    "NoData": "No data available",
+    "FollowMusician": "This musician doesn't seem to have any posts right now. Try following more musicians",
+    "Search": {
+      "Album": "Album not found",
+      "Event": "Event not found",
+      "Merch": "Merch not found",
+      "Musician": "Musician not found",
+      "Playlist": "Playlist not found",
+      "Song": "Song not found",
+      "Fans": "Fans not found"
+    },
+    "NoAlbum": "No Album Available",
+    "NoMerch": "No Merch Available",
+    "NoInfo": "No Information Given.",
+    "NoPhoto": "No Photos Available"
   }
 }
