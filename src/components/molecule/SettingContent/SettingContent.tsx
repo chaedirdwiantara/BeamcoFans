@@ -138,7 +138,7 @@ export const SettingContent: React.FC<SettingProps> = ({
         {listMenu.map((val, i) => (
           <MenuText.RightIcon
             key={i}
-            text={val.text}
+            text={t(val.text) || ''}
             containerStyles={{marginTop: heightPercentage(12)}}
             onPress={() => onPress(val.value)}
           />
