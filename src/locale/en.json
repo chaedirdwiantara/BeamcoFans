@@ -5,7 +5,8 @@
     "TopDescription": "Sign In or Register to Explore All Our Features",
     "Yes": "Yes",
     "No": "No",
-    "NoVerifCode": "Didn’t receive verification codes? click to resend"
+    "NoVerifCode": "Didn’t receive verification codes? click to resend",
+    "Thanks": "Thank You!"
   },
   "Onboarding": {
     "Step1": {
@@ -488,6 +489,28 @@
     "EditProfile": {
       "Title": "Edit Profile",
       "Subtitle": "Are you sure to finish edit profile?"
-    }
+    },
+    "Playlist": {
+      "Save": "Are you sure you want to save your new playlist?",
+      "Update": "Are you sure you want to update your playlist?",
+      "Delete": "Are you sure you want to delete this playlist?",
+      "Cover": "Edit Playlist Cover"
+    },
+    "Donation": {
+      "Unsubs": "Are you sure you want to unsubscribe to {{name}}?"
+    },
+    "Email": {
+      "Add": "Are you sure you want to add new email?",
+      "Change": "Are you sure you want to change your email?"
+    },
+    "Phone": {
+      "Add": "Are you sure you want to add new phone number?",
+      "Change": "Are you sure you want to change your phone number?"
+    },
+    "Report": {
+      "Success": "We’ve received your feedback. Thank you for helping us make sunny Side Up better.",
+      "Back": "Back to Settings"
+    },
+    "SignOut": "Are you sure you want to sign out?"
   }
 }

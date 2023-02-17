@@ -160,8 +160,8 @@ export const PlaylistContent: React.FC<Props> = ({
 
       <ModalConfirm
         modalVisible={isModalVisible}
-        title="Delete"
-        subtitle="Are you sure you want to delete this playlist?"
+        title={t('Btn.Delete') || ''}
+        subtitle={t('Modal.Playlist.Delete') || ''}
         onPressClose={() => setModalVisible(false)}
         onPressOk={onPressDelete}
       />

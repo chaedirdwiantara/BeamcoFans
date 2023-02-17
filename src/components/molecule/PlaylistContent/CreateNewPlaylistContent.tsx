@@ -239,7 +239,7 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
         <ModalConfirm
           modalVisible={isModalVisible.modalConfirm}
           title={t('Btn.Save') || ''}
-          subtitle="Are you sure you want to save your new playlist?"
+          subtitle={t('Modal.Playlist.Save') || ''}
           onPressClose={closeModal}
           onPressOk={onPressConfirm}
           disabled={isLoading}

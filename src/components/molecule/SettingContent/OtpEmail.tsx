@@ -219,8 +219,15 @@ export const OtpEmail: React.FC<OtpPNProps> = ({
       </View>
       <ModalConfirm
         modalVisible={isModalVisible.modalConfirm}
-        title="Add Email"
-        subtitle="Are you sure you want to add new phone number?"
+        title={
+          (type === 'Add'
+            ? t('Setting.Email.Label.Add')
+            : t('Setting.Email.Label.Change')) || ''
+        }
+        subtitle={
+          (type === 'Add' ? t('Modal.Email.Add') : t('Modal.Email.Change')) ||
+          ''
+        }
         onPressClose={closeModal}
         onPressOk={onPressConfirm}
       />

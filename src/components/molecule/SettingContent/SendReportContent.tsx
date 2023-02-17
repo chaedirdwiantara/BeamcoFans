@@ -133,9 +133,9 @@ export const SendReportContent: React.FC<SendReportProps> = ({
       <ModalLoading visible={isLoadingImage} />
 
       <ModalSuccessDonate
-        title="Thank You!"
-        subtitle="We’ve received your feedback. Thank you for helping us make sunny Side Up better."
-        buttonText="Back to Settings"
+        title={t('General.Thanks') || ''}
+        subtitle={t('Modal.Report.Success') || ''}
+        buttonText={t('Modal.Report.Back') || ''}
         modalVisible={showModalSuccess}
         toggleModal={onPressGoBack}
       />

@@ -228,8 +228,15 @@ export const OtpPhoneNumber: React.FC<OtpPNProps> = ({
       </View>
       <ModalConfirm
         modalVisible={isModalVisible.modalConfirm}
-        title="Add Phone Number"
-        subtitle="Are you sure you want to add new phone number?"
+        title={
+          (type === 'Change'
+            ? t('Setting.Phone.Label.Change')
+            : t('Setting.Phone.Label.Add')) || ''
+        }
+        subtitle={
+          (type === 'Add' ? t('Modal.Phone.Add') : t('Modal.Phone.Change')) ||
+          ''
+        }
         onPressClose={closeModal}
         onPressOk={onPressConfirm}
       />

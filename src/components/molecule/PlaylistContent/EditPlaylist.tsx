@@ -268,7 +268,7 @@ export const EditPlaylistContent: React.FC<EditPlaylistProps> = ({
         </ScrollView>
 
         <ModalImagePicker
-          title="Edit Playlist Cover"
+          title={t('Modal.Playlist.Cover') || ''}
           modalVisible={isModalVisible.modalImage}
           sendUri={sendUri}
           onDeleteImage={resetImage}
@@ -278,8 +278,8 @@ export const EditPlaylistContent: React.FC<EditPlaylistProps> = ({
 
         <ModalConfirm
           modalVisible={isModalVisible.modalConfirm}
-          title="Save"
-          subtitle="Are you sure you want to update your playlist?"
+          title={t('Btn.Save') || ''}
+          subtitle={t('Modal.Playlist.Edit') || ''}
           onPressClose={closeModal}
           onPressOk={onPressConfirm}
         />

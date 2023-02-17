@@ -174,8 +174,8 @@ export const SettingContent: React.FC<SettingProps> = ({
 
       <ModalConfirm
         modalVisible={isVisible.modalConfirm}
-        title="Sign Out"
-        subtitle="Are you sure you want to sign out?"
+        title={t('Btn.SignOut') || ''}
+        subtitle={t('Modal.SignOut') || ''}
         onPressClose={closeModal}
         onPressOk={onPressSignout}
       />
