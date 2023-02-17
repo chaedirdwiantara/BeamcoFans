@@ -18,6 +18,7 @@ import {profileStorage} from '../../hooks/use-storage.hook';
 import {GuestContent, ProfileContent} from '../../components';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 import {MainTabParams, RootStackParams} from '../../navigations';
+import {useTranslation} from 'react-i18next';
 
 type ProfileProps = NativeStackScreenProps<MainTabParams, 'Profile'>;
 
@@ -27,6 +28,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const {showToast, deletePlaylist} = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {t} = useTranslation();
   const {isLoading, dataProfile, getProfileUser} = useProfileHook();
   const {playlistLoading, dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
@@ -96,7 +98,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const profile = {
     fullname: dataProfile?.data.fullname,
     username: '@' + dataProfile?.data.username,
-    bio: dataProfile?.data.about || "I'm here to support the musicians",
+    bio: dataProfile?.data.about || t('Profile.Label.Description'),
     backgroundUri: banners,
     avatarUri: avatar,
     totalFollowing: dataProfile?.data.following,

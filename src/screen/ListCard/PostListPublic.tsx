@@ -46,6 +46,7 @@ import categoryNormalize from '../../utils/categoryNormalize';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import MusicListPreview from '../../components/molecule/MusicPreview/MusicListPreview';
+import {useTranslation} from 'react-i18next';
 
 const {height} = Dimensions.get('screen');
 
@@ -104,6 +105,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     playerProgress,
     addPlaylistFeed,
   } = usePlayerHook();
+
+  const {t} = useTranslation();
 
   const {dataProfile, getProfileUser} = useProfileHook();
 
@@ -330,7 +333,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           }}>
           <Dropdown.Menu
             data={dataLeftDropdown}
-            placeHolder={'Filter by'}
+            placeHolder={t('Feed.Sort.Title')}
             selectedMenu={resultDataFilter}
             containerStyle={{
               width: widthPercentage(138),
@@ -343,7 +346,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           }}>
           <Dropdown.Menu
             data={dataRightDropdown}
-            placeHolder={'Category'}
+            placeHolder={t('Home.Tab.TopPost.Category.Title')}
             selectedMenu={resultDataCategory}
             containerStyle={{
               width: widthPercentage(138),
@@ -500,7 +503,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
         <ListToFollowMusician />
       ) : dataMain?.length === 0 && feedMessage === 'musician not have post' ? (
         <EmptyState
-          text={`This musician doesn't seem to have any posts right now. Try following more musicians`}
+          text={t('EmptyState.FollowMusician') || ''}
           containerStyle={{
             justifyContent: 'flex-start',
             paddingTop: heightPercentage(24),
@@ -508,7 +511,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
         />
       ) : (
         <EmptyState
-          text={'No data available'}
+          text={t('EmptyState.NoData') || ''}
           containerStyle={{
             justifyContent: 'flex-start',
             paddingTop: heightPercentage(24),

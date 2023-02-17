@@ -17,6 +17,7 @@ import {RootStackParams} from '../../../navigations';
 import {CheckCircle2Icon} from '../../../assets/icon';
 import {storage} from '../../../hooks/use-storage.hook';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
+import {useTranslation} from 'react-i18next';
 
 interface MusicianProps {
   userId: string;
@@ -40,23 +41,34 @@ interface DataMore {
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const {isFollowed, followOnPress, userId, type} = props;
+  const {t} = useTranslation();
+
+  const followText = isFollowed
+    ? t('Home.Tab.TopMusician.Unfollow')
+    : t('Home.Tab.TopMusician.Follow');
+  const unfollowText = isFollowed
+    ? t('Home.Tab.TopMusician.Follow')
+    : t('Home.Tab.TopMusician.Unfollow');
 
   useEffect(() => {
-    const follow = isFollowed ? 'Unfollow' : 'Follow';
-    setTextFollow(follow);
-    setDropdownText(follow);
+    setTextFollow(followText);
+    setDropdownText(followText);
   }, []);
 
-  const [textFollow, setTextFollow] = useState('Follow');
-  const [dropdownText, setDropdownText] = useState('Follow');
+  const [textFollow, setTextFollow] = useState(
+    t('Home.Tab.TopMusician.Follow'),
+  );
+  const [dropdownText, setDropdownText] = useState(
+    t('Home.Tab.TopMusician.Follow'),
+  );
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const isLogin = storage.getString('profile');
   const dataMore = [
-    {label: dropdownText, value: '1'},
-    {label: 'Tip', value: '2'},
-    {label: 'Go to Profile', value: '3'},
+    {label: dropdownText || '', value: '1'},
+    {label: t('Home.Tab.TopMusician.Tip'), value: '2'},
+    {label: t('Home.Tab.TopMusician.Profile'), value: '3'},
   ];
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
@@ -90,8 +102,8 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
     if (dataResult.value === '1') {
       if (isLogin) {
         setToastVisible(true);
-        setTextFollow(isFollowed ? 'Unfollow' : 'Follow');
-        setDropdownText(isFollowed ? 'Follow' : 'Unfollow');
+        setTextFollow(followText);
+        setDropdownText(unfollowText);
         followOnPress && followOnPress();
       } else {
         setModalGuestVisible(true);

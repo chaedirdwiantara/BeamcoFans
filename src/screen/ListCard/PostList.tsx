@@ -50,6 +50,7 @@ import {TickCircleIcon} from '../../assets/icon';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import MusicListPreview from '../../components/molecule/MusicPreview/MusicListPreview';
 import {dummySongImg} from '../../data/image';
+import {useTranslation} from 'react-i18next';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -79,6 +80,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     setCommentToPost,
     getListTopPost,
   } = useFeedHook();
+  const {t} = useTranslation();
 
   const {
     seekPlayer,
@@ -332,7 +334,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
           }}>
           <Dropdown.Menu
             data={dataLeftDropdown}
-            placeHolder={'Filter by'}
+            placeHolder={t('Home.Tab.TopPost.Filter.Title')}
             selectedMenu={resultDataFilter}
             containerStyle={{
               width: widthPercentage(138),
@@ -345,7 +347,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
           }}>
           <Dropdown.Menu
             data={dataRightDropdown}
-            placeHolder={'Category'}
+            placeHolder={t('Home.Tab.TopPost.Category.Title')}
             selectedMenu={resultDataCategory}
             containerStyle={{
               width: widthResponsive(138),
@@ -370,6 +372,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   ? heightPercentage(25)
                   : heightPercentage(40),
             }}
+            onTouchEnd={handleEndScroll}
             renderItem={({item, index}) => (
               <>
                 <ListCard.PostList

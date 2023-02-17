@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import {mvs} from 'react-native-size-matters';
+import {useTranslation} from 'react-i18next';
 
 import Color from '../../../theme/Color';
 import {height, normalize, width} from '../../../utils';
@@ -13,6 +14,7 @@ interface GuestProps {
 }
 
 export const SignInGuestContent: React.FC<GuestProps> = ({onPress}) => {
+  const {t} = useTranslation();
   return (
     <View style={styles.root}>
       <View style={styles.containerImage}>
@@ -25,23 +27,23 @@ export const SignInGuestContent: React.FC<GuestProps> = ({onPress}) => {
       </View>
       <View style={styles.containerBottom}>
         <Text style={[Typography.Heading4, styles.title]}>
-          {"Become a Part of Your Favourite Musician's Story"}
+          {t('Login.Footer')}
         </Text>
         <ButtonGradient
-          label="Sign In"
+          label={t('Btn.SignIn')}
           textStyles={{fontSize: normalize(14)}}
           onPress={() => onPress('Login')}
         />
         <Button
           type="border"
-          label="Sign Up"
+          label={t('Btn.SignUp')}
           textStyles={{fontSize: normalize(14)}}
           containerStyles={{marginVertical: mvs(6)}}
           onPress={() => onPress('Signup')}
         />
         <Button
           type="border"
-          label="Explore As Guest"
+          label={t('Login.ExploreGuest')}
           borderColor="transparent"
           textStyles={{fontSize: normalize(14), color: Color.Pink.linear}}
           onPress={() => {

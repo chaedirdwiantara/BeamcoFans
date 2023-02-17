@@ -5,6 +5,7 @@ import {mvs} from 'react-native-size-matters';
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {useTranslation} from 'react-i18next';
 
 interface ModalConfirmProps {
   title?: string;
@@ -18,6 +19,7 @@ interface ModalConfirmProps {
 export const ModalConfirm: React.FC<ModalConfirmProps> = (
   props: ModalConfirmProps,
 ) => {
+  const {t} = useTranslation();
   const {title, subtitle, modalVisible, onPressClose, onPressOk, disabled} =
     props;
   return (
@@ -36,10 +38,10 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = (
           <Text style={styles.subtitle}>{subtitle}</Text>
           <View style={styles.containerButton}>
             <TouchableOpacity onPress={onPressClose}>
-              <Text style={styles.option}>{'No'}</Text>
+              <Text style={styles.option}>{t('General.No')}</Text>
             </TouchableOpacity>
             <TouchableOpacity disabled={disabled} onPress={onPressOk}>
-              <Text style={styles.option}>{'Yes'}</Text>
+              <Text style={styles.option}>{t('General.Yes')}</Text>
             </TouchableOpacity>
           </View>
         </View>

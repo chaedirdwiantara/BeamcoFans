@@ -8,6 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import React, {FC, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {SsuInput} from '../../atom/InputText/SsuInput';
 import {color, font, typography} from '../../../theme';
 import {ms, mvs} from 'react-native-size-matters';
@@ -51,6 +52,7 @@ const DropdownSelectCountry: FC<SelectCountryProps> = (
     type = 'input',
     labelText,
   } = props;
+  const {t} = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState<any>([]);
   const [query, setQuery] = useState('');
@@ -108,7 +110,7 @@ const DropdownSelectCountry: FC<SelectCountryProps> = (
         <SsuInput.InputText
           value={valueNumber}
           onChangeText={onChangeText}
-          placeholder={'Phone Number'}
+          placeholder={t('SignUp.Phone') || ''}
           keyboardType={'number-pad'}
           fontSize={mvs(12)}
           onEndEditing={() => numberTyped(value?.code)}
@@ -235,7 +237,7 @@ const DropdownSelectCountry: FC<SelectCountryProps> = (
           }}
           value={valueNumber}
           onChangeText={onChangeText}
-          placeholder={'Phone Number'}
+          placeholder={t('SignUp.Phone') || ''}
           keyboardType={'number-pad'}
           onEndEditing={() => numberTyped(value?.code)}
           isError={false}

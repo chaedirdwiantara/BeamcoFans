@@ -32,6 +32,7 @@ import PostListPublic from '../ListCard/PostListPublic';
 import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
 import PostListExclusive from '../ListCard/PostListExclusive';
 import DataMusician from './DataMusician';
+import {useTranslation} from 'react-i18next';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -51,16 +52,17 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   setFollowMusician,
   setUnfollowMusician,
 }) => {
+  const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
-    {filterName: 'PROFILE'},
-    {filterName: 'POST'},
-    {filterName: 'EXCLUSIVE'},
-    {filterName: 'MUSIC'},
-    {filterName: 'FANS'},
+    {filterName: t('Musician.Tab.Profile')},
+    {filterName: t('Musician.Tab.Post')},
+    {filterName: t('Musician.Tab.Exclusive')},
+    {filterName: t('Musician.Tab.Music')},
+    {filterName: t('Musician.Tab.Fans')},
   ]);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
@@ -139,9 +141,9 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
               selectedIndex={selectedIndex}
               flatlistContainerStyle={{paddingHorizontal: widthResponsive(24)}}
             />
-            {filter[selectedIndex].filterName === 'PROFILE' ? (
+            {filter[selectedIndex].filterName === t('Musician.Tab.Profile') ? (
               <DataMusician profile={profile} dataAlbum={dataAlbum} />
-            ) : filter[selectedIndex].filterName === 'POST' ? (
+            ) : filter[selectedIndex].filterName === t('Musician.Tab.Post') ? (
               <View
                 style={{
                   paddingHorizontal: widthResponsive(24),
@@ -153,7 +155,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                   dataLeftDropdown={dropDownDataSort}
                 />
               </View>
-            ) : filter[selectedIndex].filterName === 'EXCLUSIVE' ? (
+            ) : filter[selectedIndex].filterName ===
+              t('Musician.Tab.Exclusive') ? (
               <View
                 style={{
                   paddingHorizontal: widthResponsive(24),

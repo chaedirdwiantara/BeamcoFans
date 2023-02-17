@@ -18,6 +18,7 @@ import {RootStackParams} from '../../navigations';
 import {heightResponsive, widthResponsive} from '../../utils';
 import {AlbumData} from '../../interface/musician.interface';
 import {dummySongImg} from '../../data/image';
+import {useTranslation} from 'react-i18next';
 
 interface AlbumProps {
   title: string;
@@ -34,6 +35,7 @@ const Album: FC<AlbumProps> = (props: AlbumProps) => {
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {t} = useTranslation();
 
   const handleToDetail = (dataAlbum: AlbumData) => {
     navigation.navigate('Album', dataAlbum);
@@ -71,7 +73,7 @@ const Album: FC<AlbumProps> = (props: AlbumProps) => {
                 </Text>
                 <Gap height={4} />
                 <Text style={styles.songDesc} numberOfLines={1}>
-                  {`by ${artistName}`}
+                  {`${t('Profile.Label.CreatedBy')} ${artistName}`}
                 </Text>
               </View>
               {/* <Dropdown.More

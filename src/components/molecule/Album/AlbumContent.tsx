@@ -32,6 +32,7 @@ import {
 import {SongList} from '../../../interface/song.interface';
 import {AlbumData} from '../../../interface/musician.interface';
 import {dateFormat} from '../../../utils/date-format';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   dataSong: SongList[] | null;
@@ -44,6 +45,7 @@ export const AlbumContent: React.FC<Props> = ({
   dataSong,
   onPressGoBack,
 }) => {
+  const {t} = useTranslation();
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalShare, setModalShare] = useState<boolean>(false);
@@ -82,7 +84,7 @@ export const AlbumContent: React.FC<Props> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
-        title="Album"
+        title={t('Musician.Label.Album')}
         rightIcon={
           <Dropdown.More
             data={dropDownHeaderAlbum}

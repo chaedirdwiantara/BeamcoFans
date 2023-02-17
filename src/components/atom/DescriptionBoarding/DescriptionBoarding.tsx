@@ -7,7 +7,7 @@ import Typography from '../../../theme/Typography';
 
 interface Props {
   title?: string;
-  subtitle?: string;
+  subtitle?: string | null;
 }
 
 const DescriptionBoarding: React.FC<Props> = ({title, subtitle}) => {

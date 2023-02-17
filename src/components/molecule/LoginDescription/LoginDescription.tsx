@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, ViewStyle} from 'react-native';
 import {mvs} from 'react-native-size-matters';
+import {useTranslation} from 'react-i18next';
 
 import {width} from '../../../utils';
 import Color from '../../../theme/Color';
@@ -14,8 +15,9 @@ interface LoginDescriptionProps {
 export const LoginDescription: React.FC<LoginDescriptionProps> = ({
   containerStyle,
 }) => {
-  const title = 'Begin Today';
-  const description = 'Sign In or Register to Explore All Our Features';
+  const {t} = useTranslation();
+  const title = t('General.Begin');
+  const description = t('General.TopDescription');
 
   return (
     <View style={[styles.root, containerStyle]}>

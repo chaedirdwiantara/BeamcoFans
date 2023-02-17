@@ -23,6 +23,7 @@ import {Button, Gap, SsuInput, SsuToast} from '../../atom';
 import {useProfileHook} from '../../../hooks/use-profile.hook';
 import {ProfileResponseType} from '../../../interface/profile.interface';
 import {ArrowLeftIcon, ErrorIcon, TickCircleIcon} from '../../../assets/icon';
+import {useTranslation} from 'react-i18next';
 
 interface AccountProps {
   profile: ProfileResponseType;
@@ -58,7 +59,8 @@ export const AccountContent: React.FC<AccountProps> = ({
   onPressGoBack,
   dataAllCountry,
 }) => {
-  const [type, setType] = useState('Edit');
+  const {t} = useTranslation();
+  const [type, setType] = useState(t('Btn.Edit'));
   const [changes, setChanges] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
@@ -100,10 +102,10 @@ export const AccountContent: React.FC<AccountProps> = ({
   }, [isValidating, isValid]);
 
   const onPressSave = () => {
-    if (type === 'Edit') {
-      setType('Simpan');
+    if (type === t('Btn.Edit')) {
+      setType(t('Btn.Save'));
     } else {
-      changes ? setShowModal(true) : setType('Edit');
+      changes ? setShowModal(true) : setType(t('Btn.Edit'));
     }
   };
 
@@ -134,7 +136,7 @@ export const AccountContent: React.FC<AccountProps> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type1
-        title="Account"
+        title={t('Setting.Account.Title')}
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
         leftIconAction={onPressGoBack}
@@ -146,9 +148,9 @@ export const AccountContent: React.FC<AccountProps> = ({
         control={control}
         render={({field: {onChange, value}}) => (
           <SsuInput.InputLabel
-            label="Username"
+            label={t('Setting.Account.Label.Username') || ''}
             value={value}
-            editable={type === 'Simpan'}
+            editable={type === t('Btn.Save')}
             onChangeText={text => {
               onChange(text.toLowerCase());
               setIsError(false);
@@ -167,15 +169,15 @@ export const AccountContent: React.FC<AccountProps> = ({
         control={control}
         render={({field: {onChange, value}}) => (
           <SsuInput.InputLabel
-            label="Full Name"
+            label={t('Setting.Account.Label.Fullname') || ''}
             value={value}
-            editable={type === 'Simpan'}
+            editable={type === t('Btn.Save')}
             onChangeText={text => {
               onChange(text);
               setIsError(false);
               setChanges(true);
             }}
-            placeholder={'Add Full Name'}
+            placeholder={t('Setting.Account.Placeholder.Fullname') || ''}
             isError={errors?.fullname ? true : false}
             errorMsg={errors?.fullname?.message}
             containerStyles={{marginTop: heightPercentage(15)}}
@@ -190,9 +192,9 @@ export const AccountContent: React.FC<AccountProps> = ({
           <Dropdown.Input
             initialValue={value}
             data={dataGender}
-            disable={type !== 'Simpan'}
-            placeHolder={'Select Gender'}
-            dropdownLabel={'Gender'}
+            disable={type !== t('Btn.Save')}
+            placeHolder={t('Setting.Account.Placeholder.Gender')}
+            dropdownLabel={t('Setting.Account.Label.Gender')}
             textTyped={(newText: {label: string; value: string}) => {
               onChange(newText.value);
               setChanges(true);
@@ -212,9 +214,9 @@ export const AccountContent: React.FC<AccountProps> = ({
             type="location"
             initialValue={value}
             data={dataAllCountry}
-            disable={type !== 'Simpan'}
+            disable={type !== t('Btn.Save')}
             placeHolder={'Search Country'}
-            dropdownLabel={'Location'}
+            dropdownLabel={t('Setting.Account.Label.Location')}
             textTyped={(newText: {label: string; value: string}) => {
               onChange(newText.value);
               setChanges(true);
@@ -235,7 +237,7 @@ export const AccountContent: React.FC<AccountProps> = ({
       ) : null}
 
       <Button
-        label={type}
+        label={type || ''}
         onPress={handleSubmit(onPressSave)}
         containerStyles={disabledButton ? styles.buttonDisabled : styles.button}
         disabled={disabledButton}
@@ -243,7 +245,7 @@ export const AccountContent: React.FC<AccountProps> = ({
 
       <ModalConfirm
         modalVisible={showModal}
-        title="Account"
+        title={t('Setting.Account.Title') || ''}
         subtitle="Are you sure you want to update your account?"
         onPressClose={() => setShowModal(false)}
         onPressOk={handleSubmit(onPressConfirm)}

@@ -1,3 +1,5 @@
+import i18n from '../locale';
+
 export interface ShowCreditType {
   title: string;
   content: string[];
@@ -5,31 +7,31 @@ export interface ShowCreditType {
 
 export const dataShowCredit: ShowCreditType[] = [
   {
-    title: 'Sing By',
+    title: i18n.t('Music.Credit.SingBy'),
     content: ['Imagine Dragons', 'The Weekend'],
   },
   {
-    title: 'Featuring',
+    title: i18n.t('Music.Credit.Featuring'),
     content: ['Zedd'],
   },
   {
-    title: 'Format',
+    title: i18n.t('Music.Credit.Format'),
     content: ['Album'],
   },
   {
-    title: 'Label Name',
+    title: i18n.t('Music.Credit.Label'),
     content: ['Sony Entertainment'],
   },
   {
-    title: 'Genre',
+    title: i18n.t('Music.Credit.Genre'),
     content: ['Pop, Pop Batak'],
   },
   {
-    title: 'Release Date',
+    title: i18n.t('Music.Credit.Release'),
     content: ['October 10, 2022'],
   },
   {
-    title: 'Copyright',
+    title: i18n.t('Music.Credit.Copyright'),
     content: [
       '© Sony Entertainment',
       '℗ SM Entertainmenr',

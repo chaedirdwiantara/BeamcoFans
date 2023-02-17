@@ -19,6 +19,7 @@ import {ms} from 'react-native-size-matters';
 import {TopNavigation} from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import ImageModal from '../Detail/ImageModal';
+import {useTranslation} from 'react-i18next';
 
 const {width} = Dimensions.get('screen');
 
@@ -29,6 +30,7 @@ const PhotoGallery: FC<PhotoGalleyProps> = ({route}: PhotoGalleyProps) => {
   const userName = route.params.userName;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {t} = useTranslation();
 
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [imgUrl, setImgUrl] = useState<number>(-1);
@@ -41,7 +43,7 @@ const PhotoGallery: FC<PhotoGalleyProps> = ({route}: PhotoGalleyProps) => {
   return (
     <View style={styles.container}>
       <TopNavigation.Type1
-        title={`${userName} Photos`}
+        title={`${userName} ${t('Musician.Label.Photos')}`}
         leftIconAction={() => navigation.goBack()}
         maxLengthTitle={40}
         itemStrokeColor={color.Neutral[10]}

@@ -28,6 +28,7 @@ import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import {Playlist} from '../../../interface/playlist.interface';
 import ListPlaylist from '../../../screen/ListCard/ListPlaylist';
 import {CheckCircle2Icon, SettingIcon} from '../../../assets/icon';
+import {useTranslation} from 'react-i18next';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -62,12 +63,13 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   toastText,
   isLoading,
 }) => {
+  const {t} = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
-    {filterName: 'PLAYLIST'},
-    {filterName: 'TOP MUSICIAN'},
-    {filterName: 'BADGE'},
+    {filterName: t('Profile.Tab.Playlist')},
+    {filterName: t('Profile.Tab.TopMusician')},
+    {filterName: t('Profile.Tab.Badge')},
   ]);
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
@@ -119,13 +121,13 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             onPress={filterData}
             selectedIndex={selectedIndex}
           />
-          {filter[selectedIndex].filterName === 'PLAYLIST' ? (
+          {filter[selectedIndex].filterName === t('Profile.Tab.Playlist') ? (
             TopSongListData.length > 0 ? (
               <View>
                 {showCreateCard && (
                   <CreateNewCard
                     num="00"
-                    text="Create New Playlist"
+                    text={t('Profile.Button.CreatePlaylist')}
                     onPress={() => onPressGoTo('CreateNewPlaylist')}
                   />
                 )}
@@ -142,7 +144,8 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 onPress={() => onPressGoTo('CreateNewPlaylist')}
               />
             )
-          ) : filter[selectedIndex].filterName === 'TOP MUSICIAN' ? (
+          ) : filter[selectedIndex].filterName ===
+            t('Profile.Tab.TopMusician') ? (
             // Dihold karena point belum fix
 
             // MusicianListData.length > 0 ? (
@@ -153,7 +156,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             //   />
             // ) :
             <EmptyState
-              text="You don't have contribution to any musicians"
+              text={t('Profile.Label.NoMusician') || ''}
               containerStyle={{marginTop: heightPercentage(30)}}
             />
           ) : (
@@ -168,7 +171,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             //   />
             // ) :
             <EmptyState
-              text="You don't have any badges"
+              text={t('Profile.Label.NoBadge') || ''}
               containerStyle={{marginTop: heightPercentage(30)}}
             />
           )}

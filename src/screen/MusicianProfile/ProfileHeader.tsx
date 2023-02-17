@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Text,
   View,
@@ -48,6 +49,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
     onPressDonate,
   } = props;
 
+  const {t} = useTranslation();
+
   const [followed, setFollowed] = useState(isFollowed);
 
   const viewMoreOnPress = (params: string) => {
@@ -81,7 +84,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                 <>
                   <Button
                     type="border"
-                    label="Following"
+                    label={t('Musician.Label.Following')}
                     containerStyles={styles.btnContainer}
                     textStyles={{color: color.Pink.linear}}
                     onPress={() => {
@@ -91,7 +94,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                   />
                   <Gap width={11} />
                   <Button
-                    label={'Tip'}
+                    label={t('Musician.Label.Tip')}
                     containerStyles={styles.btnContainer2}
                     onPress={onPressDonate}
                   />
@@ -99,7 +102,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
               ) : (
                 <>
                   <ButtonGradient
-                    label={'Follow'}
+                    label={t('Musician.Label.Follow')}
                     gradientStyles={styles.btnContainer}
                     onPress={() => {
                       setFollowed(true);
@@ -108,7 +111,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                   />
                   <Gap width={11} />
                   <Button
-                    label={'Tip'}
+                    label={t('Musician.Label.Tip')}
                     containerStyles={styles.btnContainer2}
                     onPress={onPressDonate}
                   />

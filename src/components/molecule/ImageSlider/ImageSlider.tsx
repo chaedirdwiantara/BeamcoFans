@@ -27,6 +27,7 @@ import {ListCard, SelectBox} from '../../../components';
 import {UpdateProfilePropsType} from '../../../api/profile.api';
 import {ModalLoading} from '../ModalLoading/ModalLoading';
 import {DataOnboardType} from '../../../data/onboard';
+import {useTranslation} from 'react-i18next';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -53,6 +54,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   dataList,
   isLoading,
 }) => {
+  const {t} = useTranslation();
   const scrollViewRef = useRef<ScrollView>(null);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [selectedMoods, setSelectedMoods] = useState<number[]>([]);
@@ -64,19 +66,19 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
 
   const dataArray = [
     {
-      title: 'Select Your Favorite Genres',
+      title: t('Preference.Genre'),
       list: data.genre,
     },
     {
-      title: 'Current Mood?',
+      title: t('Preference.Mood'),
       list: data.mood,
     },
     {
-      title: "I'm Here To",
+      title: t('Preference.Support'),
       list: data.expectation,
     },
     {
-      title: 'Who to Follow',
+      title: t('Preference.Musician'),
       list: [],
     },
   ];

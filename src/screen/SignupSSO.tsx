@@ -16,6 +16,7 @@ import {ms, mvs} from 'react-native-size-matters';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 import {storage} from '../hooks/use-storage.hook';
 import {KeyboardShift} from '../components/molecule/KeyboardShift';
+import {useTranslation} from 'react-i18next';
 
 interface RegisterInput {
   fullname: string;
@@ -32,7 +33,6 @@ const registerValidation = yup.object({
   registrationType: yup.string(),
   fullname: yup
     .string()
-    .required('This field is required')
     .required('This field is required')
     .strict(true)
     .matches(/^.{3,50}$/, 'Fullname allowed 3 to 50 character'),
@@ -68,6 +68,7 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
     onRegisterUser,
     setSsoRegistered,
   } = useAuthHook();
+  const {t} = useTranslation();
   const [focusInput, setFocusInput] = useState<string | null>(null);
 
   const {
@@ -144,7 +145,7 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollView}>
           <View>
-            <Text style={styles.titleStyle}>Sign Up</Text>
+            <Text style={styles.titleStyle}>{t('SignUp.Title')}</Text>
             <Gap height={24} />
             <Controller
               name="fullname"
@@ -153,7 +154,7 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
                 <SsuInput.InputText
                   value={value}
                   onChangeText={onChange}
-                  placeholder={'Full Name'}
+                  placeholder={t('SignUp.FullName') || ''}
                   leftIcon={<FullNameIcon stroke={color.Dark[50]} />}
                   onFocus={() => {
                     handleFocusInput('fullname');
@@ -175,7 +176,7 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
                 <SsuInput.InputText
                   value={value}
                   onChangeText={onChange}
-                  placeholder={'Password'}
+                  placeholder={t('SignUp.Password') || ''}
                   leftIcon={<LockIcon stroke={color.Dark[50]} />}
                   password
                   onFocus={() => {
@@ -198,7 +199,7 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
                 <SsuInput.InputText
                   value={value}
                   onChangeText={onChange}
-                  placeholder={'Repeat Password'}
+                  placeholder={t('SignUp.PasswordRepeat') || ''}
                   leftIcon={<LockIcon stroke={color.Dark[50]} />}
                   password
                   onFocus={() => {
@@ -239,14 +240,14 @@ export const SignupSSOScreen: React.FC<RegisterProps> = ({
             />
             <Gap height={20} />
             <Button
-              label="Submit"
+              label={t('Btn.Submit')}
               textStyles={{fontSize: mvs(14)}}
               containerStyles={{width: '100%'}}
               onPress={handleSubmit(handleRegisterUser)}
             />
             <Gap height={4} />
             <Button
-              label="Back"
+              label={t('Btn.Back')}
               type="border"
               borderColor="transparent"
               textStyles={{fontSize: mvs(14), color: color.Pink.linear}}

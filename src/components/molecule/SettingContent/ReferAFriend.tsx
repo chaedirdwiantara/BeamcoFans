@@ -8,10 +8,12 @@ import {color, typography} from '../../../theme';
 import ReferralImage from '../../../assets/image/Referral.image';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 import {profileStorage} from '../../../hooks/use-storage.hook';
+import {useTranslation} from 'react-i18next';
 
 interface ReferralProps {}
 
 export const ReferAFriend: React.FC<ReferralProps> = ({}) => {
+  const {t} = useTranslation();
   const [toastVisible, setToastVisible] = useState(false);
 
   const copyToClipboard = () => {
@@ -35,11 +37,11 @@ export const ReferAFriend: React.FC<ReferralProps> = ({}) => {
         style={{marginTop: heightPercentage(40), alignSelf: 'center'}}
       />
       <Text style={[typography.Heading6, styles.text]}>
-        {'Refer a friend and earn 50 free credits'}
+        {t('Setting.Referral.ReferFriend.Text1')}
       </Text>
 
       <Text style={[typography.Overline, styles.useUsername]}>
-        {'Use your @username as referral code'}
+        {t('Setting.Referral.ReferFriend.Text2')}
       </Text>
       <TouchableOpacity
         style={styles.containerUsername}
@@ -53,13 +55,13 @@ export const ReferAFriend: React.FC<ReferralProps> = ({}) => {
 
       <View style={{alignSelf: 'center'}}>
         <Button
-          label="Refer a friend using link"
+          label={t('Setting.Referral.ReferFriend.Btn1')}
           onPress={copyToClipboard}
           containerStyles={styles.button}
         />
         <Button
           type="border"
-          label="Read Terms of Use"
+          label={t('Setting.Referral.ReferFriend.Btn2')}
           borderColor="transparent"
           textStyles={{color: color.Pink.linear}}
           containerStyles={{width: width * 0.9}}
