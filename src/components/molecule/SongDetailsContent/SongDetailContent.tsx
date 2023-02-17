@@ -108,8 +108,8 @@ export const SongDetailsContent: React.FC<Props> = ({
       <ScrollView>
         <View style={{paddingHorizontal: widthPercentage(10)}}>
           <View style={{alignSelf: 'center'}}>
-            {dataDetail.imageUrl ? (
-              <PhotoPlaylist uri={dataDetail.Album.ImageURL} />
+            {dataDetail && dataDetail.imageUrl.length > 0 ? (
+              <PhotoPlaylist uri={dataDetail.album.imageUrl[1].image} />
             ) : (
               <View style={styles.undefinedImg}>
                 <DefaultImage.PlaylistCover width={148} height={148} />
@@ -123,7 +123,7 @@ export const SongDetailsContent: React.FC<Props> = ({
               <Text
                 style={
                   styles.albumName
-                }>{`${dataDetail.Album.Title} · ${dataDetail.Album.ProductionYear}`}</Text>
+                }>{`${dataDetail.album.title} · ${dataDetail.album.productionYear}`}</Text>
             </View>
           </View>
           <ListenersAndDonate
@@ -141,14 +141,21 @@ export const SongDetailsContent: React.FC<Props> = ({
             <ListAvatar
               title="Musician"
               text={dataDetail.musicianName}
-              avatarUri={dataDetail.imageUrl}
+              avatarUri={
+                dataDetail.imageUrl.length > 0
+                  ? dataDetail.imageUrl[1].image
+                  : ''
+              }
             />
 
-            <ListAvatar
-              title="Featuring"
-              featuring
-              featuringData={dataDetail.Album.FeaturingArtist}
-            />
+            {dataDetail.album.featuringArtist !== null &&
+            dataDetail.album.featuringArtist.length !== 0 ? (
+              <ListAvatar
+                title="Featuring"
+                featuring
+                featuringData={dataDetail.album.featuringArtist}
+              />
+            ) : null}
 
             <Text style={[typography.Subtitle1, styles.titleContent]}>
               Song Description

@@ -41,15 +41,13 @@ export const ListAvatar: React.FC<ListAvatarProps> = ({
       {featuring && featuringData ? (
         featuringData.map((item, i) => (
           <View style={styles.containerAvatar}>
-            {item.ImageURL ? (
-              <Avatar size={widthResponsive(44)} imgUri={item.ImageURL} />
+            {item.imageProfile ? (
+              <Avatar size={widthResponsive(44)} imgUri={item.imageProfile} />
             ) : (
               <DefaultAvatar.MusicianIcon width={44} height={44} />
             )}
             <Gap width={10} />
-            {/* <Text style={styles.text}>{item.ArtistsName}</Text> //TODO: CHANGE AFTER BE FIXED IT */}
-            {/* @ts-ignore */}
-            <Text style={styles.text}>{item}</Text>
+            <Text style={styles.text}>{item.fullname}</Text>
           </View>
         ))
       ) : (

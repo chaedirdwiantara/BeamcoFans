@@ -33,36 +33,28 @@ export type ListSongResponseType = {
 };
 
 export type FeaturingArtist = {
-  Uuid: string;
-  ImageURL: string;
-  ArtistsName: string;
+  uuid: string;
+  fullname: string;
+  imageProfile: string;
 };
 
 export type DataAlbum = {
-  ID: number;
-  MusicianID: string;
-  Title: string;
-  Description: string;
-  ImageURL: imageTypes[];
-  FeaturingArtist: FeaturingArtist[];
-  PublishedDate: string;
-  IsPublished: boolean;
-  Genre: string;
-  Subgenre: string;
-  LikesCount: number;
-  ShareCount: number;
-  Mood: string;
-  CopyrightProducer: string[];
-  CopyrightVisual: string[];
-  CopyrightFans: string[];
-  ProductionYear: string;
-  Language: string;
-  Label: string[];
-  AlbumType: string;
-  BarcodeUPC: string;
-  CreatedAt: string;
-  UpdatedAt: string;
-  DeletedAt: string;
+  id: number;
+  musicianId: string;
+  title: string;
+  description: string;
+  imageUrl: imageTypes[];
+  featuringArtist: FeaturingArtist[];
+  genre: FeaturingArtist;
+  subgenre: FeaturingArtist;
+  likesCount: number;
+  shareCount: number;
+  copyrightProducer: string[];
+  copyrightVisual: string[];
+  copyrightFans: string[];
+  productionYear: string;
+  publishedDate: string;
+  label: string[];
 };
 
 export type RelatedSongs = {
@@ -112,38 +104,30 @@ export type TranscodedSongUrl = {
 
 export type DataDetailSong = {
   id: number;
-  musicianId: string;
+  musicianUUID: string;
   musicianName: string;
-  albumId: number;
   title: string;
   description: string;
   songWriter: string[];
   imageUrl: imageTypes[];
   publishedDate: string;
-  isPublished: boolean;
-  isFeaturing: boolean;
-  featuringArtist: FeaturingArtist[];
+  isPublish: boolean;
   likesCount: number;
   shareCount: number;
   listenerCount: number;
-  mood: string;
-  genre: string;
   version: string;
   lyrics: string;
   copyright: string;
-  originalSongUrl: string;
-  IsAddedToPlaylist: boolean;
-  transcodedSongUrl: TranscodedSongUrl[];
-  drmFileUrl: string;
-  drmKey: string;
+  originalSongURL: string;
+  originalFilename: string;
+  songDuration: string;
   language: string;
-  barcodeIsrc: string;
-  songDuration: number;
+  barcodeISRC: string;
   CreatedAt: string;
-  UpdatedAt: string;
-  DeletedAt: string;
-  Album: DataAlbum;
-  relatedSong: RelatedSongs[];
+  isAddedToThisPlaylist: boolean;
+  transcodedSongUrl: any;
+  album: DataAlbum;
+  featuring: any;
 };
 
 export type DetailSongResponseType = {
