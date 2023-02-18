@@ -95,8 +95,16 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
       title: t('Profile.Label.Following'),
     },
     {
+      point: 0,
+      title: 'LINE',
+    },
+    {
       point: totalCountlikedSong ? totalCountlikedSong : 0,
       title: t('Profile.Label.Liked'),
+    },
+    {
+      point: 0,
+      title: 'LINE',
     },
     {
       point: selfProfile?.points.daily ? selfProfile.points.daily : 0,
