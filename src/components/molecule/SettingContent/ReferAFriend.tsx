@@ -81,7 +81,7 @@ export const ReferAFriend: React.FC<ReferralProps> = ({}) => {
             />
             <Gap width={widthPercentage(7)} />
             <Text style={[typography.Button2, styles.textStyle]}>
-              Link have been copied to clipboard!
+              {t('General.LinkCopied')}
             </Text>
           </View>
         }

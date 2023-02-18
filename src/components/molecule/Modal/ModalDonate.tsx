@@ -89,7 +89,7 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
           value={donate}
           leftIcon={<CoinInput />}
           onChangeText={(newText: string) => setDonate(newText)}
-          placeholder={t('Setting.Tips.Label.InputDonation')}
+          placeholder={t('Setting.Tips.Label.InputDonation') || ''}
           fontColor={color.Neutral[10]}
           borderColor={color.Pink.linear}
           onFocus={() => {

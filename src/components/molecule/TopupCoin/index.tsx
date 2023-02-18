@@ -10,16 +10,18 @@ import {color, typography} from '../../../theme/';
 import {TransactionCard} from './TransactionCard';
 import {ArrowLeftIcon, CoinDIcon} from '../../../assets/icon';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {useTranslation} from 'react-i18next';
 
 interface TopupCoinProps {
   onPressGoBack: () => void;
 }
 
 export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
+  const {t} = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [filter] = useState([
-    {filterName: 'Buy Package'},
-    {filterName: 'Transaction'},
+    {filterName: t('TopUp.Filter.Buy')},
+    {filterName: t('TopUp.Filter.Transaction')},
   ]);
   const filterData = (item: any, index: number) => {
     setSelectedIndex(index);
@@ -39,21 +41,19 @@ export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
         showsVerticalScrollIndicator={false}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Text style={[typography.Subtitle1, styles.text]}>
-            SSU Coin is your way to show your appreciation
+            {t('TopUp.Subtitle1')}
           </Text>
           <Text style={[typography.Caption, styles.text]}>
-            SSU Coin allows you to parcitipate in Musician’s upside and grow
-            their community
+            {t('TopUp.Subtitle2')}
           </Text>
           <Text style={[typography.Caption, styles.text]}>
-            Find Musician who is providing a lot of value? Rewards them with SSU
-            Coin as a support
+            {t('TopUp.Subtitle3')}
           </Text>
         </View>
 
         <View style={styles.containerCoin}>
           <Text style={[typography.Subtitle1, {color: color.Neutral[10]}]}>
-            My Coin
+            {t('TopUp.MyCoin')}
           </Text>
           <View style={{flexDirection: 'row'}}>
             <CoinDIcon />

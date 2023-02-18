@@ -63,7 +63,7 @@ export const UseReferralContent: React.FC<ReferralProps> = ({}) => {
 
             <SsuInput.InputText
               value={refCode}
-              placeholder={t('Setting.Referral.UseRefer.Text2')}
+              placeholder={t('Setting.Referral.UseRefer.Text2') || ''}
               errorMsg={errorMsg}
               isError={errorMsg !== ''}
               leftIcon={<GiftIcon />}

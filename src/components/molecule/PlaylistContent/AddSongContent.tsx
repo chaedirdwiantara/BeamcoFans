@@ -96,7 +96,7 @@ export const AddSongContent: React.FC<AddSongProps> = ({
             />
             <Gap width={widthPercentage(7)} />
             <Text style={[typography.Button2, styles.textStyle]}>
-              Song have been added to playlist!
+              {t('Music.Playlist.Success')}
             </Text>
           </View>
         }
