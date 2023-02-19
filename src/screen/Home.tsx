@@ -278,6 +278,7 @@ export const HomeScreen: React.FC = () => {
               dataRightDropdown={dropDownDataCategory}
               dataLeftDropdown={dropDownDataFilter}
               data={PostlistData}
+              dataProfileImg={dataProfile?.data?.images[1]?.image || ''}
             />
           )}
         </View>

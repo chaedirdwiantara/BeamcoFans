@@ -70,7 +70,7 @@ const CommentLvlThree: React.FC<ListProps> = (props: ListProps) => {
         }}>
         <View style={[styles.topSection, {marginTop: showEdit ? ms(-7) : 0}]}>
           <Text style={styles.userName} onPress={toDetailOnPress}>
-            {elipsisText(userNameLvl3, 21)}
+            {elipsisText(userNameLvl3, 10)}
             <Text style={styles.regularText}>
               {' '}
               {elipsisText(userIdLvl3, 10)}
@@ -83,7 +83,9 @@ const CommentLvlThree: React.FC<ListProps> = (props: ListProps) => {
               alignItems: 'center',
               marginRight: showEdit ? ms(-7) : 0,
             }}>
-            <Text style={styles.postDateStyle}>{postDateLvl3}</Text>
+            <Text style={styles.postDateStyle}>
+              {elipsisText(postDateLvl3, 10)}
+            </Text>
             {showEdit ? (
               <Dropdown.More
                 data={dataUpdateComment}
