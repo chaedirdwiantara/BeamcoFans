@@ -1,12 +1,19 @@
 import {useState} from 'react';
-import {detailAlbum, detailSong, listSong} from '../api/song.api';
+import {
+  SongList,
+  DataDetailSong,
+  SongPropsTypeA,
+  DataDetailAlbum,
+} from '../interface/song.interface';
 import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
 import {
-  DataDetailAlbum,
-  DataDetailSong,
-  SongList,
-} from '../interface/song.interface';
+  detailSong,
+  likeSong,
+  listSong,
+  unlikeSong,
+  detailAlbum,
+} from '../api/song.api';
 
 export const useSongHook = () => {
   const [isLoadingSong, setIsLoadingSong] = useState(false);
@@ -59,6 +66,28 @@ export const useSongHook = () => {
     }
   };
 
+  const setLikeSong = async (props?: SongPropsTypeA) => {
+    setIsLoadingSong(true);
+    try {
+      await likeSong(props);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingSong(false);
+    }
+  };
+
+  const setUnlikeSong = async (props?: SongPropsTypeA) => {
+    setIsLoadingSong(true);
+    try {
+      await unlikeSong(props);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingSong(false);
+    }
+  };
+
   return {
     isLoadingSong,
     isErrorSong,
@@ -70,5 +99,7 @@ export const useSongHook = () => {
     getDetailSong,
     getDetailAlbum,
     setDataDetailAlbum,
+    setLikeSong,
+    setUnlikeSong,
   };
 };

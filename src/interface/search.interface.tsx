@@ -52,6 +52,7 @@ export type ListDataSearchSongs = {
   language: string;
   CreatedAt: string;
   UpdatedAt: string;
+  isLiked?: boolean;
 };
 
 export type ListSearchSongsResponseType = {
