@@ -85,6 +85,7 @@ export const HomeScreen: React.FC = () => {
 
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
+  const [selectedIndex, setSelectedIndex] = useState(-0);
 
   useEffect(() => {
     if (isLogin) {
@@ -98,13 +99,13 @@ export const HomeScreen: React.FC = () => {
     useCallback(() => {
       if (isLogin) {
         getListDataMusician({filterBy: 'top'});
-        getListDataSong();
+        getListDataSong({listType: 'top'});
         getProfileUser();
       } else {
         getSearchMusicians({keyword: '', filterBy: 'top'});
         getSearchSongs({keyword: '', filterBy: 'top'});
       }
-    }, []),
+    }, [selectedIndex]),
   );
 
   useEffect(() => {
@@ -114,7 +115,7 @@ export const HomeScreen: React.FC = () => {
       hidePlayer();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFocused, isPlaying]);
+  }, [isFocused]);
 
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
@@ -151,8 +152,6 @@ export const HomeScreen: React.FC = () => {
   const goToScreen = (screen: 'MusicPlayer' | 'TopupCoin') => {
     navigation.navigate(screen);
   };
-
-  const [selectedIndex, setSelectedIndex] = useState(-0);
   const [filter] = useState([
     {filterName: 'Home.Tab.TopMusician.Title'},
     {filterName: 'Home.Tab.TopSong.Title'},
@@ -271,6 +270,7 @@ export const HomeScreen: React.FC = () => {
               dataSong={isLogin ? dataSong : dataSearchSongs}
               onPress={onPressTopSong}
               type={'home'}
+              loveIcon={true}
             />
           ) : (
             <PostList
