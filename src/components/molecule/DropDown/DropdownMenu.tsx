@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {ms, mvs} from 'react-native-size-matters';
@@ -15,6 +15,7 @@ interface DropdownMenuProps {
   placeHolder: string;
   selectedMenu: (data: any) => void;
   containerStyle?: ViewStyle;
+  translation?: boolean;
 }
 
 const itemBg = color.Dark[900];
@@ -22,9 +23,21 @@ const itemBg = color.Dark[900];
 const DropdownMenu: React.FC<DropdownMenuProps> = (
   props: DropdownMenuProps,
 ) => {
-  const {data, placeHolder, selectedMenu, containerStyle} = props;
+  const {data, placeHolder, selectedMenu, containerStyle, translation} = props;
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const [dataTranslation, setDataTranslation] = useState<dataProps[]>([]);
+
+  let setTranslation: dataProps[] = [];
+  useEffect(() => {
+    data.map((item: dataProps) => {
+      setTranslation.push({
+        label: t(item.label),
+        value: item.value,
+      });
+    });
+    setDataTranslation(setTranslation);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -36,7 +49,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (
         itemTextStyle={styles.fontAll}
         itemContainerStyle={[styles.itemContainer]}
         iconStyle={styles.iconStyle}
-        data={data}
+        data={translation ? dataTranslation : data}
         maxHeight={300}
         labelField="label"
         valueField="value"

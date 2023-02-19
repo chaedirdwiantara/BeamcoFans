@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View, ViewStyle} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {mvs} from 'react-native-size-matters';
@@ -22,6 +22,7 @@ interface DropdownMoreProps {
   dropdownStyle?: ViewStyle;
   idComment?: string;
   selectedIdComment?: (idComment: string) => void;
+  translation?: boolean;
 }
 
 const itemBg = color.Dark[900];
@@ -38,9 +39,22 @@ const DropdownMore: React.FC<DropdownMoreProps> = (
     dropdownStyle,
     idComment,
     selectedIdComment,
+    translation,
   } = props;
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const [dataTranslation, setDataTranslation] = useState<dataProps[]>([]);
+
+  let setTranslation: dataProps[] = [];
+  useEffect(() => {
+    data.map((item: dataProps) => {
+      setTranslation.push({
+        label: t(item.label),
+        value: item.value,
+      });
+    });
+    setDataTranslation(setTranslation);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -54,7 +68,7 @@ const DropdownMore: React.FC<DropdownMoreProps> = (
         selectedTextStyle={styles.fontAll}
         itemTextStyle={styles.fontAll}
         itemContainerStyle={[styles.itemContainer]}
-        data={data}
+        data={translation ? dataTranslation : data}
         maxHeight={300}
         labelField="label"
         valueField="value"

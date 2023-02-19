@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Platform, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
 import {Dropdown} from 'react-native-element-dropdown';
@@ -24,6 +24,7 @@ interface InputDropdownProps {
   type?: string;
   showSearch?: boolean;
   disable?: boolean;
+  translation?: boolean;
 }
 
 const borderColor = color.Dark[500];
@@ -45,11 +46,24 @@ const InputDropdown: React.FC<InputDropdownProps> = (
     type = '',
     showSearch,
     disable,
+    translation,
   } = props;
   const initValue = {label: initialValue, value: initialValue};
 
   const [value, setValue] = useState(initValue || null);
   const [isFocus, setIsFocus] = useState(false);
+  const [dataTranslation, setDataTranslation] = useState<dataProps[]>([]);
+
+  let setTranslation: dataProps[] = [];
+  useEffect(() => {
+    data.map((item: dataProps) => {
+      setTranslation.push({
+        label: t(item.label),
+        value: item.value,
+      });
+    });
+    setDataTranslation(setTranslation);
+  }, []);
 
   const renderLabel = () => {
     return <Text style={[styles.label]}>{dropdownLabel}</Text>;
@@ -63,7 +77,7 @@ const InputDropdown: React.FC<InputDropdownProps> = (
         containerStyle={styles.containerStyle}
         placeholderStyle={styles.placeholderStyle}
         iconStyle={styles.iconStyle}
-        data={data}
+        data={translation ? dataTranslation : data}
         maxHeight={mvs(300)}
         labelField="label"
         valueField="value"
