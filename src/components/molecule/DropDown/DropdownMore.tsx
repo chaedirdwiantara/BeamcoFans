@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {StyleSheet, TouchableOpacity, View, ViewStyle} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {mvs} from 'react-native-size-matters';
@@ -30,6 +31,7 @@ const itemBg = color.Dark[900];
 const DropdownMore: React.FC<DropdownMoreProps> = (
   props: DropdownMoreProps,
 ) => {
+  const {t} = useTranslation();
   const {
     data,
     selectedMenu,

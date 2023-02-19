@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {ms, mvs} from 'react-native-size-matters';
@@ -23,6 +24,7 @@ const itemBg = color.Dark[900];
 const DropdownMenu: React.FC<DropdownMenuProps> = (
   props: DropdownMenuProps,
 ) => {
+  const {t} = useTranslation();
   const {data, placeHolder, selectedMenu, containerStyle, translation} = props;
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);

@@ -6,6 +6,7 @@ import {Gap} from '../../atom';
 import {color, font} from '../../../theme';
 import {ErrorIcon} from '../../../assets/icon';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {useTranslation} from 'react-i18next';
 
 interface dataProps {
   label: string;
@@ -34,6 +35,7 @@ const fontColorMain = color.Neutral[10];
 const InputDropdown: React.FC<InputDropdownProps> = (
   props: InputDropdownProps,
 ) => {
+  const {t} = useTranslation();
   const {
     initialValue,
     data,
