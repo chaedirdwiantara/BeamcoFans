@@ -120,6 +120,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             filterData={filter}
             onPress={filterData}
             selectedIndex={selectedIndex}
+            translation={true}
           />
           {filter[selectedIndex].filterName === 'Profile.Tab.Playlist' ? (
             TopSongListData.length > 0 ? (

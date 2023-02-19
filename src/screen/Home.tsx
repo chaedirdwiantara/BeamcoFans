@@ -252,6 +252,7 @@ export const HomeScreen: React.FC = () => {
             filterData={filter}
             onPress={filterData}
             selectedIndex={selectedIndex}
+            translation={true}
           />
           {filter[selectedIndex].filterName === 'Home.Tab.TopMusician.Title' ? (
             <TopMusician

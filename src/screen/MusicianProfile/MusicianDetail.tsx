@@ -52,17 +52,16 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   setFollowMusician,
   setUnfollowMusician,
 }) => {
-  const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
-    {filterName: t('Musician.Tab.Profile')},
-    {filterName: t('Musician.Tab.Post')},
-    {filterName: t('Musician.Tab.Exclusive')},
-    {filterName: t('Musician.Tab.Music')},
-    {filterName: t('Musician.Tab.Fans')},
+    {filterName: 'Musician.Tab.Profile'},
+    {filterName: 'Musician.Tab.Post'},
+    {filterName: 'Musician.Tab.Exclusive'},
+    {filterName: 'Musician.Tab.Music'},
+    {filterName: 'Musician.Tab.Fans'},
   ]);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
@@ -140,10 +139,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
               onPress={filterData}
               selectedIndex={selectedIndex}
               flatlistContainerStyle={{paddingHorizontal: widthResponsive(24)}}
+              translation={true}
             />
-            {filter[selectedIndex].filterName === t('Musician.Tab.Profile') ? (
+            {filter[selectedIndex].filterName === 'Musician.Tab.Profile' ? (
               <DataMusician profile={profile} dataAlbum={dataAlbum} />
-            ) : filter[selectedIndex].filterName === t('Musician.Tab.Post') ? (
+            ) : filter[selectedIndex].filterName === 'Musician.Tab.Post' ? (
               <View
                 style={{
                   paddingHorizontal: widthResponsive(24),
@@ -156,7 +156,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                 />
               </View>
             ) : filter[selectedIndex].filterName ===
-              t('Musician.Tab.Exclusive') ? (
+              'Musician.Tab.Exclusive' ? (
               <View
                 style={{
                   paddingHorizontal: widthResponsive(24),
