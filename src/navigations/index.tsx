@@ -144,6 +144,7 @@ export type RootStackParams = {
   PhotoGallery: {imageData: photos[]; userName: string};
   Playlist: {
     id: number;
+    name: string;
   };
   Preference: undefined;
   PreferenceSetting: undefined;

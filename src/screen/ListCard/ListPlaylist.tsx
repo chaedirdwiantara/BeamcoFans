@@ -8,7 +8,7 @@ import {useTranslation} from 'react-i18next';
 
 interface ListPlaylistScreen {
   data?: Playlist[];
-  onPress: (id: number) => void;
+  onPress: (id: number, name: string) => void;
   scrollable?: boolean;
 }
 
@@ -30,7 +30,7 @@ const ListPlaylist: FC<ListPlaylistScreen> = (props: ListPlaylistScreen) => {
           singerName={
             t('Profile.Label.CreatedBy') + ' ' + item.playlistOwner.fullname
           }
-          onPressCard={() => onPress(item.id)}
+          onPressCard={() => onPress(item.id, item.name)}
           containerStyles={{marginTop: mvs(20)}}
           isPublic={item.isPublic}
         />
