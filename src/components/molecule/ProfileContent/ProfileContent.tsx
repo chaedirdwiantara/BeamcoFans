@@ -67,9 +67,9 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
-    {filterName: t('Profile.Tab.Playlist')},
-    {filterName: t('Profile.Tab.TopMusician')},
-    {filterName: t('Profile.Tab.Badge')},
+    {filterName: 'Profile.Tab.Playlist'},
+    {filterName: 'Profile.Tab.TopMusician'},
+    {filterName: 'Profile.Tab.Badge'},
   ]);
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
@@ -121,7 +121,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             onPress={filterData}
             selectedIndex={selectedIndex}
           />
-          {filter[selectedIndex].filterName === t('Profile.Tab.Playlist') ? (
+          {filter[selectedIndex].filterName === 'Profile.Tab.Playlist' ? (
             TopSongListData.length > 0 ? (
               <View>
                 {showCreateCard && (
@@ -144,8 +144,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 onPress={() => onPressGoTo('CreateNewPlaylist')}
               />
             )
-          ) : filter[selectedIndex].filterName ===
-            t('Profile.Tab.TopMusician') ? (
+          ) : filter[selectedIndex].filterName === 'Profile.Tab.TopMusician' ? (
             // Dihold karena point belum fix
 
             // MusicianListData.length > 0 ? (
