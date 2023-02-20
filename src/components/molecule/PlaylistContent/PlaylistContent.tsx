@@ -56,9 +56,9 @@ export const PlaylistContent: React.FC<Props> = ({
 
   const dataMore = [
     {label: t('Home.Tab.TopSong.Queue'), value: 'AddToQueue'},
-    {label: 'Edit Playlist', value: 'EditPlaylist'},
-    {label: 'Share Playlist', value: 'SharePlaylist'},
-    {label: 'Delete Playlist', value: 'DeletePlaylist'},
+    {label: t('Music.Playlist.Edit'), value: 'EditPlaylist'},
+    {label: t('Music.Playlist.Share'), value: 'SharePlaylist'},
+    {label: t('Music.Playlist.Delete'), value: 'DeletePlaylist'},
   ];
 
   const onPressDelete = async () => {

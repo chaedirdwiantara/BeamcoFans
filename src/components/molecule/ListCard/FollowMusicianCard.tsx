@@ -100,7 +100,7 @@ const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
         </Text>
 
         <Text style={styles.followerCount} numberOfLines={1}>
-          {countFollower} Followers
+          {countFollower + ' ' + t('General.Followers')}
         </Text>
       </View>
       <View style={styles.rightContainer}>{followMenu()}</View>

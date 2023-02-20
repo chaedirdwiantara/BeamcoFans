@@ -77,7 +77,7 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
           {donateList.map((val, i) => (
             <View key={i}>
               <RadioButton
-                text={val.text}
+                text={t(val.text)}
                 selected={val.selected}
                 onPress={() => onPressSelected(i)}
               />
@@ -89,7 +89,7 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
           value={donate}
           leftIcon={<CoinInput />}
           onChangeText={(newText: string) => setDonate(newText)}
-          placeholder={t('Setting.Tips.Label.InputDonation')}
+          placeholder={t('Setting.Tips.Label.InputDonation') || ''}
           fontColor={color.Neutral[10]}
           borderColor={color.Pink.linear}
           onFocus={() => {

@@ -156,7 +156,7 @@ export const AccountContent: React.FC<AccountProps> = ({
               setIsError(false);
               setChanges(true);
             }}
-            placeholder={'Add Username'}
+            placeholder={t('Setting.Account.Placeholder.Username') || ''}
             isError={errors?.username ? true : false}
             errorMsg={errors?.username?.message}
             containerStyles={{marginTop: heightPercentage(15)}}

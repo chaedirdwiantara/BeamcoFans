@@ -94,7 +94,7 @@ export const ExclusiveContent: React.FC<ExclusiveProps> = ({onPressGoBack}) => {
                 value={support}
                 leftIcon={<CoinInput />}
                 onChangeText={(newText: string) => setSupport(newText)}
-                placeholder={'Input Bonus'}
+                placeholder={t('ExclusiveContent.InputBonus') || ''}
                 fontColor={color.Neutral[10]}
                 borderColor={color.Pink.linear}
                 onFocus={() => {
@@ -107,7 +107,7 @@ export const ExclusiveContent: React.FC<ExclusiveProps> = ({onPressGoBack}) => {
                 isFocus={focusInput}
                 keyboardType={'number-pad'}
                 isError={false}
-                errorMsg={'Insufficient coin, add more coin to give bonus'}
+                errorMsg={t('ExclusiveContent.ErrorCoinBonus') || ''}
               />
             </View>
 

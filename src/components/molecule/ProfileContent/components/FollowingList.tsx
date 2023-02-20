@@ -16,6 +16,7 @@ import {
 } from '../../../../interface/musician.interface';
 import {TopNavigation} from '../../TopNavigation';
 import {ArrowLeftIcon} from '../../../../assets/icon';
+import {useTranslation} from 'react-i18next';
 
 interface FollowingListProps {
   onPressGoBack: () => void;
@@ -36,6 +37,7 @@ export const FollowingList: React.FC<FollowingListProps> = ({
   setSearch,
   goToMusician,
 }) => {
+  const {t} = useTranslation();
   const [listFollowing, setListFollowing] = useState(dataList);
 
   useEffect(() => {
@@ -62,7 +64,7 @@ export const FollowingList: React.FC<FollowingListProps> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type1
-        title="Following"
+        title={t('Preference.Following')}
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
         leftIconAction={onPressGoBack}

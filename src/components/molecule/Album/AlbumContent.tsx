@@ -124,13 +124,13 @@ export const AlbumContent: React.FC<Props> = ({
         <View style={styles.containerContent}>
           <View style={{marginBottom: heightPercentage(15)}}>
             <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
-              Description
+              {t('Event.Description')}
             </Text>
             <Text style={styles.description}>{detailAlbum.description}</Text>
           </View>
 
           <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
-            Song List
+            {t('Music.Label.SongList')}
           </Text>
           <View style={{marginBottom: heightPercentage(30)}}>
             <TopSong
@@ -161,7 +161,7 @@ export const AlbumContent: React.FC<Props> = ({
         }
         modalVisible={modalShare}
         onPressClose={() => setModalShare(false)}
-        titleModal={'Share Album'}
+        titleModal={t('General.Share.Album')}
         imgUri={
           'https://i.pinimg.com/originals/b3/51/66/b35166174c9bde2d0cc436150a983912.jpg'
         }
@@ -186,7 +186,7 @@ export const AlbumContent: React.FC<Props> = ({
             />
             <Gap width={widthPercentage(7)} />
             <Text style={[typography.Button2, styles.textStyle]}>
-              Link have been copied to clipboard!
+              {t('General.LinkCopied')}
             </Text>
           </View>
         }
