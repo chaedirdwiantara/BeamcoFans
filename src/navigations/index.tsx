@@ -100,7 +100,7 @@ import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
 
 export type RootStackParams = {
   Account: undefined;
-  AddToPlaylist: undefined;
+  AddToPlaylist: {id: number[]; type?: string};
   AddSong: Playlist;
   Album: AlbumData | {id: number};
   Boarding: undefined;
@@ -115,7 +115,7 @@ export type RootStackParams = {
     oldPhone: string;
   };
   OtpPhoneNumber: OtpPhoneScreen;
-  CreateNewPlaylist: undefined;
+  CreateNewPlaylist: {id: number[]; type?: string};
   DonationAndSubscription: undefined;
   EditProfile: ProfileResponseData;
   EditPlaylist: Playlist;
@@ -163,7 +163,9 @@ export type RootStackParams = {
   ShippingInformation: {
     data: DataShippingProps | null;
   };
-  ShowCredit: undefined;
+  ShowCredit: {
+    songId: number;
+  };
   SongDetails: {
     songId: number;
     musicianId: string;
