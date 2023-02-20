@@ -145,6 +145,7 @@ export type DetailSongResponseType = {
 export type DataDetailAlbum = {
   id: number;
   musician: string;
+  musicianName: string;
   title: string;
   description: string;
   imageUrl: imageTypes[];
@@ -167,6 +168,7 @@ export type DataDetailAlbum = {
   createdAt: string;
   updatedAt: string;
   status: string;
+  totalCountListener: number;
 };
 
 export type DetailAlbumResponseType = {
