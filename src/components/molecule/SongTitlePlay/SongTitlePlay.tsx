@@ -8,6 +8,7 @@ import {
 } from '../../../utils';
 import {Avatar, Gap} from '../../atom';
 import {color, font} from '../../../theme';
+import {storage} from '../../../hooks/use-storage.hook';
 import {DefaultAvatar, PauseIcon, PlayIcon} from '../../../assets/icon';
 import {useTranslation} from 'react-i18next';
 
@@ -17,6 +18,10 @@ interface SongTitlePlayProps {
   createdDate: string;
   createdBy: string;
   avatarUri?: string | null;
+  showIconPlay: boolean;
+  isPlaying: boolean;
+  handlePlayPaused: () => void;
+  onPressSong: () => void;
 }
 
 export const SongTitlePlay: React.FC<SongTitlePlayProps> = ({
@@ -25,9 +30,26 @@ export const SongTitlePlay: React.FC<SongTitlePlayProps> = ({
   createdDate,
   createdBy,
   avatarUri = '',
+  showIconPlay,
+  isPlaying,
+  handlePlayPaused,
+  onPressSong,
 }) => {
   const {t} = useTranslation();
-  const [played, setPlayed] = useState(false);
+  const reset = storage.getBoolean('resetPlayer');
+
+  const [first, setFirst] = useState(true);
+  const onPressPlay = () => {
+    if ((first && !isPlaying) || (reset && !isPlaying)) {
+      onPressSong();
+      setFirst(false);
+      storage.set('resetPlayer', false);
+    } else {
+      handlePlayPaused();
+      setFirst(false);
+      storage.set('resetPlayer', false);
+    }
+  };
 
   return (
     <View style={styles.root}>
@@ -40,15 +62,11 @@ export const SongTitlePlay: React.FC<SongTitlePlayProps> = ({
             )}`}
           </Text>
         </View>
-        {played ? (
-          <TouchableOpacity onPress={() => setPlayed(false)}>
-            <PauseIcon />
+        {showIconPlay ? (
+          <TouchableOpacity onPress={onPressPlay}>
+            {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </TouchableOpacity>
-        ) : (
-          <TouchableOpacity onPress={() => setPlayed(true)}>
-            <PlayIcon />
-          </TouchableOpacity>
-        )}
+        ) : null}
       </View>
 
       <View style={styles.containerCreatedBy}>

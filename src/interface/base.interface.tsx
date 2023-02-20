@@ -20,6 +20,7 @@ export type ParamsProps = {
   playlistID?: number;
   albumID?: number;
   context?: string;
+  listType?: string;
 };
 
 export type imageTypes = {

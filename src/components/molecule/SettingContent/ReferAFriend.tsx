@@ -10,9 +10,11 @@ import {heightPercentage, width, widthPercentage} from '../../../utils';
 import {profileStorage} from '../../../hooks/use-storage.hook';
 import {useTranslation} from 'react-i18next';
 
-interface ReferralProps {}
+interface ReferralProps {
+  handleWebview: (title: string, url: string) => void;
+}
 
-export const ReferAFriend: React.FC<ReferralProps> = ({}) => {
+export const ReferAFriend: React.FC<ReferralProps> = ({handleWebview}) => {
   const {t} = useTranslation();
   const [toastVisible, setToastVisible] = useState(false);
 
@@ -40,9 +42,17 @@ export const ReferAFriend: React.FC<ReferralProps> = ({}) => {
         {t('Setting.Referral.ReferFriend.Text1')}
       </Text>
 
-      <Text style={[typography.Overline, styles.useUsername]}>
-        {t('Setting.Referral.ReferFriend.Text2')}
-      </Text>
+      <TouchableOpacity
+        onPress={() =>
+          handleWebview(
+            'Terms Conditions',
+            'https://sunnysideup.io/marketplace/tos',
+          )
+        }>
+        <Text style={[typography.Overline, styles.useUsername]}>
+          {t('Setting.Referral.ReferFriend.Text2')}
+        </Text>
+      </TouchableOpacity>
       <TouchableOpacity
         style={styles.containerUsername}
         onPress={copyToClipboard}>

@@ -1,14 +1,13 @@
-import {Platform} from 'react-native';
+import SsuAPI from './base';
 import {Image} from 'react-native-image-crop-picker';
 import {UploadImageResponseType} from '../interface/uploadImage.interface';
-import SsuAPI from './base';
 
 export const uploadImage = async (
   image: Image,
 ): Promise<UploadImageResponseType> => {
   let formData = new FormData();
   formData.append('image', {
-    uri: Platform.OS === 'android' ? image.path : image.sourceURL,
+    uri: image.path,
     name: `${Date.now()}.jpg`,
     type: image.mime,
   });

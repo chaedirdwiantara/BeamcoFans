@@ -8,12 +8,13 @@ import {useTranslation} from 'react-i18next';
 
 interface ListPlaylistScreen {
   data?: Playlist[];
-  onPress: (id: number) => void;
+  onPress: (id: number, name: string) => void;
   scrollable?: boolean;
+  withoutNum?: boolean;
 }
 
 const ListPlaylist: FC<ListPlaylistScreen> = (props: ListPlaylistScreen) => {
-  const {onPress, scrollable, data} = props;
+  const {onPress, scrollable, data, withoutNum} = props;
   const {t} = useTranslation();
 
   return (
@@ -25,12 +26,12 @@ const ListPlaylist: FC<ListPlaylistScreen> = (props: ListPlaylistScreen) => {
       renderItem={({item, index}) => (
         <ListCard.Playlist
           imgUri={item.thumbnailUrl !== null ? item.thumbnailUrl : ''}
-          musicNum={index + 1}
+          musicNum={withoutNum ? '' : index + 1}
           musicTitle={elipsisText(item.name, 22)}
           singerName={
             t('Profile.Label.CreatedBy') + ' ' + item.playlistOwner.fullname
           }
-          onPressCard={() => onPress(item.id)}
+          onPressCard={() => onPress(item.id, item.name)}
           containerStyles={{marginTop: mvs(20)}}
           isPublic={item.isPublic}
         />
