@@ -22,7 +22,6 @@ interface SongTitlePlayProps {
   isPlaying: boolean;
   handlePlayPaused: () => void;
   onPressSong: () => void;
-  showPlay?: boolean;
 }
 
 export const SongTitlePlay: React.FC<SongTitlePlayProps> = ({
