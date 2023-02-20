@@ -15,6 +15,7 @@ export type Playlist = {
     image: string | null;
     username: string;
   };
+  isDefaultPlaylist: boolean;
 };
 
 export type PlaylistPropsTypeA = {

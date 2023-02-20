@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
 import {useNavigation} from '@react-navigation/native';
 import {StyleSheet, Text, View, ViewStyle} from 'react-native';
@@ -15,7 +16,6 @@ import {storage} from '../../../hooks/use-storage.hook';
 import {ModalSuccessDonate} from '../Modal/ModalSuccessDonate';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
-import {useTranslation} from 'react-i18next';
 
 interface ListProps {
   imgUri: string;
@@ -34,6 +34,8 @@ interface ListProps {
   loveIcon?: boolean;
   likeOnPress?: () => void;
   isLiked?: boolean;
+  onPressAddToQueue: () => void;
+  songId: number;
 }
 
 interface DataMore {
@@ -52,7 +54,7 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
     {label: t('Home.Tab.TopSong.Tip'), value: '2'},
     {label: t('Home.Tab.TopSong.Queue'), value: '3'},
     {label: t('Home.Tab.TopSong.Share'), value: '4'},
-    {label: t('Home.Tab.TopSong.Credit'), value: '5'},
+    {label: t('Home.Tab.TopSong.Details'), value: '5'},
   ];
   const [textToast, setTextToast] = useState<string>('');
   const [toastVisible, setToastVisible] = useState<boolean>(false);
@@ -93,16 +95,20 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
   const resultDataMore = (dataResult: DataMore) => {
     if (isLogin || dataResult.value === '5') {
       if (dataResult.value === '1') {
-        navigation.navigate('AddToPlaylist');
+        navigation.navigate('AddToPlaylist', {
+          id: [props.songId],
+          type: 'song',
+        });
       } else if (dataResult.value === '2') {
         setModalDonate(true);
       } else if (dataResult.value === '3') {
+        props.onPressAddToQueue() !== undefined && props.onPressAddToQueue();
         setToastVisible(true);
         setTextToast('Song added to queue!');
       } else if (dataResult.value === '4') {
         setModalShare(true);
       } else {
-        navigation.navigate('ShowCredit');
+        navigation.navigate('ShowCredit', {songId: props.songId});
       }
     } else {
       setModalGuestVisible(true);

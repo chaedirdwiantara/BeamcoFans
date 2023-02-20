@@ -7,19 +7,21 @@ import {CopyIcon, TickCircleIcon} from '../../../assets/icon';
 import {color, typography} from '../../../theme';
 import ReferralImage from '../../../assets/image/Referral.image';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
-import {profileStorage} from '../../../hooks/use-storage.hook';
 import {useTranslation} from 'react-i18next';
 
 interface ReferralProps {
+  username: string;
   handleWebview: (title: string, url: string) => void;
 }
 
-export const ReferAFriend: React.FC<ReferralProps> = ({handleWebview}) => {
+export const ReferAFriend: React.FC<ReferralProps> = ({
+  username,
+  handleWebview,
+}) => {
   const {t} = useTranslation();
   const [toastVisible, setToastVisible] = useState(false);
 
   const copyToClipboard = () => {
-    const username = profileStorage()?.username;
     Clipboard.setString(username || '');
     setToastVisible(true);
   };
@@ -42,22 +44,14 @@ export const ReferAFriend: React.FC<ReferralProps> = ({handleWebview}) => {
         {t('Setting.Referral.ReferFriend.Text1')}
       </Text>
 
-      <TouchableOpacity
-        onPress={() =>
-          handleWebview(
-            'Terms Conditions',
-            'https://sunnysideup.io/marketplace/tos',
-          )
-        }>
-        <Text style={[typography.Overline, styles.useUsername]}>
-          {t('Setting.Referral.ReferFriend.Text2')}
-        </Text>
-      </TouchableOpacity>
+      <Text style={[typography.Overline, styles.useUsername]}>
+        {t('Setting.Referral.ReferFriend.Text2')}
+      </Text>
       <TouchableOpacity
         style={styles.containerUsername}
         onPress={copyToClipboard}>
         <Text style={[typography.Heading4, {color: color.Neutral[10]}]}>
-          {profileStorage()?.username}
+          {username}
         </Text>
         <Gap width={widthPercentage(5)} />
         <CopyIcon />
@@ -75,7 +69,12 @@ export const ReferAFriend: React.FC<ReferralProps> = ({handleWebview}) => {
           borderColor="transparent"
           textStyles={{color: color.Pink.linear}}
           containerStyles={{width: width * 0.9}}
-          onPress={() => null}
+          onPress={() =>
+            handleWebview(
+              'Terms Conditions',
+              'https://sunnysideup.io/marketplace/tos',
+            )
+          }
         />
       </View>
 

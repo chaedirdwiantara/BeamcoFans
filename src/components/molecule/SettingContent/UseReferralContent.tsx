@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,27 +7,37 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 
-import {Button, Gap, SsuInput} from '../../atom';
 import {GiftIcon} from '../../../assets/icon';
+import {Button, Gap, SsuInput} from '../../atom';
 import {color, typography} from '../../../theme';
 import {useProfileHook} from '../../../hooks/use-profile.hook';
 import ReferralImage from '../../../assets/image/Referral.image';
 import {ReferralActivated} from '../ReferralContent/ReferralContent';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
-import {useTranslation} from 'react-i18next';
 
-interface ReferralProps {}
+interface ReferralProps {
+  referralFrom: null | string;
+  refCode: string;
+  setRefCode: (param: string) => void;
+  modeUseReferral: string;
+  setModeUseReferral: (param: string) => void;
+}
 
-export const UseReferralContent: React.FC<ReferralProps> = ({}) => {
+export const UseReferralContent: React.FC<ReferralProps> = ({
+  refCode,
+  setRefCode,
+  referralFrom,
+  modeUseReferral,
+  setModeUseReferral,
+}) => {
   const {t} = useTranslation();
-  const [refCode, setRefCode] = useState<string>('');
-  const [mode, setMode] = useState<string>('');
   const {isValidReferral, errorMsg, applyReferralUser} = useProfileHook();
 
   useEffect(() => {
     if (isValidReferral) {
-      setMode('success');
+      setModeUseReferral('success');
     }
   }, [isValidReferral]);
 
@@ -40,13 +50,13 @@ export const UseReferralContent: React.FC<ReferralProps> = ({}) => {
       style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.root}>
-        {mode === 'success' ? (
+        {referralFrom !== null || modeUseReferral === 'success' ? (
           <View style={{marginTop: heightPercentage(60)}}>
             <Text style={[typography.Heading6, styles.text]}>
               {'Your 5% Comission for every transaction have been activated!'}
             </Text>
             <Gap height={heightPercentage(30)} />
-            <ReferralActivated refCode={refCode} />
+            <ReferralActivated refCode={referralFrom || refCode} />
           </View>
         ) : (
           <ScrollView

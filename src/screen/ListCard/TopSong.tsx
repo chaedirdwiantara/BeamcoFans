@@ -35,7 +35,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
     activeOpacity,
     loveIcon,
   } = props;
-  const {currentTrack, isPlaying} = usePlayerHook();
+  const {currentTrack, isPlaying, addSong} = usePlayerHook();
   const {setLikeSong, setUnlikeSong} = useSongHook();
 
   const [listSong, setListSong] = useState(dataSong);
@@ -98,6 +98,8 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
           loveIcon={loveIcon}
           likeOnPress={() => likeOnPress(item.id, item.isLiked)}
           isLiked={item.isLiked}
+          onPressAddToQueue={() => addSong(item)}
+          songId={item.id}
         />
       )}
       estimatedItemSize={heightResponsive(500)}

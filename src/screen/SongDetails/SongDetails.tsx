@@ -42,7 +42,7 @@ export const SongDetailsScreen: React.FC<SongDetailProps> = ({
   };
 
   const goToShowCredit = () => {
-    navigation.navigate('ShowCredit');
+    navigation.navigate('ShowCredit', {songId});
   };
 
   return (
