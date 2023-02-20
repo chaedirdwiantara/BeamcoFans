@@ -108,10 +108,9 @@ export const AlbumContent: React.FC<Props> = ({
             title={detailAlbum.title}
             totalSong={dataSong?.length || 0}
             createdDate={dateFormat(detailAlbum.createdAt)}
-            createdBy={'Imagine Dragons'}
-            avatarUri={
-              'https://thisis-images.scdn.co/37i9dQZF1DZ06evO2YqUuI-large.jpg'
-            }
+            createdBy={detailAlbum?.musicianName}
+            avatarUri={detailAlbum?.imageUrl[0].image}
+            showPlay={false}
           />
           <ListenersAndDonate
             totalListener={66900}
