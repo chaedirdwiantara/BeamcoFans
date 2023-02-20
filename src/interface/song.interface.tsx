@@ -168,6 +168,7 @@ export type DataDetailAlbum = {
   createdAt: string;
   updatedAt: string;
   status: string;
+  totalCountListener: number;
 };
 
 export type DetailAlbumResponseType = {
