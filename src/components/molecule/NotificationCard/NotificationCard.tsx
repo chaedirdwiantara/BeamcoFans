@@ -1,43 +1,55 @@
 import React from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
-import Color from '../../../theme/Color';
-import Font from '../../../theme/Font';
 import {ListAvatar} from './ListAvatar';
-import HeartIcon from '../../../assets/icon/Heart.icon';
 import {BellNotif} from '../../../assets/icon';
-import {
-  heightPercentage,
-  widthPercentage,
-  widthResponsive,
-} from '../../../utils';
-import {NotifDataType} from '../../../data/notification';
+import {heightPercentage, widthResponsive} from '../../../utils';
 import {color} from '../../../theme';
+import {
+  ListNotificationData,
+  PaginationType,
+} from '../../../interface/notification.interface';
 
 interface NotificationCardProps {
-  data: NotifDataType[];
+  data: ListNotificationData[];
+  meta: PaginationType;
+  nextPage: () => void;
 }
 
 export const NotificationCard: React.FC<NotificationCardProps> = (
   props: NotificationCardProps,
 ) => {
-  const {data} = props;
+  const {data, meta, nextPage} = props;
+
+  const handleEndScroll = () => {
+    if (data.length < meta.total) {
+      nextPage();
+    }
+  };
+
   return (
+    // TODO: show avatar and handle navigation on each data
     <FlatList
       data={data}
       showsVerticalScrollIndicator={false}
       keyExtractor={(_, index) => index.toString()}
       renderItem={({item}) => (
         <View style={styles.root}>
-          {item.type === 'like' ? (
+          {/* {item.type === 'like' ? (
             <HeartIcon style={styles.icon} />
           ) : (
             <BellNotif style={styles.icon} />
-          )}
+          )} */}
+          <BellNotif style={styles.icon} />
           <View style={{width: '100%'}}>
-            <ListAvatar data={item.data} size={32} desc={item.desc} />
+            <ListAvatar
+              // data={item.data}
+              size={32}
+              desc={item.content}
+            />
           </View>
         </View>
       )}
+      onEndReached={handleEndScroll}
     />
   );
 };

@@ -52,8 +52,9 @@ import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
-import {useTranslation} from 'react-i18next';
 import {defaultBanner} from '../data/home';
+import {useNotificationHook} from '../hooks/use-notification.hook';
+import {useCreditHook} from '../hooks/use-credit.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -91,7 +92,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     getSearchSongs,
     getListDataBannerPublic,
   } = useSearchHook();
-  const {t} = useTranslation();
+  const {counter, getCountNotification} = useNotificationHook();
+  const {creditCount} = useCreditHook();
 
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
@@ -111,6 +113,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         getListDataMusician({filterBy: 'top'});
         getListDataSong({listType: 'top'});
         getProfileUser();
+        getCountNotification();
       } else {
         getSearchMusicians({keyword: '', filterBy: 'top'});
         getSearchSongs({keyword: '', filterBy: 'top'});
@@ -208,7 +211,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             />
           </TouchableOpacity>
         )}
-        <IconNotif label={isLogin ? 14 : 0} />
+        <IconNotif label={isLogin ? counter : 0} />
       </View>
     );
   };
@@ -243,7 +246,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         rightIconAction={onPressNotif}
         maxLengthTitle={20}
         itemStrokeColor={Color.Pink[100]}
-        points={isLogin ? 100000 : 0}
+        points={isLogin ? creditCount : 0}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
         onPressCoin={onPressCoin}
         guest={!isLogin}
