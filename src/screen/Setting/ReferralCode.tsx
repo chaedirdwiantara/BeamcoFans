@@ -33,6 +33,13 @@ export const ReferralCodeSetting: React.FC = () => {
     navigation.goBack();
   };
 
+  const handleWebview = (title: string, url: string) => {
+    navigation.navigate('Webview', {
+      title: title,
+      url: url,
+    });
+  };
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type1
@@ -55,8 +62,8 @@ export const ReferralCodeSetting: React.FC = () => {
       />
 
       {filter[selectedIndex].filterName ===
-      'Setting.Referral.ReferFriend.Title' ? (
-        <ReferAFriend />
+      t('Setting.Referral.ReferFriend.Title') ? (
+        <ReferAFriend handleWebview={handleWebview} />
       ) : (
         <UseReferralContent />
       )}
