@@ -17,8 +17,8 @@ export const FeedScreen: React.FC = () => {
   const {t} = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState(-0);
   const [filter] = useState([
-    {filterName: t('Feed.Public')},
-    {filterName: t('Feed.Exclusive')},
+    {filterName: 'Feed.Public'},
+    {filterName: 'Feed.Exclusive'},
   ]);
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
@@ -59,8 +59,9 @@ export const FeedScreen: React.FC = () => {
                 justifyContent: 'space-between',
               }}
               TouchableStyle={{width: widthPercentageToDP(45)}}
+              translation={true}
             />
-            {filter[selectedIndex].filterName === t('Feed.Public') ? (
+            {filter[selectedIndex].filterName === 'Feed.Public' ? (
               <PostListPublic
                 dataRightDropdown={dropDownDataCategory}
                 dataLeftDropdown={dropDownDataSort}

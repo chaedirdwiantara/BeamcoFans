@@ -24,9 +24,9 @@ const DataMusician: FC<DataMusicianProps> = (props: DataMusicianProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {t} = useTranslation();
 
-  const noDataText = 'No information given.';
-  const noAlbumText = 'No Album Available.';
-  const noMerch = 'No Merch Available';
+  const noDataText = t('EmptyState.NoInfo');
+  const noAlbumText = t('EmptyState.NoAlbum');
+  const noMerch = t('EmptyState.NoMerch');
 
   const userName = profile?.fullname;
   const imageData = profile?.photos;

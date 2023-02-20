@@ -921,7 +921,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           }
           modalVisible={modalShare}
           onPressClose={() => setModalShare(false)}
-          titleModal={'Share Feed'}
+          titleModal={t('General.Share.Feed')}
           hideMusic
           onPressCopy={() =>
             InteractionManager.runAfterInteractions(() => setToastVisible(true))
@@ -939,7 +939,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
               />
               <Gap width={widthResponsive(7)} />
               <Text style={[typography.Button2, styles.textStyle]}>
-                Link have been copied to clipboard!
+                {t('General.LinkCopied')}
               </Text>
             </View>
           }

@@ -137,7 +137,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const resultDataCategory = (dataResultCategory: DataDropDownType) => {
-    dataResultCategory.label === 'All'
+    dataResultCategory.label === t('Home.Tab.TopPost.Category.All')
       ? getListTopPost({page: page, perPage: perPage})
       : getListTopPost({
           page: page,
@@ -339,6 +339,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
             containerStyle={{
               width: widthPercentage(138),
             }}
+            translation={true}
           />
         </View>
         <View
@@ -353,6 +354,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
               width: widthResponsive(138),
               marginLeft: widthPercentage(-57),
             }}
+            translation={true}
           />
         </View>
       </View>
@@ -520,7 +522,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
         }
         modalVisible={modalShare}
         onPressClose={() => setModalShare(false)}
-        titleModal={'Share Feed'}
+        titleModal={t('General.Share.Feed')}
         hideMusic
         onPressCopy={() =>
           InteractionManager.runAfterInteractions(() => setToastVisible(true))
@@ -538,7 +540,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
             />
             <Gap width={widthResponsive(7)} />
             <Text style={[typography.Button2, styles.textStyle]}>
-              Link have been copied to clipboard!
+              {t('General.LinkCopied')}
             </Text>
           </View>
         }
