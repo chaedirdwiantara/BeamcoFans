@@ -53,7 +53,7 @@ export const initialize = (
         ...config.headers,
       };
       config.headers['Authorization'] = `Bearer ${token}`;
-      config.headers['Ssu-Application'] = 'musician';
+      config.headers['Ssu-Application'] = 'fans';
       return config;
     });
   }
