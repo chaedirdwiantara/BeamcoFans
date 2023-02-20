@@ -63,7 +63,6 @@ export const AccountContent: React.FC<AccountProps> = ({
   const [type, setType] = useState(t('Btn.Edit'));
   const [changes, setChanges] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const {updateProfilePreference, isError, isLoading, errorMsg, setIsError} =
@@ -72,7 +71,7 @@ export const AccountContent: React.FC<AccountProps> = ({
   const {
     control,
     handleSubmit,
-    formState: {errors, isValid, isValidating},
+    formState: {errors},
     getValues,
   } = useForm<InputProps>({
     resolver: yupResolver(validation),
@@ -91,15 +90,6 @@ export const AccountContent: React.FC<AccountProps> = ({
         setToastVisible(false);
       }, 3000);
   }, [toastVisible]);
-
-  useEffect(() => {
-    if (isValid) {
-      setDisabledButton(false);
-    } else {
-      setDisabledButton(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isValidating, isValid]);
 
   const onPressSave = () => {
     if (type === t('Btn.Edit')) {
@@ -238,9 +228,8 @@ export const AccountContent: React.FC<AccountProps> = ({
 
       <Button
         label={type || ''}
-        onPress={handleSubmit(onPressSave)}
-        containerStyles={disabledButton ? styles.buttonDisabled : styles.button}
-        disabled={disabledButton}
+        onPress={onPressSave}
+        containerStyles={styles.button}
       />
 
       <ModalConfirm
@@ -316,12 +305,5 @@ const styles = StyleSheet.create({
     fontSize: normalize(10),
     lineHeight: mvs(12),
     maxWidth: '90%',
-  },
-  buttonDisabled: {
-    width: '100%',
-    aspectRatio: widthPercentage(327 / 36),
-    marginTop: heightPercentage(25),
-    alignSelf: 'center',
-    backgroundColor: Color.Dark[50],
   },
 });
