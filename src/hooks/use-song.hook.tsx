@@ -1,16 +1,23 @@
 import {useState} from 'react';
-import {detailSong, listSong} from '../api/song.api';
+import {detailAlbum, detailSong, listSong} from '../api/song.api';
 import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
-import {DataDetailSong, SongList} from '../interface/song.interface';
+import {
+  DataDetailAlbum,
+  DataDetailSong,
+  SongList,
+} from '../interface/song.interface';
 
 export const useSongHook = () => {
   const [isLoadingSong, setIsLoadingSong] = useState(false);
+  const [albumLoading, setAlbumLoading] = useState(false);
   const [isErrorSong, setIsErrorSong] = useState(false);
   const [dataSong, setDataSong] = useState<SongList[]>([]);
   const [dataDetailSong, setDataDetailSong] = useState<DataDetailSong | null>(
     null,
   );
+  const [dataDetailAlbum, setDataDetailAlbum] =
+    useState<DataDetailAlbum | null>(null);
 
   const getListDataSong = async (props?: ParamsProps) => {
     try {
@@ -39,12 +46,29 @@ export const useSongHook = () => {
     }
   };
 
+  const getDetailAlbum = async (props?: PostPropsTypeA) => {
+    setAlbumLoading(true);
+    try {
+      const response = await detailAlbum(props);
+      setDataDetailAlbum(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataDetailAlbum(null);
+    } finally {
+      setAlbumLoading(false);
+    }
+  };
+
   return {
     isLoadingSong,
     isErrorSong,
     dataSong,
     dataDetailSong,
+    albumLoading,
+    dataDetailAlbum,
     getListDataSong,
     getDetailSong,
+    getDetailAlbum,
+    setDataDetailAlbum,
   };
 };

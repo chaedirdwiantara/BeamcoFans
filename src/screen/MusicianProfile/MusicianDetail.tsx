@@ -66,6 +66,9 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
+  const [followersCount, setFollowersCount] = useState<number>(
+    profile?.followers ? profile.followers : 0,
+  );
 
   const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
@@ -83,8 +86,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
 
   const followOnPress = (isFollowed: boolean) => {
     isFollowed
-      ? setUnfollowMusician({musicianID: profile.uuid})
-      : setFollowMusician({musicianID: profile.uuid});
+      ? (setUnfollowMusician({musicianID: profile.uuid}),
+        setFollowersCount(followersCount - 1))
+      : (setFollowMusician({musicianID: profile.uuid}),
+        setFollowersCount(followersCount + 1));
   };
 
   const onPressDonate = () => {
@@ -130,7 +135,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           onPressDonate={() => setModalDonate(true)}
         />
         <View style={styles.infoCard}>
-          <UserInfoCard onPress={() => {}} profile={profile} />
+          <UserInfoCard
+            onPress={() => {}}
+            profile={profile}
+            followersCount={followersCount}
+          />
           <ExclusiveDailyContent />
           <Gap height={10} />
           <View style={styles.containerContent}>

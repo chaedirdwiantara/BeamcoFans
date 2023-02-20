@@ -102,7 +102,7 @@ export type RootStackParams = {
   Account: undefined;
   AddToPlaylist: undefined;
   AddSong: Playlist;
-  Album: AlbumData;
+  Album: AlbumData | {id: number};
   Boarding: undefined;
   ChangeEmail: {
     type: 'Add' | 'Change';
