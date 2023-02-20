@@ -29,14 +29,14 @@ import {
   ModalShare,
   ModalSuccessDonate,
 } from '../';
-import {SongList} from '../../../interface/song.interface';
+import {DataDetailAlbum, SongList} from '../../../interface/song.interface';
 import {AlbumData} from '../../../interface/musician.interface';
 import {dateFormat} from '../../../utils/date-format';
 import {useTranslation} from 'react-i18next';
 
 interface Props {
   dataSong: SongList[] | null;
-  detailAlbum: AlbumData;
+  detailAlbum: DataDetailAlbum;
   onPressGoBack: () => void;
 }
 
@@ -102,7 +102,7 @@ export const AlbumContent: React.FC<Props> = ({
       <ScrollView>
         <View style={{paddingHorizontal: widthPercentage(10)}}>
           <View style={{alignSelf: 'center'}}>
-            <PhotoPlaylist uri={detailAlbum.imageUrl} />
+            <PhotoPlaylist uri={detailAlbum.imageUrl[1].image} />
           </View>
           <SongTitlePlay
             title={detailAlbum.title}
