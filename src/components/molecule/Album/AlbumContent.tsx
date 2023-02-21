@@ -36,6 +36,7 @@ import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../../navigations';
+import {useCreditHook} from '../../../hooks/use-credit.hook';
 
 interface Props {
   dataSong: SongList[] | null;
@@ -52,6 +53,7 @@ export const AlbumContent: React.FC<Props> = ({
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const {t} = useTranslation();
+  const {creditCount, getCreditCount} = useCreditHook();
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalShare, setModalShare] = useState<boolean>(false);
@@ -65,6 +67,10 @@ export const AlbumContent: React.FC<Props> = ({
         setToastVisible(false);
       }, 3000);
   }, [toastVisible]);
+
+  useEffect(() => {
+    getCreditCount();
+  }, [modalDonate]);
 
   useEffect(() => {
     modalSuccessDonate &&
@@ -182,7 +188,7 @@ export const AlbumContent: React.FC<Props> = ({
       </ScrollView>
 
       <ModalDonate
-        totalCoin={'120,000'}
+        totalCoin={creditCount}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onModalHide={() => setModalSuccessDonate(true)}

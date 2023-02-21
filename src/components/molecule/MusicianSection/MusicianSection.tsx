@@ -18,6 +18,7 @@ import {CheckCircle2Icon} from '../../../assets/icon';
 import {storage} from '../../../hooks/use-storage.hook';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 import {useTranslation} from 'react-i18next';
+import {useCreditHook} from '../../../hooks/use-credit.hook';
 
 interface MusicianProps {
   userId: string;
@@ -42,6 +43,7 @@ interface DataMore {
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const {t} = useTranslation();
   const {isFollowed, followOnPress, userId, type} = props;
+  const {creditCount, getCreditCount} = useCreditHook();
 
   const followText = isFollowed
     ? t('Home.Tab.TopMusician.Unfollow')
@@ -83,6 +85,10 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
       navigation.navigate('MusicianProfile', {id: userId});
     }
   };
+
+  useEffect(() => {
+    getCreditCount();
+  }, [modalDonate]);
 
   useEffect(() => {
     toastVisible &&
@@ -137,7 +143,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
         {...props}
       />
       <ModalDonate
-        totalCoin={'1000'}
+        totalCoin={creditCount}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={() => setModalDonate(false)}

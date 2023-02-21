@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -33,6 +33,7 @@ import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
 import PostListExclusive from '../ListCard/PostListExclusive';
 import DataMusician from './DataMusician';
 import {useTranslation} from 'react-i18next';
+import {useCreditHook} from '../../hooks/use-credit.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -54,6 +55,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
 }) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {creditCount, getCreditCount} = useCreditHook();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
@@ -69,6 +71,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [followersCount, setFollowersCount] = useState<number>(
     profile?.followers ? profile.followers : 0,
   );
+
+  useEffect(() => {
+    getCreditCount();
+  }, [modalDonate]);
 
   const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
@@ -183,7 +189,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       </ScrollView>
 
       <ModalDonate
-        totalCoin={'1000'}
+        totalCoin={creditCount}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={() => setModalDonate(false)}

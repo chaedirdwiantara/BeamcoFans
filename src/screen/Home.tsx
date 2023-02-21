@@ -93,7 +93,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     getListDataBannerPublic,
   } = useSearchHook();
   const {counter, getCountNotification} = useNotificationHook();
-  const {creditCount} = useCreditHook();
+  const {creditCount, getCreditCount} = useCreditHook();
 
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
@@ -114,6 +114,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         getListDataSong({listType: 'top'});
         getProfileUser();
         getCountNotification();
+        getCreditCount();
       } else {
         getSearchMusicians({keyword: '', filterBy: 'top'});
         getSearchSongs({keyword: '', filterBy: 'top'});
