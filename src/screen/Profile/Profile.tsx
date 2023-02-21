@@ -33,7 +33,12 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const {playlistLoading, dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
-  const {isPlaying, showPlayer, hidePlayer} = usePlayerHook();
+  const {
+    isPlaying,
+    visible: playerVisible,
+    showPlayer,
+    hidePlayer,
+  } = usePlayerHook();
   const [toastText, setToastText] = useState<string>('');
   const [toastVisible, setToastVisible] = useState<boolean>(false);
 
@@ -118,6 +123,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
           setToastVisible={setToastVisible}
           toastText={toastText}
           isLoading={isLoading || playlistLoading}
+          playerVisible={playerVisible}
         />
       ) : (
         <GuestContent />
