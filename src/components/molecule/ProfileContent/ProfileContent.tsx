@@ -48,6 +48,7 @@ interface ProfileContentProps {
   toastText: string;
   isLoading: boolean;
   totalCountlikedSong?: number;
+  playerVisible?: boolean;
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -62,6 +63,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   totalCountlikedSong,
   toastText,
   isLoading,
+  playerVisible,
 }) => {
   const {t} = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -114,6 +116,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           onPress={() => onPressGoTo('Following')}
           selfProfile={profile.data}
           totalCountlikedSong={totalCountlikedSong}
+          followersCount={0}
         />
         <View style={styles.containerContent}>
           <TabFilter.Type1
@@ -136,6 +139,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                   data={dataPlaylist === null ? [] : dataPlaylist}
                   onPress={goToPlaylist}
                   scrollable={false}
+                  playerVisible={playerVisible}
                 />
               </View>
             ) : (
