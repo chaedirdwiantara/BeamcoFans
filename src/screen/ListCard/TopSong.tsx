@@ -3,6 +3,7 @@ import {mvs} from 'react-native-size-matters';
 import {FlashList} from '@shopify/flash-list';
 
 import {MusicSection} from '../../components';
+import {DataDropDownType} from '../../data/dropdown';
 import {useSongHook} from '../../hooks/use-song.hook';
 import {SongList} from '../../interface/song.interface';
 import {elipsisText, heightResponsive} from '../../utils';
@@ -20,6 +21,8 @@ interface TopSongPropsScreen {
   onPressIcon?: (data: number) => void;
   activeOpacity?: number;
   loveIcon?: boolean;
+  newDataMore?: DataDropDownType[];
+  newOnPressMore?: (data: DataDropDownType) => void;
 }
 
 const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
@@ -34,6 +37,8 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
     onPressIcon,
     activeOpacity,
     loveIcon,
+    newDataMore,
+    newOnPressMore,
   } = props;
   const {currentTrack, isPlaying, addSong} = usePlayerHook();
   const {setLikeSong, setUnlikeSong} = useSongHook();
@@ -100,6 +105,8 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
           isLiked={item.isLiked}
           onPressAddToQueue={() => addSong(item)}
           songId={item.id}
+          newDataMore={newDataMore}
+          newOnPressMore={newOnPressMore}
         />
       )}
       estimatedItemSize={heightResponsive(500)}

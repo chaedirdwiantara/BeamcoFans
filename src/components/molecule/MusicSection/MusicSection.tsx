@@ -17,6 +17,10 @@ import {ModalSuccessDonate} from '../Modal/ModalSuccessDonate';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
 
+interface DataMore {
+  label: string;
+  value: string;
+}
 interface ListProps {
   imgUri: string;
   onPressMore?: (data: any) => void;
@@ -36,14 +40,12 @@ interface ListProps {
   isLiked?: boolean;
   onPressAddToQueue: () => void;
   songId: number;
-}
-
-interface DataMore {
-  label: string;
-  value: string;
+  newDataMore?: DataMore[];
+  newOnPressMore?: (data: DataMore) => void;
 }
 
 export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
+  const {newDataMore, newOnPressMore} = props;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const isLogin = storage.getString('profile');
@@ -118,8 +120,8 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
   return (
     <>
       <ListCard.MusicList
-        dataFilter={dataMore}
-        onPressMore={resultDataMore}
+        dataFilter={newDataMore ? newDataMore : dataMore}
+        onPressMore={newOnPressMore ? newOnPressMore : resultDataMore}
         {...props}
       />
 

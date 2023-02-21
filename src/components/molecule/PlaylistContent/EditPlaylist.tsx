@@ -280,7 +280,7 @@ export const EditPlaylistContent: React.FC<EditPlaylistProps> = ({
         <ModalConfirm
           modalVisible={isModalVisible.modalConfirm}
           title={t('Btn.Save') || ''}
-          subtitle={t('Modal.Playlist.Edit') || ''}
+          subtitle={t('Modal.Playlist.Update') || ''}
           onPressClose={closeModal}
           onPressOk={onPressConfirm}
         />
