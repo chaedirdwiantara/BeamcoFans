@@ -77,7 +77,7 @@ export const AlbumContent: React.FC<Props> = ({
     if (dataSong !== null) {
       let Xter = [];
       for (let i = 1; i <= dataSong.length; i++) {
-        Xter.push(dataSong[i].id);
+        Xter.push(dataSong[i]?.id);
       }
       setSongIdList(Xter);
     }
@@ -88,7 +88,7 @@ export const AlbumContent: React.FC<Props> = ({
       setModalShare(true);
     }
     if (dataResult.value === '3') {
-      navigation.navigate('Playlist', {id: songIdList});
+      navigation.navigate('AddToPlaylist', {id: songIdList, type: 'album'});
     }
   };
 
@@ -140,7 +140,10 @@ export const AlbumContent: React.FC<Props> = ({
                 ? detailAlbum?.imageUrl[0].image
                 : ''
             }
-            showPlay={false}
+            showIconPlay={false}
+            isPlaying={false}
+            handlePlayPaused={() => {}}
+            onPressSong={() => {}}
           />
           <ListenersAndDonate
             totalListener={
@@ -166,11 +169,13 @@ export const AlbumContent: React.FC<Props> = ({
             {t('Music.Label.SongList')}
           </Text>
           <View style={{marginBottom: heightPercentage(30)}}>
-            <TopSong
-              dataSong={dataSong}
-              onPress={() => null}
-              hideDropdownMore={true}
-            />
+            {dataSong ? (
+              <TopSong
+                dataSong={dataSong}
+                onPress={() => null}
+                hideDropdownMore={true}
+              />
+            ) : null}
           </View>
         </View>
       </ScrollView>
