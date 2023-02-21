@@ -14,12 +14,18 @@ import {
   WeiboIcon,
 } from '../../assets/icon';
 
+interface Socmed {
+  name: string;
+  username: string;
+  value: string;
+}
+
 interface ProfileProps {
   title: string;
   content?: string;
   gap?: number;
   socmedSection?: boolean;
-  socmed?: string[];
+  socmed?: Socmed[];
   memberSection?: boolean;
   members?: string[];
 }
@@ -68,31 +74,31 @@ const ProfileComponent: FC<ProfileProps> = (props: ProfileProps) => {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{}}
               renderItem={({item, index}) =>
-                item === 'facebook' ? (
+                item.name === 'facebook' ? (
                   <TouchableOpacity style={styles.touchStyle}>
                     <FbIcon />
                   </TouchableOpacity>
-                ) : item === 'twitter' ? (
+                ) : item.name === 'twitter' ? (
                   <TouchableOpacity style={styles.touchStyle}>
                     <TwitterIcon />
                   </TouchableOpacity>
-                ) : item === 'instagram' ? (
+                ) : item.name === 'instagram' ? (
                   <TouchableOpacity style={styles.touchStyle}>
                     <InstagramIcon />
                   </TouchableOpacity>
-                ) : item === 'tiktok' ? (
+                ) : item.name === 'tiktok' ? (
                   <TouchableOpacity style={styles.touchStyle}>
                     <TiktokIcon />
                   </TouchableOpacity>
-                ) : item === 'snapchat' ? (
+                ) : item.name === 'snapchat' ? (
                   <TouchableOpacity style={styles.touchStyle}>
                     <SnapchatIcon />
                   </TouchableOpacity>
-                ) : item === 'vk' ? (
+                ) : item.name === 'vk' ? (
                   <TouchableOpacity style={styles.touchStyle}>
                     <VkIcon style={{marginTop: ms(-3)}} />
                   </TouchableOpacity>
-                ) : item === 'weibo' ? (
+                ) : item.name === 'weibo' ? (
                   <TouchableOpacity style={styles.touchStyle}>
                     <WeiboIcon />
                   </TouchableOpacity>
