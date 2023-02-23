@@ -35,7 +35,7 @@ interface UserInfoCardProps {
   containerStyles?: ViewStyle;
   onPress: () => void;
   totalCountlikedSong?: number;
-  followersCount: number;
+  followersCount?: number;
 }
 
 type Props = {

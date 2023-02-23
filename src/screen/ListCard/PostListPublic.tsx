@@ -79,6 +79,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const [filterActive, setFilterActive] = useState<boolean>(true);
   const [filterByValue, setFilterByValue] = useState<string>();
   const [categoryValue, setCategoryValue] = useState<string>();
+  const [uuid, setUuid] = useState<string>();
 
   // * UPDATE HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
@@ -127,11 +128,12 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   useFocusEffect(
     useCallback(() => {
       uuidMusician !== ''
-        ? getListDataPost({
+        ? (getListDataPost({
             page: 1,
             perPage: perPage,
             musician_uuid: uuidMusician,
-          })
+          }),
+          setUuid(uuidMusician))
         : getListDataPost({page: 1, perPage: perPage});
       setPage(1);
     }, [uuidMusician]),
@@ -157,6 +159,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       perPage: perPage * page,
       sortBy: dataResultFilter.label.toLowerCase(),
       category: categoryValue,
+      musician_uuid: uuid,
     });
     setFilterActive(true);
     setFilterByValue(dataResultFilter.label.toLowerCase());
@@ -167,6 +170,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           page: page,
           perPage: perPage,
           sortBy: filterByValue,
+          musician_uuid: uuid,
         }),
         setFilterActive(false))
       : (getListDataPost({
@@ -174,6 +178,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           perPage: perPage * page,
           category: dataResultCategory.value,
           sortBy: filterByValue,
+          musician_uuid: uuid,
         }),
         setFilterActive(true));
     setCategoryValue(dataResultCategory.value);
@@ -187,6 +192,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
         perPage: perPage,
         category: categoryValue,
         sortBy: filterByValue,
+        musician_uuid: uuid,
       });
       setPage(page + 1);
       setFilterActive(false);

@@ -28,7 +28,6 @@ import {
   elipsisText,
   heightPercentage,
   heightResponsive,
-  normalize,
   widthPercentage,
   widthResponsive,
 } from '../../utils';
@@ -80,6 +79,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   const [filterActive, setFilterActive] = useState<boolean>(true);
   const [filterByValue, setFilterByValue] = useState<string>();
   const [categoryValue, setCategoryValue] = useState<string>();
+  const [uuid, setUuid] = useState<string>();
 
   // * UPDATE HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
@@ -128,11 +128,12 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   useFocusEffect(
     useCallback(() => {
       uuidMusician !== ''
-        ? getListDataExclusivePost({
+        ? (getListDataExclusivePost({
             page: 1,
             perPage: perPage,
             musician_uuid: uuidMusician,
-          })
+          }),
+          setUuid(uuidMusician))
         : getListDataExclusivePost({page: 1, perPage: perPage});
       setPage(1);
     }, [uuidMusician]),
@@ -158,6 +159,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       perPage: perPage * page,
       sortBy: dataResultFilter.label.toLowerCase(),
       category: categoryValue,
+      musician_uuid: uuid,
     });
     setFilterActive(true);
     setFilterByValue(dataResultFilter.label.toLowerCase());
@@ -168,6 +170,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
           page: page,
           perPage: perPage,
           sortBy: filterByValue,
+          musician_uuid: uuid,
         }),
         setFilterActive(false))
       : (getListDataExclusivePost({
@@ -175,6 +178,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
           perPage: perPage * page,
           category: dataResultCategory.value,
           sortBy: filterByValue,
+          musician_uuid: uuid,
         }),
         setFilterActive(true));
     setCategoryValue(dataResultCategory.value);
@@ -188,6 +192,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
         perPage: perPage,
         category: categoryValue,
         sortBy: filterByValue,
+        musician_uuid: uuid,
       });
       setPage(page + 1);
       setFilterActive(false);
