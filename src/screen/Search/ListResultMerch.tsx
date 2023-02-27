@@ -30,6 +30,10 @@ const ListResultMerch: FC<Props> = ({keyword}: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword]);
 
+  useEffect(() => {
+    console.log(dataMerchList);
+  }, [dataMerchList]);
+
   return (
     <View style={styles.container}>
       {isFetched && !isRefetching && (
@@ -81,6 +85,7 @@ const styles = StyleSheet.create({
     marginTop: heightPercentage(8),
     width: '100%',
     height: '100%',
+    paddingBottom: heightPercentage(200),
   },
   ListContainer: {
     paddingVertical: heightPercentage(25),
