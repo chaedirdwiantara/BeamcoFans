@@ -52,7 +52,7 @@ const DataMusician: FC<DataMusicianProps> = (props: DataMusicianProps) => {
       />
       <Gap height={24} />
       <ProfileComponent
-        title={t('Musician.Label.Origin')}
+        title={t('Setting.Account.Label.Location')}
         content={
           profile.originCity && profile.originCountry
             ? `${profile.originCity}, ${profile.originCountry}`
