@@ -73,6 +73,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   );
 
   useEffect(() => {
+    setFollowersCount(profile?.followers);
+  }, [profile?.followers, uuid]);
+
+  useEffect(() => {
     getCreditCount();
   }, [modalDonate]);
 
