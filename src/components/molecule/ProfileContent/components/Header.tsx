@@ -167,10 +167,12 @@ const styles = StyleSheet.create({
     marginTop: heightPercentage(15),
     textAlign: 'center',
   },
-  btnContainer: {
+   btnContainer: {
+    width: undefined,
     height: undefined,
-    width: widthPercentage(100),
-    aspectRatio: heightPercentage(100 / 32),
+    aspectRatio: undefined,
+    paddingHorizontal: widthPercentage(20),
+    paddingVertical: heightPercentage(10),
     marginVertical: heightPercentage(10),
   },
   editIcon: {
