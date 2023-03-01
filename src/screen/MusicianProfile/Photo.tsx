@@ -4,7 +4,7 @@ import {Gap, Title} from '../../components';
 import SquareComp from './SquareComp';
 import {widthResponsive} from '../../utils';
 import {color, font} from '../../theme';
-import {ms} from 'react-native-size-matters';
+import {ms, mvs} from 'react-native-size-matters';
 import {photos} from '../../interface/musician.interface';
 import {useTranslation} from 'react-i18next';
 
@@ -20,9 +20,9 @@ const Photo: FC<PhotoProps> = (props: PhotoProps) => {
 
   return (
     <View style={{marginHorizontal: widthResponsive(24), width: '100%'}}>
-      <Title text={title} />
+      <Title textStyle={{fontSize: mvs(13)}} text={title} />
       <Gap height={12} />
-      {data ? (
+      {data?.length > 0 ? (
         <View style={{flexDirection: 'row', width: '100%'}}>
           {data.map((item, i) => (
             <>
@@ -113,6 +113,6 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
     fontWeight: '500',
-    fontSize: ms(12),
+    fontSize: ms(14),
   },
 });
