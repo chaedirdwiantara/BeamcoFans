@@ -63,6 +63,9 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   );
   const [activeIndexSlide, setActiveIndexSlide] = useState<number>(0);
   const [listMusician, setListMusician] = useState(dataList);
+  const [loadingSave, setLoadingSave] = useState(false);
+
+  const selectedData = [selectedGenres, selectedMoods, selectedExpectations];
 
   const dataArray = [
     {
@@ -104,21 +107,39 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
       : setFollowMusician({musicianID: index});
   };
 
-  const handleNextSlide = () => {
-    if (activeIndexSlide === 0 && onUpdatePreference) {
+  const handleNextSlide = async () => {
+    if (activeIndexSlide === 2 && onUpdatePreference) {
+      setLoadingSave(true);
       onUpdatePreference({
         favoriteGeneres: selectedGenres,
-      });
-    } else if (activeIndexSlide === 1 && onUpdatePreference) {
-      onUpdatePreference({
         moods: selectedMoods,
-      });
-    } else if (activeIndexSlide === 2 && onUpdatePreference) {
-      onUpdatePreference({
         expectations: selectedExpectations,
       });
     }
-    const newIndex = activeIndexSlide + 1;
+    if (activeIndexSlide === 2) {
+      setTimeout(() => {
+        setLoadingSave(false);
+        const newIndex = activeIndexSlide + 1;
+        setActiveIndexSlide(newIndex);
+        scrollViewRef.current?.scrollTo({
+          x: width * newIndex,
+          y: 0,
+          animated: true,
+        });
+      }, 2000);
+    } else {
+      const newIndex = activeIndexSlide + 1;
+      setActiveIndexSlide(newIndex);
+      scrollViewRef.current?.scrollTo({
+        x: width * newIndex,
+        y: 0,
+        animated: true,
+      });
+    }
+  };
+
+  const onPressBack = () => {
+    const newIndex = activeIndexSlide - 1;
     setActiveIndexSlide(newIndex);
     scrollViewRef.current?.scrollTo({
       x: width * newIndex,
@@ -269,10 +290,12 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         type={type}
         activeIndexSlide={activeIndexSlide}
         data={type === 'Preference' ? dataArray : data}
+        onPressBack={onPressBack}
         onPressGoTo={onPress}
         onPressNext={onPressNext}
+        selectedData={selectedData}
       />
-      <ModalLoading visible={isLoading} />
+      <ModalLoading visible={isLoading || loadingSave} />
     </View>
   );
 };
