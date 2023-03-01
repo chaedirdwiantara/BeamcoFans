@@ -61,7 +61,6 @@ export const AccountContent: React.FC<AccountProps> = ({
   dataAllCountry,
 }) => {
   const {t} = useTranslation();
-  const [type, setType] = useState(t('Btn.Edit'));
   const [changes, setChanges] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
@@ -71,7 +70,6 @@ export const AccountContent: React.FC<AccountProps> = ({
 
   const {
     control,
-    handleSubmit,
     formState: {errors},
     getValues,
   } = useForm<InputProps>({
@@ -93,14 +91,11 @@ export const AccountContent: React.FC<AccountProps> = ({
   }, [toastVisible]);
 
   const onPressSave = () => {
-    if (type === t('Btn.Edit')) {
-      setType(t('Btn.Save'));
-    } else {
-      changes ? setShowModal(true) : setType(t('Btn.Edit'));
-    }
+    changes ? setShowModal(true) : onPressConfirm();
   };
 
   const onPressConfirm = async () => {
+    setShowModal(false);
     await updateProfilePreference({
       username: getValues('username'),
       fullname: getValues('fullname'),
@@ -108,9 +103,7 @@ export const AccountContent: React.FC<AccountProps> = ({
       locationCountry: getValues('locationCountry'),
     });
 
-    setType('Edit');
     setIsSubmit(true);
-    setShowModal(false);
     setChanges(false);
   };
 
@@ -131,114 +124,120 @@ export const AccountContent: React.FC<AccountProps> = ({
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
         leftIconAction={onPressGoBack}
-        containerStyles={{marginBottom: heightPercentage(15)}}
+        containerStyles={{
+          marginBottom: heightPercentage(15),
+          paddingHorizontal: widthResponsive(15),
+        }}
       />
 
-      <Controller
-        name="username"
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <SsuInput.InputLabel
-            label={t('Setting.Account.Label.Username') || ''}
-            value={value}
-            editable={type === t('Btn.Save')}
-            onChangeText={text => {
-              onChange(text.toLowerCase());
-              setIsError(false);
-              setChanges(true);
-            }}
-            placeholder={t('Setting.Account.Placeholder.Username') || ''}
-            isError={errors?.username ? true : false}
-            errorMsg={errors?.username?.message}
-            containerStyles={{marginTop: heightPercentage(15)}}
-          />
-        )}
-      />
+      <View
+        style={{
+          paddingHorizontal: widthResponsive(20),
+        }}>
+        <Controller
+          name="username"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <SsuInput.InputLabel
+              label={t('Setting.Account.Label.Username') || ''}
+              value={value}
+              onChangeText={text => {
+                onChange(text.toLowerCase());
+                setIsError(false);
+                setChanges(true);
+              }}
+              placeholder={t('Setting.Account.Placeholder.Username') || ''}
+              isError={errors?.username ? true : false}
+              errorMsg={errors?.username?.message}
+              containerStyles={{marginTop: heightPercentage(15)}}
+            />
+          )}
+        />
 
-      <Controller
-        name="fullname"
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <SsuInput.InputLabel
-            label={t('Setting.Account.Label.Fullname') || ''}
-            value={value}
-            editable={type === t('Btn.Save')}
-            onChangeText={text => {
-              onChange(text);
-              setIsError(false);
-              setChanges(true);
-            }}
-            placeholder={t('Setting.Account.Placeholder.Fullname') || ''}
-            isError={errors?.fullname ? true : false}
-            errorMsg={errors?.fullname?.message}
-            containerStyles={{marginTop: heightPercentage(15)}}
-          />
-        )}
-      />
+        <Controller
+          name="fullname"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <SsuInput.InputLabel
+              label={t('Setting.Account.Label.Fullname') || ''}
+              value={value}
+              onChangeText={text => {
+                onChange(text);
+                setIsError(false);
+                setChanges(true);
+              }}
+              placeholder={t('Setting.Account.Placeholder.Fullname') || ''}
+              isError={errors?.fullname ? true : false}
+              errorMsg={errors?.fullname?.message}
+              containerStyles={{marginTop: heightPercentage(15)}}
+            />
+          )}
+        />
 
-      <Controller
-        name="gender"
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <Dropdown.Input
-            initialValue={value}
-            data={dataGender}
-            disable={type !== t('Btn.Save')}
-            placeHolder={t('Setting.Account.Placeholder.Gender')}
-            dropdownLabel={t('Setting.Account.Label.Gender')}
-            textTyped={(newText: {label: string; value: string}) => {
-              onChange(newText.value);
-              setChanges(true);
-            }}
-            containerStyles={{marginTop: heightPercentage(15)}}
-            isError={errors?.gender ? true : false}
-            errorMsg={errors?.gender?.message}
-          />
-        )}
-      />
+        <Controller
+          name="gender"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <Dropdown.Input
+              initialValue={value}
+              data={dataGender}
+              placeHolder={t('Setting.Account.Placeholder.Gender')}
+              dropdownLabel={t('Setting.Account.Label.Gender')}
+              textTyped={(newText: {label: string; value: string}) => {
+                onChange(newText.value);
+                setChanges(true);
+              }}
+              containerStyles={{marginTop: heightPercentage(15)}}
+              isError={errors?.gender ? true : false}
+              errorMsg={errors?.gender?.message}
+            />
+          )}
+        />
 
-      <Controller
-        name="locationCountry"
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <Dropdown.Input
-            type="location"
-            initialValue={value}
-            data={dataAllCountry}
-            disable={type !== t('Btn.Save')}
-            placeHolder={'Search Country'}
-            dropdownLabel={t('Setting.Account.Label.Location')}
-            textTyped={(newText: {label: string; value: string}) => {
-              onChange(newText.value);
-              setChanges(true);
-            }}
-            containerStyles={{marginTop: heightPercentage(15)}}
-            isError={errors?.locationCountry ? true : false}
-            errorMsg={errors?.locationCountry?.message}
-          />
-        )}
-      />
+        <Controller
+          name="locationCountry"
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <Dropdown.Input
+              type="location"
+              initialValue={value}
+              data={dataAllCountry}
+              placeHolder={'Search Country'}
+              dropdownLabel={t('Setting.Account.Label.Location')}
+              textTyped={(newText: {label: string; value: string}) => {
+                onChange(newText.value);
+                setChanges(true);
+              }}
+              containerStyles={{marginTop: heightPercentage(15)}}
+              isError={errors?.locationCountry ? true : false}
+              errorMsg={errors?.locationCountry?.message}
+              searchText="Search country"
+            />
+          )}
+        />
 
-      {isError ? (
-        <View style={styles.containerErrorMsg}>
-          <ErrorIcon fill={Color.Error[400]} />
-          <Gap width={ms(4)} />
-          <Text style={styles.errorMsg}>{errorMsg}</Text>
-        </View>
-      ) : null}
+        {isError ? (
+          <View style={styles.containerErrorMsg}>
+            <ErrorIcon fill={Color.Error[400]} />
+            <Gap width={ms(4)} />
+            <Text style={styles.errorMsg}>{errorMsg}</Text>
+          </View>
+        ) : null}
 
-      <Button
-        label={type || ''}
-        onPress={onPressSave}
-        containerStyles={styles.button}
-      />
+        <Button
+          label={t('Btn.Save') || ''}
+          onPress={onPressSave}
+          textStyles={{fontSize: mvs(15)}}
+          containerStyles={styles.button}
+        />
+      </View>
 
       <ModalConfirm
         modalVisible={showModal}
         title={t('Setting.Account.Title') || ''}
         subtitle="Are you sure you want to update your account?"
         onPressClose={() => setShowModal(false)}
-        onPressOk={handleSubmit(onPressConfirm)}
+        onPressOk={onPressConfirm}
       />
 
       <SsuToast
@@ -273,11 +272,10 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: Color.Dark[800],
-    paddingHorizontal: widthPercentage(12),
   },
   button: {
     width: width * 0.9,
-    aspectRatio: widthPercentage(327 / 36),
+    aspectRatio: widthPercentage(327 / 38),
     marginTop: heightPercentage(25),
     alignSelf: 'center',
     backgroundColor: Color.Pink[200],
