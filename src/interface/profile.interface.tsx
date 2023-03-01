@@ -32,6 +32,7 @@ export type ProfileResponseData = {
   moods: MoodsType[];
   expectation: ExpectationType[];
   isValid: boolean;
+  language: string;
   following: number | null;
   songAdded: number | null;
   createdAt: string;

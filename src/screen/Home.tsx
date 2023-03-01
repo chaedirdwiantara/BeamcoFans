@@ -55,6 +55,7 @@ import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 import {defaultBanner} from '../data/home';
 import {useNotificationHook} from '../hooks/use-notification.hook';
 import {useCreditHook} from '../hooks/use-credit.hook';
+import {useTranslation} from 'react-i18next';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -66,6 +67,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {showToast} = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {i18n} = useTranslation();
+  const currentLanguage = i18n.language;
   const {
     dataMusician,
     getListDataMusician,
@@ -235,6 +238,12 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const onPressCoin = () => {
     isLogin ? goToScreen('TopupCoin') : setModalGuestVisible(true);
   };
+
+  useEffect(() => {
+    if (dataProfile?.data.language !== currentLanguage) {
+      i18n.changeLanguage(dataProfile?.data.language);
+    }
+  }, [dataProfile]);
 
   return (
     <View style={styles.root}>
