@@ -8,17 +8,18 @@ import {
   ViewStyle,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
-import {InfoProfileType} from '../../../data/profile';
-import {DataDetailMusician} from '../../../interface/musician.interface';
-import {ProfileResponseData} from '../../../interface/profile.interface';
-import Color from '../../../theme/Color';
-import Font from '../../../theme/Font';
+
 import {
   heightPercentage,
   width,
   widthPercentage,
   kFormatter,
 } from '../../../utils';
+import Font from '../../../theme/Font';
+import Color from '../../../theme/Color';
+import {InfoProfileType} from '../../../data/profile';
+import {DataDetailMusician} from '../../../interface/musician.interface';
+import {ProfileResponseData} from '../../../interface/profile.interface';
 
 interface UserInfoCardProps {
   profile?: DataDetailMusician;
@@ -57,7 +58,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
   const {
     type = '',
     containerStyles,
-    totalFollowing,
+    totalFollowing = 0,
     onPress,
     profile,
     selfProfile,
@@ -91,7 +92,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
 
   const infoProfileUser = [
     {
-      point: selfProfile?.following ? selfProfile.following : 0,
+      point: selfProfile?.following ? selfProfile.following : totalFollowing,
       title: t('Profile.Label.Following'),
     },
     {
@@ -117,9 +118,11 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
   return (
     <View style={[styles.root, containerStyles]}>
       {listItem.map((val, i) => {
-        const isFollowing = val.title === t('Profile.Label.Following');
+        const canPress =
+          val.title === t('Profile.Label.Following') ||
+          val.title === t('Musician.Label.Followers');
         const newOnPress = () => {
-          isFollowing ? onPress() : null;
+          canPress ? onPress() : null;
         };
 
         if (val.title === 'LINE') {
@@ -127,11 +130,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
         } else {
           return (
             <View style={{width: type === 'self' ? '30%' : '20%'}}>
-              <Item
-                point={isFollowing ? totalFollowing : val.point}
-                title={val.title}
-                onPress={newOnPress}
-              />
+              <Item point={val.point} title={val.title} onPress={newOnPress} />
             </View>
           );
         }

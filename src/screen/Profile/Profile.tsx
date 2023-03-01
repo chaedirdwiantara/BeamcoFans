@@ -107,6 +107,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     backgroundUri: banners,
     avatarUri: avatar,
     totalFollowing: dataProfile?.data.following,
+    totalLikedSong: dataProfile?.data.songAdded,
   };
 
   return (
@@ -124,6 +125,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
           toastText={toastText}
           isLoading={isLoading || playlistLoading}
           playerVisible={playerVisible}
+          totalCountlikedSong={dataProfile?.data.songAdded || 0}
         />
       ) : (
         <GuestContent />
