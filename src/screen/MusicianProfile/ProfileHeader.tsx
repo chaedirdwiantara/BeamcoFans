@@ -63,63 +63,65 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
         source={{uri: backgroundUri}}
         resizeMode="cover"
         style={styles.image}>
-        <AvatarProfile
-          initialName={initialname(fullname)}
-          imgUri={avatarUri}
-          type={type}
-          showIcon={type === 'edit'}
-          icon={<CameraIcon />}
-          // onPress={() => iconPress('avatarUri')}
-        />
-        <Gap height={12} />
-        <Text style={styles.fullname}>{fullname}</Text>
-        <Text style={styles.username}>{username}</Text>
-        <Gap height={19} />
-        {type === '' && (
-          <View style={styles.containerFooter}>
-            <Text style={styles.description}>{bio}</Text>
-            <Gap height={16} />
-            <View style={{flexDirection: 'row'}}>
-              {followed ? (
-                <>
-                  <Button
-                    type="border"
-                    label={t('Musician.Label.Following')}
-                    containerStyles={styles.btnContainer}
-                    textStyles={{color: color.Pink.linear}}
-                    onPress={() => {
-                      setFollowed(false);
-                      followOnPress(true);
-                    }}
-                  />
-                  <Gap width={11} />
-                  <Button
-                    label={t('Musician.Label.Tip')}
-                    containerStyles={styles.btnContainer2}
-                    onPress={onPressDonate}
-                  />
-                </>
-              ) : (
-                <>
-                  <ButtonGradient
-                    label={t('Musician.Label.Follow')}
-                    gradientStyles={styles.btnContainer}
-                    onPress={() => {
-                      setFollowed(true);
-                      followOnPress(false);
-                    }}
-                  />
-                  <Gap width={11} />
-                  <Button
-                    label={t('Musician.Label.Tip')}
-                    containerStyles={styles.btnContainer2}
-                    onPress={onPressDonate}
-                  />
-                </>
-              )}
+        <View style={styles.bgChild}>
+          <AvatarProfile
+            initialName={initialname(fullname)}
+            imgUri={avatarUri}
+            type={type}
+            showIcon={type === 'edit'}
+            icon={<CameraIcon />}
+            // onPress={() => iconPress('avatarUri')}
+          />
+          <Gap height={12} />
+          <Text style={styles.fullname}>{fullname}</Text>
+          <Text style={styles.username}>{username}</Text>
+          <Gap height={19} />
+          {type === '' && (
+            <View style={styles.containerFooter}>
+              <Text style={styles.description}>{bio}</Text>
+              <Gap height={16} />
+              <View style={styles.buttonContainer}>
+                {followed ? (
+                  <>
+                    <Button
+                      type="border"
+                      label={t('Musician.Label.Following')}
+                      containerStyles={styles.btnContainer}
+                      textStyles={{color: color.Pink.linear}}
+                      onPress={() => {
+                        setFollowed(false);
+                        followOnPress(true);
+                      }}
+                    />
+                    <Gap width={11} />
+                    <Button
+                      label={t('Musician.Label.Tip')}
+                      containerStyles={styles.btnContainer2}
+                      onPress={onPressDonate}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <ButtonGradient
+                      label={t('Musician.Label.Follow')}
+                      gradientStyles={styles.btnContainer}
+                      onPress={() => {
+                        setFollowed(true);
+                        followOnPress(false);
+                      }}
+                    />
+                    <Gap width={11} />
+                    <Button
+                      label={t('Musician.Label.Tip')}
+                      containerStyles={styles.btnContainer2}
+                      onPress={onPressDonate}
+                    />
+                  </>
+                )}
+              </View>
             </View>
-          </View>
-        )}
+          )}
+        </View>
       </ImageBackground>
     </View>
   );
@@ -157,6 +159,11 @@ const styles = StyleSheet.create({
     maxWidth: width * 0.9,
     textAlign: 'center',
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   btnContainer: {
     height: undefined,
     width: widthResponsive(100),
@@ -183,5 +190,12 @@ const styles = StyleSheet.create({
   },
   initialName: {
     color: color.Neutral[10],
+  },
+  bgChild: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.2)',
   },
 });

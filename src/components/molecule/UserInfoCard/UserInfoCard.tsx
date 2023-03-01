@@ -35,7 +35,7 @@ interface UserInfoCardProps {
   containerStyles?: ViewStyle;
   onPress: () => void;
   totalCountlikedSong?: number;
-  followersCount: number;
+  followersCount?: number;
 }
 
 type Props = {
@@ -72,7 +72,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
       title: t('Musician.Label.Fans'),
     },
     {
-      point: followersCount,
+      point: totalFollowing,
       title: t('Musician.Label.Followers'),
     },
     {

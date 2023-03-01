@@ -30,7 +30,6 @@ import {
   ModalSuccessDonate,
 } from '../';
 import {DataDetailAlbum, SongList} from '../../../interface/song.interface';
-import {AlbumData} from '../../../interface/musician.interface';
 import {dateFormat} from '../../../utils/date-format';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
@@ -141,7 +140,11 @@ export const AlbumContent: React.FC<Props> = ({
             title={detailAlbum.title}
             totalSong={dataSong?.length || 0}
             createdDate={dateFormat(detailAlbum.createdAt)}
-            createdBy={detailAlbum?.musicianName}
+            createdBy={
+              detailAlbum?.musician?.name !== undefined
+                ? detailAlbum?.musician.name
+                : ''
+            }
             avatarUri={
               detailAlbum?.imageUrl.length > 0
                 ? detailAlbum?.imageUrl[0].image
