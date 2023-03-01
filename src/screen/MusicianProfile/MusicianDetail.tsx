@@ -90,6 +90,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     navigation.navigate('PostDetail', data);
   };
 
+  const goToFollowers = () => {
+    navigation.navigate('Followers', {uuid});
+  };
+
   const followOnPress = (isFollowed: boolean) => {
     isFollowed
       ? (setUnfollowMusician({musicianID: profile.uuid}),
@@ -142,7 +146,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         />
         <View style={styles.infoCard}>
           <UserInfoCard
-            onPress={() => {}}
+            onPress={goToFollowers}
             profile={profile}
             followersCount={followersCount}
           />
