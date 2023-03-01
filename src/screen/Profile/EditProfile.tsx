@@ -44,8 +44,8 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
     navigation.goBack();
   };
 
-  const onPressSave = (param: {bio: string}) => {
-    updateProfileUser(
+  const onPressSave = async (param: {bio: string}) => {
+    await updateProfileUser(
       {
         about: param.bio,
         imageProfileUrl: avatarUri,

@@ -9,6 +9,7 @@ import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
+import {useTranslation} from 'react-i18next';
 
 import Color from '../../theme/Color';
 import {storage} from '../../hooks/use-storage.hook';
@@ -18,7 +19,7 @@ import {profileStorage} from '../../hooks/use-storage.hook';
 import {GuestContent, ProfileContent} from '../../components';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 import {MainTabParams, RootStackParams} from '../../navigations';
-import {useTranslation} from 'react-i18next';
+import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 
 type ProfileProps = NativeStackScreenProps<MainTabParams, 'Profile'>;
 
@@ -113,20 +114,25 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   return (
     <View style={styles.root}>
       {isLogin ? (
-        <ProfileContent
-          profile={profile}
-          goToPlaylist={goToPlaylist}
-          dataPlaylist={dataPlaylist}
-          goToEditProfile={goToEditProfile}
-          onPressGoTo={screenName => onPressGoTo(screenName)}
-          showCreateCard
-          toastVisible={toastVisible}
-          setToastVisible={setToastVisible}
-          toastText={toastText}
-          isLoading={isLoading || playlistLoading}
-          playerVisible={playerVisible}
-          totalCountlikedSong={dataProfile?.data.songAdded || 0}
-        />
+        <>
+          {dataProfile && (
+            <ProfileContent
+              profile={profile}
+              goToPlaylist={goToPlaylist}
+              dataPlaylist={dataPlaylist}
+              goToEditProfile={goToEditProfile}
+              onPressGoTo={screenName => onPressGoTo(screenName)}
+              showCreateCard
+              toastVisible={toastVisible}
+              setToastVisible={setToastVisible}
+              toastText={toastText}
+              playerVisible={playerVisible}
+              totalCountlikedSong={dataProfile?.data.songAdded || 0}
+            />
+          )}
+
+          <ModalLoading visible={isLoading || playlistLoading} />
+        </>
       ) : (
         <GuestContent />
       )}
