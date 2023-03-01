@@ -1,5 +1,12 @@
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {Gap, Title} from '../../components';
 import {color, font} from '../../theme';
 import {widthResponsive} from '../../utils';
@@ -13,21 +20,20 @@ import {
   VkIcon,
   WeiboIcon,
 } from '../../assets/icon';
-
-interface Socmed {
-  name: string;
-  username: string;
-  value: string;
-}
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../../navigations';
+import {nameValue} from '../../interface/base.interface';
 
 interface ProfileProps {
   title: string;
   content?: string;
   gap?: number;
   socmedSection?: boolean;
-  socmed?: Socmed[];
+  socmed?: nameValue[];
   memberSection?: boolean;
   members?: string[];
+  containerStyles?: ViewStyle;
 }
 
 const ProfileComponent: FC<ProfileProps> = (props: ProfileProps) => {
@@ -39,10 +45,21 @@ const ProfileComponent: FC<ProfileProps> = (props: ProfileProps) => {
     socmed,
     members,
     memberSection,
+    containerStyles,
   } = props;
 
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const handleWebview = (ttl: string, url: string) => {
+    navigation.navigate('Webview', {
+      title: ttl,
+      url: url,
+    });
+  };
+
   return (
-    <View style={{paddingHorizontal: widthResponsive(24)}}>
+    <View style={[{paddingHorizontal: widthResponsive(24)}, containerStyles]}>
       <Title text={title} />
       <Gap height={gap} />
       {content && <Text style={styles.captionStyle}>{content}</Text>}
@@ -73,33 +90,61 @@ const ProfileComponent: FC<ProfileProps> = (props: ProfileProps) => {
               data={socmed}
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{}}
-              renderItem={({item, index}) =>
+              renderItem={({item}) =>
                 item.name === 'facebook' ? (
-                  <TouchableOpacity style={styles.touchStyle}>
+                  <TouchableOpacity
+                    style={styles.touchStyle}
+                    onPress={() =>
+                      handleWebview(item.name as string, item.value as string)
+                    }>
                     <FbIcon />
                   </TouchableOpacity>
                 ) : item.name === 'twitter' ? (
-                  <TouchableOpacity style={styles.touchStyle}>
+                  <TouchableOpacity
+                    style={styles.touchStyle}
+                    onPress={() =>
+                      handleWebview(item.name as string, item.value as string)
+                    }>
                     <TwitterIcon />
                   </TouchableOpacity>
                 ) : item.name === 'instagram' ? (
-                  <TouchableOpacity style={styles.touchStyle}>
+                  <TouchableOpacity
+                    style={styles.touchStyle}
+                    onPress={() =>
+                      handleWebview(item.name as string, item.value as string)
+                    }>
                     <InstagramIcon />
                   </TouchableOpacity>
                 ) : item.name === 'tiktok' ? (
-                  <TouchableOpacity style={styles.touchStyle}>
+                  <TouchableOpacity
+                    style={styles.touchStyle}
+                    onPress={() =>
+                      handleWebview(item.name as string, item.value as string)
+                    }>
                     <TiktokIcon />
                   </TouchableOpacity>
                 ) : item.name === 'snapchat' ? (
-                  <TouchableOpacity style={styles.touchStyle}>
+                  <TouchableOpacity
+                    style={styles.touchStyle}
+                    onPress={() =>
+                      handleWebview(item.name as string, item.value as string)
+                    }>
                     <SnapchatIcon />
                   </TouchableOpacity>
                 ) : item.name === 'vk' ? (
-                  <TouchableOpacity style={styles.touchStyle}>
+                  <TouchableOpacity
+                    style={styles.touchStyle}
+                    onPress={() =>
+                      handleWebview(item.name as string, item.value as string)
+                    }>
                     <VkIcon style={{marginTop: ms(-3)}} />
                   </TouchableOpacity>
                 ) : item.name === 'weibo' ? (
-                  <TouchableOpacity style={styles.touchStyle}>
+                  <TouchableOpacity
+                    style={styles.touchStyle}
+                    onPress={() =>
+                      handleWebview(item.name as string, item.value as string)
+                    }>
                     <WeiboIcon />
                   </TouchableOpacity>
                 ) : null
