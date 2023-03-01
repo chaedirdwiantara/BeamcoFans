@@ -245,6 +245,12 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     }
   }, [dataProfile]);
 
+  const listMusician = isLogin ? dataMusician : dataSearchMusicians;
+
+  if (listMusician.length === 0 || listMusician === undefined) {
+    return <View style={styles.root} />;
+  }
+
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
@@ -300,7 +306,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           />
           {filter[selectedIndex].filterName === 'Home.Tab.TopMusician.Title' ? (
             <TopMusician
-              dataMusician={isLogin ? dataMusician : dataSearchMusicians}
+              dataMusician={listMusician}
               setFollowMusician={(
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,
@@ -315,7 +321,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               dataSong={isLogin ? dataSong : dataSearchSongs}
               onPress={onPressTopSong}
               type={'home'}
-              loveIcon={true}
+              loveIcon={isLogin}
             />
           ) : (
             <PostList

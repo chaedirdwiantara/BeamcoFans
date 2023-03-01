@@ -1,15 +1,14 @@
 import {StyleSheet, View} from 'react-native';
 import React, {FC, useCallback} from 'react';
-import {MusicianDetail} from './MusicianDetail';
+import {useFocusEffect} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
 import {color} from '../../theme';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {MusicianDetail} from './MusicianDetail';
 import {RootStackParams} from '../../navigations';
 import {useMusicianHook} from '../../hooks/use-musician.hook';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AlbumData} from '../../interface/musician.interface';
-import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 import {FollowMusicianPropsType} from '../../interface/musician.interface';
+import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 
 type PostDetailProps = NativeStackScreenProps<
   RootStackParams,
@@ -17,14 +16,10 @@ type PostDetailProps = NativeStackScreenProps<
 >;
 
 const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
-
   const uuid = route.params.id;
 
   const {
     isLoading,
-    isError,
     dataDetailMusician,
     dataAlbum,
     getAlbum,
@@ -37,14 +32,14 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   useFocusEffect(
     useCallback(() => {
       getDetailMusician({id: uuid});
-    }, []),
+    }, [uuid]),
   );
 
   //  ? Get Album Musician
   useFocusEffect(
     useCallback(() => {
       getAlbum({uuid: uuid});
-    }, []),
+    }, [uuid]),
   );
 
   return (

@@ -4,12 +4,19 @@ export type SearchProps = {
   keyword: string;
   filterBy?: string;
 };
+
+export type FollowersProps = {
+  keyword?: string;
+  uuid: string;
+};
+
 export type ListDataSearchFans = {
   uuid: string;
   username: string;
   fullname: string;
   email: string;
   imageProfileUrls: imageTypes[];
+  followersType: 'fans' | 'musician';
 };
 
 export type ListSearchFansResponseType = {

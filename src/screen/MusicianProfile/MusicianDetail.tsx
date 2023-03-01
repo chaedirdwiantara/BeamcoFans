@@ -73,6 +73,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   );
 
   useEffect(() => {
+    setFollowersCount(profile?.followers);
+  }, [profile?.followers, uuid]);
+
+  useEffect(() => {
     getCreditCount();
   }, [modalDonate]);
 
@@ -88,6 +92,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
 
   const cardOnPress = (data: PostList) => {
     navigation.navigate('PostDetail', data);
+  };
+
+  const goToFollowers = () => {
+    navigation.navigate('Followers', {uuid});
   };
 
   const followOnPress = (isFollowed: boolean) => {
@@ -142,7 +150,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         />
         <View style={styles.infoCard}>
           <UserInfoCard
-            onPress={() => {}}
+            onPress={goToFollowers}
             profile={profile}
             followersCount={followersCount}
           />

@@ -6,7 +6,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {ms} from 'react-native-size-matters';
+import {ms, mvs} from 'react-native-size-matters';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -43,9 +43,9 @@ const Album: FC<AlbumProps> = (props: AlbumProps) => {
 
   return (
     <View style={[{marginHorizontal: widthResponsive(24)}, containerStyles]}>
-      <Title text={title} textStyle={titleStyle} />
+      <Title textStyle={{fontSize: mvs(13)}} text={title} />
       <Gap height={12} />
-      {data ? (
+      {data?.length > 0 ? (
         <View>
           {data.map((item, i) => (
             <TouchableOpacity
@@ -126,6 +126,6 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
     fontWeight: '500',
-    fontSize: ms(12),
+    fontSize: ms(14),
   },
 });
