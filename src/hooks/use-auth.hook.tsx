@@ -91,7 +91,6 @@ export const useAuthHook = () => {
       } else {
         response = await loginPhoneNumber(props);
       }
-      console.log({response});
 
       if (response.code === 200 || response.code === 401) {
         if (response.data.accessToken) {

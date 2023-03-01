@@ -45,6 +45,7 @@ import {DataDropDownType} from '../../data/dropdown';
 import MusicListPreview from '../../components/molecule/MusicPreview/MusicListPreview';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useTranslation} from 'react-i18next';
+import {useCreditHook} from '../../hooks/use-credit.hook';
 
 type cmntToCmnt = {
   id: string;
@@ -104,6 +105,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const musicianName = data.musician.fullname;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {creditCount, getCreditCount} = useCreditHook();
 
   const [likePressed, setLikePressed] = useState<boolean>();
   const [readMore, setReadMore] = useState<boolean>(false);
@@ -151,6 +153,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [selectedLvlComment, setSelectedLvlComment] = useState<number>();
   const [updateComment, setUpdateComment] = useState<boolean>(false);
   const [temporaryIds, setTemporaryIds] = useState<string>();
+
+  useEffect(() => {
+    getCreditCount();
+  }, [modalDonate]);
 
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
@@ -966,7 +972,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           modalStyle={{marginHorizontal: widthResponsive(24)}}
         />
         <ModalDonate
-          totalCoin={'1000'}
+          totalCoin={creditCount}
           onPressDonate={onPressDonate}
           modalVisible={modalDonate}
           onPressClose={() => setModalDonate(false)}

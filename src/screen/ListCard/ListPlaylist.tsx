@@ -11,10 +11,11 @@ interface ListPlaylistScreen {
   onPress: (id: number, name: string) => void;
   scrollable?: boolean;
   withoutNum?: boolean;
+  playerVisible?: boolean;
 }
 
 const ListPlaylist: FC<ListPlaylistScreen> = (props: ListPlaylistScreen) => {
-  const {onPress, scrollable, data, withoutNum} = props;
+  const {onPress, scrollable, data, withoutNum, playerVisible} = props;
   const {t} = useTranslation();
 
   return (
@@ -32,7 +33,13 @@ const ListPlaylist: FC<ListPlaylistScreen> = (props: ListPlaylistScreen) => {
             t('Profile.Label.CreatedBy') + ' ' + item.playlistOwner.fullname
           }
           onPressCard={() => onPress(item.id, item.name)}
-          containerStyles={{marginTop: mvs(20)}}
+          containerStyles={{
+            marginTop: mvs(20),
+            marginBottom:
+              index === data?.length - 1 && playerVisible
+                ? heightResponsive(70)
+                : 0,
+          }}
           isPublic={item.isPublic}
         />
       )}

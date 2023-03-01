@@ -49,6 +49,7 @@ import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading'
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import MusicListPreview from '../../components/molecule/MusicPreview/MusicListPreview';
 import {useTranslation} from 'react-i18next';
+import {useCreditHook} from '../../hooks/use-credit.hook';
 
 const {height} = Dimensions.get('screen');
 
@@ -119,6 +120,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     addPlaylistFeed,
   } = usePlayerHook();
 
+  const {creditCount, getCreditCount} = useCreditHook();
+
   const {t} = useTranslation();
 
   const {dataProfile, getProfileUser} = useProfileHook();
@@ -126,6 +129,10 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   useEffect(() => {
     getProfileUser();
   }, []);
+
+  useEffect(() => {
+    getCreditCount();
+  }, [modalDonate]);
 
   useEffect(() => {
     dataProfile?.data.images.length !== 0 &&
@@ -609,7 +616,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
         modalStyle={{marginHorizontal: widthResponsive(24)}}
       />
       <ModalDonate
-        totalCoin={'1000'}
+        totalCoin={creditCount}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={onPressCloseModalDonate}
