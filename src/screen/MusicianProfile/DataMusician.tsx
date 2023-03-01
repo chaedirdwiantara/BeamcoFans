@@ -54,8 +54,8 @@ const DataMusician: FC<DataMusicianProps> = (props: DataMusicianProps) => {
       <ProfileComponent
         title={t('Setting.Account.Label.Location')}
         content={
-          profile.originCity && profile.originCountry
-            ? `${profile.originCity}, ${profile.originCountry}`
+          profile.locationCity && profile.locationCountry
+            ? `${profile.locationCity}, ${profile.locationCountry}`
             : noDataText
         }
       />
