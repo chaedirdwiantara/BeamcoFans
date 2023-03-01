@@ -19,7 +19,7 @@ export const PhotoPlaylist: React.FC<Props> = ({uri, showIcon, onPress}) => {
       <ImageBackground
         source={{uri: uri}}
         resizeMode="cover"
-        // imageStyle={{borderRadius: 8}}
+        imageStyle={{borderRadius: widthResponsive(8)}}
         style={styles.image}>
         {showIcon && <GalleryAddIcon />}
       </ImageBackground>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     width: widthResponsive(148),
     height: undefined,
     aspectRatio: 1 / 1,
-    borderRadius: 8,
+    borderRadius: widthResponsive(8),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: color.Success[400],
