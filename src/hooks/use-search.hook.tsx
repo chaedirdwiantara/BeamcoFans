@@ -3,11 +3,14 @@ import {
   albumSearch,
   fansSearch,
   listBannerPublic,
+  listFollowers,
   musicianSearch,
   playlistSearch,
   songSearch,
 } from '../api/search.api';
 import {
+  FollowersProps,
+  ListDataSearchFans,
   ListDataSearchMusician,
   ListDataSearchSongs,
   SearchProps,
@@ -25,6 +28,7 @@ export const useSearchHook = () => {
     [],
   );
   const [dataPublicBanner, setDataPublicBanner] = useState<BannerList[]>([]);
+  const [dataFollowers, setDataFollowers] = useState<ListDataSearchFans[]>([]);
 
   const getSearchFans = async (props?: SearchProps) => {
     try {
@@ -125,11 +129,24 @@ export const useSearchHook = () => {
     }
   };
 
+  const getListFollowers = async (props: FollowersProps) => {
+    setSearchLoading(true);
+    try {
+      const response = await listFollowers(props);
+      setDataFollowers(response.data);
+    } catch (error) {
+      setDataFollowers([]);
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
   return {
     searchLoading,
     dataPublicBanner,
     dataSearchMusicians,
     dataSearchSongs,
+    dataFollowers,
     getSearchFans,
     getSearchMusicians,
     getSearchAlbums,
@@ -138,5 +155,6 @@ export const useSearchHook = () => {
     getListDataBannerPublic,
     getSearchMerchs,
     getSearchEvents,
+    getListFollowers,
   };
 };
