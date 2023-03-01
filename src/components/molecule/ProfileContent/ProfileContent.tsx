@@ -8,6 +8,7 @@ import {
   NativeSyntheticEvent,
   Text,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 
 import {
   width,
@@ -23,12 +24,10 @@ import {ProfileHeader} from './components/Header';
 import {EmptyState} from '../EmptyState/EmptyState';
 import {TopSongListData} from '../../../data/topSong';
 import {UserInfoCard} from '../UserInfoCard/UserInfoCard';
-import {ModalLoading} from '../ModalLoading/ModalLoading';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import {Playlist} from '../../../interface/playlist.interface';
 import ListPlaylist from '../../../screen/ListCard/ListPlaylist';
 import {CheckCircle2Icon, SettingIcon} from '../../../assets/icon';
-import {useTranslation} from 'react-i18next';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -46,7 +45,6 @@ interface ProfileContentProps {
   toastVisible: boolean;
   setToastVisible: (param: boolean) => void;
   toastText: string;
-  isLoading: boolean;
   totalCountlikedSong?: number;
   playerVisible?: boolean;
 }
@@ -62,7 +60,6 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   setToastVisible,
   totalCountlikedSong,
   toastText,
-  isLoading,
   playerVisible,
 }) => {
   const {t} = useTranslation();
@@ -195,8 +192,6 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           </View>
         }
       />
-
-      <ModalLoading visible={isLoading} />
     </View>
   );
 };
