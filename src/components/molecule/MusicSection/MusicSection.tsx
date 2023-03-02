@@ -127,7 +127,7 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
     <>
       <ListCard.MusicList
         dataFilter={newDataMore ? newDataMore : dataMore}
-        onPressMore={newOnPressMore ? newOnPressMore : resultDataMore}
+        onPressMore={newDataMore ? newOnPressMore : resultDataMore}
         {...props}
       />
 
