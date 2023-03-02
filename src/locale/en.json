@@ -497,7 +497,8 @@
       "Delete": "Delete Playlist",
       "Share": "Share Playlist",
       "Success": "Song have been added to playlist!",
-      "Remove": "Remove from Playlist"
+      "Remove": "Remove from Playlist",
+      "ViewAlbum": "View Album"
     },
     "Credit": {
       "Title": "Show Credit",
