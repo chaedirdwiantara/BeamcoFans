@@ -110,7 +110,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
           style={styles.image}>
           <View style={styles.bgChild}>
             <TouchableOpacity
-              style={styles.bgChild}
               activeOpacity={avatarPress ? 1 : 0.5}
               onPress={() =>
                 avatarPress ? null : onPressImage && onPressImage(avatarUri)

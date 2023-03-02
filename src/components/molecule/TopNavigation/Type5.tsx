@@ -34,6 +34,7 @@ const Type5: React.FC<Props> = (props: Props) => {
         {props.profileUri ? (
           <TouchableOpacity
             style={topNavstyles.iconLeftContainer}
+            activeOpacity={1}
             onPress={props.leftIconAction}>
             <Avatar imgUri={props.profileUri} size={34} />
           </TouchableOpacity>
