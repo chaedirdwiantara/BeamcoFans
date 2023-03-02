@@ -578,10 +578,10 @@
       "Song": "Song not found",
       "Fans": "Fans not found"
     },
-    "NoAlbum": "No Album Available",
-    "NoMerch": "No Merch Available",
+    "NoAlbum": "No Album Available.",
+    "NoMerch": "No Merch Available.",
     "NoInfo": "No Information Given.",
-    "NoPhoto": "No Photos Available"
+    "NoPhoto": "No Photos Available."
   },
   "Guest": {
     "Title": "Sign Up to Interact with Musician",

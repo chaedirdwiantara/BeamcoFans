@@ -579,10 +579,10 @@
       "Song": "Song not found",
       "Fans": "Fans not found"
     },
-    "NoAlbum": "No Album Available",
+    "NoAlbum": "No Album Available.",
     "NoMerch": "未有產品",
     "NoInfo": "No Information Given.",
-    "NoPhoto": "No Photos Available"
+    "NoPhoto": "No Photos Available."
   },
   "Guest": {
     "Title": "立即註冊與音樂人互動",

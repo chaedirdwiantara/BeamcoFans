@@ -24,6 +24,7 @@ import {ProfileHeader} from './components/Header';
 import {EmptyState} from '../EmptyState/EmptyState';
 import {TopSongListData} from '../../../data/topSong';
 import {UserInfoCard} from '../UserInfoCard/UserInfoCard';
+import ImageModal from '../../../screen/Detail/ImageModal';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import {Playlist} from '../../../interface/playlist.interface';
 import ListPlaylist from '../../../screen/ListCard/ListPlaylist';
@@ -63,8 +64,16 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   playerVisible,
 }) => {
   const {t} = useTranslation();
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [scrollEffect, setScrollEffect] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [scrollEffect, setScrollEffect] = useState<boolean>(false);
+  const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [zoomImage, setZoomImage] = useState<string[]>([]);
+
+  const showImage = (uri: string) => {
+    setModalVisible(!isModalVisible);
+    setZoomImage([uri]);
+  };
+
   const [filter] = useState([
     {filterName: 'Profile.Tab.Playlist'},
     {filterName: 'Profile.Tab.TopMusician'},
@@ -105,6 +114,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           scrollEffect={scrollEffect}
           noEdit={!showCreateCard}
           backIcon={!showCreateCard}
+          onPressImage={showImage}
         />
         <UserInfoCard
           type="self"
@@ -191,6 +201,14 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             </Text>
           </View>
         }
+      />
+
+      <ImageModal
+        toggleModal={() => setModalVisible(!isModalVisible)}
+        modalVisible={isModalVisible}
+        imageIdx={0}
+        dataImage={zoomImage}
+        type={'zoomProfile'}
       />
     </View>
   );

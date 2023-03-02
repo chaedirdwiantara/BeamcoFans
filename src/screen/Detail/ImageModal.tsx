@@ -2,6 +2,7 @@ import {
   Animated,
   Dimensions,
   SafeAreaView,
+  StatusBar,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -21,13 +22,20 @@ interface ModalImageProps {
   toggleModal: () => void;
   modalVisible: boolean;
   imageIdx: number;
-  dataImage?: imageTypes[][];
+  dataImage?: imageTypes[][] | string[];
   dataImageGallery?: photos[];
+  type?: string;
 }
 
 const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
-  const {toggleModal, modalVisible, imageIdx, dataImage, dataImageGallery} =
-    props;
+  const {
+    toggleModal,
+    modalVisible,
+    imageIdx,
+    dataImage,
+    dataImageGallery,
+    type,
+  } = props;
 
   const scrollX = useRef(new Animated.Value(0)).current;
   const imageSlider = useRef(null);
@@ -48,6 +56,7 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
       backdropColor={color.Dark[800]}
       style={{marginHorizontal: 0}}
       onBackButtonPress={toggleModal}>
+      <StatusBar backgroundColor={color.Dark[800]} />
       <SafeAreaView style={styles.container}>
         <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
           <CloseCircleIcon />
@@ -73,6 +82,7 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
                     <FastImage
                       source={{uri: item.images[3].image}}
                       style={[styles.imageStyle]}
+                      resizeMode={FastImage.resizeMode.contain}
                     />
                   </View>
                 </Animated.View>
@@ -95,8 +105,11 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
                 <Animated.View style={styles.mainImageWrapper}>
                   <View style={styles.imageWrapper}>
                     <FastImage
-                      source={{uri: item[3].image}}
+                      source={{
+                        uri: type === 'zoomProfile' ? item : item[3].image,
+                      }}
                       style={[styles.imageStyle]}
+                      resizeMode={FastImage.resizeMode.contain}
                     />
                   </View>
                 </Animated.View>
@@ -133,7 +146,8 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     width: width,
-    height: heightResponsive(320),
+    height: undefined,
+    aspectRatio: 1 / 2,
   },
   imageStyle: {
     height: '100%',
