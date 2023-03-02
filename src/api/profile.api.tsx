@@ -3,10 +3,12 @@ import {PostPropsTypeA} from '../interface/feed.interface';
 import {
   CountLikedResponseType,
   DeleteProfileResponseType,
+  ProfileCountResponseType,
   ProfileResponseType,
   UpdateProfileResponseType,
 } from '../interface/profile.interface';
 import SsuAPI from './base';
+import SsuAPISemeru from './baseSemeruMusician';
 import SsuAPIPublicRinjani from './basePublic';
 import BaseSemeruPublic from './baseSemeruPublic';
 
@@ -73,6 +75,18 @@ export const deleteProfile = async (
     url: '/profile',
     method: 'DELETE',
     data: props,
+  });
+
+  return data;
+};
+
+export const getTotalCount = async (
+  props?: ParamsProps,
+): Promise<ProfileCountResponseType> => {
+  const {data} = await SsuAPISemeru().request<ProfileCountResponseType>({
+    url: '/profile',
+    method: 'GET',
+    params: props,
   });
 
   return data;

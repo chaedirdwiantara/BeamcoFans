@@ -6,6 +6,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {color} from '../../theme';
 import {MusicianDetail} from './MusicianDetail';
 import {RootStackParams} from '../../navigations';
+import {useProfileHook} from '../../hooks/use-profile.hook';
 import {useMusicianHook} from '../../hooks/use-musician.hook';
 import {FollowMusicianPropsType} from '../../interface/musician.interface';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
@@ -17,6 +18,7 @@ type PostDetailProps = NativeStackScreenProps<
 
 const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const uuid = route.params.id;
+  const {dataCountProfile, getTotalCountProfile} = useProfileHook();
 
   const {
     isLoading,
@@ -32,6 +34,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   useFocusEffect(
     useCallback(() => {
       getDetailMusician({id: uuid});
+      getTotalCountProfile({uuid});
     }, [uuid]),
   );
 
@@ -46,7 +49,11 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     <View style={styles.root}>
       {dataDetailMusician && (
         <MusicianDetail
-          profile={dataDetailMusician}
+          profile={{
+            ...dataDetailMusician,
+            totalRelease: dataCountProfile?.countAlbumReleased || 0,
+            totalPlaylist: dataCountProfile?.countPlaylist || 0,
+          }}
           uuid={uuid}
           dataAlbum={dataAlbum}
           setFollowMusician={(props?: FollowMusicianPropsType) =>
