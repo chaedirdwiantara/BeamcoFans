@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {
   addEmail,
   addPhoneNumber,
+  exclusiveContent,
   getListExpectations,
   getListGenre,
   getListMood,
@@ -14,8 +15,10 @@ import {
   updatePhoneNumber,
   verifPasswordSetting,
 } from '../api/setting.api';
+import {ParamsProps} from '../interface/base.interface';
 import {
   ChangePasswordProps,
+  DataExclusiveResponse,
   DataShippingProps,
   EmailPhoneProps,
   EmailPhoneVerifProps,
@@ -41,6 +44,8 @@ export const useSettingHook = () => {
     genre: [],
     expectation: [],
   });
+  const [dataExclusiveContent, setDataExclusiveContent] =
+    useState<DataExclusiveResponse | null>(null);
 
   const getVerificationCode = async (props?: EmailPhoneVerifProps) => {
     setIsLoading(true);
@@ -312,6 +317,21 @@ export const useSettingHook = () => {
     }
   };
 
+  const getExclusiveContent = async (props?: ParamsProps) => {
+    setIsLoading(true);
+    try {
+      const response = await exclusiveContent(props);
+      setDataExclusiveContent(response.data);
+      setFetchData(false);
+    } catch (error) {
+      setIsError(true);
+      setDataExclusiveContent(null);
+      setFetchData(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -334,5 +354,7 @@ export const useSettingHook = () => {
     changePassword,
     getShippingInfo,
     getListPreference,
+    dataExclusiveContent,
+    getExclusiveContent,
   };
 };

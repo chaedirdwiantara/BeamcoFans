@@ -14,7 +14,9 @@ import {
   PreferenceReaponseType,
   PreferenceProps,
   LanguageResponseType,
+  ExclusiveResponseType,
 } from '../interface/setting.interface';
+import {ParamsProps} from '../interface/base.interface';
 
 export const updateEmail = async (
   props?: EmailPhoneProps,
@@ -190,6 +192,17 @@ export const setLanguageSettings = async (
     data: {
       language: lang,
     },
+  });
+
+  return data;
+};
+
+export const exclusiveContent = async (
+  props?: ParamsProps,
+): Promise<ExclusiveResponseType> => {
+  const {data} = await SsuAPI().request<ExclusiveResponseType>({
+    url: `/musicians/${props?.uuid}/exclusive-content`,
+    method: 'GET',
   });
 
   return data;

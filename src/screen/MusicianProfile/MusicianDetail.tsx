@@ -35,6 +35,7 @@ import DataMusician from './DataMusician';
 import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../hooks/use-credit.hook';
 import ImageModal from '../Detail/ImageModal';
+import {DataExclusiveResponse} from '../../interface/setting.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -45,6 +46,7 @@ interface MusicianDetailProps {
   dataAlbum: AlbumData[];
   setFollowMusician: (props?: FollowMusicianPropsType) => void;
   setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
+  exclusiveContent?: DataExclusiveResponse;
 }
 
 export const MusicianDetail: React.FC<MusicianDetailProps> = ({
@@ -53,6 +55,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   dataAlbum,
   setFollowMusician,
   setUnfollowMusician,
+  exclusiveContent,
 }) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -163,7 +166,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
             profile={profile}
             followersCount={followersCount}
           />
-          <ExclusiveDailyContent />
+          {exclusiveContent && <ExclusiveDailyContent {...exclusiveContent} />}
           <Gap height={10} />
           <View style={styles.containerContent}>
             <TabFilter.Type1
