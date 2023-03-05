@@ -31,8 +31,8 @@ export const listPost = async (
 export const listTopPost = async (
   props?: ParamsProps,
 ): Promise<ListPostResponseType> => {
-  const {data} = await SsuAPIPublic().request<ListPostResponseType>({
-    url: '/top-post',
+  const {data} = await SsuAPI().request<ListPostResponseType>({
+    url: '/posts/top-post',
     method: 'GET',
     params: props,
   });
