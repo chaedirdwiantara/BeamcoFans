@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, useEffect} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
@@ -10,6 +10,7 @@ import {useProfileHook} from '../../hooks/use-profile.hook';
 import {useMusicianHook} from '../../hooks/use-musician.hook';
 import {FollowMusicianPropsType} from '../../interface/musician.interface';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
+import {useSettingHook} from '../../hooks/use-setting.hook';
 
 type PostDetailProps = NativeStackScreenProps<
   RootStackParams,
@@ -29,12 +30,14 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
+  const {dataExclusiveContent, getExclusiveContent} = useSettingHook();
 
   //  ? Get Detail Musician
   useFocusEffect(
     useCallback(() => {
       getDetailMusician({id: uuid});
       getTotalCountProfile({uuid});
+      getExclusiveContent({uuid: uuid});
     }, [uuid]),
   );
 
@@ -44,6 +47,10 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       getAlbum({uuid: uuid});
     }, [uuid]),
   );
+
+  useEffect(() => {
+    console.log({dataDetailMusician});
+  }, [dataDetailMusician]);
 
   return (
     <View style={styles.root}>
@@ -62,6 +69,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           setUnfollowMusician={(props?: FollowMusicianPropsType) =>
             setUnfollowMusician(props, {}, true)
           }
+          exclusiveContent={dataExclusiveContent ?? undefined}
         />
       )}
       <ModalLoading visible={isLoading} />
