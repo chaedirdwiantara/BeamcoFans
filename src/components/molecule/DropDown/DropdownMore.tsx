@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   // Item container in modal container
   itemContainer: {
-    height: mvs(47),
+    // height: mvs(47),
     backgroundColor: itemBg,
     borderColor: itemBg,
   },
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   fontAll: {
     fontFamily: font.InterRegular,
     fontWeight: '500',
-    fontSize: normalize(10),
+    fontSize: normalize(11),
     color: color.Neutral[10],
   },
 });

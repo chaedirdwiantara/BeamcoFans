@@ -22,7 +22,7 @@ interface TopSongPropsScreen {
   activeOpacity?: number;
   loveIcon?: boolean;
   newDataMore?: DataDropDownType[];
-  newOnPressMore?: (data: DataDropDownType) => void;
+  newOnPressMore?: (data: DataDropDownType, item: SongList) => void;
 }
 
 const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
@@ -106,7 +106,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
           onPressAddToQueue={() => addSong(item)}
           songId={item.id}
           newDataMore={newDataMore}
-          newOnPressMore={newOnPressMore}
+          newOnPressMore={data => newOnPressMore && newOnPressMore(data, item)}
         />
       )}
       estimatedItemSize={heightResponsive(500)}

@@ -5,6 +5,9 @@ export type SongPropsTypeA = {
 };
 
 export type SongList = {
+  album: {
+    id: number;
+  };
   isAddedToThisPlaylist: boolean;
   played: boolean;
   id: number;
