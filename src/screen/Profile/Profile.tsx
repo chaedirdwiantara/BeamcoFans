@@ -88,7 +88,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   };
 
   const goToPlaylist = (id: number, name: string) => {
-    navigation.navigate('Playlist', {id, name});
+    navigation.navigate('Playlist', {id, name, from: 'other'});
   };
 
   const banners =
