@@ -153,6 +153,7 @@ export type RootStackParams = {
   Playlist: {
     id: number;
     name: string;
+    from?: string;
   };
   Preference: undefined;
   PreferenceSetting: undefined;
