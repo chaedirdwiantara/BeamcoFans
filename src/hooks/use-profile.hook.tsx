@@ -5,6 +5,7 @@ import {
   deleteProfile,
   getOtherUserProfile,
   getProfile,
+  getTotalCount,
   updateProfile,
   UpdateProfilePropsType,
 } from '../api/profile.api';
@@ -13,6 +14,7 @@ import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
 import {
   DataCountLiked,
+  DataTotalCountPropsType,
   ProfileResponseType,
 } from '../interface/profile.interface';
 
@@ -27,6 +29,8 @@ export const useProfileHook = () => {
     '',
   );
   const [dataCountLiked, setCountLiked] = useState<DataCountLiked>();
+  const [dataCountProfile, setDataCountProfile] =
+    useState<DataTotalCountPropsType>();
 
   const getProfileUser = async () => {
     setIsLoading(true);
@@ -163,6 +167,17 @@ export const useProfileHook = () => {
     }
   };
 
+  const getTotalCountProfile = async (props: ParamsProps) => {
+    try {
+      const response = await getTotalCount(props);
+      setDataCountProfile(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -172,6 +187,7 @@ export const useProfileHook = () => {
     dataProfile,
     dataUserCheck,
     dataCountLiked,
+    dataCountProfile,
     setDataUserCheck,
     setIsError,
     getProfileUser,
@@ -182,5 +198,6 @@ export const useProfileHook = () => {
     getCheckUser,
     getUserCountLikedSong,
     deleteValueProfile,
+    getTotalCountProfile,
   };
 };

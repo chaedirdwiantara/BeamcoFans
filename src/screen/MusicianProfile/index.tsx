@@ -1,14 +1,16 @@
 import {StyleSheet, View} from 'react-native';
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, useEffect} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {color} from '../../theme';
 import {MusicianDetail} from './MusicianDetail';
 import {RootStackParams} from '../../navigations';
+import {useProfileHook} from '../../hooks/use-profile.hook';
 import {useMusicianHook} from '../../hooks/use-musician.hook';
 import {FollowMusicianPropsType} from '../../interface/musician.interface';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
+import {useSettingHook} from '../../hooks/use-setting.hook';
 
 type PostDetailProps = NativeStackScreenProps<
   RootStackParams,
@@ -17,6 +19,7 @@ type PostDetailProps = NativeStackScreenProps<
 
 const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const uuid = route.params.id;
+  const {dataCountProfile, getTotalCountProfile} = useProfileHook();
 
   const {
     isLoading,
@@ -27,11 +30,14 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
+  const {dataExclusiveContent, getExclusiveContent} = useSettingHook();
 
   //  ? Get Detail Musician
   useFocusEffect(
     useCallback(() => {
       getDetailMusician({id: uuid});
+      getTotalCountProfile({uuid});
+      getExclusiveContent({uuid: uuid});
     }, [uuid]),
   );
 
@@ -42,11 +48,19 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     }, [uuid]),
   );
 
+  useEffect(() => {
+    console.log({dataDetailMusician});
+  }, [dataDetailMusician]);
+
   return (
     <View style={styles.root}>
       {dataDetailMusician && (
         <MusicianDetail
-          profile={dataDetailMusician}
+          profile={{
+            ...dataDetailMusician,
+            totalRelease: dataCountProfile?.countAlbumReleased || 0,
+            totalPlaylist: dataCountProfile?.countPlaylist || 0,
+          }}
           uuid={uuid}
           dataAlbum={dataAlbum}
           setFollowMusician={(props?: FollowMusicianPropsType) =>
@@ -55,6 +69,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           setUnfollowMusician={(props?: FollowMusicianPropsType) =>
             setUnfollowMusician(props, {}, true)
           }
+          exclusiveContent={dataExclusiveContent ?? undefined}
         />
       )}
       <ModalLoading visible={isLoading} />

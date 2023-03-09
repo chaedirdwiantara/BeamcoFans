@@ -34,6 +34,8 @@ import PostListExclusive from '../ListCard/PostListExclusive';
 import DataMusician from './DataMusician';
 import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../hooks/use-credit.hook';
+import ImageModal from '../Detail/ImageModal';
+import {DataExclusiveResponse} from '../../interface/setting.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -44,6 +46,7 @@ interface MusicianDetailProps {
   dataAlbum: AlbumData[];
   setFollowMusician: (props?: FollowMusicianPropsType) => void;
   setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
+  exclusiveContent?: DataExclusiveResponse;
 }
 
 export const MusicianDetail: React.FC<MusicianDetailProps> = ({
@@ -52,6 +55,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   dataAlbum,
   setFollowMusician,
   setUnfollowMusician,
+  exclusiveContent,
 }) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -71,6 +75,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [followersCount, setFollowersCount] = useState<number>(
     profile?.followers ? profile.followers : 0,
   );
+  const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [zoomImage, setZoomImage] = useState<string[]>([]);
+
+  const showImage = (uri: string) => {
+    setModalVisible(!isModalVisible);
+    setZoomImage([uri]);
+  };
 
   useEffect(() => {
     setFollowersCount(profile?.followers);
@@ -147,6 +158,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           isFollowed={profile?.isFollowed}
           followOnPress={followOnPress}
           onPressDonate={() => setModalDonate(true)}
+          onPressImage={showImage}
         />
         <View style={styles.infoCard}>
           <UserInfoCard
@@ -154,7 +166,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
             profile={profile}
             followersCount={followersCount}
           />
-          <ExclusiveDailyContent />
+          {exclusiveContent && <ExclusiveDailyContent {...exclusiveContent} />}
           <Gap height={10} />
           <View style={styles.containerContent}>
             <TabFilter.Type1
@@ -207,6 +219,14 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       <ModalSuccessDonate
         modalVisible={modalSuccessDonate && trigger2ndModal}
         toggleModal={onPressSuccess}
+      />
+
+      <ImageModal
+        toggleModal={() => setModalVisible(!isModalVisible)}
+        modalVisible={isModalVisible}
+        imageIdx={0}
+        dataImage={zoomImage}
+        type={'zoomProfile'}
       />
     </View>
   );

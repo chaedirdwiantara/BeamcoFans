@@ -498,7 +498,8 @@
       "Delete": "Delete Playlist",
       "Share": "Share Playlist",
       "Success": "Song have been added to playlist!",
-      "Remove": "Remove from Playlist"
+      "Remove": "Remove from Playlist",
+      "ViewAlbum": "View Album"
     },
     "Credit": {
       "Title": "顯示製作人",
@@ -579,10 +580,10 @@
       "Song": "Song not found",
       "Fans": "Fans not found"
     },
-    "NoAlbum": "No Album Available",
+    "NoAlbum": "No Album Available.",
     "NoMerch": "未有產品",
     "NoInfo": "No Information Given.",
-    "NoPhoto": "No Photos Available"
+    "NoPhoto": "No Photos Available."
   },
   "Guest": {
     "Title": "立即註冊與音樂人互動",

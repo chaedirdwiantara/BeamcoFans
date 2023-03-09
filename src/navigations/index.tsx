@@ -94,6 +94,7 @@ import {ChangePNScreen} from '../screen/Setting/PhoneNumber/ChangePN';
 import {OtpPNScreen} from '../screen/Setting/PhoneNumber/OTP';
 import {SplashScreen} from '../screen/SplashScreen';
 import {
+  DataExclusiveResponse,
   DataShippingProps,
   OtpEmailScreen as OtpEmailProps,
   OtpPhoneScreen,
@@ -125,7 +126,9 @@ export type RootStackParams = {
     info?: boolean;
     message?: string;
   };
-  ExclusiveContent: undefined;
+  ExclusiveContent: {
+    data?: DataExclusiveResponse;
+  };
   Following: undefined;
   Followers: {
     uuid: string;
@@ -150,6 +153,7 @@ export type RootStackParams = {
   Playlist: {
     id: number;
     name: string;
+    from?: string;
   };
   Preference: undefined;
   PreferenceSetting: undefined;

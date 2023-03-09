@@ -497,7 +497,8 @@
       "Delete": "Delete Playlist",
       "Share": "Share Playlist",
       "Success": "Song have been added to playlist!",
-      "Remove": "Remove from Playlist"
+      "Remove": "Remove from Playlist",
+      "ViewAlbum": "View Album"
     },
     "Credit": {
       "Title": "Show Credit",
@@ -578,10 +579,10 @@
       "Song": "Song not found",
       "Fans": "Fans not found"
     },
-    "NoAlbum": "No Album Available",
-    "NoMerch": "No Merch Available",
+    "NoAlbum": "No Album Available.",
+    "NoMerch": "No Merch Available.",
     "NoInfo": "No Information Given.",
-    "NoPhoto": "No Photos Available"
+    "NoPhoto": "No Photos Available."
   },
   "Guest": {
     "Title": "Sign Up to Interact with Musician",

@@ -87,7 +87,7 @@ export const FollowingList: React.FC<FollowingListProps> = ({
             <ListCard.FollowMusician
               musicianName={val.fullname}
               imgUri={val.imageProfileUrls}
-              containerStyles={{marginTop: heightPercentage(10)}}
+              containerStyles={{marginTop: heightPercentage(15)}}
               followerCount={val.followers}
               followOnPress={() => followOnPress(val.uuid, val.isFollowed)}
               stateButton={val.isFollowed}

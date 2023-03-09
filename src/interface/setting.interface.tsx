@@ -106,3 +106,26 @@ export type LanguageResponseType = {
   message: string;
   status: number;
 };
+
+export type DataExclusiveResponse = {
+  ID: string;
+  title: string;
+  coverImage: string;
+  description: string;
+  packageType: string;
+  pricingPlans: {
+    ID: string;
+    duration: number;
+    durationUnit: string;
+    price: number;
+  }[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ExclusiveResponseType = {
+  code: number;
+  data: DataExclusiveResponse;
+  message: string;
+  status: number;
+};
