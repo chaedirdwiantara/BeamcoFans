@@ -6,11 +6,12 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {color} from '../../theme';
 import {MusicianDetail} from './MusicianDetail';
 import {RootStackParams} from '../../navigations';
+import {useSettingHook} from '../../hooks/use-setting.hook';
 import {useProfileHook} from '../../hooks/use-profile.hook';
+import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 import {useMusicianHook} from '../../hooks/use-musician.hook';
 import {FollowMusicianPropsType} from '../../interface/musician.interface';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
-import {useSettingHook} from '../../hooks/use-setting.hook';
 
 type PostDetailProps = NativeStackScreenProps<
   RootStackParams,
@@ -20,6 +21,7 @@ type PostDetailProps = NativeStackScreenProps<
 const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const uuid = route.params.id;
   const {dataCountProfile, getTotalCountProfile} = useProfileHook();
+  const {dataPlaylist, getPlaylist} = usePlaylistHook();
 
   const {
     isLoading,
@@ -37,6 +39,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     useCallback(() => {
       getDetailMusician({id: uuid});
       getTotalCountProfile({uuid});
+      getPlaylist({uuid});
       getExclusiveContent({uuid: uuid});
     }, [uuid]),
   );
@@ -52,6 +55,11 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     console.log({dataDetailMusician});
   }, [dataDetailMusician]);
 
+  const musicianPlaylist =
+    dataPlaylist !== undefined && dataPlaylist !== null
+      ? dataPlaylist?.filter(val => !val.isDefaultPlaylist && val.isPublic)
+      : [];
+
   return (
     <View style={styles.root}>
       {dataDetailMusician && (
@@ -63,6 +71,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           }}
           uuid={uuid}
           dataAlbum={dataAlbum}
+          dataPlaylist={musicianPlaylist}
           setFollowMusician={(props?: FollowMusicianPropsType) =>
             setFollowMusician(props, {}, true)
           }
