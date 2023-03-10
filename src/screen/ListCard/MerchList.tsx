@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {RefreshControl, StyleSheet, Text, View} from 'react-native';
+import {RefreshControl, StyleSheet, View} from 'react-native';
 import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
 import {FlashList} from '@shopify/flash-list';
 import MerchListCard from '../../components/molecule/ListCard/MerchListCard';
@@ -10,6 +10,7 @@ import Color from '../../theme/Color';
 import {useQuery} from 'react-query';
 import {MerchData} from '../../interface/event.interface';
 import {useTranslation} from 'react-i18next';
+import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
 
 const MerchList: FC = () => {
   const {t} = useTranslation();
@@ -30,7 +31,7 @@ const MerchList: FC = () => {
     <>
       {(isLoading || isRefetching) && (
         <View style={styles.loadingContainer}>
-          <Text style={styles.loading}>Loading...</Text>
+          <LoadingSpinner />
         </View>
       )}
       <FlashList
@@ -73,7 +74,7 @@ const MerchList: FC = () => {
         estimatedItemSize={150}
         numColumns={2}
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+          <RefreshControl refreshing={false} onRefresh={refetch} />
         }
       />
     </>
@@ -99,6 +100,6 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     alignItems: 'center',
-    paddingTop: heightPercentage(50),
+    paddingTop: heightPercentage(20),
   },
 });
