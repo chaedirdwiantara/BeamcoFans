@@ -23,6 +23,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {height, heightPercentage, width, widthPercentage} from '../../../utils';
 import {ModalConfirm} from '../Modal/ModalConfirm';
 import {useTranslation} from 'react-i18next';
+import {mvs} from 'react-native-size-matters';
 
 interface SettingProps {
   onPressGoBack: () => void;
@@ -192,6 +193,7 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
     paddingTop: heightPercentage(15),
     alignSelf: 'center',
+    fontSize: mvs(13),
   },
   textSignOut: {
     color: color.Neutral[10],
