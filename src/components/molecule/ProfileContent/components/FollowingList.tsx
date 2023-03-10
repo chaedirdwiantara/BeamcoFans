@@ -82,19 +82,23 @@ export const FollowingList: React.FC<FollowingListProps> = ({
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{marginBottom: heightResponsive(25)}}>
-        {listFollowing?.map((val, i) => (
-          <View key={i} style={{width, paddingHorizontal: widthPercentage(20)}}>
-            <ListCard.FollowMusician
-              musicianName={val.fullname}
-              imgUri={val.imageProfileUrls}
-              containerStyles={{marginTop: heightPercentage(15)}}
-              followerCount={val.followers}
-              followOnPress={() => followOnPress(val.uuid, val.isFollowed)}
-              stateButton={val.isFollowed}
-              toDetailOnPress={() => goToMusician(val.uuid)}
-            />
-          </View>
-        ))}
+        {listFollowing
+          ?.sort((a, b) => (a.isFollowed > b.isFollowed ? -1 : 1))
+          .map((val, i) => (
+            <View
+              key={i}
+              style={{width, paddingHorizontal: widthPercentage(20)}}>
+              <ListCard.FollowMusician
+                musicianName={val.fullname}
+                imgUri={val.imageProfileUrls}
+                containerStyles={{marginTop: heightPercentage(15)}}
+                followerCount={val.followers}
+                followOnPress={() => followOnPress(val.uuid, val.isFollowed)}
+                stateButton={val.isFollowed}
+                toDetailOnPress={() => goToMusician(val.uuid)}
+              />
+            </View>
+          ))}
       </ScrollView>
     </View>
   );

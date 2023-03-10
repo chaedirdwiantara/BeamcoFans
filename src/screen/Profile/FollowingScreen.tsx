@@ -1,7 +1,10 @@
 import React, {useCallback, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
 import {FollowingList} from '../../components';
@@ -10,7 +13,12 @@ import {profileStorage} from '../../hooks/use-storage.hook';
 import {useMusicianHook} from '../../hooks/use-musician.hook';
 import {FollowMusicianPropsType} from '../../interface/musician.interface';
 
-export const FollowingScreen: React.FC = () => {
+type FollowingProps = NativeStackScreenProps<RootStackParams, 'Following'>;
+
+export const FollowingScreen: React.FC<FollowingProps> = ({
+  route,
+}: FollowingProps) => {
+  const {uuid} = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [search, setSearch] = useState<string>('');
@@ -22,9 +30,14 @@ export const FollowingScreen: React.FC = () => {
     setUnfollowMusician,
   } = useMusicianHook();
 
+  const fansUUID = uuid ? uuid : profileStorage()?.uuid;
+
   useFocusEffect(
     useCallback(() => {
-      getListDataMusician({fansUUID: profileStorage()?.uuid, keyword: search});
+      getListDataMusician({
+        fansUUID,
+        keyword: search,
+      });
     }, [search]),
   );
 
