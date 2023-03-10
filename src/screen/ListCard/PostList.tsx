@@ -2,17 +2,15 @@ import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   InteractionManager,
-  NativeModules,
   Platform,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import {ms, mvs} from 'react-native-size-matters';
+import {mvs} from 'react-native-size-matters';
 import {
   BottomSheetGuest,
-  Button,
-  FilterModal,
+  DropDownFilter,
   Gap,
   ListCard,
   ModalDonate,
@@ -57,9 +55,6 @@ interface PostListProps {
   dataProfileImg: string;
 }
 
-const {StatusBarManager} = NativeModules;
-const barHeight = StatusBarManager.HEIGHT;
-
 const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -70,14 +65,8 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
-  const {
-    feedMessage,
-    dataTopPost,
-    setLikePost,
-    setUnlikePost,
-    setCommentToPost,
-    getListTopPost,
-  } = useFeedHook();
+  const {dataTopPost, setLikePost, setUnlikePost, getListTopPost} =
+    useFeedHook();
   const {t} = useTranslation();
 
   const {
@@ -103,20 +92,14 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(15);
-  const [selectedDateFilter, setSelectedDateFilter] = useState<string>('');
-  const [selectedDateFilterValue, setSelectedDateFilterValue] =
-    useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [selectedCategoryValue, setSelectedCategoryValue] =
-    useState<string>('');
-  const [isModalVisible, setModalVisible] = useState({
-    modalSortBy: false,
-    modalCategory: false,
-  });
 
   // * UPDATE HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
   const [selectedMenu, setSelectedMenu] = useState<DataDropDownType>();
+  const [selectedCategoryMenu, setSelectedCategoryMenu] =
+    useState<DataDropDownType>();
+  const [selectedFilterMenu, setSelectedFilterMenu] =
+    useState<DataDropDownType>();
 
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
@@ -138,19 +121,19 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
 
   //* hit filter
   useEffect(() => {
-    if (selectedDateFilter && selectedDateFilterValue) {
+    if (selectedFilterMenu) {
       const dates = new Date();
-      dates.setDate(dates.getDate() - Number(selectedDateFilterValue));
+      dates.setDate(dates.getDate() - Number(selectedFilterMenu.value));
       let dataFilter = [...dataTopPost];
       dataFilter = dataFilter.filter(x => new Date(x.createdAt) > dates);
       setDataMain(dataFilter);
     }
-  }, [selectedDateFilter, selectedDateFilterValue]);
+  }, [selectedFilterMenu]);
 
   //* hit category endpoint
   useEffect(() => {
-    if (selectedCategory) {
-      selectedCategory === 'Home.Tab.TopPost.Category.All'
+    if (selectedCategoryMenu) {
+      selectedCategoryMenu.label === 'Home.Tab.TopPost.Category.All'
         ? getListTopPost({
             page: page,
             perPage: perPage,
@@ -158,10 +141,10 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
         : getListTopPost({
             page: 1,
             perPage: perPage,
-            category: selectedCategoryValue,
+            category: selectedCategoryMenu.value,
           });
     }
-  }, [selectedCategory, selectedCategoryValue]);
+  }, [selectedCategoryMenu]);
 
   const cardOnPress = (data: PostList) => {
     isLogin
@@ -314,99 +297,29 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   };
   // ! END OF MUSIC AREA
 
-  // ? OFFSET AREA
-  const [offsetSortFilter, setOffsetSortFilter] = React.useState<{
-    px: number;
-    py: number;
-  }>();
-  const [offsetCategoryFilter, setOffsetCategoryFilter] = React.useState<{
-    px: number;
-    py: number;
-  }>();
-
-  // ? END OF OFFSET AREA
-
   return (
     <>
       <View style={styles.container}>
-        <View
-          style={styles.dropdownContainer}
-          ref={
-            isModalVisible.modalSortBy === false
-              ? undefined
-              : event => {
-                  event?.measure((fx, fy, width, height, px, py) => {
-                    let peye = Platform.OS === 'android' ? py - barHeight : py;
-                    offsetSortFilter?.py !== peye
-                      ? setOffsetSortFilter({
-                          px: px + width,
-                          py: Platform.OS === 'android' ? py - barHeight : py,
-                        })
-                      : null;
-                  });
-                }
+        <DropDownFilter
+          labelCaption={
+            selectedFilterMenu
+              ? t(selectedFilterMenu.label)
+              : t('Home.Tab.TopPost.Filter.Title')
           }
-          onLayout={event => {
-            event.target.measure(() => {});
-          }}>
-          <Button
-            label={
-              selectedDateFilter
-                ? t(selectedDateFilter)
-                : t('Home.Tab.TopPost.Filter.Title')
-            }
-            type="border"
-            containerStyles={styles.categoryContainerStyle}
-            textStyles={styles.categoryTextStyle}
-            borderColor={'transparent'}
-            typeOfButton={'withIcon'}
-            onPress={() =>
-              setModalVisible({
-                modalSortBy: true,
-                modalCategory: false,
-              })
-            }
-          />
-        </View>
-        <View
-          style={styles.dropdownContainer}
-          ref={
-            isModalVisible.modalCategory === false
-              ? undefined
-              : event => {
-                  event?.measure((fx, fy, width, height, px, py) => {
-                    let peye = Platform.OS === 'android' ? py - barHeight : py;
-                    offsetSortFilter?.py !== peye
-                      ? setOffsetCategoryFilter({
-                          px: px + width,
-                          py: Platform.OS === 'android' ? py - barHeight : py,
-                        })
-                      : null;
-                  });
-                }
+          dataFilter={dataLeftDropdown}
+          selectedMenu={setSelectedFilterMenu}
+          leftPosition={widthResponsive(-60)}
+        />
+        <DropDownFilter
+          labelCaption={
+            selectedCategoryMenu
+              ? t(selectedCategoryMenu.label)
+              : t('Home.Tab.TopPost.Category.Title')
           }
-          onLayout={event => {
-            event.target.measure(() => {});
-          }}>
-          <Button
-            label={
-              selectedCategory
-                ? t(selectedCategory)
-                : t('Home.Tab.TopPost.Category.Title')
-            }
-            type="border"
-            containerStyles={styles.categoryContainerStyle}
-            textStyles={styles.categoryTextStyle}
-            borderColor={'transparent'}
-            typeOfButton={'withIcon'}
-            onPress={() =>
-              setModalVisible({
-                modalSortBy: false,
-                modalCategory: true,
-              })
-            }
-          />
-        </View>
+          dataFilter={dataRightDropdown}
+          selectedMenu={setSelectedCategoryMenu}
+          leftPosition={widthResponsive(-144)}
+        />
       </View>
       {dataMain?.length !== 0 ? (
         <View
@@ -596,52 +509,6 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
         modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
         toggleModal={onPressSuccess}
       />
-      {offsetCategoryFilter !== undefined && (
-        <FilterModal
-          toggleModal={() =>
-            setModalVisible({
-              modalCategory: false,
-              modalSortBy: false,
-            })
-          }
-          modalVisible={isModalVisible.modalCategory}
-          dataFilter={dataRightDropdown}
-          filterOnPress={setSelectedCategory}
-          sendCategory={setSelectedCategoryValue}
-          translation={true}
-          xPosition={offsetCategoryFilter?.px}
-          yPosition={offsetCategoryFilter?.py}
-          containerStyle={{
-            top: offsetCategoryFilter?.py + ms(2),
-            left: offsetCategoryFilter?.px - widthResponsive(125),
-            width: widthResponsive(125),
-          }}
-          textStyle={{fontSize: mvs(10)}}
-        />
-      )}
-      {offsetSortFilter !== undefined && (
-        <FilterModal
-          toggleModal={() =>
-            setModalVisible({
-              modalCategory: false,
-              modalSortBy: false,
-            })
-          }
-          modalVisible={isModalVisible.modalSortBy}
-          dataFilter={dataLeftDropdown}
-          filterOnPress={setSelectedDateFilter}
-          sendCategory={setSelectedDateFilterValue}
-          translation={true}
-          xPosition={offsetSortFilter?.px}
-          yPosition={offsetSortFilter?.py}
-          containerStyle={{
-            top: offsetSortFilter?.py + ms(2),
-            left: offsetSortFilter?.px - widthResponsive(58),
-            width: widthResponsive(125),
-          }}
-          textStyle={{fontSize: mvs(10)}}
-        />
-      )}
     </>
   );
 };
