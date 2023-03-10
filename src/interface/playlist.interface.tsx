@@ -16,6 +16,8 @@ export type Playlist = {
     username: string;
   };
   isDefaultPlaylist: boolean;
+  isAddedToMyPlaylist: boolean;
+  isOtherOwnerPlaylist: boolean;
 };
 
 export type PlaylistPropsTypeA = {

@@ -69,10 +69,14 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
   }, [isFocused, isPlaying]);
 
   const goBackProfile = (showToast: boolean) => {
-    storage.set('withoutBottomTab', false);
-    setTimeout(() => {
-      navigation2.navigate('Profile', {deletePlaylist: showToast});
-    }, 500);
+    if (route.params?.from === 'other') {
+      navigation.goBack();
+    } else {
+      storage.set('withoutBottomTab', false);
+      setTimeout(() => {
+        navigation2.navigate('Profile', {deletePlaylist: showToast});
+      }, 500);
+    }
   };
 
   useBackHandler(() => {
@@ -117,6 +121,13 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
     }
   };
 
+  const goToAddToPlaylist = (songId: number) => {
+    navigation.navigate('AddToPlaylist', {
+      id: [songId],
+      type: 'song',
+    });
+  };
+
   const playlistName = route.params.name;
 
   return (
@@ -140,6 +151,8 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
           setFetchListSong={() => setFetchListSong(!fetchListSong)}
           goToAlbum={goToAlbum}
           goToDetailSong={goToDetailSong}
+          goToAddToPlaylist={goToAddToPlaylist}
+          otherPlaylist={route.params?.from === 'other'}
         />
       )}
 
