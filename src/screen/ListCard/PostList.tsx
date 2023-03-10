@@ -65,8 +65,13 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
-  const {dataTopPost, setLikePost, setUnlikePost, getListTopPost} =
-    useFeedHook();
+  const {
+    feedIsLoading,
+    dataTopPost,
+    setLikePost,
+    setUnlikePost,
+    getListTopPost,
+  } = useFeedHook();
   const {t} = useTranslation();
 
   const {
@@ -454,7 +459,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
             )}
           />
         </View>
-      ) : dataMain?.length === 0 ? (
+      ) : feedIsLoading === false && dataTopPost?.length === 0 ? (
         <EmptyState
           text={'No data available'}
           containerStyle={{
