@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {Platform, StyleSheet, Text, View, ViewStyle} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
 import {Dropdown} from 'react-native-element-dropdown';
@@ -136,7 +136,8 @@ const styles = StyleSheet.create({
   dropdown: {
     borderBottomWidth: 1,
     borderBottomColor: borderColor,
-    paddingVertical: heightPercentage(12),
+    paddingVertical:
+      Platform.OS === 'ios' ? heightPercentage(4) : heightPercentage(8),
   },
   // Dropdown modal container
   containerStyle: {
@@ -150,15 +151,15 @@ const styles = StyleSheet.create({
     backgroundColor: itemBg,
   },
   placeholderStyle: {
-    fontSize: mvs(15),
+    fontSize: mvs(14),
     color: color.Dark[300],
   },
   selectedTextStyle: {
-    fontSize: mvs(15),
+    fontSize: mvs(14),
     color: fontColorMain,
   },
   itemTextStyle: {
-    fontSize: mvs(15),
+    fontSize: mvs(14),
     color: fontColorMain,
   },
   iconStyle: {
@@ -185,8 +186,9 @@ const styles = StyleSheet.create({
     paddingVertical: heightPercentage(20),
   },
   inputSearchStyle: {
-    fontSize: normalize(14),
+    fontSize: mvs(14),
     color: color.Neutral[10],
-    borderColor: color.Pink[200],
+    borderColor: 'transparent',
+    borderBottomColor: color.Pink[200],
   },
 });

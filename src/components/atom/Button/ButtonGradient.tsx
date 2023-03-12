@@ -6,12 +6,11 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
-import {mvs} from 'react-native-size-matters';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
-import {heightPercentage, widthPercentage} from '../../../utils';
+import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface ButtonGradientProps {
   label: string;
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontSize: mvs(12),
+    fontSize: normalize(12),
     color: Color.Neutral[10],
     fontFamily: Font.InterMedium,
   },

@@ -125,7 +125,7 @@ export const AccountContent: React.FC<AccountProps> = ({
         itemStrokeColor={Color.Neutral[10]}
         leftIconAction={onPressGoBack}
         containerStyles={{
-          marginBottom: heightPercentage(15),
+          marginBottom: heightPercentage(10),
           paddingHorizontal: widthResponsive(15),
         }}
       />
@@ -227,7 +227,7 @@ export const AccountContent: React.FC<AccountProps> = ({
         <Button
           label={t('Btn.Save') || ''}
           onPress={onPressSave}
-          textStyles={{fontSize: mvs(15)}}
+          textStyles={{fontSize: mvs(14)}}
           containerStyles={styles.button}
         />
       </View>
