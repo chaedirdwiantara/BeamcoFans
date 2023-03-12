@@ -210,6 +210,7 @@ export const PlaylistContent: React.FC<Props> = ({
 
   const songIsExist = listSongs !== null && listSongs !== undefined;
   const firstSong = songIsExist ? listSongs[0] : null;
+  const othersPlaylist = dataDetail.isOtherOwnerPlaylist;
 
   return (
     <View style={styles.root}>
@@ -217,7 +218,7 @@ export const PlaylistContent: React.FC<Props> = ({
         title={t('Home.Topbar.Search.Playlist')}
         rightIcon={
           <Dropdown.More
-            data={otherPlaylist ? dataMoreOther : dataMore}
+            data={othersPlaylist ? dataMoreOther : dataMore}
             selectedMenu={resultDataMore}
             containerStyle={styles.dropdownMore}
           />
@@ -253,7 +254,8 @@ export const PlaylistContent: React.FC<Props> = ({
             createdBy={dataDetail?.playlistOwner?.fullname}
             avatarUri={dataDetail?.playlistOwner?.image}
             showIconPlay={
-              songIsExist && listSongs?.length > 0 && !otherPlaylist
+              (songIsExist && listSongs?.length > 0 && !otherPlaylist) ||
+              isAdded
             }
             isPlaying={isPlaying}
             handlePlayPaused={handlePlayPaused}
@@ -262,11 +264,11 @@ export const PlaylistContent: React.FC<Props> = ({
 
           <TouchableOpacity
             style={styles.containerAddSong}
-            onPress={otherPlaylist ? addToMyPlaylist : goToAddSong}>
+            onPress={othersPlaylist ? addToMyPlaylist : goToAddSong}>
             <MusicSquareAddIcon />
             <Gap width={widthPercentage(10)} />
             <Text style={styles.textAddSong}>
-              {otherPlaylist ? textAddToPlaylist : t('Music.Label.AddSong')}
+              {othersPlaylist ? textAddToPlaylist : t('Music.Label.AddSong')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -297,7 +299,7 @@ export const PlaylistContent: React.FC<Props> = ({
                 type={'home'}
                 onPress={onPressSong}
                 loveIcon={true}
-                newDataMore={otherPlaylist ? songDataMoreOther : songDataMore}
+                newDataMore={othersPlaylist ? songDataMoreOther : songDataMore}
                 newOnPressMore={pressSongDataMore}
               />
             )}
