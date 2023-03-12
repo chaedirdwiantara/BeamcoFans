@@ -7,6 +7,8 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Text,
+  RefreshControl,
+  Platform,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 
@@ -22,13 +24,13 @@ import Color from '../../../theme/Color';
 import {Gap, SsuToast} from '../../atom';
 import {ProfileHeader} from './components/Header';
 import {EmptyState} from '../EmptyState/EmptyState';
-import {TopSongListData} from '../../../data/topSong';
 import {UserInfoCard} from '../UserInfoCard/UserInfoCard';
 import ImageModal from '../../../screen/Detail/ImageModal';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import {Playlist} from '../../../interface/playlist.interface';
 import ListPlaylist from '../../../screen/ListCard/ListPlaylist';
 import {CheckCircle2Icon, SettingIcon} from '../../../assets/icon';
+import LoadingSpinner from '../../atom/Loading/LoadingSpinner';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -48,6 +50,10 @@ interface ProfileContentProps {
   toastText: string;
   totalCountlikedSong?: number;
   playerVisible?: boolean;
+  refreshing: boolean;
+  setRefreshing: () => void;
+  otherUserProfile?: boolean;
+  isLoading?: boolean;
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -62,6 +68,10 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   totalCountlikedSong,
   toastText,
   playerVisible,
+  refreshing,
+  setRefreshing,
+  otherUserProfile,
+  isLoading,
 }) => {
   const {t} = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -89,6 +99,14 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
     setScrollEffect(scrolled);
   };
 
+  const textMusician = otherUserProfile
+    ? t('Profile.Label.NoMusicianOther')
+    : t('Profile.Label.NoMusician');
+
+  const textBadge = otherUserProfile
+    ? t('Profile.Label.NoBadgeOther')
+    : t('Profile.Label.NoBadge');
+
   return (
     <View style={styles.root}>
       {scrollEffect && (
@@ -99,9 +117,17 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           </TouchableOpacity>
         </View>
       )}
+      {Platform.OS === 'ios' && (isLoading || refreshing) && (
+        <View style={styles.loadingContainer}>
+          <LoadingSpinner />
+        </View>
+      )}
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={setRefreshing} />
+        }
         onScroll={handleScroll}>
         <ProfileHeader
           avatarUri={profile.avatarUri}
@@ -133,7 +159,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             translation={true}
           />
           {filter[selectedIndex].filterName === 'Profile.Tab.Playlist' ? (
-            TopSongListData.length > 0 ? (
+            dataPlaylist !== undefined && dataPlaylist?.length > 0 ? (
               <View>
                 {showCreateCard && (
                   <CreateNewCard
@@ -150,10 +176,9 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 />
               </View>
             ) : (
-              <CreateNewCard
-                num="01"
-                text="Default Playlist"
-                onPress={() => onPressGoTo('CreateNewPlaylist')}
+              <EmptyState
+                text={t('Profile.Label.NoPlaylist') || ''}
+                containerStyle={{marginTop: heightPercentage(30)}}
               />
             )
           ) : filter[selectedIndex].filterName === 'Profile.Tab.TopMusician' ? (
@@ -167,7 +192,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             //   />
             // ) :
             <EmptyState
-              text={t('Profile.Label.NoMusician') || ''}
+              text={textMusician || ''}
               containerStyle={{marginTop: heightPercentage(30)}}
             />
           ) : (
@@ -182,7 +207,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             //   />
             // ) :
             <EmptyState
-              text={t('Profile.Label.NoBadge') || ''}
+              text={textBadge || ''}
               containerStyle={{marginTop: heightPercentage(30)}}
             />
           )}
@@ -267,5 +292,9 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: Color.Neutral[10],
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    paddingVertical: heightPercentage(20),
   },
 });
