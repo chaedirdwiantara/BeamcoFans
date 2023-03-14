@@ -3,7 +3,6 @@ import {
   FlatList,
   InteractionManager,
   Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -11,8 +10,7 @@ import {
 import {mvs} from 'react-native-size-matters';
 import {
   BottomSheetGuest,
-  CommentInputModal,
-  Dropdown,
+  DropDownFilter,
   Gap,
   ListCard,
   ModalDonate,
@@ -31,8 +29,6 @@ import {
   elipsisText,
   heightPercentage,
   heightResponsive,
-  normalize,
-  widthPercentage,
   widthResponsive,
 } from '../../utils';
 import {LogBox} from 'react-native';
@@ -49,9 +45,9 @@ import categoryNormalize from '../../utils/categoryNormalize';
 import {TickCircleIcon} from '../../assets/icon';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import MusicListPreview from '../../components/molecule/MusicPreview/MusicListPreview';
-import {dummySongImg} from '../../data/image';
 import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../hooks/use-credit.hook';
+import ChildrenCard from './ChildrenCard';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -72,14 +68,9 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
 
   const {
     feedIsLoading,
-    feedIsError,
-    feedMessage,
-    dataPostList,
     dataTopPost,
-    getListDataPost,
     setLikePost,
     setUnlikePost,
-    setCommentToPost,
     getListTopPost,
   } = useFeedHook();
   const {t} = useTranslation();
@@ -97,11 +88,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const {creditCount, getCreditCount} = useCreditHook();
 
   const [dataMain, setDataMain] = useState<PostList[]>([]);
-  const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
-  const [musicianId, setMusicianId] = useState<string>('');
-  const [userName, setUserName] = useState<string>('');
   const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
-  const [commentType, setCommentType] = useState<string>('');
   const [recorder, setRecorder] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string[]>();
   const [modalShare, setModalShare] = useState<boolean>(false);
@@ -115,6 +102,10 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   // * UPDATE HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
   const [selectedMenu, setSelectedMenu] = useState<DataDropDownType>();
+  const [selectedCategoryMenu, setSelectedCategoryMenu] =
+    useState<DataDropDownType>();
+  const [selectedFilterMenu, setSelectedFilterMenu] =
+    useState<DataDropDownType>();
 
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
@@ -134,23 +125,32 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     setDataMain(dataTopPost);
   }, [dataTopPost]);
 
-  const resultDataFilter = (dataResultFilter: any) => {
-    const dates = new Date();
-    dates.setDate(dates.getDate() - Number(dataResultFilter.value));
-    let dataFilter = [...dataTopPost];
-    dataFilter = dataFilter.filter(x => new Date(x.createdAt) > dates);
-    setDataMain(dataFilter);
-  };
+  //* hit filter
+  useEffect(() => {
+    if (selectedFilterMenu) {
+      const dates = new Date();
+      dates.setDate(dates.getDate() - Number(selectedFilterMenu.value));
+      let dataFilter = [...dataTopPost];
+      dataFilter = dataFilter.filter(x => new Date(x.createdAt) > dates);
+      setDataMain(dataFilter);
+    }
+  }, [selectedFilterMenu]);
 
-  const resultDataCategory = (dataResultCategory: DataDropDownType) => {
-    dataResultCategory.label === t('Home.Tab.TopPost.Category.All')
-      ? getListTopPost({page: page, perPage: perPage})
-      : getListTopPost({
-          page: page,
-          perPage: perPage,
-          category: dataResultCategory.value,
-        });
-  };
+  //* hit category endpoint
+  useEffect(() => {
+    if (selectedCategoryMenu) {
+      selectedCategoryMenu.label === 'Home.Tab.TopPost.Category.All'
+        ? getListTopPost({
+            page: page,
+            perPage: perPage,
+          })
+        : getListTopPost({
+            page: 1,
+            perPage: perPage,
+            category: selectedCategoryMenu.value,
+          });
+    }
+  }, [selectedCategoryMenu]);
 
   const cardOnPress = (data: PostList) => {
     isLogin
@@ -236,28 +236,6 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     }
   };
 
-  const commentOnPress = (id: string, username: string) => {
-    if (isLogin) {
-      setInputCommentModal(!inputCommentModal);
-      setMusicianId(id);
-      setUserName(username);
-    } else {
-      setModalGuestVisible(true);
-    }
-  };
-
-  const handleReplyOnPress = () => {
-    if (isLogin) {
-      commentType.length > 0
-        ? setCommentToPost({id: musicianId, content: {content: commentType}})
-        : null;
-      setInputCommentModal(false);
-      setCommentType('');
-    } else {
-      setModalGuestVisible(true);
-    }
-  };
-
   const shareOnPress = () => {
     if (isLogin) {
       setModalShare(true);
@@ -328,35 +306,26 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   return (
     <>
       <View style={styles.container}>
-        <View
-          style={{
-            width: widthPercentage(70),
-          }}>
-          <Dropdown.Menu
-            data={dataLeftDropdown}
-            placeHolder={t('Home.Tab.TopPost.Filter.Title')}
-            selectedMenu={resultDataFilter}
-            containerStyle={{
-              width: widthPercentage(138),
-            }}
-            translation={true}
-          />
-        </View>
-        <View
-          style={{
-            width: widthPercentage(85),
-          }}>
-          <Dropdown.Menu
-            data={dataRightDropdown}
-            placeHolder={t('Home.Tab.TopPost.Category.Title')}
-            selectedMenu={resultDataCategory}
-            containerStyle={{
-              width: widthResponsive(138),
-              marginLeft: widthPercentage(-57),
-            }}
-            translation={true}
-          />
-        </View>
+        <DropDownFilter
+          labelCaption={
+            selectedFilterMenu
+              ? t(selectedFilterMenu.label)
+              : t('Home.Tab.TopPost.Filter.Title')
+          }
+          dataFilter={dataLeftDropdown}
+          selectedMenu={setSelectedFilterMenu}
+          leftPosition={widthResponsive(-60)}
+        />
+        <DropDownFilter
+          labelCaption={
+            selectedCategoryMenu
+              ? t(selectedCategoryMenu.label)
+              : t('Home.Tab.TopPost.Category.Title')
+          }
+          dataFilter={dataRightDropdown}
+          selectedMenu={setSelectedCategoryMenu}
+          leftPosition={widthResponsive(-144)}
+        />
       </View>
       {dataMain?.length !== 0 ? (
         <View
@@ -422,9 +391,6 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                       ? item.likesCount
                       : item.likesCount
                   }
-                  commentOnPress={() =>
-                    commentOnPress(item.id, item.musician.username)
-                  }
                   tokenOnPress={tokenOnPress}
                   shareOnPress={shareOnPress}
                   commentCount={item.commentsCount}
@@ -433,60 +399,17 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   idPost={item.id}
                   selectedIdPost={setSelectedIdPost}
                   children={
-                    <View style={{width: '100%'}}>
-                      <Text style={styles.childrenPostTitle}>
-                        {elipsisText(item.caption, 600)}
-                      </Text>
-                      {item.images !== null ? (
-                        <>
-                          <Gap height={4} />
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                            }}>
-                            <View style={{height: '100%', width: '100%'}}>
-                              <ImageList
-                                imgData={item.images}
-                                width={143}
-                                height={69.5}
-                                heightType2={142}
-                                widthType2={289}
-                                onPress={() => {}}
-                              />
-                              {item.images.length === 0 &&
-                              item.quoteToPost.encodeHlsUrl ? (
-                                <MusicListPreview
-                                  hideClose
-                                  targetId={item.quoteToPost.targetId}
-                                  targetType={item.quoteToPost.targetType}
-                                  title={item.quoteToPost.title}
-                                  musician={item.quoteToPost.musician}
-                                  coverImage={
-                                    item.quoteToPost.coverImage[1]?.image !==
-                                    undefined
-                                      ? item.quoteToPost.coverImage[1].image
-                                      : ''
-                                  }
-                                  encodeDashUrl={item.quoteToPost.encodeDashUrl}
-                                  encodeHlsUrl={item.quoteToPost.encodeHlsUrl}
-                                  startAt={item.quoteToPost.startAt}
-                                  endAt={item.quoteToPost.endAt}
-                                  postList={item}
-                                  onPress={onPressPlaySong}
-                                  isPlay={isPlaying}
-                                  playOrPause={handlePausePlay}
-                                  pauseModeOn={pauseModeOn}
-                                  currentProgress={playerProgress.position}
-                                  duration={playerProgress.duration}
-                                  seekPlayer={seekPlayer}
-                                  isIdNowPlaying={item.id === idNowPlaying}
-                                />
-                              ) : null}
-                            </View>
-                          </View>
-                        </>
-                      ) : null}
-                    </View>
+                    <ChildrenCard
+                      data={item}
+                      onPress={onPressPlaySong}
+                      isPlay={isPlaying}
+                      playOrPause={handlePausePlay}
+                      pauseModeOn={pauseModeOn}
+                      currentProgress={playerProgress.position}
+                      duration={playerProgress.duration}
+                      seekPlayer={seekPlayer}
+                      isIdNowPlaying={item.id === idNowPlaying}
+                    />
                   }
                 />
                 <Gap height={16} />
@@ -494,7 +417,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
             )}
           />
         </View>
-      ) : dataMain?.length === 0 ? (
+      ) : feedIsLoading === false && dataTopPost?.length === 0 ? (
         <EmptyState
           text={'No data available'}
           containerStyle={{
@@ -503,15 +426,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
           }}
         />
       ) : null}
-      <CommentInputModal
-        toggleModal={() => setInputCommentModal(!inputCommentModal)}
-        modalVisible={inputCommentModal}
-        name={userName}
-        commentValue={commentType}
-        onCommentChange={setCommentType}
-        handleOnPress={handleReplyOnPress}
-        userAvatarUri={dataProfileImg}
-      />
+
       <BottomSheetGuest
         modalVisible={modalGuestVisible}
         onPressClose={() => setModalGuestVisible(false)}
@@ -593,5 +508,20 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: color.Neutral[10],
+  },
+  dropdownContainer: {
+    marginTop: 7,
+    marginBottom: 9,
+  },
+  categoryContainerStyle: {
+    width: undefined,
+    aspectRatio: undefined,
+    alignSelf: 'flex-end',
+    marginRight: widthResponsive(-3),
+  },
+  categoryTextStyle: {
+    fontSize: mvs(10),
+    fontWeight: '500',
+    color: color.Dark[50],
   },
 });

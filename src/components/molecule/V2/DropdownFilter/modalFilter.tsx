@@ -1,7 +1,6 @@
 import {
   Dimensions,
   FlatList,
-  Platform,
   StyleSheet,
   Text,
   TextStyle,
@@ -12,14 +11,8 @@ import {
 import React, {FC} from 'react';
 import Modal from 'react-native-modal';
 import {color, font} from '../../../../theme';
-import {
-  heightPercentage,
-  heightResponsive,
-  widthResponsive,
-} from '../../../../utils';
 import {DataDropDownType} from '../../../../data/dropdown';
 import {ms, mvs} from 'react-native-size-matters';
-import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {useTranslation} from 'react-i18next';
 
 export const {width} = Dimensions.get('screen');
@@ -28,13 +21,16 @@ interface ModalFilterProps {
   toggleModal: () => void;
   modalVisible: boolean;
   dataFilter: DataDropDownType[];
-  filterOnPress: (label: string) => void;
+  filterOnPress?: (label: string) => void;
   sendCategory: (value: string) => void;
   translation?: boolean;
   xPosition: number;
   yPosition: number;
   containerStyle?: ViewStyle;
+  buttonContainerStyle?: ViewStyle;
   textStyle?: TextStyle;
+  selectedMenu?: (label: DataDropDownType) => void;
+  onModalHide?: () => void;
 }
 
 const FilterModal: FC<ModalFilterProps> = (props: ModalFilterProps) => {
@@ -49,13 +45,17 @@ const FilterModal: FC<ModalFilterProps> = (props: ModalFilterProps) => {
     xPosition,
     yPosition,
     containerStyle,
+    buttonContainerStyle,
     textStyle,
+    selectedMenu,
+    onModalHide,
   } = props;
 
   const filterButtonHandler = (data: DataDropDownType) => {
     toggleModal();
     filterOnPress?.(data.label);
     sendCategory?.(data.value);
+    selectedMenu?.(data);
   };
 
   return (
@@ -67,7 +67,8 @@ const FilterModal: FC<ModalFilterProps> = (props: ModalFilterProps) => {
       animationIn={'fadeIn'}
       animationOut={'fadeOut'}
       style={{marginHorizontal: 0}}
-      onBackButtonPress={toggleModal}>
+      onBackButtonPress={toggleModal}
+      onModalHide={onModalHide}>
       <View
         style={[
           styles.container,
@@ -85,7 +86,7 @@ const FilterModal: FC<ModalFilterProps> = (props: ModalFilterProps) => {
           keyExtractor={(_, index) => index.toString()}
           renderItem={({item}) => (
             <TouchableOpacity
-              style={styles.buttonContainer}
+              style={[styles.buttonContainer, buttonContainerStyle]}
               onPress={() => filterButtonHandler(item)}>
               <Text style={[styles.textFilter, textStyle]}>
                 {translation ? t(item.label) : item.label}
