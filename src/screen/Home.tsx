@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -7,16 +7,14 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Text,
+  RefreshControl,
+  Platform,
 } from 'react-native';
-import {
-  useNavigation,
-  useIsFocused,
-  useFocusEffect,
-} from '@react-navigation/native';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 
 import {
   TopNavigation,
@@ -56,6 +54,7 @@ import {defaultBanner} from '../data/home';
 import {useNotificationHook} from '../hooks/use-notification.hook';
 import {useCreditHook} from '../hooks/use-credit.hook';
 import {useTranslation} from 'react-i18next';
+import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -76,7 +75,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     setUnfollowMusician,
   } = useMusicianHook();
 
-  const {dataProfile, getProfileUser} = useProfileHook();
+  const {isLoading, dataProfile, getProfileUser} = useProfileHook();
   const {dataSong, getListDataSong} = useSongHook();
   const {dataBanner, getListDataBanner} = useBannerHook();
   const {addFcmToken} = useFcmHook();
@@ -101,29 +100,23 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
   const [selectedIndex, setSelectedIndex] = useState(-0);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     if (isLogin) {
       getListDataBanner();
+      getListDataMusician({filterBy: 'top'});
+      getListDataSong({listType: 'top'});
+      getProfileUser();
+      getCountNotification();
+      getCreditCount();
     } else {
       getListDataBannerPublic();
+      getSearchMusicians({keyword: '', filterBy: 'top'});
+      getSearchSongs({keyword: '', filterBy: 'top'});
     }
-  }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      if (isLogin) {
-        getListDataMusician({filterBy: 'top'});
-        getListDataSong({listType: 'top'});
-        getProfileUser();
-        getCountNotification();
-        getCreditCount();
-      } else {
-        getSearchMusicians({keyword: '', filterBy: 'top'});
-        getSearchSongs({keyword: '', filterBy: 'top'});
-      }
-    }, [selectedIndex]),
-  );
+    setRefreshing(false);
+  }, [selectedIndex, refreshing]);
 
   useEffect(() => {
     if (isFocused && isPlaying) {
@@ -268,9 +261,21 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         guest={!isLogin}
       />
 
+      {Platform.OS === 'ios' && (isLoading || refreshing) && (
+        <View style={styles.loadingContainer}>
+          <LoadingSpinner />
+        </View>
+      )}
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => setRefreshing(true)}
+          />
+        }
         onScroll={handleScroll}>
         <TouchableOpacity onPress={handleSearchButton}>
           <SearchBar
@@ -386,5 +391,9 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: Color.Neutral[10],
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    paddingVertical: heightPercentage(20),
   },
 });

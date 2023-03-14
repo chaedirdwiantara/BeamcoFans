@@ -17,7 +17,6 @@ import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {GuestContent, ProfileContent} from '../../components';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
-import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 
 type OtherProfileProps = NativeStackScreenProps<
   RootStackParams,
@@ -32,7 +31,6 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {
     dataProfile,
-    isLoading,
     getOtherProfileUser,
     dataCountLiked,
     getUserCountLikedSong,
@@ -40,7 +38,12 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
   const {dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
-  const {isPlaying, showPlayer, hidePlayer} = usePlayerHook();
+  const {
+    isPlaying,
+    visible: playerVisible,
+    showPlayer,
+    hidePlayer,
+  } = usePlayerHook();
   const [toastVisible, setToastVisible] = useState<boolean>(false);
 
   useEffect(() => {
@@ -74,21 +77,32 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
     totalFollowing: dataProfile?.data.following,
   };
 
+  const goToPlaylist = (id: number, name: string) => {
+    navigation.navigate('Playlist', {id, name, from: 'other'});
+  };
+
+  const goToFollowing = () => {
+    navigation.navigate('Following', {uuid: data.id});
+  };
+
   return (
     <View style={styles.root}>
       {isLogin ? (
         <ProfileContent
           profile={profile}
-          goToPlaylist={() => {}}
+          goToPlaylist={goToPlaylist}
           dataPlaylist={dataPlaylist}
           goToEditProfile={() => {}}
-          onPressGoTo={() => {}}
+          onPressGoTo={goToFollowing}
           showCreateCard={false}
           toastVisible={toastVisible}
           setToastVisible={setToastVisible}
           toastText={''}
+          playerVisible={playerVisible}
           totalCountlikedSong={dataCountLiked?.countLikedSong}
-          isLoading={isLoading}
+          refreshing={false}
+          setRefreshing={() => {}}
+          otherUserProfile={true}
         />
       ) : (
         <GuestContent />

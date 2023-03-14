@@ -102,7 +102,6 @@ export const FooterContent: React.FC<FooterContentProps> = ({
             borderColor="transparent"
             textStyles={{color: Color.Pink.linear}}
             onPress={onPressGoTo}
-            containerStyles={styles.btnContainer}
           />
         </View>
       )}

@@ -1,15 +1,11 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {
-  useFocusEffect,
-  useIsFocused,
-  useNavigation,
-} from '@react-navigation/native';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 import Color from '../../theme/Color';
 import {storage} from '../../hooks/use-storage.hook';
@@ -19,7 +15,6 @@ import {profileStorage} from '../../hooks/use-storage.hook';
 import {GuestContent, ProfileContent} from '../../components';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 import {MainTabParams, RootStackParams} from '../../navigations';
-import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 
 type ProfileProps = NativeStackScreenProps<MainTabParams, 'Profile'>;
 
@@ -31,7 +26,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {t} = useTranslation();
   const {isLoading, dataProfile, getProfileUser} = useProfileHook();
-  const {playlistLoading, dataPlaylist, getPlaylist} = usePlaylistHook();
+  const {dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
   const {
@@ -42,6 +37,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   } = usePlayerHook();
   const [toastText, setToastText] = useState<string>('');
   const [toastVisible, setToastVisible] = useState<boolean>(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     if (showToast !== undefined && !deletePlaylist) {
@@ -68,12 +64,11 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     }
   }, [isFocused]);
 
-  useFocusEffect(
-    useCallback(() => {
-      getProfileUser();
-      getPlaylist({uuid: profileStorage()?.uuid});
-    }, []),
-  );
+  useEffect(() => {
+    getProfileUser();
+    getPlaylist({uuid: profileStorage()?.uuid});
+    setRefreshing(false);
+  }, [refreshing, showToast, deletePlaylist]);
 
   const onPressGoTo = (
     screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
@@ -88,7 +83,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   };
 
   const goToPlaylist = (id: number, name: string) => {
-    navigation.navigate('Playlist', {id, name, from: 'other'});
+    navigation.navigate('Playlist', {id, name});
   };
 
   const banners =
@@ -128,10 +123,11 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
               toastText={toastText}
               playerVisible={playerVisible}
               totalCountlikedSong={dataProfile?.data.songAdded || 0}
+              refreshing={refreshing}
+              setRefreshing={() => setRefreshing(true)}
+              isLoading={isLoading}
             />
           )}
-
-          <ModalLoading visible={isLoading || playlistLoading} />
         </>
       ) : (
         <GuestContent />

@@ -129,7 +129,9 @@ export type RootStackParams = {
   ExclusiveContent: {
     data?: DataExclusiveResponse;
   };
-  Following: undefined;
+  Following: {
+    uuid?: string;
+  };
   Followers: {
     uuid: string;
   };
@@ -152,7 +154,7 @@ export type RootStackParams = {
   PhotoGallery: {imageData: photos[]; userName: string};
   Playlist: {
     id: number;
-    name: string;
+    name?: string;
     from?: string;
   };
   Preference: undefined;

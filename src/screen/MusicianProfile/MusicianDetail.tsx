@@ -6,7 +6,12 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
 import {
+  EmptyState,
   Gap,
   ModalDonate,
   ModalSuccessDonate,
@@ -15,27 +20,26 @@ import {
   TopNavigation,
   UserInfoCard,
 } from '../../components';
-import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
-import {ProfileHeader} from './ProfileHeader';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../navigations';
 import {color} from '../../theme';
-import ExclusiveDailyContent from './ExclusiveDailyContent';
+import DataMusician from './DataMusician';
 import {
   AlbumData,
   DataDetailMusician,
   FollowMusicianPropsType,
 } from '../../interface/musician.interface';
+import ImageModal from '../Detail/ImageModal';
+import {ProfileHeader} from './ProfileHeader';
+import {RootStackParams} from '../../navigations';
+import ListPlaylist from '../ListCard/ListPlaylist';
 import {PostList} from '../../interface/feed.interface';
 import PostListPublic from '../ListCard/PostListPublic';
-import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
-import PostListExclusive from '../ListCard/PostListExclusive';
-import DataMusician from './DataMusician';
-import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../hooks/use-credit.hook';
-import ImageModal from '../Detail/ImageModal';
+import ExclusiveDailyContent from './ExclusiveDailyContent';
+import {Playlist} from '../../interface/playlist.interface';
+import PostListExclusive from '../ListCard/PostListExclusive';
 import {DataExclusiveResponse} from '../../interface/setting.interface';
+import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
+import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -44,6 +48,7 @@ interface MusicianDetailProps {
   profile: DataDetailMusician;
   uuid: string;
   dataAlbum: AlbumData[];
+  dataPlaylist: Playlist[];
   setFollowMusician: (props?: FollowMusicianPropsType) => void;
   setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
   exclusiveContent?: DataExclusiveResponse;
@@ -53,10 +58,12 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   profile,
   uuid,
   dataAlbum,
+  dataPlaylist,
   setFollowMusician,
   setUnfollowMusician,
   exclusiveContent,
 }) => {
+  const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {creditCount, getCreditCount} = useCreditHook();
@@ -107,6 +114,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
 
   const goToFollowers = () => {
     navigation.navigate('Followers', {uuid});
+  };
+
+  const goToPlaylist = (id: number) => {
+    navigation.navigate('Playlist', {id, from: 'other'});
   };
 
   const followOnPress = (isFollowed: boolean) => {
@@ -203,6 +214,24 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                   dataLeftDropdown={dropDownDataSort}
                 />
               </View>
+            ) : filter[selectedIndex].filterName === 'Musician.Tab.Music' ? (
+              dataPlaylist.length > 0 ? (
+                <View style={{paddingHorizontal: widthResponsive(30)}}>
+                  <ListPlaylist
+                    data={dataPlaylist}
+                    onPress={goToPlaylist}
+                    scrollable={false}
+                  />
+                </View>
+              ) : (
+                <EmptyState
+                  text={t('Profile.Label.NoPlaylist') || ''}
+                  containerStyle={{
+                    alignSelf: 'center',
+                    marginTop: heightPercentage(30),
+                  }}
+                />
+              )
             ) : null}
           </View>
         </View>

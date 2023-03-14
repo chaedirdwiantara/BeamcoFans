@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   musicianName: {
     fontFamily: font.InterRegular,
-    fontSize: normalize(14),
+    fontSize: mvs(14),
     fontWeight: '500',
     color: color.Neutral[10],
   },
