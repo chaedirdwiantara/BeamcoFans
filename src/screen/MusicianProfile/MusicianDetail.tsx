@@ -63,11 +63,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
-    {filterName: 'Musician.Tab.Profile'},
     {filterName: 'Musician.Tab.Post'},
     {filterName: 'Musician.Tab.Exclusive'},
     {filterName: 'Musician.Tab.Music'},
     {filterName: 'Musician.Tab.Fans'},
+    {filterName: 'Musician.Tab.Profile'},
   ]);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
