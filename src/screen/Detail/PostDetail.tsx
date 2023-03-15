@@ -142,6 +142,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [disallowStatic, setDisallowStatic] = useState<boolean>(false);
   const [staticId, setStaticId] = useState<string[]>([]);
   const [commentCountLvl1, setCommmentCountLvl1] = useState<number>(0);
+  const [parentIdDeletedComment, setParentIdDeletedComment] = useState<
+    string[]
+  >([]);
+  const [parentIdAddComment, setParentIdAddComment] = useState<string[]>([]);
 
   // * LIKE / UNLIKE HOOKS
   const [likeCommentId, setLikeCommentId] = useState<string>('');
@@ -364,7 +368,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           id: cmntToCmnt.id,
           content: {content: commentCaption},
         }),
-          setCommentCaption('');
+          setCommentCaption(''),
+          setParentIdAddComment([...parentIdAddComment, cmntToCmnt.id]);
     } else if (commentCaption.length > 0 && cmntToCmnt === undefined) {
       setCommentToPost({
         id: musicianId,
@@ -543,16 +548,20 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       }
       // * delete/edit comment lvl2
       if (selectedLvlComment === 2 && commentLvl2) {
+        let commentNow = commentLvl2.filter((x: CommentList2) =>
+          idComment.includes(x.id),
+        )[0];
         if (t(selectedMenu.label) === 'Delete Reply') {
           setCommentLvl2(
             commentLvl2.filter((x: CommentList2) => !idComment.includes(x.id)),
           );
           setCommentDelete({id: idComment});
+          setParentIdDeletedComment([
+            ...parentIdDeletedComment,
+            commentNow.parentID,
+          ]);
         }
         if (t(selectedMenu.label) === 'Edit Reply') {
-          let commentNow = commentLvl2.filter((x: CommentList2) =>
-            idComment.includes(x.id),
-          )[0];
           setCmntToCmnt({
             id: commentNow.id,
             userName: commentNow.commentOwner.username,
@@ -566,16 +575,20 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       }
       // * delete/edit comment lvl3
       if (selectedLvlComment === 3 && commentLvl3) {
+        let commentNow = commentLvl3.filter((x: CommentList3) =>
+          idComment.includes(x.id),
+        )[0];
         if (t(selectedMenu.label) === 'Delete Reply') {
           setCommentLvl3(
             commentLvl3.filter((x: CommentList3) => !idComment.includes(x.id)),
           );
           setCommentDelete({id: idComment});
+          setParentIdDeletedComment([
+            ...parentIdDeletedComment,
+            commentNow.parentID,
+          ]);
         }
         if (t(selectedMenu.label) === 'Edit Reply') {
-          let commentNow = commentLvl3.filter((x: CommentList3) =>
-            idComment.includes(x.id),
-          )[0];
           setCmntToCmnt({
             id: commentNow.id,
             userName: commentNow.commentOwner.username,
@@ -925,6 +938,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             selectedIdComment={setIdComment}
             selectedLvlComment={setSelectedLvlComment}
             profileUUID={dataProfile?.data.uuid ? dataProfile.data.uuid : ''}
+            deletedCommentParentId={parentIdDeletedComment}
+            addCommentParentId={parentIdAddComment}
           />
         ) : null}
         <ImageModal
