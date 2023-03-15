@@ -36,6 +36,7 @@ import {DataDetailSong} from '../../../interface/song.interface';
 import {ListenersAndDonate} from '../ListenersAndDonate/ListenersAndDonate';
 import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../../hooks/use-credit.hook';
+import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 
 interface Props {
   dataAlbum: AlbumData[];
@@ -100,11 +101,9 @@ export const SongDetailsContent: React.FC<Props> = ({
       <TopNavigation.Type4
         title={t('Music.Label.SongDetails')}
         rightIcon={
-          <Dropdown.More
-            data={dropDownHeaderSongDetails}
+          <DropdownMore
+            dataFilter={dropDownHeaderSongDetails}
             selectedMenu={resultDataMore}
-            containerStyle={styles.containerMore}
-            translation={true}
           />
         }
         leftIcon={<ArrowLeftIcon />}
