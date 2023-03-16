@@ -72,7 +72,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const currentLanguage = i18n.language;
   const {
     dataMusician,
+    dataFavoriteMusician,
     getListDataMusician,
+    getListDataFavoriteMusician,
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
@@ -108,6 +110,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     if (isLogin) {
       getListDataBanner();
       getListDataMusician({filterBy: 'top'});
+      getListDataFavoriteMusician({fansUUID: dataProfile?.data?.uuid});
       getListDataSong({listType: 'top'});
       getProfileUser();
       getCountNotification();
@@ -182,11 +185,18 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const goToScreen = (screen: 'MusicPlayer' | 'TopupCoin') => {
     navigation.navigate(screen);
   };
-  const [filter] = useState([
+
+  const [filterMusician] = useState([
     {filterName: 'Home.Tab.TopMusician.Title'},
     {filterName: 'Home.Tab.Recomended.Title'},
     {filterName: 'Home.Tab.Favorite.Title'},
   ]);
+
+  const [filterMusicianGuest] = useState([
+    {filterName: 'Home.Tab.TopMusician.Title'},
+    {filterName: 'Home.Tab.Recomended.Title'},
+  ]);
+
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
   };
@@ -312,12 +322,13 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             },
           ]}>
           <TabFilter.Type3
-            filterData={filter}
+            filterData={!isLogin ? filterMusicianGuest : filterMusician}
             onPress={filterData}
             selectedIndex={selectedIndex}
             translation={true}
           />
-          {filter[selectedIndex].filterName === 'Home.Tab.TopMusician.Title' ? (
+          {filterMusician[selectedIndex].filterName ===
+          'Home.Tab.TopMusician.Title' ? (
             <TopMusician
               dataMusician={listMusician}
               setFollowMusician={(
@@ -329,7 +340,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
             />
-          ) : filter[selectedIndex].filterName ===
+          ) : filterMusician[selectedIndex].filterName ===
             'Home.Tab.Recomended.Title' ? (
             <RecomendedMusician
               dataMusician={listMusician}
@@ -344,7 +355,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             />
           ) : (
             <FavoriteMusician
-              dataMusician={listMusician}
+              dataMusician={dataFavoriteMusician}
               setFollowMusician={(
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,
