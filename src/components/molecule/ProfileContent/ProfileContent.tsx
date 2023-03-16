@@ -30,7 +30,6 @@ import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import {Playlist} from '../../../interface/playlist.interface';
 import ListPlaylist from '../../../screen/ListCard/ListPlaylist';
 import {CheckCircle2Icon, SettingIcon} from '../../../assets/icon';
-import LoadingSpinner from '../../atom/Loading/LoadingSpinner';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -53,7 +52,6 @@ interface ProfileContentProps {
   refreshing: boolean;
   setRefreshing: () => void;
   otherUserProfile?: boolean;
-  isLoading?: boolean;
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -71,7 +69,6 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   refreshing,
   setRefreshing,
   otherUserProfile,
-  isLoading,
 }) => {
   const {t} = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -107,6 +104,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
     ? t('Profile.Label.NoBadgeOther')
     : t('Profile.Label.NoBadge');
 
+  const topPosition =
+    Platform.OS === 'ios' && refreshing
+      ? heightPercentage(360)
+      : heightPercentage(310);
+
   return (
     <View style={styles.root}>
       {scrollEffect && (
@@ -115,11 +117,6 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           <TouchableOpacity onPress={() => onPressGoTo('Setting')}>
             <SettingIcon style={styles.topIos} />
           </TouchableOpacity>
-        </View>
-      )}
-      {Platform.OS === 'ios' && (isLoading || refreshing) && (
-        <View style={styles.loadingContainer}>
-          <LoadingSpinner />
         </View>
       )}
       <ScrollView
@@ -141,10 +138,15 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           noEdit={!showCreateCard}
           backIcon={!showCreateCard}
           onPressImage={showImage}
+          refreshing={refreshing}
         />
         <UserInfoCard
           type="self"
-          containerStyles={styles.infoCard}
+          containerStyles={{
+            position: 'absolute',
+            left: widthPercentage(20),
+            top: topPosition,
+          }}
           totalFollowing={profile.totalFollowing}
           onPress={() => onPressGoTo('Following')}
           selfProfile={profile.data}
@@ -242,11 +244,6 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-  },
-  infoCard: {
-    position: 'absolute',
-    top: heightPercentage(310),
-    left: widthPercentage(20),
   },
   containerContent: {
     flex: 1,
