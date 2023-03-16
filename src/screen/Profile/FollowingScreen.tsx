@@ -18,7 +18,6 @@ type FollowingProps = NativeStackScreenProps<RootStackParams, 'Following'>;
 export const FollowingScreen: React.FC<FollowingProps> = ({
   route,
 }: FollowingProps) => {
-  const {uuid} = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [search, setSearch] = useState<string>('');
@@ -30,7 +29,9 @@ export const FollowingScreen: React.FC<FollowingProps> = ({
     setUnfollowMusician,
   } = useMusicianHook();
 
-  const fansUUID = uuid ? uuid : profileStorage()?.uuid;
+  const fansUUID = route.params?.uuid
+    ? route.params.uuid
+    : profileStorage()?.uuid;
 
   useFocusEffect(
     useCallback(() => {

@@ -79,6 +79,7 @@
   "Btn": {
     "Next": "下一步",
     "Skip": "略過",
+    "Close": "Close",
     "Finish": "完成",
     "SignIn": "登入",
     "SignUp": "註冊",
@@ -540,6 +541,11 @@
     "Title": "通知"
   },
   "Modal": {
+    "Limit": {
+      "Title": "Limit Reached",
+      "SubtitleSR1": "You have reached the limit of uploading 4 photos, please delete some of your photos to upload new ones.",
+      "SubtitleSR2": "Some of your photos cannot be uploaded because you have reached your limit. You can only upload up to 4 photos. Delete some photos to upload the new ones."
+    },
     "EditProfile": {
       "Title": "編輯個人資料",
       "Subtitle": "Are you sure to finish edit profile?"

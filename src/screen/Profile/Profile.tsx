@@ -25,7 +25,8 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {t} = useTranslation();
-  const {isLoading, dataProfile, getProfileUser} = useProfileHook();
+  const {dataProfile, dataCountLiked, getProfileUser, getUserCountLikedSong} =
+    useProfileHook();
   const {dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFocused = useIsFocused();
@@ -67,7 +68,10 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   useEffect(() => {
     getProfileUser();
     getPlaylist({uuid: profileStorage()?.uuid});
-    setRefreshing(false);
+    getUserCountLikedSong({uuid: profileStorage()?.uuid});
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
   }, [refreshing, showToast, deletePlaylist]);
 
   const onPressGoTo = (
@@ -122,10 +126,9 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
               setToastVisible={setToastVisible}
               toastText={toastText}
               playerVisible={playerVisible}
-              totalCountlikedSong={dataProfile?.data.songAdded || 0}
+              totalCountlikedSong={dataCountLiked?.countLikedSong || 0}
               refreshing={refreshing}
               setRefreshing={() => setRefreshing(true)}
-              isLoading={isLoading}
             />
           )}
         </>

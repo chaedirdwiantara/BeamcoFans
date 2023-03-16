@@ -33,6 +33,10 @@ export const FollowingScreen: React.FC = () => {
     navigation.goBack();
   };
 
+  const goToMusician = (musicianId: string) => {
+    navigation.navigate('MusicianProfile', {id: musicianId});
+  };
+
   return (
     <View style={styles.root}>
       <FollowingList
@@ -46,6 +50,7 @@ export const FollowingScreen: React.FC = () => {
         onPressGoBack={onPressGoBack}
         search={search}
         setSearch={setSearch}
+        goToMusician={goToMusician}
       />
     </View>
   );
