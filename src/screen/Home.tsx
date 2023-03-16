@@ -182,8 +182,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   };
   const [filter] = useState([
     {filterName: 'Home.Tab.TopMusician.Title'},
-    {filterName: 'Home.Tab.TopSong.Title'},
-    {filterName: 'Home.Tab.TopPost.Title'},
+    {filterName: 'Home.Tab.Recomended.Title'},
+    {filterName: 'Home.Tab.Favorite.Title'},
   ]);
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
@@ -309,7 +309,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 : heightPercentage(25),
             },
           ]}>
-          <TabFilter.Type1
+          <TabFilter.Type3
             filterData={filter}
             onPress={filterData}
             selectedIndex={selectedIndex}
@@ -327,7 +327,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
             />
-          ) : filter[selectedIndex].filterName === 'Home.Tab.TopSong.Title' ? (
+          ) : filter[selectedIndex].filterName ===
+            'Home.Tab.Recomended.Title' ? (
             <TopSong
               dataSong={isLogin ? dataSong : dataSearchSongs}
               onPress={onPressTopSong}
@@ -376,7 +377,7 @@ const styles = StyleSheet.create({
   },
   containerContent: {
     marginTop: heightPercentage(10),
-    paddingHorizontal: widthResponsive(24),
+    // paddingHorizontal: widthResponsive(24),
     width: '100%',
     height: '100%',
   },
