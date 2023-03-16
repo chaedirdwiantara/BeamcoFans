@@ -95,7 +95,7 @@ const TopMusician: FC<TopMusicianProps> = ({
       {listMusician?.length > 4 && (
         <View style={{width: widthResponsive(255)}}>
           {listMusician?.map((item, index) => {
-            if (index > 4) {
+            if (index > 4 && index < 10) {
               return (
                 <MusicianSection
                   key={item.uuid}

@@ -103,7 +103,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
 
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
-  const [selectedIndex, setSelectedIndex] = useState(-0);
+  const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
+  const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
@@ -197,9 +198,19 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     {filterName: 'Home.Tab.Recomended.Title'},
   ]);
 
-  const filterData = (item: any, index: any) => {
-    setSelectedIndex(index);
+  const [filterSong] = useState([
+    {filterName: 'Home.Tab.TopSong.Title'},
+    {filterName: 'Home.Tab.NewSong.Title'},
+  ]);
+
+  const filterDataMusician = (item: any, index: any) => {
+    setSelectedIndexMusician(index);
   };
+
+  const filterDataSong = (item: any, index: any) => {
+    setSelectedIndexSong(index);
+  };
+
   const handleSearchButton = () => {
     navigation.navigate('SearchScreen');
   };
@@ -288,6 +299,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
+        contentContainerStyle={{
+          paddingBottom: playerVisible
+            ? heightPercentage(90)
+            : heightPercentage(25),
+        }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -312,22 +328,46 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           }
           onPressBanner={handleWebview}
         />
-        <View
-          style={[
-            styles.containerContent,
-            {
-              marginBottom: playerVisible
-                ? heightPercentage(90)
-                : heightPercentage(25),
-            },
-          ]}>
+        {/* Tab Song */}
+        <View style={[styles.containerContent]}>
           <TabFilter.Type3
-            filterData={!isLogin ? filterMusicianGuest : filterMusician}
-            onPress={filterData}
-            selectedIndex={selectedIndex}
+            filterData={filterSong}
+            onPress={filterDataSong}
+            selectedIndex={selectedIndexSong}
             translation={true}
           />
-          {filterMusician[selectedIndex].filterName ===
+          {filterSong[selectedIndexSong].filterName ===
+          'Home.Tab.TopSong.Title' ? (
+            <TopSong
+              dataSong={isLogin ? dataSong : dataSearchSongs}
+              onPress={onPressTopSong}
+              type={'home'}
+              loveIcon={isLogin}
+            />
+          ) : (
+            <RecomendedMusician
+              dataMusician={listMusician}
+              setFollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setFollowMusician(props, params)}
+              setUnfollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setUnfollowMusician(props, params)}
+            />
+          )}
+        </View>
+        {/* End of Tab Song */}
+        {/* Tab Musician */}
+        <View style={[styles.containerContent]}>
+          <TabFilter.Type3
+            filterData={!isLogin ? filterMusicianGuest : filterMusician}
+            onPress={filterDataMusician}
+            selectedIndex={selectedIndexMusician}
+            translation={true}
+          />
+          {filterMusician[selectedIndexMusician].filterName ===
           'Home.Tab.TopMusician.Title' ? (
             <TopMusician
               dataMusician={listMusician}
@@ -340,7 +380,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
             />
-          ) : filterMusician[selectedIndex].filterName ===
+          ) : filterMusician[selectedIndexMusician].filterName ===
             'Home.Tab.Recomended.Title' ? (
             <RecomendedMusician
               dataMusician={listMusician}
@@ -367,6 +407,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             />
           )}
         </View>
+        {/* End of Tab Musician */}
       </ScrollView>
 
       <BottomSheetGuest
@@ -402,7 +443,7 @@ const styles = StyleSheet.create({
     marginTop: heightPercentage(10),
     // paddingHorizontal: widthResponsive(24),
     width: '100%',
-    height: '100%',
+    // height: '100%',
   },
   containerIcon: {
     flexDirection: 'row',
