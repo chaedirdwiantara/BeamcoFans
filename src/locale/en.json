@@ -148,7 +148,8 @@
         "Follow": "Follow",
         "Unfollow": "Unfollow",
         "Tip": "Tip",
-        "Profile": "Go to Profile"
+        "Profile": "Go to Musician",
+        "Donation": "Send Donation"
       },
       "TopSong": {
         "Title": "Top Songs",

@@ -55,6 +55,7 @@ import {useNotificationHook} from '../hooks/use-notification.hook';
 import {useCreditHook} from '../hooks/use-credit.hook';
 import {useTranslation} from 'react-i18next';
 import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
+import RecomendedMusician from './ListCard/RecomendedMusician';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -329,11 +330,16 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             />
           ) : filter[selectedIndex].filterName ===
             'Home.Tab.Recomended.Title' ? (
-            <TopSong
-              dataSong={isLogin ? dataSong : dataSearchSongs}
-              onPress={onPressTopSong}
-              type={'home'}
-              loveIcon={isLogin}
+            <RecomendedMusician
+              dataMusician={listMusician}
+              setFollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setFollowMusician(props, params)}
+              setUnfollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setUnfollowMusician(props, params)}
             />
           ) : (
             <PostList
