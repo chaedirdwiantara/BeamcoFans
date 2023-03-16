@@ -115,7 +115,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       getSearchMusicians({keyword: '', filterBy: 'top'});
       getSearchSongs({keyword: '', filterBy: 'top'});
     }
-    setRefreshing(false);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
   }, [selectedIndex, refreshing]);
 
   useEffect(() => {
@@ -261,7 +263,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         guest={!isLogin}
       />
 
-      {Platform.OS === 'ios' && (isLoading || refreshing) && (
+      {Platform.OS === 'ios' && refreshing && (
         <View style={styles.loadingContainer}>
           <LoadingSpinner />
         </View>
@@ -394,6 +396,6 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     alignItems: 'center',
-    paddingVertical: heightPercentage(20),
+    paddingVertical: heightPercentage(10),
   },
 });
