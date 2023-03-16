@@ -57,6 +57,7 @@ import {useTranslation} from 'react-i18next';
 import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
 import RecomendedMusician from './ListCard/RecomendedMusician';
 import FavoriteMusician from './ListCard/FavoriteMusician';
+import NewSong from './ListCard/NewSong';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -80,7 +81,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   } = useMusicianHook();
 
   const {isLoading, dataProfile, getProfileUser} = useProfileHook();
-  const {dataSong, getListDataSong} = useSongHook();
+  const {dataSong, dataNewSong, getListDataSong, getListDataNewSong} =
+    useSongHook();
   const {dataBanner, getListDataBanner} = useBannerHook();
   const {addFcmToken} = useFcmHook();
   const {
@@ -113,6 +115,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       getListDataMusician({filterBy: 'top'});
       getListDataFavoriteMusician({fansUUID: dataProfile?.data?.uuid});
       getListDataSong({listType: 'top'});
+      getListDataNewSong();
       getProfileUser();
       getCountNotification();
       getCreditCount();
@@ -253,6 +256,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     showPlayer();
   };
 
+  const onPressNewSong = (val: SongList) => {
+    addPlaylist({dataSong: dataNewSong, playSongId: val.id, isPlay: true});
+    showPlayer();
+  };
+
   const onPressNotif = () => {
     isLogin ? navigation.navigate('Notification') : setModalGuestVisible(true);
   };
@@ -345,16 +353,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               loveIcon={isLogin}
             />
           ) : (
-            <RecomendedMusician
-              dataMusician={listMusician}
-              setFollowMusician={(
-                props?: FollowMusicianPropsType,
-                params?: ParamsProps,
-              ) => setFollowMusician(props, params)}
-              setUnfollowMusician={(
-                props?: FollowMusicianPropsType,
-                params?: ParamsProps,
-              ) => setUnfollowMusician(props, params)}
+            <NewSong
+              dataSong={isLogin ? dataNewSong : dataSearchSongs}
+              onPress={onPressNewSong}
+              type={'home'}
+              loveIcon={isLogin}
             />
           )}
         </View>
