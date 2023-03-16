@@ -56,6 +56,7 @@ import {useCreditHook} from '../hooks/use-credit.hook';
 import {useTranslation} from 'react-i18next';
 import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
 import RecomendedMusician from './ListCard/RecomendedMusician';
+import FavoriteMusician from './ListCard/FavoriteMusician';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -119,7 +120,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
-  }, [selectedIndex, refreshing]);
+  }, [refreshing]);
 
   useEffect(() => {
     if (isFocused && isPlaying) {
@@ -342,11 +343,16 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               ) => setUnfollowMusician(props, params)}
             />
           ) : (
-            <PostList
-              dataRightDropdown={dropDownDataCategory}
-              dataLeftDropdown={dropDownDataFilter}
-              data={PostlistData}
-              dataProfileImg={dataProfile?.data?.images[1]?.image || ''}
+            <FavoriteMusician
+              dataMusician={listMusician}
+              setFollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setFollowMusician(props, params)}
+              setUnfollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setUnfollowMusician(props, params)}
             />
           )}
         </View>
