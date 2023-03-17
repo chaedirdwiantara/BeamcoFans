@@ -79,6 +79,7 @@
   "Btn": {
     "Next": "Next",
     "Skip": "Skip",
+    "Close": "Close",
     "Finish": "Finish",
     "SignIn": "Sign In",
     "SignUp": "Sign Up",
@@ -539,6 +540,11 @@
     "Title": "Notification"
   },
   "Modal": {
+    "Limit": {
+      "Title": "Limit Reached",
+      "SubtitleSR1": "You have reached the limit of uploading 4 photos, please delete some of your photos to upload new ones.",
+      "SubtitleSR2": "Some of your photos cannot be uploaded because you have reached your limit. You can only upload up to 4 photos. Delete some photos to upload the new ones."
+    },
     "EditProfile": {
       "Title": "Edit Profile",
       "Subtitle": "Are you sure to finish edit profile?"
