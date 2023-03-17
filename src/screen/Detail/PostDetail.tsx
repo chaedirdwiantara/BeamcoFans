@@ -127,7 +127,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [dataParent, setDataParent] = useState<
     {parentId: string; value: number}[]
   >([]);
-  const [activePage, setActivePage] = useState<number>(0);
+  const [activePage, setActivePage] = useState<number>(1);
 
   // * COMMENT HOOKS
   const [inputCommentModal, setInputCommentModal] = useState<boolean>(false);
@@ -142,10 +142,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [disallowStatic, setDisallowStatic] = useState<boolean>(false);
   const [staticId, setStaticId] = useState<string[]>([]);
   const [commentCountLvl1, setCommmentCountLvl1] = useState<number>(0);
-  const [parentIdDeletedComment, setParentIdDeletedComment] = useState<
-    string[]
-  >([]);
-  const [parentIdAddComment, setParentIdAddComment] = useState<string[]>([]);
+  const [call6thCall, setCall6thStep] = useState<boolean>(true);
 
   // * LIKE / UNLIKE HOOKS
   const [likeCommentId, setLikeCommentId] = useState<string>('');
@@ -157,6 +154,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [selectedLvlComment, setSelectedLvlComment] = useState<number>();
   const [updateComment, setUpdateComment] = useState<boolean>(false);
   const [temporaryIds, setTemporaryIds] = useState<string>();
+  const [parentIdDeletedComment, setParentIdDeletedComment] = useState<
+    string[]
+  >([]);
+  const [parentIdAddComment, setParentIdAddComment] = useState<string[]>([]);
 
   useEffect(() => {
     getCreditCount();
@@ -240,7 +241,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     callLoadMoreApi === true && value === 1
       ? (setLoadMore({
           id: viewMore,
-          params: {page: activePage + 1, perPage: 3},
+          params: {page: activePage + 1, perPage: 10},
         }),
         setActivePage(activePage + 1),
         setCallLoadMoreApi(false),
@@ -267,22 +268,39 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     if (dataLoadMore) {
       dataLoadMore?.map((item: CommentList) => {
         if (item.commentLevel === 1 && commentLvl1 === undefined) {
-          return setCommentLvl1(dataLoadMore), setDataLoadMore(null);
+          setCommentLvl1(dataLoadMore), setDataLoadMore(null);
         } else if (item.commentLevel === 1 && commentLvl1 !== undefined) {
-          return (
-            setCommentLvl1([...commentLvl1, ...dataLoadMore]),
-            setDataLoadMore(null)
+          let mergedArray = [...commentLvl1, ...dataLoadMore];
+          let filterDuplicate = mergedArray.filter(
+            (v, i, a) => a.findIndex(v2 => v2.id === v.id) === i,
           );
+          setCommentLvl1(filterDuplicate),
+            setDataLoadMore(null),
+            setDelStaticComment(-1),
+            setCall6thStep(false);
         } else if (item.commentLevel === 2 && commentLvl2 === undefined) {
-          return setCommentLvl2(dataLoadMore), setDataLoadMore(null);
+          setCommentLvl2(dataLoadMore), setDataLoadMore(null);
         } else if (item.commentLevel === 2 && commentLvl2 !== undefined) {
           let mergedArray = [...commentLvl2, ...dataLoadMore];
-          return setCommentLvl2(mergedArray), setDataLoadMore(null);
+          let filterDuplicate = mergedArray.filter(
+            (v, i, a) => a.findIndex(v2 => v2.id === v.id) === i,
+          );
+          setCommentLvl2(filterDuplicate),
+            setDataLoadMore(null),
+            setDelStaticComment(-1),
+            setCall6thStep(false);
         } else if (item.commentLevel === 3 && commentLvl3 === undefined) {
-          return setCommentLvl3(dataLoadMore), setDataLoadMore(null);
+          setCommentLvl3(dataLoadMore), setDataLoadMore(null);
         } else if (item.commentLevel === 3 && commentLvl3 !== undefined) {
           let mergedArray = [...commentLvl3, ...dataLoadMore];
-          return setCommentLvl3(mergedArray), setDataLoadMore(null);
+          let filterDuplicate = mergedArray.filter(
+            (v, i, a) => a.findIndex(v2 => v2.id === v.id) === i,
+          );
+
+          setCommentLvl3(filterDuplicate),
+            setDataLoadMore(null),
+            setDelStaticComment(-1),
+            setCall6thStep(false);
         }
       });
     }
@@ -291,41 +309,44 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   // * 6TH call, delete static comments when comment level reach certain value
   // TODO: need implement more logic to delete the static comments
   useEffect(() => {
-    if (dataLoadMore !== null && staticId.length > 0) {
-      if (delStaticComment == 1 && commentLvl1?.length == 11) {
-        for (var i = 0; i < commentLvl1.length; i++) {
-          return setCommentLvl1(
-            commentLvl1.filter((x: CommentList) => !staticId.includes(x.id)),
-          );
+    if (call6thCall) {
+      if (dataLoadMore !== null && staticId.length > 0) {
+        if (delStaticComment == 1 && commentLvl1?.length == 11) {
+          for (var i = 0; i < commentLvl1.length; i++) {
+            return setCommentLvl1(
+              commentLvl1.filter((x: CommentList) => !staticId.includes(x.id)),
+            );
+          }
+          setDataLoadMore(null);
+        } else if (
+          delStaticComment == 2 &&
+          commentLvl2 &&
+          commentLvl2?.length >= 1 &&
+          commentLvl2?.length <= 4
+        ) {
+          for (var i = 0; i < commentLvl2.length; i++) {
+            return setCommentLvl2(
+              commentLvl2.filter((x: CommentList2) => !staticId.includes(x.id)),
+            );
+          }
+          setDataLoadMore(null);
+        } else if (
+          delStaticComment == 3 &&
+          commentLvl3 &&
+          commentLvl3?.length >= 1 &&
+          commentLvl3?.length <= 4
+        ) {
+          for (var i = 0; i < commentLvl3.length; i++) {
+            return setCommentLvl3(
+              commentLvl3.filter((x: CommentList3) => !staticId.includes(x.id)),
+            );
+          }
+          setDataLoadMore(null);
         }
-        setDataLoadMore(null);
-      } else if (
-        delStaticComment == 2 &&
-        commentLvl2 &&
-        commentLvl2?.length >= 1 &&
-        commentLvl2?.length <= 4
-      ) {
-        for (var i = 0; i < commentLvl2.length; i++) {
-          return setCommentLvl2(
-            commentLvl2.filter((x: CommentList2) => !staticId.includes(x.id)),
-          );
-        }
-        setDataLoadMore(null);
-      } else if (
-        delStaticComment == 3 &&
-        commentLvl3 &&
-        commentLvl3?.length >= 1 &&
-        commentLvl3?.length <= 4
-      ) {
-        for (var i = 0; i < commentLvl3.length; i++) {
-          return setCommentLvl3(
-            commentLvl3.filter((x: CommentList3) => !staticId.includes(x.id)),
-          );
-        }
-        setDataLoadMore(null);
       }
+      setCall6thStep(false);
     }
-  }, [dataLoadMore, delStaticComment, commentLvl1]);
+  }, [call6thCall, dataLoadMore, delStaticComment, commentLvl1]);
   // !END OF VIEW MORE
 
   // ! COMMENT AREA
@@ -375,7 +396,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         id: musicianId,
         content: {content: commentCaption},
       }),
-        setCommentCaption('');
+        setCommentCaption(''),
+        dataPostDetail &&
+          setParentIdAddComment([...parentIdAddComment, dataPostDetail.id]);
       if (commentCountLvl1) {
         setCommmentCountLvl1(commentCountLvl1 + 1);
       }
@@ -474,8 +497,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         let theIndex = theComment?.findIndex((x: CommentList) =>
           temporaryIds.includes(x.id),
         );
-        theComment?.splice(theIndex, 1, dataComment);
-        setCommentLvl1(theComment);
+        theIndex !== -1 && theComment?.splice(theIndex, 1, dataComment);
+        theIndex !== -1
+          ? setCommentLvl1(theComment)
+          : setCommentLvl1([...commentLvl1, dataComment]);
         setDataComment(null);
         setTemporaryIds(undefined);
       }
@@ -484,8 +509,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         let theIndex = theComment?.findIndex((x: CommentList2) =>
           temporaryIds.includes(x.id),
         );
-        theComment?.splice(theIndex, 1, dataComment);
-        setCommentLvl2(theComment);
+        theIndex !== -1 && theComment?.splice(theIndex, 1, dataComment);
+        theIndex !== -1
+          ? setCommentLvl2(theComment)
+          : setCommentLvl2([...commentLvl2, dataComment]);
         setDataComment(null);
         setTemporaryIds(undefined);
       }
@@ -494,8 +521,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         let theIndex = theComment?.findIndex((x: CommentList3) =>
           temporaryIds.includes(x.id),
         );
-        theComment?.splice(theIndex, 1, dataComment);
-        setCommentLvl3(theComment);
+        theIndex !== -1 && theComment?.splice(theIndex, 1, dataComment);
+        theIndex !== -1
+          ? setCommentLvl3(theComment)
+          : setCommentLvl3([...commentLvl3, dataComment]);
         setDataComment(null);
         setTemporaryIds(undefined);
         setDisallowStatic(true);
@@ -522,6 +551,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     ) {
       // * delete/edit comment lvl1
       if (selectedLvlComment === 1 && commentLvl1) {
+        let commentNow = commentLvl1.filter((x: CommentList) =>
+          idComment.includes(x.id),
+        )[0];
         if (t(selectedMenu.label) === 'Delete Reply') {
           setCommentLvl1(
             commentLvl1.filter((x: CommentList) => !idComment.includes(x.id)),
@@ -530,11 +562,12 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           if (commentCountLvl1) {
             setCommmentCountLvl1(commentCountLvl1 - 1);
           }
+          setParentIdDeletedComment([
+            ...parentIdDeletedComment,
+            commentNow.parentID,
+          ]);
         }
         if (t(selectedMenu.label) === 'Edit Reply') {
-          let commentNow = commentLvl1.filter((x: CommentList) =>
-            idComment.includes(x.id),
-          )[0];
           setCmntToCmnt({
             id: commentNow.id,
             userName: commentNow.commentOwner.username,
