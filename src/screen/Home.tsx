@@ -109,11 +109,18 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
+  const JSONProfile = storage.getString('profile');
+  let uuid: string = '';
+  if (JSONProfile) {
+    const profileObject = JSON.parse(JSONProfile);
+    uuid = profileObject.uuid;
+  }
+
   useEffect(() => {
     if (isLogin) {
       getListDataBanner();
       getListDataMusician({filterBy: 'top'});
-      getListDataFavoriteMusician({fansUUID: dataProfile?.data?.uuid});
+      getListDataFavoriteMusician({fansUUID: uuid});
       getListDataSong({listType: 'top'});
       getListDataNewSong();
       getProfileUser();
@@ -398,7 +405,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             />
           ) : (
             <FavoriteMusician
-              dataMusician={dataFavoriteMusician}
+              dataMusician={isLogin ? dataFavoriteMusician : []}
               setFollowMusician={(
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,
