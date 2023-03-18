@@ -15,7 +15,7 @@ const {width} = Dimensions.get('screen');
 
 export interface SquareImageProps extends TouchableOpacityProps {
   imgUri?: string;
-  size?: number;
+  size?: number | string;
   height?: number;
   id?: number;
   type?: string;

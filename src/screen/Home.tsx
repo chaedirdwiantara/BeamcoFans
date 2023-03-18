@@ -29,7 +29,7 @@ import {
 } from '../components';
 import Color from '../theme/Color';
 import TopSong from './ListCard/TopSong';
-import {CheckCircle2Icon, SearchIcon} from '../assets/icon';
+import {ArrowRightIcon, CheckCircle2Icon, SearchIcon} from '../assets/icon';
 import PostList from './ListCard/PostList';
 import {PostlistData} from '../data/postlist';
 import {MainTabParams, RootStackParams} from '../navigations';
@@ -49,7 +49,12 @@ import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
-import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
+import {
+  heightPercentage,
+  heightResponsive,
+  widthPercentage,
+  widthResponsive,
+} from '../utils';
 import {defaultBanner} from '../data/home';
 import {useNotificationHook} from '../hooks/use-notification.hook';
 import {useCreditHook} from '../hooks/use-credit.hook';
@@ -58,6 +63,10 @@ import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
 import RecomendedMusician from './ListCard/RecomendedMusician';
 import FavoriteMusician from './ListCard/FavoriteMusician';
 import NewSong from './ListCard/NewSong';
+import {usePlaylistHook} from '../hooks/use-playlist.hook';
+import PlaylistHome from './ListCard/PlaylistHome';
+import {mvs} from 'react-native-size-matters';
+import {font} from '../theme';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -102,6 +111,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   } = useSearchHook();
   const {counter, getCountNotification} = useNotificationHook();
   const {creditCount, getCreditCount} = useCreditHook();
+  const {dataPlaylist, getPlaylist} = usePlaylistHook();
 
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
@@ -131,6 +141,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       getSearchMusicians({keyword: '', filterBy: 'top'});
       getSearchSongs({keyword: '', filterBy: 'top'});
     }
+    getPlaylist();
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
@@ -418,6 +429,34 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           )}
         </View>
         {/* End of Tab Musician */}
+        {/* Playlist */}
+        <View style={[styles.containerContent]}>
+          <View
+            style={{
+              paddingHorizontal: widthResponsive(24),
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginBottom: heightResponsive(16),
+            }}>
+            <Text
+              style={{
+                color: Color.Neutral[10],
+                fontSize: mvs(17),
+                fontFamily: font.InterSemiBold,
+              }}>
+              Playlist
+            </Text>
+            <TouchableOpacity onPress={() => null}>
+              <ArrowRightIcon
+                stroke={Color.Pink[100]}
+                width={widthResponsive(25)}
+                height={widthResponsive(25)}
+              />
+            </TouchableOpacity>
+          </View>
+          <PlaylistHome dataPlaylist={dataPlaylist} />
+        </View>
+        {/* End of Playlist */}
       </ScrollView>
 
       <BottomSheetGuest
