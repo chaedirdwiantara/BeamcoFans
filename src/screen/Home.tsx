@@ -444,6 +444,7 @@ const styles = StyleSheet.create({
   },
   containerContent: {
     marginTop: heightPercentage(10),
+    marginBottom: heightPercentage(22),
     // paddingHorizontal: widthResponsive(24),
     width: '100%',
     // height: '100%',
