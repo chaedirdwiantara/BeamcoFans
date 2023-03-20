@@ -144,14 +144,15 @@
     },
     "Tab": {
       "TopMusician": {
-        "Title": "TOP MUSICIAN",
+        "Title": "Top Musician",
         "Follow": "Follow",
         "Unfollow": "Unfollow",
         "Tip": "Tip",
-        "Profile": "Go to Profile"
+        "Profile": "Go to Musician",
+        "Donation": "Send Donation"
       },
       "TopSong": {
-        "Title": "TOP SONG",
+        "Title": "Top Songs",
         "Playlist": "Add to Playlist",
         "Tip": "Send Tip",
         "Queue": "Add to Queue",
@@ -159,7 +160,7 @@
         "Details": "Show Details"
       },
       "TopPost": {
-        "Title": "TOP POST",
+        "Title": "Top Post",
         "Filter": {
           "Title": "Filter by",
           "Today": "Today",
@@ -176,6 +177,15 @@
           "Backstage": "Backstage",
           "Highlight": "Highlight Post"
         }
+      },
+      "Recomended": {
+        "Title": "Recomended"
+      },
+      "Favorite": {
+        "Title": "Favorite"
+      },
+      "NewSong": {
+        "Title": "New Songs"
       }
     }
   },

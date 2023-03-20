@@ -29,7 +29,7 @@ import {
 } from '../components';
 import Color from '../theme/Color';
 import TopSong from './ListCard/TopSong';
-import {CheckCircle2Icon, SearchIcon} from '../assets/icon';
+import {ArrowRightIcon, CheckCircle2Icon, SearchIcon} from '../assets/icon';
 import PostList from './ListCard/PostList';
 import {PostlistData} from '../data/postlist';
 import {MainTabParams, RootStackParams} from '../navigations';
@@ -49,12 +49,24 @@ import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
-import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
+import {
+  heightPercentage,
+  heightResponsive,
+  widthPercentage,
+  widthResponsive,
+} from '../utils';
 import {defaultBanner} from '../data/home';
 import {useNotificationHook} from '../hooks/use-notification.hook';
 import {useCreditHook} from '../hooks/use-credit.hook';
 import {useTranslation} from 'react-i18next';
 import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
+import RecomendedMusician from './ListCard/RecomendedMusician';
+import FavoriteMusician from './ListCard/FavoriteMusician';
+import NewSong from './ListCard/NewSong';
+import {usePlaylistHook} from '../hooks/use-playlist.hook';
+import PlaylistHome from './ListCard/PlaylistHome';
+import {mvs} from 'react-native-size-matters';
+import {font} from '../theme';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -70,13 +82,16 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const currentLanguage = i18n.language;
   const {
     dataMusician,
+    dataFavoriteMusician,
     getListDataMusician,
+    getListDataFavoriteMusician,
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
 
   const {isLoading, dataProfile, getProfileUser} = useProfileHook();
-  const {dataSong, getListDataSong} = useSongHook();
+  const {dataSong, dataNewSong, getListDataSong, getListDataNewSong} =
+    useSongHook();
   const {dataBanner, getListDataBanner} = useBannerHook();
   const {addFcmToken} = useFcmHook();
   const {
@@ -96,17 +111,28 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   } = useSearchHook();
   const {counter, getCountNotification} = useNotificationHook();
   const {creditCount, getCreditCount} = useCreditHook();
+  const {dataPlaylist, getPlaylist} = usePlaylistHook();
 
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
-  const [selectedIndex, setSelectedIndex] = useState(-0);
+  const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
+  const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  const JSONProfile = storage.getString('profile');
+  let uuid: string = '';
+  if (JSONProfile) {
+    const profileObject = JSON.parse(JSONProfile);
+    uuid = profileObject.uuid;
+  }
 
   useEffect(() => {
     if (isLogin) {
       getListDataBanner();
       getListDataMusician({filterBy: 'top'});
+      getListDataFavoriteMusician({fansUUID: uuid});
       getListDataSong({listType: 'top'});
+      getListDataNewSong();
       getProfileUser();
       getCountNotification();
       getCreditCount();
@@ -115,10 +141,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       getSearchMusicians({keyword: '', filterBy: 'top'});
       getSearchSongs({keyword: '', filterBy: 'top'});
     }
+    getPlaylist();
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
-  }, [selectedIndex, refreshing]);
+  }, [refreshing]);
 
   useEffect(() => {
     if (isFocused && isPlaying) {
@@ -180,14 +207,31 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const goToScreen = (screen: 'MusicPlayer' | 'TopupCoin') => {
     navigation.navigate(screen);
   };
-  const [filter] = useState([
+
+  const [filterMusician] = useState([
     {filterName: 'Home.Tab.TopMusician.Title'},
-    {filterName: 'Home.Tab.TopSong.Title'},
-    {filterName: 'Home.Tab.TopPost.Title'},
+    {filterName: 'Home.Tab.Recomended.Title'},
+    {filterName: 'Home.Tab.Favorite.Title'},
   ]);
-  const filterData = (item: any, index: any) => {
-    setSelectedIndex(index);
+
+  const [filterMusicianGuest] = useState([
+    {filterName: 'Home.Tab.TopMusician.Title'},
+    {filterName: 'Home.Tab.Recomended.Title'},
+  ]);
+
+  const [filterSong] = useState([
+    {filterName: 'Home.Tab.TopSong.Title'},
+    {filterName: 'Home.Tab.NewSong.Title'},
+  ]);
+
+  const filterDataMusician = (item: any, index: any) => {
+    setSelectedIndexMusician(index);
   };
+
+  const filterDataSong = (item: any, index: any) => {
+    setSelectedIndexSong(index);
+  };
+
   const handleSearchButton = () => {
     navigation.navigate('SearchScreen');
   };
@@ -227,6 +271,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       playSongId: val.id,
       isPlay: true,
     });
+    showPlayer();
+  };
+
+  const onPressNewSong = (val: SongList) => {
+    addPlaylist({dataSong: dataNewSong, playSongId: val.id, isPlay: true});
     showPlayer();
   };
 
@@ -276,6 +325,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
+        contentContainerStyle={{
+          paddingBottom: playerVisible
+            ? heightPercentage(90)
+            : heightPercentage(25),
+        }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -300,22 +354,42 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           }
           onPressBanner={handleWebview}
         />
-        <View
-          style={[
-            styles.containerContent,
-            {
-              marginBottom: playerVisible
-                ? heightPercentage(90)
-                : heightPercentage(25),
-            },
-          ]}>
-          <TabFilter.Type1
-            filterData={filter}
-            onPress={filterData}
-            selectedIndex={selectedIndex}
+        {/* Tab Song */}
+        <View style={[styles.containerContent]}>
+          <TabFilter.Type3
+            filterData={filterSong}
+            onPress={filterDataSong}
+            selectedIndex={selectedIndexSong}
             translation={true}
           />
-          {filter[selectedIndex].filterName === 'Home.Tab.TopMusician.Title' ? (
+          {filterSong[selectedIndexSong].filterName ===
+          'Home.Tab.TopSong.Title' ? (
+            <TopSong
+              dataSong={isLogin ? dataSong : dataSearchSongs}
+              onPress={onPressTopSong}
+              type={'home'}
+              loveIcon={isLogin}
+            />
+          ) : (
+            <NewSong
+              dataSong={isLogin ? dataNewSong : dataSearchSongs}
+              onPress={onPressNewSong}
+              type={'home'}
+              loveIcon={isLogin}
+            />
+          )}
+        </View>
+        {/* End of Tab Song */}
+        {/* Tab Musician */}
+        <View style={[styles.containerContent]}>
+          <TabFilter.Type3
+            filterData={!isLogin ? filterMusicianGuest : filterMusician}
+            onPress={filterDataMusician}
+            selectedIndex={selectedIndexMusician}
+            translation={true}
+          />
+          {filterMusician[selectedIndexMusician].filterName ===
+          'Home.Tab.TopMusician.Title' ? (
             <TopMusician
               dataMusician={listMusician}
               setFollowMusician={(
@@ -327,22 +401,63 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
             />
-          ) : filter[selectedIndex].filterName === 'Home.Tab.TopSong.Title' ? (
-            <TopSong
-              dataSong={isLogin ? dataSong : dataSearchSongs}
-              onPress={onPressTopSong}
-              type={'home'}
-              loveIcon={isLogin}
+          ) : filterMusician[selectedIndexMusician].filterName ===
+            'Home.Tab.Recomended.Title' ? (
+            <RecomendedMusician
+              dataMusician={listMusician}
+              setFollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setFollowMusician(props, params)}
+              setUnfollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setUnfollowMusician(props, params)}
             />
           ) : (
-            <PostList
-              dataRightDropdown={dropDownDataCategory}
-              dataLeftDropdown={dropDownDataFilter}
-              data={PostlistData}
-              dataProfileImg={dataProfile?.data?.images[1]?.image || ''}
+            <FavoriteMusician
+              dataMusician={isLogin ? dataFavoriteMusician : []}
+              setFollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setFollowMusician(props, params)}
+              setUnfollowMusician={(
+                props?: FollowMusicianPropsType,
+                params?: ParamsProps,
+              ) => setUnfollowMusician(props, params)}
             />
           )}
         </View>
+        {/* End of Tab Musician */}
+        {/* Playlist */}
+        <View style={[styles.containerContent]}>
+          <View
+            style={{
+              paddingHorizontal: widthResponsive(24),
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginBottom: heightResponsive(16),
+            }}>
+            <Text
+              style={{
+                color: Color.Neutral[10],
+                fontSize: mvs(17),
+                fontFamily: font.InterSemiBold,
+              }}>
+              Playlist
+            </Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ListPlaylist')}>
+              <ArrowRightIcon
+                stroke={Color.Pink[100]}
+                width={widthResponsive(25)}
+                height={widthResponsive(25)}
+              />
+            </TouchableOpacity>
+          </View>
+          <PlaylistHome dataPlaylist={dataPlaylist} />
+        </View>
+        {/* End of Playlist */}
       </ScrollView>
 
       <BottomSheetGuest
@@ -376,9 +491,10 @@ const styles = StyleSheet.create({
   },
   containerContent: {
     marginTop: heightPercentage(10),
-    paddingHorizontal: widthResponsive(24),
+    marginBottom: heightPercentage(22),
+    // paddingHorizontal: widthResponsive(24),
     width: '100%',
-    height: '100%',
+    // height: '100%',
   },
   containerIcon: {
     flexDirection: 'row',

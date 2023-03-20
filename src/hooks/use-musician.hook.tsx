@@ -19,6 +19,9 @@ import {PostPropsTypeA} from '../interface/feed.interface';
 export const useMusicianHook = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataMusician, setDataMusician] = useState<MusicianList[]>([]);
+  const [dataFavoriteMusician, setDataFavoriteMusician] = useState<
+    MusicianList[]
+  >([]);
   const [dataAlbum, setDataAlbum] = useState<AlbumData[]>([]);
   const [dataDetailMusician, setDataDetailMusician] =
     useState<DataDetailMusician>();
@@ -33,6 +36,19 @@ export const useMusicianHook = () => {
       console.log(error);
       setIsError(true);
       setDataMusician([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getListDataFavoriteMusician = async (props?: ParamsProps) => {
+    try {
+      const response = await listMusician(props);
+      setDataFavoriteMusician(response.data);
+    } catch (error) {
+      console.log(error);
+      setIsError(true);
+      setDataFavoriteMusician([]);
     } finally {
       setIsLoading(false);
     }
@@ -113,10 +129,12 @@ export const useMusicianHook = () => {
     dataFollow,
     dataDetailMusician,
     dataAlbum,
+    dataFavoriteMusician,
     getListDataMusician,
     setFollowMusician,
     setUnfollowMusician,
     getDetailMusician,
     getAlbum,
+    getListDataFavoriteMusician,
   };
 };
