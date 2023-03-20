@@ -11,6 +11,7 @@ import TrackPlayer, {
 import {dummySongImg} from '../data/image';
 import {PostList} from '../interface/feed.interface';
 import {SongList} from '../interface/song.interface';
+import {ListDataSearchSongs} from '../interface/search.interface';
 import {usePlayerStore} from '../store/player.store';
 
 export const usePlayerHook = () => {
@@ -47,28 +48,24 @@ export const usePlayerHook = () => {
     playSongId,
     isPlay = false,
   }: {
-    dataSong: SongList[];
+    dataSong: SongList[] | ListDataSearchSongs[];
     playSongId?: number;
     isPlay?: boolean;
   }) => {
     try {
       await TrackPlayer.reset();
-      const track: Track[] = dataSong
-        .filter(ar => ar.id !== 14)
-        .map(item => {
-          return {
-            url: item.transcodedSongUrl[1].encodedHlsUrl,
-            title: item.title,
-            artist: item.musicianName,
-            type: TrackType.HLS,
-            artwork:
-              item.imageUrl.length !== 0
-                ? item.imageUrl[1].image
-                : dummySongImg,
-            id: item.id,
-            musicianId: item.musicianId,
-          };
-        });
+      const track: Track[] = dataSong.map(item => {
+        return {
+          url: item.transcodedSongUrl[1].encodedHlsUrl,
+          title: item.title,
+          artist: item.musicianName,
+          type: TrackType.HLS,
+          artwork:
+            item.imageUrl.length !== 0 ? item.imageUrl[1].image : dummySongImg,
+          id: item.id,
+          musicianId: item.musicianId,
+        };
+      });
       if (playSongId) {
         let indexPlaySong = track.findIndex(ar => ar.id === playSongId);
         if (indexPlaySong > -1) {
