@@ -59,15 +59,15 @@ const TopMusician: FC<TopMusicianProps> = ({
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
-        paddingRight: listMusician?.length > 4 ? widthResponsive(24) : 0,
+        paddingRight: listMusician?.length > 5 ? widthResponsive(24) : 0,
         paddingLeft: widthResponsive(24),
-        width: listMusician?.length > 4 ? 'auto' : '100%',
+        width: listMusician?.length > 5 ? 'auto' : '100%',
       }}>
       <View
         style={{
           marginRight: ms(20),
           flex: 1,
-          width: listMusician?.length > 4 ? widthResponsive(255) : '100%',
+          width: listMusician?.length > 5 ? widthResponsive(255) : '100%',
         }}>
         {listMusician?.map((item, index) => {
           if (index <= 4) {
@@ -92,7 +92,7 @@ const TopMusician: FC<TopMusicianProps> = ({
           }
         })}
       </View>
-      {listMusician?.length > 4 && (
+      {listMusician?.length > 5 && (
         <View style={{width: widthResponsive(255)}}>
           {listMusician?.map((item, index) => {
             if (index > 4 && index < 10) {
