@@ -10,6 +10,7 @@ import {SsuText} from './Text/SsuText';
 import {SsuInput} from './InputText/SsuInput';
 import {SelectBox} from './SelectBox/SelectBox';
 import SquareImage from './SquareImage/SquareImage';
+import SquareImageText from './SquareImage/SquareImageText';
 import SsuStatusBar from './StatusBar';
 import SsuToast from './Toast';
 import IconMore from './IconMore';
@@ -27,6 +28,7 @@ export {
   SsuText,
   SelectBox,
   SquareImage,
+  SquareImageText,
   SsuStatusBar,
   SsuToast,
   IconMore,
