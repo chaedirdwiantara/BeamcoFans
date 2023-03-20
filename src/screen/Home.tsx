@@ -222,7 +222,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   };
 
   const onPressTopSong = (val: SongList) => {
-    addPlaylist({dataSong: dataSong, playSongId: val.id, isPlay: true});
+    addPlaylist({
+      dataSong: isLogin ? dataSong : dataSearchSongs,
+      playSongId: val.id,
+      isPlay: true,
+    });
     showPlayer();
   };
 
