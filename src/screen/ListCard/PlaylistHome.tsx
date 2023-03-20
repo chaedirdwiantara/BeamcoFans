@@ -22,7 +22,7 @@ const PlaylistHome: FC<PlaylistProps> = (props: PlaylistProps) => {
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
-        paddingHorizontal: widthResponsive(24),
+        paddingLeft: widthResponsive(24),
       }}>
       {dataPlaylist.length > 0 &&
         dataPlaylist?.map((item, index) => {
