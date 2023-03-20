@@ -20,12 +20,6 @@ import {mvs} from 'react-native-size-matters';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 
 import {
-  heightPercentage,
-  heightResponsive,
-  widthPercentage,
-  widthResponsive,
-} from '../utils';
-import {
   TopNavigation,
   SearchBar,
   TabFilter,
@@ -37,20 +31,18 @@ import {
   Gap,
   ListMoodGenre,
   ListImageDesc,
+  ListPlaylistHome,
 } from '../components';
 import {font} from '../theme';
 import Color from '../theme/Color';
 import TopSong from './ListCard/TopSong';
 import NewSong from './ListCard/NewSong';
-import PostList from './ListCard/PostList';
 import {defaultBanner} from '../data/home';
 import {ListDiveIn} from '../data/diveInList';
-import {PostlistData} from '../data/postlist';
 import TopMusician from './ListCard/TopMusician';
 import {useFcmHook} from '../hooks/use-fcm.hook';
 import {storage} from '../hooks/use-storage.hook';
 import {useSongHook} from '../hooks/use-song.hook';
-import PlaylistHome from './ListCard/PlaylistHome';
 import {SongList} from '../interface/song.interface';
 import * as FCMService from '../service/notification';
 import {usePlayerHook} from '../hooks/use-player.hook';
@@ -63,6 +55,7 @@ import {useProfileHook} from '../hooks/use-profile.hook';
 import {useMusicianHook} from '../hooks/use-musician.hook';
 import FavoriteMusician from './ListCard/FavoriteMusician';
 import {usePlaylistHook} from '../hooks/use-playlist.hook';
+import {CheckCircle2Icon, SearchIcon} from '../assets/icon';
 import {MainTabParams, RootStackParams} from '../navigations';
 import {PreferenceList} from '../interface/setting.interface';
 import RecomendedMusician from './ListCard/RecomendedMusician';
@@ -70,9 +63,8 @@ import {useNotificationHook} from '../hooks/use-notification.hook';
 import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
-import {dropDownDataCategory, dropDownDataFilter} from '../data/dropdown';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
-import {ArrowRightIcon, CheckCircle2Icon, SearchIcon} from '../assets/icon';
+import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -95,7 +87,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     setUnfollowMusician,
   } = useMusicianHook();
 
-  const {isLoading, dataProfile, getProfileUser} = useProfileHook();
+  const {dataProfile, getProfileUser} = useProfileHook();
   const {dataSong, dataNewSong, getListDataSong, getListDataNewSong} =
     useSongHook();
   const {listGenre, listMood, getListMoodGenre} = useSettingHook();
@@ -389,7 +381,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           }
           onPressBanner={handleWebview}
         />
-         <ListMoodGenre
+
+        <ListMoodGenre
           title="Mood"
           data={listMood}
           containerStyle={{
@@ -397,6 +390,21 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             paddingHorizontal: widthResponsive(24),
           }}
           onPress={() => onPressMoodGenre('Moods', listMood)}
+          onPressImage={name => goToListMusic(name, 'song')}
+        />
+
+        <ListMoodGenre
+          title="Genre"
+          data={listGenre}
+          containerStyle={{
+            marginTop: heightPercentage(10),
+            paddingHorizontal: widthResponsive(24),
+          }}
+          imageStyle={{
+            width: widthPercentage(90),
+            height: heightPercentage(80),
+          }}
+          onPress={() => onPressMoodGenre('Genre', listGenre)}
           onPressImage={name => goToListMusic(name, 'song')}
         />
 
@@ -426,31 +434,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           onPressImage={goToMusicianPost}
         />
 
-        <ListImageDesc
-          title="Coming Soon"
-          data={dataSearchAlbums?.data}
-          containerStyle={{
-            marginTop: heightPercentage(10),
-            paddingHorizontal: widthResponsive(24),
-          }}
-          onPress={() => goToListMusic('Album', 'album')}
-          onPressImage={goToDetailAlbum}
-        />
-
-        <ListMoodGenre
-          title="Genre"
-          data={listGenre}
-          containerStyle={{
-            marginTop: heightPercentage(10),
-            paddingHorizontal: widthResponsive(24),
-          }}
-          imageStyle={{
-            width: widthPercentage(90),
-            height: heightPercentage(80),
-          }}
-          onPress={() => onPressMoodGenre('Genre', listGenre)}
-          onPressImage={name => goToListMusic(name, 'song')}
-        />
         {/* Tab Song */}
         <View style={[styles.containerContent]}>
           <TabFilter.Type3
@@ -527,34 +510,27 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         </View>
         {/* End of Tab Musician */}
         {/* Playlist */}
-        <View style={[styles.containerContent]}>
-          <View
-            style={{
-              paddingHorizontal: widthResponsive(24),
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginBottom: heightResponsive(16),
-            }}>
-            <Text
-              style={{
-                color: Color.Neutral[10],
-                fontSize: mvs(17),
-                fontFamily: font.InterSemiBold,
-              }}>
-              Playlist
-            </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ListPlaylist')}>
-              <ArrowRightIcon
-                stroke={Color.Pink[100]}
-                width={widthResponsive(25)}
-                height={widthResponsive(25)}
-              />
-            </TouchableOpacity>
-          </View>
-          <PlaylistHome dataPlaylist={dataPlaylist} />
-        </View>
+        <ListPlaylistHome
+          title={'Playlist'}
+          data={dataPlaylist}
+          containerStyle={{
+            marginTop: heightPercentage(10),
+            paddingHorizontal: widthResponsive(24),
+          }}
+          onPress={() => navigation.navigate('ListPlaylist')}
+        />
         {/* End of Playlist */}
+
+        <ListImageDesc
+          title="Coming Soon"
+          data={dataSearchAlbums?.data}
+          containerStyle={{
+            marginTop: heightPercentage(10),
+            paddingHorizontal: widthResponsive(24),
+          }}
+          onPress={() => goToListMusic('Album', 'album')}
+          onPressImage={goToDetailAlbum}
+        />
       </ScrollView>
 
       <BottomSheetGuest
@@ -589,9 +565,7 @@ const styles = StyleSheet.create({
   containerContent: {
     marginTop: heightPercentage(10),
     marginBottom: heightPercentage(22),
-    // paddingHorizontal: widthResponsive(24),
     width: '100%',
-    // height: '100%',
   },
   containerIcon: {
     flexDirection: 'row',
