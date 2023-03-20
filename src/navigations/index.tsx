@@ -100,6 +100,7 @@ import {
   OtpPhoneScreen,
 } from '../interface/setting.interface';
 import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
+import ListPlaylist from '../screen/Playlist/ListPlaylist';
 
 export type RootStackParams = {
   Account: undefined;
@@ -196,6 +197,7 @@ export type RootStackParams = {
   MerchDetail: MerchListType;
   ConcertDetail: MerchListType;
   SplashScreen: undefined;
+  ListPlaylist: undefined;
 };
 
 export type MainTabParams = {
@@ -371,6 +373,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="PhotoGallery" component={PhotoGallery} />
     <RootStack.Screen name="OtherUserProfile" component={OtherUserProfile} />
     <RootStack.Screen name="SplashScreen" component={SplashScreen} />
+    <RootStack.Screen name="ListPlaylist" component={ListPlaylist} />
   </RootStack.Navigator>
 );
 

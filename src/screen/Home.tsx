@@ -446,7 +446,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               }}>
               Playlist
             </Text>
-            <TouchableOpacity onPress={() => null}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ListPlaylist')}>
               <ArrowRightIcon
                 stroke={Color.Pink[100]}
                 width={widthResponsive(25)}
