@@ -7,6 +7,7 @@ import {ArrowLeftIcon} from '../../assets/icon';
 import {SongList} from '../../interface/song.interface';
 import {EmptyState, TopNavigation} from '../../components';
 import {heightPercentage, widthPercentage} from '../../utils';
+import ListSongs from '../ListCard/ListSongs';
 
 interface Props {
   listSong: SongList[] | undefined;
@@ -41,7 +42,7 @@ export const DefaultPlaylist: React.FC<Props> = ({
               containerStyle={{marginTop: heightPercentage(100)}}
             />
           ) : (
-            <TopSong
+            <ListSongs
               dataSong={listSong}
               type={'defaultPlaylist'}
               onPress={onPressSong}
