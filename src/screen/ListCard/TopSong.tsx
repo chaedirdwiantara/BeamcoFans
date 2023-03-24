@@ -77,15 +77,15 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
-        paddingRight: newListSong?.length > 4 ? widthResponsive(24) : 0,
+        paddingRight: newListSong?.length > 5 ? widthResponsive(24) : 0,
         paddingLeft: widthResponsive(24),
-        width: newListSong?.length > 4 ? 'auto' : '100%',
+        width: newListSong?.length > 5 ? 'auto' : '100%',
       }}>
       <View
         style={{
           marginRight: ms(20),
           flex: 1,
-          width: newListSong?.length > 4 ? widthResponsive(255) : '100%',
+          width: newListSong?.length > 5 ? widthResponsive(255) : '100%',
         }}>
         {newListSong?.map((item: SongList, index: number) => {
           if (index <= 4) {
@@ -107,7 +107,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
                     : false
                 }
                 containerStyles={{
-                  marginTop: mvs(20),
+                  marginTop: mvs(12),
                   marginBottom: index + 1 === dataSong?.length ? mvs(20) : 0,
                 }}
                 hideDropdownMore={hideDropdownMore}
@@ -129,7 +129,7 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
           }
         })}
       </View>
-      {newListSong?.length > 4 && (
+      {newListSong?.length > 5 && (
         <View style={{width: widthResponsive(255)}}>
           {newListSong?.map((item: SongList, index: number) => {
             if (index > 4 && index < 10) {

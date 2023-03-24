@@ -59,15 +59,15 @@ const FavoriteMusician: FC<FavoriteMusicianProps> = ({
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
-        paddingRight: listMusician?.length > 4 ? widthResponsive(24) : 0,
+        paddingRight: listMusician?.length > 5 ? widthResponsive(24) : 0,
         paddingLeft: widthResponsive(24),
-        width: listMusician?.length > 4 ? 'auto' : '100%',
+        width: listMusician?.length > 5 ? 'auto' : '100%',
       }}>
       <View
         style={{
           marginRight: ms(20),
           flex: 1,
-          width: listMusician?.length > 4 ? widthResponsive(255) : '100%',
+          width: listMusician?.length > 5 ? widthResponsive(255) : '100%',
         }}>
         {listMusician?.map((item, index) => {
           if (index <= 4) {
@@ -82,7 +82,7 @@ const FavoriteMusician: FC<FavoriteMusicianProps> = ({
                 musicianName={item.fullname}
                 imgUri={item.imageProfileUrls[1]?.image || ''}
                 containerStyles={{
-                  marginTop: mvs(20),
+                  marginTop: mvs(12),
                 }}
                 point={type === 'profile' ? item.point || 0 : null}
                 isFollowed={item.isFollowed}
@@ -92,7 +92,7 @@ const FavoriteMusician: FC<FavoriteMusicianProps> = ({
           }
         })}
       </View>
-      {listMusician?.length > 4 && (
+      {listMusician?.length > 5 && (
         <View style={{width: widthResponsive(255)}}>
           {listMusician?.map((item, index) => {
             if (index > 4 && index < 10) {
@@ -107,7 +107,7 @@ const FavoriteMusician: FC<FavoriteMusicianProps> = ({
                   musicianName={item.fullname}
                   imgUri={item.imageProfileUrls[1]?.image || ''}
                   containerStyles={{
-                    marginTop: mvs(20),
+                    marginTop: mvs(12),
                   }}
                   point={type === 'profile' ? item.point || 0 : null}
                   isFollowed={item.isFollowed}

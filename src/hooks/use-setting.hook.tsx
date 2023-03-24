@@ -317,6 +317,37 @@ export const useSettingHook = () => {
     }
   };
 
+  const getListMoodGenre = async () => {
+    setIsError(false);
+    setIsLoading(true);
+    try {
+      const genre = await getListGenre();
+      const mood = await getListMood();
+
+      setListMood(mood.data);
+      setListGenre(genre.data);
+
+      setListPreference({
+        mood: mood.data,
+        genre: genre.data,
+        expectation: [],
+      });
+    } catch (error) {
+      console.log({error});
+      setListMood([]);
+      setListGenre([]);
+      setListExpectation([]);
+      setListPreference({
+        mood: [],
+        genre: [],
+        expectation: [],
+      });
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const getExclusiveContent = async (props?: ParamsProps) => {
     setIsLoading(true);
     try {
@@ -354,6 +385,7 @@ export const useSettingHook = () => {
     changePassword,
     getShippingInfo,
     getListPreference,
+    getListMoodGenre,
     dataExclusiveContent,
     getExclusiveContent,
   };
