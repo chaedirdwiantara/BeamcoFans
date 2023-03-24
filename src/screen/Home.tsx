@@ -38,7 +38,6 @@ import Color from '../theme/Color';
 import TopSong from './ListCard/TopSong';
 import NewSong from './ListCard/NewSong';
 import {defaultBanner} from '../data/home';
-import {ListDiveIn} from '../data/diveInList';
 import TopMusician from './ListCard/TopMusician';
 import {useFcmHook} from '../hooks/use-fcm.hook';
 import {storage} from '../hooks/use-storage.hook';
@@ -64,6 +63,7 @@ import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
+import {useHomeHook} from '../hooks/use-home.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -87,7 +87,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
-
+  const {dataDiveIn, getListDiveIn} = useHomeHook();
   const {dataProfile, getProfileUser} = useProfileHook();
   const {dataSong, dataNewSong, getListDataSong, getListDataNewSong} =
     useSongHook();
@@ -141,6 +141,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     getListMoodGenre();
     refetch();
     refetchPlaylist();
+    getListDiveIn();
     if (isLogin) {
       getListDataBanner();
       getListDataMusician({filterBy: 'top'});
@@ -434,7 +435,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         <ListImageDesc
           title=""
           hideArrow={true}
-          data={ListDiveIn}
+          data={dataDiveIn}
           containerStyle={{
             marginTop: heightPercentage(10),
             marginBottom: heightPercentage(20),
