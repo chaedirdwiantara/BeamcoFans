@@ -2,7 +2,6 @@ import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 
 import {color} from '../../theme';
-import TopSong from '../ListCard/TopSong';
 import {ArrowLeftIcon} from '../../assets/icon';
 import {SongList} from '../../interface/song.interface';
 import {EmptyState, TopNavigation} from '../../components';

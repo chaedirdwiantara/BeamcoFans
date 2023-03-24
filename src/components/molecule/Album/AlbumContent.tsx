@@ -17,7 +17,6 @@ import {Dropdown} from '../DropDown';
 import Color from '../../../theme/Color';
 import {Gap, SsuToast} from '../../atom';
 import {TopNavigation} from '../TopNavigation';
-import TopSong from '../../../screen/ListCard/TopSong';
 import {color, font, typography} from '../../../theme';
 import {dropDownHeaderAlbum} from '../../../data/dropdown';
 import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
@@ -37,6 +36,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../../navigations';
 import {useCreditHook} from '../../../hooks/use-credit.hook';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
+import ListSongs from '../../../screen/ListCard/ListSongs';
 
 interface Props {
   dataSong: SongList[] | null;
@@ -214,7 +214,7 @@ export const AlbumContent: React.FC<Props> = ({
           </Text>
           <View style={{marginBottom: heightPercentage(30)}}>
             {dataSong ? (
-              <TopSong
+              <ListSongs
                 onPress={onPressSong}
                 hideDropdownMore={true}
                 dataSong={dataSong}
