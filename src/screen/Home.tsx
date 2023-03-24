@@ -132,6 +132,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   );
 
   useEffect(() => {
+    getPlaylist();
+    getListMoodGenre();
+    refetch();
     if (isLogin) {
       getListDataBanner();
       getListDataMusician({filterBy: 'top'});
@@ -146,9 +149,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       getSearchMusicians({keyword: '', filterBy: 'top'});
       getSearchSongs({keyword: '', filterBy: 'top'});
     }
-    getPlaylist();
-    getListMoodGenre();
-    refetch();
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
@@ -301,7 +301,12 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   };
 
   const goToListMusic = (name: string, type: string) => {
-    navigation.navigate('ListMusic', {title: name, id: 1, type});
+    navigation.navigate('ListMusic', {
+      title: name,
+      id: 1,
+      type,
+      fromMainTab: true,
+    });
   };
 
   const goToDetailAlbum = () => {
@@ -382,6 +387,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           onPressBanner={handleWebview}
         />
 
+        {/* Mood */}
         <ListMoodGenre
           title="Mood"
           data={listMood}
@@ -389,7 +395,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           onPress={() => onPressMoodGenre('Moods', listMood)}
           onPressImage={name => goToListMusic(name, 'song')}
         />
-
+        {/* End Of Mood */}
+        {/* Genre */}
         <ListMoodGenre
           title="Genre"
           data={listGenre}
@@ -401,7 +408,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           onPress={() => onPressMoodGenre('Genre', listGenre)}
           onPressImage={name => goToListMusic(name, 'song')}
         />
-
+        {/* End Of Genre */}
+        {/* Dive In */}
+        {/* TODO: need to be wired with API Dive In */}
         <View
           style={{
             marginTop: heightPercentage(20),
@@ -411,7 +420,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           <Text style={styles.diveInText}>Dive In</Text>
           <Text style={styles.diveInDesc}>Based on your preferences</Text>
         </View>
-
         <ListImageDesc
           title=""
           hideArrow={true}
@@ -427,7 +435,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           onPress={() => null}
           onPressImage={goToMusicianPost}
         />
-
+        {/* End Of Dive In */}
         {/* Tab Song */}
         <View style={[styles.containerContent]}>
           <TabFilter.Type3
@@ -507,11 +515,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         <ListPlaylistHome
           title={'Playlist'}
           data={dataPlaylist}
-          containerStyle={styles.containerList}
           onPress={() => navigation.navigate('ListPlaylist')}
         />
         {/* End of Playlist */}
-
+        {/* Coming Soon */}
+        {/* TODO: Need to be wired with API unreleased album */}
         <ListImageDesc
           title="Coming Soon"
           data={dataSearchAlbums?.data}
@@ -519,6 +527,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           onPress={() => goToListMusic('Album', 'album')}
           onPressImage={goToDetailAlbum}
         />
+        {/* End Of Coming Soon */}
       </ScrollView>
 
       <BottomSheetGuest
@@ -551,7 +560,6 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Dark[800],
   },
   containerContent: {
-    marginTop: heightPercentage(10),
     marginBottom: heightPercentage(22),
     width: '100%',
   },

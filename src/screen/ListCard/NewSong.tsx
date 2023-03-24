@@ -107,7 +107,7 @@ const NewSong: FC<NewSongPropsScreen> = (props: NewSongPropsScreen) => {
                     : false
                 }
                 containerStyles={{
-                  marginTop: mvs(20),
+                  marginTop: mvs(12),
                   marginBottom: index + 1 === dataSong?.length ? mvs(20) : 0,
                 }}
                 hideDropdownMore={hideDropdownMore}
@@ -151,7 +151,7 @@ const NewSong: FC<NewSongPropsScreen> = (props: NewSongPropsScreen) => {
                       : false
                   }
                   containerStyles={{
-                    marginTop: mvs(20),
+                    marginTop: mvs(12),
                     marginBottom: index + 1 === dataSong?.length ? mvs(20) : 0,
                   }}
                   hideDropdownMore={hideDropdownMore}
