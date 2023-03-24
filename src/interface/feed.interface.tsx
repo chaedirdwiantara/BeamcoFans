@@ -66,6 +66,12 @@ export type QuoteToPost = {
   endAt: string;
 };
 
+export type VideoResponseType = {
+  coverImage: imageTypes[];
+  encodeDashUrl: string;
+  encodeHlsUrl: string;
+};
+
 export type PostList = {
   id: string;
   caption: string;
@@ -79,6 +85,7 @@ export type PostList = {
   musician: MusicianData;
   isLiked: boolean;
   quoteToPost: QuoteToPost;
+  video: VideoResponseType;
 };
 
 export type ListPostResponseType = {
