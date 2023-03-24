@@ -82,6 +82,10 @@ export type SendReportResponseType = {
 export type PreferenceList = {
   id: number;
   name: string;
+  imageUrls: {
+    image: string;
+    presetName: string;
+  }[];
 };
 
 export type PreferenceReaponseType = {
