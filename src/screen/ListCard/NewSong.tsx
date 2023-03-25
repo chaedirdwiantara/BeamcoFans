@@ -108,7 +108,6 @@ const NewSong: FC<NewSongPropsScreen> = (props: NewSongPropsScreen) => {
                 }
                 containerStyles={{
                   marginTop: mvs(12),
-                  marginBottom: index + 1 === dataSong?.length ? mvs(20) : 0,
                 }}
                 hideDropdownMore={hideDropdownMore}
                 rightIcon={rightIcon}
@@ -152,7 +151,6 @@ const NewSong: FC<NewSongPropsScreen> = (props: NewSongPropsScreen) => {
                   }
                   containerStyles={{
                     marginTop: mvs(12),
-                    marginBottom: index + 1 === dataSong?.length ? mvs(20) : 0,
                   }}
                   hideDropdownMore={hideDropdownMore}
                   rightIcon={rightIcon}
