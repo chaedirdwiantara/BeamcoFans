@@ -1,6 +1,7 @@
 import SsuAPI from './base';
 import SsuAPISemeruPublic from './baseSemeruPublic';
 import SsuPublicRinjani from './basePublic';
+import SSuBaseRinjani from './baseRinjaniNew';
 import {
   AlbumByIdResponseType,
   DetailMusicianResponseType,
@@ -66,6 +67,18 @@ export const unfollowMusician = async (
     url: '/musicians/unfollow',
     method: 'POST',
     data: props,
+  });
+
+  return data;
+};
+
+export const recommendedMusician = async (
+  props?: ParamsProps,
+): Promise<ListMusicianResponseType> => {
+  const {data} = await SSuBaseRinjani().request<ListMusicianResponseType>({
+    url: '/musicians/musician-recommendation',
+    method: 'GET',
+    params: props,
   });
 
   return data;

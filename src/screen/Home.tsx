@@ -81,8 +81,10 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {
     dataMusician,
     dataFavoriteMusician,
+    dataRecommendedMusician,
     getListDataMusician,
     getListDataFavoriteMusician,
+    getListDataRecommendedMusician,
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
@@ -139,6 +141,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       getListDataBanner();
       getListDataMusician({filterBy: 'top'});
       getListDataFavoriteMusician({fansUUID: uuid});
+      getListDataRecommendedMusician();
       getListDataSong({listType: 'top'});
       getListDataNewSong();
       getProfileUser();
@@ -490,7 +493,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           ) : filterMusician[selectedIndexMusician].filterName ===
             'Home.Tab.Recomended.Title' ? (
             <RecomendedMusician
-              dataMusician={listMusician}
+              dataMusician={dataRecommendedMusician}
               setFollowMusician={(
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,
@@ -564,7 +567,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Dark[800],
   },
   containerContent: {
-    marginBottom: heightPercentage(22),
+    marginBottom: heightPercentage(26),
     width: '100%',
   },
   containerIcon: {
