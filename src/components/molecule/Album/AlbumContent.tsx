@@ -30,7 +30,7 @@ import {
   ModalSuccessDonate,
 } from '../';
 import {DataDetailAlbum, SongList} from '../../../interface/song.interface';
-import {dateFormat} from '../../../utils/date-format';
+import {dateFormat, dateLongMonth} from '../../../utils/date-format';
 import {useTranslation} from 'react-i18next';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -166,7 +166,7 @@ export const AlbumContent: React.FC<Props> = ({
           <SongTitlePlay
             title={detailAlbum.title}
             totalSong={dataSong?.length || 0}
-            createdDate={dateFormat(detailAlbum.createdAt)}
+            createdDate={dateLongMonth(detailAlbum.createdAt)}
             createdBy={
               detailAlbum?.musician?.name !== undefined
                 ? detailAlbum?.musician.name
