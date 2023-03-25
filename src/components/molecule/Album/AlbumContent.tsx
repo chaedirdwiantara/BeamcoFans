@@ -62,8 +62,10 @@ export const AlbumContent: React.FC<Props> = ({
 
   const {t} = useTranslation();
   const isFocused = useIsFocused();
+  const {addSong} = usePlayerHook();
   const {creditCount, getCreditCount} = useCreditHook();
   const [toastVisible, setToastVisible] = useState(false);
+  const [toastText, setToastText] = useState<string>('');
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
@@ -107,10 +109,15 @@ export const AlbumContent: React.FC<Props> = ({
   }, [dataSong]);
 
   const resultDataMore = (dataResult: any) => {
-    if (dataResult.value === '2') {
+    if (dataResult.value === '1') {
+      if (dataSong !== null) {
+        setToastVisible(true);
+        setToastText('Playlist added to queue!');
+        addSong(dataSong);
+      }
+    } else if (dataResult.value === '2') {
       setModalShare(true);
-    }
-    if (dataResult.value === '3') {
+    } else if (dataResult.value === '3') {
       navigation.navigate('AddToPlaylist', {id: songIdList, type: 'album'});
     }
   };
@@ -246,7 +253,10 @@ export const AlbumContent: React.FC<Props> = ({
         createdOn={'2019'}
         artist={'Imagine Dragons, The Wekeend'}
         onPressCopy={() =>
-          InteractionManager.runAfterInteractions(() => setToastVisible(true))
+          InteractionManager.runAfterInteractions(() => {
+            setToastText(t('General.LinkCopied') || '');
+            setToastVisible(true);
+          })
         }
       />
 
@@ -262,7 +272,7 @@ export const AlbumContent: React.FC<Props> = ({
             />
             <Gap width={widthPercentage(7)} />
             <Text style={[typography.Button2, styles.textStyle]}>
-              {t('General.LinkCopied')}
+              {toastText}
             </Text>
           </View>
         }
