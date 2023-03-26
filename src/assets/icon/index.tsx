@@ -43,6 +43,7 @@ import GalleryEditIcon from './GalleryEdit.icon';
 import GiftIcon from './Gift.icon';
 import HeartIcon from './Heart.icon';
 import HomeIcon from './Home.icon';
+import HornChatIcon from './hornChat.icon';
 import InfoCircleIcon from './InfoCircle.icon';
 import InstagramIcon from './Instagram.icon';
 import KeyIcon from './Key.icon';
@@ -137,6 +138,7 @@ export {
   GiftIcon,
   HeartIcon,
   HomeIcon,
+  HornChatIcon,
   InfoCircleIcon,
   InstagramIcon,
   KeyIcon,

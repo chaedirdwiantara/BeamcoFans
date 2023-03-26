@@ -352,7 +352,10 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   musicianName={item.musician.fullname}
                   musicianId={`@${item.musician.username}`}
                   imgUri={item.musician.imageProfileUrls[1]?.image}
-                  postDate={dateFormat(item.updatedAt)}
+                  postDate={
+                    item?.timeAgo ? item.timeAgo : dateFormat(item.createdAt)
+                  }
+                  postDate2={item.createdAt}
                   category={categoryNormalize(item.category)}
                   onPress={() => cardOnPress(item)}
                   likeOnPress={() => likeOnPress(item.id, item.isLiked)}
@@ -398,6 +401,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   selectedMenu={setSelectedMenu}
                   idPost={item.id}
                   selectedIdPost={setSelectedIdPost}
+                  isPremium={item.isPremiumPost}
                   children={
                     <ChildrenCard
                       data={item}
