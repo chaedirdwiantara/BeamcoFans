@@ -1,4 +1,5 @@
 import {imageTypes} from './base.interface';
+import {TranscodedSongType} from './song.interface';
 
 export type SearchProps = {
   keyword: string;
@@ -60,6 +61,7 @@ export type ListDataSearchSongs = {
   CreatedAt: string;
   UpdatedAt: string;
   isLiked?: boolean;
+  transcodedSongUrl: TranscodedSongType[];
 };
 
 export type ListSearchSongsResponseType = {
@@ -85,6 +87,7 @@ export type ListDataSearchAlbums = {
   language: string;
   label: string[];
   createdAt: string;
+  name?: string;
 };
 
 export type ListSearchAlbumsResponseType = {

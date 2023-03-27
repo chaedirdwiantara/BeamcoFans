@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import {Portal} from '@gorhom/portal';
 
@@ -14,6 +14,7 @@ import {storage} from '../../../hooks/use-storage.hook';
 import {SetupService} from '../../../service/musicPlayer';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
 import {CloseIcon, PauseIcon, PlayIcon} from '../../../assets/icon';
+import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
 
 interface ModalPlayMusicProps {
   onPressModal: () => void;
@@ -32,6 +33,9 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
     setPauseSong,
     setPlaySong,
   } = usePlayerHook();
+  const playCounterGuest = storage.getNumber('playCounterGuest');
+  const isGuest = storage.getBoolean('isGuest');
+  const [modalGuestVisible, setModalGuestVisible] = useState(false);
 
   useEffect(() => {
     async function run() {
@@ -40,6 +44,17 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
 
     run();
   }, []);
+
+  useEffect(() => {
+    if (
+      playCounterGuest !== undefined &&
+      playCounterGuest > 5 &&
+      isGuest === true
+    ) {
+      resetPlayer();
+      setModalGuestVisible(true);
+    }
+  }, [playCounterGuest]);
 
   const handleClose = async () => {
     hidePlayer();
@@ -138,6 +153,10 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
           ]}
         />
       </View>
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
+      />
     </Portal>
   );
 };

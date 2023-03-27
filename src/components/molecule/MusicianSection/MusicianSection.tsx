@@ -69,7 +69,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const isLogin = storage.getString('profile');
   const dataMore = [
     {label: dropdownText || '', value: '1'},
-    {label: t('Home.Tab.TopMusician.Tip'), value: '2'},
+    {label: t('Home.Tab.TopMusician.Donation'), value: '2'},
     {label: t('Home.Tab.TopMusician.Profile'), value: '3'},
   ];
   const [toastVisible, setToastVisible] = useState(false);

@@ -10,7 +10,7 @@ import {usePlayerHook} from '../../hooks/use-player.hook';
 import {ListDataSearchSongs} from '../../interface/search.interface';
 import {ScrollView, View} from 'react-native';
 
-interface TopSongPropsScreen {
+interface NewSongPropsScreen {
   type?: string;
   onPress: (param: any) => void;
   dataSong?: SongList[] | ListDataSearchSongs[];
@@ -27,7 +27,7 @@ interface TopSongPropsScreen {
   onEndReachedThreshold?: number;
 }
 
-const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
+const NewSong: FC<NewSongPropsScreen> = (props: NewSongPropsScreen) => {
   const {
     onPress,
     type,
@@ -177,4 +177,4 @@ const TopSong: FC<TopSongPropsScreen> = (props: TopSongPropsScreen) => {
   null;
 };
 
-export default TopSong;
+export default NewSong;

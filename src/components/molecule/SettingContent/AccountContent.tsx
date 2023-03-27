@@ -65,12 +65,13 @@ export const AccountContent: React.FC<AccountProps> = ({
   const [showModal, setShowModal] = useState(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [disabledButton, setDisabledButton] = useState<boolean>(true);
   const {updateProfilePreference, isError, isLoading, errorMsg, setIsError} =
     useProfileHook();
 
   const {
     control,
-    formState: {errors},
+    formState: {errors, isValid, isValidating},
     getValues,
   } = useForm<InputProps>({
     resolver: yupResolver(validation),
@@ -116,6 +117,15 @@ export const AccountContent: React.FC<AccountProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmit]);
+
+  useEffect(() => {
+    if (isValid) {
+      setDisabledButton(false);
+    } else {
+      setDisabledButton(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isValidating, isValid]);
 
   return (
     <View style={styles.root}>
@@ -228,7 +238,10 @@ export const AccountContent: React.FC<AccountProps> = ({
           label={t('Btn.Save') || ''}
           onPress={onPressSave}
           textStyles={{fontSize: mvs(13)}}
-          containerStyles={styles.button}
+          containerStyles={
+            disabledButton ? styles.buttonDisabled : styles.button
+          }
+          disabled={disabledButton}
         />
       </View>
 
@@ -304,5 +317,12 @@ const styles = StyleSheet.create({
     fontSize: normalize(10),
     lineHeight: mvs(12),
     maxWidth: '90%',
+  },
+  buttonDisabled: {
+    width: '100%',
+    aspectRatio: widthPercentage(327 / 36),
+    marginTop: heightPercentage(25),
+    alignSelf: 'center',
+    backgroundColor: Color.Dark[50],
   },
 });

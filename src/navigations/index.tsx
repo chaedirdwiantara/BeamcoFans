@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet, Platform} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Platform,
+  ViewStyle,
+} from 'react-native';
 import {
   createNativeStackNavigator,
   NativeStackNavigationOptions,
@@ -12,7 +19,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {EventScreen} from '../screen/Event';
 import {FeedScreen} from '../screen/Feed';
 import {ForgotPassword} from '../screen/ForgotPassword';
-import {HomeScreen} from '../screen/Home';
 import {LoginScreen} from '../screen/Login';
 import {OnboardScreen} from '../screen/Onboard';
 import {Otp} from '../screen/Otp';
@@ -28,6 +34,12 @@ import MusicianProfile from '../screen/MusicianProfile';
 import {WebviewPage} from '../screen/Webview';
 import {MusicPlayer} from '../screen/Music';
 import {OtherUserProfile} from '../screen/OtherUserProfile/OtherUserProfile';
+
+// Home
+import {HomeScreen} from '../screen/Home';
+import {ListImageScreen} from '../screen/ListItem/ListImage';
+import {ListMusicScreen} from '../screen/ListItem/ListMusic';
+import {ListPostScreen} from '../screen/ListItem/ListPost';
 
 // Setting
 import {SettingScreen} from '../screen/Setting/Setting';
@@ -98,8 +110,10 @@ import {
   DataShippingProps,
   OtpEmailScreen as OtpEmailProps,
   OtpPhoneScreen,
+  PreferenceList,
 } from '../interface/setting.interface';
 import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
+import ListPlaylist from '../screen/Playlist/ListPlaylist';
 
 export type RootStackParams = {
   Account: undefined;
@@ -137,6 +151,21 @@ export type RootStackParams = {
   };
   ForgotPassword: undefined;
   Language: undefined;
+  ListImage: {
+    title: string;
+    data: PreferenceList[];
+    containerStyle?: ViewStyle;
+  };
+  ListMusic: {
+    id: number;
+    title: string;
+    type: string;
+    fromMainTab: boolean;
+  };
+  ListPost: {
+    id: number;
+    title: string;
+  };
   Login: undefined;
   MainTab: undefined;
   OtherUserProfile: {id: string};
@@ -196,6 +225,7 @@ export type RootStackParams = {
   MerchDetail: MerchListType;
   ConcertDetail: MerchListType;
   SplashScreen: undefined;
+  ListPlaylist: undefined;
 };
 
 export type MainTabParams = {
@@ -370,7 +400,11 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="ConcertDetail" component={ConcertDetail} />
     <RootStack.Screen name="PhotoGallery" component={PhotoGallery} />
     <RootStack.Screen name="OtherUserProfile" component={OtherUserProfile} />
+    <RootStack.Screen name="ListImage" component={ListImageScreen} />
+    <RootStack.Screen name="ListMusic" component={ListMusicScreen} />
+    <RootStack.Screen name="ListPost" component={ListPostScreen} />
     <RootStack.Screen name="SplashScreen" component={SplashScreen} />
+    <RootStack.Screen name="ListPlaylist" component={ListPlaylist} />
   </RootStack.Navigator>
 );
 

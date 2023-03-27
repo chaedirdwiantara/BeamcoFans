@@ -11,6 +11,7 @@ import TrackPlayer, {
 import {dummySongImg} from '../data/image';
 import {PostList} from '../interface/feed.interface';
 import {SongList} from '../interface/song.interface';
+import {ListDataSearchSongs} from '../interface/search.interface';
 import {usePlayerStore} from '../store/player.store';
 
 export const usePlayerHook = () => {
@@ -29,17 +30,33 @@ export const usePlayerHook = () => {
     }
   });
 
-  const addSong = async (val: SongList) => {
-    const track: Track = {
-      url: val.transcodedSongUrl[1].encodedHlsUrl,
-      title: val.title,
-      artist: val.musicianName,
-      type: TrackType.HLS,
-      artwork: val.imageUrl.length !== 0 ? val.imageUrl[0].image : undefined,
-      id: val.id,
-      musicianId: val.musicianId,
-    };
-    await TrackPlayer.add(track);
+  const addSong = async (val: SongList | SongList[]) => {
+    if (Array.isArray(val)) {
+      val.map(async item => {
+        const track: Track = {
+          url: item.transcodedSongUrl[1].encodedHlsUrl,
+          title: item.title,
+          artist: item.musicianName,
+          type: TrackType.HLS,
+          artwork:
+            item.imageUrl.length !== 0 ? item.imageUrl[0].image : undefined,
+          id: item.id,
+          musicianId: item.musicianId,
+        };
+        await TrackPlayer.add(track);
+      });
+    } else {
+      const track: Track = {
+        url: val.transcodedSongUrl[1].encodedHlsUrl,
+        title: val.title,
+        artist: val.musicianName,
+        type: TrackType.HLS,
+        artwork: val.imageUrl.length !== 0 ? val.imageUrl[0].image : undefined,
+        id: val.id,
+        musicianId: val.musicianId,
+      };
+      await TrackPlayer.add(track);
+    }
   };
 
   const addPlaylist = async ({
@@ -47,28 +64,24 @@ export const usePlayerHook = () => {
     playSongId,
     isPlay = false,
   }: {
-    dataSong: SongList[];
+    dataSong: SongList[] | ListDataSearchSongs[];
     playSongId?: number;
     isPlay?: boolean;
   }) => {
     try {
       await TrackPlayer.reset();
-      const track: Track[] = dataSong
-        .filter(ar => ar.id !== 14)
-        .map(item => {
-          return {
-            url: item.transcodedSongUrl[1].encodedHlsUrl,
-            title: item.title,
-            artist: item.musicianName,
-            type: TrackType.HLS,
-            artwork:
-              item.imageUrl.length !== 0
-                ? item.imageUrl[1].image
-                : dummySongImg,
-            id: item.id,
-            musicianId: item.musicianId,
-          };
-        });
+      const track: Track[] = dataSong.map(item => {
+        return {
+          url: item.transcodedSongUrl[1].encodedHlsUrl,
+          title: item.title,
+          artist: item.musicianName,
+          type: TrackType.HLS,
+          artwork:
+            item.imageUrl.length !== 0 ? item.imageUrl[1].image : dummySongImg,
+          id: item.id,
+          musicianId: item.musicianId,
+        };
+      });
       if (playSongId) {
         let indexPlaySong = track.findIndex(ar => ar.id === playSongId);
         if (indexPlaySong > -1) {
