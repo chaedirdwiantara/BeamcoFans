@@ -1,4 +1,5 @@
 import SsuAPI from './base';
+import SsuAPIPublic from './basePublic';
 import SsuAPIGeneral from './baseRinjaniNew';
 import {
   EmailPhoneProps,
@@ -203,6 +204,30 @@ export const exclusiveContent = async (
   const {data} = await SsuAPI().request<ExclusiveResponseType>({
     url: `/musicians/${props?.uuid}/exclusive-content`,
     method: 'GET',
+  });
+
+  return data;
+};
+
+export const getListMoodPublic = async (
+  props?: PreferenceProps,
+): Promise<PreferenceReaponseType> => {
+  const {data} = await SsuAPIPublic().request<PreferenceReaponseType>({
+    url: '/moods',
+    method: 'GET',
+    params: props,
+  });
+
+  return data;
+};
+
+export const getListGenrePublic = async (
+  props?: PreferenceProps,
+): Promise<PreferenceReaponseType> => {
+  const {data} = await SsuAPIPublic().request<PreferenceReaponseType>({
+    url: '/favorite-genres',
+    method: 'GET',
+    params: props,
   });
 
   return data;

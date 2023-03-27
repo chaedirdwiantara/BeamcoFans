@@ -6,7 +6,9 @@ import {
   exclusiveContent,
   getListExpectations,
   getListGenre,
+  getListGenrePublic,
   getListMood,
+  getListMoodPublic,
   getShipping,
   getVerifCode,
   setVerifCode,
@@ -321,8 +323,8 @@ export const useSettingHook = () => {
     setIsError(false);
     setIsLoading(true);
     try {
-      const genre = await getListGenre();
-      const mood = await getListMood();
+      const genre = await getListGenrePublic();
+      const mood = await getListMoodPublic();
 
       setListMood(mood.data);
       setListGenre(genre.data);
