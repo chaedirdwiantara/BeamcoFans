@@ -1,5 +1,11 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {createRef, FC} from 'react';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {FC} from 'react';
 import {elipsisText, widthResponsive} from '../../utils';
 import {Gap} from '../../components';
 import ImageList from './ImageList';
@@ -7,8 +13,9 @@ import MusicListPreview from '../../components/molecule/MusicPreview/MusicListPr
 import {PostList} from '../../interface/feed.interface';
 import {color, font} from '../../theme';
 import {mvs} from 'react-native-size-matters';
-import Video from 'react-native-video';
+import VideoComp from '../../components/molecule/VideoPlayer/videoComp';
 
+export const {width} = Dimensions.get('screen');
 interface ChildrenCardProps {
   data: PostList;
   onPress: (val: PostList) => void;
@@ -56,7 +63,7 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
                 width={143}
                 height={69.5}
                 heightType2={142}
-                widthType2={289}
+                widthType2={269}
                 onPress={() => {}}
               />
               {data.images.length === 0 && data.quoteToPost.encodeHlsUrl ? (
@@ -88,20 +95,21 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
               ) : null}
               {data.video.encodeHlsUrl !== '' && (
                 <TouchableOpacity>
-                  <Video
-                    source={{
-                      uri: data.video.encodeHlsUrl,
+                  <VideoComp
+                    sourceUri={data.video.encodeHlsUrl}
+                    onPress={() => {}}
+                    buttonIconsStyle={{
+                      position: 'absolute',
+                      bottom: widthResponsive(-5),
+                      width: width - widthResponsive(104),
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
                     }}
-                    style={styles.videoStyle}
-                    controls={true}
-                    ref={createRef<any>()}
-                    volume={10}
-                    fullscreenAutorotate={true}
-                    playInBackground={false}
-                    poster={data.video.coverImage[0]?.image}
-                    posterResizeMode={'cover'}
-                    paused={true}
-                    resizeMode={'cover'}
+                    videoContainer={{
+                      width: '100%',
+                      height: width - widthResponsive(104),
+                    }}
                   />
                 </TouchableOpacity>
               )}

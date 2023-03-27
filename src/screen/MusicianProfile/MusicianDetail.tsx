@@ -32,14 +32,14 @@ import {ProfileHeader} from './ProfileHeader';
 import {RootStackParams} from '../../navigations';
 import ListPlaylist from '../ListCard/ListPlaylist';
 import {PostList} from '../../interface/feed.interface';
-import PostListPublic from '../ListCard/PostListPublic';
 import {useCreditHook} from '../../hooks/use-credit.hook';
 import ExclusiveDailyContent from './ExclusiveDailyContent';
 import {Playlist} from '../../interface/playlist.interface';
-import PostListExclusive from '../ListCard/PostListExclusive';
 import {DataExclusiveResponse} from '../../interface/setting.interface';
 import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
 import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
+import PostListProfile from '../ListCard/PostListProfile';
+import MainTab from '../../components/molecule/ProfileContent/MainTab/MainTab';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -70,8 +70,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
-    {filterName: 'Musician.Tab.Post'},
-    {filterName: 'Musician.Tab.Exclusive'},
+    {filterName: 'Musician.Tab.Main'},
+    {filterName: 'Musician.Tab.Musician'},
     {filterName: 'Musician.Tab.Music'},
     {filterName: 'Musician.Tab.Fans'},
     {filterName: 'Musician.Tab.Profile'},
@@ -189,26 +189,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
             />
             {filter[selectedIndex].filterName === 'Musician.Tab.Profile' ? (
               <DataMusician profile={profile} dataAlbum={dataAlbum} />
-            ) : filter[selectedIndex].filterName === 'Musician.Tab.Post' ? (
+            ) : filter[selectedIndex].filterName === 'Musician.Tab.Musician' ? (
               <View
                 style={{
                   paddingHorizontal: widthResponsive(24),
                   width: '100%',
                 }}>
-                <PostListPublic
-                  uuidMusician={uuid}
-                  dataRightDropdown={dropDownDataCategory}
-                  dataLeftDropdown={dropDownDataSort}
-                />
-              </View>
-            ) : filter[selectedIndex].filterName ===
-              'Musician.Tab.Exclusive' ? (
-              <View
-                style={{
-                  paddingHorizontal: widthResponsive(24),
-                  width: '100%',
-                }}>
-                <PostListExclusive
+                <PostListProfile
                   uuidMusician={uuid}
                   dataRightDropdown={dropDownDataCategory}
                   dataLeftDropdown={dropDownDataSort}
@@ -222,6 +209,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                     onPress={goToPlaylist}
                     scrollable={false}
                   />
+                </View>
+              ) : filter[selectedIndex].filterName === 'Musician.Tab.Main' ? (
+                <View style={{paddingHorizontal: widthResponsive(20)}}>
+                  <MainTab />
                 </View>
               ) : (
                 <EmptyState

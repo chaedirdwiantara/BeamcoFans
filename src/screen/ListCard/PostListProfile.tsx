@@ -57,7 +57,8 @@ interface PostListProps {
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
 
-const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
+const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
+  const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, uuidMusician = ''} = props;
@@ -102,7 +103,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     getListDataPost,
     setLikePost,
     setUnlikePost,
-    setCommentToPost,
   } = useFeedHook();
 
   const {
@@ -117,8 +117,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
 
   const {creditCount, getCreditCount} = useCreditHook();
   const MyUuid = profileStorage()?.uuid;
-
-  const {t} = useTranslation();
 
   useEffect(() => {
     getCreditCount();
@@ -144,8 +142,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       getListDataPost({
         page: 1,
         perPage: perPage,
-        sortBy: filterByValue,
-        category: categoryValue,
       });
       getCreditCount();
     }
@@ -171,58 +167,12 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     }
   }, [dataPostList, filterActive]);
 
-  //* hit sort by endpoint
-  useEffect(() => {
-    if (selectedSort) {
-      const dataSortS =
-        t(selectedSort.toLowerCase()) === 'feed.sort.latest'
-          ? 'latest'
-          : 'popular';
-
-      getListDataPost({
-        page: 1,
-        perPage: perPage * page,
-        sortBy: dataSortS,
-        category: categoryValue,
-        musician_uuid: uuid,
-      });
-      setFilterActive(true);
-      setFilterByValue(dataSortS);
-    }
-  }, [selectedSort]);
-
-  //* hit category endpoint
-  useEffect(() => {
-    if (selectedCategory) {
-      selectedCategory === 'Home.Tab.TopPost.Category.All'
-        ? (getListDataPost({
-            page: 1,
-            perPage: perPage * page,
-            sortBy: filterByValue,
-            musician_uuid: uuid,
-          }),
-          setFilterActive(false))
-        : (getListDataPost({
-            page: 1,
-            perPage: perPage * page,
-            category: selectedCategoryValue,
-            sortBy: filterByValue,
-            musician_uuid: uuid,
-          }),
-          setFilterActive(true));
-      setCategoryValue(selectedCategoryValue);
-    }
-  }, [selectedCategory, selectedCategoryValue]);
-
   //* Handle when end of Scroll
   const handleEndScroll = () => {
     if (dataMain.length >= 15) {
       getListDataPost({
         page: page + 1,
         perPage: perPage,
-        category: categoryValue,
-        sortBy: filterByValue,
-        musician_uuid: uuid,
       });
       setPage(page + 1);
       setFilterActive(false);
@@ -362,77 +312,15 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   };
   // ! END OF MUSIC AREA
 
-  // ? OFFSET AREA
-  const [offsetSortFilter, setOffsetSortFilter] = React.useState<{
-    px: number;
-    py: number;
-  }>();
-  const [offsetCategoryFilter, setOffsetCategoryFilter] = React.useState<{
-    px: number;
-    py: number;
-  }>();
-  // ? END OF OFFSET AREA
-
   return (
     <>
-      <View style={styles.container}>
-        <View
-          style={styles.dropdownContainer}
-          onLayout={event => {
-            event.target.measure((x, y, width, height, pageX, pageY) => {
-              setOffsetSortFilter({
-                px: pageX + width,
-                py: Platform.OS === 'android' ? pageY - barHeight : pageY,
-              });
-            });
-          }}>
-          <Button
-            label={selectedSort ? t(selectedSort) : t('Feed.Sort.Title')}
-            type="border"
-            containerStyles={styles.categoryContainerStyle}
-            textStyles={styles.categoryTextStyle}
-            borderColor={'transparent'}
-            typeOfButton={'withIcon'}
-            onPress={() =>
-              setModalVisible({
-                modalSortBy: true,
-                modalCategory: false,
-              })
-            }
-          />
-        </View>
-        <View
-          style={styles.dropdownContainer}
-          onLayout={event => {
-            event.target.measure((x, y, width, height, pageX, pageY) => {
-              setOffsetCategoryFilter({
-                px: pageX + width,
-                py: Platform.OS === 'android' ? pageY - barHeight : pageY,
-              });
-            });
-          }}>
-          <Button
-            label={
-              selectedCategory
-                ? t(selectedCategory)
-                : t('Home.Tab.TopPost.Category.Title')
-            }
-            type="border"
-            containerStyles={styles.categoryContainerStyle}
-            textStyles={styles.categoryTextStyle}
-            borderColor={'transparent'}
-            typeOfButton={'withIcon'}
-            onPress={() =>
-              setModalVisible({
-                modalSortBy: false,
-                modalCategory: true,
-              })
-            }
-          />
-        </View>
-      </View>
       {dataMain !== null && dataMain.length !== 0 ? (
-        <View style={{flex: 1, marginHorizontal: widthResponsive(-24)}}>
+        <View
+          style={{
+            flex: 1,
+            marginHorizontal: widthResponsive(-24),
+            marginTop: widthResponsive(24),
+          }}>
           {refreshing && (
             <View style={styles.loadingContainer}>
               <LoadingSpinner />
@@ -467,7 +355,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                   musicianName={item.musician.fullname}
                   musicianId={`@${item.musician.username}`}
                   imgUri={
-                    item.musician.imageProfileUrls?.length !== 0
+                    item.musician.imageProfileUrls.length !== 0
                       ? item.musician.imageProfileUrls[0]?.image
                       : ''
                   }
@@ -515,7 +403,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                   }
                   tokenOnPress={tokenOnPress}
                   shareOnPress={shareOnPress}
-                  containerStyles={{marginTop: mvs(16)}}
                   commentCount={item.commentsCount}
                   myPost={item.musician.uuid === MyUuid}
                   selectedMenu={setSelectedMenu}
@@ -536,6 +423,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                     />
                   }
                 />
+                <Gap height={16} />
               </>
             )}
           />
@@ -592,58 +480,12 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
         modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
         toggleModal={onPressSuccess}
       />
-      {offsetCategoryFilter !== undefined && (
-        <FilterModal
-          toggleModal={() =>
-            setModalVisible({
-              modalCategory: false,
-              modalSortBy: false,
-            })
-          }
-          modalVisible={isModalVisible.modalCategory}
-          dataFilter={dataRightDropdown}
-          filterOnPress={setSelectedCategory}
-          sendCategory={setSelectedCategoryValue}
-          translation={true}
-          xPosition={offsetCategoryFilter?.px}
-          yPosition={offsetCategoryFilter?.py}
-          containerStyle={{
-            top: offsetCategoryFilter?.py + ms(2),
-            left: offsetCategoryFilter?.px - widthResponsive(125),
-            width: widthResponsive(125),
-          }}
-          textStyle={{fontSize: mvs(10)}}
-        />
-      )}
-      {offsetSortFilter !== undefined && (
-        <FilterModal
-          toggleModal={() =>
-            setModalVisible({
-              modalCategory: false,
-              modalSortBy: false,
-            })
-          }
-          modalVisible={isModalVisible.modalSortBy}
-          dataFilter={dataLeftDropdown}
-          filterOnPress={setSelectedSort}
-          sendCategory={() => {}}
-          translation={true}
-          xPosition={offsetSortFilter?.px}
-          yPosition={offsetSortFilter?.py}
-          containerStyle={{
-            top: offsetSortFilter?.py + ms(2),
-            left: offsetSortFilter?.px - widthResponsive(58),
-            width: widthResponsive(125),
-          }}
-          textStyle={{fontSize: mvs(10)}}
-        />
-      )}
       {!refreshing && <ModalLoading visible={feedIsLoading} />}
     </>
   );
 };
 
-export default PostListPublic;
+export default PostListProfile;
 
 const styles = StyleSheet.create({
   container: {

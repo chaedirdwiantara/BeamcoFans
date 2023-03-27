@@ -38,11 +38,13 @@ import FbIcon from './Fb.icon';
 import FeedIcon from './Feed.icon';
 import FriedEggIcon from './FriedEgg.icon';
 import FullNameIcon from './FullName.icon';
+import FullScreenIcon from './Fullscreen.icon';
 import GalleryAddIcon from './GalleryAdd.icon';
 import GalleryEditIcon from './GalleryEdit.icon';
 import GiftIcon from './Gift.icon';
 import HeartIcon from './Heart.icon';
 import HomeIcon from './Home.icon';
+import HornChatIcon from './hornChat.icon';
 import InfoCircleIcon from './InfoCircle.icon';
 import InstagramIcon from './Instagram.icon';
 import KeyIcon from './Key.icon';
@@ -56,13 +58,16 @@ import MusicPlaylistIcon from './MusicPlaylist.icon';
 import MusicSquareIcon from './MusicSquare.icon';
 import MusicSquareAddIcon from './MusicSquareAdd.icon';
 import NextIcon from './Next.icon';
+import NormalScreenIcon from './NormalScreen.icon';
 import NotificationIcon from './Notification.icon';
 import RepeatIcon from './Repeaticon';
 import RepeatOneIcon from './RepeatOne.icon';
 import PauseIcon from './Pause.icon';
 import PauseIcon2 from './Pause2.icon';
+import PauseVideoIcon from './PauseVideo.icon';
 import PlayIcon from './Play.icon';
 import PlayIcon2 from './Play2.icon';
+import PlayVideoIcon from './PlayVideo.icon';
 import PreviousIcon from './Previous.icon';
 import ProcessingIcon from './Processing.icon';
 import PublicIcon from './Public.icon';
@@ -80,6 +85,7 @@ import TwitterIcon from './Twitter.icon';
 import UserIcon from './User.icon';
 import UserProfileIcon from './UserProfile.icon';
 import VkIcon from './Vk.icon';
+import VolumeIcon from './Volume.icon';
 import WeiboIcon from './Weibo.icon';
 import CartIcon from './Cart.icon';
 import BoxStore from './BoxStore.icon';
@@ -128,11 +134,13 @@ export {
   FeedIcon,
   FriedEggIcon,
   FullNameIcon,
+  FullScreenIcon,
   GalleryAddIcon,
   GalleryEditIcon,
   GiftIcon,
   HeartIcon,
   HomeIcon,
+  HornChatIcon,
   InfoCircleIcon,
   InstagramIcon,
   KeyIcon,
@@ -146,11 +154,14 @@ export {
   MusicSquareIcon,
   MusicSquareAddIcon,
   NextIcon,
+  NormalScreenIcon,
   NotificationIcon,
   PauseIcon,
   PauseIcon2,
+  PauseVideoIcon,
   PlayIcon,
   PlayIcon2,
+  PlayVideoIcon,
   PreviousIcon,
   ProcessingIcon,
   PublicIcon,
@@ -170,6 +181,7 @@ export {
   UserIcon,
   UserProfileIcon,
   VkIcon,
+  VolumeIcon,
   WeiboIcon,
   CartIcon,
   BoxStore,
