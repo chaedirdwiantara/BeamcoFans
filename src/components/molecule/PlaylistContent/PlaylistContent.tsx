@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   InteractionManager,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {mvs} from 'react-native-size-matters';
 
 import {
   heightPercentage,
@@ -22,27 +24,26 @@ import {
   DefaultImage,
   MusicSquareAddIcon,
 } from '../../../assets/icon';
-import {Gap, SsuToast} from '../../atom';
-import Color from '../../../theme/Color';
-import {PhotoPlaylist} from './PhotoPlaylist';
-import {TopNavigation} from '../TopNavigation';
-import {ModalConfirm} from '../Modal/ModalConfirm';
-import {dateFormat} from '../../../utils/date-format';
-import {color, font, typography} from '../../../theme';
 import {
   addOtherPlaylist,
   deletePlaylist,
   removeOtherPlaylist,
   removeSongFromPlaylist,
 } from '../../../api/playlist.api';
+import {Gap, SsuToast} from '../../atom';
+import Color from '../../../theme/Color';
+import {PhotoPlaylist} from './PhotoPlaylist';
+import {TopNavigation} from '../TopNavigation';
+import {ModalShare} from '../Modal/ModalShare';
+import {ModalConfirm} from '../Modal/ModalConfirm';
+import {dateFormat} from '../../../utils/date-format';
+import {color, font, typography} from '../../../theme';
+import ListSongs from '../../../screen/ListCard/ListSongs';
 import {SongList} from '../../../interface/song.interface';
 import {SongTitlePlay} from '../SongTitlePlay/SongTitlePlay';
-import {Playlist} from '../../../interface/playlist.interface';
-import {useTranslation} from 'react-i18next';
-import {ModalShare} from '../Modal/ModalShare';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
-import ListSongs from '../../../screen/ListCard/ListSongs';
+import {Playlist} from '../../../interface/playlist.interface';
 
 interface Props {
   goBackProfile: (showToast: boolean) => void;
@@ -77,7 +78,6 @@ export const PlaylistContent: React.FC<Props> = ({
   goToAlbum,
   goToDetailSong,
   goToAddToPlaylist,
-  otherPlaylist,
 }) => {
   const {t} = useTranslation();
   const {addSong} = usePlayerHook();
@@ -252,13 +252,11 @@ export const PlaylistContent: React.FC<Props> = ({
             createdDate={dateFormat(dataDetail?.createdAt)}
             createdBy={dataDetail?.playlistOwner?.fullname}
             avatarUri={dataDetail?.playlistOwner?.image}
-            showIconPlay={
-              (songIsExist && listSongs?.length > 0 && !otherPlaylist) ||
-              isAdded
-            }
+            showIconPlay={true}
             isPlaying={isPlaying}
             handlePlayPaused={handlePlayPaused}
             onPressSong={() => onPressSong(firstSong)}
+            disabled={true}
           />
 
           <TouchableOpacity
@@ -385,10 +383,9 @@ const styles = StyleSheet.create({
     marginBottom: heightPercentage(30),
   },
   description: {
-    fontSize: normalize(12),
+    fontSize: mvs(13),
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
-    lineHeight: heightPercentage(16),
     paddingTop: heightPercentage(8),
   },
   modalContainer: {
