@@ -1,17 +1,15 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Dimensions,
-  ViewStyle,
   View,
+  ViewStyle,
+  StyleSheet,
   TouchableOpacity,
   TouchableOpacityProps,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {AddIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
-
-const {width} = Dimensions.get('screen');
+import {width} from '../../../utils';
+import {AddIcon} from '../../../assets/icon';
 
 export interface SquareImageProps extends TouchableOpacityProps {
   imgUri?: string;
@@ -21,6 +19,7 @@ export interface SquareImageProps extends TouchableOpacityProps {
   type?: string;
   containerStyle?: ViewStyle;
   borderRadius?: number;
+  darkImage?: boolean;
 }
 
 const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
@@ -32,6 +31,7 @@ const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
     type,
     containerStyle,
     borderRadius,
+    darkImage,
   } = props;
 
   if (type === 'add') {
@@ -54,8 +54,9 @@ const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
               borderRadius: borderRadius ?? 0,
             },
           ]}
-          testID={`Image ${id}`}
-        />
+          testID={`Image ${id}`}>
+          {darkImage && <View style={styles.darkImage} />}
+        </FastImage>
       </TouchableOpacity>
     );
   }
@@ -75,5 +76,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: color.Success[400],
+  },
+  darkImage: {
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    width: '100%',
+    height: '100%',
   },
 });
