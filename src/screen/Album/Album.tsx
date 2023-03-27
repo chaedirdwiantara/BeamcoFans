@@ -35,6 +35,7 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
           detailAlbum={dataDetailAlbum}
           dataSong={dataSong}
           onPressGoBack={onPressGoBack}
+          comingSoon={route.params.type === 'coming_soon'}
         />
       )}
     </View>
