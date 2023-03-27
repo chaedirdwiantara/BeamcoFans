@@ -54,7 +54,6 @@ import {useSettingHook} from '../hooks/use-setting.hook';
 import {useProfileHook} from '../hooks/use-profile.hook';
 import {useMusicianHook} from '../hooks/use-musician.hook';
 import FavoriteMusician from './ListCard/FavoriteMusician';
-import {usePlaylistHook} from '../hooks/use-playlist.hook';
 import {CheckCircle2Icon, SearchIcon} from '../assets/icon';
 import {MainTabParams, RootStackParams} from '../navigations';
 import {PreferenceList} from '../interface/setting.interface';
@@ -110,9 +109,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     getSearchSongs,
     getListDataBannerPublic,
     getSearchAlbums,
+    getSearchPlaylists,
   } = useSearchHook();
   const {creditCount, getCreditCount} = useCreditHook();
-  const {dataPlaylist, getPlaylist} = usePlaylistHook();
   const {counter, getCountNotification} = useNotificationHook();
 
   const isLogin = storage.getBoolean('isLogin');
@@ -133,10 +132,15 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     getSearchAlbums({keyword: ''}),
   );
 
+  const {data: dataPlaylist, refetch: refetchPlaylist} = useQuery(
+    ['/search-playlist'],
+    () => getSearchPlaylists({keyword: ''}),
+  );
+
   useEffect(() => {
-    getPlaylist();
     getListMoodGenre();
     refetch();
+    refetchPlaylist();
     if (isLogin) {
       getListDataBanner();
       getListDataMusician({filterBy: 'top'});
@@ -521,7 +525,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         {/* Playlist */}
         <ListPlaylistHome
           title={'Playlist'}
-          data={dataPlaylist}
+          data={dataPlaylist?.data}
           onPress={() => navigation.navigate('ListPlaylist')}
         />
         {/* End of Playlist */}
