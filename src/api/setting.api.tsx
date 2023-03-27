@@ -209,7 +209,7 @@ export const exclusiveContent = async (
   return data;
 };
 
-export const getListMoodPublic = async (
+export const listMoodPublic = async (
   props?: PreferenceProps,
 ): Promise<PreferenceReaponseType> => {
   const {data} = await SsuAPIPublic().request<PreferenceReaponseType>({
@@ -221,7 +221,7 @@ export const getListMoodPublic = async (
   return data;
 };
 
-export const getListGenrePublic = async (
+export const listGenrePublic = async (
   props?: PreferenceProps,
 ): Promise<PreferenceReaponseType> => {
   const {data} = await SsuAPIPublic().request<PreferenceReaponseType>({

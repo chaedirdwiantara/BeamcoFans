@@ -6,9 +6,9 @@ import {
   exclusiveContent,
   getListExpectations,
   getListGenre,
-  getListGenrePublic,
+  listGenrePublic,
   getListMood,
-  getListMoodPublic,
+  listMoodPublic,
   getShipping,
   getVerifCode,
   setVerifCode,
@@ -26,6 +26,7 @@ import {
   EmailPhoneVerifProps,
   ListAllPreference,
   PreferenceList,
+  PreferenceProps,
   VerifPasswordSetting,
 } from '../interface/setting.interface';
 import {storage} from './use-storage.hook';
@@ -319,12 +320,12 @@ export const useSettingHook = () => {
     }
   };
 
-  const getListMoodGenre = async () => {
+  const getListMoodGenre = async (props?: PreferenceProps) => {
     setIsError(false);
     setIsLoading(true);
     try {
-      const genre = await getListGenrePublic();
-      const mood = await getListMoodPublic();
+      const genre = await listGenrePublic(props);
+      const mood = await listMoodPublic(props);
 
       setListMood(mood.data);
       setListGenre(genre.data);
@@ -344,6 +345,36 @@ export const useSettingHook = () => {
         genre: [],
         expectation: [],
       });
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getListMoodPublic = async (props?: PreferenceProps) => {
+    setIsError(false);
+    setIsLoading(true);
+    try {
+      const mood = await listMoodPublic(props);
+      setListMood(mood.data);
+    } catch (error) {
+      console.log({error});
+      setListMood([]);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getListGenrePublic = async (props?: PreferenceProps) => {
+    setIsError(false);
+    setIsLoading(true);
+    try {
+      const genre = await listGenrePublic(props);
+      setListGenre(genre.data);
+    } catch (error) {
+      console.log({error});
+      setListGenre([]);
       setIsError(true);
     } finally {
       setIsLoading(false);
@@ -390,5 +421,7 @@ export const useSettingHook = () => {
     getListMoodGenre,
     dataExclusiveContent,
     getExclusiveContent,
+    getListMoodPublic,
+    getListGenrePublic,
   };
 };

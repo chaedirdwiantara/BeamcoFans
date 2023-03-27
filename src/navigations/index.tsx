@@ -110,7 +110,6 @@ import {
   DataShippingProps,
   OtpEmailScreen as OtpEmailProps,
   OtpPhoneScreen,
-  PreferenceList,
 } from '../interface/setting.interface';
 import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
 import ListPlaylist from '../screen/Playlist/ListPlaylist';
@@ -153,7 +152,6 @@ export type RootStackParams = {
   Language: undefined;
   ListImage: {
     title: string;
-    data: PreferenceList[];
     filterBy?: string;
     containerStyle?: ViewStyle;
   };
