@@ -212,7 +212,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                 </View>
               ) : filter[selectedIndex].filterName === 'Musician.Tab.Main' ? (
                 <View style={{paddingHorizontal: widthResponsive(20)}}>
-                  <MainTab />
+                  <MainTab uuid={uuid} />
                 </View>
               ) : (
                 <EmptyState
