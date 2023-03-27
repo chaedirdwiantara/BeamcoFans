@@ -183,6 +183,7 @@ export type DataDetailAlbum = {
   updatedAt: string;
   status: string;
   totalCountListener: number;
+  releaseDateScheduled: string;
 };
 
 export type DetailAlbumResponseType = {
