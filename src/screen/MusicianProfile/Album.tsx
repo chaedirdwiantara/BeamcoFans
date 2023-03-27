@@ -27,11 +27,19 @@ interface AlbumProps {
   artistName: string;
   titleStyle?: ViewStyle;
   containerStyles?: ViewStyle;
+  noTitle?: boolean;
 }
 
 const Album: FC<AlbumProps> = (props: AlbumProps) => {
-  const {title, titleStyle, data, errorText, artistName, containerStyles} =
-    props;
+  const {
+    title,
+    titleStyle,
+    data,
+    errorText,
+    artistName,
+    containerStyles,
+    noTitle,
+  } = props;
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -43,7 +51,7 @@ const Album: FC<AlbumProps> = (props: AlbumProps) => {
 
   return (
     <View style={[{marginHorizontal: widthResponsive(24)}, containerStyles]}>
-      <Title textStyle={{fontSize: mvs(13)}} text={title} />
+      {noTitle ? null : <Title textStyle={{fontSize: mvs(13)}} text={title} />}
       <Gap height={12} />
       {data?.length > 0 ? (
         <View>

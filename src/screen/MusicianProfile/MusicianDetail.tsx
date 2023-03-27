@@ -39,6 +39,7 @@ import {DataExclusiveResponse} from '../../interface/setting.interface';
 import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
 import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
 import PostListProfile from '../ListCard/PostListProfile';
+import MainTab from '../../components/molecule/ProfileContent/MainTab/MainTab';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -188,7 +189,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
             />
             {filter[selectedIndex].filterName === 'Musician.Tab.Profile' ? (
               <DataMusician profile={profile} dataAlbum={dataAlbum} />
-            ) : filter[selectedIndex].filterName === 'Musician.Tab.Post' ? (
+            ) : filter[selectedIndex].filterName === 'Musician.Tab.Musician' ? (
               <View
                 style={{
                   paddingHorizontal: widthResponsive(24),
@@ -208,6 +209,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                     onPress={goToPlaylist}
                     scrollable={false}
                   />
+                </View>
+              ) : filter[selectedIndex].filterName === 'Musician.Tab.Main' ? (
+                <View style={{paddingHorizontal: widthResponsive(20)}}>
+                  <MainTab />
                 </View>
               ) : (
                 <EmptyState
