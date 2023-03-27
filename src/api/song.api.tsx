@@ -1,4 +1,5 @@
 import SsuAPI from './baseSemeru';
+import SsuAPIPublic from './baseSemeruPublic';
 import {
   DetailAlbumResponseType,
   DetailSongResponseType,
@@ -36,6 +37,17 @@ export const detailAlbum = async (
   props?: PostPropsTypeA,
 ): Promise<DetailAlbumResponseType> => {
   const {data} = await SsuAPI().request<DetailAlbumResponseType>({
+    url: `/albums/detail/${props?.id}`,
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const detailAlbumPublic = async (
+  props?: PostPropsTypeA,
+): Promise<DetailAlbumResponseType> => {
+  const {data} = await SsuAPIPublic().request<DetailAlbumResponseType>({
     url: `/albums/detail/${props?.id}`,
     method: 'GET',
   });

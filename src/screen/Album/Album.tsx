@@ -6,7 +6,9 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
 import {AlbumContent} from '../../components';
 import {RootStackParams} from '../../navigations';
+import {storage} from '../../hooks/use-storage.hook';
 import {useSongHook} from '../../hooks/use-song.hook';
+import {useSearchHook} from '../../hooks/use-search.hook';
 
 type AlbumProps = NativeStackScreenProps<RootStackParams, 'Album'>;
 
@@ -14,13 +16,18 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
   navigation,
   route,
 }: AlbumProps) => {
-  const {dataSong, dataDetailAlbum, getListDataSong, getDetailAlbum} =
-    useSongHook();
+  const isLogin = storage.getBoolean('isLogin');
+  const {dataSearchSongs, getSearchSongs} = useSearchHook();
+  const {dataDetailAlbum, getDetailAlbum, getDetailAlbumPublic} = useSongHook();
 
   useFocusEffect(
     useCallback(() => {
-      getListDataSong({albumID: route.params.id});
-      getDetailAlbum({id: route.params.id.toString()});
+      getSearchSongs({albumID: route.params.id});
+      if (isLogin) {
+        getDetailAlbum({id: route.params.id.toString()});
+      } else {
+        getDetailAlbumPublic({id: route.params.id.toString()});
+      }
     }, []),
   );
 
@@ -33,7 +40,7 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
       {dataDetailAlbum && (
         <AlbumContent
           detailAlbum={dataDetailAlbum}
-          dataSong={dataSong}
+          dataSong={dataSearchSongs}
           onPressGoBack={onPressGoBack}
           comingSoon={route.params.type === 'coming_soon'}
         />

@@ -23,7 +23,7 @@ import {
   ModalSuccessDonate,
 } from '../';
 import {DataDetailAlbum, SongList} from '../../../interface/song.interface';
-import {dateFormat, dateLongMonth} from '../../../utils/date-format';
+import {dateLongMonth} from '../../../utils/date-format';
 import {useTranslation} from 'react-i18next';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -33,9 +33,10 @@ import {usePlayerHook} from '../../../hooks/use-player.hook';
 import ListSongs from '../../../screen/ListCard/ListSongs';
 import {mvs} from 'react-native-size-matters';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {ListDataSearchSongs} from '../../../interface/search.interface';
 
 interface Props {
-  dataSong: SongList[] | null;
+  dataSong: SongList[] | ListDataSearchSongs[] | null;
   detailAlbum: DataDetailAlbum;
   onPressGoBack: () => void;
   comingSoon?: boolean;
@@ -143,8 +144,8 @@ export const AlbumContent: React.FC<Props> = ({
   };
 
   const createdDate = comingSoon
-    ? dateFormat(detailAlbum.releaseDateScheduled)
-    : dateFormat(detailAlbum.createdAt);
+    ? dateLongMonth(detailAlbum.releaseDateScheduled)
+    : dateLongMonth(detailAlbum.createdAt);
 
   return (
     <View style={styles.root}>
