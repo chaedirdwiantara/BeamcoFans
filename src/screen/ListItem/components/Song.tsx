@@ -30,6 +30,7 @@ export const ListSong: React.FC<ListSongProps> = ({
   onPressHidePlayer,
 }) => {
   const {t} = useTranslation();
+  const isLogin = storage.getBoolean('isLogin');
   const {searchLoading, dataSearchSongs, getSearchSongs} = useSearchHook();
   const isFocused = useIsFocused();
   const {isPlaying, showPlayer, hidePlayer, addPlaylist} = usePlayerHook();
@@ -74,7 +75,7 @@ export const ListSong: React.FC<ListSongProps> = ({
               dataSong={dataSearchSongs}
               type="home"
               onPress={onPressSong}
-              loveIcon={true}
+              loveIcon={isLogin}
             />
           </View>
         </ScrollView>
