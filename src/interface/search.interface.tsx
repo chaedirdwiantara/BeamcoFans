@@ -8,6 +8,7 @@ export type SearchProps = {
   mood?: number;
   page?: number;
   perPage?: number;
+  albumID?: number;
 };
 
 export type FollowersProps = {
