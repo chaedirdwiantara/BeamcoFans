@@ -158,80 +158,88 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const likeOnPress = (id: string, isLiked: boolean) => {
-    if (isLiked === true && selectedId === undefined) {
-      setUnlikePost({id});
-      setSelectedId([]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+    if (isLogin) {
+      if (isLiked === true && selectedId === undefined) {
+        setUnlikePost({id});
+        setSelectedId([]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (!isLiked && selectedId === undefined) {
-      setLikePost({id});
-      setSelectedId([id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (!isLiked && selectedId === undefined) {
+        setLikePost({id});
+        setSelectedId([id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === true &&
-      !selectedId?.includes(id) &&
-      !recorder.includes(id)
-    ) {
-      setUnlikePost({id});
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === true &&
+        !selectedId?.includes(id) &&
+        !recorder.includes(id)
+      ) {
+        setUnlikePost({id});
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === false &&
-      !selectedId?.includes(id) &&
-      !recorder.includes(id)
-    ) {
-      setLikePost({id});
-      setSelectedId(selectedId ? [...selectedId, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === false &&
+        !selectedId?.includes(id) &&
+        !recorder.includes(id)
+      ) {
+        setLikePost({id});
+        setSelectedId(selectedId ? [...selectedId, id] : [id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === true &&
-      !selectedId?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      setLikePost({id});
-      setSelectedId(selectedId ? [...selectedId, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === true &&
+        !selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setLikePost({id});
+        setSelectedId(selectedId ? [...selectedId, id] : [id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === false &&
-      !selectedId?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      setLikePost({id});
-      setSelectedId(selectedId ? [...selectedId, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === false &&
+        !selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setLikePost({id});
+        setSelectedId(selectedId ? [...selectedId, id] : [id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (isLiked === true && selectedId?.includes(id) && recorder.includes(id)) {
-      setUnlikePost({id});
-      setSelectedId(selectedId.filter((x: string) => x !== id));
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === true &&
+        selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setUnlikePost({id});
+        setSelectedId(selectedId.filter((x: string) => x !== id));
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === false &&
-      selectedId?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      setUnlikePost({id});
-      setSelectedId(selectedId.filter((x: string) => x !== id));
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === false &&
+        selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setUnlikePost({id});
+        setSelectedId(selectedId.filter((x: string) => x !== id));
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
+    } else {
+      setModalGuestVisible(true);
     }
   };
 
