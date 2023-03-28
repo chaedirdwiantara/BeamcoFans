@@ -13,6 +13,7 @@ import {
   listPostProfile,
   listTopPost,
   loadMore,
+  mostPlayedSong,
   unlikeComment,
   unlikePost,
 } from '../api/feed.api';
@@ -26,6 +27,7 @@ import {
   PostList,
   PostPropsTypeA,
   PostPropsTypeB,
+  QuoteToPost,
 } from '../interface/feed.interface';
 
 export const useFeedHook = () => {
@@ -251,6 +253,23 @@ export const useFeedHook = () => {
     }
   };
 
+  // GET MOST PLAY MUSIC
+  const [mostPlayedLoading, setMostPlayedLoading] = useState<boolean>(false);
+  const [dataMostPlayed, setDataMostPlayed] = useState<QuoteToPost>();
+  const [mostPlayedError, setMostPlayedError] = useState<boolean>();
+
+  const getMostPlayed = async (props?: PostPropsTypeA) => {
+    setMostPlayedLoading(true);
+    try {
+      const response = await mostPlayedSong(props);
+      setDataMostPlayed(response.data);
+    } catch (error) {
+      setMostPlayedError(true);
+    } finally {
+      setMostPlayedLoading(false);
+    }
+  };
+
   return {
     feedIsLoading,
     likePostLoading,
@@ -270,6 +289,9 @@ export const useFeedHook = () => {
     dataLikeComment,
     likeCommentLoading,
     dataTopPost,
+    mostPlayedLoading,
+    dataMostPlayed,
+    mostPlayedError,
     setDataLoadMore,
     setDataComment,
     getListDataPost,
@@ -287,5 +309,6 @@ export const useFeedHook = () => {
     setUnlikeComment,
     getListTopPost,
     getListProfilePost,
+    getMostPlayed,
   };
 };

@@ -64,6 +64,7 @@ export type QuoteToPost = {
   encodeHlsUrl: string;
   startAt: string;
   endAt: string;
+  musicianId?: string;
 };
 
 export type VideoResponseType = {
@@ -238,6 +239,13 @@ export type commentUpdateData = {
 export type CommentUpdateResponseType = {
   code: number;
   data: DataComment;
+  message: string;
+  status: number;
+};
+
+export type MostPlayedSongResponseType = {
+  code: number;
+  data: QuoteToPost;
   message: string;
   status: number;
 };

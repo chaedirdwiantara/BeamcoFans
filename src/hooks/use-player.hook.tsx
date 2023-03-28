@@ -9,7 +9,7 @@ import TrackPlayer, {
   RepeatMode,
 } from 'react-native-track-player';
 import {dummySongImg} from '../data/image';
-import {PostList} from '../interface/feed.interface';
+import {PostList, QuoteToPost} from '../interface/feed.interface';
 import {SongList} from '../interface/song.interface';
 import {ListDataSearchSongs} from '../interface/search.interface';
 import {usePlayerStore} from '../store/player.store';
@@ -123,6 +123,51 @@ export const usePlayerHook = () => {
                 : dummySongImg,
             id: Number(item.quoteToPost.targetId),
             musicianId: item.musician.uuid,
+          };
+        });
+      if (playSongId) {
+        let indexPlaySong = track.findIndex(ar => Number(ar.id) === playSongId);
+        if (indexPlaySong > -1) {
+          let newTrack = track.splice(indexPlaySong);
+          newTrack = newTrack.concat(track.splice(0, indexPlaySong));
+          await TrackPlayer.add(newTrack);
+          if (isPlay) {
+            setPlaySong();
+          }
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const addPlaylistMostPlayed = async ({
+    dataSong,
+    playSongId,
+    isPlay = false,
+  }: {
+    dataSong: QuoteToPost[];
+    playSongId?: number;
+    isPlay?: boolean;
+  }) => {
+    try {
+      await TrackPlayer.reset();
+      console.log('dataSong', dataSong);
+
+      const track: Track[] = dataSong
+        .filter(ar => Number(ar.targetId) !== 14)
+        .map(item => {
+          return {
+            url: item.encodeHlsUrl,
+            title: item.title,
+            artist: item.musician,
+            type: TrackType.HLS,
+            artwork:
+              item.coverImage.length !== 0
+                ? item.coverImage[1].image
+                : dummySongImg,
+            id: Number(item.targetId),
+            musicianId: item.musicianId,
           };
         });
       if (playSongId) {
@@ -258,5 +303,6 @@ export const usePlayerHook = () => {
     setShufflePlayer,
     getRepeatPlayer,
     setRepeatPlayer,
+    addPlaylistMostPlayed,
   };
 };
