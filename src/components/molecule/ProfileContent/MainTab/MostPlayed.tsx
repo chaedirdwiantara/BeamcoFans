@@ -39,8 +39,9 @@ const MostPlayed: FC<MostPlayedProps> = (props: MostPlayedProps) => {
   }, [uuidMusician]);
 
   // ! MUSIC AREA
-  const onPressPlaySong = (val: QuoteToPost[]) => {
-    let data = val;
+  const onPressPlaySong = (val: QuoteToPost) => {
+    let data = [val];
+
     addPlaylistMostPlayed({
       dataSong: data,
       playSongId: Number(dataMostPlayed?.targetId),
@@ -48,7 +49,7 @@ const MostPlayed: FC<MostPlayedProps> = (props: MostPlayedProps) => {
     });
     setPlaySong();
     setPauseModeOn(true);
-    setIdNowPlaing(val[0]?.targetId);
+    setIdNowPlaing(val?.targetId);
     hidePlayer();
   };
 
@@ -73,10 +74,9 @@ const MostPlayed: FC<MostPlayedProps> = (props: MostPlayedProps) => {
           title={dataMostPlayed.title}
           musician={dataMostPlayed.musician}
           coverImage={
-            // dataMostPlayed.imageUrl?.length !== null
-            //   ? dataMostPlayed.imageUrl[0]?.image
-            //   : ''
-            ''
+            dataMostPlayed.coverImage?.length !== null
+              ? dataMostPlayed.coverImage[0]?.image
+              : ''
           }
           encodeDashUrl={dataMostPlayed.encodeDashUrl}
           encodeHlsUrl={dataMostPlayed.encodeHlsUrl}
@@ -90,7 +90,8 @@ const MostPlayed: FC<MostPlayedProps> = (props: MostPlayedProps) => {
           currentProgress={playerProgress.position}
           duration={playerProgress.duration}
           seekPlayer={seekPlayer}
-          // isIdNowPlaying={isIdNowPlaying}
+          isIdNowPlaying={dataMostPlayed.targetId === idNowPlaying}
+          hideSlider
         />
       )}
       <Gap height={16} />
