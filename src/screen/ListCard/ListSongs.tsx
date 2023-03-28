@@ -13,7 +13,7 @@ import {ListDataSearchSongs} from '../../interface/search.interface';
 interface ListSongsPropsScreen {
   type?: string;
   onPress: (param: any) => void;
-  dataSong?: SongList[] | ListDataSearchSongs[];
+  dataSong?: any;
   scrollable?: boolean;
   hideDropdownMore?: boolean;
   rightIcon?: boolean;
@@ -25,6 +25,7 @@ interface ListSongsPropsScreen {
   newOnPressMore?: (data: DataDropDownType, item: SongList) => void;
   onEndReached?: () => void;
   onEndReachedThreshold?: number;
+  disabled?: boolean;
 }
 
 const ListSongs: FC<ListSongsPropsScreen> = (props: ListSongsPropsScreen) => {
@@ -43,6 +44,7 @@ const ListSongs: FC<ListSongsPropsScreen> = (props: ListSongsPropsScreen) => {
     newOnPressMore,
     onEndReached,
     onEndReachedThreshold,
+    disabled,
   } = props;
   const {currentTrack, isPlaying, addSong} = usePlayerHook();
   const {setLikeSong, setUnlikeSong} = useSongHook();
@@ -84,9 +86,13 @@ const ListSongs: FC<ListSongsPropsScreen> = (props: ListSongsPropsScreen) => {
           imgUri={item.imageUrl[0]?.image ?? ''}
           musicNum={index + 1}
           musicTitle={elipsisText(item.title, 22)}
-          singerName={item.musicianName}
+          singerName={
+            type === 'coming_soon' ? item.musician.name : item.musicianName
+          }
           onPressCard={
-            type === 'home' || type === 'defaultPlaylist'
+            type === 'home' ||
+            type === 'coming_soon' ||
+            type === 'defaultPlaylist'
               ? () => onPress(item)
               : undefined
           }
@@ -111,6 +117,7 @@ const ListSongs: FC<ListSongsPropsScreen> = (props: ListSongsPropsScreen) => {
           songId={item.id}
           newDataMore={newDataMore}
           newOnPressMore={data => newOnPressMore && newOnPressMore(data, item)}
+          disabled={disabled}
         />
       )}
       estimatedItemSize={heightResponsive(500)}

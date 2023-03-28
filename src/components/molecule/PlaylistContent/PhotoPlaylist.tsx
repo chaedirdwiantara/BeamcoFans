@@ -1,5 +1,10 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, ImageBackground} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+  View,
+} from 'react-native';
 import {color} from '../../../theme';
 import {GalleryAddIcon} from '../../../assets/icon';
 import {heightResponsive, widthResponsive} from '../../../utils';
@@ -8,9 +13,15 @@ interface Props {
   uri?: string | undefined;
   showIcon?: boolean;
   onPress?: () => void;
+  dark?: boolean;
 }
 
-export const PhotoPlaylist: React.FC<Props> = ({uri, showIcon, onPress}) => {
+export const PhotoPlaylist: React.FC<Props> = ({
+  uri,
+  showIcon,
+  dark,
+  onPress,
+}) => {
   return (
     <TouchableOpacity
       style={styles.root}
@@ -21,6 +32,7 @@ export const PhotoPlaylist: React.FC<Props> = ({uri, showIcon, onPress}) => {
         resizeMode="cover"
         imageStyle={{borderRadius: widthResponsive(8)}}
         style={styles.image}>
+        {dark && <View style={styles.darkBackground} />}
         {showIcon && <GalleryAddIcon />}
       </ImageBackground>
     </TouchableOpacity>
@@ -45,5 +57,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  darkBackground: {
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    width: '100%',
+    height: '100%',
   },
 });

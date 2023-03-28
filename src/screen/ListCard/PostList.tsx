@@ -52,15 +52,14 @@ import ChildrenCard from './ChildrenCard';
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
   dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
-  data: PostListType[];
-  dataProfileImg: string;
+  hideDropdown?: boolean;
 }
 
 const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const isLogin = storage.getString('profile');
-  const {dataRightDropdown, dataLeftDropdown, data, dataProfileImg} = props;
+  const {dataRightDropdown, dataLeftDropdown, hideDropdown} = props;
   // ignore warning
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
@@ -159,80 +158,88 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const likeOnPress = (id: string, isLiked: boolean) => {
-    if (isLiked === true && selectedId === undefined) {
-      setUnlikePost({id});
-      setSelectedId([]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+    if (isLogin) {
+      if (isLiked === true && selectedId === undefined) {
+        setUnlikePost({id});
+        setSelectedId([]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (!isLiked && selectedId === undefined) {
-      setLikePost({id});
-      setSelectedId([id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (!isLiked && selectedId === undefined) {
+        setLikePost({id});
+        setSelectedId([id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === true &&
-      !selectedId?.includes(id) &&
-      !recorder.includes(id)
-    ) {
-      setUnlikePost({id});
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === true &&
+        !selectedId?.includes(id) &&
+        !recorder.includes(id)
+      ) {
+        setUnlikePost({id});
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === false &&
-      !selectedId?.includes(id) &&
-      !recorder.includes(id)
-    ) {
-      setLikePost({id});
-      setSelectedId(selectedId ? [...selectedId, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === false &&
+        !selectedId?.includes(id) &&
+        !recorder.includes(id)
+      ) {
+        setLikePost({id});
+        setSelectedId(selectedId ? [...selectedId, id] : [id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === true &&
-      !selectedId?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      setLikePost({id});
-      setSelectedId(selectedId ? [...selectedId, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === true &&
+        !selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setLikePost({id});
+        setSelectedId(selectedId ? [...selectedId, id] : [id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === false &&
-      !selectedId?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      setLikePost({id});
-      setSelectedId(selectedId ? [...selectedId, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === false &&
+        !selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setLikePost({id});
+        setSelectedId(selectedId ? [...selectedId, id] : [id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (isLiked === true && selectedId?.includes(id) && recorder.includes(id)) {
-      setUnlikePost({id});
-      setSelectedId(selectedId.filter((x: string) => x !== id));
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === true &&
+        selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setUnlikePost({id});
+        setSelectedId(selectedId.filter((x: string) => x !== id));
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === false &&
-      selectedId?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      setUnlikePost({id});
-      setSelectedId(selectedId.filter((x: string) => x !== id));
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === false &&
+        selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setUnlikePost({id});
+        setSelectedId(selectedId.filter((x: string) => x !== id));
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
+    } else {
+      setModalGuestVisible(true);
     }
   };
 
@@ -305,28 +312,30 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
 
   return (
     <>
-      <View style={styles.container}>
-        <DropDownFilter
-          labelCaption={
-            selectedFilterMenu
-              ? t(selectedFilterMenu.label)
-              : t('Home.Tab.TopPost.Filter.Title')
-          }
-          dataFilter={dataLeftDropdown}
-          selectedMenu={setSelectedFilterMenu}
-          leftPosition={widthResponsive(-60)}
-        />
-        <DropDownFilter
-          labelCaption={
-            selectedCategoryMenu
-              ? t(selectedCategoryMenu.label)
-              : t('Home.Tab.TopPost.Category.Title')
-          }
-          dataFilter={dataRightDropdown}
-          selectedMenu={setSelectedCategoryMenu}
-          leftPosition={widthResponsive(-144)}
-        />
-      </View>
+      {!hideDropdown && (
+        <View style={styles.container}>
+          <DropDownFilter
+            labelCaption={
+              selectedFilterMenu
+                ? t(selectedFilterMenu.label)
+                : t('Home.Tab.TopPost.Filter.Title')
+            }
+            dataFilter={dataLeftDropdown}
+            selectedMenu={setSelectedFilterMenu}
+            leftPosition={widthResponsive(-60)}
+          />
+          <DropDownFilter
+            labelCaption={
+              selectedCategoryMenu
+                ? t(selectedCategoryMenu.label)
+                : t('Home.Tab.TopPost.Category.Title')
+            }
+            dataFilter={dataRightDropdown}
+            selectedMenu={setSelectedCategoryMenu}
+            leftPosition={widthResponsive(-144)}
+          />
+        </View>
+      )}
       {dataMain?.length !== 0 ? (
         <View
           style={{
@@ -421,13 +430,12 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
             )}
           />
         </View>
-      ) : feedIsLoading === false && dataTopPost?.length === 0 ? (
+      ) : !feedIsLoading && dataMain?.length === 0 ? (
         <EmptyState
-          text={'No data available'}
-          containerStyle={{
-            justifyContent: 'flex-start',
-            paddingTop: heightPercentage(24),
-          }}
+          text={t('Home.DiveIn.Trending.EmptyState')}
+          containerStyle={styles.containerEmpty}
+          textStyle={styles.emptyText}
+          hideIcon={true}
         />
       ) : null}
 
@@ -527,5 +535,15 @@ const styles = StyleSheet.create({
     fontSize: mvs(10),
     fontWeight: '500',
     color: color.Dark[50],
+  },
+  containerEmpty: {
+    alignSelf: 'center',
+  },
+  emptyText: {
+    fontFamily: font.InterRegular,
+    fontSize: mvs(13),
+    textAlign: 'center',
+    color: color.Neutral[10],
+    lineHeight: mvs(16),
   },
 });
