@@ -28,6 +28,18 @@ export const listPost = async (
   return data;
 };
 
+export const listPostProfile = async (
+  props?: ParamsProps,
+): Promise<ListPostResponseType> => {
+  const {data} = await SsuAPI().request<ListPostResponseType>({
+    url: `/posts/feeds`,
+    method: 'GET',
+    params: props,
+  });
+
+  return data;
+};
+
 export const listTopPost = async (
   props?: ParamsProps,
 ): Promise<ListPostResponseType> => {
