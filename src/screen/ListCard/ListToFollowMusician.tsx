@@ -1,5 +1,5 @@
 import {Dimensions, FlatList, StyleSheet, Text} from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {ListCard} from '../../components';
 import {mvs} from 'react-native-size-matters';
 import {color, font} from '../../theme';
@@ -34,6 +34,10 @@ const ListToFollowMusician = () => {
   const handleToDetailMusician = (id: string) => {
     navigation.navigate('MusicianProfile', {id});
   };
+
+  useEffect(() => {
+    console.log({dataMusician});
+  }, [dataMusician]);
 
   return (
     <>
