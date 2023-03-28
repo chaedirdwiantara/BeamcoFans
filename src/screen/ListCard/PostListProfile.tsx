@@ -13,6 +13,7 @@ import {mvs} from 'react-native-size-matters';
 import {
   Gap,
   ListCard,
+  ModalConfirm,
   ModalDonate,
   ModalShare,
   ModalSuccessDonate,
@@ -58,7 +59,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {dataRightDropdown, dataLeftDropdown, uuidMusician = ''} = props;
+  const {uuidMusician = ''} = props;
 
   const [recorder, setRecorder] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string[]>();
@@ -83,6 +84,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
     modalCategory: false,
   });
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [modalConfirm, setModalConfirm] = useState(false);
 
   // * UPDATE HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
@@ -310,7 +312,16 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   // ! END OF MUSIC AREA
 
   const handleOnBlur = () => {
-    console.log('handle on blur');
+    setModalConfirm(true);
+  };
+
+  const handleConfirmModal = () => {
+    setModalConfirm(false);
+    navigation.navigate('ExclusiveContent', {data: props});
+  };
+
+  const handleMaybeLater = () => {
+    setModalConfirm(false);
   };
 
   return (
@@ -350,11 +361,13 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
             renderItem={({item}) => (
               <>
                 <ListCard.PostList
-                  toDetailOnPress={() => {
+                  toDetailOnPress={
                     item.isPremiumPost && item.musician.uuid !== MyUuid
-                      ? {}
-                      : handleToDetailMusician(item.musician.uuid);
-                  }}
+                      ? handleOnBlur
+                      : () => {
+                          handleToDetailMusician(item.musician.uuid);
+                        }
+                  }
                   musicianName={item.musician.fullname}
                   musicianId={`@${item.musician.username}`}
                   imgUri={
@@ -367,11 +380,11 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                   }
                   postDate2={item.createdAt}
                   category={categoryNormalize(item.category)}
-                  onPress={() => {
+                  onPress={
                     item.isPremiumPost && item.musician.uuid !== MyUuid
-                      ? {}
-                      : cardOnPress(item);
-                  }}
+                      ? handleOnBlur
+                      : () => cardOnPress(item)
+                  }
                   likeOnPress={() => likeOnPress(item.id, item.isLiked)}
                   likePressed={
                     selectedId === undefined
@@ -504,6 +517,15 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
         toggleModal={onPressSuccess}
       />
       {!refreshing && <ModalLoading visible={feedIsLoading} />}
+      <ModalConfirm
+        modalVisible={modalConfirm}
+        title={'Subscribe to reveal exclusive content'}
+        subtitle={
+          'You need to subscribe exclusive content to unlock current post'
+        }
+        onPressClose={handleMaybeLater}
+        onPressOk={handleConfirmModal}
+      />
     </>
   );
 };

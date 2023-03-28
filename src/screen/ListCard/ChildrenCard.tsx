@@ -47,10 +47,6 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
     onPress?.(val);
   };
 
-  const handleOnBlur = (val: PostList) => {
-    console.log('premium content');
-  };
-
   return (
     <View style={{width: '100%'}}>
       <Text style={styles.childrenPostTitle}>
@@ -92,7 +88,7 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
                   startAt={data.quoteToPost.startAt}
                   endAt={data.quoteToPost.endAt}
                   postList={data}
-                  onPress={blurModeOn ? handleOnBlur : onPressPlaySong}
+                  onPress={onPressPlaySong}
                   isPlay={isPlay}
                   playOrPause={playOrPause}
                   pauseModeOn={pauseModeOn}

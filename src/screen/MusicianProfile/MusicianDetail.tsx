@@ -199,6 +199,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                   uuidMusician={uuid}
                   dataRightDropdown={dropDownDataCategory}
                   dataLeftDropdown={dropDownDataSort}
+                  {...exclusiveContent}
                 />
               </View>
             ) : filter[selectedIndex].filterName === 'Musician.Tab.Music' ? (
