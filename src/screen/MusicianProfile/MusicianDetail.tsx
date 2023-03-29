@@ -211,10 +211,6 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                     scrollable={false}
                   />
                 </View>
-              ) : filter[selectedIndex].filterName === 'Musician.Tab.Main' ? (
-                <View style={{paddingHorizontal: widthResponsive(20)}}>
-                  <MainTab uuid={uuid} />
-                </View>
               ) : (
                 <EmptyState
                   text={t('Profile.Label.NoPlaylist') || ''}
@@ -224,6 +220,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                   }}
                 />
               )
+            ) : filter[selectedIndex].filterName === 'Musician.Tab.Main' ? (
+              <View style={{paddingHorizontal: widthResponsive(20)}}>
+                <MainTab uuid={uuid} />
+              </View>
             ) : null}
           </View>
         </View>
