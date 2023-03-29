@@ -64,7 +64,6 @@ const MostPlayed: FC<MostPlayedProps> = (props: MostPlayedProps) => {
 
   return (
     <View>
-      {' '}
       {dataMostPlayed && (
         <>
           <Text style={styles.textComp}>Most Played</Text>
