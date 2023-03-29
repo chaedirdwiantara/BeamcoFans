@@ -7,17 +7,10 @@ import {
   InteractionManager,
 } from 'react-native';
 
-import {
-  heightPercentage,
-  normalize,
-  width,
-  widthPercentage,
-} from '../../../utils';
 import {Dropdown} from '../DropDown';
 import Color from '../../../theme/Color';
 import {Gap, SsuToast} from '../../atom';
 import {TopNavigation} from '../TopNavigation';
-import TopSong from '../../../screen/ListCard/TopSong';
 import {color, font, typography} from '../../../theme';
 import {dropDownHeaderAlbum} from '../../../data/dropdown';
 import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
@@ -30,24 +23,30 @@ import {
   ModalSuccessDonate,
 } from '../';
 import {DataDetailAlbum, SongList} from '../../../interface/song.interface';
-import {dateFormat, dateLongMonth} from '../../../utils/date-format';
+import {dateLongMonth} from '../../../utils/date-format';
 import {useTranslation} from 'react-i18next';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../../navigations';
 import {useCreditHook} from '../../../hooks/use-credit.hook';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
+import ListSongs from '../../../screen/ListCard/ListSongs';
+import {mvs} from 'react-native-size-matters';
+import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {ListDataSearchSongs} from '../../../interface/search.interface';
 
 interface Props {
-  dataSong: SongList[] | null;
+  dataSong: SongList[] | ListDataSearchSongs[] | null;
   detailAlbum: DataDetailAlbum;
   onPressGoBack: () => void;
+  comingSoon?: boolean;
 }
 
 export const AlbumContent: React.FC<Props> = ({
   detailAlbum,
   dataSong,
   onPressGoBack,
+  comingSoon,
 }) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -140,17 +139,29 @@ export const AlbumContent: React.FC<Props> = ({
     showPlayer();
   };
 
+  const goToMusicianProfile = () => {
+    navigation.navigate('MusicianProfile', {id: detailAlbum.musician.uuid});
+  };
+
+  const createdDate = comingSoon
+    ? dateLongMonth(detailAlbum.releaseDateScheduled)
+    : dateLongMonth(detailAlbum.createdAt);
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
         title={t('Musician.Label.Album')}
         rightIcon={
-          <Dropdown.More
-            data={dropDownHeaderAlbum}
-            selectedMenu={resultDataMore}
-            containerStyle={styles.dropDownMore}
-            translation={true}
-          />
+          comingSoon ? (
+            <></>
+          ) : (
+            <Dropdown.More
+              data={dropDownHeaderAlbum}
+              selectedMenu={resultDataMore}
+              containerStyle={styles.dropDownMore}
+              translation={true}
+            />
+          )
         }
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}
@@ -168,12 +179,13 @@ export const AlbumContent: React.FC<Props> = ({
                   ? detailAlbum?.imageUrl[1].image
                   : ''
               }
+              dark={comingSoon}
             />
           </View>
           <SongTitlePlay
             title={detailAlbum.title}
             totalSong={dataSong?.length || 0}
-            createdDate={dateLongMonth(detailAlbum.createdAt)}
+            createdDate={createdDate}
             createdBy={
               detailAlbum?.musician?.name !== undefined
                 ? detailAlbum?.musician.name
@@ -188,15 +200,19 @@ export const AlbumContent: React.FC<Props> = ({
             isPlaying={false}
             handlePlayPaused={() => {}}
             onPressSong={() => {}}
+            goToMusicianProfile={goToMusicianProfile}
+            comingSoon={comingSoon}
           />
-          <ListenersAndDonate
-            totalListener={
-              detailAlbum?.totalCountListener
-                ? detailAlbum?.totalCountListener
-                : 0
-            }
-            onPress={() => setModalDonate(true)}
-          />
+          {!comingSoon && (
+            <ListenersAndDonate
+              totalListener={
+                detailAlbum?.totalCountListener
+                  ? detailAlbum?.totalCountListener
+                  : 0
+              }
+              onPress={() => setModalDonate(true)}
+            />
+          )}
         </View>
 
         <View style={styles.separator} />
@@ -206,7 +222,11 @@ export const AlbumContent: React.FC<Props> = ({
             <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
               {t('Event.Description')}
             </Text>
-            <Text style={styles.description}>{detailAlbum.description}</Text>
+            <Text style={styles.description}>
+              {detailAlbum.description
+                ? detailAlbum.description
+                : 'No Description Given'}
+            </Text>
           </View>
 
           <Text style={[typography.Subtitle1, {color: color.Success[500]}]}>
@@ -214,11 +234,12 @@ export const AlbumContent: React.FC<Props> = ({
           </Text>
           <View style={{marginBottom: heightPercentage(30)}}>
             {dataSong ? (
-              <TopSong
+              <ListSongs
                 onPress={onPressSong}
                 hideDropdownMore={true}
                 dataSong={dataSong}
                 type="home"
+                disabled={comingSoon}
               />
             ) : null}
           </View>
@@ -304,10 +325,9 @@ const styles = StyleSheet.create({
     paddingTop: heightPercentage(15),
   },
   description: {
-    fontSize: normalize(12),
+    fontSize: mvs(13),
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
-    lineHeight: heightPercentage(16),
     paddingTop: heightPercentage(8),
   },
   modalContainer: {

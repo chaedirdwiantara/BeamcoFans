@@ -23,6 +23,7 @@ interface ListProps {
   stateButton: boolean;
   containerStyles?: ViewStyle;
   toDetailOnPress: () => void;
+  recommended?: boolean;
 }
 
 const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
@@ -36,6 +37,7 @@ const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
     stateButton,
     containerStyles,
     toDetailOnPress,
+    recommended = false,
   } = props;
 
   const follow = stateButton
@@ -102,7 +104,7 @@ const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
           onPress={toDetailOnPress}>
           {musicianName}
         </Text>
-        {followerCount && (
+        {!recommended && (
           <Text style={styles.followerCount} numberOfLines={1}>
             {countFollower + ' ' + t('General.Followers')}
           </Text>

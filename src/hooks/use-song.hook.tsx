@@ -14,6 +14,7 @@ import {
   listSong,
   unlikeSong,
   detailAlbum,
+  detailAlbumPublic,
 } from '../api/song.api';
 
 export const useSongHook = () => {
@@ -85,6 +86,19 @@ export const useSongHook = () => {
     }
   };
 
+  const getDetailAlbumPublic = async (props?: PostPropsTypeA) => {
+    setAlbumLoading(true);
+    try {
+      const response = await detailAlbumPublic(props);
+      setDataDetailAlbum(response.data);
+    } catch (error) {
+      console.log(error);
+      setDataDetailAlbum(null);
+    } finally {
+      setAlbumLoading(false);
+    }
+  };
+
   const setLikeSong = async (props?: SongPropsTypeA) => {
     setIsLoadingSong(true);
     try {
@@ -124,5 +138,6 @@ export const useSongHook = () => {
     setLikeSong,
     setUnlikeSong,
     getListDataNewSong,
+    getDetailAlbumPublic,
   };
 };

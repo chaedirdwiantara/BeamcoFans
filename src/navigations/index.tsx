@@ -110,7 +110,6 @@ import {
   DataShippingProps,
   OtpEmailScreen as OtpEmailProps,
   OtpPhoneScreen,
-  PreferenceList,
 } from '../interface/setting.interface';
 import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
 import ListPlaylist from '../screen/Playlist/ListPlaylist';
@@ -119,7 +118,7 @@ export type RootStackParams = {
   Account: undefined;
   AddToPlaylist: {id: number[]; type?: string};
   AddSong: Playlist;
-  Album: AlbumData | {id: number};
+  Album: AlbumData | {id: number; type?: string};
   Boarding: undefined;
   ChangeEmail: {
     type: 'Add' | 'Change';
@@ -153,17 +152,17 @@ export type RootStackParams = {
   Language: undefined;
   ListImage: {
     title: string;
-    data: PreferenceList[];
+    filterBy?: string;
     containerStyle?: ViewStyle;
   };
   ListMusic: {
-    id: number;
     title: string;
     type: string;
     fromMainTab: boolean;
+    id?: number;
+    filterBy?: string;
   };
   ListPost: {
-    id: number;
     title: string;
   };
   Login: undefined;
@@ -302,7 +301,7 @@ const TabScreen = () => {
           tabBarIcon: ({color}) => (
             <View style={styles.root}>
               <CrownIcon stroke={color} />
-              <Text style={[styles.label, {color}]}>{'Event'}</Text>
+              <Text style={[styles.label, {color}]}>{'Action'}</Text>
             </View>
           ),
         }}

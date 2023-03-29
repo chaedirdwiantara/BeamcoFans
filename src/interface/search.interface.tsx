@@ -4,7 +4,11 @@ import {TranscodedSongType} from './song.interface';
 export type SearchProps = {
   keyword: string;
   filterBy?: string;
+  genre?: number;
+  mood?: number;
   page?: number;
+  perPage?: number;
+  albumID?: number;
 };
 
 export type FollowersProps = {
@@ -89,6 +93,7 @@ export type ListDataSearchAlbums = {
   label: string[];
   createdAt: string;
   name?: string;
+  type?: string;
 };
 
 export type ListSearchAlbumsResponseType = {

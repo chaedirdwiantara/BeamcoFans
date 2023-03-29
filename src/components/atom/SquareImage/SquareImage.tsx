@@ -1,19 +1,17 @@
 import React from 'react';
 import {
-  StyleSheet,
-  Dimensions,
-  ViewStyle,
   View,
+  ViewStyle,
+  StyleSheet,
   TouchableOpacity,
   TouchableOpacityProps,
   Image,
   Platform,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {AddIcon} from '../../../assets/icon';
 import {color} from '../../../theme';
-
-const {width} = Dimensions.get('screen');
+import {width} from '../../../utils';
+import {AddIcon} from '../../../assets/icon';
 
 export interface SquareImageProps extends TouchableOpacityProps {
   imgUri?: string;
@@ -28,6 +26,7 @@ export interface SquareImageProps extends TouchableOpacityProps {
   borderBottomLeftRadius?: number;
   borderBottomRightRadius?: number;
   blurModeOn?: boolean;
+  darkImage?: boolean;
 }
 
 const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
@@ -44,6 +43,7 @@ const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
     borderBottomLeftRadius,
     borderBottomRightRadius,
     blurModeOn,
+    darkImage,
   } = props;
 
   const blurOp = Platform.OS === 'ios' ? 8 : 3;
@@ -57,32 +57,61 @@ const SquareImage: React.FC<SquareImageProps> = (props: SquareImageProps) => {
   } else {
     return (
       <TouchableOpacity style={containerStyle} disabled={true} {...props}>
-        <Image
-          source={{uri: imgUri}}
-          style={[
-            styles.root,
-            {
-              width: size,
-              height: height,
-              aspectRatio: !height ? 1 / 1 : undefined,
-              borderRadius: borderRadius ? borderRadius : undefined,
-              borderTopLeftRadius: borderTopLeftRadius
-                ? borderTopLeftRadius
-                : undefined,
-              borderTopRightRadius: borderTopRightRadius
-                ? borderTopRightRadius
-                : undefined,
-              borderBottomLeftRadius: borderBottomLeftRadius
-                ? borderBottomLeftRadius
-                : undefined,
-              borderBottomRightRadius: borderBottomRightRadius
-                ? borderBottomRightRadius
-                : undefined,
-            },
-          ]}
-          testID={`Image ${id}`}
-          blurRadius={blurModeOn ? blurOp : undefined}
-        />
+        {darkImage ? (
+          <FastImage
+            source={{uri: imgUri}}
+            style={[
+              styles.root,
+              {
+                width: size,
+                height: height,
+                aspectRatio: !height ? 1 / 1 : undefined,
+                borderRadius: borderRadius ? borderRadius : undefined,
+                borderTopLeftRadius: borderTopLeftRadius
+                  ? borderTopLeftRadius
+                  : undefined,
+                borderTopRightRadius: borderTopRightRadius
+                  ? borderTopRightRadius
+                  : undefined,
+                borderBottomLeftRadius: borderBottomLeftRadius
+                  ? borderBottomLeftRadius
+                  : undefined,
+                borderBottomRightRadius: borderBottomRightRadius
+                  ? borderBottomRightRadius
+                  : undefined,
+              },
+            ]}
+            testID={`Image ${id}`}>
+            {darkImage && <View style={styles.darkImage} />}
+          </FastImage>
+        ) : (
+          <Image
+            source={{uri: imgUri}}
+            style={[
+              styles.root,
+              {
+                width: size,
+                height: height,
+                aspectRatio: !height ? 1 / 1 : undefined,
+                borderRadius: borderRadius ? borderRadius : undefined,
+                borderTopLeftRadius: borderTopLeftRadius
+                  ? borderTopLeftRadius
+                  : undefined,
+                borderTopRightRadius: borderTopRightRadius
+                  ? borderTopRightRadius
+                  : undefined,
+                borderBottomLeftRadius: borderBottomLeftRadius
+                  ? borderBottomLeftRadius
+                  : undefined,
+                borderBottomRightRadius: borderBottomRightRadius
+                  ? borderBottomRightRadius
+                  : undefined,
+              },
+            ]}
+            testID={`Image ${id}`}
+            blurRadius={blurModeOn ? blurOp : undefined}
+          />
+        )}
       </TouchableOpacity>
     );
   }
@@ -102,5 +131,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: color.Success[400],
+  },
+  darkImage: {
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    width: '100%',
+    height: '100%',
   },
 });

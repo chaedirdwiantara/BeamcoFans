@@ -40,7 +40,7 @@ interface UserInfoCardProps {
 }
 
 type Props = {
-  point: number | undefined;
+  point: number;
   title: string;
   onPress: () => void;
 };
@@ -48,7 +48,9 @@ type Props = {
 const Item: FC<Props> = ({point, title, onPress}) => {
   return (
     <TouchableOpacity style={styles.itemStyle} onPress={onPress}>
-      <Text style={styles.pointStyle}>{kFormatter(point, 1)}</Text>
+      <Text style={styles.pointStyle}>
+        {isNaN(point) ? '-' : kFormatter(point, 1)}
+      </Text>
       <Text style={styles.titleStyle}>{title}</Text>
     </TouchableOpacity>
   );
