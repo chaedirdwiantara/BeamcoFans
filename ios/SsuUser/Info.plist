@@ -58,6 +58,7 @@
 			</dict>
 		</dict>
 	</dict>
+  <key>ITSAppUsesNonExemptEncryption</key><false/>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to use your camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
