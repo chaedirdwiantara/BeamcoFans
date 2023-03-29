@@ -1,4 +1,5 @@
 import SsuAPI from './base';
+import SsuSemeruPublic from './baseSemeruPublic';
 import SsuAPINew from './baseRinjaniNew';
 import SsuAPIPublic from './basePublic';
 import {
@@ -10,6 +11,7 @@ import {
   ListCommentResponseType,
   ListPostResponseType,
   LoadMoreProps,
+  MostPlayedSongResponseType,
   PostPropsTypeA,
   PostPropsTypeB,
   UnlikePostResponseType,
@@ -22,6 +24,18 @@ export const listPost = async (
 ): Promise<ListPostResponseType> => {
   const {data} = await SsuAPI().request<ListPostResponseType>({
     url: '/posts',
+    method: 'GET',
+    params: props,
+  });
+
+  return data;
+};
+
+export const listPostProfile = async (
+  props?: ParamsProps,
+): Promise<ListPostResponseType> => {
+  const {data} = await SsuAPI().request<ListPostResponseType>({
+    url: `/posts/feeds`,
     method: 'GET',
     params: props,
   });
@@ -188,6 +202,17 @@ export const commmentDelete = async (
   const {data} = await SsuAPI().request<CommentResponseType>({
     url: `/comments/${props?.id}/delete`,
     method: 'DELETE',
+  });
+
+  return data;
+};
+
+export const mostPlayedSong = async (
+  props?: PostPropsTypeA,
+): Promise<MostPlayedSongResponseType> => {
+  const {data} = await SsuSemeruPublic().request<MostPlayedSongResponseType>({
+    url: `/songs/most-play-song/${props?.id}`,
+    method: 'GET',
   });
 
   return data;
