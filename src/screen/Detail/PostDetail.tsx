@@ -957,6 +957,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
                     {data.video.encodeHlsUrl !== '' && (
                       <View style={{marginTop: ms(6)}}>
                         <VideoComp
+                          id={data.id}
+                          dataVideo={data.video}
                           sourceUri={data.video.encodeHlsUrl}
                           onPress={() => {}}
                         />

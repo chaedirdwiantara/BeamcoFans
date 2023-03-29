@@ -17,6 +17,7 @@ import {
   mostPlayedSong,
   unlikeComment,
   unlikePost,
+  viewsCount,
 } from '../api/feed.api';
 import {ParamsProps} from '../interface/base.interface';
 import {
@@ -29,6 +30,7 @@ import {
   PostPropsTypeA,
   PostPropsTypeB,
   QuoteToPost,
+  ViewsCount,
 } from '../interface/feed.interface';
 
 export const useFeedHook = () => {
@@ -285,6 +287,23 @@ export const useFeedHook = () => {
     }
   };
 
+  // GET MOST PLAY MUSIC
+  const [viewCountLoading, setViewCountLoading] = useState<boolean>(false);
+  const [dataViewsCount, setDataViewCount] = useState<ViewsCount>();
+  const [viewCountError, setViewCountError] = useState<boolean>();
+
+  const setViewCount = async (props?: PostPropsTypeA) => {
+    setViewCountLoading(true);
+    try {
+      const response = await viewsCount(props);
+      setDataViewCount(response.data);
+    } catch (error) {
+      setViewCountError(true);
+    } finally {
+      setViewCountLoading(false);
+    }
+  };
+
   return {
     feedIsLoading,
     likePostLoading,
@@ -307,6 +326,9 @@ export const useFeedHook = () => {
     mostPlayedLoading,
     dataMostPlayed,
     mostPlayedError,
+    viewCountLoading,
+    dataViewsCount,
+    viewCountError,
     setDataLoadMore,
     setDataComment,
     getListDataPost,
@@ -326,5 +348,6 @@ export const useFeedHook = () => {
     getListProfilePost,
     getMostPlayed,
     getListSimilarPost,
+    setViewCount,
   };
 };
