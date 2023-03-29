@@ -15,6 +15,7 @@ import {
   unlikeSong,
   detailAlbum,
   detailAlbumPublic,
+  newSong,
 } from '../api/song.api';
 
 export const useSongHook = () => {
@@ -45,9 +46,23 @@ export const useSongHook = () => {
     }
   };
 
-  const getListDataNewSong = async (props?: ParamsProps) => {
+  const getListDataNewSong = async () => {
     try {
-      const response = await listSong(props);
+      const response = await newSong();
+      setDataNewSong(response.data);
+      setMetaNewSong(response.meta);
+    } catch (error) {
+      console.log(error);
+      setIsErrorSong(true);
+      setDataNewSong([]);
+    } finally {
+      setIsLoadingSong(false);
+    }
+  };
+
+  const getListDataNewSongGuest = async () => {
+    try {
+      const response = await newSong();
       setDataNewSong(response.data);
       setMetaNewSong(response.meta);
     } catch (error) {
@@ -139,5 +154,6 @@ export const useSongHook = () => {
     setUnlikeSong,
     getListDataNewSong,
     getDetailAlbumPublic,
+    getListDataNewSongGuest,
   };
 };

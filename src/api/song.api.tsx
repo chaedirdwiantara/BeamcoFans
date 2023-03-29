@@ -76,3 +76,21 @@ export const unlikeSong = async (
 
   return data;
 };
+
+export const newSong = async (): Promise<ListSongResponseType> => {
+  const {data} = await SsuAPI().request<ListSongResponseType>({
+    url: '/songs/new-released',
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const newSongGuest = async (): Promise<ListSongResponseType> => {
+  const {data} = await SsuAPIPublic().request<ListSongResponseType>({
+    url: '/songs/new-released',
+    method: 'GET',
+  });
+
+  return data;
+};

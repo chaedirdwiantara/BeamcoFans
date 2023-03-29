@@ -51,17 +51,16 @@ const ListSongs: FC<ListSongsPropsScreen> = (props: ListSongsPropsScreen) => {
 
   const [listSong, setListSong] = useState(dataSong);
 
-  const likeOnPress = (index: number, isLiked?: boolean) => {
+  const likeOnPress = async (index: number, isLiked?: boolean) => {
+    isLiked ? await setUnlikeSong({id: index}) : await setLikeSong({id: index});
     if (listSong !== undefined && listSong !== null) {
-      const newList = listSong.map(val => ({
+      const newList = listSong.map((val: {id: number; isLiked: any}) => ({
         ...val,
         isLiked: val.id === index ? !val.isLiked : val.isLiked,
       }));
 
       setListSong(newList);
     }
-
-    isLiked ? setUnlikeSong({id: index}) : setLikeSong({id: index});
   };
 
   useEffect(() => {
@@ -113,10 +112,12 @@ const ListSongs: FC<ListSongsPropsScreen> = (props: ListSongsPropsScreen) => {
           loveIcon={loveIcon}
           likeOnPress={() => likeOnPress(item.id, item.isLiked)}
           isLiked={item.isLiked}
-          onPressAddToQueue={() => addSong(item)}
+          onPressAddToQueue={() => addSong(item as SongList)}
           songId={item.id}
           newDataMore={newDataMore}
-          newOnPressMore={data => newOnPressMore && newOnPressMore(data, item)}
+          newOnPressMore={data =>
+            newOnPressMore && newOnPressMore(data, item as SongList)
+          }
           disabled={disabled}
         />
       )}

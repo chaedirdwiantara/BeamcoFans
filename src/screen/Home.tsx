@@ -90,8 +90,13 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {dataDiveIn, dataAlbumComingSoon, getListDiveIn, getListComingSoon} =
     useHomeHook();
   const {dataProfile, getProfileUser} = useProfileHook();
-  const {dataSong, dataNewSong, getListDataSong, getListDataNewSong} =
-    useSongHook();
+  const {
+    dataSong,
+    dataNewSong,
+    getListDataSong,
+    getListDataNewSong,
+    getListDataNewSongGuest,
+  } = useSongHook();
   const {listGenre, listMood, getListMoodPublic, getListGenrePublic} =
     useSettingHook();
   const {dataBanner, getListDataBanner} = useBannerHook();
@@ -153,6 +158,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       getListDataBannerPublic();
       getSearchMusicians({keyword: '', filterBy: 'top'});
       getSearchSongs({keyword: '', filterBy: 'top'});
+      getListDataNewSongGuest();
     }
     setTimeout(() => {
       setRefreshing(false);
@@ -466,7 +472,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             />
           ) : (
             <NewSong
-              dataSong={isLogin ? dataNewSong : dataSearchSongs}
+              dataSong={dataNewSong}
               onPress={onPressNewSong}
               type={'home'}
               loveIcon={isLogin}
