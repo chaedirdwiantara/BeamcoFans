@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   NativeModules,
   Platform,
   StyleSheet,
@@ -6,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {IconMore} from '../../../atom';
 import {widthResponsive} from '../../../../utils';
 import FilterModal from './modalFilter';
@@ -15,6 +16,7 @@ import {ms, mvs} from 'react-native-size-matters';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
+const {height} = Dimensions.get('screen');
 
 interface DropdownV2Props {
   id?: string;
@@ -31,6 +33,9 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
   }>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [menuSelected, setMenuSelected] = useState<DataDropDownType>();
+  const [compHeight, setCompHeight] = useState(0);
+  const [dropDownHeight, setDropdownHeight] = useState(0);
+  const [heightPercent, setHeightPercent] = useState<Number>(0);
 
   const handleOnClose = () => {
     if (menuSelected !== undefined) {
@@ -46,6 +51,13 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
     setMenuSelected(data);
   };
 
+  useEffect(() => {
+    if (offsetSortFilter) {
+      setHeightPercent(((height - offsetSortFilter?.py) * 100) / height);
+      setCompHeight(dataFilter.length * widthResponsive(35));
+    }
+  }, [offsetSortFilter]);
+
   return (
     <View
       style={styles.dropdownContainer}
@@ -59,10 +71,11 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
               event?.measure((fx, fy, width, height, px, py) => {
                 let peye = Platform.OS === 'android' ? py - barHeight : py;
                 offsetSortFilter?.py !== peye
-                  ? setOffsetSortFilter({
+                  ? (setOffsetSortFilter({
                       px: px + width,
                       py: Platform.OS === 'android' ? py - barHeight : py,
-                    })
+                    }),
+                    setDropdownHeight(height))
                   : null;
               });
             }
@@ -83,7 +96,12 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
           xPosition={offsetSortFilter?.px}
           yPosition={offsetSortFilter?.py}
           containerStyle={{
-            top: offsetSortFilter?.py + ms(2),
+            top:
+              heightPercent > 30
+                ? offsetSortFilter?.py + ms(2)
+                : offsetSortFilter?.py +
+                  ms(2) -
+                  (compHeight + dropDownHeight + 15),
             left: offsetSortFilter?.px - widthResponsive(117),
           }}
           textStyle={{fontSize: mvs(12)}}
