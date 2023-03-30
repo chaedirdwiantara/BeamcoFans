@@ -34,9 +34,9 @@ export const FollowersScreen: React.FC<FollowersProps> = ({
       navigation2.navigate('Profile', {});
     } else {
       if (type === 'fans') {
-        navigation.navigate('OtherUserProfile', {id});
+        navigation.push('OtherUserProfile', {id});
       } else {
-        navigation.navigate('MusicianProfile', {id});
+        navigation.push('MusicianProfile', {id});
       }
     }
   };
