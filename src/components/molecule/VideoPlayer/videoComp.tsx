@@ -23,6 +23,8 @@ import {ms} from 'react-native-size-matters';
 import {Gap} from '../../atom';
 import {VideoResponseType} from '../../../interface/feed.interface';
 import {useFeedHook} from '../../../hooks/use-feed.hook';
+import {storage} from '../../../hooks/use-storage.hook';
+import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
 
 export const {width} = Dimensions.get('screen');
 
@@ -58,8 +60,10 @@ const VideoComp: FC<VideoProps> = (props: VideoProps) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [fullScreen, setFullScreen] = useState<boolean>(false);
   const [mute, setMute] = useState<boolean>(false);
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
 
   const videoRef = createRef<any>();
+  const isLogin = storage.getString('profile');
 
   const {dataViewsCount, setViewCount} = useFeedHook();
 
@@ -78,8 +82,11 @@ const VideoComp: FC<VideoProps> = (props: VideoProps) => {
   };
 
   const handlePlaying = () => {
-    if (!blurModeOn) {
+    if (!isLogin) {
+      setModalGuestVisible(true);
+    } else if (!blurModeOn) {
       setPaused(false), setIsPlaying(true);
+    } else if (blurModeOn) {
     }
   };
 
@@ -202,6 +209,10 @@ const VideoComp: FC<VideoProps> = (props: VideoProps) => {
           </View>
         </View>
       )}
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
+      />
     </View>
   );
 };

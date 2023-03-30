@@ -45,6 +45,18 @@ export const listPostProfile = async (
   return data;
 };
 
+export const listPostProfileGuestMode = async (
+  props?: ParamsProps,
+): Promise<ListPostResponseType> => {
+  const {data} = await RinjaniPublic().request<ListPostResponseType>({
+    url: `/public/posts`,
+    method: 'GET',
+    params: props,
+  });
+
+  return data;
+};
+
 export const listTopPost = async (
   props?: ParamsProps,
 ): Promise<ListPostResponseType> => {

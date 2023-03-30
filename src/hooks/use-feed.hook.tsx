@@ -11,6 +11,7 @@ import {
   listPost,
   listPostExclusive,
   listPostProfile,
+  listPostProfileGuestMode,
   listPostSimilar,
   listTopPost,
   loadMore,
@@ -59,6 +60,20 @@ export const useFeedHook = () => {
     setFeedIsLoading(true);
     try {
       const response = await listPostProfile(props);
+      setDataPostList(response.data);
+      setFeedMessage(response.message);
+    } catch (error) {
+      console.log(error);
+      setFeedIsError(true);
+    } finally {
+      setFeedIsLoading(false);
+    }
+  };
+
+  const getListProfilePostGuestMode = async (props?: ParamsProps) => {
+    setFeedIsLoading(true);
+    try {
+      const response = await listPostProfileGuestMode(props);
       setDataPostList(response.data);
       setFeedMessage(response.message);
     } catch (error) {
@@ -349,5 +364,6 @@ export const useFeedHook = () => {
     getMostPlayed,
     getListSimilarPost,
     setViewCount,
+    getListProfilePostGuestMode,
   };
 };
