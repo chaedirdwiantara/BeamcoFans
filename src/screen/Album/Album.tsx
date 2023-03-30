@@ -18,17 +18,18 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
 }: AlbumProps) => {
   const isLogin = storage.getBoolean('isLogin');
   const {dataSearchSongs, getSearchSongs} = useSearchHook();
-  const {dataDetailAlbum, getDetailAlbum, getDetailAlbumPublic} = useSongHook();
+  const {albumLoading, dataDetailAlbum, getDetailAlbum, getDetailAlbumPublic} =
+    useSongHook();
 
   useFocusEffect(
     useCallback(() => {
-      getSearchSongs({albumID: route.params.id});
+      getSearchSongs({albumID: route.params.id, keyword: ''});
       if (isLogin) {
         getDetailAlbum({id: route.params.id.toString()});
       } else {
         getDetailAlbumPublic({id: route.params.id.toString()});
       }
-    }, []),
+    }, [route.params.id]),
   );
 
   const onPressGoBack = () => {
@@ -37,7 +38,7 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
 
   return (
     <View style={styles.root}>
-      {dataDetailAlbum && (
+      {dataDetailAlbum && !albumLoading && (
         <AlbumContent
           detailAlbum={dataDetailAlbum}
           dataSong={dataSearchSongs}
