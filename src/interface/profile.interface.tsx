@@ -40,7 +40,7 @@ export type ProfileResponseData = {
   fans: number;
   bio: string | null;
   totalLiked: number;
-  points: {
+  point: {
     daily: number;
     lasUpdated: string;
   };
