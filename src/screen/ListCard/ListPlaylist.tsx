@@ -7,7 +7,7 @@ import {Playlist} from '../../interface/playlist.interface';
 import {useTranslation} from 'react-i18next';
 
 interface ListPlaylistScreen {
-  data?: Playlist[];
+  data: Playlist[];
   onPress: (id: number, name: string) => void;
   scrollable?: boolean;
   withoutNum?: boolean;

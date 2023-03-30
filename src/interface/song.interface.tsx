@@ -26,6 +26,9 @@ export type SongList = {
   transcodedSongUrl: TranscodedSongType[];
   originalSongUrl: string;
   isLiked: boolean;
+  musician: {
+    name: string;
+  };
 };
 
 export type TranscodedSongType = {

@@ -44,6 +44,8 @@ import {SongTitlePlay} from '../SongTitlePlay/SongTitlePlay';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {Playlist} from '../../../interface/playlist.interface';
+import {ListDataSearchSongs} from '../../../interface/search.interface';
+import {DataDropDownType} from '../../../data/dropdown';
 
 interface Props {
   goBackProfile: (showToast: boolean) => void;
@@ -157,7 +159,7 @@ export const PlaylistContent: React.FC<Props> = ({
     }
   };
 
-  const resultDataMore = (dataResult: any) => {
+  const resultDataMore = (dataResult: DataDropDownType) => {
     if (dataResult?.value === 'DeletePlaylist') {
       setModalVisible(true);
     } else if (dataResult?.value === 'EditPlaylist') {
@@ -174,7 +176,10 @@ export const PlaylistContent: React.FC<Props> = ({
     }
   };
 
-  const pressSongDataMore = (dataResult: any, item: SongList) => {
+  const pressSongDataMore = (
+    dataResult: DataDropDownType,
+    item: SongList | ListDataSearchSongs,
+  ) => {
     if (dataResult?.value === 'RemoveFromPlaylist') {
       onPressRemoveSong(item.id, item.title);
     } else if (dataResult?.value === 'ShowDetails') {

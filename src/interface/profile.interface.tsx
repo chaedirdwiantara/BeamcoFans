@@ -1,4 +1,5 @@
 import {imageTypes} from './base.interface';
+import {PreferenceList} from './setting.interface';
 
 export type RegistrationType =
   | 'email'
@@ -6,11 +7,6 @@ export type RegistrationType =
   | 'google'
   | 'apple'
   | 'phoneNumber';
-
-export type FavGenreType = {
-  id: number;
-  name: string;
-};
 
 export type ListImageType = {
   length: number;
@@ -28,8 +24,8 @@ export type ProfileResponseData = {
   images: imageTypes[];
   phoneNumber: string | null;
   registrationType: RegistrationType;
-  favoriteGenres: FavGenreType[];
-  moods: MoodsType[];
+  favoriteGenres: PreferenceList[];
+  moods: PreferenceList[];
   expectation: ExpectationType[];
   isValid: boolean;
   language: string;
@@ -48,11 +44,6 @@ export type ProfileResponseData = {
     daily: number;
     lasUpdated: string;
   };
-};
-
-export type MoodsType = {
-  id: number;
-  name: string;
 };
 
 export type ExpectationType = {
