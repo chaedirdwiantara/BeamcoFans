@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {
+  BottomSheetGuest,
   Gap,
   ListCard,
   ModalConfirm,
@@ -41,12 +42,13 @@ import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../hooks/use-credit.hook';
 import ChildrenCard from './ChildrenCard';
-import {profileStorage} from '../../hooks/use-storage.hook';
+import {profileStorage, storage} from '../../hooks/use-storage.hook';
 import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
+import {DataExclusiveResponse} from '../../interface/setting.interface';
 
 const {height} = Dimensions.get('screen');
 
-interface PostListProps {
+interface PostListProps extends DataExclusiveResponse {
   dataRightDropdown: DataDropDownType[];
   dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
   uuidMusician?: string;
@@ -56,10 +58,13 @@ const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
 
 const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
+  const isLogin = storage.getString('profile');
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {uuidMusician = ''} = props;
+  const {coverImage, title, description, uuidMusician = ''} = props;
+
+  const dataToExc = {coverImage, title, description};
 
   const [recorder, setRecorder] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string[]>();
@@ -85,6 +90,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   });
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [modalConfirm, setModalConfirm] = useState(false);
+  const [modalGuestVisible, setModalGuestVisible] = useState(false);
 
   // * UPDATE HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
@@ -102,6 +108,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
     setLikePost,
     setUnlikePost,
     getListProfilePost,
+    getListProfilePostGuestMode,
   } = useFeedHook();
 
   const {
@@ -123,26 +130,44 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
 
   useFocusEffect(
     useCallback(() => {
-      uuidMusician !== ''
-        ? (getListProfilePost({
+      if (isLogin) {
+        uuidMusician !== '' &&
+          (getListProfilePost({
             page: 1,
             perPage: perPage,
             musician_uuid: uuidMusician,
           }),
-          setUuid(uuidMusician))
-        : getListProfilePost({page: 1, perPage: perPage});
-      setPage(1);
+          setUuid(uuidMusician)),
+          setPage(1);
+      } else {
+        getListProfilePostGuestMode({
+          page: 1,
+          perPage: perPage,
+          musician_uuid: uuidMusician,
+        }),
+          setPage(1),
+          setUuid(uuidMusician);
+      }
     }, [uuidMusician]),
   );
 
   //* call when refreshing
   useEffect(() => {
     if (refreshing) {
-      getListProfilePost({
-        page: 1,
-        perPage: perPage,
-      });
-      getCreditCount();
+      if (isLogin) {
+        getListProfilePost({
+          page: 1,
+          perPage: perPage,
+          musician_uuid: uuidMusician,
+        });
+        getCreditCount();
+      } else {
+        getListProfilePostGuestMode({
+          page: 1,
+          perPage: perPage,
+          musician_uuid: uuidMusician,
+        });
+      }
     }
   }, [refreshing]);
 
@@ -179,94 +204,114 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const cardOnPress = (data: PostList) => {
-    navigation.navigate('PostDetail', data);
+    if (isLogin) {
+      navigation.navigate('PostDetail', data);
+    } else {
+      handleNotLogin();
+    }
   };
 
   const likeOnPress = (id: string, isLiked: boolean) => {
-    if (isLiked === true && selectedId === undefined) {
-      setUnlikePost({id});
-      setSelectedId([]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+    if (isLogin) {
+      if (isLiked === true && selectedId === undefined) {
+        setUnlikePost({id});
+        setSelectedId([]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (!isLiked && selectedId === undefined) {
-      setLikePost({id});
-      setSelectedId([id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (!isLiked && selectedId === undefined) {
+        setLikePost({id});
+        setSelectedId([id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === true &&
-      !selectedId?.includes(id) &&
-      !recorder.includes(id)
-    ) {
-      setUnlikePost({id});
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === true &&
+        !selectedId?.includes(id) &&
+        !recorder.includes(id)
+      ) {
+        setUnlikePost({id});
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === false &&
-      !selectedId?.includes(id) &&
-      !recorder.includes(id)
-    ) {
-      setLikePost({id});
-      setSelectedId(selectedId ? [...selectedId, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === false &&
+        !selectedId?.includes(id) &&
+        !recorder.includes(id)
+      ) {
+        setLikePost({id});
+        setSelectedId(selectedId ? [...selectedId, id] : [id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === true &&
-      !selectedId?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      setLikePost({id});
-      setSelectedId(selectedId ? [...selectedId, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === true &&
+        !selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setLikePost({id});
+        setSelectedId(selectedId ? [...selectedId, id] : [id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === false &&
-      !selectedId?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      setLikePost({id});
-      setSelectedId(selectedId ? [...selectedId, id] : [id]);
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === false &&
+        !selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setLikePost({id});
+        setSelectedId(selectedId ? [...selectedId, id] : [id]);
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (isLiked === true && selectedId?.includes(id) && recorder.includes(id)) {
-      setUnlikePost({id});
-      setSelectedId(selectedId.filter((x: string) => x !== id));
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === true &&
+        selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setUnlikePost({id});
+        setSelectedId(selectedId.filter((x: string) => x !== id));
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
-    }
-    if (
-      isLiked === false &&
-      selectedId?.includes(id) &&
-      recorder.includes(id)
-    ) {
-      setUnlikePost({id});
-      setSelectedId(selectedId.filter((x: string) => x !== id));
-      if (!recorder.includes(id)) {
-        setRecorder([...recorder, id]);
+      if (
+        isLiked === false &&
+        selectedId?.includes(id) &&
+        recorder.includes(id)
+      ) {
+        setUnlikePost({id});
+        setSelectedId(selectedId.filter((x: string) => x !== id));
+        if (!recorder.includes(id)) {
+          setRecorder([...recorder, id]);
+        }
       }
+    } else {
+      handleNotLogin();
     }
   };
 
   const shareOnPress = () => {
-    setModalShare(true);
+    if (isLogin) {
+      setModalShare(true);
+    } else {
+      handleNotLogin();
+    }
   };
 
   //Credit onPress
   const tokenOnPress = () => {
-    setModalDonate(true);
+    if (isLogin) {
+      setModalDonate(true);
+    } else {
+      handleNotLogin();
+    }
   };
 
   const onPressDonate = () => {
@@ -313,6 +358,10 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
 
   const handleOnBlur = () => {
     setModalConfirm(true);
+  };
+
+  const handleNotLogin = () => {
+    setModalGuestVisible(true);
   };
 
   const handleConfirmModal = () => {
@@ -362,7 +411,9 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
               <>
                 <ListCard.PostList
                   toDetailOnPress={
-                    item.isPremiumPost && item.musician.uuid !== MyUuid
+                    !isLogin
+                      ? handleNotLogin
+                      : item.isPremiumPost && item.musician.uuid !== MyUuid
                       ? handleOnBlur
                       : () => {
                           handleToDetailMusician(item.musician.uuid);
@@ -381,7 +432,9 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                   postDate2={item.createdAt}
                   category={categoryNormalize(item.category)}
                   onPress={
-                    item.isPremiumPost && item.musician.uuid !== MyUuid
+                    !isLogin
+                      ? handleNotLogin
+                      : item.isPremiumPost && item.musician.uuid !== MyUuid
                       ? handleOnBlur
                       : () => cardOnPress(item)
                   }
@@ -434,13 +487,17 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                     <ChildrenCard
                       data={item}
                       onPress={
-                        item.isPremiumPost && item.musician.uuid !== MyUuid
+                        !isLogin
+                          ? handleNotLogin
+                          : item.isPremiumPost && item.musician.uuid !== MyUuid
                           ? handleOnBlur
                           : onPressPlaySong
                       }
                       isPlay={isPlaying}
                       playOrPause={
-                        item.isPremiumPost && item.musician.uuid !== MyUuid
+                        !isLogin
+                          ? handleNotLogin
+                          : item.isPremiumPost && item.musician.uuid !== MyUuid
                           ? handleOnBlur
                           : handlePausePlay
                       }
@@ -448,7 +505,9 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                       currentProgress={playerProgress.position}
                       duration={playerProgress.duration}
                       seekPlayer={
-                        item.isPremiumPost && item.musician.uuid !== MyUuid
+                        !isLogin
+                          ? handleNotLogin
+                          : item.isPremiumPost && item.musician.uuid !== MyUuid
                           ? handleOnBlur
                           : seekPlayer
                       }
@@ -525,6 +584,10 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
         }
         onPressClose={handleMaybeLater}
         onPressOk={handleConfirmModal}
+      />
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
       />
     </>
   );
