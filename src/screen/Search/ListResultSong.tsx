@@ -18,10 +18,10 @@ const ListResultSong: FC<KeywordProps> = ({keyword}: KeywordProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const handleOnPress = (songId: number) => {
+  const handleOnPress = (songId: number, musicianId: string) => {
     navigation.navigate('SongDetails', {
       songId,
-      musicianId: 'f90c7d34-5a56-45d5-833f-171c8766b4af',
+      musicianId,
     });
   };
 
@@ -60,7 +60,7 @@ const ListResultSong: FC<KeywordProps> = ({keyword}: KeywordProps) => {
             musicTitle={item.title}
             singerName={item.musicianName}
             containerStyles={{marginTop: mvs(20)}}
-            onPressCard={() => handleOnPress(item.id)}
+            onPressCard={() => handleOnPress(item.id, item.musicianId)}
             hideDropdownMore
           />
         )}
