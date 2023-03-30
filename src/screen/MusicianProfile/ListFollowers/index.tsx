@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 import Color from '../../../theme/Color';
 import {FollowersList} from './ListFollowers';
@@ -24,12 +24,6 @@ export const FollowersScreen: React.FC<FollowersProps> = ({
   const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const {getListFollowers} = useSearchHook();
   const [search, setSearch] = useState<string>('');
-
-  useFocusEffect(
-    useCallback(() => {
-      getListFollowers({uuid, keyword: search});
-    }, [search]),
-  );
 
   const onPressGoBack = () => {
     navigation.goBack();
