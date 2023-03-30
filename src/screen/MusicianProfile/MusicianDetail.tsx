@@ -11,6 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {
+  BottomSheetGuest,
   EmptyState,
   Gap,
   ModalDonate,
@@ -40,6 +41,7 @@ import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
 import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
 import PostListProfile from '../ListCard/PostListProfile';
 import MainTab from '../../components/molecule/ProfileContent/MainTab/MainTab';
+import {storage} from '../../hooks/use-storage.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -66,6 +68,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const isLogin = storage.getBoolean('isLogin');
   const {creditCount, getCreditCount} = useCreditHook();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
@@ -84,6 +87,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   );
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [zoomImage, setZoomImage] = useState<string[]>([]);
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
 
   const showImage = (uri: string) => {
     setModalVisible(!isModalVisible);
@@ -121,11 +125,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   };
 
   const followOnPress = (isFollowed: boolean) => {
-    isFollowed
-      ? (setUnfollowMusician({musicianID: profile.uuid}),
-        setFollowersCount(followersCount - 1))
-      : (setFollowMusician({musicianID: profile.uuid}),
-        setFollowersCount(followersCount + 1));
+    if (isLogin) {
+      isFollowed
+        ? (setUnfollowMusician({musicianID: profile.uuid}),
+          setFollowersCount(followersCount - 1))
+        : (setFollowMusician({musicianID: profile.uuid}),
+          setFollowersCount(followersCount + 1));
+    } else setModalGuestVisible(true);
   };
 
   const onPressDonate = () => {
@@ -168,7 +174,9 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           bio={profile?.bio}
           isFollowed={profile?.isFollowed}
           followOnPress={followOnPress}
-          onPressDonate={() => setModalDonate(true)}
+          onPressDonate={() =>
+            isLogin ? setModalDonate(true) : setModalGuestVisible(true)
+          }
           onPressImage={showImage}
         />
         <View style={styles.infoCard}>
@@ -248,6 +256,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         imageIdx={0}
         dataImage={zoomImage}
         type={'zoomProfile'}
+      />
+
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
       />
     </View>
   );

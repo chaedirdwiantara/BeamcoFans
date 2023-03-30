@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {
   detailMusician,
+  detailMusicianGuest,
   followMusician,
   getAlbumById,
   listMusician,
@@ -85,6 +86,20 @@ export const useMusicianHook = () => {
     }
   };
 
+  const getDetailMusicianGuest = async (props?: PostPropsTypeA) => {
+    setIsLoading(true);
+    try {
+      const response = await detailMusicianGuest(props);
+      setDataDetailMusician(response.data);
+    } catch (error) {
+      console.log(error);
+      setIsError(true);
+      setDataDetailMusician(undefined);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const getAlbum = async (props?: paramsTypeUuid) => {
     setIsLoading(true);
     try {
@@ -155,5 +170,6 @@ export const useMusicianHook = () => {
     getAlbum,
     getListDataFavoriteMusician,
     getListDataRecommendedMusician,
+    getDetailMusicianGuest,
   };
 };

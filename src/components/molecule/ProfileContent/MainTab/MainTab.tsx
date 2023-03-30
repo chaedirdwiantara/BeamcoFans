@@ -1,6 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import React, {FC} from 'react';
-import {widthResponsive} from '../../../../utils';
+import {heightPercentage, widthResponsive} from '../../../../utils';
 import PopularPost from './PopularPost';
 import MostPlayed from './MostPlayed';
 import Merch from './Merch';
@@ -27,6 +27,6 @@ export default MainTab;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: widthResponsive(14),
+    paddingVertical: heightPercentage(24),
   },
 });

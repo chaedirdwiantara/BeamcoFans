@@ -12,6 +12,7 @@ import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 import {useMusicianHook} from '../../hooks/use-musician.hook';
 import {FollowMusicianPropsType} from '../../interface/musician.interface';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
+import {storage} from '../../hooks/use-storage.hook';
 
 type PostDetailProps = NativeStackScreenProps<
   RootStackParams,
@@ -20,6 +21,7 @@ type PostDetailProps = NativeStackScreenProps<
 
 const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const uuid = route.params.id;
+  const isLogin = storage.getString('isLogin');
   const {dataCountProfile, getTotalCountProfile} = useProfileHook();
   const {dataPlaylist, getPlaylist} = usePlaylistHook();
 
@@ -29,6 +31,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     dataAlbum,
     getAlbum,
     getDetailMusician,
+    getDetailMusicianGuest,
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
@@ -37,7 +40,9 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   //  ? Get Detail Musician
   useFocusEffect(
     useCallback(() => {
-      getDetailMusician({id: uuid});
+      isLogin
+        ? getDetailMusician({id: uuid})
+        : getDetailMusicianGuest({id: uuid});
       getTotalCountProfile({uuid});
       getPlaylist({uuid});
       getExclusiveContent({uuid: uuid});

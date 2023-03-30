@@ -14,6 +14,7 @@ export type SearchProps = {
 export type FollowersProps = {
   keyword?: string;
   uuid: string;
+  page?: number;
 };
 
 export type ListDataSearchFans = {
@@ -29,7 +30,11 @@ export type ListSearchFansResponseType = {
   code: number;
   data: ListDataSearchFans[];
   message: string;
-  meta: [];
+  meta: {
+    page: number;
+    perPage: number;
+    total: number;
+  };
   status: number;
 };
 
