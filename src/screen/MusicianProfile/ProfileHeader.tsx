@@ -13,6 +13,7 @@ import {
 import {mvs} from 'react-native-size-matters';
 import {CameraIcon} from '../../assets/icon';
 import {AvatarProfile, Button, ButtonGradient, Gap} from '../../components';
+import {storage} from '../../hooks/use-storage.hook';
 import {color, font} from '../../theme';
 import {heightPercentage, width, widthResponsive} from '../../utils';
 import initialname from '../../utils/initialname';
@@ -51,6 +52,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
   } = props;
 
   const {t} = useTranslation();
+  const isLogin = storage.getBoolean('isLogin');
 
   const [followed, setFollowed] = useState(isFollowed);
 
@@ -99,7 +101,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                         containerStyles={styles.btnContainer}
                         textStyles={{color: color.Pink.linear}}
                         onPress={() => {
-                          setFollowed(false);
+                          isLogin && setFollowed(false);
                           followOnPress(true);
                         }}
                       />
@@ -116,7 +118,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                         label={t('Musician.Label.Follow')}
                         gradientStyles={styles.btnContainer}
                         onPress={() => {
-                          setFollowed(true);
+                          isLogin && setFollowed(true);
                           followOnPress(false);
                         }}
                       />

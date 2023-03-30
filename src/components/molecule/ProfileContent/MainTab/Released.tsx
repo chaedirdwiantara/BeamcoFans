@@ -6,6 +6,8 @@ import {Gap} from '../../../atom';
 import {useMusicianHook} from '../../../../hooks/use-musician.hook';
 import {useTranslation} from 'react-i18next';
 import ReleasedAlbum from '../../../../screen/MusicianProfile/ReleasedAlbum';
+import {storage} from '../../../../hooks/use-storage.hook';
+import {heightPercentage} from '../../../../utils';
 
 interface ReleasedProps {
   uuidMusician: string;
@@ -20,14 +22,19 @@ const Released: FC<ReleasedProps> = (props: ReleasedProps) => {
     dataAlbum,
     dataFollow,
     getDetailMusician,
+    getDetailMusicianGuest,
     getAlbum,
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
 
+  const isLogin = storage.getString('isLogin');
+
   useEffect(() => {
     getAlbum({uuid: uuidMusician});
-    getDetailMusician({id: uuidMusician});
+    isLogin
+      ? getDetailMusician({id: uuidMusician})
+      : getDetailMusicianGuest({id: uuidMusician});
   }, [uuidMusician]);
 
   const {t} = useTranslation();
@@ -39,7 +46,7 @@ const Released: FC<ReleasedProps> = (props: ReleasedProps) => {
       {dataAlbum.length > 0 && (
         <>
           <Text style={styles.textComp}>Released This Year</Text>
-          <Gap height={16} />
+          <Gap height={heightPercentage(16)} />
           {dataDetailMusician ? (
             <ReleasedAlbum
               title={''}
