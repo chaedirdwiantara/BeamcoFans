@@ -996,8 +996,6 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             />
           ) : null}
         </View>
-        <Gap height={6} />
-        <SsuDivider />
         <Gap height={20} />
 
         {/* //! Comment Section Lvl 1 */}

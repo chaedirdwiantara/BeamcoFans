@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
-    paddingBottom: heightResponsive(2),
+    paddingBottom: heightResponsive(10),
     paddingHorizontal: widthResponsive(10),
     paddingVertical: widthResponsive(12),
     borderRadius: 4,
