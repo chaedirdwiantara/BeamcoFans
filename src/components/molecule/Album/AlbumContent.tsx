@@ -12,7 +12,7 @@ import Color from '../../../theme/Color';
 import {Gap, SsuToast} from '../../atom';
 import {TopNavigation} from '../TopNavigation';
 import {color, font, typography} from '../../../theme';
-import {dropDownHeaderAlbum} from '../../../data/dropdown';
+import {DataDropDownType, dropDownHeaderAlbum} from '../../../data/dropdown';
 import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
 import {ArrowLeftIcon, TickCircleIcon} from '../../../assets/icon';
 import {
@@ -108,7 +108,7 @@ export const AlbumContent: React.FC<Props> = ({
     }
   }, [dataSong]);
 
-  const resultDataMore = (dataResult: any) => {
+  const resultDataMore = (dataResult: DataDropDownType) => {
     if (dataResult.value === '1') {
       if (dataSong !== null) {
         setToastVisible(true);

@@ -30,7 +30,9 @@ export const usePlayerHook = () => {
     }
   });
 
-  const addSong = async (val: SongList | SongList[]) => {
+  const addSong = async (
+    val: SongList | SongList[] | ListDataSearchSongs | ListDataSearchSongs[],
+  ) => {
     if (Array.isArray(val)) {
       val.map(async item => {
         const track: Track = {

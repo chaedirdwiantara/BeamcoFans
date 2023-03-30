@@ -72,6 +72,12 @@ export type ListDataSearchSongs = {
   UpdatedAt: string;
   isLiked?: boolean;
   transcodedSongUrl: TranscodedSongType[];
+  musician: {
+    name: string;
+  };
+  album: {
+    id: number;
+  };
 };
 
 export type ListSearchSongsResponseType = {

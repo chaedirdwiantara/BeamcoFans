@@ -108,6 +108,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     avatarUri: avatar,
     totalFollowing: dataProfile?.data.following,
     totalLikedSong: dataProfile?.data.songAdded,
+    totalPoint: dataProfile?.data.point.daily,
   };
 
   return (

@@ -75,6 +75,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
         ? dataProfile?.data.images[1].image
         : '',
     totalFollowing: dataProfile?.data.following,
+    totalPoint: dataProfile?.data.point.daily,
   };
 
   const goToPlaylist = (id: number, name: string) => {

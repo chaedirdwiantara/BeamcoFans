@@ -22,7 +22,10 @@ interface ListSongsPropsScreen {
   activeOpacity?: number;
   loveIcon?: boolean;
   newDataMore?: DataDropDownType[];
-  newOnPressMore?: (data: DataDropDownType, item: SongList) => void;
+  newOnPressMore?: (
+    data: DataDropDownType,
+    item: SongList | ListDataSearchSongs,
+  ) => void;
   onEndReached?: () => void;
   onEndReachedThreshold?: number;
   disabled?: boolean;
@@ -54,7 +57,7 @@ const ListSongs: FC<ListSongsPropsScreen> = (props: ListSongsPropsScreen) => {
   const likeOnPress = async (index: number, isLiked?: boolean) => {
     isLiked ? await setUnlikeSong({id: index}) : await setLikeSong({id: index});
     if (listSong !== undefined && listSong !== null) {
-      const newList = listSong.map((val: {id: number; isLiked: any}) => ({
+      const newList = listSong.map((val: {id: number; isLiked: boolean}) => ({
         ...val,
         isLiked: val.id === index ? !val.isLiked : val.isLiked,
       }));
