@@ -115,7 +115,7 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
                     }}
                     videoContainer={{
                       width: '100%',
-                      height: width - widthResponsive(104),
+                      height: width - widthResponsive(150),
                     }}
                     blurModeOn={blurModeOn}
                   />

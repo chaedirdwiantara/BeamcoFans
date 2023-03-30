@@ -141,7 +141,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
               styles.bottomContainer,
               {
                 marginTop: !myPost ? 0 : -6.5,
-                marginBottom: !myPost ? 3 : -4,
+                marginBottom: !myPost ? 7 : 0,
               },
             ]}>
             <View style={styles.socialContainer}>
@@ -154,7 +154,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                     fill={likePressed ? color.Pink[100] : 'none'}
                     stroke={likePressed ? 'none' : color.Dark[100]}
                   />
-                  <Gap width={3} />
+                  <Gap width={5.5} />
                   <Text style={styles.regularText}>{likeCount}</Text>
                 </TouchableOpacity>
               </View>
@@ -162,7 +162,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
               <View>
                 <View style={styles.socialIcon}>
                   <CommentIcon stroke={color.Dark[100]} />
-                  <Gap width={3} />
+                  <Gap width={5.5} />
                   <Text style={styles.regularText}>{commentCount}</Text>
                 </View>
               </View>
