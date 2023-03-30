@@ -151,6 +151,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           onPress={() => onPressGoTo('Following')}
           selfProfile={profile.data}
           totalCountlikedSong={totalCountlikedSong}
+          totalPoint={profile.totalPoint}
           followersCount={0}
         />
         <View style={styles.containerContent}>
