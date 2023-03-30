@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {
   NativeStackNavigationProp,
@@ -11,6 +11,7 @@ import {FollowersList} from './ListFollowers';
 import {useSearchHook} from '../../../hooks/use-search.hook';
 import {MainTabParams, RootStackParams} from '../../../navigations';
 import {profileStorage} from '../../../hooks/use-storage.hook';
+import {useInfiniteQuery} from 'react-query';
 
 type FollowersProps = NativeStackScreenProps<RootStackParams, 'Followers'>;
 
@@ -21,7 +22,7 @@ export const FollowersScreen: React.FC<FollowersProps> = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
-  const {dataFollowers, getListFollowers} = useSearchHook();
+  const {getListFollowers} = useSearchHook();
   const [search, setSearch] = useState<string>('');
 
   useFocusEffect(
@@ -46,14 +47,54 @@ export const FollowersScreen: React.FC<FollowersProps> = ({
     }
   };
 
+  const {
+    data: dataFollowers,
+    refetch,
+    isRefetching,
+    isLoading,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
+    ['/list-follower', uuid, search],
+    ({pageParam = 1}) =>
+      getListFollowers({uuid, keyword: search, page: pageParam}),
+    {
+      getNextPageParam: lastPage => {
+        if (lastPage?.meta) {
+          const nextPage = lastPage?.meta?.page + 1;
+          return nextPage;
+        }
+        return null;
+      },
+    },
+  );
+
+  const loadMore = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [search]);
+
   return (
     <View style={styles.root}>
       <FollowersList
         search={search}
         setSearch={setSearch}
-        dataList={dataFollowers}
+        dataList={
+          dataFollowers?.pages?.map((page: any) => page.data).flat() ?? []
+        }
         goToDetail={goToDetail}
         onPressGoBack={onPressGoBack}
+        loadMore={loadMore}
+        isLoading={isLoading}
+        isRefetching={isRefetching}
+        isFetchingNextPage={isFetchingNextPage}
+        refetch={refetch}
       />
     </View>
   );
