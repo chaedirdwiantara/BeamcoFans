@@ -10,6 +10,7 @@ import {widthPercentage} from '../../../utils';
 import ListSongs from '../../ListCard/ListSongs';
 import {useIsFocused} from '@react-navigation/native';
 import {storage} from '../../../hooks/use-storage.hook';
+import {useSongHook} from '../../../hooks/use-song.hook';
 import {SongList} from '../../../interface/song.interface';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
 import {useSearchHook} from '../../../hooks/use-search.hook';
@@ -30,17 +31,23 @@ export const ListSong: React.FC<ListSongProps> = ({
   onPressHidePlayer,
 }) => {
   const {t} = useTranslation();
-  const isLogin = storage.getBoolean('isLogin');
-  const {searchLoading, dataSearchSongs, getSearchSongs} = useSearchHook();
   const isFocused = useIsFocused();
+  const isLogin = storage.getBoolean('isLogin');
+  const {isLoadingSong, dataSong, getListDataSong} = useSongHook();
+  const {searchLoading, dataSearchSongs, getSearchSongs} = useSearchHook();
   const {isPlaying, showPlayer, hidePlayer, addPlaylist} = usePlayerHook();
+  const listSong = isLogin ? dataSong : dataSearchSongs;
   const emptyState =
     filterBy === 'mood'
       ? t('Home.ListMood.EmptyState')
       : t('Home.ListGenre.EmptyState');
 
   useEffect(() => {
-    getSearchSongs({[filterBy]: id, keyword: ''});
+    if (isLogin) {
+      getListDataSong({[filterBy]: id});
+    } else {
+      getSearchSongs({[filterBy]: id, keyword: ''});
+    }
     storage.set('withoutBottomTab', true);
   }, []);
 
@@ -55,7 +62,7 @@ export const ListSong: React.FC<ListSongProps> = ({
 
   const onPressSong = (val: SongList | null) => {
     addPlaylist({
-      dataSong: dataSearchSongs !== undefined ? dataSearchSongs : [],
+      dataSong: listSong !== undefined ? listSong : [],
       playSongId: val?.id,
       isPlay: true,
     });
@@ -63,16 +70,16 @@ export const ListSong: React.FC<ListSongProps> = ({
   };
 
   const children = () => {
-    if (searchLoading) {
+    if (searchLoading || isLoadingSong) {
       return null;
     }
 
-    if (dataSearchSongs.length > 0) {
+    if (listSong.length > 0) {
       return (
         <ScrollView>
           <View style={{paddingHorizontal: widthPercentage(20)}}>
             <ListSongs
-              dataSong={dataSearchSongs}
+              dataSong={listSong}
               type="home"
               onPress={onPressSong}
               loveIcon={isLogin}
