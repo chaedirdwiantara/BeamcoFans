@@ -426,8 +426,8 @@
         "Past": "過去",
         "Current": "現有/進行中",
         "TipType": "單筆",
-        "AddMoreCoin": "Add More Coin",
-        "YourCoin": "Your Coin",
+        "AddMoreCoin": "Add More Credit",
+        "YourCoin": "Your Credit",
         "InputDonation": "Input Donation",
         "Success": "Congratulations! Your Donation have been Sent!"
       },
@@ -641,10 +641,10 @@
   },
   "TopUp": {
     "Title": "Top Up",
-    "Subtitle1": "SSU Coin is your way to show your appreciation",
-    "Subtitle2": "SSU Coin allows you to parcitipate in Musician’s upside and grow their community",
-    "Subtitle3": "Find Musician who is providing a lot of value? Rewards them with SSU Coin as a support",
-    "MyCoin": "My Coin",
+    "Subtitle1": "SSU Credit is your way to show your appreciation",
+    "Subtitle2": "SSU Credit allows you to parcitipate in Musician’s upside and grow their community",
+    "Subtitle3": "Find Musician who is providing a lot of value? Rewards them with SSU Credit as a support",
+    "MyCoin": "My Credit",
     "Filter": {
       "Buy": "Buy Package",
       "Transaction": "Transaction"
