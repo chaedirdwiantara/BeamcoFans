@@ -117,9 +117,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   };
 
   const goToFollowers = () => {
-    isLogin
-      ? navigation.navigate('Followers', {uuid})
-      : setModalGuestVisible(true);
+    navigation.navigate('Followers', {uuid});
   };
 
   const goToPlaylist = (id: number) => {
