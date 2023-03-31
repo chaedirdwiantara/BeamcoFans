@@ -101,8 +101,8 @@ export type PreferenceReaponseType = {
 };
 
 export type PreferenceProps = {
-  page: number;
-  perPage: number;
+  page?: number;
+  perPage?: number;
 };
 
 export type ListAllPreference = {
