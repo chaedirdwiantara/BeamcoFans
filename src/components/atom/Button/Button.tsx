@@ -41,7 +41,7 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
 
   const withBorder = type === 'border' && {
     borderWidth: ms(1),
-    borderColor: borderColor ? borderColor : Color.Pink.linear,
+    borderColor: borderColor ? borderColor : Color.Success[400],
     backgroundColor: 'transparent',
   };
 
@@ -61,7 +61,11 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
         {typeOfButton === 'withIcon' && (
           <View style={{flexDirection: 'row'}}>
             <Gap width={4} />
-            <ChevronDownIcon width={16} height={16} stroke={color.Pink[200]} />
+            <ChevronDownIcon
+              width={16}
+              height={16}
+              stroke={color.Pink.linear}
+            />
           </View>
         )}
       </View>
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Color.Pink.linear,
+    backgroundColor: Color.Success[400],
   },
   labelStyle: {
     fontSize: normalize(12),

@@ -85,7 +85,7 @@ export const ModalImagePicker: React.FC<ModalImagePickerProps> = ({
           type="border"
           label={t('Btn.Cancel')}
           containerStyles={styles.btnContainer}
-          textStyles={{color: Color.Pink.linear}}
+          textStyles={{color: Color.Success[400]}}
           onPress={onPressClose}
         />
       </View>
