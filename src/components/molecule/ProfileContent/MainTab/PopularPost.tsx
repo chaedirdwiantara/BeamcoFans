@@ -66,9 +66,6 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
-  const [isModalImage, setModalImage] = useState<boolean>(false);
-  const [imgUrl, setImgUrl] = useState<number>(-1);
-  const [selectedImgIdx, setSelectedImgIdx] = useState<number>();
 
   const {t} = useTranslation();
 
@@ -210,16 +207,6 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
     setTrigger2ndModal(false);
   };
 
-  const toggleModalOnPress = (index: number) => {
-    setModalImage(!isModalImage);
-    setImgUrl(index);
-  };
-
-  const toggleImageModal = () => {
-    setSelectedImgIdx(undefined);
-    setModalImage(!isModalImage);
-  };
-
   return (
     <View>
       {dataPostList.length > 0 && (
@@ -302,9 +289,6 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
                 duration={playerProgress.duration}
                 seekPlayer={seekPlayer}
                 isIdNowPlaying={dataPostList[0].id === idNowPlaying}
-                onPressImage={toggleModalOnPress}
-                index={0}
-                selectedIndex={setSelectedImgIdx}
               />
             }
           />
@@ -353,14 +337,6 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
         }
         modalStyle={{marginHorizontal: widthResponsive(24)}}
       />
-      {selectedImgIdx && (
-        <ImageModal
-          toggleModal={toggleImageModal}
-          modalVisible={isModalImage}
-          imageIdx={imgUrl}
-          dataImage={dataPostList[selectedImgIdx].images}
-        />
-      )}
     </View>
   );
 };
