@@ -45,6 +45,7 @@ import ChildrenCard from './ChildrenCard';
 import {profileStorage, storage} from '../../hooks/use-storage.hook';
 import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
 import {DataExclusiveResponse} from '../../interface/setting.interface';
+import ImageModal from '../Detail/ImageModal';
 
 const {height} = Dimensions.get('screen');
 
@@ -77,20 +78,13 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   const [perPage, setPerPage] = useState<number>(15);
   const [dataMain, setDataMain] = useState<PostList[]>([]);
   const [filterActive, setFilterActive] = useState<boolean>(true);
-  const [filterByValue, setFilterByValue] = useState<string>();
-  const [categoryValue, setCategoryValue] = useState<string>();
   const [uuid, setUuid] = useState<string>();
-  const [selectedSort, setSelectedSort] = useState<string>('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [selectedCategoryValue, setSelectedCategoryValue] =
-    useState<string>('');
-  const [isModalVisible, setModalVisible] = useState({
-    modalSortBy: false,
-    modalCategory: false,
-  });
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
+  const [isModalImage, setModalImage] = useState<boolean>(false);
+  const [imgUrl, setImgUrl] = useState<number>(-1);
+  const [selectedImgIdx, setSelectedImgIdx] = useState<number>();
 
   // * UPDATE HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
@@ -373,6 +367,16 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
     setModalConfirm(false);
   };
 
+  const toggleModalOnPress = (index: number) => {
+    setModalImage(!isModalImage);
+    setImgUrl(index);
+  };
+
+  const toggleImageModal = () => {
+    setSelectedImgIdx(undefined);
+    setModalImage(!isModalImage);
+  };
+
   return (
     <>
       {dataMain !== null && dataMain.length !== 0 ? (
@@ -407,7 +411,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
               />
             }
             onEndReached={handleEndScroll}
-            renderItem={({item}) => (
+            renderItem={({item, index}) => (
               <>
                 <ListCard.PostList
                   toDetailOnPress={
@@ -515,6 +519,13 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                       blurModeOn={
                         item.isPremiumPost && item.musician.uuid !== MyUuid
                       }
+                      onPressImage={
+                        item.isPremiumPost && item.musician.uuid !== MyUuid
+                          ? handleOnBlur
+                          : toggleModalOnPress
+                      }
+                      index={index}
+                      selectedIndex={setSelectedImgIdx}
                     />
                   }
                 />
@@ -589,6 +600,14 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
         modalVisible={modalGuestVisible}
         onPressClose={() => setModalGuestVisible(false)}
       />
+      {selectedImgIdx && (
+        <ImageModal
+          toggleModal={toggleImageModal}
+          modalVisible={isModalImage}
+          imageIdx={imgUrl}
+          dataImage={dataMain[selectedImgIdx].images}
+        />
+      )}
     </>
   );
 };

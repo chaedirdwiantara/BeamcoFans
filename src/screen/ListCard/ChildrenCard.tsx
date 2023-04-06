@@ -27,6 +27,9 @@ interface ChildrenCardProps {
   seekPlayer: (second: number) => void;
   isIdNowPlaying: boolean;
   blurModeOn?: boolean;
+  onPressImage: (uri: number) => void;
+  index: number;
+  selectedIndex: (uri: number) => void;
 }
 
 const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
@@ -41,10 +44,18 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
     seekPlayer,
     isIdNowPlaying,
     blurModeOn,
+    onPressImage,
+    index,
+    selectedIndex,
   } = props;
 
   const onPressPlaySong = (val: PostList) => {
     onPress?.(val);
+  };
+
+  const toggleModalOnPress = (uri: number) => {
+    onPressImage?.(uri);
+    selectedIndex?.(index);
   };
 
   return (
@@ -68,8 +79,9 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
                 height={69.5}
                 heightType2={142}
                 widthType2={269}
-                onPress={() => {}}
+                onPress={toggleModalOnPress}
                 blurModeOn={blurModeOn}
+                disabled={false}
               />
               {data.images.length === 0 && data.quoteToPost.encodeHlsUrl ? (
                 <MusicListPreview
