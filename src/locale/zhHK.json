@@ -239,7 +239,7 @@
     "NoMore": "No more feeds"
   },
   "Event": {
-    "Title": "活動",
+    "Title": "行動",
     "Quantity": "數量",
     "Description": "描述",
     "Concert": {
@@ -736,5 +736,11 @@
       "Title": "Recover Account",
       "Subtitle": "Are you sure you recover your account?"
     }
+  },
+  "Cart": {
+    "Title": "Cart",
+    "SelectAll": "Select All",
+    "Delete": "Delete",
+    "Checkout": "Checkout"
   }
 }

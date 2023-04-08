@@ -92,6 +92,9 @@ import {MerchDetail} from '../screen/MerchDetail';
 // Icon
 import {CrownIcon, FeedIcon, HomeIcon, UserProfileIcon} from '../assets/icon';
 
+// Action
+import Cart from '../screen/Action/Cart';
+
 import Font from '../theme/Font';
 import Color from '../theme/Color';
 import {normalize} from '../utils';
@@ -243,6 +246,8 @@ export type RootStackParams = {
   ConcertDetail: MerchListType;
   SplashScreen: undefined;
   ListPlaylist: undefined;
+  Event: undefined;
+  Cart: undefined;
 };
 
 export type MainTabParams = {
@@ -431,6 +436,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="ListPost" component={ListPostScreen} />
     <RootStack.Screen name="SplashScreen" component={SplashScreen} />
     <RootStack.Screen name="ListPlaylist" component={ListPlaylist} />
+    <RootStack.Screen name="Cart" component={Cart} />
   </RootStack.Navigator>
 );
 

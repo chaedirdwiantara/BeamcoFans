@@ -96,6 +96,8 @@ import BoxStore from './BoxStore.icon';
 import CheckIcon from './Check.icon';
 import MinusIcon from './Minus.icon';
 import TicketIcon from './Ticket.icon';
+import DiscountIcon from './Discount.icon';
+import TrashIcon from './Trash.icon';
 
 export {
   AddIcon,
@@ -196,4 +198,6 @@ export {
   CheckIcon,
   MinusIcon,
   TicketIcon,
+  DiscountIcon,
+  TrashIcon,
 };

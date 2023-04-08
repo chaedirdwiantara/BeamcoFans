@@ -239,7 +239,7 @@
     "NoMore": "No more feeds"
   },
   "Event": {
-    "Title": "Event",
+    "Title": "Action",
     "Quantity": "Quantity",
     "Description": "Description",
     "Concert": {
@@ -735,5 +735,11 @@
       "Title": "Recover Account",
       "Subtitle": "Are you sure you recover your account?"
     }
+  },
+  "Cart": {
+    "Title": "Cart",
+    "SelectAll": "Select All",
+    "Delete": "Delete",
+    "Checkout": "Checkout"
   }
 }
