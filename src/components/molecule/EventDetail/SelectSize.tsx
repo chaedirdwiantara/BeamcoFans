@@ -47,7 +47,7 @@ const SelectSize = ({
                 marginLeft: index > 0 ? 14 : 0,
                 backgroundColor:
                   selectedSize?.id === size.id
-                    ? Color.Pink.linear
+                    ? Color.Success[400]
                     : 'transparent',
               }}
             />
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: Color.Pink.linear,
+    borderColor: Color.Success[400],
     borderWidth: 1,
     alignSelf: 'flex-start',
     paddingVertical: widthResponsive(7),

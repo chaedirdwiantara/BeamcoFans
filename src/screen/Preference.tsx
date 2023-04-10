@@ -29,7 +29,10 @@ export const PreferenceScreen: React.FC = () => {
   }, []);
 
   const goToScreenReferral = () => {
-    navigation.navigate('Referral');
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Referral'}],
+    });
   };
 
   return (

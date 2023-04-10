@@ -15,6 +15,7 @@ import {CameraIcon} from '../../assets/icon';
 import {AvatarProfile, Button, ButtonGradient, Gap} from '../../components';
 import {storage} from '../../hooks/use-storage.hook';
 import {color, font} from '../../theme';
+import Color from '../../theme/Color';
 import {heightPercentage, width, widthResponsive} from '../../utils';
 import initialname from '../../utils/initialname';
 
@@ -99,7 +100,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                         type="border"
                         label={t('Musician.Label.Following')}
                         containerStyles={styles.btnContainer}
-                        textStyles={{color: color.Pink.linear}}
+                        textStyles={{color: color.Success[400]}}
                         onPress={() => {
                           isLogin && setFollowed(false);
                           followOnPress(true);
@@ -114,9 +115,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                     </>
                   ) : (
                     <>
-                      <ButtonGradient
+                      <Button
                         label={t('Musician.Label.Follow')}
-                        gradientStyles={styles.btnContainer}
+                        containerStyles={styles.btnContainer}
                         onPress={() => {
                           isLogin && setFollowed(true);
                           followOnPress(false);
@@ -181,6 +182,7 @@ const styles = StyleSheet.create({
     height: undefined,
     width: widthResponsive(100),
     aspectRatio: heightPercentage(100 / 32),
+    backgroundColor: Color.Success[400],
   },
   btnContainer2: {
     height: undefined,

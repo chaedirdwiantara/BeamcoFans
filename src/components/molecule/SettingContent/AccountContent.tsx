@@ -291,7 +291,6 @@ const styles = StyleSheet.create({
     aspectRatio: widthPercentage(327 / 38),
     marginTop: heightPercentage(25),
     alignSelf: 'center',
-    backgroundColor: Color.Pink[200],
   },
   modalContainer: {
     width: '100%',
