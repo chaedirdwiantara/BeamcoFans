@@ -95,6 +95,7 @@ import {CrownIcon, FeedIcon, HomeIcon, UserProfileIcon} from '../assets/icon';
 // Action
 import Cart from '../screen/Action/Cart';
 import PromoCode from '../screen/Action/PromoCode';
+import PromoDetail from '../screen/Action/PromoDetail';
 
 import Font from '../theme/Font';
 import Color from '../theme/Color';
@@ -250,6 +251,9 @@ export type RootStackParams = {
   Event: undefined;
   Cart: undefined;
   PromoCode: undefined;
+  PromoDetail: {
+    id: string;
+  };
 };
 
 export type MainTabParams = {
@@ -440,6 +444,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="ListPlaylist" component={ListPlaylist} />
     <RootStack.Screen name="Cart" component={Cart} />
     <RootStack.Screen name="PromoCode" component={PromoCode} />
+    <RootStack.Screen name="PromoDetail" component={PromoDetail} />
   </RootStack.Navigator>
 );
 

@@ -99,6 +99,7 @@ import TicketIcon from './Ticket.icon';
 import DiscountIcon from './Discount.icon';
 import TrashIcon from './Trash.icon';
 import ClockIcon from './Clock.icon';
+import WalletIcon from './Wallet.icon';
 
 export {
   AddIcon,
@@ -202,4 +203,5 @@ export {
   DiscountIcon,
   TrashIcon,
   ClockIcon,
+  WalletIcon,
 };
