@@ -55,6 +55,8 @@ import {DonationAndSubscription} from '../screen/Setting/DonationAndSubscription
 import {SendReportScreen} from '../screen/Setting/SendReport';
 import {PushNotificationScreen} from '../screen/Setting/PushNotification';
 import {PreferenceSettingScreen} from '../screen/Setting/Preference';
+import {SecurityScreen} from '../screen/Setting/Security';
+import {TnCAndPPScreen} from '../screen/Setting/TnCAndPP';
 
 // Profile
 import {ProfileScreen} from '../screen/Profile/Profile';
@@ -192,6 +194,10 @@ export type RootStackParams = {
   ReferralCode: undefined;
   SendReport: {title: string};
   Setting: undefined;
+  Security: {
+    info?: boolean;
+    message?: string;
+  };
   Signup: undefined;
   SignupSSO: {
     email: string;
@@ -212,6 +218,7 @@ export type RootStackParams = {
   Notification: undefined;
   PostDetail: PostList;
   SearchScreen: undefined;
+  TnCAndPP: undefined;
   TopupCoin: undefined;
   MusicianProfile: {
     id: string;
@@ -376,6 +383,8 @@ export const RootStackScreen = () => (
     />
     <RootStack.Screen name="SendReport" component={SendReportScreen} />
     <RootStack.Screen name="Setting" component={SettingScreen} />
+    <RootStack.Screen name="Security" component={SecurityScreen} />
+    <RootStack.Screen name="TnCAndPP" component={TnCAndPPScreen} />
     <RootStack.Screen name="SongDetails" component={SongDetailsScreen} />
     <RootStack.Screen name="ShowCredit" component={ShowCreditScreen} />
     <RootStack.Screen name="Album" component={AlbumScreen} />
