@@ -1,6 +1,7 @@
 import {
   Animated,
   Dimensions,
+  LogBox,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -36,6 +37,11 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
     dataImageGallery,
     type,
   } = props;
+
+  // ignore warning
+  useEffect(() => {
+    LogBox.ignoreLogs(['scrollToIndex should be used in conjunction with']);
+  }, []);
 
   const scrollX = useRef(new Animated.Value(0)).current;
   const imageSlider = useRef(null);

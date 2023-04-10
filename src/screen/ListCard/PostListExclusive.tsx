@@ -47,6 +47,7 @@ import {useCreditHook} from '../../hooks/use-credit.hook';
 import ChildrenCard from './ChildrenCard';
 import {profileStorage} from '../../hooks/use-storage.hook';
 import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
+import ImageModal from '../Detail/ImageModal';
 
 const {height} = Dimensions.get('screen');
 
@@ -459,7 +460,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
               />
             }
             onEndReached={handleEndScroll}
-            renderItem={({item}) => (
+            renderItem={({item, index}) => (
               <>
                 <ListCard.PostList
                   toDetailOnPress={() =>
