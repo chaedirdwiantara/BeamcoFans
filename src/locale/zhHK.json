@@ -147,7 +147,7 @@
         "Title": "Top Musician",
         "Follow": "追蹤",
         "Unfollow": "取消关注",
-        "Tip": "捐贈",
+        "Tip": "Send Tip",
         "Profile": "進入音樂人頁面",
         "Donation": "Send Donation"
       },
@@ -207,6 +207,15 @@
     },
     "ComingSoon": {
       "EmptyState": "Unfortunately, there are no new albums coming soon from any musicians. We'll let you know as soon as something new is on the horizon."
+    },
+    "Song": {
+      "EmptyState": "Oops! We couldn't find any {{title}} for you. Check back soon as we're always adding new music!"
+    },
+    "Musician": {
+      "EmptyState": "We couldn't find any {{title}} for you. Check back soon as we're always adding new musician!"
+    },
+    "Playlist": {
+      "EmptyState": "Oops! We couldn't find any playlists for you. Create your own & help other discover great music!"
     }
   },
   "Feed": {
@@ -425,11 +434,12 @@
       "Label": {
         "Past": "過去",
         "Current": "現有/進行中",
-        "TipType": "單筆",
-        "AddMoreCoin": "Add More Credit",
-        "YourCoin": "Your Credit",
-        "InputDonation": "Input Donation",
-        "Success": "Congratulations! Your Donation have been Sent!"
+        "TipType": "Do you want to send tip the musician?",
+        "ContinueSendTip": "Do you want to keep continue sending tip?",
+        "AddMoreCoin": "Add more credit",
+        "YourCoin": "Your credit",
+        "InputDonation": "Add credit to send tip",
+        "Success": "Congratulations! Your Tip\nhave been Sent!"
       },
       "Menu": {
         "Donation": {

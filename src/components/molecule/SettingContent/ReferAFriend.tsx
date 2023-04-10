@@ -67,7 +67,7 @@ export const ReferAFriend: React.FC<ReferralProps> = ({
           type="border"
           label={t('Setting.Referral.ReferFriend.Btn2')}
           borderColor="transparent"
-          textStyles={{color: color.Pink.linear}}
+          textStyles={{color: color.Success[400]}}
           containerStyles={{width: width * 0.9}}
           onPress={() =>
             handleWebview(
@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
     aspectRatio: widthPercentage(327 / 36),
     marginTop: heightPercentage(30),
     alignSelf: 'center',
-    backgroundColor: color.Pink[200],
   },
   modalContainer: {
     width: '100%',
