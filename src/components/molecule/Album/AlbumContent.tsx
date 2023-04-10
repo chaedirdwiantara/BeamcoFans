@@ -141,7 +141,7 @@ export const AlbumContent: React.FC<Props> = ({
   };
 
   const goToMusicianProfile = () => {
-    navigation.navigate('MusicianProfile', {id: detailAlbum.musician.uuid});
+    navigation.push('MusicianProfile', {id: detailAlbum.musician.uuid});
   };
 
   const createdDate = comingSoon

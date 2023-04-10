@@ -46,7 +46,7 @@ const Album: FC<AlbumProps> = (props: AlbumProps) => {
   const {t} = useTranslation();
 
   const handleToDetail = (dataAlbum: AlbumData) => {
-    navigation.navigate('Album', dataAlbum);
+    navigation.push('Album', dataAlbum);
   };
 
   return (
