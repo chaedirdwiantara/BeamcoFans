@@ -9,6 +9,8 @@ import {elipsisText, widthResponsive} from '../../utils';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import {ListDataSearchSongs} from '../../interface/search.interface';
 import {ScrollView, View} from 'react-native';
+import {EmptyStateSongMusician} from '../../components/molecule/EmptyState/EmptyStateSongMusician';
+import {useTranslation} from 'react-i18next';
 
 interface NewSongPropsScreen {
   type?: string;
@@ -28,6 +30,7 @@ interface NewSongPropsScreen {
 }
 
 const NewSong: FC<NewSongPropsScreen> = (props: NewSongPropsScreen) => {
+  const {t} = useTranslation();
   const {
     onPress,
     type,
@@ -71,7 +74,7 @@ const NewSong: FC<NewSongPropsScreen> = (props: NewSongPropsScreen) => {
       ? (listSong as any).filter((val: {isLiked: string}) => val.isLiked)
       : listSong;
 
-  return newListSong ? (
+  return newListSong && newListSong.length > 0 ? (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
@@ -172,8 +175,12 @@ const NewSong: FC<NewSongPropsScreen> = (props: NewSongPropsScreen) => {
         </View>
       )}
     </ScrollView>
-  ) : // TODO: add spinner or skeleton when loading && add empty state if data is empty
-  null;
+  ) : (
+    // TODO: add spinner or skeleton when loading
+    <EmptyStateSongMusician
+      text={t('Home.Song.EmptyState', {title: 'New Song'})}
+    />
+  );
 };
 
 export default NewSong;
