@@ -23,10 +23,11 @@ interface DropdownV2Props {
   selectedid?: (id: string) => void;
   selectedMenu: (data: DataDropDownType) => void;
   dataFilter: DataDropDownType[];
+  compWitdth?: number;
 }
 
 const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
-  const {id, selectedid, selectedMenu, dataFilter} = props;
+  const {id, selectedid, selectedMenu, dataFilter, compWitdth} = props;
   const [offsetSortFilter, setOffsetSortFilter] = useState<{
     px: number;
     py: number;
@@ -35,7 +36,7 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
   const [menuSelected, setMenuSelected] = useState<DataDropDownType>();
   const [compHeight, setCompHeight] = useState(0);
   const [dropDownHeight, setDropdownHeight] = useState(0);
-  const [heightPercent, setHeightPercent] = useState<Number>(0);
+  const [heightPercent, setHeightPercent] = useState<number>(0);
 
   const handleOnClose = () => {
     if (menuSelected !== undefined) {
@@ -102,7 +103,9 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
                 : offsetSortFilter?.py +
                   ms(2) -
                   (compHeight + dropDownHeight + 15),
-            left: offsetSortFilter?.px - widthResponsive(117),
+            left: compWitdth
+              ? offsetSortFilter?.px - compWitdth
+              : offsetSortFilter?.px - widthResponsive(117),
           }}
           textStyle={{fontSize: mvs(12)}}
           buttonContainerStyle={{
