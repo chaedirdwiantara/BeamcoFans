@@ -98,6 +98,7 @@ import MinusIcon from './Minus.icon';
 import TicketIcon from './Ticket.icon';
 import DiscountIcon from './Discount.icon';
 import TrashIcon from './Trash.icon';
+import ClockIcon from './Clock.icon';
 
 export {
   AddIcon,
@@ -200,4 +201,5 @@ export {
   TicketIcon,
   DiscountIcon,
   TrashIcon,
+  ClockIcon,
 };
