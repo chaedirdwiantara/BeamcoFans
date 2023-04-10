@@ -297,7 +297,6 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
         </>
       )}
       <ModalDonate
-        totalCoin={creditCount}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={onPressCloseModalDonate}
