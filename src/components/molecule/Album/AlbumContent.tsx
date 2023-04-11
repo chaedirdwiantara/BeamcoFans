@@ -190,11 +190,7 @@ export const AlbumContent: React.FC<Props> = ({
                 ? detailAlbum?.musician.name
                 : ''
             }
-            avatarUri={
-              detailAlbum?.imageUrl.length > 0
-                ? detailAlbum?.imageUrl[0].image
-                : ''
-            }
+            avatarUri={detailAlbum?.musician.imageProfile || ''}
             showIconPlay={false}
             isPlaying={false}
             handlePlayPaused={() => {}}
