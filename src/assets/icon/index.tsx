@@ -100,6 +100,8 @@ import DiscountIcon from './Discount.icon';
 import TrashIcon from './Trash.icon';
 import ClockIcon from './Clock.icon';
 import WalletIcon from './Wallet.icon';
+import LocationIcon from './Location.icon';
+import TruckIcon from './Truck.icon';
 
 export {
   AddIcon,
@@ -204,4 +206,6 @@ export {
   TrashIcon,
   ClockIcon,
   WalletIcon,
+  LocationIcon,
+  TruckIcon,
 };
