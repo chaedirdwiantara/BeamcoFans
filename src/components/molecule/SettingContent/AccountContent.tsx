@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, InteractionManager} from 'react-native';
 import * as yup from 'yup';
-import {Controller, useForm} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
+import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 
 import {
@@ -17,18 +18,22 @@ import Color from '../../../theme/Color';
 import {TopNavigation} from '../TopNavigation';
 import {font, typography} from '../../../theme';
 import {ModalConfirm} from '../Modal/ModalConfirm';
+import {dataProps} from '../DropDown/DropdownMulti';
 import {DataDropDownType} from '../../../data/dropdown';
 import {dataGender} from '../../../data/Settings/account';
 import {Button, Gap, SsuInput, SsuToast} from '../../atom';
 import {useProfileHook} from '../../../hooks/use-profile.hook';
+import {formatValueName} from '../../../utils/formatValueName';
+import {PreferenceList} from '../../../interface/setting.interface';
 import {ProfileResponseType} from '../../../interface/profile.interface';
 import {ArrowLeftIcon, ErrorIcon, TickCircleIcon} from '../../../assets/icon';
-import {useTranslation} from 'react-i18next';
 
 interface AccountProps {
   profile: ProfileResponseType;
   onPressGoBack: () => void;
   dataAllCountry: DataDropDownType[];
+  moods: PreferenceList[];
+  genres: PreferenceList[];
 }
 
 interface InputProps {
@@ -59,13 +64,17 @@ export const AccountContent: React.FC<AccountProps> = ({
   profile,
   onPressGoBack,
   dataAllCountry,
+  genres,
+  moods,
 }) => {
   const {t} = useTranslation();
   const [changes, setChanges] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
+  const [valueMoods, setValueMoods] = useState<(number | undefined)[]>([]);
+  const [valueGenres, setValueGenres] = useState<(number | undefined)[]>([]);
   const {updateProfilePreference, isError, isLoading, errorMsg, setIsError} =
     useProfileHook();
 
@@ -83,6 +92,25 @@ export const AccountContent: React.FC<AccountProps> = ({
       locationCountry: profile?.data.locationCountry || '',
     },
   });
+
+  const getValue = (data: dataProps[]) => {
+    if (data) {
+      return data?.map((item: dataProps) => {
+        return item['value'];
+      });
+    } else {
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    if (profile) {
+      const md = getValue(formatValueName(profile.data?.moods));
+      const gr = getValue(formatValueName(profile.data?.favoriteGenres));
+      setValueMoods(md);
+      setValueGenres(gr);
+    }
+  }, [profile]);
 
   useEffect(() => {
     toastVisible &&
@@ -102,6 +130,8 @@ export const AccountContent: React.FC<AccountProps> = ({
       fullname: getValues('fullname'),
       gender: getValues('gender'),
       locationCountry: getValues('locationCountry'),
+      moods: valueMoods as number[],
+      favoriteGeneres: valueGenres as number[],
     });
 
     setIsSubmit(true);
@@ -119,13 +149,13 @@ export const AccountContent: React.FC<AccountProps> = ({
   }, [isSubmit]);
 
   useEffect(() => {
-    if (isValid) {
+    if (isValid && valueMoods.length > 0 && valueGenres.length > 0) {
       setDisabledButton(false);
     } else {
       setDisabledButton(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isValidating, isValid]);
+  }, [isValidating, isValid, valueMoods, valueGenres]);
 
   return (
     <View style={styles.root}>
@@ -224,6 +254,26 @@ export const AccountContent: React.FC<AccountProps> = ({
               searchText="Search country"
             />
           )}
+        />
+
+        <Dropdown.Multi
+          data={formatValueName(genres) ?? []}
+          placeHolder={t('Setting.Preference.Placeholder.Genre')}
+          dropdownLabel={t('Setting.Preference.Label.Genre')}
+          textTyped={(_newText: string) => null}
+          containerStyles={{marginTop: heightPercentage(15)}}
+          initialValue={valueGenres}
+          setValues={val => setValueGenres(val)}
+        />
+
+        <Dropdown.Multi
+          data={formatValueName(moods) ?? []}
+          placeHolder={t('Setting.Preference.Placeholder.Mood')}
+          dropdownLabel={t('Setting.Preference.Label.Mood')}
+          textTyped={(_newText: string) => null}
+          containerStyles={{marginTop: heightPercentage(15)}}
+          initialValue={valueMoods}
+          setValues={val => setValueMoods(val)}
         />
 
         {isError ? (

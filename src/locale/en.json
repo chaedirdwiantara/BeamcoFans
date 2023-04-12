@@ -285,7 +285,7 @@
     "Label": {
       "Fans": "FANS",
       "Follow": "Follow",
-      "Following": " FOLLOWING",
+      "Following": " Following",
       "Tip": "Tip",
       "Followers": "FOLLOWERS",
       "Releases": "RELEASES",
@@ -345,6 +345,15 @@
         "Gender": "Select Gender",
         "Location": "Select Location"
       }
+    },
+    "Security": {
+      "Title": "Security"
+    },
+    "DeleteAccount": {
+      "Title": "Delete Account"
+    },
+    "TnC&PP": {
+      "Title": "TnC & Privacy Policy"
     },
     "Password": {
       "Title": "Change Password",
@@ -496,7 +505,9 @@
         "Bug": "Report a Bug",
         "TextBug": "Something in the app is broken or doesn’t work as expected",
         "Suggest": "Suggest an Improvement",
-        "TextSuggest": "New ideas or desired enhancement for this app"
+        "TextSuggest": "New ideas or desired enhancement for this app",
+        "Help": "Help",
+        "TextHelp": "If you want to know more contact us"
       },
       "Placeholder": {
         "Email": "Enter your email",
@@ -507,7 +518,7 @@
       "Title": "Helps"
     },
     "TnC": {
-      "Title": "Terms and Service"
+      "Title": "Terms and Conditions"
     },
     "Privacy": {
       "Title": "Privacy Policy"

@@ -7,6 +7,7 @@ import Color from '../../theme/Color';
 import {AccountContent} from '../../components';
 import {RootStackParams} from '../../navigations';
 import {useProfileHook} from '../../hooks/use-profile.hook';
+import {useSettingHook} from '../../hooks/use-setting.hook';
 import {useLocationHook} from '../../hooks/use-location.hook';
 
 export const AccountScreen: React.FC = () => {
@@ -14,10 +15,12 @@ export const AccountScreen: React.FC = () => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataProfile, getProfileUser} = useProfileHook();
   const {dataAllCountry, getDataAllCountry} = useLocationHook();
+  const {getListMoodGenre, listGenre, listMood} = useSettingHook();
 
   useEffect(() => {
     getProfileUser();
     getDataAllCountry();
+    getListMoodGenre({page: 0, perPage: 30});
   }, []);
 
   const onPressGoBack = () => {
@@ -30,6 +33,8 @@ export const AccountScreen: React.FC = () => {
         <AccountContent
           dataAllCountry={dataAllCountry !== undefined ? dataAllCountry : []}
           profile={dataProfile}
+          moods={listMood}
+          genres={listGenre}
           onPressGoBack={onPressGoBack}
         />
       )}
