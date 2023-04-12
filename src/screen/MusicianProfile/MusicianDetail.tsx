@@ -238,7 +238,6 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       </ScrollView>
 
       <ModalDonate
-        totalCoin={creditCount}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={() => setModalDonate(false)}
