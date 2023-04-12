@@ -99,8 +99,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                       <Button
                         type="border"
                         label={t('Musician.Label.Following')}
-                        containerStyles={styles.btnContainer}
-                        textStyles={{color: color.Success[400]}}
+                        containerStyles={styles.btnContainerFollowed}
+                        textStyles={{color: color.Pink.linear}}
                         onPress={() => {
                           isLogin && setFollowed(false);
                           followOnPress(true);
@@ -182,13 +182,20 @@ const styles = StyleSheet.create({
     height: undefined,
     width: widthResponsive(100),
     aspectRatio: heightPercentage(100 / 32),
-    backgroundColor: Color.Success[400],
+    backgroundColor: Color.Pink.linear,
   },
   btnContainer2: {
     height: undefined,
     width: widthResponsive(100),
     aspectRatio: heightPercentage(100 / 32),
-    backgroundColor: color.Success[400],
+    backgroundColor: Color.Success[400],
+  },
+  btnContainerFollowed: {
+    height: undefined,
+    width: widthResponsive(100),
+    aspectRatio: heightPercentage(100 / 32),
+    backgroundColor: 'transparent',
+    borderColor: Color.Pink.linear,
   },
   editIcon: {
     position: 'absolute',
@@ -204,7 +211,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? heightPercentage(25) : 0,
   },
   initialName: {
-    color: color.Neutral[10],
+    color: Color.Neutral[10],
   },
   bgChild: {
     height: '100%',
