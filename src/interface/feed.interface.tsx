@@ -113,6 +113,8 @@ export type DetailPostData = {
   isLiked: boolean;
   quoteToPost: QuoteToPost;
   isPremium: boolean;
+  video: VideoResponseType;
+  timeAgo: string;
 };
 
 export type DetailPostResponseType = {
@@ -145,6 +147,7 @@ export type CommentList = {
   repliedTo: string;
   parentID: string;
   commentsCount: number;
+  commentTotal?: number;
   commentLevel?: number;
   createdAt?: string;
   comments: CommentList2[];
