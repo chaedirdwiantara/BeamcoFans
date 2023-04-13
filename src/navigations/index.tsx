@@ -99,6 +99,7 @@ import PromoDetail from '../screen/Action/PromoDetail';
 import Checkout from '../screen/Action/Checkout';
 import Transaction from '../screen/Action/Transaction';
 import TransactionDetail from '../screen/Action/TransactionDetail';
+import Track from '../screen/Action/Track';
 
 import Font from '../theme/Font';
 import Color from '../theme/Color';
@@ -260,6 +261,7 @@ export type RootStackParams = {
   Checkout: undefined;
   Transaction: undefined;
   TransactionDetail: undefined;
+  Track: undefined;
 };
 
 export type MainTabParams = {
@@ -454,6 +456,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="Checkout" component={Checkout} />
     <RootStack.Screen name="Transaction" component={Transaction} />
     <RootStack.Screen name="TransactionDetail" component={TransactionDetail} />
+    <RootStack.Screen name="Track" component={Track} />
   </RootStack.Navigator>
 );
 

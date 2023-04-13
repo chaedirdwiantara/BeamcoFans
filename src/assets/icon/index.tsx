@@ -102,6 +102,7 @@ import ClockIcon from './Clock.icon';
 import WalletIcon from './Wallet.icon';
 import LocationIcon from './Location.icon';
 import TruckIcon from './Truck.icon';
+import BagTickIcon from './BagTick.icon';
 
 export {
   AddIcon,
@@ -208,4 +209,5 @@ export {
   WalletIcon,
   LocationIcon,
   TruckIcon,
+  BagTickIcon,
 };
