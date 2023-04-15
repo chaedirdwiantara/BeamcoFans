@@ -95,7 +95,8 @@ import PromoCode from '../screen/Action/PromoCode';
 import PromoDetail from '../screen/Action/PromoDetail';
 import Checkout from '../screen/Action/Checkout';
 import Transaction from '../screen/Action/Transaction';
-import TransactionDetail from '../screen/Action/TransactionDetail';
+import TransactionDetailMerch from '../screen/Action/TransactionDetailMerch';
+import TransactionDetailTicket from '../screen/Action/TransactionDetailTicket';
 import Track from '../screen/Action/Track';
 import {ConcertDetail} from '../screen/ConcertDetail';
 import {MerchDetail} from '../screen/MerchDetail';
@@ -260,7 +261,8 @@ export type RootStackParams = {
   };
   Checkout: undefined;
   Transaction: undefined;
-  TransactionDetail: undefined;
+  TransactionDetailMerch: undefined;
+  TransactionDetailTicket: undefined;
   Track: undefined;
   TicketDetail: undefined;
 };
@@ -456,7 +458,14 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="PromoDetail" component={PromoDetail} />
     <RootStack.Screen name="Checkout" component={Checkout} />
     <RootStack.Screen name="Transaction" component={Transaction} />
-    <RootStack.Screen name="TransactionDetail" component={TransactionDetail} />
+    <RootStack.Screen
+      name="TransactionDetailMerch"
+      component={TransactionDetailMerch}
+    />
+    <RootStack.Screen
+      name="TransactionDetailTicket"
+      component={TransactionDetailTicket}
+    />
     <RootStack.Screen name="Track" component={Track} />
     <RootStack.Screen name="TicketDetail" component={TicketDetail} />
   </RootStack.Navigator>

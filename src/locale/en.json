@@ -806,7 +806,8 @@
         "Delivery": "Delivery Price",
         "Promo": "Promo code",
         "Tax": "Tax"
-      }
+      },
+      "Ticket": "Ticket"
     },
     "Finish": "Finish Order",
     "Track": "Track Status",
