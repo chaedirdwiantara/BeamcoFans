@@ -57,6 +57,8 @@ import {PushNotificationScreen} from '../screen/Setting/PushNotification';
 import {PreferenceSettingScreen} from '../screen/Setting/Preference';
 import {SecurityScreen} from '../screen/Setting/Security';
 import {TnCAndPPScreen} from '../screen/Setting/TnCAndPP';
+import {AboutDeletionScreen} from '../screen/Setting/DeleteAccount/AboutDeletion';
+import {InputDeletionScreen} from '../screen/Setting/DeleteAccount/InputDeletion';
 
 // Profile
 import {ProfileScreen} from '../screen/Profile/Profile';
@@ -117,6 +119,7 @@ import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
 import ListPlaylist from '../screen/Playlist/ListPlaylist';
 
 export type RootStackParams = {
+  AboutDeletion: undefined;
   Account: undefined;
   AddToPlaylist: {id: number[]; type?: string; fromMainTab?: boolean};
   AddSong: Playlist;
@@ -151,6 +154,10 @@ export type RootStackParams = {
     uuid: string;
   };
   ForgotPassword: undefined;
+  InputDeletion: {
+    id: number;
+    text: string;
+  };
   Language: undefined;
   ListImage: {
     title: string;
@@ -204,7 +211,9 @@ export type RootStackParams = {
     ssoType: RegistrationType;
     ssoId: string;
   };
-  SignInGuest: undefined;
+  SignInGuest: {
+    showToastDelete?: boolean;
+  };
   ShippingInformation: {
     data: DataShippingProps | null;
   };
@@ -385,10 +394,16 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="Setting" component={SettingScreen} />
     <RootStack.Screen name="Security" component={SecurityScreen} />
     <RootStack.Screen name="TnCAndPP" component={TnCAndPPScreen} />
+    <RootStack.Screen name="AboutDeletion" component={AboutDeletionScreen} />
+    <RootStack.Screen name="InputDeletion" component={InputDeletionScreen} />
     <RootStack.Screen name="SongDetails" component={SongDetailsScreen} />
     <RootStack.Screen name="ShowCredit" component={ShowCreditScreen} />
     <RootStack.Screen name="Album" component={AlbumScreen} />
-    <RootStack.Screen name="SignInGuest" component={SignInGuestScreen} />
+    <RootStack.Screen
+      name="SignInGuest"
+      component={SignInGuestScreen}
+      initialParams={{showToastDelete: false}}
+    />
     <RootStack.Screen name="Signup" component={SignupScreen} />
     <RootStack.Screen name="SignupSSO" component={SignupSSOScreen} />
     <RootStack.Screen name="MainTab" component={TabScreen} />
