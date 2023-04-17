@@ -13,6 +13,7 @@ import {
   CommentInputModal,
   DetailPost,
   Gap,
+  ListCard,
   ModalDonate,
   ModalShare,
   ModalSuccessDonate,
@@ -49,6 +50,7 @@ import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../hooks/use-credit.hook';
 import VideoComp from '../../components/molecule/VideoPlayer/videoComp';
 import {profileStorage} from '../../hooks/use-storage.hook';
+import DetailChildrenCard from './DetailChildrenCard';
 
 export const {width} = Dimensions.get('screen');
 
@@ -848,155 +850,76 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.bodyContainer}>
           {dataPostDetail ? (
-            <DetailPost
-              toDetailOnPress={() => handleToDetailMusician(data.musician.uuid)}
-              musicianName={musicianName}
-              musicianId={`@${data.musician.username}`}
-              imgUri={
-                data.musician.imageProfileUrls.length !== 0
-                  ? data.musician.imageProfileUrls[0]?.image
-                  : ''
-              }
-              postDate={
-                data?.timeAgo ? data.timeAgo : dateFormat(data.createdAt)
-              }
-              postDate2={data.createdAt}
-              category={categoryNormalize(data.category)}
-              likeOnPress={() =>
-                likeOnPress(dataPostDetail.id, dataPostDetail.isLiked)
-              }
-              likePressed={
-                likePressed === undefined
-                  ? dataPostDetail.isLiked
-                  : likePressed === true
-                  ? true
-                  : false
-              }
-              likeCount={
-                likePressed === undefined
-                  ? dataPostDetail.likesCount
-                  : likePressed === true && dataPostDetail.isLiked === true
-                  ? dataPostDetail.likesCount
-                  : likePressed === true && dataPostDetail.isLiked === false
-                  ? dataPostDetail.likesCount + 1
-                  : likePressed === false && dataPostDetail.isLiked === true
-                  ? dataPostDetail.likesCount - 1
-                  : likePressed === false && dataPostDetail.isLiked === false
-                  ? dataPostDetail.likesCount
-                  : dataPostDetail.likesCount
-              }
-              commentOnPress={() => commentOnPress(data.id, musicianName)}
-              tokenOnPress={tokenOnPress}
-              shareOnPress={shareOnPress}
-              containerStyles={{
-                marginTop: mvs(16),
-              }}
-              commentCount={commentCountLvl1}
-              disabled={true}
-              isPremium={data.isPremiumPost}
-              children={
-                <View style={{width: '100%'}}>
-                  {dataPostDetail ? (
-                    dataPostDetail?.caption.length >= 250 &&
-                    readMore == false ? (
-                      <Text style={styles.childrenPostTitle}>
-                        {elipsisText(dataPostDetail?.caption, 250)}
-                        <Text style={styles.readMore} onPress={readMoreOnPress}>
-                          {' '}
-                          Read More
-                        </Text>
-                      </Text>
-                    ) : dataPostDetail?.caption.length < 250 ? (
-                      <Text style={styles.childrenPostTitle}>
-                        {dataPostDetail?.caption}
-                      </Text>
-                    ) : (
-                      <Text style={styles.childrenPostTitle}>
-                        {dataPostDetail?.caption}
-                        <Text style={styles.readMore} onPress={readMoreOnPress}>
-                          {'\n'}
-                          Read Less
-                        </Text>
-                      </Text>
-                    )
-                  ) : null}
-                  {data.images.length > 0 ||
-                  data.quoteToPost.encodeHlsUrl !== null ? (
-                    <Gap height={6} />
-                  ) : null}
-                  <View>
-                    {data.images.length > 0 ? (
-                      <ImageList
-                        imgData={data.images}
-                        disabled={false}
-                        width={132}
-                        height={69.5}
-                        heightType2={142}
-                        widthType2={269}
-                        onPress={toggleModalOnPress}
-                      />
-                    ) : null}
-                    {data.images.length === 0 &&
-                    data.quoteToPost.encodeHlsUrl !== null ? (
-                      <MusicListPreview
-                        hideClose
-                        targetId={dataPostDetail.quoteToPost.targetId}
-                        targetType={dataPostDetail.quoteToPost.targetType}
-                        title={dataPostDetail.quoteToPost.title}
-                        musician={dataPostDetail.quoteToPost.musician}
-                        coverImage={
-                          dataPostDetail.quoteToPost.coverImage[1]?.image !==
-                          undefined
-                            ? dataPostDetail.quoteToPost.coverImage[1].image
-                            : ''
-                        }
-                        encodeDashUrl={dataPostDetail.quoteToPost.encodeDashUrl}
-                        encodeHlsUrl={dataPostDetail.quoteToPost.encodeHlsUrl}
-                        startAt={dataPostDetail.quoteToPost.startAt}
-                        endAt={dataPostDetail.quoteToPost.endAt}
-                        postList={dataPostDetail}
-                        onPress={onPressPlaySong}
-                        isPlay={isPlaying}
-                        playOrPause={handlePausePlay}
-                        pauseModeOn={pauseModeOn}
-                        currentProgress={playerProgress.position}
-                        duration={playerProgress.duration}
-                        seekPlayer={seekPlayer}
-                        isIdNowPlaying={dataPostDetail.id === idNowPlaying}
-                      />
-                    ) : null}
-                    {data.video.encodeHlsUrl !== '' && (
-                      <View style={{marginTop: ms(6)}}>
-                        <VideoComp
-                          id={data.id}
-                          dataVideo={data.video}
-                          sourceUri={data.video.encodeHlsUrl}
-                          onPress={() => {}}
-                          buttonIconsStyle={{
-                            position: 'absolute',
-                            bottom: widthResponsive(-5),
-                            width: width - widthResponsive(104),
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                          }}
-                          videoContainer={{
-                            width: '100%',
-                            height: width - widthResponsive(150),
-                          }}
-                          blurModeOn={
-                            data.isPremiumPost && data.musician.uuid !== MyUuid
-                          }
-                        />
-                      </View>
-                    )}
-                  </View>
-                </View>
-              }
-            />
+            <>
+              <ListCard.PostList
+                disabled
+                toDetailOnPress={() =>
+                  handleToDetailMusician(data.musician.uuid)
+                }
+                musicianName={musicianName}
+                musicianId={`@${data.musician.username}`}
+                imgUri={
+                  data.musician.imageProfileUrls.length !== 0
+                    ? data.musician.imageProfileUrls[0]?.image
+                    : ''
+                }
+                postDate={
+                  data?.timeAgo ? data.timeAgo : dateFormat(data.createdAt)
+                }
+                postDate2={data.createdAt}
+                category={categoryNormalize(data.category)}
+                onPress={() => {}}
+                likeOnPress={() =>
+                  likeOnPress(dataPostDetail.id, dataPostDetail.isLiked)
+                }
+                likePressed={
+                  likePressed === undefined
+                    ? dataPostDetail.isLiked
+                    : likePressed === true
+                    ? true
+                    : false
+                }
+                likeCount={
+                  likePressed === undefined
+                    ? dataPostDetail.likesCount
+                    : likePressed === true && dataPostDetail.isLiked === true
+                    ? dataPostDetail.likesCount
+                    : likePressed === true && dataPostDetail.isLiked === false
+                    ? dataPostDetail.likesCount + 1
+                    : likePressed === false && dataPostDetail.isLiked === true
+                    ? dataPostDetail.likesCount - 1
+                    : likePressed === false && dataPostDetail.isLiked === false
+                    ? dataPostDetail.likesCount
+                    : dataPostDetail.likesCount
+                }
+                tokenOnPress={tokenOnPress}
+                shareOnPress={shareOnPress}
+                commentOnPress={() => commentOnPress(data.id, musicianName)}
+                commentCount={commentCountLvl1}
+                myPost={dataPostDetail.musician.uuid === dataProfile?.data.uuid}
+                selectedMenu={setSelectedMenu}
+                idPost={dataPostDetail.id}
+                selectedIdPost={() => {}}
+                isPremium={data.isPremiumPost}
+                disableComment={false}
+                children={
+                  <DetailChildrenCard
+                    data={dataPostDetail}
+                    onPress={onPressPlaySong}
+                    isPlay={isPlaying}
+                    playOrPause={handlePausePlay}
+                    pauseModeOn={pauseModeOn}
+                    currentProgress={playerProgress.position}
+                    duration={playerProgress.duration}
+                    seekPlayer={seekPlayer}
+                    isIdNowPlaying={dataPostDetail.id === idNowPlaying}
+                  />
+                }
+              />
+              <Gap height={18} />
+            </>
           ) : null}
         </View>
-        <Gap height={20} />
 
         {/* //! Comment Section Lvl 1 */}
         {dataPostDetail ? (
@@ -1068,7 +991,6 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           modalStyle={{marginHorizontal: widthResponsive(24)}}
         />
         <ModalDonate
-          totalCoin={creditCount}
           onPressDonate={onPressDonate}
           modalVisible={modalDonate}
           onPressClose={() => setModalDonate(false)}
@@ -1090,7 +1012,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: color.Dark[800],
   },
-  bodyContainer: {width: '100%', paddingHorizontal: widthResponsive(24)},
+  bodyContainer: {width: '100%', marginTop: mvs(16)},
   childrenPostTitle: {
     flexShrink: 1,
     maxWidth: widthResponsive(288),

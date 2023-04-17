@@ -9,17 +9,18 @@ import {
 import React, {FC, useEffect, useState} from 'react';
 import {elipsisText, widthResponsive} from '../../utils';
 import {Gap} from '../../components';
-import ImageList from './ImageList';
+import ImageList from '../ListCard/ImageList';
 import MusicListPreview from '../../components/molecule/MusicPreview/MusicListPreview';
-import {PostList} from '../../interface/feed.interface';
+import {DetailPostData, PostList} from '../../interface/feed.interface';
 import {color, font} from '../../theme';
 import {mvs} from 'react-native-size-matters';
 import VideoComp from '../../components/molecule/VideoPlayer/videoComp';
 import ImageModal from '../Detail/ImageModal';
 
 export const {width} = Dimensions.get('screen');
+
 interface ChildrenCardProps {
-  data: PostList;
+  data: DetailPostData;
   onPress: (val: PostList) => void;
   isPlay: boolean;
   playOrPause: () => void;
@@ -31,7 +32,9 @@ interface ChildrenCardProps {
   blurModeOn?: boolean;
 }
 
-const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
+const DetailChildrenCard: FC<ChildrenCardProps> = (
+  props: ChildrenCardProps,
+) => {
   const {
     data,
     onPress,
@@ -67,6 +70,23 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
     setModalVisible(!isModalVisible);
   };
 
+  const dataPost: PostList = {
+    id: data.id,
+    caption: data.caption,
+    likesCount: data.likesCount,
+    commentsCount: data.commentsCount,
+    category: data.category,
+    images: data.images,
+    createdAt: data.createdAt,
+    updatedAt: data.updatedAt,
+    isPremiumPost: data.isPremium,
+    musician: data.musician,
+    isLiked: data.isLiked,
+    quoteToPost: data.quoteToPost,
+    video: data.video,
+    timeAgo: data.timeAgo,
+  };
+
   return (
     <View style={{width: '100%'}}>
       <Text style={styles.childrenPostTitle}>
@@ -81,7 +101,11 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
             style={{
               flexDirection: 'row',
             }}>
-            <View style={{height: '100%', width: '100%'}}>
+            <View
+              style={{
+                height: '100%',
+                width: '100%',
+              }}>
               <ImageList
                 imgData={data.images}
                 width={132}
@@ -108,7 +132,7 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
                   encodeHlsUrl={data.quoteToPost.encodeHlsUrl}
                   startAt={data.quoteToPost.startAt}
                   endAt={data.quoteToPost.endAt}
-                  postList={data}
+                  postList={dataPost}
                   onPress={onPressPlaySong}
                   isPlay={isPlay}
                   playOrPause={playOrPause}
@@ -156,7 +180,7 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
   );
 };
 
-export default ChildrenCard;
+export default DetailChildrenCard;
 
 const styles = StyleSheet.create({
   childrenPostTitle: {
