@@ -41,7 +41,6 @@ import NewSong from './ListCard/NewSong';
 import {defaultBanner} from '../data/home';
 import TopMusician from './ListCard/TopMusician';
 import {useFcmHook} from '../hooks/use-fcm.hook';
-import {storage} from '../hooks/use-storage.hook';
 import {useSongHook} from '../hooks/use-song.hook';
 import {useHomeHook} from '../hooks/use-home.hook';
 import {SongList} from '../interface/song.interface';
@@ -58,6 +57,7 @@ import FavoriteMusician from './ListCard/FavoriteMusician';
 import {CheckCircle2Icon, SearchIcon} from '../assets/icon';
 import {MainTabParams, RootStackParams} from '../navigations';
 import RecomendedMusician from './ListCard/RecomendedMusician';
+import {profileStorage, storage} from '../hooks/use-storage.hook';
 import {useNotificationHook} from '../hooks/use-notification.hook';
 import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
@@ -187,10 +187,17 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   }, [route.params]);
 
   useEffect(() => {
+    const isRecoverSuccess = storage.getBoolean('recoverSuccess');
+    setToastVisible(isRecoverSuccess || false);
+    setToastText('Welcome back to Sunny Side Up!');
+    storage.set('recoverSuccess', false);
+  }, []);
+
+  useEffect(() => {
     toastVisible &&
       setTimeout(() => {
         setToastVisible(false);
-      }, 3000);
+      }, 5000);
   }, [toastVisible]);
 
   useEffect(() => {
@@ -346,7 +353,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
 
   const listMusician = isLogin ? dataMusician : dataSearchMusicians;
 
-  if (listMusician.length === 0 || listMusician === undefined) {
+  if (listMusician?.length === 0 || listMusician === undefined) {
     return <View style={styles.root} />;
   }
 
@@ -354,7 +361,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     <View style={styles.root}>
       <SsuStatusBar type="black" />
       <TopNavigation.Type5
-        name={dataProfile?.data?.fullname ?? ''}
+        name={profileStorage()?.fullname ?? ''}
         profileUri={dataProfile?.data?.images[1]?.image || ''}
         leftIconAction={() => null}
         rightIcon={rightIconComp()}
