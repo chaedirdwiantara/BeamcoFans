@@ -16,6 +16,7 @@ import {
   updatePassword,
   updatePhoneNumber,
   verifPasswordSetting,
+  listReason,
 } from '../api/setting.api';
 import {ParamsProps} from '../interface/base.interface';
 import {
@@ -25,6 +26,7 @@ import {
   EmailPhoneProps,
   EmailPhoneVerifProps,
   ListAllPreference,
+  ListReasonType,
   PreferenceList,
   PreferenceProps,
   VerifPasswordSetting,
@@ -47,6 +49,9 @@ export const useSettingHook = () => {
     genre: [],
     expectation: [],
   });
+  const [listReasonDelete, setListReasonDelete] = useState<ListReasonType[]>(
+    [],
+  );
   const [dataExclusiveContent, setDataExclusiveContent] =
     useState<DataExclusiveResponse | null>(null);
 
@@ -396,6 +401,19 @@ export const useSettingHook = () => {
     }
   };
 
+  const getListReasonDelete = async () => {
+    setIsLoading(true);
+    try {
+      const response = await listReason();
+      setListReasonDelete(response.data);
+    } catch (error) {
+      setIsError(true);
+      setListReasonDelete([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -407,6 +425,7 @@ export const useSettingHook = () => {
     listMood,
     listExpectation,
     listPreference,
+    listReasonDelete,
     changeEmail,
     changePhoneNumber,
     getVerificationCode,
@@ -423,5 +442,6 @@ export const useSettingHook = () => {
     getExclusiveContent,
     getListMoodPublic,
     getListGenrePublic,
+    getListReasonDelete,
   };
 };

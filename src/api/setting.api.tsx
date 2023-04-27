@@ -16,6 +16,7 @@ import {
   PreferenceProps,
   LanguageResponseType,
   ExclusiveResponseType,
+  ListReasonResponseType,
 } from '../interface/setting.interface';
 import {ParamsProps} from '../interface/base.interface';
 
@@ -228,6 +229,15 @@ export const listGenrePublic = async (
     url: '/favorite-genres',
     method: 'GET',
     params: props,
+  });
+
+  return data;
+};
+
+export const listReason = async (): Promise<ListReasonResponseType> => {
+  const {data} = await SsuAPIPublic().request<ListReasonResponseType>({
+    url: '/reasons-delete',
+    method: 'GET',
   });
 
   return data;
