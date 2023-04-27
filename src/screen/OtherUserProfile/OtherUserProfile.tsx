@@ -86,6 +86,10 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
     navigation.navigate('Following', {uuid: data.id});
   };
 
+  const onPressGoBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <View style={styles.root}>
       {isLogin ? (
@@ -104,6 +108,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
           refreshing={false}
           setRefreshing={() => {}}
           otherUserProfile={true}
+          onPressGoBack={onPressGoBack}
         />
       ) : (
         <GuestContent />
