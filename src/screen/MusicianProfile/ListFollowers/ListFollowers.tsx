@@ -8,20 +8,26 @@ import {
   View,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
+import {mvs} from 'react-native-size-matters';
 
 import {
+  width,
+  normalize,
+  widthPercentage,
   heightPercentage,
   heightResponsive,
-  normalize,
-  width,
-  widthPercentage,
-  widthResponsive,
 } from '../../../utils';
+import {
+  Gap,
+  Avatar,
+  SearchBar,
+  EmptyState,
+  TopNavigation,
+} from '../../../components';
 import {font} from '../../../theme';
 import Color from '../../../theme/Color';
 import {ArrowLeftIcon, DefaultAvatar} from '../../../assets/icon';
 import {ListDataSearchFans} from '../../../interface/search.interface';
-import {SearchBar, TopNavigation, Avatar, Gap} from '../../../components';
 import LoadingSpinner from '../../../components/atom/Loading/LoadingSpinner';
 
 interface FollowersListProps {
@@ -35,6 +41,7 @@ interface FollowersListProps {
   isRefetching: boolean;
   isFetchingNextPage: boolean;
   refetch: () => void;
+  myUUID: string | undefined;
 }
 
 export const FollowersList: React.FC<FollowersListProps> = ({
@@ -48,6 +55,7 @@ export const FollowersList: React.FC<FollowersListProps> = ({
   isRefetching,
   isFetchingNextPage,
   refetch,
+  myUUID,
 }) => {
   const {t} = useTranslation();
   const [listFollowing, setListFollowing] = useState(dataList);
@@ -96,39 +104,47 @@ export const FollowersList: React.FC<FollowersListProps> = ({
           </View>
         )}
 
-        {listFollowing?.map((val, i) => (
-          <View
-            key={i}
-            style={{
-              width,
-              paddingHorizontal: widthPercentage(20),
-              flexDirection: 'row',
-              marginBottom: heightPercentage(15),
-            }}>
-            <TouchableOpacity
-              onPress={() => goToDetail(val.followersType, val.uuid)}>
-              {val.imageProfileUrls === null ||
-              val.imageProfileUrls.length === 0 ? (
-                <DefaultAvatar.MusicianIcon />
-              ) : (
-                <Avatar
-                  imgUri={val.imageProfileUrls[0].image}
-                  size={widthResponsive(44)}
-                />
-              )}
-            </TouchableOpacity>
-            <Gap width={8} />
-            <View style={styles.textContainer}>
-              <Text style={styles.musicianName} numberOfLines={1}>
-                {val.fullname}
-              </Text>
+        {isLoading ? null : listFollowing.length > 0 ? (
+          listFollowing
+            .filter(val => val !== null)
+            .map((val, i) => (
+              <TouchableOpacity
+                key={i}
+                style={styles.listContainer}
+                onPress={() => goToDetail(val.followersType, val.uuid)}>
+                {val.imageProfileUrls === null ||
+                val.imageProfileUrls.length === 0 ? (
+                  <DefaultAvatar.MusicianIcon />
+                ) : (
+                  <Avatar
+                    imgUri={val.imageProfileUrls[0].image}
+                    size={widthPercentage(44)}
+                  />
+                )}
+                <Gap width={10} />
+                <View style={styles.textContainer}>
+                  <Text style={styles.musicianName} numberOfLines={1}>
+                    {val.fullname}
+                  </Text>
 
-              <Text style={styles.followerCount} numberOfLines={1}>
-                {t('General.FollowYou')}
-              </Text>
-            </View>
-          </View>
-        ))}
+                  {val.uuid === myUUID && (
+                    <Text style={styles.followerCount} numberOfLines={1}>
+                      {t('General.ItsMe')}
+                    </Text>
+                  )}
+                </View>
+              </TouchableOpacity>
+            ))
+        ) : (
+          <EmptyState
+            text={t('EmptyState.NoFollowersTitle') || ''}
+            subtitle={t('EmptyState.NoFollowersSubtitle') || ''}
+            containerStyle={{
+              marginTop: heightPercentage(30),
+              alignSelf: 'center',
+            }}
+          />
+        )}
 
         {isFetchingNextPage && (
           <View style={styles.loadingContainer}>
@@ -167,7 +183,7 @@ const styles = StyleSheet.create({
   },
   musicianName: {
     fontFamily: font.InterRegular,
-    fontSize: normalize(14),
+    fontSize: mvs(14),
     fontWeight: '500',
     color: Color.Neutral[10],
   },
@@ -180,5 +196,11 @@ const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
     alignItems: 'center',
+  },
+  listContainer: {
+    width,
+    paddingHorizontal: widthPercentage(20),
+    flexDirection: 'row',
+    marginBottom: heightPercentage(15),
   },
 });
