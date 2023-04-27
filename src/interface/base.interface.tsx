@@ -21,6 +21,9 @@ export type ParamsProps = {
   albumID?: number;
   context?: string;
   listType?: string;
+  isPremium?: boolean;
+  mood?: string;
+  genre?: string;
 };
 
 export type imageTypes = {
