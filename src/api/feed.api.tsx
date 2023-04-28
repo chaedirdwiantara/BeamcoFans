@@ -60,6 +60,18 @@ export const listPostProfileGuestMode = async (
 export const listTopPost = async (
   props?: ParamsProps,
 ): Promise<ListPostResponseType> => {
+  const {data} = await SsuAPI().request<ListPostResponseType>({
+    url: '/posts/top-post',
+    method: 'GET',
+    params: props,
+  });
+
+  return data;
+};
+
+export const listTopPostPublic = async (
+  props?: ParamsProps,
+): Promise<ListPostResponseType> => {
   const {data} = await SsuAPIPublic().request<ListPostResponseType>({
     url: '/top-post',
     method: 'GET',
