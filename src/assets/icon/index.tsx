@@ -104,6 +104,7 @@ import LocationIcon from './Location.icon';
 import TruckIcon from './Truck.icon';
 import BagTickIcon from './BagTick.icon';
 import StarIcon from './Star.icon';
+import ImportPhotoIcon from './ImportPhoto.icon';
 
 export {
   AddIcon,
@@ -212,4 +213,5 @@ export {
   TruckIcon,
   BagTickIcon,
   StarIcon,
+  ImportPhotoIcon,
 };
