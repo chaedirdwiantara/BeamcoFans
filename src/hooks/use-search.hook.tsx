@@ -3,6 +3,7 @@ import {
   albumSearch,
   fansSearch,
   listBannerPublic,
+  listFanss,
   listFollowers,
   musicianSearch,
   playlistSearch,
@@ -29,6 +30,7 @@ export const useSearchHook = () => {
   );
   const [dataPublicBanner, setDataPublicBanner] = useState<BannerList[]>([]);
   const [dataFollowers, setDataFollowers] = useState<ListDataSearchFans[]>([]);
+  const [dataFans, setDataFans] = useState<ListDataSearchFans[]>([]);
 
   const getSearchFans = async (props?: SearchProps) => {
     try {
@@ -149,12 +151,29 @@ export const useSearchHook = () => {
     }
   };
 
+  const getListMusiciansFans = async (props: FollowersProps) => {
+    setSearchLoading(true);
+    try {
+      const response = await listFanss(props);
+      setDataFans(response.data);
+      return {
+        data: response.data,
+        meta: response.meta,
+      };
+    } catch (error) {
+      setDataFans([]);
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
   return {
     searchLoading,
     dataPublicBanner,
     dataSearchMusicians,
     dataSearchSongs,
     dataFollowers,
+    dataFans,
     getSearchFans,
     getSearchMusicians,
     getSearchAlbums,
@@ -164,5 +183,6 @@ export const useSearchHook = () => {
     getSearchMerchs,
     getSearchEvents,
     getListFollowers,
+    getListMusiciansFans,
   };
 };
