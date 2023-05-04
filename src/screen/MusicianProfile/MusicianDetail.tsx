@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -16,6 +16,7 @@ import {
   Gap,
   ModalDonate,
   ModalSuccessDonate,
+  PopUp,
   SsuStatusBar,
   TabFilter,
   TopNavigation,
@@ -88,6 +89,27 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [zoomImage, setZoomImage] = useState<string[]>([]);
   const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
+  const [showStatePopUp, setShowStatePopUp] = useState<boolean>();
+
+  const showPopUp: boolean | undefined = storage.getBoolean('showPopUp');
+
+  useEffect(() => {
+    if (showStatePopUp === false) {
+      const currentValue = storage.getBoolean('showPopUp');
+      if (currentValue !== false) {
+        storage.set('showPopUp', false);
+      }
+    }
+  }, [showStatePopUp]);
+
+  useMemo(() => {
+    setShowStatePopUp(currentState => {
+      if (currentState !== showPopUp) {
+        return showPopUp;
+      }
+      return currentState;
+    });
+  }, [showPopUp]);
 
   const showImage = (uri: string) => {
     setModalVisible(!isModalVisible);
@@ -143,6 +165,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     setModalSuccessDonate(false);
   };
 
+  const closeOnPress = () => {
+    setShowStatePopUp(false);
+  };
+
   return (
     <View style={styles.container}>
       <SsuStatusBar type={'black'} />
@@ -195,6 +221,21 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
               flatlistContainerStyle={{paddingHorizontal: widthResponsive(24)}}
               translation={true}
             />
+
+            {showStatePopUp !== false && (
+              <View
+                style={{width: '100%', paddingHorizontal: widthResponsive(20)}}>
+                <Gap height={12} />
+                <PopUp
+                  title={'Show your appreciation'}
+                  subTitle={
+                    'Send tips to support your favorite musician to see them growth'
+                  }
+                  closeOnPress={closeOnPress}
+                />
+              </View>
+            )}
+
             {filter[selectedIndex].filterName === 'Musician.Tab.Profile' ? (
               <DataMusician profile={profile} dataAlbum={dataAlbum} />
             ) : filter[selectedIndex].filterName === 'Musician.Tab.Musician' ? (
