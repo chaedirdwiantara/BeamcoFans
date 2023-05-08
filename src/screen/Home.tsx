@@ -99,7 +99,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   } = useSongHook();
   const {listGenre, listMood, getListMoodPublic, getListGenrePublic} =
     useSettingHook();
-  const {dataBanner, getListDataBanner} = useBannerHook();
+  const {dataBanner, getListDataBanner, isLoadingBanner} = useBannerHook();
   const {addFcmToken} = useFcmHook();
   const {
     isPlaying,
@@ -352,8 +352,13 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   }, [dataProfile]);
 
   const listMusician = isLogin ? dataMusician : dataSearchMusicians;
+  const bannerCondition = isLoadingBanner && dataBanner.length === 0 && isLogin;
 
-  if (listMusician?.length === 0 || listMusician === undefined) {
+  if (
+    listMusician?.length === 0 ||
+    listMusician === undefined ||
+    bannerCondition
+  ) {
     return <View style={styles.root} />;
   }
 
@@ -544,6 +549,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           onPress={() => navigation.navigate('ListPlaylist')}
         />
         {/* End of Playlist */}
+        <Gap height={heightPercentage(10)} />
         {/* Coming Soon */}
         {dataAlbumComingSoon.length > 0 ? (
           <ListImageDesc
