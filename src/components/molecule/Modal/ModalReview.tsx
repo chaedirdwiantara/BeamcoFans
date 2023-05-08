@@ -10,7 +10,7 @@ import Color from '../../../theme/Color';
 import Rating from '../../atom/Review/Rating';
 import ReviewInput from '../../atom/Review/ReviewInput';
 import FileUpload from '../../atom/Review/FileUpload';
-import {Button, ButtonGradient, Gap} from '../../atom';
+import {Button, Gap} from '../../atom';
 import {mvs} from 'react-native-size-matters';
 
 interface ModalReviewProps {
@@ -61,7 +61,7 @@ export const ModalReview: React.FC<ModalReviewProps> = ({
             label={t('Btn.Cancel')}
             textStyles={{fontSize: mvs(14), color: Color.Success[400]}}
             containerStyles={{width: '100%'}}
-            onPress={() => null}
+            onPress={onPressClose}
           />
         </View>
       </View>
