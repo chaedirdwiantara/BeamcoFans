@@ -68,7 +68,13 @@ export const InputDeletionScreen: React.FC<InputDeletionProps> = ({
     setIsError(false);
     setShowModal(false);
     try {
-      await deleteAccount(state);
+      const payload = {
+        ...state,
+        deleteReasonText: state.deleteReasonText
+          ? state.deleteReasonText
+          : text,
+      };
+      await deleteAccount(payload);
       await onLogout();
       FCMService.getTokenFCM({
         onGetToken: token => {
@@ -84,7 +90,7 @@ export const InputDeletionScreen: React.FC<InputDeletionProps> = ({
       setShowModal(false);
       setIsLoading(false);
     } finally {
-      setIsLoading(false);
+      InteractionManager.runAfterInteractions(() => setIsLoading(false));
     }
   };
 

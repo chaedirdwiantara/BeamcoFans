@@ -38,6 +38,8 @@ import {ModalShare} from '../Modal/ModalShare';
 import {ModalConfirm} from '../Modal/ModalConfirm';
 import {dateFormat} from '../../../utils/date-format';
 import {color, font, typography} from '../../../theme';
+import {DataDropDownType} from '../../../data/dropdown';
+import {storage} from '../../../hooks/use-storage.hook';
 import ListSongs from '../../../screen/ListCard/ListSongs';
 import {SongList} from '../../../interface/song.interface';
 import {SongTitlePlay} from '../SongTitlePlay/SongTitlePlay';
@@ -45,7 +47,6 @@ import {usePlayerHook} from '../../../hooks/use-player.hook';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {Playlist} from '../../../interface/playlist.interface';
 import {ListDataSearchSongs} from '../../../interface/search.interface';
-import {DataDropDownType} from '../../../data/dropdown';
 
 interface Props {
   goBackProfile: (showToast: boolean) => void;
@@ -135,6 +136,7 @@ export const PlaylistContent: React.FC<Props> = ({
   const onPressDelete = async () => {
     try {
       await deletePlaylist(dataDetail);
+      storage.set('fetchingProfile', true);
       goBackProfile(true);
     } catch (error) {
       console.log(error);
