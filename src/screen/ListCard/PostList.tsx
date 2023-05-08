@@ -23,19 +23,12 @@ import {
   DropDownFilterType,
   DropDownSortType,
 } from '../../data/dropdown';
-import {PostListType} from '../../data/postlist';
 import {color, font, typography} from '../../theme';
-import {
-  elipsisText,
-  heightPercentage,
-  heightResponsive,
-  widthResponsive,
-} from '../../utils';
+import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
 import {LogBox} from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
-import ImageList from './ImageList';
 import {profileStorage, storage} from '../../hooks/use-storage.hook';
 import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import {PostList} from '../../interface/feed.interface';
@@ -44,18 +37,25 @@ import {dateFormat} from '../../utils/date-format';
 import categoryNormalize from '../../utils/categoryNormalize';
 import {TickCircleIcon} from '../../assets/icon';
 import {usePlayerHook} from '../../hooks/use-player.hook';
-import MusicListPreview from '../../components/molecule/MusicPreview/MusicListPreview';
 import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../hooks/use-credit.hook';
 import ChildrenCard from './ChildrenCard';
-import ImageModal from '../Detail/ImageModal';
-import {likePressedOnFeed, playSongOnFeed} from './ListUtils/ListFunction';
+import {
+  likePressedInFeed,
+  likePressedOnFeed,
+  likesCountInFeed,
+  playSongOnFeed,
+} from './ListUtils/ListFunction';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
   dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
   hideDropdown?: boolean;
 }
+
+const urlText =
+  'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0';
 
 const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
@@ -93,6 +93,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   const [recorder, setRecorder] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string[]>();
   const [modalShare, setModalShare] = useState<boolean>(false);
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
@@ -207,14 +208,17 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     navigation.navigate('MusicianProfile', {id});
   };
 
-  // ! UPDATE COMMENT AREA
-  useEffect(() => {
-    if (selectedIdPost !== undefined && selectedMenu !== undefined) {
-      console.log('selectedIdPost', selectedIdPost);
-      console.log('selectedMenu', selectedMenu);
+  const onModalShareHide = () => {
+    setToastVisible(true);
+    setIsCopied(false);
+  };
+
+  const onPressCopy = () => {
+    setIsCopied(true);
+    if (Clipboard && Clipboard.setString) {
+      Clipboard.setString(urlText);
     }
-  }, [selectedIdPost, selectedMenu]);
-  // ! END OF UPDATE COMMENT AREA
+  };
 
   // ! MUSIC AREA
   const onPressPlaySong = (val: PostList) => {
@@ -295,41 +299,8 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   category={categoryNormalize(item.category)}
                   onPress={() => cardOnPress(item)}
                   likeOnPress={() => likeOnPress(item.id, item.isLiked)}
-                  likePressed={
-                    selectedId === undefined
-                      ? item.isLiked
-                      : selectedId.includes(item.id) &&
-                        recorder.includes(item.id)
-                      ? true
-                      : !selectedId.includes(item.id) &&
-                        recorder.includes(item.id)
-                      ? false
-                      : !selectedId.includes(item.id) &&
-                        !recorder.includes(item.id)
-                      ? item.isLiked
-                      : item.isLiked
-                  }
-                  likeCount={
-                    selectedId === undefined
-                      ? item.likesCount
-                      : selectedId.includes(item.id) &&
-                        recorder.includes(item.id) &&
-                        item.isLiked === true
-                      ? item.likesCount
-                      : selectedId.includes(item.id) &&
-                        recorder.includes(item.id) &&
-                        item.isLiked === false
-                      ? item.likesCount + 1
-                      : !selectedId.includes(item.id) &&
-                        recorder.includes(item.id) &&
-                        item.isLiked === true
-                      ? item.likesCount - 1
-                      : !selectedId.includes(item.id) &&
-                        recorder.includes(item.id) &&
-                        item.isLiked === false
-                      ? item.likesCount
-                      : item.likesCount
-                  }
+                  likePressed={likePressedInFeed(selectedId, item, recorder)}
+                  likeCount={likesCountInFeed(selectedId, item, recorder)}
                   tokenOnPress={tokenOnPress}
                   shareOnPress={shareOnPress}
                   commentCount={item.commentsCount}
@@ -371,15 +342,16 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
         onPressClose={() => setModalGuestVisible(false)}
       />
       <ModalShare
-        url={
-          'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0'
-        }
+        url={urlText}
         modalVisible={modalShare}
         onPressClose={() => setModalShare(false)}
         titleModal={t('General.Share.Feed')}
         hideMusic
-        onPressCopy={() =>
-          InteractionManager.runAfterInteractions(() => setToastVisible(true))
+        onPressCopy={onPressCopy}
+        onModalHide={
+          isCopied
+            ? onModalShareHide
+            : () => console.log(modalShare, 'modal is hide')
         }
       />
       <SsuToast
