@@ -8,7 +8,7 @@ export const versionInfo = async (
   props: VersionInfoPropsType,
 ): Promise<VersionInfoResponseType> => {
   const {data} = await SsuAPI().request<VersionInfoResponseType>({
-    url: '/musician-app/app-update',
+    url: '/fans-app/app-update',
     method: 'GET',
     params: props,
   });
