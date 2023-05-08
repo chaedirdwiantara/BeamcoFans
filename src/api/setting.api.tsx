@@ -1,6 +1,4 @@
-import SsuAPI from './base';
-import SsuAPIPublic from './basePublic';
-import SsuAPIGeneral from './baseRinjaniNew';
+import SsuAPI from './baseRinjani';
 import {
   EmailPhoneProps,
   EmailPhoneVerifProps,
@@ -24,7 +22,7 @@ export const updateEmail = async (
   props?: EmailPhoneProps,
 ): Promise<EmailPhoneResponseType> => {
   const {data} = await SsuAPI().request<EmailPhoneResponseType>({
-    url: '/account/change-email',
+    url: '/fans-app/account/change-email',
     method: 'POST',
     data: props,
   });
@@ -36,7 +34,7 @@ export const updatePhoneNumber = async (
   props?: EmailPhoneProps,
 ): Promise<EmailPhoneResponseType> => {
   const {data} = await SsuAPI().request<EmailPhoneResponseType>({
-    url: '/account/change-phone',
+    url: '/fans-app/account/change-phone',
     method: 'POST',
     data: props,
   });
@@ -48,7 +46,7 @@ export const getVerifCode = async (
   props?: EmailPhoneVerifProps,
 ): Promise<EmailPhoneResponseType> => {
   const {data} = await SsuAPI().request<EmailPhoneResponseType>({
-    url: '/account/getcode',
+    url: '/fans-app/account/getcode',
     method: 'POST',
     data: props,
   });
@@ -60,7 +58,7 @@ export const setVerifCode = async (
   props?: EmailPhoneProps,
 ): Promise<EmailPhoneResponseType> => {
   const {data} = await SsuAPI().request<EmailPhoneResponseType>({
-    url: '/account/verif',
+    url: '/fans-app/account/verif',
     method: 'POST',
     data: props,
   });
@@ -72,7 +70,7 @@ export const verifPasswordSetting = async (
   props?: VerifPasswordSetting,
 ): Promise<EmailPhoneResponseType> => {
   const {data} = await SsuAPI().request<EmailPhoneResponseType>({
-    url: '/account/verif-password',
+    url: '/fans-app/account/verif-password',
     method: 'POST',
     data: props,
   });
@@ -84,7 +82,7 @@ export const addPhoneNumber = async (
   props?: EmailPhoneProps,
 ): Promise<EmailPhoneResponseType> => {
   const {data} = await SsuAPI().request<EmailPhoneResponseType>({
-    url: '/account/add-phone',
+    url: '/fans-app/account/add-phone',
     method: 'POST',
     data: props,
   });
@@ -96,7 +94,7 @@ export const addEmail = async (
   props?: EmailPhoneProps,
 ): Promise<EmailPhoneResponseType> => {
   const {data} = await SsuAPI().request<EmailPhoneResponseType>({
-    url: '/account/add-email',
+    url: '/fans-app/account/add-email',
     method: 'POST',
     data: props,
   });
@@ -108,7 +106,7 @@ export const updatePassword = async (
   props?: ChangePasswordProps,
 ): Promise<ChangePasswordResponseType> => {
   const {data} = await SsuAPI().request<ChangePasswordResponseType>({
-    url: '/change-password',
+    url: '/fans-app/change-password',
     method: 'POST',
     data: props,
   });
@@ -118,7 +116,7 @@ export const updatePassword = async (
 
 export const getShipping = async (): Promise<ShippingResponseType> => {
   const {data} = await SsuAPI().request<ShippingResponseType>({
-    url: '/shipping',
+    url: '/fans-app/shipping',
     method: 'GET',
   });
 
@@ -129,7 +127,7 @@ export const updateShipping = async (
   props?: DataShippingProps,
 ): Promise<ShippingResponseType> => {
   const {data} = await SsuAPI().request<ShippingResponseType>({
-    url: '/shipping/update',
+    url: '/fans-app/shipping/update',
     method: 'POST',
     data: props,
   });
@@ -140,7 +138,7 @@ export const updateShipping = async (
 export const sendReport = async (
   props?: SendReportProps,
 ): Promise<SendReportResponseType> => {
-  const {data} = await SsuAPIGeneral().request<SendReportResponseType>({
+  const {data} = await SsuAPI().request<SendReportResponseType>({
     url: '/feedback',
     method: 'POST',
     data: props,
@@ -153,7 +151,7 @@ export const getListMood = async (
   props?: PreferenceProps,
 ): Promise<PreferenceReaponseType> => {
   const {data} = await SsuAPI().request<PreferenceReaponseType>({
-    url: '/moods',
+    url: '/fans-app/moods',
     method: 'GET',
     params: props,
   });
@@ -165,7 +163,7 @@ export const getListGenre = async (
   props?: PreferenceProps,
 ): Promise<PreferenceReaponseType> => {
   const {data} = await SsuAPI().request<PreferenceReaponseType>({
-    url: '/favorite-genres',
+    url: '/fans-app/favorite-genres',
     method: 'GET',
     params: props,
   });
@@ -177,7 +175,7 @@ export const getListExpectations = async (
   props?: PreferenceProps,
 ): Promise<PreferenceReaponseType> => {
   const {data} = await SsuAPI().request<PreferenceReaponseType>({
-    url: '/expectations',
+    url: '/fans-app/expectations',
     method: 'GET',
     params: props,
   });
@@ -189,7 +187,7 @@ export const setLanguageSettings = async (
   lang: string,
 ): Promise<LanguageResponseType> => {
   const {data} = await SsuAPI().request<LanguageResponseType>({
-    url: '/account/add-language',
+    url: '/fans-app/account/add-language',
     method: 'POST',
     data: {
       language: lang,
@@ -203,7 +201,7 @@ export const exclusiveContent = async (
   props?: ParamsProps,
 ): Promise<ExclusiveResponseType> => {
   const {data} = await SsuAPI().request<ExclusiveResponseType>({
-    url: `/musicians/${props?.uuid}/exclusive-content`,
+    url: `/fans-app/musicians/${props?.uuid}/exclusive-content`,
     method: 'GET',
   });
 
@@ -213,8 +211,8 @@ export const exclusiveContent = async (
 export const listMoodPublic = async (
   props?: PreferenceProps,
 ): Promise<PreferenceReaponseType> => {
-  const {data} = await SsuAPIPublic().request<PreferenceReaponseType>({
-    url: '/moods',
+  const {data} = await SsuAPI().request<PreferenceReaponseType>({
+    url: '/public/moods',
     method: 'GET',
     params: props,
   });
@@ -225,8 +223,8 @@ export const listMoodPublic = async (
 export const listGenrePublic = async (
   props?: PreferenceProps,
 ): Promise<PreferenceReaponseType> => {
-  const {data} = await SsuAPIPublic().request<PreferenceReaponseType>({
-    url: '/favorite-genres',
+  const {data} = await SsuAPI().request<PreferenceReaponseType>({
+    url: '/public/favorite-genres',
     method: 'GET',
     params: props,
   });
@@ -235,8 +233,8 @@ export const listGenrePublic = async (
 };
 
 export const listReason = async (): Promise<ListReasonResponseType> => {
-  const {data} = await SsuAPIPublic().request<ListReasonResponseType>({
-    url: '/reasons-delete',
+  const {data} = await SsuAPI().request<ListReasonResponseType>({
+    url: '/public/reasons-delete',
     method: 'GET',
   });
 

@@ -7,10 +7,8 @@ import {
   ProfileResponseType,
   UpdateProfileResponseType,
 } from '../interface/profile.interface';
-import SsuAPI from './base';
-import SsuAPISemeru from './baseSemeruMusician';
-import SsuAPIPublicRinjani from './basePublic';
-import BaseSemeruPublic from './baseSemeruPublic';
+import SsuAPI from './baseRinjani';
+import SsuAPISemeru from './baseSemeru';
 
 export type UpdateProfilePropsType = {
   fullname?: string;
@@ -27,7 +25,7 @@ export type UpdateProfilePropsType = {
 
 export const getProfile = async (): Promise<ProfileResponseType> => {
   const {data} = await SsuAPI().request<ProfileResponseType>({
-    url: '/profile',
+    url: '/fans-app/profile',
     method: 'GET',
   });
 
@@ -37,8 +35,8 @@ export const getProfile = async (): Promise<ProfileResponseType> => {
 export const getOtherUserProfile = async (
   props?: PostPropsTypeA,
 ): Promise<ProfileResponseType> => {
-  const {data} = await SsuAPIPublicRinjani().request<ProfileResponseType>({
-    url: `/fans/${props?.id}`,
+  const {data} = await SsuAPI().request<ProfileResponseType>({
+    url: `/public/fans/${props?.id}`,
     method: 'GET',
   });
 
@@ -49,7 +47,7 @@ export const updateProfile = async (
   props?: UpdateProfilePropsType,
 ): Promise<UpdateProfileResponseType> => {
   const {data} = await SsuAPI().request<UpdateProfileResponseType>({
-    url: '/update-profile',
+    url: '/fans-app/update-profile',
     method: 'PATCH',
     data: props,
   });
@@ -60,7 +58,7 @@ export const updateProfile = async (
 export const countLikedSong = async (
   props?: ParamsProps,
 ): Promise<CountLikedResponseType> => {
-  const {data} = await BaseSemeruPublic().request<CountLikedResponseType>({
+  const {data} = await SsuAPISemeru().request<CountLikedResponseType>({
     url: `/fans/${props?.uuid}`,
     method: 'GET',
   });
@@ -72,7 +70,7 @@ export const deleteProfile = async (
   props?: ParamsProps,
 ): Promise<DeleteProfileResponseType> => {
   const {data} = await SsuAPI().request<DeleteProfileResponseType>({
-    url: '/profile',
+    url: '/fans-app/profile',
     method: 'DELETE',
     data: props,
   });
@@ -84,7 +82,7 @@ export const getTotalCount = async (
   props?: ParamsProps,
 ): Promise<ProfileCountResponseType> => {
   const {data} = await SsuAPISemeru().request<ProfileCountResponseType>({
-    url: '/profile',
+    url: '/musician-app/profile',
     method: 'GET',
     params: props,
   });

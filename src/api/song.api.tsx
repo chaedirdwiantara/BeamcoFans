@@ -1,5 +1,4 @@
 import SsuAPI from './baseSemeru';
-import SsuAPIPublic from './baseSemeruPublic';
 import {
   DetailAlbumResponseType,
   DetailSongResponseType,
@@ -14,7 +13,7 @@ export const listSong = async (
   props?: ParamsProps,
 ): Promise<ListSongResponseType> => {
   const {data} = await SsuAPI().request<ListSongResponseType>({
-    url: '/songs',
+    url: '/fans-app/songs',
     method: 'GET',
     params: props,
   });
@@ -26,7 +25,7 @@ export const detailSong = async (
   props?: PostPropsTypeA,
 ): Promise<DetailSongResponseType> => {
   const {data} = await SsuAPI().request<DetailSongResponseType>({
-    url: `/songs/${props?.id}`,
+    url: `/fans-app/songs/${props?.id}`,
     method: 'GET',
   });
 
@@ -37,7 +36,7 @@ export const detailAlbum = async (
   props?: PostPropsTypeA,
 ): Promise<DetailAlbumResponseType> => {
   const {data} = await SsuAPI().request<DetailAlbumResponseType>({
-    url: `/albums/detail/${props?.id}`,
+    url: `/fans-app/albums/detail/${props?.id}`,
     method: 'GET',
   });
 
@@ -47,7 +46,7 @@ export const detailAlbum = async (
 export const detailAlbumPublic = async (
   props?: PostPropsTypeA,
 ): Promise<DetailAlbumResponseType> => {
-  const {data} = await SsuAPIPublic().request<DetailAlbumResponseType>({
+  const {data} = await SsuAPI().request<DetailAlbumResponseType>({
     url: `/albums/detail/${props?.id}`,
     method: 'GET',
   });
@@ -59,7 +58,7 @@ export const likeSong = async (
   props?: SongPropsTypeA,
 ): Promise<LikeSongResponseType> => {
   const {data} = await SsuAPI().request<LikeSongResponseType>({
-    url: `/songs/${props?.id}/like`,
+    url: `/fans-app/songs/${props?.id}/like`,
     method: 'POST',
   });
 
@@ -70,7 +69,7 @@ export const unlikeSong = async (
   props?: SongPropsTypeA,
 ): Promise<LikeSongResponseType> => {
   const {data} = await SsuAPI().request<LikeSongResponseType>({
-    url: `/songs/${props?.id}/unlike`,
+    url: `/fans-app/songs/${props?.id}/unlike`,
     method: 'POST',
   });
 
@@ -79,7 +78,7 @@ export const unlikeSong = async (
 
 export const newSong = async (): Promise<ListSongResponseType> => {
   const {data} = await SsuAPI().request<ListSongResponseType>({
-    url: '/songs/new-released',
+    url: '/fans-app/songs/new-released',
     method: 'GET',
   });
 
@@ -87,7 +86,7 @@ export const newSong = async (): Promise<ListSongResponseType> => {
 };
 
 export const newSongGuest = async (): Promise<ListSongResponseType> => {
-  const {data} = await SsuAPIPublic().request<ListSongResponseType>({
+  const {data} = await SsuAPI().request<ListSongResponseType>({
     url: '/songs/new-released',
     method: 'GET',
   });
