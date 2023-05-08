@@ -18,11 +18,6 @@ import {
   ModalSuccessDonate,
   SsuToast,
 } from '../../components';
-import {
-  DataDropDownType,
-  DropDownFilterType,
-  DropDownSortType,
-} from '../../data/dropdown';
 import {color, font, typography} from '../../theme';
 import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
@@ -60,8 +55,6 @@ import Clipboard from '@react-native-clipboard/clipboard';
 const {height} = Dimensions.get('screen');
 
 interface PostListProps extends DataExclusiveResponse {
-  dataRightDropdown: DataDropDownType[];
-  dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
   uuidMusician?: string;
 }
 

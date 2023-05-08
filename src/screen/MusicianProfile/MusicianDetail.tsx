@@ -39,7 +39,6 @@ import {useCreditHook} from '../../hooks/use-credit.hook';
 import ExclusiveDailyContent from './ExclusiveDailyContent';
 import {Playlist} from '../../interface/playlist.interface';
 import {DataExclusiveResponse} from '../../interface/setting.interface';
-import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
 import {
   heightPercentage,
   heightResponsive,
@@ -233,12 +232,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                   paddingHorizontal: widthResponsive(24),
                   width: '100%',
                 }}>
-                <PostListProfile
-                  uuidMusician={uuid}
-                  dataRightDropdown={dropDownDataCategory}
-                  dataLeftDropdown={dropDownDataSort}
-                  {...exclusiveContent}
-                />
+                <PostListProfile uuidMusician={uuid} {...exclusiveContent} />
               </View>
             ) : filter[selectedIndex].filterName === 'Musician.Tab.Music' ? (
               dataPlaylist.length > 0 ? (

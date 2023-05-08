@@ -22,6 +22,7 @@ export type DataComment = {
   caption: string;
   likesCount: number;
   commentsCount: number;
+  commentTotal: number;
   commentLevel: number;
   created_at: string;
   comments: [];

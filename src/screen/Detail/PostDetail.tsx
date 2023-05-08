@@ -11,24 +11,21 @@ import React, {FC, useCallback, useEffect, useState} from 'react';
 import {color, font, typography} from '../../theme';
 import {
   CommentInputModal,
-  DetailPost,
   Gap,
   ListCard,
   ModalDonate,
   ModalShare,
   ModalSuccessDonate,
-  SsuDivider,
   SsuToast,
   TopNavigation,
 } from '../../components';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParams} from '../../navigations';
-import {elipsisText, heightPercentage, widthResponsive} from '../../utils';
+import {MainTabParams, RootStackParams} from '../../navigations';
+import {heightPercentage, widthResponsive} from '../../utils';
 import {ms, mvs} from 'react-native-size-matters';
 import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
-import ImageList from '../ListCard/ImageList';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {dateFormat} from '../../utils/date-format';
@@ -44,11 +41,9 @@ import {makeId} from './function';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 import categoryNormalize from '../../utils/categoryNormalize';
 import {DataDropDownType} from '../../data/dropdown';
-import MusicListPreview from '../../components/molecule/MusicPreview/MusicListPreview';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../hooks/use-credit.hook';
-import VideoComp from '../../components/molecule/VideoPlayer/videoComp';
 import {profileStorage} from '../../hooks/use-storage.hook';
 import DetailChildrenCard from './DetailChildrenCard';
 
@@ -108,13 +103,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     getProfileUser,
   } = useProfileHook();
 
+  const {creditCount, getCreditCount} = useCreditHook();
+
   const MyUuid = profileStorage()?.uuid;
 
   const data = route.params;
   const musicianName = data.musician.fullname;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {creditCount, getCreditCount} = useCreditHook();
+  const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
 
   const [likePressed, setLikePressed] = useState<boolean>();
   const [readMore, setReadMore] = useState<boolean>(false);
@@ -441,6 +438,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             ? cmntToCmnt.parentID
             : '',
         commentsCount: 0,
+        commentTotal: 0,
         commentLevel: cmntToCmnt?.commentLvl,
         createdAt: '',
         comments: [],
@@ -666,6 +664,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         repliedTo: cmntToCmnt?.userName ? cmntToCmnt?.userName : '',
         parentID: cmntToCmnt?.parentID ? cmntToCmnt?.parentID : '',
         commentsCount: 0,
+        commentTotal: 0,
         commentLevel: cmntToCmnt?.commentLvl,
         createdAt: '',
         comments: [],
@@ -819,14 +818,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   useEffect(() => {
     if (idUserTonavigate && dataUserCheck !== '') {
-      if (dataUserCheck === 'Musician') {
+      if (idUserTonavigate === MyUuid) {
+        navigation2.navigate('Profile', {});
+      } else if (dataUserCheck === 'Musician') {
         return (
           handleToDetailMusician(idUserTonavigate),
           setDataUserCheck(''),
           setIdUserTonavigate(undefined)
         );
-      }
-      if (dataUserCheck === 'Fans') {
+      } else if (dataUserCheck === 'Fans') {
         return (
           navigation.navigate('OtherUserProfile', {id: idUserTonavigate}),
           setDataUserCheck(''),

@@ -119,19 +119,19 @@ export type LanguageResponseType = {
 };
 
 export type DataExclusiveResponse = {
-  ID: string;
-  title: string;
-  coverImage: string;
-  description: string;
-  packageType: string;
-  pricingPlans: {
-    ID: string;
-    duration: number;
-    durationUnit: string;
-    price: number;
+  ID?: string;
+  title?: string;
+  coverImage?: string;
+  description?: string;
+  packageType?: string;
+  pricingPlans?: {
+    ID?: string;
+    duration?: number;
+    durationUnit?: string;
+    price?: number;
   }[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type ExclusiveResponseType = {
