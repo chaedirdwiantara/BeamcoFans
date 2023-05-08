@@ -1,7 +1,5 @@
-import SsuAPI from './base';
-import SsuAPISemeruPublic from './baseSemeruPublic';
-import SsuPublicRinjani from './basePublic';
-import SSuBaseRinjani from './baseRinjaniNew';
+import SsuAPI from './baseRinjani';
+import SsuAPISemeruPublic from './baseSemeru';
 import {
   AlbumByIdResponseType,
   DetailMusicianResponseType,
@@ -17,7 +15,7 @@ export const listMusician = async (
   props?: ParamsProps,
 ): Promise<ListMusicianResponseType> => {
   const {data} = await SsuAPI().request<ListMusicianResponseType>({
-    url: '/musicians',
+    url: '/fans-app/musicians',
     method: 'GET',
     params: props,
   });
@@ -29,7 +27,7 @@ export const detailMusician = async (
   props?: PostPropsTypeA,
 ): Promise<DetailMusicianResponseType> => {
   const {data} = await SsuAPI().request<DetailMusicianResponseType>({
-    url: `/musicians/${props?.id}`,
+    url: `/fans-app/musicians/${props?.id}`,
     method: 'GET',
   });
 
@@ -39,8 +37,8 @@ export const detailMusician = async (
 export const detailMusicianGuest = async (
   props?: PostPropsTypeA,
 ): Promise<DetailMusicianResponseType> => {
-  const {data} = await SsuPublicRinjani().request<DetailMusicianResponseType>({
-    url: `/musicians/${props?.id}`,
+  const {data} = await SsuAPI().request<DetailMusicianResponseType>({
+    url: `/public/musicians/${props?.id}`,
     method: 'GET',
   });
 
@@ -51,7 +49,7 @@ export const getAlbumById = async (
   props?: paramsTypeUuid,
 ): Promise<AlbumByIdResponseType> => {
   const {data} = await SsuAPISemeruPublic().request<AlbumByIdResponseType>({
-    url: `/albums`,
+    url: '/albums',
     method: 'GET',
     params: props,
   });
@@ -63,7 +61,7 @@ export const followMusician = async (
   props?: FollowMusicianPropsType,
 ): Promise<FollowMusicianResponseType> => {
   const {data} = await SsuAPI().request<FollowMusicianResponseType>({
-    url: '/musicians/follow',
+    url: '/fans-app/musicians/follow',
     method: 'POST',
     data: props,
   });
@@ -75,7 +73,7 @@ export const unfollowMusician = async (
   props?: FollowMusicianPropsType,
 ): Promise<FollowMusicianResponseType> => {
   const {data} = await SsuAPI().request<FollowMusicianResponseType>({
-    url: '/musicians/unfollow',
+    url: '/fans-app/musicians/unfollow',
     method: 'POST',
     data: props,
   });
@@ -86,7 +84,7 @@ export const unfollowMusician = async (
 export const recommendedMusician = async (
   props?: ParamsProps,
 ): Promise<ListMusicianResponseType> => {
-  const {data} = await SSuBaseRinjani().request<ListMusicianResponseType>({
+  const {data} = await SsuAPI().request<ListMusicianResponseType>({
     url: '/musicians/musician-recommendation',
     method: 'GET',
     params: props,

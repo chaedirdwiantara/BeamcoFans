@@ -7,8 +7,8 @@ import {
   ListSearchSongsResponseType,
   SearchProps,
 } from '../interface/search.interface';
-import SsuAPI from './basePublic';
-import SsuAPISemeru from './baseSemeruPublic';
+import SsuAPI from './baseRinjani';
+import SsuAPISemeru from './baseSemeru';
 import {PaginationType} from '../interface/base.interface';
 import {ListBannerResponseType} from '../interface/banner.interface';
 
@@ -16,7 +16,7 @@ export const fansSearch = async (
   props?: SearchProps,
 ): Promise<ListSearchFansResponseType> => {
   const {data} = await SsuAPI().request<ListSearchFansResponseType>({
-    url: '/fans',
+    url: '/public/fans',
     method: 'GET',
     params: props,
   });
@@ -28,7 +28,7 @@ export const musicianSearch = async (
   props?: SearchProps,
 ): Promise<ListSearchMusicianResponseType> => {
   const {data} = await SsuAPI().request<ListSearchMusicianResponseType>({
-    url: '/musicians',
+    url: '/public/musicians',
     method: 'GET',
     params: props,
   });
@@ -76,7 +76,7 @@ export const listBannerPublic = async (
   props?: PaginationType,
 ): Promise<ListBannerResponseType> => {
   const {data} = await SsuAPI().request<ListBannerResponseType>({
-    url: '/banner',
+    url: '/public/banner',
     method: 'GET',
     params: props,
   });
@@ -88,7 +88,7 @@ export const listFollowers = async (
   props: FollowersProps,
 ): Promise<ListSearchFansResponseType> => {
   const {data} = await SsuAPI().request<ListSearchFansResponseType>({
-    url: `/musicians/${props.uuid}/followers`,
+    url: `/public/musicians/${props.uuid}/followers`,
     method: 'GET',
     params: props,
   });

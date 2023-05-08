@@ -1,4 +1,4 @@
-import SsuAPI from './base';
+import SsuAPI from './baseRinjani';
 import {Image} from 'react-native-image-crop-picker';
 import {UploadImageResponseType} from '../interface/uploadImage.interface';
 
@@ -13,7 +13,7 @@ export const uploadImage = async (
   });
 
   const {data} = await SsuAPI().request<UploadImageResponseType>({
-    url: '/upload-image',
+    url: '/fans-app/upload-image',
     method: 'POST',
     headers: {
       'Content-Type': 'multipart/form-data',
