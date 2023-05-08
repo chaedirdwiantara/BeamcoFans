@@ -49,6 +49,7 @@ import {
 import PostListProfile from '../ListCard/PostListProfile';
 import MainTab from '../../components/molecule/ProfileContent/MainTab/MainTab';
 import {storage} from '../../hooks/use-storage.hook';
+import {FansScreen} from './ListFans';
 import {ArrowLeftIcon} from '../../assets/icon';
 import {mvs} from 'react-native-size-matters';
 
@@ -257,6 +258,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                   }}
                 />
               )
+            ) : filter[selectedIndex].filterName === 'Musician.Tab.Fans' ? (
+              <View style={{paddingHorizontal: widthResponsive(20)}}>
+                <FansScreen uuid={uuid} />
+              </View>
             ) : filter[selectedIndex].filterName === 'Musician.Tab.Main' ? (
               <View style={{paddingHorizontal: widthResponsive(20)}}>
                 <MainTab uuid={uuid} />

@@ -24,6 +24,7 @@ export type ListDataSearchFans = {
   email: string;
   imageProfileUrls: imageTypes[];
   followersType: 'fans' | 'musician';
+  point: string;
 };
 
 export type ListSearchFansResponseType = {

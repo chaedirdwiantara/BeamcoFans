@@ -13,9 +13,9 @@ import {
   SsuToast,
 } from '../..';
 import {color, font} from '../../../theme';
-import {RootStackParams} from '../../../navigations';
+import {MainTabParams, RootStackParams} from '../../../navigations';
 import {CheckCircle2Icon} from '../../../assets/icon';
-import {storage} from '../../../hooks/use-storage.hook';
+import {profileStorage, storage} from '../../../hooks/use-storage.hook';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../../hooks/use-credit.hook';
@@ -26,7 +26,7 @@ interface MusicianProps {
   musicianName: string;
   imgUri: string;
   containerStyles?: ViewStyle;
-  point?: number | null;
+  point?: string;
   isFollowed?: boolean;
   followerMode?: boolean;
   followersCount?: number;
@@ -66,6 +66,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const isLogin = storage.getString('profile');
   const dataMore = [
     {label: dropdownText || '', value: '1'},
@@ -79,10 +80,14 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
 
   const handleNavigate = () => {
-    if (type === 'fans') {
-      navigation.navigate('OtherUserProfile', {id: userId});
+    if (userId === profileStorage()?.uuid) {
+      navigation2.navigate('Profile', {});
     } else {
-      navigation.navigate('MusicianProfile', {id: userId});
+      if (type === 'fans') {
+        navigation.push('OtherUserProfile', {id: userId});
+      } else {
+        navigation.push('MusicianProfile', {id: userId});
+      }
     }
   };
 
