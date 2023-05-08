@@ -73,8 +73,10 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     setLikePost,
     setUnlikePost,
     getListTopPost,
+    getListTopPostPublic,
   } = useFeedHook();
   const {t} = useTranslation();
+  const getListPost = isLogin ? getListTopPost : getListTopPostPublic;
 
   const {
     seekPlayer,
@@ -115,7 +117,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
 
   useFocusEffect(
     useCallback(() => {
-      getListTopPost({page: page, perPage: perPage});
+      getListPost({page: page, perPage: perPage});
     }, []),
   );
 
@@ -142,11 +144,11 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   useEffect(() => {
     if (selectedCategoryMenu) {
       selectedCategoryMenu.label === 'Home.Tab.TopPost.Category.All'
-        ? getListTopPost({
+        ? getListPost({
             page: page,
             perPage: perPage,
           })
-        : getListTopPost({
+        : getListPost({
             page: 1,
             perPage: perPage,
             category: selectedCategoryMenu.value,
@@ -161,16 +163,20 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   };
 
   const likeOnPress = (id: string, isLiked: boolean) => {
-    likePressedOnFeed(
-      id,
-      isLiked,
-      selectedId,
-      setSelectedId,
-      setUnlikePost,
-      setLikePost,
-      setRecorder,
-      recorder,
-    );
+    if (isLogin) {
+      likePressedOnFeed(
+        id,
+        isLiked,
+        selectedId,
+        setSelectedId,
+        setUnlikePost,
+        setLikePost,
+        setRecorder,
+        recorder,
+      );
+    } else {
+      setModalGuestVisible(true);
+    }
   };
 
   const shareOnPress = () => {

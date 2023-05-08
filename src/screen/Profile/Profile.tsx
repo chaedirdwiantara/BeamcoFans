@@ -29,6 +29,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     useProfileHook();
   const {dataPlaylist, getPlaylist} = usePlaylistHook();
   const isLogin = storage.getString('profile');
+  const isFetching = storage.getBoolean('fetchingProfile');
   const isFocused = useIsFocused();
   const {
     isPlaying,
@@ -72,7 +73,8 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
-  }, [refreshing, showToast, deletePlaylist]);
+    storage.set('fetchingProfile', false);
+  }, [refreshing, showToast, deletePlaylist, isFetching]);
 
   const onPressGoTo = (
     screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',

@@ -5,6 +5,8 @@ import {
   ScrollView,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
@@ -22,7 +24,7 @@ import {
   TopNavigation,
   UserInfoCard,
 } from '../../components';
-import {color} from '../../theme';
+import {color, font} from '../../theme';
 import DataMusician from './DataMusician';
 import {
   AlbumData,
@@ -38,11 +40,19 @@ import {useCreditHook} from '../../hooks/use-credit.hook';
 import ExclusiveDailyContent from './ExclusiveDailyContent';
 import {Playlist} from '../../interface/playlist.interface';
 import {DataExclusiveResponse} from '../../interface/setting.interface';
-import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
+import {
+  heightPercentage,
+  heightResponsive,
+  widthPercentage,
+  widthResponsive,
+} from '../../utils';
 import PostListProfile from '../ListCard/PostListProfile';
 import MainTab from '../../components/molecule/ProfileContent/MainTab/MainTab';
 import {storage} from '../../hooks/use-storage.hook';
 import {FansScreen} from './ListFans';
+import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
+import {ArrowLeftIcon} from '../../assets/icon';
+import {mvs} from 'react-native-size-matters';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -146,6 +156,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     navigation.navigate('Playlist', {id, from: 'other'});
   };
 
+  const onPressGoBack = () => {
+    navigation.goBack();
+  };
+
   const followOnPress = (isFollowed: boolean) => {
     if (isLogin) {
       isFollowed
@@ -169,11 +183,27 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     setShowStatePopUp(false);
   };
 
+  const leftIconHeader = () => {
+    return (
+      <View style={styles.containerLeftIcon}>
+        <TouchableOpacity onPress={onPressGoBack}>
+          <ArrowLeftIcon
+            stroke={color.Neutral[10]}
+            style={{marginLeft: widthPercentage(24)}}
+          />
+        </TouchableOpacity>
+        <Gap width={widthPercentage(20)} />
+        <Text style={styles.name}>{profile.fullname}</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <SsuStatusBar type={'black'} />
       <TopNavigation.Type1
         title=""
+        leftIcon={scrolEffect && leftIconHeader()}
         leftIconAction={navigation.goBack}
         maxLengthTitle={20}
         itemStrokeColor={'white'}
@@ -324,6 +354,17 @@ const styles = StyleSheet.create({
     left: 0,
     zIndex: 100,
     borderBottomWidth: 0,
-    paddingBottom: heightPercentage(10),
+    paddingBottom: heightPercentage(15),
+  },
+  containerLeftIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  name: {
+    fontFamily: font.InterSemiBold,
+    fontSize: mvs(16),
+    lineHeight: heightPercentage(20),
+    color: color.Neutral[10],
+    paddingLeft: widthPercentage(10),
   },
 });

@@ -14,6 +14,7 @@ import {
   listPostProfileGuestMode,
   listPostSimilar,
   listTopPost,
+  listTopPostPublic,
   loadMore,
   mostPlayedSong,
   unlikeComment,
@@ -89,6 +90,20 @@ export const useFeedHook = () => {
     setFeedIsError(false);
     try {
       const response = await listTopPost(props);
+      setDataTopPost(response.data);
+      setFeedMessage(response.message);
+    } catch (error) {
+      setFeedIsError(true);
+    } finally {
+      setFeedIsLoading(false);
+    }
+  };
+
+  const getListTopPostPublic = async (props?: ParamsProps) => {
+    setFeedIsLoading(true);
+    setFeedIsError(false);
+    try {
+      const response = await listTopPostPublic(props);
       setDataTopPost(response.data);
       setFeedMessage(response.message);
     } catch (error) {
@@ -365,5 +380,6 @@ export const useFeedHook = () => {
     getListSimilarPost,
     setViewCount,
     getListProfilePostGuestMode,
+    getListTopPostPublic,
   };
 };

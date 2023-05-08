@@ -11,13 +11,8 @@ import {
   Platform,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
+import {mvs} from 'react-native-size-matters';
 
-import {
-  width,
-  normalize,
-  widthPercentage,
-  heightPercentage,
-} from '../../../utils';
 import {font} from '../../../theme';
 import {TabFilter} from '../TabFilter';
 import Color from '../../../theme/Color';
@@ -29,7 +24,12 @@ import ImageModal from '../../../screen/Detail/ImageModal';
 import {CreateNewCard} from '../CreateNewCard/CreateNewCard';
 import {Playlist} from '../../../interface/playlist.interface';
 import ListPlaylist from '../../../screen/ListCard/ListPlaylist';
-import {CheckCircle2Icon, SettingIcon} from '../../../assets/icon';
+import {
+  ArrowLeftIcon,
+  CheckCircle2Icon,
+  SettingIcon,
+} from '../../../assets/icon';
+import {width, widthPercentage, heightPercentage} from '../../../utils';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -52,6 +52,7 @@ interface ProfileContentProps {
   refreshing: boolean;
   setRefreshing: () => void;
   otherUserProfile?: boolean;
+  onPressGoBack?: () => void;
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -69,6 +70,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   refreshing,
   setRefreshing,
   otherUserProfile,
+  onPressGoBack,
 }) => {
   const {t} = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -109,16 +111,37 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
       ? heightPercentage(360)
       : heightPercentage(310);
 
-  return (
-    <View style={styles.root}>
-      {scrollEffect && (
+  const leftIconHeader = () => {
+    if (showCreateCard) {
+      return (
         <View style={styles.containerStickyHeader}>
           <Text style={[styles.name, styles.topIos]}>{profile.fullname}</Text>
           <TouchableOpacity onPress={() => onPressGoTo('Setting')}>
             <SettingIcon style={styles.topIos} />
           </TouchableOpacity>
         </View>
-      )}
+      );
+    } else {
+      return (
+        <View style={styles.containerLeftIcon}>
+          <View style={styles.containerArrowName}>
+            <TouchableOpacity onPress={onPressGoBack}>
+              <ArrowLeftIcon
+                stroke={Color.Neutral[10]}
+                style={{marginLeft: widthPercentage(24)}}
+              />
+            </TouchableOpacity>
+            <Gap width={widthPercentage(20)} />
+            <Text style={styles.name}>{profile.fullname}</Text>
+          </View>
+        </View>
+      );
+    }
+  };
+
+  return (
+    <View style={styles.root}>
+      {scrollEffect && leftIconHeader()}
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
@@ -162,28 +185,30 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             translation={true}
           />
           {filter[selectedIndex].filterName === 'Profile.Tab.Playlist' ? (
-            dataPlaylist !== undefined && dataPlaylist?.length > 0 ? (
-              <View>
-                {showCreateCard && (
-                  <CreateNewCard
-                    num="00"
-                    text={t('Profile.Button.CreatePlaylist')}
-                    onPress={() => onPressGoTo('CreateNewPlaylist')}
-                  />
-                )}
+            <View>
+              {showCreateCard && (
+                <CreateNewCard
+                  num="00"
+                  text={t('Profile.Button.CreatePlaylist')}
+                  onPress={() => onPressGoTo('CreateNewPlaylist')}
+                />
+              )}
+              {dataPlaylist !== undefined && dataPlaylist?.length > 0 ? (
                 <ListPlaylist
                   data={dataPlaylist === null ? [] : dataPlaylist}
                   onPress={goToPlaylist}
                   scrollable={false}
                   playerVisible={playerVisible}
                 />
-              </View>
-            ) : (
-              <EmptyState
-                text={t('Profile.Label.NoPlaylist') || ''}
-                containerStyle={{marginTop: heightPercentage(30)}}
-              />
-            )
+              ) : (
+                !showCreateCard && (
+                  <EmptyState
+                    text={t('Profile.Label.NoPlaylist') || ''}
+                    containerStyle={{marginTop: heightPercentage(30)}}
+                  />
+                )
+              )}
+            </View>
           ) : filter[selectedIndex].filterName === 'Profile.Tab.TopMusician' ? (
             // Dihold karena point belum fix
 
@@ -268,9 +293,23 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Dark[800],
     height: heightPercentage(85),
   },
+  containerLeftIcon: {
+    width: width,
+    position: 'absolute',
+    zIndex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Color.Dark[800],
+    height: heightPercentage(85),
+  },
+  containerArrowName: {
+    paddingTop: heightPercentage(30),
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   name: {
     fontFamily: font.InterSemiBold,
-    fontSize: normalize(16),
+    fontSize: mvs(16),
     lineHeight: heightPercentage(20),
     color: Color.Neutral[10],
   },
