@@ -25,6 +25,7 @@ import {Button, Gap, SsuInput, SsuToast} from '../../atom';
 import {useProfileHook} from '../../../hooks/use-profile.hook';
 import {formatValueName} from '../../../utils/formatValueName';
 import {PreferenceList} from '../../../interface/setting.interface';
+import {profileStorage, storage} from '../../../hooks/use-storage.hook';
 import {ProfileResponseType} from '../../../interface/profile.interface';
 import {ArrowLeftIcon, ErrorIcon, TickCircleIcon} from '../../../assets/icon';
 
@@ -125,17 +126,25 @@ export const AccountContent: React.FC<AccountProps> = ({
 
   const onPressConfirm = async () => {
     setShowModal(false);
-    await updateProfilePreference({
-      username: getValues('username'),
-      fullname: getValues('fullname'),
-      gender: getValues('gender'),
-      locationCountry: getValues('locationCountry'),
-      moods: valueMoods as number[],
-      favoriteGeneres: valueGenres as number[],
-    });
-
-    setIsSubmit(true);
-    setChanges(false);
+    try {
+      await updateProfilePreference({
+        username: getValues('username'),
+        fullname: getValues('fullname'),
+        gender: getValues('gender'),
+        locationCountry: getValues('locationCountry'),
+        moods: valueMoods as number[],
+        favoriteGeneres: valueGenres as number[],
+      });
+      storage.set(
+        'profile',
+        JSON.stringify({...profileStorage(), fullname: getValues('fullname')}),
+      );
+      storage.set('fetchingProfile', true);
+      setIsSubmit(true);
+      setChanges(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

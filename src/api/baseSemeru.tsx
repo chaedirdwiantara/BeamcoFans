@@ -9,11 +9,11 @@ let API: AxiosInstance;
 
 const setupAPIClient = () => {
   API = axios.create({
-    baseURL: 'https://semeru-dev.ssudev.space/api/v1/fans-app',
+    baseURL: 'https://semeru-dev.ssudev.space/api/v1',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'Accept-Language': storage.getString('lang') ?? 'en'
+      'Accept-Language': storage.getString('lang') ?? 'en',
     },
   });
 
@@ -54,6 +54,7 @@ export const initialize = (
         ...config.headers,
       };
       config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['Ssu-Application'] = 'fans';
       return config;
     });
   }

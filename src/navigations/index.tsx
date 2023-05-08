@@ -65,6 +65,7 @@ import {ProfileScreen} from '../screen/Profile/Profile';
 import {EditProfileScreen} from '../screen/Profile/EditProfile';
 import {FollowingScreen} from '../screen/Profile/FollowingScreen';
 import {ExclusiveContentScreen} from '../screen/ExclusiveContent';
+import {RecoverAccountScreen} from '../screen/Profile/RecoverAccount';
 
 import {FollowersScreen} from '../screen/MusicianProfile/ListFollowers';
 
@@ -197,6 +198,7 @@ export type RootStackParams = {
   Preference: undefined;
   PreferenceSetting: undefined;
   PushNotification: undefined;
+  RecoverAccount: undefined;
   Referral: undefined;
   ReferralCode: undefined;
   SendReport: {title: string};
@@ -412,6 +414,7 @@ export const RootStackScreen = () => (
       name="ExclusiveContent"
       component={ExclusiveContentScreen}
     />
+    <RootStack.Screen name="RecoverAccount" component={RecoverAccountScreen} />
     <RootStack.Screen name="Followers" component={FollowersScreen} />
     <RootStack.Screen name="PostDetail" component={PostDetail} />
     <RootStack.Screen name="SearchScreen" component={SearchScreen} />

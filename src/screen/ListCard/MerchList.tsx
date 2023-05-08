@@ -69,6 +69,7 @@ const MerchList: FC = () => {
             desc={item.content}
             currency={item.currencyCode}
             type={'merch'}
+            charge={item.charge}
           />
         )}
         estimatedItemSize={150}
