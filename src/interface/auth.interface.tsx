@@ -86,7 +86,8 @@ export interface ConfirmEmailOTPRegisterResponseType {
 export interface ConfirmSmsOTPLoginResponseType {
   code: number;
   data: {
-    lastLoginAt: null;
+    deletedAt: null;
+    lastLoginAt: string | null;
     uuid: string;
     accessToken: string;
     accessTokenExpiresAt: string;
