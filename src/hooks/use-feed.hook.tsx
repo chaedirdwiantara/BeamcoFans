@@ -56,6 +56,14 @@ export const useFeedHook = () => {
       setFeedIsLoading(false);
     }
   };
+  const getListDataPostQuery = async (props?: ParamsProps) => {
+    try {
+      const response = await listPost(props);
+      return {data: response?.data, meta: response?.meta};
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getListProfilePost = async (props?: ParamsProps) => {
     setFeedIsLoading(true);
@@ -124,6 +132,14 @@ export const useFeedHook = () => {
       setFeedIsError(true);
     } finally {
       setFeedIsLoading(false);
+    }
+  };
+  const getListDataExclusiveQuery = async (props?: ParamsProps) => {
+    try {
+      const response = await listPostExclusive(props);
+      return {data: response?.data, meta: response?.meta};
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -381,5 +397,7 @@ export const useFeedHook = () => {
     setViewCount,
     getListProfilePostGuestMode,
     getListTopPostPublic,
+    getListDataPostQuery,
+    getListDataExclusiveQuery,
   };
 };

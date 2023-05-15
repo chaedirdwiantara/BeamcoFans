@@ -1,10 +1,11 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
   RefreshControl,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
@@ -15,6 +16,7 @@ import {
   ModalDonate,
   ModalShare,
   ModalSuccessDonate,
+  NewPostAvail,
   SsuToast,
 } from '../../components';
 import {
@@ -48,14 +50,17 @@ import {
   likesCountInFeed,
   playSongOnFeed,
   useCategoryFilter,
+  useCheckNewUpdate,
   useGetCreditCount,
   useGetDataOnMount,
   useRefreshingEffect,
+  useSetDataMainQuery,
   useSetDataToMainData,
   useSortByFilter,
   useStopRefreshing,
 } from './ListUtils/ListFunction';
 import Clipboard from '@react-native-clipboard/clipboard';
+import {useQuery} from 'react-query';
 
 const {height} = Dimensions.get('screen');
 
@@ -106,6 +111,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     getListDataPost,
     setLikePost,
     setUnlikePost,
+    getListDataPostQuery,
   } = useFeedHook();
 
   const {
@@ -123,10 +129,54 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
 
   const {t} = useTranslation();
 
+  // TODO: QUERY AREA
+  const [previousData, setPreviousData] = useState<PostList[]>();
+  const [showUpdateNotif, setShowUpdateNotif] = useState(false);
+  const [numberOfNewData, setNumberOfNewData] = useState<number>(0);
+
+  const {
+    data: postData,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery(
+    'posts-public',
+    () =>
+      getListDataPostQuery({
+        page: 1,
+        perPage: perPage,
+        sortBy: filterByValue,
+        category: categoryValue,
+      }),
+    {
+      staleTime: 300000,
+      refetchInterval: 300000,
+    },
+  );
+
+  //* check if there's new update
+  useCheckNewUpdate(
+    isLoading,
+    postData,
+    previousData,
+    setShowUpdateNotif,
+    setNumberOfNewData,
+    setPreviousData,
+  );
+
+  const handleUpdateClick = () => {
+    setShowUpdateNotif(false);
+    postData?.data && setPreviousData(postData.data);
+  };
+
+  //* set data into main (show data)
+  useSetDataMainQuery(previousData, setDataMain);
+  // TODO: END OF QUERY AREA
+
   //* get data on mount this page
   useGetCreditCount(modalDonate, getCreditCount);
 
-  useGetDataOnMount(uuidMusician, perPage, getListDataPost, setUuid, setPage);
+  // useGetDataOnMount(uuidMusician, perPage, getListDataPost, setUuid, setPage);
 
   //* call when refreshing
   useRefreshingEffect(
@@ -413,7 +463,13 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
         modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
         toggleModal={onPressSuccess}
       />
-      {!refreshing && <ModalLoading visible={feedIsLoading} />}
+      {/* {!refreshing && <ModalLoading visible={feedIsLoading} />} */}
+      {showUpdateNotif && (
+        <NewPostAvail
+          onPress={handleUpdateClick}
+          numberOfNewData={numberOfNewData}
+        />
+      )}
     </>
   );
 };
