@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {
   NativeStackNavigationProp,
@@ -10,30 +10,23 @@ import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {SongDetailsContent} from '../../components';
 import {useSongHook} from '../../hooks/use-song.hook';
-import {useMusicianHook} from '../../hooks/use-musician.hook';
 
 type SongDetailProps = NativeStackScreenProps<RootStackParams, 'SongDetails'>;
 
 export const SongDetailsScreen: React.FC<SongDetailProps> = ({
   route,
 }: SongDetailProps) => {
-  const {songId, musicianId} = route.params;
+  const {songId} = route.params;
 
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const {dataDetailSong, getDetailSong} = useSongHook();
-  const {dataAlbum, getAlbum} = useMusicianHook();
+  const [showModalNotAvail, setShowModalNotAvail] = useState<boolean>(false);
 
   useFocusEffect(
     useCallback(() => {
       getDetailSong({id: songId.toString()});
-    }, []),
-  );
-
-  useFocusEffect(
-    useCallback(() => {
-      getAlbum({uuid: musicianId});
     }, []),
   );
 
@@ -45,6 +38,26 @@ export const SongDetailsScreen: React.FC<SongDetailProps> = ({
     navigation.navigate('ShowCredit', {songId});
   };
 
+  const goToMusicianProfile = (uuid: string) => {
+    if (uuid) {
+      navigation.push('MusicianProfile', {id: uuid});
+    } else {
+      setShowModalNotAvail(true);
+    }
+  };
+
+  const goToAlbum = (id: number) => {
+    navigation.push('Album', {id});
+  };
+
+  const goToAddToPlaylist = () => {
+    navigation.navigate('AddToPlaylist', {
+      id: [songId],
+      type: 'song',
+      fromMainTab: false,
+    });
+  };
+
   return (
     <View style={styles.root}>
       {dataDetailSong && (
@@ -52,7 +65,11 @@ export const SongDetailsScreen: React.FC<SongDetailProps> = ({
           onPressGoBack={onPressGoBack}
           goToShowCredit={goToShowCredit}
           dataDetail={dataDetailSong}
-          dataAlbum={dataAlbum}
+          goToMusicianProfile={goToMusicianProfile}
+          showModalNotAvail={showModalNotAvail}
+          closeModalNotAvail={() => setShowModalNotAvail(false)}
+          goToAlbum={goToAlbum}
+          goToAddToPlaylist={goToAddToPlaylist}
         />
       )}
     </View>

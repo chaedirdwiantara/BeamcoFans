@@ -45,25 +45,30 @@ export const BottomSheetGuest: React.FC<BottomSheetGuestProps> = ({
             {t('Modal.Guest.Subtitle')}
           </Text>
         </View>
-        <ButtonGradient
-          label={t('Btn.SignUp')}
-          textStyles={{fontSize: normalize(14)}}
-          onPress={() => onPress('Signup')}
-        />
-        <Button
-          type="border"
-          label={t('Btn.SignIn')}
-          textStyles={{fontSize: normalize(14)}}
-          containerStyles={{marginVertical: mvs(6)}}
-          onPress={() => onPress('Login')}
-        />
-        <Button
-          type="border"
-          label={t('Btn.MaybeLater')}
-          borderColor="transparent"
-          textStyles={{fontSize: normalize(14), color: color.Success[400]}}
-          onPress={onPressClose}
-        />
+        <View
+          style={{
+            alignSelf: 'center',
+          }}>
+          <ButtonGradient
+            label={t('Btn.SignUp')}
+            textStyles={{fontSize: normalize(14)}}
+            onPress={() => onPress('Signup')}
+          />
+          <Button
+            type="border"
+            label={t('Btn.SignIn')}
+            textStyles={{fontSize: normalize(14)}}
+            containerStyles={{marginVertical: mvs(6)}}
+            onPress={() => onPress('Login')}
+          />
+          <Button
+            type="border"
+            label={t('Btn.MaybeLater')}
+            borderColor="transparent"
+            textStyles={{fontSize: normalize(14), color: color.Success[400]}}
+            onPress={onPressClose}
+          />
+        </View>
       </View>
     );
   };

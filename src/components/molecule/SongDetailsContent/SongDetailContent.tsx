@@ -5,7 +5,9 @@ import {
   Text,
   ScrollView,
   InteractionManager,
+  TouchableOpacity,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
 
 import {
@@ -13,57 +15,65 @@ import {
   heightResponsive,
   width,
   widthPercentage,
+  widthResponsive,
 } from '../../../utils';
 import {
   ArrowLeftIcon,
   DefaultImage,
   TickCircleIcon,
 } from '../../../assets/icon';
-import {Dropdown} from '../DropDown';
+import {ListAlbum} from './ListAlbum';
 import {ListAvatar} from './ListAvatar';
 import Color from '../../../theme/Color';
 import {Gap, SsuToast} from '../../atom';
 import {ModalShare} from '../Modal/ModalShare';
 import {TopNavigation} from '../TopNavigation';
 import {ModalDonate} from '../Modal/ModalDonate';
+import {ModalCustom} from '../Modal/ModalCustom';
+import {dummySongImg} from '../../../data/image';
 import {color, font, typography} from '../../../theme';
-import Album from '../../../screen/MusicianProfile/Album';
+import {storage} from '../../../hooks/use-storage.hook';
+import {dateLongMonth} from '../../../utils/date-format';
+import {usePlayerHook} from '../../../hooks/use-player.hook';
+import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {ModalSuccessDonate} from '../Modal/ModalSuccessDonate';
 import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
-import {AlbumData} from '../../../interface/musician.interface';
 import {dropDownHeaderSongDetails} from '../../../data/dropdown';
-import {DataDetailSong} from '../../../interface/song.interface';
+import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
+import {DataDetailSong, SongList} from '../../../interface/song.interface';
 import {ListenersAndDonate} from '../ListenersAndDonate/ListenersAndDonate';
-import {useTranslation} from 'react-i18next';
-import {useCreditHook} from '../../../hooks/use-credit.hook';
-import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 
 interface Props {
-  dataAlbum: AlbumData[];
   onPressGoBack: () => void;
   goToShowCredit: () => void;
   dataDetail: DataDetailSong;
+  goToMusicianProfile: (uuid: string) => void;
+  showModalNotAvail: boolean;
+  closeModalNotAvail: () => void;
+  goToAlbum: (id: number) => void;
+  goToAddToPlaylist: () => void;
 }
 
 export const SongDetailsContent: React.FC<Props> = ({
-  dataAlbum,
   onPressGoBack,
   goToShowCredit,
   dataDetail,
+  goToMusicianProfile,
+  showModalNotAvail,
+  closeModalNotAvail,
+  goToAlbum,
+  goToAddToPlaylist,
 }) => {
   const {t} = useTranslation();
-  const {creditCount, getCreditCount} = useCreditHook();
-  const [toastVisible, setToastVisible] = useState(false);
+  const {addSong} = usePlayerHook();
+  const isLogin = storage.getString('profile');
+  const [toastVisible, setToastVisible] = useState<boolean>(false);
+  const [toastText, setToastText] = useState<string>('');
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
-
-  const noAlbumText = t('EmptyState.NoAlbum');
-
-  useEffect(() => {
-    getCreditCount();
-  }, [modalDonate]);
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
 
   useEffect(() => {
     toastVisible &&
@@ -80,11 +90,24 @@ export const SongDetailsContent: React.FC<Props> = ({
   }, [modalSuccessDonate, trigger2ndModal]);
 
   const resultDataMore = (dataResult: any) => {
-    if (dataResult.value === '3') {
-      setModalShare(true);
-    } else if (dataResult.value === '4') {
-      goToShowCredit();
+    if (isLogin && dataResult.value !== '4') {
+      if (dataResult.value === '1') {
+        goToAddToPlaylist();
+      } else if (dataResult.value === '2') {
+        addSong(dataDetail as unknown as SongList);
+        setToastVisible(true);
+        setToastText('Song added to queue!');
+      } else {
+        setModalShare(true);
+      }
+    } else {
+      if (dataResult.value === '4') goToShowCredit();
+      else setModalGuestVisible(true);
     }
+  };
+
+  const onPressCoin = () => {
+    isLogin ? setModalDonate(true) : setModalGuestVisible(true);
   };
 
   const onPressDonate = () => {
@@ -94,6 +117,22 @@ export const SongDetailsContent: React.FC<Props> = ({
 
   const onPressSuccess = () => {
     setModalSuccessDonate(false);
+  };
+
+  const children = () => {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.title}>{t('Modal.MusicianNotAvail.Title')}</Text>
+        <Text style={styles.subtitle}>
+          {t('Modal.MusicianNotAvail.Subtitle')}
+        </Text>
+        <View style={styles.containerButton}>
+          <TouchableOpacity onPress={closeModalNotAvail}>
+            <Text style={styles.button}>{t('General.GotIt')}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
   };
 
   return (
@@ -120,7 +159,10 @@ export const SongDetailsContent: React.FC<Props> = ({
               <PhotoPlaylist uri={dataDetail.album.imageUrl[1].image} />
             ) : (
               <View style={styles.undefinedImg}>
-                <DefaultImage.PlaylistCover width={148} height={148} />
+                <DefaultImage.PlaylistCover
+                  width={widthResponsive(148)}
+                  height={widthResponsive(148)}
+                />
               </View>
             )}
           </View>
@@ -128,17 +170,16 @@ export const SongDetailsContent: React.FC<Props> = ({
             <View>
               <Text style={styles.titleSong}>{dataDetail.title}</Text>
               <Text style={styles.artist}>{`${dataDetail.musicianName}`}</Text>
-              <Text
-                style={
-                  styles.albumName
-                }>{`${dataDetail.album.title} · ${dataDetail.album.productionYear}`}</Text>
+              <Text style={styles.albumName}>{`${
+                dataDetail.album.title
+              } · ${dateLongMonth(dataDetail.album.publishedDate)}`}</Text>
             </View>
           </View>
           <ListenersAndDonate
             totalListener={
               dataDetail.listenerCount ? dataDetail.listenerCount : 0
             }
-            onPress={() => setModalDonate(true)}
+            onPress={onPressCoin}
           />
         </View>
 
@@ -154,29 +195,39 @@ export const SongDetailsContent: React.FC<Props> = ({
                   ? dataDetail.imageUrl[1].image
                   : ''
               }
+              onPress={goToMusicianProfile}
+              uuid={dataDetail.musicianUUID}
             />
 
-            {dataDetail.album.featuringArtist !== null &&
-            dataDetail.album.featuringArtist.length !== 0 ? (
+            {dataDetail.featuring !== null &&
+            dataDetail.featuring.length !== 0 ? (
               <ListAvatar
-                title="Featuring"
+                title={t('Music.Credit.Featuring')}
                 featuring
-                featuringData={dataDetail.album.featuringArtist}
+                featuringData={dataDetail.featuring}
+                onPress={goToMusicianProfile}
               />
             ) : null}
 
             <Text style={[typography.Subtitle1, styles.titleContent]}>
               {t('Music.Label.SongDesc')}
             </Text>
-            <Text style={styles.description}>{dataDetail.description}</Text>
+            <Text style={styles.description}>
+              {dataDetail.description
+                ? dataDetail.description
+                : t('General.NoDescription')}
+            </Text>
 
-            <Album
+            <ListAlbum
               title={t('Home.Topbar.Search.Album')}
-              titleStyle={styles.titleAlbumStyle}
-              data={dataAlbum}
-              artistName={dataDetail.musicianName}
-              errorText={noAlbumText}
-              containerStyles={{marginHorizontal: 0}}
+              albumName={dataDetail.album.title}
+              onPress={() => goToAlbum(dataDetail.album.id)}
+              createdOn={dataDetail.album.productionYear}
+              imgUri={
+                dataDetail.album.imageUrl.length !== 0
+                  ? dataDetail.album.imageUrl[0].image
+                  : dummySongImg
+              }
             />
           </View>
         </View>
@@ -208,9 +259,21 @@ export const SongDetailsContent: React.FC<Props> = ({
         titleSong={'Smoke + Mirror'}
         createdOn={'2019'}
         artist={'Imagine Dragons, The Wekeend'}
-        onPressCopy={() =>
-          InteractionManager.runAfterInteractions(() => setToastVisible(true))
-        }
+        onPressCopy={() => {
+          setToastText(t('General.LinkCopied') || '');
+          InteractionManager.runAfterInteractions(() => setToastVisible(true));
+        }}
+      />
+
+      <ModalCustom
+        modalVisible={showModalNotAvail}
+        children={children()}
+        onPressClose={closeModalNotAvail}
+      />
+
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
       />
 
       <SsuToast
@@ -225,7 +288,7 @@ export const SongDetailsContent: React.FC<Props> = ({
             />
             <Gap width={widthPercentage(7)} />
             <Text style={[typography.Button2, styles.textStyle]}>
-              {t('General.LinkCopied')}
+              {toastText}
             </Text>
           </View>
         }
@@ -250,6 +313,7 @@ const styles = StyleSheet.create({
     fontSize: mvs(12),
     color: color.Neutral[50],
     fontFamily: font.InterMedium,
+    marginTop: mvs(3),
   },
   albumName: {
     fontSize: mvs(12),
@@ -295,6 +359,7 @@ const styles = StyleSheet.create({
   containerContent: {
     paddingHorizontal: widthPercentage(20),
     paddingTop: heightPercentage(15),
+    marginBottom: heightPercentage(20),
   },
   artistName: {
     fontFamily: font.InterMedium,
@@ -303,11 +368,12 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
   },
   description: {
-    fontSize: mvs(12),
+    fontSize: mvs(13),
     color: color.Neutral[10],
     fontFamily: font.InterRegular,
-    lineHeight: heightPercentage(16),
+    lineHeight: mvs(16),
     paddingTop: heightPercentage(8),
+    marginBottom: mvs(10),
   },
   modalContainer: {
     width: '100%',
@@ -327,5 +393,35 @@ const styles = StyleSheet.create({
   undefinedImg: {
     marginTop: heightResponsive(36),
     marginBottom: heightResponsive(28),
+  },
+  card: {
+    width: width * 0.9,
+    backgroundColor: Color.Dark[900],
+    justifyContent: 'center',
+    borderRadius: 4,
+    paddingHorizontal: widthPercentage(20),
+    paddingVertical: heightPercentage(15),
+  },
+  title: {
+    fontSize: mvs(16),
+    color: Color.Neutral[10],
+    fontFamily: font.InterSemiBold,
+  },
+  subtitle: {
+    fontSize: mvs(15),
+    color: Color.Neutral[10],
+    fontFamily: font.InterRegular,
+    marginTop: heightPercentage(10),
+  },
+  containerButton: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: heightPercentage(25),
+  },
+  button: {
+    fontSize: mvs(13),
+    paddingHorizontal: widthPercentage(12),
+    color: Color.Neutral[10],
+    fontFamily: font.InterRegular,
   },
 });

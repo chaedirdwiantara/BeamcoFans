@@ -50,12 +50,15 @@ export type ListSongResponseType = {
 };
 
 export type FeaturingArtist = {
+  isDeletedUser: boolean;
+  name: string;
   uuid: string;
   fullname: string;
   imageProfile: string;
 };
 
 export type DataAlbum = {
+  songWriter: string[];
   id: number;
   musicianId: string;
   title: string;
@@ -120,6 +123,10 @@ export type TranscodedSongUrl = {
 };
 
 export type DataDetailSong = {
+  genre: {
+    id: number;
+    name: string;
+  };
   id: number;
   musicianUUID: string;
   musicianName: string;
