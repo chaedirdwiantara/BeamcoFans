@@ -1,31 +1,31 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Avatar, Gap} from '../../atom';
-import {color, font, typography} from '../../../theme';
-import {
-  heightPercentage,
-  normalize,
-  widthPercentage,
-  widthResponsive,
-} from '../../../utils';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {mvs} from 'react-native-size-matters';
+
+import {Avatar, Gap} from '../../atom';
 import {DefaultAvatar} from '../../../assets/icon';
+import {color, font, typography} from '../../../theme';
+import {heightPercentage, widthPercentage} from '../../../utils';
 import {FeaturingArtist} from '../../../interface/song.interface';
 
 interface ListAvatarProps {
   avatarUri?: string;
   title: string;
+  uuid?: string;
   text?: string;
   featuring?: boolean;
   featuringData?: FeaturingArtist[];
+  onPress: (uuid: string) => void;
 }
 
 export const ListAvatar: React.FC<ListAvatarProps> = ({
   title,
+  uuid,
   text,
   featuring,
   featuringData,
-  avatarUri = 'https://wallpaperspeed.id/wp-content/uploads/2021/09/dragon-ball-z-wallpaper-goku-super-saiyan-god-source-moddroid.com_.webp',
+  avatarUri,
+  onPress,
 }) => {
   return (
     <View>
@@ -33,33 +33,47 @@ export const ListAvatar: React.FC<ListAvatarProps> = ({
         <Text
           style={[
             typography.Subtitle1,
-            {color: color.Success[500], paddingBottom: heightPercentage(10)},
+            {
+              color: color.Success[500],
+              paddingBottom: heightPercentage(10),
+            },
           ]}>
           {title}
         </Text>
       )}
       {featuring && featuringData ? (
         featuringData.map((item, i) => (
-          <View style={styles.containerAvatar}>
+          <TouchableOpacity
+            key={i}
+            style={styles.containerAvatar}
+            disabled={item.isDeletedUser}
+            onPress={() => onPress(item.uuid)}>
             {item.imageProfile ? (
-              <Avatar size={widthResponsive(44)} imgUri={item.imageProfile} />
+              <Avatar size={widthPercentage(44)} imgUri={item.imageProfile} />
             ) : (
-              <DefaultAvatar.MusicianIcon width={44} height={44} />
+              <DefaultAvatar.MusicianIcon
+                color={item.isDeletedUser ? 'rgba(0, 0, 0, 0.5)' : '#222731'}
+              />
             )}
             <Gap width={10} />
-            <Text style={styles.text}>{item.fullname}</Text>
-          </View>
+            <Text
+              style={[styles.text, {opacity: item.isDeletedUser ? 0.5 : 1}]}>
+              {item.name}
+            </Text>
+          </TouchableOpacity>
         ))
       ) : (
-        <View style={styles.containerAvatar}>
+        <TouchableOpacity
+          onPress={() => onPress(uuid ? uuid : '')}
+          style={styles.containerAvatar}>
           {avatarUri ? (
-            <Avatar size={widthResponsive(44)} imgUri={avatarUri} />
+            <Avatar size={widthPercentage(44)} imgUri={avatarUri} />
           ) : (
-            <DefaultAvatar.MusicianIcon width={44} height={44} />
+            <DefaultAvatar.MusicianIcon />
           )}
           <Gap width={10} />
           <Text style={styles.text}>{text}</Text>
-        </View>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -73,7 +87,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: font.InterMedium,
-    fontSize: mvs(15),
+    fontSize: mvs(14),
     lineHeight: heightPercentage(20),
     color: color.Neutral[10],
   },
