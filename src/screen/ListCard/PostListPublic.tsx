@@ -129,7 +129,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
 
   const {t} = useTranslation();
 
-  // TODO: QUERY AREA
+  //* QUERY AREA
   const [previousData, setPreviousData] = useState<PostList[]>();
   const [showUpdateNotif, setShowUpdateNotif] = useState(false);
   const [numberOfNewData, setNumberOfNewData] = useState<number>(0);
@@ -171,7 +171,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
 
   //* set data into main (show data)
   useSetDataMainQuery(previousData, setDataMain);
-  // TODO: END OF QUERY AREA
+  //* END OF QUERY AREA
 
   //* get data on mount this page
   useGetCreditCount(modalDonate, getCreditCount);
