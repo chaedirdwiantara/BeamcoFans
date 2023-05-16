@@ -40,6 +40,8 @@
 	<string>ea77058ba43ca99a7c661f0003857457</string>
 	<key>FacebookDisplayName</key>
 	<string>SunnySideUp</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -58,7 +60,6 @@
 			</dict>
 		</dict>
 	</dict>
-  <key>ITSAppUsesNonExemptEncryption</key><false/>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to use your camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
