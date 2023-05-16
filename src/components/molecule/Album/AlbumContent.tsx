@@ -6,35 +6,45 @@ import {
   ScrollView,
   InteractionManager,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {mvs} from 'react-native-size-matters';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {Dropdown} from '../DropDown';
-import Color from '../../../theme/Color';
-import {Gap, SsuToast} from '../../atom';
-import {TopNavigation} from '../TopNavigation';
-import {color, font, typography} from '../../../theme';
-import {DataDropDownType, dropDownHeaderAlbum} from '../../../data/dropdown';
-import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
-import {ArrowLeftIcon, TickCircleIcon} from '../../../assets/icon';
 import {
   SongTitlePlay,
   ListenersAndDonate,
   ModalDonate,
   ModalShare,
   ModalSuccessDonate,
+  BottomSheetGuest,
 } from '../';
-import {DataDetailAlbum, SongList} from '../../../interface/song.interface';
-import {dateLongMonth} from '../../../utils/date-format';
-import {useTranslation} from 'react-i18next';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  heightPercentage,
+  heightResponsive,
+  width,
+  widthPercentage,
+  widthResponsive,
+} from '../../../utils';
+import {
+  ArrowLeftIcon,
+  DefaultImage,
+  TickCircleIcon,
+} from '../../../assets/icon';
+import Color from '../../../theme/Color';
+import {Gap, SsuToast} from '../../atom';
+import {TopNavigation} from '../TopNavigation';
 import {RootStackParams} from '../../../navigations';
-import {useCreditHook} from '../../../hooks/use-credit.hook';
-import {usePlayerHook} from '../../../hooks/use-player.hook';
+import {color, font, typography} from '../../../theme';
+import {storage} from '../../../hooks/use-storage.hook';
+import {dateLongMonth} from '../../../utils/date-format';
 import ListSongs from '../../../screen/ListCard/ListSongs';
-import {mvs} from 'react-native-size-matters';
-import {heightPercentage, width, widthPercentage} from '../../../utils';
-import {ListDataSearchSongs} from '../../../interface/search.interface';
+import {usePlayerHook} from '../../../hooks/use-player.hook';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
+import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
+import {ListDataSearchSongs} from '../../../interface/search.interface';
+import {DataDetailAlbum, SongList} from '../../../interface/song.interface';
+import {DataDropDownType, dropDownHeaderAlbum} from '../../../data/dropdown';
 
 interface Props {
   dataSong: SongList[] | ListDataSearchSongs[] | null;
@@ -51,6 +61,7 @@ export const AlbumContent: React.FC<Props> = ({
 }) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const isLogin = storage.getBoolean('isLogin');
 
   const {
     isPlaying,
@@ -63,7 +74,6 @@ export const AlbumContent: React.FC<Props> = ({
   const {t} = useTranslation();
   const isFocused = useIsFocused();
   const {addSong} = usePlayerHook();
-  const {creditCount, getCreditCount} = useCreditHook();
   const [toastVisible, setToastVisible] = useState(false);
   const [toastText, setToastText] = useState<string>('');
   const [modalDonate, setModalDonate] = useState<boolean>(false);
@@ -71,6 +81,7 @@ export const AlbumContent: React.FC<Props> = ({
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
   const [songIdList, setSongIdList] = useState<number[]>([]);
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (isFocused && isPlaying) {
@@ -86,10 +97,6 @@ export const AlbumContent: React.FC<Props> = ({
         setToastVisible(false);
       }, 3000);
   }, [toastVisible]);
-
-  useEffect(() => {
-    getCreditCount();
-  }, [modalDonate]);
 
   useEffect(() => {
     modalSuccessDonate &&
@@ -109,17 +116,23 @@ export const AlbumContent: React.FC<Props> = ({
   }, [dataSong]);
 
   const resultDataMore = (dataResult: DataDropDownType) => {
-    if (dataResult.value === '1') {
-      if (dataSong !== null) {
-        setToastVisible(true);
-        setToastText('Playlist added to queue!');
-        addSong(dataSong);
+    if (isLogin) {
+      if (dataResult.value === '1') {
+        if (dataSong !== null) {
+          setToastVisible(true);
+          setToastText('Playlist added to queue!');
+          addSong(dataSong);
+        }
+      } else {
+        setModalShare(true);
       }
-    } else if (dataResult.value === '2') {
-      setModalShare(true);
-    } else if (dataResult.value === '3') {
-      navigation.navigate('AddToPlaylist', {id: songIdList, type: 'album'});
+    } else {
+      setModalGuestVisible(true);
     }
+  };
+
+  const onPressCoin = () => {
+    isLogin ? setModalDonate(true) : setModalGuestVisible(true);
   };
 
   const onPressDonate = () => {
@@ -172,14 +185,16 @@ export const AlbumContent: React.FC<Props> = ({
       <ScrollView>
         <View style={{paddingHorizontal: widthPercentage(10)}}>
           <View style={{alignSelf: 'center'}}>
-            <PhotoPlaylist
-              uri={
-                detailAlbum?.imageUrl.length > 0
-                  ? detailAlbum?.imageUrl[1].image
-                  : ''
-              }
-              dark={comingSoon}
-            />
+            {detailAlbum && detailAlbum.imageUrl.length > 0 ? (
+              <PhotoPlaylist uri={detailAlbum?.imageUrl[1].image} />
+            ) : (
+              <View style={styles.undefinedImg}>
+                <DefaultImage.PlaylistCover
+                  width={widthResponsive(148)}
+                  height={widthResponsive(148)}
+                />
+              </View>
+            )}
           </View>
           <SongTitlePlay
             title={detailAlbum.title}
@@ -205,7 +220,7 @@ export const AlbumContent: React.FC<Props> = ({
                   ? detailAlbum?.totalCountListener
                   : 0
               }
-              onPress={() => setModalDonate(true)}
+              onPress={onPressCoin}
             />
           )}
         </View>
@@ -253,6 +268,11 @@ export const AlbumContent: React.FC<Props> = ({
         toggleModal={onPressSuccess}
       />
 
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
+      />
+
       <ModalShare
         url={
           'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0'
@@ -261,12 +281,12 @@ export const AlbumContent: React.FC<Props> = ({
         onPressClose={() => setModalShare(false)}
         titleModal={t('General.Share.Album')}
         imgUri={
-          'https://i.pinimg.com/originals/b3/51/66/b35166174c9bde2d0cc436150a983912.jpg'
+          detailAlbum.imageUrl.length !== 0 ? detailAlbum.imageUrl[0].image : ''
         }
         type={'Album'}
-        titleSong={'Smoke + Mirror'}
-        createdOn={'2019'}
-        artist={'Imagine Dragons, The Wekeend'}
+        titleSong={detailAlbum.title}
+        createdOn={detailAlbum.productionYear}
+        artist={detailAlbum.musician.name}
         onPressCopy={() =>
           InteractionManager.runAfterInteractions(() => {
             setToastText(t('General.LinkCopied') || '');
@@ -337,5 +357,9 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: color.Neutral[10],
+  },
+  undefinedImg: {
+    marginTop: heightResponsive(36),
+    marginBottom: heightResponsive(28),
   },
 });
