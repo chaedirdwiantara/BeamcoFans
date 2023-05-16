@@ -22,10 +22,21 @@ export const listSong = async (
 };
 
 export const detailSong = async (
-  props?: PostPropsTypeA,
+  props?: SongPropsTypeA,
 ): Promise<DetailSongResponseType> => {
   const {data} = await SsuAPI().request<DetailSongResponseType>({
     url: `/fans-app/songs/${props?.id}`,
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const detailSongPublic = async (
+  props?: SongPropsTypeA,
+): Promise<DetailSongResponseType> => {
+  const {data} = await SsuAPI().request<DetailSongResponseType>({
+    url: `/songs/detail/${props?.id}`,
     method: 'GET',
   });
 
