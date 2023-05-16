@@ -9,6 +9,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Color from '../../theme/Color';
 import {RootStackParams} from '../../navigations';
 import {SongDetailsContent} from '../../components';
+import {storage} from '../../hooks/use-storage.hook';
 import {useSongHook} from '../../hooks/use-song.hook';
 
 type SongDetailProps = NativeStackScreenProps<RootStackParams, 'SongDetails'>;
@@ -17,16 +18,20 @@ export const SongDetailsScreen: React.FC<SongDetailProps> = ({
   route,
 }: SongDetailProps) => {
   const {songId} = route.params;
-
+  const isLogin = storage.getBoolean('isLogin');
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const {dataDetailSong, getDetailSong} = useSongHook();
+  const {dataDetailSong, getDetailSong, getDetailSongPublic} = useSongHook();
   const [showModalNotAvail, setShowModalNotAvail] = useState<boolean>(false);
 
   useFocusEffect(
     useCallback(() => {
-      getDetailSong({id: songId.toString()});
+      if (isLogin) {
+        getDetailSong({id: songId});
+      } else {
+        getDetailSongPublic({id: songId});
+      }
     }, []),
   );
 
