@@ -52,13 +52,19 @@ export const GuestContent: React.FC<GuestProps> = ({containerStyle}) => {
         label={t('Btn.SignUp')}
         textStyles={{fontSize: normalize(14)}}
         onPress={() => navigation.navigate('Signup')}
+        gradientStyles={{width: width * 0.75}}
+        colors={['#F98FD9', '#FF70D4']}
       />
       <Button
         type="border"
         label={t('Btn.SignIn')}
-        textStyles={{fontSize: normalize(14), color: color.Success[400]}}
-        containerStyles={{marginVertical: heightPercentage(6)}}
+        textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
+        containerStyles={{
+          marginVertical: heightPercentage(8),
+          width: width * 0.75,
+        }}
         onPress={() => navigation.navigate('Login')}
+        borderColor={color.Pink.linear}
       />
     </View>
   );

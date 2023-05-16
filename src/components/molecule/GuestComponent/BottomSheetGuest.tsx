@@ -1,16 +1,16 @@
 import React from 'react';
 import Modal from 'react-native-modal';
+import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
-import {Text, View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Text, View, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 
 import SsuSheet from '../../atom/SsuSheet';
-import {RootStackParams} from '../../../navigations';
 import {color, typography} from '../../../theme';
 import {Button, ButtonGradient} from '../../atom';
-import {heightPercentage, normalize} from '../../../utils';
-import {useTranslation} from 'react-i18next';
+import {RootStackParams} from '../../../navigations';
+import {heightPercentage, normalize, width} from '../../../utils';
 
 interface BottomSheetGuestProps {
   modalVisible: boolean;
@@ -45,27 +45,28 @@ export const BottomSheetGuest: React.FC<BottomSheetGuestProps> = ({
             {t('Modal.Guest.Subtitle')}
           </Text>
         </View>
-        <View
-          style={{
-            alignSelf: 'center',
-          }}>
+        <View style={{alignSelf: 'center'}}>
           <ButtonGradient
             label={t('Btn.SignUp')}
             textStyles={{fontSize: normalize(14)}}
             onPress={() => onPress('Signup')}
+            gradientStyles={{width: width * 0.75}}
+            colors={['#F98FD9', '#FF70D4']}
           />
           <Button
             type="border"
             label={t('Btn.SignIn')}
-            textStyles={{fontSize: normalize(14)}}
-            containerStyles={{marginVertical: mvs(6)}}
+            textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
+            containerStyles={{marginVertical: mvs(6), width: width * 0.75}}
             onPress={() => onPress('Login')}
+            borderColor={color.Pink.linear}
           />
           <Button
             type="border"
             label={t('Btn.MaybeLater')}
             borderColor="transparent"
-            textStyles={{fontSize: normalize(14), color: color.Success[400]}}
+            textStyles={{fontSize: normalize(14), color: color.Pink.linear}}
+            containerStyles={{width: width * 0.75}}
             onPress={onPressClose}
           />
         </View>
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   containerTitle: {
-    marginBottom: heightPercentage(30),
+    marginBottom: heightPercentage(20),
     justifyContent: 'center',
     alignItems: 'center',
   },
