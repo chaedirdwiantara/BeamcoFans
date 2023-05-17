@@ -649,7 +649,7 @@
     "SignOut": "Are you sure you want to sign out?",
     "Guest": {
       "Title": "Sign Up or Sign In",
-      "Subtitle": "You are exploring as guest, sign up or sign in to enoy full content"
+      "Subtitle": "You are exploring as guest, sign up or sign in to enjoy full content"
     },
     "Update": {
       "Title": "New Version Available",
@@ -680,10 +680,10 @@
   "Guest": {
     "Title": "Sign Up to Interact with Musician",
     "Subtitle": "When you are sign up, you can",
-    "UnlimitedSong": "Play Unlimited Song",
-    "GetEvent": "Get Latest Event Update",
-    "GetExclusive": "Get Exclusive Content",
-    "Support": "Support Your Musician"
+    "UnlimitedSong": "Play Unlimited\nSong",
+    "GetEvent": "Get Latest\nEvent Update",
+    "GetExclusive": "Get Exclusive\nContent",
+    "Support": "Support\nYour Musician"
   },
   "TopUp": {
     "Title": "Top Up",

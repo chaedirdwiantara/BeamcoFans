@@ -19,6 +19,7 @@ export type SongList = {
   id: number;
   title: string;
   musicianId: string;
+  musicianUUID: string;
   musicianName: string;
   imageUrl: imageTypes[];
   songDuration: number;
@@ -58,6 +59,11 @@ export type FeaturingArtist = {
 };
 
 export type DataAlbum = {
+  musician: {
+    uuid: string;
+    name: string;
+    imageProfile: string;
+  };
   songWriter: string[];
   id: number;
   musicianId: string;

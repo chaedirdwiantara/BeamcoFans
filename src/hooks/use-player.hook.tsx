@@ -43,7 +43,7 @@ export const usePlayerHook = () => {
           artwork:
             item.imageUrl.length !== 0 ? item.imageUrl[0].image : undefined,
           id: item.id,
-          musicianId: item.musicianId,
+          musicianId: item.musicianId || item.musicianUUID,
         };
         await TrackPlayer.add(track);
       });
@@ -55,7 +55,7 @@ export const usePlayerHook = () => {
         type: TrackType.HLS,
         artwork: val.imageUrl.length !== 0 ? val.imageUrl[0].image : undefined,
         id: val.id,
-        musicianId: val.musicianId,
+        musicianId: val.musicianId || val.musicianUUID,
       };
       await TrackPlayer.add(track);
     }
