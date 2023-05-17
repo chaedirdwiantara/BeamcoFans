@@ -3,6 +3,7 @@ import AddCircleIcon from './AddCircle.icon';
 import ArrowLeftIcon from './ArrowLeft.icon';
 import ArrowRightIcon from './ArrowRight.icon';
 import ArrowRightIcon2 from './ArrowRight2.icon';
+import ArrowUpIcon from './ArrowUp.icon';
 import AudioMusic from './AudioMusic.icon';
 import BellNotif from './BellNotif.icon';
 import CameraIcon from './Camera';
@@ -99,6 +100,7 @@ export {
   ArrowLeftIcon,
   ArrowRightIcon,
   ArrowRightIcon2,
+  ArrowUpIcon,
   AudioMusic,
   BellNotif,
   CameraIcon,
