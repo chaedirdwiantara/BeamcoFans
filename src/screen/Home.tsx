@@ -72,6 +72,7 @@ type OnScrollEventHandler = (
 type HomeProps = NativeStackScreenProps<MainTabParams, 'Home'>;
 
 export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
+  const {t} = useTranslation();
   const {showToast} = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -189,7 +190,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   useEffect(() => {
     const isRecoverSuccess = storage.getBoolean('recoverSuccess');
     setToastVisible(isRecoverSuccess || false);
-    setToastText('Welcome back to Sunny Side Up!');
+    setToastText('Welcome back to Beamco!');
     storage.set('recoverSuccess', false);
   }, []);
 
@@ -420,7 +421,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
 
         {/* Mood */}
         <ListMoodGenre
-          title="Mood"
+          title={t('Home.ListMood.Title')}
           data={listMood}
           containerStyle={styles.containerList}
           onPress={() => onPressMoodGenre('Moods', 'mood')}
@@ -429,7 +430,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         {/* End Of Mood */}
         {/* Genre */}
         <ListMoodGenre
-          title="Genre"
+          title={t('Home.ListGenre.Title')}
           data={listGenre}
           containerStyle={styles.containerList}
           imageStyle={{
@@ -447,8 +448,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             marginBottom: heightPercentage(10),
             paddingLeft: widthPercentage(24),
           }}>
-          <Text style={styles.diveInText}>Dive In</Text>
-          <Text style={styles.diveInDesc}>Based on your preferences</Text>
+          <Text style={styles.diveInText}>{t('Home.DiveIn.Title')}</Text>
+          <Text style={styles.diveInDesc}>{t('Home.DiveIn.Subtitle')}</Text>
         </View>
         <ListImageDesc
           title=""
@@ -544,7 +545,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         {/* End of Tab Musician */}
         {/* Playlist */}
         <ListPlaylistHome
-          title={'Playlist'}
+          title={t('Home.Playlist.Title')}
           data={dataPlaylist?.data}
           onPress={() => navigation.navigate('ListPlaylist')}
         />
@@ -553,7 +554,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         {/* Coming Soon */}
         {dataAlbumComingSoon.length > 0 ? (
           <ListImageDesc
-            title="Coming Soon"
+            title={t('Home.ComingSoon.Title')}
             data={dataAlbumComingSoon}
             containerStyle={styles.containerList}
             onPress={() => goToListMusic('Coming Soon', 'album')}
@@ -561,7 +562,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           />
         ) : (
           <EmptyStateHome
-            title="Coming Soon"
+            title={t('Home.ComingSoon.Title')}
             onPress={() => goToListMusic('Coming Soon', 'album')}
           />
         )}
