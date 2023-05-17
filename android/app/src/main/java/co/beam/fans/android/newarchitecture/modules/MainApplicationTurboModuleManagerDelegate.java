@@ -1,4 +1,4 @@
-package io.ssuuser.android.newarchitecture.modules;
+package co.beam.fans.android.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

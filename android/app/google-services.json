@@ -7,12 +7,28 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:348871011517:android:3dd91cf01f9a9026ba5bd4",
+        "mobilesdk_app_id": "1:348871011517:android:b35e38c19eaea97fba5bd4",
         "android_client_info": {
-          "package_name": "io.ssuuser.android"
+          "package_name": "co.beam.fans.android"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "348871011517-m4kovn8iiocdoib01nrnli3nricb72eb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.beam.fans.android",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "348871011517-r546lec9bc1cfugp9nmv6663ca65dcg9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.beam.fans.android",
+            "certificate_hash": "3a5e18f5ab830b24dbb65a0ccda7c568883bacd0"
+          }
+        },
         {
           "client_id": "348871011517-3eu5pi26jkpkba4fjuvrotvs8a6rkeql.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +45,65 @@
             {
               "client_id": "348871011517-3eu5pi26jkpkba4fjuvrotvs8a6rkeql.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "348871011517-0g9eti5g07q2smrfj9vbl52s3bvesg3m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.beam.fans.ios"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348871011517:android:3dd91cf01f9a9026ba5bd4",
+        "android_client_info": {
+          "package_name": "io.ssuuser.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348871011517-6r9k4ai50nm10bhkp19h50kh6nhp3d5e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ssuuser.android",
+            "certificate_hash": "3a5e18f5ab830b24dbb65a0ccda7c568883bacd0"
+          }
+        },
+        {
+          "client_id": "348871011517-p65h6ob7kdkvi533agpgc6uhkg1oc50b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ssuuser.android",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "348871011517-3eu5pi26jkpkba4fjuvrotvs8a6rkeql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0jeJir9J1z6O5HDbcsCFIaSTDQA7E0wQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348871011517-3eu5pi26jkpkba4fjuvrotvs8a6rkeql.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "348871011517-0g9eti5g07q2smrfj9vbl52s3bvesg3m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.beam.fans.ios"
+              }
             }
           ]
         }
