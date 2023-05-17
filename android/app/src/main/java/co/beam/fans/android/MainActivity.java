@@ -1,4 +1,4 @@
-package io.ssuuser.android;
+package co.beam.fans.android;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

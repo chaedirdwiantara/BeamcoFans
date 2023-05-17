@@ -1,4 +1,4 @@
-package io.ssuuser.android.newarchitecture.components;
+package co.beam.fans.android.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
