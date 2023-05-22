@@ -148,11 +148,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   };
 
   const goToFollowers = () => {
-    navigation.navigate('Followers', {uuid});
+    navigation.push('Followers', {uuid});
   };
 
   const goToPlaylist = (id: number) => {
-    navigation.navigate('Playlist', {id, from: 'other'});
+    navigation.push('Playlist', {id, from: 'other'});
   };
 
   const onPressGoBack = () => {
