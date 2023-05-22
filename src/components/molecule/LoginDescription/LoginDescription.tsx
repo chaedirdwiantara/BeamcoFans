@@ -5,8 +5,8 @@ import {useTranslation} from 'react-i18next';
 
 import {width} from '../../../utils';
 import Color from '../../../theme/Color';
-import {SSULogo} from '../../../assets/logo';
 import Typography from '../../../theme/Typography';
+import {BeamcoLogo} from '../../../assets/logo';
 
 interface LoginDescriptionProps {
   containerStyle?: ViewStyle;
@@ -16,13 +16,11 @@ export const LoginDescription: React.FC<LoginDescriptionProps> = ({
   containerStyle,
 }) => {
   const {t} = useTranslation();
-  const title = t('General.Begin');
   const description = t('General.TopDescription');
 
   return (
     <View style={[styles.root, containerStyle]}>
-      <SSULogo />
-      <Text style={[Typography.Heading4, styles.title]}>{title}</Text>
+      <BeamcoLogo />
       <Text style={[Typography.Subtitle3, styles.description]}>
         {description}
       </Text>
