@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   titleTopBody: {
     maxWidth: widthResponsive(200),
     fontFamily: font.InterRegular,
-    fontWeight: '600',
+    fontWeight: 'bold',
     fontSize: mvs(12),
     color: color.Neutral[10],
   },
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   bottomBodyText: {
     fontFamily: font.InterRegular,
     fontSize: mvs(12),
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: color.Neutral[10],
   },
   logoContainer: {
