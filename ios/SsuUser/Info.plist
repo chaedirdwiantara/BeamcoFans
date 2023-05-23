@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Sunny Side Up</string>
+	<string>Beamco</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -38,7 +38,7 @@
 	<key>FacebookClientToken</key>
 	<string>ea77058ba43ca99a7c661f0003857457</string>
 	<key>FacebookDisplayName</key>
-	<string>SunnySideUp</string>
+	<string>Beamco</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
