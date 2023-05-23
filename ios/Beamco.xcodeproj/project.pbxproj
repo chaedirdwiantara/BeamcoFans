@@ -38,13 +38,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* SsuUserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SsuUserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* BeamcoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeamcoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SsuUserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SsuUserTests.m; sourceTree = "<group>"; };
 		0537675E430BEEB6DF6B1F18 /* Pods-SsuUser-SsuUserTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SsuUser-SsuUserTests.debug.xcconfig"; path = "Target Support Files/Pods-SsuUser-SsuUserTests/Pods-SsuUser-SsuUserTests.debug.xcconfig"; sourceTree = "<group>"; };
 		0DD2EF8CEDFD4CCE8454288B /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../src/assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		1167C58F27A84DDBBA680ACB /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../src/assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* SsuUser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SsuUser.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Beamco.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Beamco.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SsuUser/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = SsuUser/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SsuUser/Images.xcassets; sourceTree = "<group>"; };
@@ -159,8 +159,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* SsuUser.app */,
-				00E356EE1AD99517003FC87E /* SsuUserTests.xctest */,
+				13B07F961A680F5B00A75B9A /* Beamco.app */,
+				00E356EE1AD99517003FC87E /* BeamcoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,9 +195,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* SsuUserTests */ = {
+		00E356ED1AD99517003FC87E /* BeamcoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SsuUserTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BeamcoTests" */;
 			buildPhases = (
 				8E65754C8E6C5880BF5AE2F0 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -211,14 +211,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = SsuUserTests;
+			name = BeamcoTests;
 			productName = SsuUserTests;
-			productReference = 00E356EE1AD99517003FC87E /* SsuUserTests.xctest */;
+			productReference = 00E356EE1AD99517003FC87E /* BeamcoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* SsuUser */ = {
+		13B07F861A680F5B00A75B9A /* Beamco */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "SsuUser" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Beamco" */;
 			buildPhases = (
 				773BAFFC8FD5EEC3092D6C37 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -235,9 +235,9 @@
 			);
 			dependencies = (
 			);
-			name = SsuUser;
+			name = Beamco;
 			productName = SsuUser;
-			productReference = 13B07F961A680F5B00A75B9A /* SsuUser.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Beamco.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -257,7 +257,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "SsuUser" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Beamco" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -270,8 +270,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* SsuUser */,
-				00E356ED1AD99517003FC87E /* SsuUserTests */,
+				13B07F861A680F5B00A75B9A /* Beamco */,
+				00E356ED1AD99517003FC87E /* BeamcoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -505,7 +505,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* SsuUser */;
+			target = 13B07F861A680F5B00A75B9A /* Beamco */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -534,7 +534,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SsuUser.app/SsuUser";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Beamco.app/Beamco";
 			};
 			name = Debug;
 		};
@@ -558,7 +558,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SsuUser.app/SsuUser";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Beamco.app/Beamco";
 			};
 			name = Release;
 		};
@@ -587,7 +587,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.beam.fans.ios;
-				PRODUCT_NAME = SsuUser;
+				PRODUCT_NAME = Beamco;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -618,7 +618,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.beam.fans.ios;
-				PRODUCT_NAME = SsuUser;
+				PRODUCT_NAME = Beamco;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -764,7 +764,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SsuUserTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BeamcoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -773,7 +773,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "SsuUser" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Beamco" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -782,7 +782,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "SsuUser" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Beamco" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
