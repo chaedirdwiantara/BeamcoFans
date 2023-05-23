@@ -26,12 +26,15 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
   navigation,
   route,
 }: PlaylistProps) => {
+  const isLogin = storage.getBoolean('isLogin');
   const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const {
     dataDetailPlaylist,
     dataSongsPlaylist,
     getDetailPlaylist,
+    getDetailPlaylistPublic,
     getListSongsPlaylist,
+    getListSongsPlaylistPublic,
   } = usePlaylistHook();
   const {
     isPlaying,
@@ -48,14 +51,22 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
 
   useFocusEffect(
     useCallback(() => {
-      getDetailPlaylist({id: route.params.id});
+      if (isLogin) {
+        getDetailPlaylist({id: route.params.id});
+      } else {
+        getDetailPlaylistPublic({id: route.params.id});
+      }
       storage.set('withoutBottomTab', true);
     }, []),
   );
 
   useFocusEffect(
     useCallback(() => {
-      getListSongsPlaylist({id: route.params.id});
+      if (isLogin) {
+        getListSongsPlaylist({id: route.params.id});
+      } else {
+        getListSongsPlaylistPublic({id: route.params.id});
+      }
     }, [fetchListSong]),
   );
 
@@ -105,7 +116,7 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
   };
 
   const goToProfile = (uuid: string, type: string) => {
-    if (uuid === profileStorage()?.uuid) {
+    if (uuid === profileStorage()?.uuid && isLogin) {
       navigation2.navigate('Profile', {});
     } else {
       if (type === 'fans') {
