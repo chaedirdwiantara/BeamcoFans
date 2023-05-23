@@ -337,7 +337,8 @@
     "ErrorCoinSubs": "Insufficient coin, add more coin to subscribe",
     "Active": "Subscription Active",
     "Success": "Congratulations! Your Exclusive Content have been Paid!",
-    "View": "View Exclusive Content"
+    "View": "View Exclusive Content",
+    "Subscribe": "Subscribe Exclusive Content"
   },
   "Setting": {
     "Title": "設定",
@@ -671,6 +672,14 @@
     "Update": {
       "Title": "New Version Available",
       "Subtitle": "We added new feature and fix some bug to make your experience better. Please update your application to the latest version."
+    },
+    "Unsub": {
+      "Title": "Unsubscribe",
+      "Subtitle": "Are you sure you want to unsubscribe {{musician}}?"
+    },
+    "StopDonation": {
+      "Title": "Stop Donation",
+      "Subtitle": "Are you sure you want to stop donation {{musician}}?"
     }
   },
   "EmptyState": {
@@ -692,7 +701,8 @@
     "NoInfo": "No Information Given.",
     "NoPhoto": "No Photos Available.",
     "NoFollowersTitle": "People follow this musician",
-    "NoFollowersSubtitle": "When people follow musician, you'll see them here"
+    "NoFollowersSubtitle": "When people follow musician, you'll see them here",
+    "Subscribe": "You don’t have any subscription, try to subsrcibe your favorite musician"
   },
   "Guest": {
     "Title": "立即註冊與音樂人互動",

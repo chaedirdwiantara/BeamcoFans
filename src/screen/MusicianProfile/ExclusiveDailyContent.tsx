@@ -73,7 +73,9 @@ const ExclusiveDailyContent = (props: DataExclusiveResponse) => {
                 : navigation.navigate('ExclusiveContent', {data: props})
             }>
             <Text style={styles.bottomBodyText}>
-              {subs ? t('ExclusiveContent.Active') : t('Guest.GetExclusive')}
+              {subs
+                ? t('ExclusiveContent.Active')
+                : t('ExclusiveContent.Subscribe')}
             </Text>
           </TouchableOpacity>
         </View>

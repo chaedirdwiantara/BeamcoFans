@@ -111,6 +111,7 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
       ownerId: dataDetailMusician?.uuid || '',
       ownerUserName: dataDetailMusician?.username || '',
       ownerFullName: dataDetailMusician?.fullname || '',
+      ownerImage: dataDetailMusician?.imageProfileUrls[0].image,
       package: '',
       duration: Number(selectedCreditType),
       contributionRepeat: selectedCreditType !== '0' ? 1 : 0,
