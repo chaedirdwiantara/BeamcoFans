@@ -367,10 +367,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
             ) : null}
             {commentTotal > 0 &&
               (dataLvl3 === undefined ? (
-                <TouchableOpacity>
-                  <Text
-                    style={styles.viewMore}
-                    onPress={() => viewMoreOnPress(id, 3)}>
+                <TouchableOpacity onPress={() => viewMoreOnPress(id, 3)}>
+                  <Text style={styles.viewMore}>
                     {t('Post.Label.ViewMoreReply')}
                   </Text>
                 </TouchableOpacity>
@@ -379,10 +377,8 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                   commentTotal -
                     deletedCommentParentId.filter(x => x == id).length +
                     addCommentParentId.filter(x => x == id).length ? (
-                <TouchableOpacity>
-                  <Text
-                    style={styles.viewMore}
-                    onPress={() => viewMoreOnPress(id, 3)}>
+                <TouchableOpacity onPress={() => viewMoreOnPress(id, 3)}>
+                  <Text style={styles.viewMore}>
                     {t('Post.Label.ViewMoreReply')}
                   </Text>
                 </TouchableOpacity>
@@ -520,7 +516,9 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                   (dataLvl2 === undefined ? (
                     <TouchableOpacity
                       onPress={() => viewMoreOnPress(item.id, 2)}>
-                      <Text style={styles.viewMore}>View more reply</Text>
+                      <Text style={styles.viewMore}>
+                        {t('Post.Label.ViewMoreReply')}
+                      </Text>
                     </TouchableOpacity>
                   ) : dataLvl2 !== undefined &&
                     filterParentIDLvl2(dataLvl2, item.id).length !=
@@ -530,7 +528,9 @@ const CommentSection: FC<CommentSectionType> = (props: CommentSectionType) => {
                         addCommentParentId.filter(x => x == item.id).length ? (
                     <TouchableOpacity
                       onPress={() => viewMoreOnPress(item.id, 2)}>
-                      <Text style={styles.viewMore}>View more reply</Text>
+                      <Text style={styles.viewMore}>
+                        {t('Post.Label.ViewMoreReply')}
+                      </Text>
                     </TouchableOpacity>
                   ) : null)}
               </>
