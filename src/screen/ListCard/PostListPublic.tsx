@@ -105,6 +105,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     useState<DataDropDownType>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [scrollEffect, setScrollEffect] = useState(false);
+  const [selectedMusicianId, setSelectedMusicianId] = useState<string>('');
 
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
@@ -276,7 +277,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   };
 
   //Credit onPress
-  const tokenOnPress = () => {
+  const tokenOnPress = (musicianId: string) => {
+    setSelectedMusicianId(musicianId);
     setModalDonate(true);
   };
 
@@ -409,7 +411,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                   likeOnPress={() => likeOnPress(item.id, item.isLiked)}
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
-                  tokenOnPress={tokenOnPress}
+                  tokenOnPress={() => tokenOnPress(item.musician_uuid)}
                   shareOnPress={shareOnPress}
                   containerStyles={{marginTop: mvs(16)}}
                   commentCount={item.commentsCount}
@@ -479,6 +481,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
         modalStyle={{marginHorizontal: widthResponsive(24)}}
       />
       <ModalDonate
+        userId={selectedMusicianId}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={onPressCloseModalDonate}

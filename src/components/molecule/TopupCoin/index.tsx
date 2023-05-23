@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 
 import {Gap} from '../../atom';
@@ -9,8 +9,14 @@ import {TopNavigation} from '../TopNavigation';
 import {color, typography} from '../../../theme/';
 import {TransactionCard} from './TransactionCard';
 import {ArrowLeftIcon, CoinDIcon} from '../../../assets/icon';
-import {heightPercentage, width, widthPercentage} from '../../../utils';
+import {
+  heightPercentage,
+  kFormatter,
+  width,
+  widthPercentage,
+} from '../../../utils';
 import {useTranslation} from 'react-i18next';
+import {useCreditHook} from '../../../hooks/use-credit.hook';
 
 interface TopupCoinProps {
   onPressGoBack: () => void;
@@ -18,6 +24,7 @@ interface TopupCoinProps {
 
 export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
   const {t} = useTranslation();
+  const {getCreditCount, creditCount} = useCreditHook();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [filter] = useState([
     {filterName: 'TopUp.Filter.Buy'},
@@ -26,6 +33,10 @@ export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
   const filterData = (item: any, index: number) => {
     setSelectedIndex(index);
   };
+
+  useEffect(() => {
+    getCreditCount();
+  }, []);
 
   return (
     <View style={styles.root}>
@@ -59,7 +70,7 @@ export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
             <CoinDIcon />
             <Gap width={widthPercentage(5)} />
             <Text style={[typography.Heading6, {color: color.Neutral[10]}]}>
-              2,150
+              {kFormatter(creditCount, 1)}
             </Text>
           </View>
         </View>

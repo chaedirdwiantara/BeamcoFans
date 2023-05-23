@@ -104,6 +104,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
     useState<DataDropDownType>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [scrollEffect, setScrollEffect] = useState(false);
+  const [selectedMusicianId, setSelectedMusicianId] = useState<string>('');
 
   // * UPDATE HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
@@ -286,7 +287,8 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
   };
 
   //Credit onPress
-  const tokenOnPress = () => {
+  const tokenOnPress = (musicianId: string) => {
+    setSelectedMusicianId(musicianId);
     setModalDonate(true);
   };
 
@@ -419,7 +421,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                   likeOnPress={() => likeOnPress(item.id, item.isLiked)}
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
-                  tokenOnPress={tokenOnPress}
+                  tokenOnPress={() => tokenOnPress(item.musician_uuid)}
                   shareOnPress={shareOnPress}
                   commentCount={item.commentsCount}
                   myPost={item.musician.uuid === MyUuid}
@@ -501,6 +503,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
         modalStyle={{marginHorizontal: widthResponsive(24)}}
       />
       <ModalDonate
+        userId={selectedMusicianId}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={onPressCloseModalDonate}

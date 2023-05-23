@@ -213,7 +213,7 @@
       }
     },
     "ComingSoon": {
-       "Title": "Coming Soon",
+      "Title": "Coming Soon",
       "EmptyState": "Unfortunately, there are no new albums coming soon from any musicians. We'll let you know as soon as something new is on the horizon."
     },
     "Song": {
@@ -223,7 +223,7 @@
       "EmptyState": "We couldn't find any {{title}} for you. Check back soon as we're always adding new musician!"
     },
     "Playlist": {
-       "Title": "Playlist",
+      "Title": "Playlist",
       "EmptyState": "Oops! We couldn't find any playlists for you. Create your own & help other discover great music!"
     }
   },
@@ -334,7 +334,11 @@
     "Optional": "支援（可選）",
     "InputBonus": "Input Bonus",
     "ErrorCoinBonus": "Insufficient coin, add more coin to give bonus",
-    "ErrorCoinSubs": "Insufficient coin, add more coin to subscribe"
+    "ErrorCoinSubs": "Insufficient coin, add more coin to subscribe",
+    "Active": "Subscription Active",
+    "Success": "Congratulations! Your Exclusive Content have been Paid!",
+    "View": "View Exclusive Content",
+    "Subscribe": "Subscribe Exclusive Content"
   },
   "Setting": {
     "Title": "設定",
@@ -375,12 +379,12 @@
         "ReasonPlaceholder": "Tell us more",
         "PasswordInput": "Input Password"
       },
-       "Reason" : {
-        "First" : "I don’t feel safe on Beamco",
-        "Second" : "I don’t find Beamco useful",
-        "Third" : "I have another Beamco Account",
-        "Fourth" : "I spend too much time using Beamco",
-        "Five" : "I don’t understand how to use Beamco"
+      "Reason": {
+        "First": "I don’t feel safe on Beamco",
+        "Second": "I don’t find Beamco useful",
+        "Third": "I have another Beamco Account",
+        "Fourth": "I spend too much time using Beamco",
+        "Five": "I don’t understand how to use Beamco"
       }
     },
     "TnC&PP": {
@@ -668,6 +672,14 @@
     "Update": {
       "Title": "New Version Available",
       "Subtitle": "We added new feature and fix some bug to make your experience better. Please update your application to the latest version."
+    },
+    "Unsub": {
+      "Title": "Unsubscribe",
+      "Subtitle": "Are you sure you want to unsubscribe {{musician}}?"
+    },
+    "StopDonation": {
+      "Title": "Stop Donation",
+      "Subtitle": "Are you sure you want to stop donation {{musician}}?"
     }
   },
   "EmptyState": {
@@ -689,7 +701,8 @@
     "NoInfo": "No Information Given.",
     "NoPhoto": "No Photos Available.",
     "NoFollowersTitle": "People follow this musician",
-    "NoFollowersSubtitle": "When people follow musician, you'll see them here"
+    "NoFollowersSubtitle": "When people follow musician, you'll see them here",
+    "Subscribe": "You don’t have any subscription, try to subsrcibe your favorite musician"
   },
   "Guest": {
     "Title": "立即註冊與音樂人互動",

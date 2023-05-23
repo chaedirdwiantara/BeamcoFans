@@ -331,10 +331,14 @@
     "Month": "Month",
     "Year": "Year",
     "Support": "Add support to your plan",
-    "Optional": "Support (optional)",
+    "Optional": "Bonus support (optional)",
     "InputBonus": "Input Bonus",
     "ErrorCoinBonus": "Insufficient coin, add more coin to give bonus",
-    "ErrorCoinSubs": "Insufficient coin, add more coin to subscribe"
+    "ErrorCoinSubs": "Insufficient coin, add more coin to subscribe",
+    "Active": "Subscription Active",
+    "Success": "Congratulations! Your Exclusive Content have been Paid!",
+    "View": "View Exclusive Content",
+    "Subscribe": "Subscribe Exclusive Content"
   },
   "Setting": {
     "Title": "Settings",
@@ -462,7 +466,7 @@
       "AddCustom": "Add custom tip",
       "CustomTip": "Custom tip",
       "Tab": {
-        "Donation": "Donation",
+        "Donation": "Tip",
         "Subs": "Subscription"
       },
       "Filter": {
@@ -486,7 +490,7 @@
       "Menu": {
         "Donation": {
           "GoToMusician": "Go To Musician",
-          "Stop": "Stop Donation"
+          "Stop": "Stop Tipping"
         },
         "Subs": {
           "GoToMusician": "Go To Musician",
@@ -667,6 +671,14 @@
     "Update": {
       "Title": "New Version Available",
       "Subtitle": "We added new feature and fix some bug to make your experience better. Please update your application to the latest version."
+    },
+    "Unsub": {
+      "Title": "Unsubscribe",
+      "Subtitle": "Are you sure you want to unsubscribe {{musician}}?"
+    },
+    "StopDonation": {
+      "Title": "Stop Donation",
+      "Subtitle": "Are you sure you want to stop donation {{musician}}?"
     }
   },
   "EmptyState": {
@@ -688,7 +700,8 @@
     "NoInfo": "No Information Given.",
     "NoPhoto": "No Photos Available.",
     "NoFollowersTitle": "People follow this musician",
-    "NoFollowerBeamcobtitle": "When people follow musician, you'll see them here"
+    "NoFollowerBeamcobtitle": "When people follow musician, you'll see them here",
+    "Subscribe": "You don’t have any subscription, try to subsrcibe your favorite musician"
   },
   "Guest": {
     "Title": "Sign Up to Interact with Musician",
