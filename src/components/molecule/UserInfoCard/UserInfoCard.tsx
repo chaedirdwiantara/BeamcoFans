@@ -17,6 +17,7 @@ import {
 } from '../../../utils';
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
+import {debounce} from '../../../utils/debounce';
 import {InfoProfileType} from '../../../data/profile';
 import {DataDetailMusician} from '../../../interface/musician.interface';
 import {ProfileResponseData} from '../../../interface/profile.interface';
@@ -134,7 +135,11 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
         } else {
           return (
             <View style={{width: type === 'self' ? '30%' : '20%'}}>
-              <Item point={val.point} title={val.title} onPress={newOnPress} />
+              <Item
+                point={val.point}
+                title={val.title}
+                onPress={debounce(newOnPress)}
+              />
             </View>
           );
         }

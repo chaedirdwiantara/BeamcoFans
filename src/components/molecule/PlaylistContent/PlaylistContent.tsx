@@ -46,6 +46,7 @@ import {SongTitlePlay} from '../SongTitlePlay/SongTitlePlay';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {Playlist} from '../../../interface/playlist.interface';
+import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
 import {ListDataSearchSongs} from '../../../interface/search.interface';
 
 interface Props {
@@ -86,6 +87,7 @@ export const PlaylistContent: React.FC<Props> = ({
 }) => {
   const {t} = useTranslation();
   const {addSong} = usePlayerHook();
+  const isLogin = storage.getBoolean('isLogin');
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [toastText, setToastText] = useState<string>('');
@@ -94,6 +96,7 @@ export const PlaylistContent: React.FC<Props> = ({
   const [isAdded, setIsAdded] = useState<boolean>(
     dataDetail.isAddedToMyPlaylist,
   );
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
 
   const textAddToPlaylist = isAdded
     ? 'Remove from My Playlist'
@@ -164,19 +167,23 @@ export const PlaylistContent: React.FC<Props> = ({
   };
 
   const resultDataMore = (dataResult: DataDropDownType) => {
-    if (dataResult?.value === 'DeletePlaylist') {
-      setModalVisible(true);
-    } else if (dataResult?.value === 'EditPlaylist') {
-      goToEditPlaylist();
-    } else if (dataResult?.value === 'AddToQueue') {
-      setToastVisible(true);
-      setToastText('Playlist added to queue!');
-      addSong(listSongs);
-    } else if (dataResult?.value === textAddToPlaylist) {
-      addToMyPlaylist();
+    if (isLogin) {
+      if (dataResult?.value === 'DeletePlaylist') {
+        setModalVisible(true);
+      } else if (dataResult?.value === 'EditPlaylist') {
+        goToEditPlaylist();
+      } else if (dataResult?.value === 'AddToQueue') {
+        setToastVisible(true);
+        setToastText('Playlist added to queue!');
+        addSong(listSongs);
+      } else if (dataResult?.value === textAddToPlaylist) {
+        addToMyPlaylist();
+      } else {
+        setModalShare(true);
+        setModalShareTitle(t('General.Share.Playlist') || '');
+      }
     } else {
-      setModalShare(true);
-      setModalShareTitle(t('General.Share.Playlist') || '');
+      setModalGuestVisible(true);
     }
   };
 
@@ -184,21 +191,25 @@ export const PlaylistContent: React.FC<Props> = ({
     dataResult: DataDropDownType,
     item: SongList | ListDataSearchSongs,
   ) => {
-    if (dataResult?.value === 'RemoveFromPlaylist') {
-      onPressRemoveSong(item.id, item.title);
-    } else if (dataResult?.value === 'ShowDetails') {
-      goToDetailSong(item.id);
-    } else if (dataResult?.value === 'AddToQueue') {
-      addSong(item);
-      setToastVisible(true);
-      setToastText('Song added to queue!');
-    } else if (dataResult?.value === 'ViewAlbum') {
-      goToAlbum(item.album.id);
-    } else if (dataResult?.value === 'AddToPlaylist') {
-      goToAddToPlaylist(item.id);
+    if (isLogin) {
+      if (dataResult?.value === 'RemoveFromPlaylist') {
+        onPressRemoveSong(item.id, item.title);
+      } else if (dataResult?.value === 'ShowDetails') {
+        goToDetailSong(item.id);
+      } else if (dataResult?.value === 'AddToQueue') {
+        addSong(item);
+        setToastVisible(true);
+        setToastText('Song added to queue!');
+      } else if (dataResult?.value === 'ViewAlbum') {
+        goToAlbum(item.album.id);
+      } else if (dataResult?.value === 'AddToPlaylist') {
+        goToAddToPlaylist(item.id);
+      } else {
+        setModalShare(true);
+        setModalShareTitle(t('Home.Tab.TopSong.Share') || '');
+      }
     } else {
-      setModalShare(true);
-      setModalShareTitle(t('Home.Tab.TopSong.Share') || '');
+      setModalGuestVisible(true);
     }
   };
 
@@ -214,6 +225,18 @@ export const PlaylistContent: React.FC<Props> = ({
       setToastText(songName + ' have been removed!');
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const onPressTextAddSong = () => {
+    if (isLogin) {
+      if (othersPlaylist) {
+        addToMyPlaylist();
+      } else {
+        goToAddSong();
+      }
+    } else {
+      setModalGuestVisible(true);
     }
   };
 
@@ -276,7 +299,7 @@ export const PlaylistContent: React.FC<Props> = ({
 
           <TouchableOpacity
             style={styles.containerAddSong}
-            onPress={othersPlaylist ? addToMyPlaylist : goToAddSong}>
+            onPress={onPressTextAddSong}>
             <MusicSquareAddIcon />
             <Gap width={widthPercentage(10)} />
             <Text style={styles.textAddSong}>
@@ -310,7 +333,7 @@ export const PlaylistContent: React.FC<Props> = ({
                 dataSong={listSongs}
                 type={'home'}
                 onPress={onPressSong}
-                loveIcon={true}
+                loveIcon={isLogin}
                 newDataMore={othersPlaylist ? songDataMoreOther : songDataMore}
                 newOnPressMore={pressSongDataMore}
               />
@@ -325,6 +348,11 @@ export const PlaylistContent: React.FC<Props> = ({
         subtitle={t('Modal.Playlist.Delete') || ''}
         onPressClose={() => setModalVisible(false)}
         onPressOk={onPressDelete}
+      />
+
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
       />
 
       <SsuToast

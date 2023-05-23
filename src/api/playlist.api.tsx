@@ -147,3 +147,39 @@ export const listenerLogSong = async (
 
   return data;
 };
+
+export const getListPlaylistPublic = async (
+  props?: ParamsProps,
+): Promise<PlaylistResponseType> => {
+  const {data} = await SsuAPI().request<PlaylistResponseType>({
+    url: '/publics/playlists',
+    method: 'GET',
+    params: props,
+  });
+
+  return data;
+};
+
+export const detailPlaylistPublic = async (
+  props?: PlaylistPropsTypeA,
+): Promise<PlaylistResponseTypeB> => {
+  const {data} = await SsuAPI().request<PlaylistResponseTypeB>({
+    url: `/publics/playlists/${props?.id}`,
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const listSongsPlaylistPublic = async (
+  params?: PlaylistPropsTypeA,
+  props?: ParamsProps,
+): Promise<ListSongResponseType> => {
+  const {data} = await SsuAPI().request<ListSongResponseType>({
+    url: `/publics/playlists/${params?.id}/songs`,
+    method: 'GET',
+    params: props,
+  });
+
+  return data;
+};

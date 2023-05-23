@@ -21,9 +21,9 @@ type PostDetailProps = NativeStackScreenProps<
 
 const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const uuid = route.params.id;
-  const isLogin = storage.getString('isLogin');
+  const isLogin = storage.getBoolean('isLogin');
   const {dataCountProfile, getTotalCountProfile} = useProfileHook();
-  const {dataPlaylist, getPlaylist} = usePlaylistHook();
+  const {dataPlaylist, getPlaylist, getPlaylistPublic} = usePlaylistHook();
 
   const {
     isLoading,
@@ -44,8 +44,12 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         ? getDetailMusician({id: uuid})
         : getDetailMusicianGuest({id: uuid});
       getTotalCountProfile({uuid});
-      getPlaylist({uuid});
       getExclusiveContent({uuid: uuid});
+      if (isLogin) {
+        getPlaylist({uuid});
+      } else {
+        getPlaylistPublic({uuid});
+      }
     }, [uuid]),
   );
 

@@ -27,7 +27,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const {t} = useTranslation();
   const {dataProfile, dataCountLiked, getProfileUser, getUserCountLikedSong} =
     useProfileHook();
-  const {dataPlaylist, getPlaylist} = usePlaylistHook();
+  const {dataPlaylist, getPlaylist, getPlaylistPublic} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFetching = storage.getBoolean('fetchingProfile');
   const isFocused = useIsFocused();
@@ -60,12 +60,16 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
 
   useEffect(() => {
     getProfileUser();
-    getPlaylist({uuid: profileStorage()?.uuid});
     getUserCountLikedSong({uuid: profileStorage()?.uuid});
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
     storage.set('fetchingProfile', false);
+    if (isLogin) {
+      getPlaylist({uuid: profileStorage()?.uuid});
+    } else {
+      getPlaylistPublic({uuid: profileStorage()?.uuid});
+    }
   }, [refreshing, showToast, deletePlaylist, isFetching]);
 
   const onPressGoTo = (
