@@ -8,6 +8,6 @@ export const debounce = (fn: () => void) => {
     timeoutId = setTimeout(() => {
       timeoutId = null;
       fn(...args);
-    }, 500);
+    }, 600);
   }
 };
