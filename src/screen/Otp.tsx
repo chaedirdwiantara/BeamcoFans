@@ -117,8 +117,7 @@ export const Otp: FC<OtpProps> = ({navigation, route}: OtpProps) => {
           paddingHorizontal: widthResponsive(48),
         }}>
         <BeamcoLogo />
-        <Text style={styles.titleStyle}>{t('General.Begin')}</Text>
-        <Gap height={12} />
+
         <Text style={[styles.descStyle, {textAlign: 'center'}]}>
           {t('General.TopDescription')}
         </Text>

@@ -63,7 +63,7 @@ export const SplashScreen: React.FC<SplashScrennProps> = ({
   return (
     <View style={styles.root}>
       <AnimatedLottieView
-        source={require('../assets/animation/ssu-logo-loop.json')}
+        source={require('../assets/animation/loading-beamco-fans.json')}
         autoPlay
         loop
         style={styles.lottie}
