@@ -5,6 +5,7 @@ import {
   SongPropsTypeA,
   DataDetailAlbum,
   PaginationType,
+  SongComingSoon,
 } from '../interface/song.interface';
 import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
@@ -17,6 +18,7 @@ import {
   detailAlbumPublic,
   newSong,
   detailSongPublic,
+  listSongComingSoon,
 } from '../api/song.api';
 
 export const useSongHook = () => {
@@ -25,6 +27,9 @@ export const useSongHook = () => {
   const [isErrorSong, setIsErrorSong] = useState(false);
   const [dataSong, setDataSong] = useState<SongList[]>([]);
   const [dataNewSong, setDataNewSong] = useState<SongList[]>([]);
+  const [dataSongComingSoon, setDataSongComingSoon] = useState<
+    SongComingSoon[]
+  >([]);
   const [metaSong, setMetaSong] = useState<PaginationType>();
   const [metaNewSong, setMetaNewSong] = useState<PaginationType>();
   const [dataDetailSong, setDataDetailSong] = useState<DataDetailSong | null>(
@@ -152,6 +157,20 @@ export const useSongHook = () => {
     }
   };
 
+  const getListSongComingSoon = async (props?: SongPropsTypeA) => {
+    setIsLoadingSong(true);
+    try {
+      const response = await listSongComingSoon(props);
+      setDataSongComingSoon(response.data);
+    } catch (error) {
+      console.log(error);
+      setIsErrorSong(true);
+      setDataSong([]);
+    } finally {
+      setIsLoadingSong(false);
+    }
+  };
+
   return {
     isLoadingSong,
     isErrorSong,
@@ -162,6 +181,7 @@ export const useSongHook = () => {
     metaSong,
     dataNewSong,
     metaNewSong,
+    dataSongComingSoon,
     getListDataSong,
     getDetailSong,
     getDetailAlbum,
@@ -172,5 +192,6 @@ export const useSongHook = () => {
     getDetailAlbumPublic,
     getListDataNewSongGuest,
     getDetailSongPublic,
+    getListSongComingSoon,
   };
 };
