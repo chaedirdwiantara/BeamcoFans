@@ -21,8 +21,8 @@
 		71B6D8F12A294C148898FC44 /* Inter-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E1DA5DD05ED48F1AC3968B5 /* Inter-ExtraLight.ttf */; };
 		77245948CF96417AB3CAD590 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D5F0A31E25664F09B986B067 /* Inter-Thin.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		A0B6C24327E6C841AD0D6040 /* libPods-SsuUser-SsuUserTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A21E76A306F6B0D8DE4C6AA5 /* libPods-SsuUser-SsuUserTests.a */; };
-		BD33EE7A0568F5BB826E535D /* libPods-SsuUser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C2297C78588593AFB709F57 /* libPods-SsuUser.a */; };
+		A15BB88D2F1C273240A27A3A /* libPods-Beamco-BeamcoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FEFAF334B2074FF0AFAEC0FE /* libPods-Beamco-BeamcoTests.a */; };
+		D57340E772D7834AFB97ADB0 /* libPods-Beamco.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1029E96A2CE8A0FF24630EFE /* libPods-Beamco.a */; };
 		E7976D2CE37640A887BA38F0 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 20913E4D2BEE420C888BC28E /* Inter-Regular.ttf */; };
 		FD5C34203F7140DDA37AC7E8 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 426B46E3C227478B9F531422 /* Inter-ExtraBold.ttf */; };
 /* End PBXBuildFile section */
@@ -41,7 +41,9 @@
 		00E356EE1AD99517003FC87E /* BeamcoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeamcoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SsuUserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SsuUserTests.m; sourceTree = "<group>"; };
+		015BC47A4E7F5F55FA190964 /* Pods-Beamco-BeamcoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Beamco-BeamcoTests.release.xcconfig"; path = "Target Support Files/Pods-Beamco-BeamcoTests/Pods-Beamco-BeamcoTests.release.xcconfig"; sourceTree = "<group>"; };
 		0DD2EF8CEDFD4CCE8454288B /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../src/assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
+		1029E96A2CE8A0FF24630EFE /* libPods-Beamco.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Beamco.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1167C58F27A84DDBBA680ACB /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../src/assets/fonts/Inter-Medium.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Beamco.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Beamco.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SsuUser/AppDelegate.h; sourceTree = "<group>"; };
@@ -52,21 +54,23 @@
 		20913E4D2BEE420C888BC28E /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../src/assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
 		3555D9B582090F71788C1BAB /* Pods-SsuUser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SsuUser.release.xcconfig"; path = "Target Support Files/Pods-SsuUser/Pods-SsuUser.release.xcconfig"; sourceTree = "<group>"; };
 		426B46E3C227478B9F531422 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraBold.ttf"; path = "../src/assets/fonts/Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
+		438ED960C9F2A02265896883 /* Pods-Beamco.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Beamco.debug.xcconfig"; path = "Target Support Files/Pods-Beamco/Pods-Beamco.debug.xcconfig"; sourceTree = "<group>"; };
 		46A0D7BA2A120A8700E25E0E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		46D9C17429336884009CB310 /* SsuUser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SsuUser.entitlements; path = SsuUser/SsuUser.entitlements; sourceTree = "<group>"; };
 		46DBDD562A1BB8F9004C416E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		4C2297C78588593AFB709F57 /* libPods-SsuUser.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SsuUser.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		46FE50762D4264D6C20B7E8F /* Pods-Beamco-BeamcoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Beamco-BeamcoTests.debug.xcconfig"; path = "Target Support Files/Pods-Beamco-BeamcoTests/Pods-Beamco-BeamcoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6E1DA5DD05ED48F1AC3968B5 /* Inter-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraLight.ttf"; path = "../src/assets/fonts/Inter-ExtraLight.ttf"; sourceTree = "<group>"; };
+		70C8C4A3F8B7C20D0C6BBABD /* Pods-Beamco.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Beamco.release.xcconfig"; path = "Target Support Files/Pods-Beamco/Pods-Beamco.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SsuUser/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		891B864752CF656E065AA36F /* Pods-SsuUser-SsuUserTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SsuUser-SsuUserTests.release.xcconfig"; path = "Target Support Files/Pods-SsuUser-SsuUserTests/Pods-SsuUser-SsuUserTests.release.xcconfig"; sourceTree = "<group>"; };
 		9B61B0F92383F5768FF70CA4 /* Pods-SsuUser-SsuUserTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SsuUser-SsuUserTests.debug.xcconfig"; path = "Target Support Files/Pods-SsuUser-SsuUserTests/Pods-SsuUser-SsuUserTests.debug.xcconfig"; sourceTree = "<group>"; };
-		A21E76A306F6B0D8DE4C6AA5 /* libPods-SsuUser-SsuUserTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SsuUser-SsuUserTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9B06BB966EF49539EEF6493 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-SemiBold.ttf"; path = "../src/assets/fonts/Inter-SemiBold.ttf"; sourceTree = "<group>"; };
 		B2F3236C1193477087621206 /* Inter-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Black.ttf"; path = "../src/assets/fonts/Inter-Black.ttf"; sourceTree = "<group>"; };
 		D5F0A31E25664F09B986B067 /* Inter-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Thin.ttf"; path = "../src/assets/fonts/Inter-Thin.ttf"; sourceTree = "<group>"; };
 		DD007B93E3FD48B6A102F657 /* Inter-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Light.ttf"; path = "../src/assets/fonts/Inter-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EF009BF6012632AC79E378D8 /* Pods-SsuUser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SsuUser.debug.xcconfig"; path = "Target Support Files/Pods-SsuUser/Pods-SsuUser.debug.xcconfig"; sourceTree = "<group>"; };
+		FEFAF334B2074FF0AFAEC0FE /* libPods-Beamco-BeamcoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Beamco-BeamcoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0B6C24327E6C841AD0D6040 /* libPods-SsuUser-SsuUserTests.a in Frameworks */,
+				A15BB88D2F1C273240A27A3A /* libPods-Beamco-BeamcoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +87,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46A0D7BB2A120A8700E25E0E /* StoreKit.framework in Frameworks */,
-				BD33EE7A0568F5BB826E535D /* libPods-SsuUser.a in Frameworks */,
+				D57340E772D7834AFB97ADB0 /* libPods-Beamco.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,8 +130,8 @@
 			children = (
 				46A0D7BA2A120A8700E25E0E /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				4C2297C78588593AFB709F57 /* libPods-SsuUser.a */,
-				A21E76A306F6B0D8DE4C6AA5 /* libPods-SsuUser-SsuUserTests.a */,
+				1029E96A2CE8A0FF24630EFE /* libPods-Beamco.a */,
+				FEFAF334B2074FF0AFAEC0FE /* libPods-Beamco-BeamcoTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -188,6 +192,10 @@
 				3555D9B582090F71788C1BAB /* Pods-SsuUser.release.xcconfig */,
 				9B61B0F92383F5768FF70CA4 /* Pods-SsuUser-SsuUserTests.debug.xcconfig */,
 				891B864752CF656E065AA36F /* Pods-SsuUser-SsuUserTests.release.xcconfig */,
+				438ED960C9F2A02265896883 /* Pods-Beamco.debug.xcconfig */,
+				70C8C4A3F8B7C20D0C6BBABD /* Pods-Beamco.release.xcconfig */,
+				46FE50762D4264D6C20B7E8F /* Pods-Beamco-BeamcoTests.debug.xcconfig */,
+				015BC47A4E7F5F55FA190964 /* Pods-Beamco-BeamcoTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -337,7 +345,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SsuUser-SsuUserTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Beamco-BeamcoTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -350,15 +358,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SsuUser/Pods-SsuUser-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Beamco/Pods-Beamco-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SsuUser/Pods-SsuUser-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Beamco/Pods-Beamco-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SsuUser/Pods-SsuUser-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Beamco/Pods-Beamco-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5C355DBCEF0EB0B64354612C /* [CP] Check Pods Manifest.lock */ = {
@@ -376,7 +384,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SsuUser-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Beamco-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -389,15 +397,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SsuUser-SsuUserTests/Pods-SsuUser-SsuUserTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Beamco-BeamcoTests/Pods-Beamco-BeamcoTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SsuUser-SsuUserTests/Pods-SsuUser-SsuUserTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Beamco-BeamcoTests/Pods-Beamco-BeamcoTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SsuUser-SsuUserTests/Pods-SsuUser-SsuUserTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Beamco-BeamcoTests/Pods-Beamco-BeamcoTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BFB9676B618A10F36A439B1A /* [CP-User] [RNFB] Crashlytics Configuration */ = {
@@ -420,15 +428,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SsuUser-SsuUserTests/Pods-SsuUser-SsuUserTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Beamco-BeamcoTests/Pods-Beamco-BeamcoTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SsuUser-SsuUserTests/Pods-SsuUser-SsuUserTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Beamco-BeamcoTests/Pods-Beamco-BeamcoTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SsuUser-SsuUserTests/Pods-SsuUser-SsuUserTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Beamco-BeamcoTests/Pods-Beamco-BeamcoTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F9B19CF933E39AEE6B330A74 /* [CP-User] [RNFB] Core Configuration */ = {
@@ -450,15 +458,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SsuUser/Pods-SsuUser-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Beamco/Pods-Beamco-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SsuUser/Pods-SsuUser-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Beamco/Pods-Beamco-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SsuUser/Pods-SsuUser-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Beamco/Pods-Beamco-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -513,7 +521,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B61B0F92383F5768FF70CA4 /* Pods-SsuUser-SsuUserTests.debug.xcconfig */;
+			baseConfigurationReference = 46FE50762D4264D6C20B7E8F /* Pods-Beamco-BeamcoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -540,7 +548,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 891B864752CF656E065AA36F /* Pods-SsuUser-SsuUserTests.release.xcconfig */;
+			baseConfigurationReference = 015BC47A4E7F5F55FA190964 /* Pods-Beamco-BeamcoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -564,7 +572,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF009BF6012632AC79E378D8 /* Pods-SsuUser.debug.xcconfig */;
+			baseConfigurationReference = 438ED960C9F2A02265896883 /* Pods-Beamco.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -596,7 +604,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3555D9B582090F71788C1BAB /* Pods-SsuUser.release.xcconfig */;
+			baseConfigurationReference = 70C8C4A3F8B7C20D0C6BBABD /* Pods-Beamco.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
