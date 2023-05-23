@@ -122,6 +122,7 @@ const ListSongs: FC<ListSongsPropsScreen> = (props: ListSongsPropsScreen) => {
             newOnPressMore && newOnPressMore(data, item as SongList)
           }
           disabled={disabled}
+          singerId={item.musicianId}
         />
       )}
       estimatedItemSize={heightResponsive(500)}

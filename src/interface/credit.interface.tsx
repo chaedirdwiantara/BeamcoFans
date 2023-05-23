@@ -16,3 +16,13 @@ export type CreditResponseType = {
   meta: number;
   status: number;
 };
+
+export type CreateDonationParams = {
+  ownerId: string;
+  ownerUserName: string;
+  ownerFullName: string;
+  package: string;
+  duration: number;
+  contributionRepeat: number;
+  credit: number;
+};

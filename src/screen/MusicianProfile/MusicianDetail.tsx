@@ -307,6 +307,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       </ScrollView>
 
       <ModalDonate
+        userId={profile.uuid}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={() => setModalDonate(false)}
