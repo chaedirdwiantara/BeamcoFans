@@ -1,16 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-
 import {color} from '../theme';
 import {storage} from '../hooks/use-storage.hook';
 import PostListPublic from './ListCard/PostListPublic';
-import {heightPercentage, widthResponsive} from '../utils';
+import {widthResponsive} from '../utils';
 import PostListExclusive from './ListCard/PostListExclusive';
 import {GuestContent, TabFilter, TopNavigation} from '../components';
 import {dropDownDataCategory, dropDownDataSort} from '../data/dropdown';
-import {useIsFocused} from '@react-navigation/native';
-import {usePlayerHook} from '../hooks/use-player.hook';
 import {useTranslation} from 'react-i18next';
 
 export const FeedScreen: React.FC = () => {
@@ -21,16 +18,6 @@ export const FeedScreen: React.FC = () => {
     {filterName: 'Feed.Exclusive'},
   ]);
   const isLogin = storage.getString('profile');
-  const isFocused = useIsFocused();
-  const {isPlaying, showPlayer, hidePlayer} = usePlayerHook();
-
-  useEffect(() => {
-    if (isFocused && isPlaying) {
-      showPlayer();
-    } else if (!isFocused) {
-      hidePlayer();
-    }
-  }, [isFocused]);
 
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
