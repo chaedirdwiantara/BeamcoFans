@@ -280,10 +280,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           let filterDuplicate = mergedArray.filter(
             (v, i, a) => a.findIndex(v2 => v2.id === v.id) === i,
           );
-          setCommentLvl1(filterDuplicate),
-            setDataLoadMore(null),
-            setDelStaticComment(-1),
-            setCall6thStep(false);
+          setCommentLvl1(filterDuplicate);
+          setDataLoadMore(null);
+          setDelStaticComment(-1);
+          setCall6thStep(false);
         } else if (item.commentLevel === 2 && commentLvl2 === undefined) {
           setCommentLvl2(dataLoadMore), setDataLoadMore(null);
         } else if (item.commentLevel === 2 && commentLvl2 !== undefined) {
@@ -291,10 +291,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           let filterDuplicate = mergedArray.filter(
             (v, i, a) => a.findIndex(v2 => v2.id === v.id) === i,
           );
-          setCommentLvl2(filterDuplicate),
-            setDataLoadMore(null),
-            setDelStaticComment(-1),
-            setCall6thStep(false);
+          setCommentLvl2(filterDuplicate);
+          setDataLoadMore(null);
+          setDelStaticComment(-1);
+          setCall6thStep(false);
         } else if (item.commentLevel === 3 && commentLvl3 === undefined) {
           setCommentLvl3(dataLoadMore), setDataLoadMore(null);
         } else if (item.commentLevel === 3 && commentLvl3 !== undefined) {
@@ -302,11 +302,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           let filterDuplicate = mergedArray.filter(
             (v, i, a) => a.findIndex(v2 => v2.id === v.id) === i,
           );
-
-          setCommentLvl3(filterDuplicate),
-            setDataLoadMore(null),
-            setDelStaticComment(-1),
-            setCall6thStep(false);
+          setCommentLvl3(filterDuplicate);
+          setDataLoadMore(null);
+          setDelStaticComment(-1);
+          setCall6thStep(false);
         }
       });
     }

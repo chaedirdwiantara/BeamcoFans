@@ -59,14 +59,6 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   }, [toastVisible]);
 
   useEffect(() => {
-    if (isFocused && isPlaying) {
-      showPlayer();
-    } else if (!isFocused) {
-      hidePlayer();
-    }
-  }, [isFocused]);
-
-  useEffect(() => {
     getProfileUser();
     getPlaylist({uuid: profileStorage()?.uuid});
     getUserCountLikedSong({uuid: profileStorage()?.uuid});
