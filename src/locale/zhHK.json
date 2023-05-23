@@ -213,7 +213,7 @@
       }
     },
     "ComingSoon": {
-       "Title": "Coming Soon",
+      "Title": "Coming Soon",
       "EmptyState": "Unfortunately, there are no new albums coming soon from any musicians. We'll let you know as soon as something new is on the horizon."
     },
     "Song": {
@@ -223,7 +223,7 @@
       "EmptyState": "We couldn't find any {{title}} for you. Check back soon as we're always adding new musician!"
     },
     "Playlist": {
-       "Title": "Playlist",
+      "Title": "Playlist",
       "EmptyState": "Oops! We couldn't find any playlists for you. Create your own & help other discover great music!"
     }
   },
@@ -334,7 +334,10 @@
     "Optional": "支援（可選）",
     "InputBonus": "Input Bonus",
     "ErrorCoinBonus": "Insufficient coin, add more coin to give bonus",
-    "ErrorCoinSubs": "Insufficient coin, add more coin to subscribe"
+    "ErrorCoinSubs": "Insufficient coin, add more coin to subscribe",
+    "Active": "Subscription Active",
+    "Success": "Congratulations! Your Exclusive Content have been Paid!",
+    "View": "View Exclusive Content"
   },
   "Setting": {
     "Title": "設定",
@@ -375,12 +378,12 @@
         "ReasonPlaceholder": "Tell us more",
         "PasswordInput": "Input Password"
       },
-       "Reason" : {
-        "First" : "I don’t feel safe on Beamco",
-        "Second" : "I don’t find Beamco useful",
-        "Third" : "I have another Beamco Account",
-        "Fourth" : "I spend too much time using Beamco",
-        "Five" : "I don’t understand how to use Beamco"
+      "Reason": {
+        "First": "I don’t feel safe on Beamco",
+        "Second": "I don’t find Beamco useful",
+        "Third": "I have another Beamco Account",
+        "Fourth": "I spend too much time using Beamco",
+        "Five": "I don’t understand how to use Beamco"
       }
     },
     "TnC&PP": {

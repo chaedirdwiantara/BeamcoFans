@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {heightResponsive, widthResponsive} from '../../utils';
 import {Gap, Title} from '../../components';
 import {color, font} from '../../theme';
@@ -12,6 +12,7 @@ import {RootStackParams} from '../../navigations';
 import {useTranslation} from 'react-i18next';
 import {DataExclusiveResponse} from '../../interface/setting.interface';
 import SquareComp from './SquareComp';
+import {useCreditHook} from '../../hooks/use-credit.hook';
 
 const dummy = {
   imgUri:
@@ -22,11 +23,11 @@ const dummy = {
 
 const ExclusiveDailyContent = (props: DataExclusiveResponse) => {
   const {t} = useTranslation();
-  const {coverImage, title, description} = props;
+  const {coverImage, title, description, subs, musician} = props;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-
   const [isShowComponent, setIsShowComponent] = useState<boolean>(true);
+
   return (
     <View style={styles.container}>
       <View style={styles.titleStyle}>
@@ -67,9 +68,13 @@ const ExclusiveDailyContent = (props: DataExclusiveResponse) => {
           <TouchableOpacity
             style={styles.bottomBody}
             onPress={() =>
-              navigation.navigate('ExclusiveContent', {data: props})
+              subs
+                ? null
+                : navigation.navigate('ExclusiveContent', {data: props})
             }>
-            <Text style={styles.bottomBodyText}>{t('Guest.GetExclusive')}</Text>
+            <Text style={styles.bottomBodyText}>
+              {subs ? t('ExclusiveContent.Active') : t('Guest.GetExclusive')}
+            </Text>
           </TouchableOpacity>
         </View>
       ) : (
