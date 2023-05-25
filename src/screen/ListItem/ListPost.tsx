@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
@@ -9,6 +9,8 @@ import {RootStackParams} from '../../navigations';
 import PostListSimilar from '../ListCard/PostListSimilar';
 import PostListMyArtist from '../ListCard/PostListMyArtist';
 import {dropDownDataCategory, dropDownDataSort} from '../../data/dropdown';
+import {usePlayerStore} from '../../store/player.store';
+import {useFocusEffect} from '@react-navigation/native';
 
 type ListPostProps = NativeStackScreenProps<RootStackParams, 'ListPost'>;
 
@@ -16,6 +18,17 @@ export const ListPostScreen: React.FC<ListPostProps> = ({
   route,
 }: ListPostProps) => {
   const {title} = route.params;
+
+  const {setWithoutBottomTab, show} = usePlayerStore();
+
+  useFocusEffect(
+    useCallback(() => {
+      if (show) {
+        setWithoutBottomTab(true);
+      }
+    }, [show]),
+  );
+
   const children = () => {
     return (
       <View style={{flex: 1, paddingHorizontal: widthPercentage(20)}}>

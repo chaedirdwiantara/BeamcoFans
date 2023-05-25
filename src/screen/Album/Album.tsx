@@ -9,6 +9,7 @@ import {RootStackParams} from '../../navigations';
 import {storage} from '../../hooks/use-storage.hook';
 import {useSongHook} from '../../hooks/use-song.hook';
 import {useSearchHook} from '../../hooks/use-search.hook';
+import {usePlayerStore} from '../../store/player.store';
 
 type AlbumProps = NativeStackScreenProps<RootStackParams, 'Album'>;
 
@@ -20,6 +21,16 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
   const {dataSearchSongs, getSearchSongs} = useSearchHook();
   const {albumLoading, dataDetailAlbum, getDetailAlbum, getDetailAlbumPublic} =
     useSongHook();
+
+  const {setWithoutBottomTab, show} = usePlayerStore();
+
+  useFocusEffect(
+    useCallback(() => {
+      if (show) {
+        setWithoutBottomTab(true);
+      }
+    }, [show]),
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -33,6 +44,7 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
   );
 
   const onPressGoBack = () => {
+    show && setWithoutBottomTab(false);
     navigation.goBack();
   };
 

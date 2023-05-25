@@ -343,6 +343,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     }
   }, [dataProfile]);
 
+  const handleMiniPlayerOnPress = () => {
+    hidePlayer();
+    goToScreen('MusicPlayer');
+  };
+
   const listMusician = isLogin ? dataMusician : dataSearchMusicians;
   const bannerCondition = isLoadingBanner && dataBanner.length === 0 && isLogin;
 
@@ -580,7 +585,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         }
       />
 
-      <ModalPlayMusic onPressModal={() => goToScreen('MusicPlayer')} />
+      <ModalPlayMusic onPressModal={handleMiniPlayerOnPress} />
     </View>
   );
 };

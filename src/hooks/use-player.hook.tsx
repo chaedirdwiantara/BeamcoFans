@@ -192,6 +192,10 @@ export const usePlayerHook = () => {
     setPlaySong();
   };
 
+  const showMiniPlayerOnly = () => {
+    playerStore.setShow(true);
+  };
+
   const hidePlayer = () => {
     playerStore.setShow(false);
   };
@@ -305,5 +309,6 @@ export const usePlayerHook = () => {
     getRepeatPlayer,
     setRepeatPlayer,
     addPlaylistMostPlayed,
+    showMiniPlayerOnly,
   };
 };
