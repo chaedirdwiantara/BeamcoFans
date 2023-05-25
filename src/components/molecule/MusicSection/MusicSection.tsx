@@ -45,10 +45,11 @@ interface ListProps {
   newOnPressMore?: (data: DataMore) => void;
   disabled?: boolean;
   fromMainTab?: boolean;
+  singerId: string;
 }
 
 export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
-  const {newDataMore, newOnPressMore} = props;
+  const {newDataMore, newOnPressMore, singerId} = props;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const isLogin = storage.getString('profile');
@@ -135,6 +136,7 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
       />
 
       <ModalDonate
+        userId={singerId}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={() => setModalDonate(false)}

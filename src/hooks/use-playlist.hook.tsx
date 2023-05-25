@@ -9,8 +9,11 @@ import {
 import {
   addSong,
   detailPlaylist,
+  detailPlaylistPublic,
   getListPlaylist,
+  getListPlaylistPublic,
   listSongs,
+  listSongsPlaylistPublic,
 } from '../api/playlist.api';
 
 export const usePlaylistHook = () => {
@@ -74,6 +77,50 @@ export const usePlaylistHook = () => {
     }
   };
 
+  const getPlaylistPublic = async (props?: ParamsProps) => {
+    setPlaylistLoading(true);
+    setPlaylistError(false);
+    try {
+      const response = await getListPlaylistPublic(props);
+      setDataPlaylist(response.data);
+    } catch (error) {
+      console.log(error);
+      setPlaylistError(true);
+      setDataPlaylist([]);
+    } finally {
+      setPlaylistLoading(false);
+    }
+  };
+
+  const getDetailPlaylistPublic = async (props?: PlaylistPropsTypeA) => {
+    setPlaylistLoading(true);
+    setPlaylistError(false);
+    try {
+      const response = await detailPlaylistPublic(props);
+      setDataDetailPlaylist(response.data);
+    } catch (error) {
+      console.log(error);
+      setPlaylistError(true);
+    } finally {
+      setPlaylistLoading(false);
+    }
+  };
+
+  const getListSongsPlaylistPublic = async (
+    params?: PlaylistPropsTypeA,
+    props?: ParamsProps,
+  ) => {
+    try {
+      const response = await listSongsPlaylistPublic(params, props);
+      setDataSongsPlaylist(response.data);
+    } catch (error) {
+      setPlaylistError(true);
+      setDataSongsPlaylist([]);
+    } finally {
+      setPlaylistLoading(false);
+    }
+  };
+
   return {
     playlistLoading,
     playlistError,
@@ -84,5 +131,8 @@ export const usePlaylistHook = () => {
     getDetailPlaylist,
     getListSongsPlaylist,
     setAddSongToPlaylist,
+    getPlaylistPublic,
+    getDetailPlaylistPublic,
+    getListSongsPlaylistPublic,
   };
 };

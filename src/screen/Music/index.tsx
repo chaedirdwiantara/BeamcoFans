@@ -1,3 +1,4 @@
+import React, {FC, useRef, useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -6,37 +7,39 @@ import {
   Text,
   Animated,
 } from 'react-native';
-import React, {FC, useEffect, useRef, useState} from 'react';
-import {color, font} from '../../theme';
-import {ModalDonate, ModalSuccessDonate, SsuStatusBar} from '../../components';
-import {heightResponsive, widthResponsive} from '../../utils';
-import MusicControl from './MusicControl';
-import TopNav from './TopNav';
-import Footer from './Footer';
-import TitleAndDonate from './TitleAndDonate';
-import {Slider} from '@miblanchard/react-native-slider';
 import {mvs} from 'react-native-size-matters';
-import {songs, SongsProps} from '../../data/music';
-import {usePlayerHook} from '../../hooks/use-player.hook';
-import {RootStackParams} from '../../navigations';
+import {Slider} from '@miblanchard/react-native-slider';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useCreditHook} from '../../hooks/use-credit.hook';
+
+import {
+  BottomSheetGuest,
+  ModalDonate,
+  ModalSuccessDonate,
+  SsuStatusBar,
+} from '../../components';
+import Footer from './Footer';
+import TopNav from './TopNav';
+import {color, font} from '../../theme';
+import MusicControl from './MusicControl';
+import TitleAndDonate from './TitleAndDonate';
+import {RootStackParams} from '../../navigations';
+import {songs, SongsProps} from '../../data/music';
+import {storage} from '../../hooks/use-storage.hook';
+import {usePlayerHook} from '../../hooks/use-player.hook';
+import {heightResponsive, widthResponsive} from '../../utils';
 
 export const {width} = Dimensions.get('screen');
 
 type MusicProps = NativeStackScreenProps<RootStackParams, 'MusicPlayer'>;
 
 export const MusicPlayer: FC<MusicProps> = ({navigation}: MusicProps) => {
+  const isLogin = storage.getBoolean('isLogin');
   const scrollX = useRef(new Animated.Value(0)).current;
   const {playerProgress, currentTrack, seekPlayer} = usePlayerHook();
-  const {creditCount, getCreditCount} = useCreditHook();
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
-
-  useEffect(() => {
-    getCreditCount();
-  }, [modalDonate]);
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
   // const [songIndex, setSongIndex] = useState<number>(0);
 
   // TODO: will gonna use it when swipe on the song is applied
@@ -61,7 +64,7 @@ export const MusicPlayer: FC<MusicProps> = ({navigation}: MusicProps) => {
   };
 
   const coinOnPress = () => {
-    setModalDonate(true);
+    isLogin ? setModalDonate(true) : setModalGuestVisible(true);
   };
 
   const onPressCloseModalDonate = () => {
@@ -160,8 +163,14 @@ export const MusicPlayer: FC<MusicProps> = ({navigation}: MusicProps) => {
         <Footer />
       </View>
 
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
+      />
+
       {/* modal */}
       <ModalDonate
+        userId={currentTrack?.musicianId}
         onPressClose={onPressCloseModalDonate}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}

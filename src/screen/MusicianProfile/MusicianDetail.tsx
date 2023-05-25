@@ -80,7 +80,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const isLogin = storage.getBoolean('isLogin');
-  const {creditCount, getCreditCount} = useCreditHook();
+  const {creditCount, getCreditCount, checkSubs, alreadySubsEC} =
+    useCreditHook();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
@@ -143,6 +144,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   useEffect(() => {
     getCreditCount();
   }, [modalDonate]);
+
+  useEffect(() => {
+    if (exclusiveContent) checkSubs(profile.uuid);
+  }, [exclusiveContent]);
 
   const filterData = (item: string, index: number) => {
     setSelectedIndex(index);
@@ -257,7 +262,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
             profile={profile}
             followersCount={followersCount}
           />
-          {exclusiveContent && <ExclusiveDailyContent {...exclusiveContent} />}
+          {exclusiveContent && (
+            <ExclusiveDailyContent
+              {...exclusiveContent}
+              subs={alreadySubsEC}
+              musician={profile}
+            />
+          )}
           <Gap height={10} />
           <View style={styles.containerContent}>
             <TabFilter.Type1
@@ -324,6 +335,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       </ScrollView>
 
       <ModalDonate
+        userId={profile.uuid}
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={() => setModalDonate(false)}

@@ -35,8 +35,8 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
     dataCountLiked,
     getUserCountLikedSong,
   } = useProfileHook();
-  const {dataPlaylist, getPlaylist} = usePlaylistHook();
-  const isLogin = storage.getString('profile');
+  const {dataPlaylist, getPlaylist, getPlaylistPublic} = usePlaylistHook();
+  const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
   const {
     isPlaying,
@@ -56,9 +56,13 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
 
   useFocusEffect(
     useCallback(() => {
-      getPlaylist({uuid: data.id});
       getOtherProfileUser({id: data.id});
       getUserCountLikedSong({uuid: data.id});
+      if (isLogin) {
+        getPlaylist({uuid: data.id});
+      } else {
+        getPlaylistPublic({uuid: data.id});
+      }
     }, []),
   );
 
@@ -92,27 +96,23 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
 
   return (
     <View style={styles.root}>
-      {isLogin ? (
-        <ProfileContent
-          profile={profile}
-          goToPlaylist={goToPlaylist}
-          dataPlaylist={dataPlaylist}
-          goToEditProfile={() => {}}
-          onPressGoTo={goToFollowing}
-          showCreateCard={false}
-          toastVisible={toastVisible}
-          setToastVisible={setToastVisible}
-          toastText={''}
-          playerVisible={playerVisible}
-          totalCountlikedSong={dataCountLiked?.countLikedSong}
-          refreshing={false}
-          setRefreshing={() => {}}
-          otherUserProfile={true}
-          onPressGoBack={onPressGoBack}
-        />
-      ) : (
-        <GuestContent />
-      )}
+      <ProfileContent
+        profile={profile}
+        goToPlaylist={goToPlaylist}
+        dataPlaylist={dataPlaylist.filter(val => val.isPublic)}
+        goToEditProfile={() => {}}
+        onPressGoTo={goToFollowing}
+        showCreateCard={false}
+        toastVisible={toastVisible}
+        setToastVisible={setToastVisible}
+        toastText={''}
+        playerVisible={playerVisible}
+        totalCountlikedSong={dataCountLiked?.countLikedSong}
+        refreshing={false}
+        setRefreshing={() => {}}
+        otherUserProfile={true}
+        onPressGoBack={onPressGoBack}
+      />
     </View>
   );
 };

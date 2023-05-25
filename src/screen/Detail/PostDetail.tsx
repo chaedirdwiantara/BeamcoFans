@@ -1004,6 +1004,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           modalStyle={{marginHorizontal: widthResponsive(24)}}
         />
         <ModalDonate
+          userId={data.musician.uuid}
           onPressDonate={onPressDonate}
           modalVisible={modalDonate}
           onPressClose={() => setModalDonate(false)}

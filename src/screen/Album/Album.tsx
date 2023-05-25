@@ -17,8 +17,11 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
   navigation,
   route,
 }: AlbumProps) => {
+  const {id, type} = route.params;
   const isLogin = storage.getBoolean('isLogin');
-  const {dataSearchSongs, getSearchSongs} = useSearchHook();
+  const {searchLoading, dataSearchSongs, getSearchSongs} = useSearchHook();
+  const {isLoadingSong, dataSongComingSoon, getListSongComingSoon} =
+    useSongHook();
   const {albumLoading, dataDetailAlbum, getDetailAlbum, getDetailAlbumPublic} =
     useSongHook();
 
@@ -34,13 +37,20 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
 
   useFocusEffect(
     useCallback(() => {
-      getSearchSongs({albumID: route.params.id, keyword: ''});
+      // EP Detail Album
       if (isLogin) {
-        getDetailAlbum({id: route.params.id.toString()});
+        getDetailAlbum({id: id.toString()});
       } else {
-        getDetailAlbumPublic({id: route.params.id.toString()});
+        getDetailAlbumPublic({id: id.toString()});
       }
-    }, [route.params.id]),
+
+      // EP List Song by Album
+      if (type === 'coming_soon') {
+        getListSongComingSoon({id});
+      } else {
+        getSearchSongs({albumID: id, keyword: ''});
+      }
+    }, [id]),
   );
 
   const onPressGoBack = () => {
@@ -54,8 +64,10 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
         <AlbumContent
           detailAlbum={dataDetailAlbum}
           dataSong={dataSearchSongs}
+          dataSongComingSoon={dataSongComingSoon}
           onPressGoBack={onPressGoBack}
-          comingSoon={route.params.type === 'coming_soon'}
+          comingSoon={type === 'coming_soon'}
+          isLoading={searchLoading || isLoadingSong}
         />
       )}
     </View>

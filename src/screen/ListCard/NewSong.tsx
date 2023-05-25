@@ -125,6 +125,7 @@ const NewSong: FC<NewSongPropsScreen> = (props: NewSongPropsScreen) => {
                 newOnPressMore={data =>
                   newOnPressMore && newOnPressMore(data, item)
                 }
+                singerId={item.musicianId}
               />
             );
           }
@@ -168,6 +169,7 @@ const NewSong: FC<NewSongPropsScreen> = (props: NewSongPropsScreen) => {
                   newOnPressMore={data =>
                     newOnPressMore && newOnPressMore(data, item)
                   }
+                  singerId={item.musicianId}
                 />
               );
             }

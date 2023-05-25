@@ -116,7 +116,7 @@ const ListPlaylist: React.FC<PlaylistProps> = ({navigation}: PlaylistProps) => {
                 useGrouping: false,
               })}
               musicTitle={item.name}
-              singerName={item.name}
+              singerName={item.playlistOwner.fullname}
               onPressMore={resultDataMore}
               containerStyles={{marginTop: mvs(20)}}
               onPressCard={() => cardOnPress(item.id)}
