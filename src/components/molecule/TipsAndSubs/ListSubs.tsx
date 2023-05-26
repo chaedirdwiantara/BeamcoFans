@@ -98,22 +98,23 @@ const ListSubs: React.FC<ListSubsProps> = props => {
   };
 
   const onPressConfirm = () => {
-    console.log(currentData);
     setShowUnsubModal(false);
-    setLoading(true);
-    try {
-      const response: any = unsubsEC(currentData?.ID);
-      if (response.code === 200) {
-        setTimeout(() => {
-          setToastVisible(true);
-        }, 1000);
+    setTimeout(() => {
+      setLoading(true);
+      try {
+        const response: any = unsubsEC(currentData?.ID);
+        if (response.code === 200) {
+          setTimeout(() => {
+            setToastVisible(true);
+          }, 1000);
 
-        refetch();
+          refetch();
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
+      setLoading(false);
+    }, 1000);
   };
 
   return (
