@@ -51,6 +51,7 @@ export const useAuthHook = () => {
   const [ssoEmail, setSsoEmail] = useState<string>('');
   const [ssoType, setSsoType] = useState<RegistrationType>();
   const [ssoId, setSsoId] = useState<string>('');
+  const [ssoFullname, setSsoFullname] = useState<string>('');
 
   const onRegisterUser = async (props: RegisterPropsType) => {
     setIsError(false);
@@ -58,6 +59,7 @@ export const useAuthHook = () => {
     setIsLoading(true);
     try {
       const response = await registerUser(props);
+
       if (response.code === 200) {
         setAuthResult(response);
       } else {
@@ -144,6 +146,7 @@ export const useAuthHook = () => {
       if (response.code === 1003) {
         setSsoEmail(userInfo.user.email ?? '');
         setSsoId(userInfo.user.id);
+        setSsoFullname(userInfo.user.name ?? userInfo.user.email.split('@')[0]);
         setSsoType('google');
         setSsoRegistered(false);
       } else if (response.code === 200) {
@@ -225,15 +228,18 @@ export const useAuthHook = () => {
       const credentialState = await appleAuth.getCredentialStateForUser(
         appleAuthRequestResponse.user,
       );
-
       if (credentialState === appleAuth.State.AUTHORIZED) {
         const response = await loginSso(appleAuthRequestResponse.user, 'apple');
-        console.log({response});
         if (response.code === 1003) {
           setSsoEmail(appleAuthRequestResponse.email ?? '');
           setSsoId(appleAuthRequestResponse.user);
           setSsoType('apple');
           setSsoRegistered(false);
+          setSsoFullname(
+            appleAuthRequestResponse.fullName?.nickname ??
+              appleAuthRequestResponse.email?.split('@')[0] ??
+              'Unnamed',
+          );
         } else if (response.code === 200) {
           setSsoRegistered(true);
           if (response.data.accessToken) {
@@ -294,7 +300,6 @@ export const useAuthHook = () => {
     setIsLoading(true);
     try {
       const response = await confirmEmailOtpRegister(email, code, context);
-      console.log({response});
       if (response.status === 1) {
         if (response.data.lastLoginAt === null) {
           setLoginResult('preference');
@@ -616,5 +621,6 @@ export const useAuthHook = () => {
     confirmEmailOtpFP,
     onChangePassword,
     onChangePasswordSetting,
+    ssoFullname,
   };
 };
