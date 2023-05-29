@@ -423,6 +423,7 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
                   tokenOnPress={() => tokenOnPress(item.musician_uuid)}
                   shareOnPress={shareOnPress}
+                  containerStyles={{marginTop: mvs(16)}}
                   commentCount={item.commentsCount}
                   myPost={item.musician.uuid === MyUuid}
                   selectedMenu={setSelectedMenu}
