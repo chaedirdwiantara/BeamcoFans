@@ -52,6 +52,7 @@ export const useAuthHook = () => {
   const [ssoType, setSsoType] = useState<RegistrationType>();
   const [ssoId, setSsoId] = useState<string>('');
   const [ssoFullname, setSsoFullname] = useState<string>('');
+  const [isRegisterSSO, setIsRegisterSSO] = useState<boolean>(false);
 
   const onRegisterUser = async (props: RegisterPropsType) => {
     setIsError(false);
@@ -59,6 +60,7 @@ export const useAuthHook = () => {
     setIsLoading(true);
     try {
       const response = await registerUser(props);
+      console.log('auth result', response);
 
       if (response.code === 200) {
         setAuthResult(response);
@@ -137,11 +139,13 @@ export const useAuthHook = () => {
     setIsError(false);
     setErrorMsg('');
     setSsoRegistered(null);
+    setIsRegisterSSO(false);
     GoogleSignin.configure();
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       setIsLoading(true);
+
       const response = await loginSso(userInfo.user.email, 'google');
       if (response.code === 1003) {
         setSsoEmail(userInfo.user.email ?? '');
@@ -149,6 +153,7 @@ export const useAuthHook = () => {
         setSsoFullname(userInfo.user.name ?? userInfo.user.email.split('@')[0]);
         setSsoType('google');
         setSsoRegistered(false);
+        setIsRegisterSSO(true);
       } else if (response.code === 200) {
         setSsoRegistered(true);
         if (response.data.accessToken) {
@@ -217,9 +222,11 @@ export const useAuthHook = () => {
   const onLoginApple = async () => {
     setIsError(false);
     setSsoRegistered(null);
+    setIsRegisterSSO(false);
     setSsoEmail('');
     setErrorMsg('');
     try {
+      setIsLoading(true);
       const appleAuthRequestResponse = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
@@ -232,14 +239,15 @@ export const useAuthHook = () => {
         const response = await loginSso(appleAuthRequestResponse.user, 'apple');
         if (response.code === 1003) {
           setSsoEmail(appleAuthRequestResponse.email ?? '');
-          setSsoId(appleAuthRequestResponse.user);
-          setSsoType('apple');
-          setSsoRegistered(false);
           setSsoFullname(
             appleAuthRequestResponse.fullName?.nickname ??
               appleAuthRequestResponse.email?.split('@')[0] ??
               'Unnamed',
           );
+          setSsoId(appleAuthRequestResponse.user);
+          setSsoType('apple');
+          setSsoRegistered(false);
+          setIsRegisterSSO(true);
         } else if (response.code === 200) {
           setSsoRegistered(true);
           if (response.data.accessToken) {
@@ -270,6 +278,8 @@ export const useAuthHook = () => {
       } else if (error instanceof Error) {
         setSsoErrorMsg(error.message);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -622,5 +632,6 @@ export const useAuthHook = () => {
     onChangePassword,
     onChangePasswordSetting,
     ssoFullname,
+    isRegisterSSO,
   };
 };

@@ -98,6 +98,7 @@ export const SignupScreen: React.FC = () => {
     loginResult,
     onLoginGoogle,
     ssoFullname,
+    isRegisterSSO,
   } = useAuthHook();
   const {t} = useTranslation();
   const [focusInput, setFocusInput] = useState<string | null>(null);
@@ -144,24 +145,33 @@ export const SignupScreen: React.FC = () => {
   useEffect(() => {
     storage.delete('isGuest');
     if (!isLoading && !isError && authResult !== null) {
-      if (watch('registrationType') === 'email') {
-        navigation.replace('Otp', {
-          id: watch('email'),
-          type: 'email',
-          title: t('OTP.Email.Title'),
-          subtitle: t('OTP.Email.Subtitle', {email: watch('email')}),
-          context: 'register',
+      if (isRegisterSSO) {
+        storage.set('isLogin', true);
+        storage.set('profile', JSON.stringify(authResult.data));
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Preference'}],
         });
       } else {
-        navigation.replace('Otp', {
-          id: countryNumber + watch('phoneNumber'),
-          type: 'phoneNumber',
-          title: t('OTP.Phone.Title'),
-          subtitle: t('OTP.Phone.Subtitle', {
-            phone: countryNumber + watch('phoneNumber'),
-          }),
-          context: 'register',
-        });
+        if (watch('registrationType') === 'email') {
+          navigation.replace('Otp', {
+            id: watch('email'),
+            type: 'email',
+            title: t('OTP.Email.Title'),
+            subtitle: t('OTP.Email.Subtitle', {email: watch('email')}),
+            context: 'register',
+          });
+        } else {
+          navigation.replace('Otp', {
+            id: countryNumber + watch('phoneNumber'),
+            type: 'phoneNumber',
+            title: t('OTP.Phone.Title'),
+            subtitle: t('OTP.Phone.Subtitle', {
+              phone: countryNumber + watch('phoneNumber'),
+            }),
+            context: 'register',
+          });
+        }
       }
     } else if (!isLoading && isError !== null) {
       setError('termsCondition', {
