@@ -39,17 +39,22 @@ interface UserInfoCardProps {
   totalCountlikedSong?: number;
   followersCount?: number;
   totalPoint?: number;
+  disabled?: boolean;
 }
 
 type Props = {
   point: number;
   title: string;
   onPress: () => void;
+  disabled?: boolean;
 };
 
-const Item: FC<Props> = ({point, title, onPress}) => {
+const Item: FC<Props> = ({point, title, onPress, disabled}) => {
   return (
-    <TouchableOpacity style={styles.itemStyle} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.itemStyle}
+      onPress={onPress}
+      disabled={disabled}>
       <Text style={styles.pointStyle}>
         {isNaN(point) ? '-' : kFormatter(point, 1)}
       </Text>
@@ -69,6 +74,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
     totalCountlikedSong,
     followersCount,
     totalPoint = 0,
+    disabled,
   } = props;
   const {t} = useTranslation();
 
@@ -78,7 +84,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
       title: t('Musician.Label.Fans'),
     },
     {
-      point: followersCount,
+      point: followersCount || 0,
       title: t('Musician.Label.Followers'),
     },
     {
@@ -139,6 +145,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
                 point={val.point}
                 title={val.title}
                 onPress={debounce(newOnPress)}
+                disabled={disabled}
               />
             </View>
           );

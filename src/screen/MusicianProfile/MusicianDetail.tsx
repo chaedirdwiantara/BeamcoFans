@@ -261,6 +261,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
             onPress={goToFollowers}
             profile={profile}
             followersCount={followersCount}
+            disabled={true}
           />
           {exclusiveContent && (
             <ExclusiveDailyContent
