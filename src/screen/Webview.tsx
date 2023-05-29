@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   View,
   Text,
@@ -15,16 +15,28 @@ import {ArrowLeftIcon} from '../assets/icon';
 import Color from '../theme/Color';
 import Font from '../theme/Font';
 import {normalize} from '../utils';
+import {usePlayerStore} from '../store/player.store';
+import {useFocusEffect} from '@react-navigation/native';
 
 const {width} = Dimensions.get('screen');
 
 type WebviewProps = NativeStackScreenProps<RootStackParams, 'Webview'>;
+const {setWithoutBottomTab, show} = usePlayerStore();
+
+useFocusEffect(
+  useCallback(() => {
+    if (show) {
+      setWithoutBottomTab(true);
+    }
+  }, [show]),
+);
 
 export const WebviewPage: React.FC<WebviewProps> = ({
   navigation,
   route,
 }: WebviewProps) => {
   const handleBack = () => {
+    show && setWithoutBottomTab(false);
     navigation.goBack();
   };
   return (
