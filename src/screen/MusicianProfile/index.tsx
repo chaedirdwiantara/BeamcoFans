@@ -26,7 +26,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const {dataPlaylist, getPlaylist, getPlaylistPublic} = usePlaylistHook();
 
   const {
-    isLoading,
+    isLoadingMusician,
     dataDetailMusician,
     dataAlbum,
     getAlbum,
@@ -90,7 +90,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           exclusiveContent={dataExclusiveContent ?? undefined}
         />
       )}
-      <ModalLoading visible={isLoading} />
+      <ModalLoading visible={isLoadingMusician} />
     </View>
   );
 };

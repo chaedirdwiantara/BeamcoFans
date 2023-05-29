@@ -19,7 +19,7 @@ import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
 
 export const useMusicianHook = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMusician, setIsLoadingMusician] = useState(false);
   const [dataMusician, setDataMusician] = useState<MusicianList[]>([]);
   const [dataFavoriteMusician, setDataFavoriteMusician] = useState<
     MusicianList[]
@@ -31,86 +31,89 @@ export const useMusicianHook = () => {
   const [dataDetailMusician, setDataDetailMusician] =
     useState<DataDetailMusician>();
   const [dataFollow, setDataFollow] = useState<string | null>(null);
-  const [isError, setIsError] = useState(false);
+  const [isErrorMusician, setIsErrorMusician] = useState(false);
 
   const getListDataMusician = async (props?: ParamsProps) => {
+    setIsLoadingMusician(true);
     try {
       const response = await listMusician(props);
       setDataMusician(response.data);
     } catch (error) {
       console.log(error);
-      setIsError(true);
+      setIsErrorMusician(true);
       setDataMusician([]);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMusician(false);
     }
   };
 
   const getListDataFavoriteMusician = async (props?: ParamsProps) => {
+    setIsLoadingMusician(true);
     try {
       const response = await listMusician(props);
       setDataFavoriteMusician(response.data);
     } catch (error) {
       console.log(error);
-      setIsError(true);
+      setIsErrorMusician(true);
       setDataFavoriteMusician([]);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMusician(false);
     }
   };
 
   const getListDataRecommendedMusician = async (props?: ParamsProps) => {
+    setIsLoadingMusician(true);
     try {
       const response = await recommendedMusician(props);
       setDataRecommendedMusician(response.data);
     } catch (error) {
       console.log(error, 'recommended');
-      setIsError(true);
+      setIsErrorMusician(true);
       setDataRecommendedMusician([]);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMusician(false);
     }
   };
 
   const getDetailMusician = async (props?: PostPropsTypeA) => {
-    setIsLoading(true);
+    setIsLoadingMusician(true);
     try {
       const response = await detailMusician(props);
       setDataDetailMusician(response.data);
     } catch (error) {
       console.log(error);
-      setIsError(true);
+      setIsErrorMusician(true);
       setDataDetailMusician(undefined);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMusician(false);
     }
   };
 
   const getDetailMusicianGuest = async (props?: PostPropsTypeA) => {
-    setIsLoading(true);
+    setIsLoadingMusician(true);
     try {
       const response = await detailMusicianGuest(props);
       setDataDetailMusician(response.data);
     } catch (error) {
       console.log(error);
-      setIsError(true);
+      setIsErrorMusician(true);
       setDataDetailMusician(undefined);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMusician(false);
     }
   };
 
   const getAlbum = async (props?: paramsTypeUuid) => {
-    setIsLoading(true);
+    setIsLoadingMusician(true);
     try {
       const response = await getAlbumById(props);
       setDataAlbum(response.data);
     } catch (error) {
       console.log(error);
-      setIsError(true);
+      setIsErrorMusician(true);
       setDataAlbum([]);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMusician(false);
     }
   };
 
@@ -119,18 +122,17 @@ export const useMusicianHook = () => {
     params?: ParamsProps,
     notTriggeredGetList?: boolean | undefined,
   ) => {
-    setIsLoading(true);
     try {
       const response = await followMusician(props);
       setDataFollow(response.data);
       !notTriggeredGetList && getListDataMusician(params);
     } catch (error) {
       console.log(error);
-      setIsError(true);
+      setIsErrorMusician(true);
       setDataFollow(null);
       setDataMusician([]);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMusician(false);
     }
   };
 
@@ -139,24 +141,23 @@ export const useMusicianHook = () => {
     params?: ParamsProps,
     notTriggeredGetList?: boolean | undefined,
   ) => {
-    setIsLoading(true);
     try {
       const response = await unfollowMusician(props);
       setDataFollow(response.data);
       !notTriggeredGetList && getListDataMusician(params);
     } catch (error) {
       console.log(error);
-      setIsError(true);
+      setIsErrorMusician(true);
       setDataFollow(null);
       setDataMusician([]);
     } finally {
-      setIsLoading(false);
+      setIsLoadingMusician(false);
     }
   };
 
   return {
-    isLoading,
-    isError,
+    isLoadingMusician,
+    isErrorMusician,
     dataMusician,
     dataFollow,
     dataDetailMusician,
