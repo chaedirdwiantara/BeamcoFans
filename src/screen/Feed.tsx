@@ -1,14 +1,23 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, SafeAreaView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+  NativeModules,
+} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {color} from '../theme';
 import {storage} from '../hooks/use-storage.hook';
 import PostListPublic from './ListCard/PostListPublic';
-import {widthResponsive} from '../utils';
+import {heightResponsive, widthResponsive} from '../utils';
 import PostListExclusive from './ListCard/PostListExclusive';
 import {GuestContent, TabFilter, TopNavigation} from '../components';
 import {dropDownDataCategory, dropDownDataSort} from '../data/dropdown';
 import {useTranslation} from 'react-i18next';
+
+const {StatusBarManager} = NativeModules;
+const barHeight = StatusBarManager.HEIGHT;
 
 export const FeedScreen: React.FC = () => {
   const {t} = useTranslation();
@@ -31,7 +40,8 @@ export const FeedScreen: React.FC = () => {
             maxLengthTitle={20}
             itemStrokeColor={'white'}
             containerStyle={{
-              paddingTop: 0,
+              paddingTop:
+                Platform.OS === 'ios' ? 0 : heightResponsive(barHeight + 15),
               zIndex: 1,
             }}
           />
