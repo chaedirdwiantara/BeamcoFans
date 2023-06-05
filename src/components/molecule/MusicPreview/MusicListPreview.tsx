@@ -4,9 +4,9 @@ import {color, font} from '../../../theme';
 import {Gap, SquareImage} from '../../atom';
 import {CloseCircleIcon, PauseIcon, PlayIcon} from '../../../assets/icon';
 import {ms, mvs} from 'react-native-size-matters';
-import {heightResponsive, widthResponsive} from '../../../utils';
+import {heightResponsive} from '../../../utils';
 import {Slider} from '@miblanchard/react-native-slider';
-import {PostList} from '../../../interface/feed.interface';
+import {QuoteToPost} from '../../../interface/feed.interface';
 
 interface MusicPreviewProps {
   targetId: string;
@@ -19,7 +19,7 @@ interface MusicPreviewProps {
   startAt?: string;
   endAt?: string;
   hideClose?: boolean;
-  onPress: (data: PostList) => void;
+  onPress: (data: QuoteToPost) => void;
   closeOnPress?: () => void;
   isPlay: boolean;
   playOrPause: () => void;
@@ -27,7 +27,7 @@ interface MusicPreviewProps {
   currentProgress: number;
   duration: number;
   seekPlayer: (second: number) => void;
-  postList: PostList;
+  postList: QuoteToPost;
   isIdNowPlaying: boolean;
   hideSlider?: boolean;
 }

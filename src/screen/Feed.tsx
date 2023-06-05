@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, SafeAreaView} from 'react-native';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {color} from '../theme';
 import {storage} from '../hooks/use-storage.hook';
@@ -23,13 +23,17 @@ export const FeedScreen: React.FC = () => {
     setSelectedIndex(index);
   };
   return (
-    <View style={styles.root}>
+    <SafeAreaView style={styles.root}>
       {isLogin ? (
         <View>
-          <TopNavigation.Type2
+          <TopNavigation.Type2Animated
             title={t('Feed.Title')}
             maxLengthTitle={20}
             itemStrokeColor={'white'}
+            containerStyle={{
+              paddingTop: 0,
+              zIndex: 1,
+            }}
           />
           <View style={styles.feedContainer}>
             <TabFilter.Type1
@@ -41,6 +45,12 @@ export const FeedScreen: React.FC = () => {
               }}
               TouchableStyle={{width: widthPercentageToDP(45)}}
               translation={true}
+              containerStyle={{
+                backgroundColor: color.Dark[800],
+                zIndex: 2,
+                position: 'absolute',
+                left: widthResponsive(24),
+              }}
             />
             {filter[selectedIndex].filterName === 'Feed.Public' ? (
               <PostListPublic
@@ -58,7 +68,7 @@ export const FeedScreen: React.FC = () => {
       ) : (
         <GuestContent />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
