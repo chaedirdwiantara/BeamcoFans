@@ -126,45 +126,39 @@ export const ModalDonate: React.FC<ModalDonateProps> = ({
     } else setErrorDonate(true);
   };
 
-  const CustomInput = () => {
-    return (
-      <View style={styles.containerCustom}>
-        <Text style={[typography.Subtitle1, {color: color.Neutral[10]}]}>
-          {t('Setting.Tips.CustomTip')}
-        </Text>
-        <View
-          style={[
-            styles.containerInput,
-            {
-              borderBottomWidth: focusInput ? 1 : 0,
-            },
-          ]}>
-          <TextInput
-            value={donate}
-            onChangeText={(newText: string) => setDonate(newText)}
-            style={styles.inputStyle}
-            placeholder="0.00"
-            placeholderTextColor={'#ffffff4d'}
-            onFocus={() => {
-              setFocusInput(true);
-            }}
-            onBlur={() => {
-              setFocusInput(false);
-            }}
-            keyboardType={'number-pad'}
-          />
-        </View>
-      </View>
-    );
-  };
-
   const children = () => {
     return (
       <>
         <Text style={styles.titleStyle}>{t('Home.Tab.TopMusician.Tip')}</Text>
         <View style={styles.separator} />
         {showCustomInput ? (
-          <CustomInput />
+          <View style={styles.containerCustom}>
+            <Text style={[typography.Subtitle1, {color: color.Neutral[10]}]}>
+              {t('Setting.Tips.CustomTip')}
+            </Text>
+            <View
+              style={[
+                styles.containerInput,
+                {
+                  borderBottomWidth: focusInput ? 1 : 0,
+                },
+              ]}>
+              <TextInput
+                value={donate}
+                onChangeText={(newText: string) => setDonate(newText)}
+                style={styles.inputStyle}
+                placeholder="0.00"
+                placeholderTextColor={'#ffffff4d'}
+                onFocus={() => {
+                  setFocusInput(true);
+                }}
+                onBlur={() => {
+                  setFocusInput(false);
+                }}
+                keyboardType={'number-pad'}
+              />
+            </View>
+          </View>
         ) : (
           <View style={styles.containerContent}>
             <Text style={[typography.Subtitle1, {color: color.Neutral[10]}]}>
