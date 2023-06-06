@@ -36,6 +36,7 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
   } = usePlayerHook();
   const playCounterGuest = storage.getNumber('playCounterGuest');
   const isGuest = storage.getBoolean('isGuest');
+  const currentSongPlayId = storage.getNumber('currentSongPlayId');
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
 
   const {withoutBottomTab} = usePlayerStore();
@@ -54,10 +55,17 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
       playCounterGuest > 5 &&
       isGuest === true
     ) {
+      hidePlayer();
       resetPlayer();
       setModalGuestVisible(true);
+    } else {
+      if (playCounterGuest === undefined) {
+        storage.set('playCounterGuest', 1);
+      } else {
+        storage.set('playCounterGuest', playCounterGuest + 1);
+      }
     }
-  }, [playCounterGuest]);
+  }, [currentSongPlayId]);
 
   const handleClose = async () => {
     hidePlayer();
