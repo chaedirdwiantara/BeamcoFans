@@ -40,6 +40,7 @@ const ListSubs: React.FC<ListSubsProps> = props => {
   const [currentData, setCurrentData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
+  const [isErrorUnsub, setIsErrorUnsub] = useState<boolean>(false);
   const {
     data: dataSubs,
     refetch,
@@ -97,24 +98,23 @@ const ListSubs: React.FC<ListSubsProps> = props => {
     setShowUnsubModal(false);
   };
 
-  const onPressConfirm = () => {
+  const onPressConfirm = async () => {
+    setIsErrorUnsub(false);
     setShowUnsubModal(false);
-    setTimeout(() => {
-      setLoading(true);
-      try {
-        const response: any = unsubsEC(currentData?.ID);
-        if (response.code === 200) {
-          setTimeout(() => {
-            setToastVisible(true);
-          }, 1000);
-
-          refetch();
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
-    }, 1000);
+    setLoading(true);
+    try {
+      const response: any = await unsubsEC(currentData?.ID);
+      if (response.code === 200) {
+        refetch();
+      } else setIsErrorUnsub(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setToastVisible(true);
+        setLoading(false);
+      }, 1000);
+    }
   };
 
   return (
@@ -190,11 +190,21 @@ const ListSubs: React.FC<ListSubsProps> = props => {
         modalVisible={toastVisible}
         onBackPressed={() => setToastVisible(false)}
         children={
-          <View style={[styles.modalContainer]}>
+          <View
+            style={[
+              styles.modalContainer,
+              {
+                backgroundColor: isErrorUnsub
+                  ? Color.Error[500]
+                  : Color.Success[400],
+              },
+            ]}>
             <CheckCircle2Icon />
             <Gap width={4} />
             <Text style={[styles.textStyle]} numberOfLines={2}>
-              {`Your subscription have been updated!`}
+              {isErrorUnsub
+                ? `Unsubscribe failed. Try again`
+                : `Your subscription have been updated!`}
             </Text>
           </View>
         }
@@ -254,7 +264,6 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flexDirection: 'row',
-    backgroundColor: Color.Success[400],
     paddingVertical: heightPercentage(8),
     paddingHorizontal: widthResponsive(12),
     borderRadius: 4,
@@ -262,7 +271,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: mvs(22),
-    maxWidth: '100%',
+    width: '100%',
     flexWrap: 'wrap',
   },
   textStyle: {
@@ -273,7 +282,6 @@ const styles = StyleSheet.create({
   },
   toast: {
     maxWidth: '100%',
-    marginHorizontal: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },

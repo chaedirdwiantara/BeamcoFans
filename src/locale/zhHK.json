@@ -679,7 +679,7 @@
     },
     "StopDonation": {
       "Title": "Stop Donation",
-      "Subtitle": "Are you sure you want to stop donation {{musician}}?"
+      "Subtitle": "Are you sure you want to stop donation to {{musician}}?"
     }
   },
   "EmptyState": {

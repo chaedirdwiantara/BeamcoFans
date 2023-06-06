@@ -1,7 +1,7 @@
 import {View, Text, ScrollView, RefreshControl, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useInfiniteQuery} from 'react-query';
-import {getListTips} from '../../../api/credit.api';
+import {getListTips, stopDonation} from '../../../api/credit.api';
 import {
   heightPercentage,
   heightResponsive,
@@ -42,6 +42,7 @@ const ListTips: React.FC<ListTipsProps> = props => {
   const [currentData, setCurrentData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
+  const [isErrorStop, setIsErrorStop] = useState<boolean>(false);
   const {
     data: dataTips,
     refetch,
@@ -87,7 +88,7 @@ const ListTips: React.FC<ListTipsProps> = props => {
 
   const resultDataMore = (dataResult: DataDropDownType, val: any) => {
     if (dataResult.value === '1') {
-      navigation.navigate('MusicianProfile', {id: val.musician.uuid});
+      navigation.navigate('MusicianProfile', {id: val.ownerId});
     } else {
       setCurrentData(val);
       setShowStopTipModal(true);
@@ -98,22 +99,23 @@ const ListTips: React.FC<ListTipsProps> = props => {
     setShowStopTipModal(false);
   };
 
-  const onPressConfirm = () => {
-    console.log(currentData);
+  const onPressConfirm = async () => {
+    setIsErrorStop(false);
     setShowStopTipModal(false);
     setLoading(true);
-    // try {
-    //   //   const response = unsubsEC(currentData?.ID);
-    //   //   if (response.code === 200) {
-    //   //     setTimeout(() => {
-    //   //   setToastVisible(true);
-    //   // }, 1000);
-    //   //     refetch();
-    //   //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    setLoading(false);
+    try {
+      const response: any = await stopDonation(currentData?.id);
+      if (response.code === 200) {
+        refetch();
+      } else setIsErrorStop(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setToastVisible(true);
+        setLoading(false);
+      }, 1000);
+    }
   };
 
   return (
@@ -154,9 +156,9 @@ const ListTips: React.FC<ListTipsProps> = props => {
                 val.credit + ' Credit',
                 tippingDuration(val.duration),
               ]}
-              onPressMore={() => null}
+              onPressMore={data => resultDataMore(data, val)}
               type="tip"
-              next={val.duration > 0 ? true : false}
+              next={val.contributionRepeatStatus === 1 ? true : false}
             />
           ))
         ) : (
@@ -176,8 +178,8 @@ const ListTips: React.FC<ListTipsProps> = props => {
         modalVisible={showStopTipModal}
         title={t('Modal.Unsub.Title') || ''}
         subtitle={
-          t('Modal.Unsub.Subtitle', {
-            musician: currentData?.musician.fullname,
+          t('Modal.StopDonation.Subtitle', {
+            musician: currentData?.ownerFullName,
           }) || ''
         }
         onPressClose={closeModal}
@@ -189,11 +191,21 @@ const ListTips: React.FC<ListTipsProps> = props => {
         modalVisible={toastVisible}
         onBackPressed={() => setToastVisible(false)}
         children={
-          <View style={[styles.modalContainer]}>
+          <View
+            style={[
+              styles.modalContainer,
+              {
+                backgroundColor: isErrorStop
+                  ? Color.Error[500]
+                  : Color.Success[400],
+              },
+            ]}>
             <CheckCircle2Icon />
             <Gap width={4} />
             <Text style={[styles.textStyle]} numberOfLines={2}>
-              {`Your donation have been updated!`}
+              {isErrorStop
+                ? `Stop donation failed. Try again`
+                : `Your donation have been updated!`}
             </Text>
           </View>
         }
@@ -261,8 +273,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: mvs(22),
-    maxWidth: '100%',
     flexWrap: 'wrap',
+    width: '100%',
   },
   textStyle: {
     color: Color.Neutral[10],
@@ -272,7 +284,6 @@ const styles = StyleSheet.create({
   },
   toast: {
     maxWidth: '100%',
-    marginHorizontal: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },
