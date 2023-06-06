@@ -89,6 +89,8 @@ export const LoginScreen: React.FC = () => {
     ssoId,
     ssoFullname,
     onRegisterUser,
+    isRegisterSSO,
+    authResult,
   } = useAuthHook();
 
   const {
@@ -152,45 +154,54 @@ export const LoginScreen: React.FC = () => {
   useEffect(() => {
     storage.delete('isGuest');
     if (!isLoading && !isError) {
-      if (
-        (watch('loginType') === 'email' && loginResult !== null) ||
-        (watch('loginType') === 'phoneNumber' &&
-          ssoRegistered !== null &&
-          loginResult !== null)
-      ) {
-        if (loginResult === 'recover') {
-          storage.set('isDeleted', true);
-          navigation.reset({
-            index: 0,
-            routes: [{name: 'RecoverAccount'}],
-          });
-        } else {
-          storage.set('isLogin', true);
-          if (loginResult === 'preference') {
+      if (isRegisterSSO && authResult !== null) {
+        storage.set('isLogin', true);
+        storage.set('profile', JSON.stringify(authResult.data));
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'Preference'}],
+        });
+      } else {
+        if (
+          (watch('loginType') === 'email' && loginResult !== null) ||
+          (watch('loginType') === 'phoneNumber' &&
+            ssoRegistered !== null &&
+            loginResult !== null)
+        ) {
+          if (loginResult === 'recover') {
+            storage.set('isDeleted', true);
             navigation.reset({
               index: 0,
-              routes: [{name: 'Preference'}],
+              routes: [{name: 'RecoverAccount'}],
             });
           } else {
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'MainTab'}],
-            });
+            storage.set('isLogin', true);
+            if (loginResult === 'preference') {
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'Preference'}],
+              });
+            } else {
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'MainTab'}],
+              });
+            }
           }
+        } else if (
+          watch('loginType') === 'phoneNumber' &&
+          ssoRegistered === null
+        ) {
+          navigation.navigate('Otp', {
+            id: countryNumber + watch('phoneNumber'),
+            type: 'phoneNumber',
+            title: t('OTP.Phone.Title'),
+            subtitle: t('OTP.Phone.Subtitle', {
+              phone: countryNumber + watch('phoneNumber'),
+            }),
+            context: 'login',
+          });
         }
-      } else if (
-        watch('loginType') === 'phoneNumber' &&
-        ssoRegistered === null
-      ) {
-        navigation.navigate('Otp', {
-          id: countryNumber + watch('phoneNumber'),
-          type: 'phoneNumber',
-          title: t('OTP.Phone.Title'),
-          subtitle: t('OTP.Phone.Subtitle', {
-            phone: countryNumber + watch('phoneNumber'),
-          }),
-          context: 'login',
-        });
       }
     } else if (!isLoading && isError) {
       if (watch('loginType') === 'email') {
@@ -216,7 +227,7 @@ export const LoginScreen: React.FC = () => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading, isError, loginResult, errorCode]);
+  }, [isLoading, isError, loginResult, errorCode, authResult]);
 
   const handleOnPressBack = () => {
     navigation.goBack();
