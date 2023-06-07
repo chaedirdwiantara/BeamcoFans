@@ -534,7 +534,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top:
       Platform.OS === 'ios'
-        ? heightResponsive(82)
+        ? heightResponsive(80)
         : heightResponsive(barHeight + 100),
     left: widthResponsive(24),
     zIndex: 1,
