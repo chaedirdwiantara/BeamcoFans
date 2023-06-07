@@ -266,6 +266,7 @@ export const AlbumContent: React.FC<Props> = ({
                   imgUri={checkImageAlbum ? detailAlbum?.imageUrl[1].image : ''}
                   musicTitle={item.title}
                   musicNum={index + 1}
+                  singerId={item.musician.uuid}
                   singerName={item.musician.name}
                   songId={item.id}
                   onPressAddToQueue={() => null}

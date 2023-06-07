@@ -80,8 +80,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const isLogin = storage.getBoolean('isLogin');
-  const {creditCount, getCreditCount, checkSubs, alreadySubsEC} =
-    useCreditHook();
+  const {checkSubs, alreadySubsEC} = useCreditHook();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
@@ -98,7 +97,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     profile?.followers ? profile.followers : 0,
   );
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
-  const [zoomImage, setZoomImage] = useState<string[]>([]);
+  const [zoomImage, setZoomImage] = useState<string>('');
   const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
   const [showStatePopUp, setShowStatePopUp] = useState<boolean>();
 
@@ -134,16 +133,12 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
 
   const showImage = (uri: string) => {
     setModalVisible(!isModalVisible);
-    setZoomImage([uri]);
+    setZoomImage(uri);
   };
 
   useEffect(() => {
     setFollowersCount(profile?.followers);
   }, [profile?.followers, uuid]);
-
-  useEffect(() => {
-    getCreditCount();
-  }, [modalDonate]);
 
   useEffect(() => {
     if (exclusiveContent) checkSubs(profile.uuid);
@@ -157,10 +152,6 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     let offsetY = event.nativeEvent.contentOffset.y;
     const scrolled = offsetY > 10;
     setScrollEffect(scrolled);
-  };
-
-  const cardOnPress = (data: PostList) => {
-    navigation.navigate('PostDetail', data);
   };
 
   const goToFollowers = () => {
@@ -352,7 +343,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         toggleModal={() => setModalVisible(!isModalVisible)}
         modalVisible={isModalVisible}
         imageIdx={0}
-        dataImage={zoomImage}
+        imageUri={zoomImage}
         type={'zoomProfile'}
       />
 
