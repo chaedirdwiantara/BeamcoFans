@@ -34,7 +34,7 @@ import {
 
 interface ListTipsProps {
   status: 'current' | 'past';
-  duration: '' | 'weekly' | 'monthly' | 'yearly' | string;
+  duration: '' | 'onetime' | 'weekly' | 'monthly' | 'yearly' | string;
 }
 
 const ListTips: React.FC<ListTipsProps> = props => {
@@ -48,6 +48,10 @@ const ListTips: React.FC<ListTipsProps> = props => {
   const [loading, setLoading] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [isErrorStop, setIsErrorStop] = useState<boolean>(false);
+  const [filterColumn, setfilterColumn] = useState<string[]>([
+    'contribution_repeat_status',
+  ]);
+  const [filterValue, setFilterValue] = useState<number[]>([1]);
   const {
     data: dataTips,
     refetch,
@@ -62,7 +66,8 @@ const ListTips: React.FC<ListTipsProps> = props => {
       getListTips({
         page: pageParam,
         perPage: 10,
-        filterValue: status === 'current' ? 1 : 2,
+        filterColumn: filterColumn,
+        filterValue: filterValue,
       }),
     {
       getNextPageParam: lastPage => {
@@ -91,7 +96,38 @@ const ListTips: React.FC<ListTipsProps> = props => {
   }, [dataTips]);
 
   useEffect(() => {
-    refetch();
+    let column: string[] = filterColumn;
+    let value: number[] = filterValue;
+
+    value[0] = status === 'current' ? 1 : 2;
+    if (duration === '') {
+      if (value.length > 1) {
+        column = column.splice(0, 1);
+        value = value.splice(0, 1);
+      }
+    } else {
+      const formatValue =
+        duration === 'weekly'
+          ? 7
+          : duration === 'monthly'
+          ? 30
+          : duration === 'yearly'
+          ? 365
+          : 0;
+      if (value.length > 1) {
+        value[1] = formatValue;
+      } else {
+        column.push('duration');
+        value.push(formatValue);
+      }
+    }
+
+    setfilterColumn(column);
+    setFilterValue(value);
+
+    setTimeout(() => {
+      refetch();
+    }, 100);
   }, [status, duration]);
 
   const resultDataMore = (dataResult: DataDropDownType, val: TipsDataType) => {
