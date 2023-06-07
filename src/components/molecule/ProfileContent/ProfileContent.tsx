@@ -40,9 +40,6 @@ interface ProfileContentProps {
   goToEditProfile: () => void;
   goToPlaylist: (id: number, name: string) => void;
   dataPlaylist?: Playlist[];
-  onPressGoTo: (
-    screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
-  ) => void;
   showCreateCard: boolean;
   toastVisible: boolean;
   setToastVisible: (param: boolean) => void;
@@ -53,13 +50,15 @@ interface ProfileContentProps {
   setRefreshing: () => void;
   otherUserProfile?: boolean;
   onPressGoBack?: () => void;
+  goToFollowing: () => void;
+  goToSetting: () => void;
+  goToCreatePlaylist: () => void;
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
   profile,
   goToEditProfile,
   goToPlaylist,
-  onPressGoTo,
   dataPlaylist,
   showCreateCard,
   toastVisible,
@@ -71,16 +70,19 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   setRefreshing,
   otherUserProfile,
   onPressGoBack,
+  goToSetting,
+  goToFollowing,
+  goToCreatePlaylist,
 }) => {
   const {t} = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [scrollEffect, setScrollEffect] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
-  const [zoomImage, setZoomImage] = useState<string[]>([]);
+  const [zoomImage, setZoomImage] = useState<string>('');
 
   const showImage = (uri: string) => {
     setModalVisible(!isModalVisible);
-    setZoomImage([uri]);
+    setZoomImage(uri);
   };
 
   const [filter] = useState([
@@ -116,7 +118,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
       return (
         <View style={styles.containerStickyHeader}>
           <Text style={[styles.name, styles.topIos]}>{profile.fullname}</Text>
-          <TouchableOpacity onPress={() => onPressGoTo('Setting')}>
+          <TouchableOpacity onPress={goToSetting}>
             <SettingIcon style={styles.topIos} />
           </TouchableOpacity>
         </View>
@@ -156,7 +158,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           username={profile.username}
           bio={profile.bio}
           onPress={goToEditProfile}
-          iconPress={() => onPressGoTo('Setting')}
+          iconPress={goToSetting}
           scrollEffect={scrollEffect}
           noEdit={!showCreateCard}
           backIcon={!showCreateCard}
@@ -171,7 +173,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             top: topPosition,
           }}
           totalFollowing={profile.totalFollowing}
-          onPress={() => onPressGoTo('Following')}
+          onPress={goToFollowing}
           selfProfile={profile.data}
           totalCountlikedSong={totalCountlikedSong}
           totalPoint={profile.totalPoint}
@@ -190,7 +192,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 <CreateNewCard
                   num="00"
                   text={t('Profile.Button.CreatePlaylist')}
-                  onPress={() => onPressGoTo('CreateNewPlaylist')}
+                  onPress={goToCreatePlaylist}
                 />
               )}
               {dataPlaylist !== undefined && dataPlaylist?.length > 0 ? (
@@ -260,7 +262,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         toggleModal={() => setModalVisible(!isModalVisible)}
         modalVisible={isModalVisible}
         imageIdx={0}
-        dataImage={zoomImage}
+        imageUri={zoomImage}
         type={'zoomProfile'}
       />
     </View>

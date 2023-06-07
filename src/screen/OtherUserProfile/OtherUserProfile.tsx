@@ -11,11 +11,11 @@ import {
 } from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
+import {ProfileContent} from '../../components';
 import {RootStackParams} from '../../navigations';
 import {storage} from '../../hooks/use-storage.hook';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useProfileHook} from '../../hooks/use-profile.hook';
-import {GuestContent, ProfileContent} from '../../components';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 
 type OtherProfileProps = NativeStackScreenProps<
@@ -101,7 +101,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
         goToPlaylist={goToPlaylist}
         dataPlaylist={dataPlaylist.filter(val => val.isPublic)}
         goToEditProfile={() => {}}
-        onPressGoTo={goToFollowing}
+        goToFollowing={goToFollowing}
         showCreateCard={false}
         toastVisible={toastVisible}
         setToastVisible={setToastVisible}
@@ -112,6 +112,8 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
         setRefreshing={() => {}}
         otherUserProfile={true}
         onPressGoBack={onPressGoBack}
+        goToSetting={() => {}}
+        goToCreatePlaylist={() => {}}
       />
     </View>
   );

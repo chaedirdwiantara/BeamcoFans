@@ -5,7 +5,7 @@ import {
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 import Color from '../../theme/Color';
 import {storage} from '../../hooks/use-storage.hook';
@@ -30,13 +30,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const {dataPlaylist, getPlaylist, getPlaylistPublic} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFetching = storage.getBoolean('fetchingProfile');
-  const isFocused = useIsFocused();
-  const {
-    isPlaying,
-    visible: playerVisible,
-    showPlayer,
-    hidePlayer,
-  } = usePlayerHook();
+  const {visible: playerVisible} = usePlayerHook();
   const [toastText, setToastText] = useState<string>('');
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -72,10 +66,16 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     }
   }, [refreshing, showToast, deletePlaylist, isFetching]);
 
-  const onPressGoTo = (
-    screenName: 'Setting' | 'Following' | 'CreateNewPlaylist',
-  ) => {
-    navigation.navigate(screenName);
+  const goToSetting = () => {
+    navigation.navigate('Setting');
+  };
+
+  const goToFollowing = () => {
+    navigation.navigate('Following', {uuid: profileStorage()?.uuid});
+  };
+
+  const goToCreatePlaylist = () => {
+    navigation.navigate('CreateNewPlaylist', {});
   };
 
   const goToEditProfile = () => {
@@ -119,7 +119,6 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
               goToPlaylist={goToPlaylist}
               dataPlaylist={dataPlaylist}
               goToEditProfile={goToEditProfile}
-              onPressGoTo={screenName => onPressGoTo(screenName)}
               showCreateCard
               toastVisible={toastVisible}
               setToastVisible={setToastVisible}
@@ -128,6 +127,9 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
               totalCountlikedSong={dataCountLiked?.countLikedSong || 0}
               refreshing={refreshing}
               setRefreshing={() => setRefreshing(true)}
+              goToSetting={goToSetting}
+              goToFollowing={goToFollowing}
+              goToCreatePlaylist={goToCreatePlaylist}
             />
           )}
         </>
