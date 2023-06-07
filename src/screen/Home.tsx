@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,6 +10,11 @@ import {
   RefreshControl,
   Platform,
 } from 'react-native';
+import {
+  useNavigation,
+  useIsFocused,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {useQuery} from 'react-query';
 import {
   NativeStackNavigationProp,
@@ -17,7 +22,6 @@ import {
 } from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
-import {useNavigation, useIsFocused} from '@react-navigation/native';
 
 import {
   Gap,
@@ -79,6 +83,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {i18n} = useTranslation();
   const currentLanguage = i18n.language;
   const {
+    isLoadingMusician,
     dataMusician,
     dataFavoriteMusician,
     dataRecommendedMusician,
@@ -94,6 +99,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {
     dataSong,
     dataNewSong,
+    isLoadingSong,
     getListDataSong,
     getListDataNewSong,
     getListDataNewSongGuest,
@@ -110,6 +116,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     addPlaylist,
   } = usePlayerHook();
   const {
+    searchLoading,
     dataSearchMusicians,
     dataSearchSongs,
     dataPublicBanner,
@@ -147,24 +154,60 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     getListComingSoon();
     if (isLogin) {
       getListDataBanner();
-      getListDataMusician({filterBy: 'top'});
-      getListDataFavoriteMusician({fansUUID: uuid});
-      getListDataRecommendedMusician();
-      getListDataSong({listType: 'top'});
-      getListDataNewSong();
       getProfileUser();
       getCountNotification();
       getCreditCount();
     } else {
       getListDataBannerPublic();
-      getSearchMusicians({keyword: '', filterBy: 'top'});
-      getSearchSongs({keyword: '', filterBy: 'top'});
-      getListDataNewSongGuest();
     }
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   }, [refreshing]);
+
+  // Triggering isFollowing musician when go back from other screen
+  useFocusEffect(
+    useCallback(() => {
+      if (isLogin) {
+        if (selectedIndexMusician === 0) {
+          getListDataMusician({filterBy: 'top'});
+        } else if (selectedIndexMusician === 1) {
+          getListDataRecommendedMusician();
+        } else {
+          getListDataFavoriteMusician({fansUUID: uuid});
+        }
+      } else {
+        getSearchMusicians({keyword: '', filterBy: 'top'});
+      }
+
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 1000);
+    }, [refreshing, selectedIndexMusician]),
+  );
+
+  // Triggering when click love on the same song in top & new song tab
+  useFocusEffect(
+    useCallback(() => {
+      if (isLogin) {
+        if (selectedIndexSong === 0) {
+          getListDataSong({listType: 'top'});
+        } else {
+          getListDataNewSong();
+        }
+      } else {
+        if (selectedIndexSong === 0) {
+          getSearchSongs({keyword: '', filterBy: 'top'});
+        } else {
+          getListDataNewSongGuest();
+        }
+      }
+
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 1000);
+    }, [refreshing, selectedIndexSong]),
+  );
 
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [scrollEffect, setScrollEffect] = useState(false);
@@ -343,6 +386,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     }
   }, [dataProfile]);
 
+  const handleMiniPlayerOnPress = () => {
+    hidePlayer();
+    goToScreen('MusicPlayer');
+  };
+
   const listMusician = isLogin ? dataMusician : dataSearchMusicians;
   const bannerCondition = isLoadingBanner && dataBanner.length === 0 && isLogin;
 
@@ -474,6 +522,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               type={'home'}
               loveIcon={isLogin}
               fromMainTab={true}
+              isLoading={isLoadingSong || searchLoading}
             />
           ) : (
             <NewSong
@@ -481,6 +530,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               onPress={onPressNewSong}
               type={'home'}
               loveIcon={isLogin}
+              isLoading={isLoadingSong}
             />
           )}
         </View>
@@ -505,6 +555,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
+              isLoading={isLoadingMusician || searchLoading}
             />
           ) : filterMusician[selectedIndexMusician].filterName ===
             'Home.Tab.Recomended.Title' ? (
@@ -518,6 +569,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
+              isLoading={isLoadingMusician}
             />
           ) : (
             <FavoriteMusician
@@ -530,6 +582,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
+              isLoading={isLoadingMusician}
             />
           )}
         </View>
@@ -580,7 +633,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         }
       />
 
-      <ModalPlayMusic onPressModal={() => goToScreen('MusicPlayer')} />
+      <ModalPlayMusic onPressModal={handleMiniPlayerOnPress} />
     </View>
   );
 };

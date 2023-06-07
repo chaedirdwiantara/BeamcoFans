@@ -24,6 +24,11 @@ import {ModalConfirm} from '../Modal/ModalConfirm';
 import {ModalLoading} from '../ModalLoading/ModalLoading';
 import {Gap, SsuToast} from '../../atom';
 import {CheckCircle2Icon} from '../../../assets/icon';
+import {
+  ListSubsDataType,
+  SubsDataType,
+  UnsubsResponseType,
+} from '../../../interface/credit.interface';
 
 interface ListSubsProps {
   status: 'current' | 'past';
@@ -35,11 +40,12 @@ const ListSubs: React.FC<ListSubsProps> = props => {
   const {status, duration} = props;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const [listSubs, setListSubs] = useState<any>([]);
+  const [listSubs, setListSubs] = useState<SubsDataType[]>([]);
   const [showUnsubModal, setShowUnsubModal] = useState<boolean>(false);
-  const [currentData, setCurrentData] = useState<any>();
+  const [currentData, setCurrentData] = useState<SubsDataType>();
   const [loading, setLoading] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
+  const [isErrorUnsub, setIsErrorUnsub] = useState<boolean>(false);
   const {
     data: dataSubs,
     refetch,
@@ -76,7 +82,10 @@ const ListSubs: React.FC<ListSubsProps> = props => {
 
   useEffect(() => {
     if (dataSubs !== undefined) {
-      setListSubs(dataSubs?.pages?.map((page: any) => page.data).flat() ?? []);
+      setListSubs(
+        dataSubs?.pages?.map((page: ListSubsDataType) => page.data).flat() ??
+          [],
+      );
     }
   }, [dataSubs]);
 
@@ -84,7 +93,7 @@ const ListSubs: React.FC<ListSubsProps> = props => {
     refetch();
   }, [status, duration]);
 
-  const resultDataMore = (dataResult: DataDropDownType, val: any) => {
+  const resultDataMore = (dataResult: DataDropDownType, val: SubsDataType) => {
     if (dataResult.value === '1') {
       navigation.navigate('MusicianProfile', {id: val.musician.uuid});
     } else {
@@ -97,23 +106,23 @@ const ListSubs: React.FC<ListSubsProps> = props => {
     setShowUnsubModal(false);
   };
 
-  const onPressConfirm = () => {
-    console.log(currentData);
+  const onPressConfirm = async () => {
+    setIsErrorUnsub(false);
     setShowUnsubModal(false);
     setLoading(true);
     try {
-      const response: any = unsubsEC(currentData?.ID);
+      const response: UnsubsResponseType = await unsubsEC(currentData?.ID);
       if (response.code === 200) {
-        setTimeout(() => {
-          setToastVisible(true);
-        }, 1000);
-
         refetch();
-      }
+      } else setIsErrorUnsub(true);
     } catch (error) {
       console.log(error);
+    } finally {
+      setTimeout(() => {
+        setToastVisible(true);
+        setLoading(false);
+      }, 1000);
     }
-    setLoading(false);
   };
 
   return (
@@ -142,7 +151,7 @@ const ListSubs: React.FC<ListSubsProps> = props => {
         )}
 
         {isLoading ? null : listSubs?.length > 0 ? (
-          listSubs?.map((val: any, index: number) => (
+          listSubs?.map((val: SubsDataType, index: number) => (
             <DonateCardContent
               key={index}
               avatarUri={val.musician.imageProfileUrls[0].image}
@@ -189,11 +198,21 @@ const ListSubs: React.FC<ListSubsProps> = props => {
         modalVisible={toastVisible}
         onBackPressed={() => setToastVisible(false)}
         children={
-          <View style={[styles.modalContainer]}>
+          <View
+            style={[
+              styles.modalContainer,
+              {
+                backgroundColor: isErrorUnsub
+                  ? Color.Error[500]
+                  : Color.Success[400],
+              },
+            ]}>
             <CheckCircle2Icon />
             <Gap width={4} />
             <Text style={[styles.textStyle]} numberOfLines={2}>
-              {`Your subscription have been updated!`}
+              {isErrorUnsub
+                ? `Unsubscribe failed. Try again`
+                : `Your subscription have been updated!`}
             </Text>
           </View>
         }
@@ -253,7 +272,6 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flexDirection: 'row',
-    backgroundColor: Color.Success[400],
     paddingVertical: heightPercentage(8),
     paddingHorizontal: widthResponsive(12),
     borderRadius: 4,
@@ -261,7 +279,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: mvs(22),
-    maxWidth: '100%',
+    width: '100%',
     flexWrap: 'wrap',
   },
   textStyle: {
@@ -272,7 +290,6 @@ const styles = StyleSheet.create({
   },
   toast: {
     maxWidth: '100%',
-    marginHorizontal: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },

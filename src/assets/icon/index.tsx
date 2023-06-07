@@ -96,6 +96,15 @@ import BoxStore from './BoxStore.icon';
 import CheckIcon from './Check.icon';
 import MinusIcon from './Minus.icon';
 import TicketIcon from './Ticket.icon';
+import DiscountIcon from './Discount.icon';
+import TrashIcon from './Trash.icon';
+import ClockIcon from './Clock.icon';
+import WalletIcon from './Wallet.icon';
+import LocationIcon from './Location.icon';
+import TruckIcon from './Truck.icon';
+import BagTickIcon from './BagTick.icon';
+import StarIcon from './Star.icon';
+import ImportPhotoIcon from './ImportPhoto.icon';
 
 export {
   AddIcon,
@@ -196,4 +205,13 @@ export {
   CheckIcon,
   MinusIcon,
   TicketIcon,
+  DiscountIcon,
+  TrashIcon,
+  ClockIcon,
+  WalletIcon,
+  LocationIcon,
+  TruckIcon,
+  BagTickIcon,
+  StarIcon,
+  ImportPhotoIcon,
 };

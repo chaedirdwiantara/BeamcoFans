@@ -38,3 +38,9 @@ export type nameValue = {
   Name?: string;
   Value?: number | string;
 };
+
+export type BaseResponseApi = {
+  code: number;
+  message: string;
+  status: number;
+};

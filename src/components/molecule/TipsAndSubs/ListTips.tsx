@@ -1,7 +1,7 @@
 import {View, Text, ScrollView, RefreshControl, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useInfiniteQuery} from 'react-query';
-import {getListTips} from '../../../api/credit.api';
+import {getListTips, stopDonation} from '../../../api/credit.api';
 import {
   heightPercentage,
   heightResponsive,
@@ -24,8 +24,13 @@ import {ModalConfirm} from '../Modal/ModalConfirm';
 import {ModalLoading} from '../ModalLoading/ModalLoading';
 import {Gap, SsuToast} from '../../atom';
 import {CheckCircle2Icon} from '../../../assets/icon';
-import {dateFormat, dateFormatSubscribe} from '../../../utils/date-format';
+import {dateFormatSubscribe} from '../../../utils/date-format';
 import {tippingDuration} from '../../../utils/tippingDuration';
+import {
+  ListTipsDataType,
+  StopTippingResponseType,
+  TipsDataType,
+} from '../../../interface/credit.interface';
 
 interface ListTipsProps {
   status: 'current' | 'past';
@@ -37,11 +42,12 @@ const ListTips: React.FC<ListTipsProps> = props => {
   const {status, duration} = props;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const [listTips, setListTips] = useState<any>([]);
+  const [listTips, setListTips] = useState<TipsDataType[]>([]);
   const [showStopTipModal, setShowStopTipModal] = useState<boolean>(false);
-  const [currentData, setCurrentData] = useState<any>();
+  const [currentData, setCurrentData] = useState<TipsDataType>();
   const [loading, setLoading] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
+  const [isErrorStop, setIsErrorStop] = useState<boolean>(false);
   const {
     data: dataTips,
     refetch,
@@ -77,7 +83,10 @@ const ListTips: React.FC<ListTipsProps> = props => {
 
   useEffect(() => {
     if (dataTips !== undefined) {
-      setListTips(dataTips?.pages?.map((page: any) => page.data).flat() ?? []);
+      setListTips(
+        dataTips?.pages?.map((page: ListTipsDataType) => page.data).flat() ??
+          [],
+      );
     }
   }, [dataTips]);
 
@@ -85,9 +94,9 @@ const ListTips: React.FC<ListTipsProps> = props => {
     refetch();
   }, [status, duration]);
 
-  const resultDataMore = (dataResult: DataDropDownType, val: any) => {
+  const resultDataMore = (dataResult: DataDropDownType, val: TipsDataType) => {
     if (dataResult.value === '1') {
-      navigation.navigate('MusicianProfile', {id: val.musician.uuid});
+      navigation.navigate('MusicianProfile', {id: val.ownerId});
     } else {
       setCurrentData(val);
       setShowStopTipModal(true);
@@ -98,22 +107,25 @@ const ListTips: React.FC<ListTipsProps> = props => {
     setShowStopTipModal(false);
   };
 
-  const onPressConfirm = () => {
-    console.log(currentData);
+  const onPressConfirm = async () => {
+    setIsErrorStop(false);
     setShowStopTipModal(false);
     setLoading(true);
-    // try {
-    //   //   const response = unsubsEC(currentData?.ID);
-    //   //   if (response.code === 200) {
-    //   //     setTimeout(() => {
-    //   //   setToastVisible(true);
-    //   // }, 1000);
-    //   //     refetch();
-    //   //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    setLoading(false);
+    try {
+      const response: StopTippingResponseType = await stopDonation(
+        currentData?.id,
+      );
+      if (response.code === 200) {
+        refetch();
+      } else setIsErrorStop(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setToastVisible(true);
+        setLoading(false);
+      }, 1000);
+    }
   };
 
   return (
@@ -142,7 +154,7 @@ const ListTips: React.FC<ListTipsProps> = props => {
         )}
 
         {isLoading ? null : listTips?.length > 0 ? (
-          listTips?.map((val: any, index: number) => (
+          listTips?.map((val: TipsDataType, index: number) => (
             <DonateCardContent
               key={index}
               avatarUri={val.ownerImage}
@@ -154,9 +166,9 @@ const ListTips: React.FC<ListTipsProps> = props => {
                 val.credit + ' Credit',
                 tippingDuration(val.duration),
               ]}
-              onPressMore={() => null}
+              onPressMore={data => resultDataMore(data, val)}
               type="tip"
-              next={val.duration > 0 ? true : false}
+              next={val.contributionRepeatStatus === 1 ? true : false}
             />
           ))
         ) : (
@@ -176,8 +188,8 @@ const ListTips: React.FC<ListTipsProps> = props => {
         modalVisible={showStopTipModal}
         title={t('Modal.Unsub.Title') || ''}
         subtitle={
-          t('Modal.Unsub.Subtitle', {
-            musician: currentData?.musician.fullname,
+          t('Modal.StopDonation.Subtitle', {
+            musician: currentData?.ownerFullName,
           }) || ''
         }
         onPressClose={closeModal}
@@ -189,11 +201,21 @@ const ListTips: React.FC<ListTipsProps> = props => {
         modalVisible={toastVisible}
         onBackPressed={() => setToastVisible(false)}
         children={
-          <View style={[styles.modalContainer]}>
+          <View
+            style={[
+              styles.modalContainer,
+              {
+                backgroundColor: isErrorStop
+                  ? Color.Error[500]
+                  : Color.Success[400],
+              },
+            ]}>
             <CheckCircle2Icon />
             <Gap width={4} />
             <Text style={[styles.textStyle]} numberOfLines={2}>
-              {`Your donation have been updated!`}
+              {isErrorStop
+                ? `Stop donation failed. Try again`
+                : `Your donation have been updated!`}
             </Text>
           </View>
         }
@@ -261,8 +283,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: mvs(22),
-    maxWidth: '100%',
     flexWrap: 'wrap',
+    width: '100%',
   },
   textStyle: {
     color: Color.Neutral[10],
@@ -272,7 +294,6 @@ const styles = StyleSheet.create({
   },
   toast: {
     maxWidth: '100%',
-    marginHorizontal: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },

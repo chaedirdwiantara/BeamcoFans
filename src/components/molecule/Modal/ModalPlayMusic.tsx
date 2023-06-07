@@ -15,6 +15,7 @@ import {SetupService} from '../../../service/musicPlayer';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
 import {CloseIcon, PauseIcon, PlayIcon} from '../../../assets/icon';
 import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
+import {usePlayerStore} from '../../../store/player.store';
 
 interface ModalPlayMusicProps {
   onPressModal: () => void;
@@ -35,7 +36,10 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
   } = usePlayerHook();
   const playCounterGuest = storage.getNumber('playCounterGuest');
   const isGuest = storage.getBoolean('isGuest');
+  const currentSongPlayId = storage.getNumber('currentSongPlayId');
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
+
+  const {withoutBottomTab} = usePlayerStore();
 
   useEffect(() => {
     async function run() {
@@ -51,10 +55,17 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
       playCounterGuest > 5 &&
       isGuest === true
     ) {
+      hidePlayer();
       resetPlayer();
       setModalGuestVisible(true);
+    } else {
+      if (playCounterGuest === undefined) {
+        storage.set('playCounterGuest', 1);
+      } else {
+        storage.set('playCounterGuest', playCounterGuest + 1);
+      }
     }
-  }, [playCounterGuest]);
+  }, [currentSongPlayId]);
 
   const handleClose = async () => {
     hidePlayer();
@@ -108,9 +119,8 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
     );
   };
 
-  const isWithoutBottomTab = storage.getBoolean('withoutBottomTab');
-  const isWithoutBottomTabiOS = isWithoutBottomTab ? 0 : 84;
-  const isWithoutBottomTabAndroid = isWithoutBottomTab ? 0 : 64;
+  const isWithoutBottomTabiOS = withoutBottomTab ? 0 : 84;
+  const isWithoutBottomTabAndroid = withoutBottomTab ? 0 : 64;
   const bottom =
     Platform.OS === 'ios' ? isWithoutBottomTabiOS : isWithoutBottomTabAndroid;
 

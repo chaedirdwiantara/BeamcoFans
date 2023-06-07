@@ -19,6 +19,7 @@ import {usePlayerHook} from '../../hooks/use-player.hook';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 import {MainTabParams, RootStackParams} from '../../navigations';
 import {profileStorage, storage} from '../../hooks/use-storage.hook';
+import {usePlayerStore} from '../../store/player.store';
 
 type PlaylistProps = NativeStackScreenProps<RootStackParams, 'Playlist'>;
 
@@ -46,17 +47,27 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
     setPlaySong,
   } = usePlayerHook();
 
+  const {setWithoutBottomTab, show} = usePlayerStore();
+
   const isFocused = useIsFocused();
   const [fetchListSong, setFetchListSong] = useState<boolean>(false);
 
   useFocusEffect(
     useCallback(() => {
+      if (show) {
+        setWithoutBottomTab(true);
+      }
+    }, [show]),
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      getDetailPlaylist({id: route.params.id});
       if (isLogin) {
         getDetailPlaylist({id: route.params.id});
       } else {
         getDetailPlaylistPublic({id: route.params.id});
       }
-      storage.set('withoutBottomTab', true);
     }, []),
   );
 
@@ -81,9 +92,10 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
 
   const goBackProfile = (showToast: boolean) => {
     if (route.params?.from === 'other') {
+      show && setWithoutBottomTab(false);
       navigation.goBack();
     } else {
-      storage.set('withoutBottomTab', false);
+      show && setWithoutBottomTab(false);
       setTimeout(() => {
         navigation2.navigate('Profile', {deletePlaylist: showToast});
       }, 500);
@@ -151,6 +163,11 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
     });
   };
 
+  const handleBackAction = () => {
+    show && setWithoutBottomTab(false);
+    navigation.goBack();
+  };
+
   const listSongPlaylist =
     dataSongsPlaylist !== undefined ? dataSongsPlaylist : [];
   const isDefault = dataDetailPlaylist?.isDefaultPlaylist;
@@ -162,7 +179,7 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
           goToEditPlaylist={goToEditPlaylist}
           goBackProfile={val =>
             route.params.from === 'other'
-              ? navigation.goBack()
+              ? handleBackAction
               : goBackProfile(val)
           }
           goToAddSong={goToAddSong}

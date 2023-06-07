@@ -48,11 +48,12 @@ import ListSongs from '../../../screen/ListCard/ListSongs';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
+import LoadingSpinner from '../../atom/Loading/LoadingSpinner';
 import {ListDataSearchSongs} from '../../../interface/search.interface';
 import {DataDropDownType, dropDownHeaderAlbum} from '../../../data/dropdown';
 
 interface Props {
-  dataSong: SongList[] | ListDataSearchSongs[] | null;
+  dataSong: SongList[] | ListDataSearchSongs[];
   dataSongComingSoon: SongComingSoon[];
   detailAlbum: DataDetailAlbum;
   onPressGoBack: () => void;
@@ -171,6 +172,7 @@ export const AlbumContent: React.FC<Props> = ({
     : dateLongMonth(detailAlbum.publishedDate);
 
   const checkImageAlbum = detailAlbum && detailAlbum.imageUrl.length > 0;
+  const totalSong = comingSoon ? dataSongComingSoon.length : dataSong.length;
 
   return (
     <View style={styles.root}>
@@ -209,7 +211,7 @@ export const AlbumContent: React.FC<Props> = ({
           </View>
           <SongTitlePlay
             title={detailAlbum.title}
-            totalSong={dataSong?.length || 0}
+            totalSong={totalSong || 0}
             createdDate={createdDate}
             createdBy={
               detailAlbum?.musician?.name !== undefined
@@ -254,7 +256,11 @@ export const AlbumContent: React.FC<Props> = ({
             {t('Music.Label.SongList')}
           </Text>
           <View style={{marginBottom: heightPercentage(30)}}>
-            {isLoading ? null : comingSoon ? (
+            {isLoading ? (
+              <View style={styles.loadingSpinner}>
+                <LoadingSpinner />
+              </View>
+            ) : comingSoon ? (
               dataSongComingSoon.map((item, index) => (
                 <MusicSection
                   imgUri={checkImageAlbum ? detailAlbum?.imageUrl[1].image : ''}
@@ -388,5 +394,9 @@ const styles = StyleSheet.create({
   undefinedImg: {
     marginTop: heightResponsive(36),
     marginBottom: heightResponsive(28),
+  },
+  loadingSpinner: {
+    alignItems: 'center',
+    paddingVertical: mvs(20),
   },
 });

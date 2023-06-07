@@ -7,4 +7,6 @@ export interface SvgProps {
   active?: boolean;
   color?: string;
   style?: ViewStyle;
+  bg1?: string;
+  bg2?: string;
 }
