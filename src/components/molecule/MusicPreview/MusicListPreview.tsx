@@ -6,7 +6,7 @@ import {CloseCircleIcon, PauseIcon, PlayIcon} from '../../../assets/icon';
 import {ms, mvs} from 'react-native-size-matters';
 import {heightResponsive} from '../../../utils';
 import {Slider} from '@miblanchard/react-native-slider';
-import {QuoteToPost} from '../../../interface/feed.interface';
+import {PostList, QuoteToPost} from '../../../interface/feed.interface';
 
 interface MusicPreviewProps {
   targetId: string;
@@ -19,7 +19,7 @@ interface MusicPreviewProps {
   startAt?: string;
   endAt?: string;
   hideClose?: boolean;
-  onPress: (data: QuoteToPost) => void;
+  onPress: (data: PostList) => void;
   closeOnPress?: () => void;
   isPlay: boolean;
   playOrPause: () => void;
@@ -27,7 +27,7 @@ interface MusicPreviewProps {
   currentProgress: number;
   duration: number;
   seekPlayer: (second: number) => void;
-  postList: QuoteToPost;
+  postList: PostList;
   isIdNowPlaying: boolean;
   hideSlider?: boolean;
 }

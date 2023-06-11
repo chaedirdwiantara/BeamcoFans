@@ -396,8 +396,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                 onRefresh={() => setRefreshing(true)}
               />
             }
-            onEndReached={handleEndScroll}
             onScroll={handleScroll}
+            onEndReached={handleEndScroll}
+            onEndReachedThreshold={1}
             bounces={false}
             renderItem={({item, index}) => (
               <>
