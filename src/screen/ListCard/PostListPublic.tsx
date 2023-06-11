@@ -1,13 +1,15 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {
+  Animated,
   Dimensions,
   FlatList,
+  NativeModules,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Platform,
   RefreshControl,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import {mvs} from 'react-native-size-matters';
@@ -63,8 +65,11 @@ import {
 } from './ListUtils/ListFunction';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useQuery} from 'react-query';
+import {useHeaderAnimation} from '../../hooks/use-header-animation.hook';
 
 const {height} = Dimensions.get('screen');
+const {StatusBarManager} = NativeModules;
+const barHeight = StatusBarManager.HEIGHT;
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -83,6 +88,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, uuidMusician = ''} = props;
+
+  const {handleScroll, compCTranslateY} = useHeaderAnimation();
 
   const [recorder, setRecorder] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string[]>();
@@ -104,7 +111,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const [selectedCategoryMenu, setSelectedCategoryMenu] =
     useState<DataDropDownType>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [scrollEffect, setScrollEffect] = useState(false);
   const [selectedMusicianId, setSelectedMusicianId] = useState<string>('');
 
   //* MUSIC HOOKS
@@ -248,13 +254,6 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     );
   };
 
-  //* Handle when scrolling
-  const handleOnScroll: OnScrollEventHandler = event => {
-    let offsetY = event.nativeEvent.contentOffset.y;
-    const scrolled = offsetY > 120;
-    setScrollEffect(scrolled);
-  };
-
   const cardOnPress = (data: PostList) => {
     navigation.navigate('PostDetail', data);
   };
@@ -336,8 +335,11 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
 
   return (
     <>
-      {/* //TODO: HOLD SCROLL EFFECT {!scrollEffect && ( */}
-      <View style={styles.container}>
+      <Animated.View
+        style={[
+          styles.filterContainer,
+          {transform: [{translateY: compCTranslateY}]},
+        ]}>
         <DropDownFilter
           labelCaption={
             selectedFilterMenu
@@ -347,6 +349,10 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           dataFilter={dataLeftDropdown}
           selectedMenu={setSelectedFilterMenu}
           leftPosition={widthResponsive(-60)}
+          containerStyle={{
+            marginTop: widthResponsive(20),
+            marginBottom: widthResponsive(20),
+          }}
         />
         <DropDownFilter
           labelCaption={
@@ -357,17 +363,20 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           dataFilter={dataRightDropdown}
           selectedMenu={setSelectedCategoryMenu}
           leftPosition={widthResponsive(-144)}
+          containerStyle={{
+            marginTop: widthResponsive(20),
+            marginBottom: widthResponsive(20),
+          }}
         />
-      </View>
-      {/* )} */}
+      </Animated.View>
       {dataMain !== null && dataMain.length !== 0 ? (
-        <View style={{flex: 1, marginHorizontal: widthResponsive(-24)}}>
+        <View style={styles.bodyContainer}>
           {refreshing && (
             <View style={styles.loadingContainer}>
               <LoadingSpinner />
             </View>
           )}
-          <FlatList
+          <Animated.FlatList
             ref={flatListRef}
             data={dataMain}
             showsVerticalScrollIndicator={false}
@@ -388,9 +397,19 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
               />
             }
             onEndReached={handleEndScroll}
-            onScroll={handleOnScroll}
+            onScroll={handleScroll}
+            bounces={false}
             renderItem={({item, index}) => (
               <>
+                {index === 0 ? (
+                  <Gap
+                    height={
+                      Platform.OS === 'ios'
+                        ? heightResponsive(134)
+                        : heightResponsive(barHeight + 166)
+                    }
+                  />
+                ) : null}
                 <ListCard.PostList
                   toDetailOnPress={() =>
                     handleToDetailMusician(item.musician.uuid)
@@ -507,20 +526,19 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
 export default PostListPublic;
 
 const styles = StyleSheet.create({
-  container: {
+  bodyContainer: {flex: 1, marginHorizontal: widthResponsive(-24)},
+  filterContainer: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: heightResponsive(10),
-    marginBottom: heightResponsive(8),
-  },
-  childrenPostTitle: {
-    flexShrink: 1,
-    maxWidth: widthResponsive(288),
-    fontFamily: font.InterRegular,
-    fontWeight: '400',
-    fontSize: mvs(13),
-    color: color.Neutral[10],
+    position: 'absolute',
+    top:
+      Platform.OS === 'ios'
+        ? heightResponsive(80)
+        : heightResponsive(barHeight + 100),
+    left: widthResponsive(24),
+    zIndex: 1,
+    backgroundColor: color.Dark[800],
   },
   modalContainer: {
     width: '100%',
