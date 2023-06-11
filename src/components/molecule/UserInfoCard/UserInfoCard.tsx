@@ -17,7 +17,7 @@ import {
 } from '../../../utils';
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
-import {debounce} from '../../../utils/debounce';
+import {useDebounce} from '../../../utils/debounce';
 import {InfoProfileType} from '../../../data/profile';
 import {DataDetailMusician} from '../../../interface/musician.interface';
 import {ProfileResponseData} from '../../../interface/profile.interface';
@@ -144,7 +144,7 @@ const UserInfoCard: FC<UserInfoCardProps> = (props: UserInfoCardProps) => {
               <Item
                 point={val.point}
                 title={val.title}
-                onPress={debounce(newOnPress)}
+                onPress={useDebounce(newOnPress)}
                 disabled={disabled}
               />
             </View>

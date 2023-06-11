@@ -1,30 +1,34 @@
+import React, {FC, useEffect, useRef} from 'react';
 import {
-  Animated,
-  Dimensions,
+  View,
   LogBox,
-  SafeAreaView,
+  Animated,
   StatusBar,
   StyleSheet,
+  SafeAreaView,
   TouchableOpacity,
-  View,
 } from 'react-native';
-import React, {FC, useEffect, useRef} from 'react';
 import Modal from 'react-native-modal';
+
+import {
+  width,
+  widthResponsive,
+  heightPercentage,
+  heightResponsive,
+} from '../../utils';
 import {color} from '../../theme';
 import FastImage from 'react-native-fast-image';
-import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
 import {CloseCircleIcon} from '../../assets/icon';
-import {imageTypes} from '../../interface/feed.interface';
 import {photos} from '../../interface/musician.interface';
-
-export const {width} = Dimensions.get('screen');
+import {imageTypes} from '../../interface/feed.interface';
 
 interface ModalImageProps {
   toggleModal: () => void;
   modalVisible: boolean;
   imageIdx: number;
-  dataImage?: imageTypes[][] | string[];
+  dataImage?: imageTypes[][];
   dataImageGallery?: photos[];
+  imageUri?: string;
   type?: string;
 }
 
@@ -36,6 +40,7 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
     dataImage,
     dataImageGallery,
     type,
+    imageUri,
   } = props;
 
   // ignore warning
@@ -74,8 +79,22 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
           <CloseCircleIcon />
         </TouchableOpacity>
 
-        <View style={styles.mainContainer}>
-          {dataImageGallery ? (
+        {type === 'zoomProfile' ? (
+          <View>
+            <Animated.View style={styles.mainImageWrapper}>
+              <View style={styles.imageWrapper}>
+                <FastImage
+                  source={{
+                    uri: imageUri,
+                  }}
+                  style={[styles.imageStyle]}
+                  resizeMode={FastImage.resizeMode.contain}
+                />
+              </View>
+            </Animated.View>
+          </View>
+        ) : dataImageGallery ? (
+          <View style={styles.mainContainer}>
             <Animated.FlatList
               ref={imageSlider}
               data={dataImageGallery}
@@ -90,7 +109,7 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
                 [{nativeEvent: {contentOffset: {x: scrollX}}}],
                 {useNativeDriver: true},
               )}
-              renderItem={({item, index}) => (
+              renderItem={({item}) => (
                 <Animated.View style={styles.mainImageWrapper}>
                   <View style={styles.imageWrapper}>
                     <FastImage
@@ -102,14 +121,16 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
                 </Animated.View>
               )}
             />
-          ) : (
+          </View>
+        ) : (
+          <View style={styles.mainContainer}>
             <Animated.FlatList
               ref={imageSlider}
               data={dataImage}
               keyExtractor={(_, index) => index.toString()}
               horizontal
               pagingEnabled
-              initialScrollIndex={type === 'zoomProfile' ? undefined : imageIdx}
+              initialScrollIndex={imageIdx}
               showsHorizontalScrollIndicator={false}
               scrollEventThrottle={16}
               getItemLayout={getItemLayout}
@@ -117,12 +138,12 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
                 [{nativeEvent: {contentOffset: {x: scrollX}}}],
                 {useNativeDriver: true},
               )}
-              renderItem={({item, index}) => (
+              renderItem={({item}) => (
                 <Animated.View style={styles.mainImageWrapper}>
                   <View style={styles.imageWrapper}>
                     <FastImage
                       source={{
-                        uri: type === 'zoomProfile' ? item : item[3].image,
+                        uri: item[3].image,
                       }}
                       style={[styles.imageStyle]}
                       resizeMode={FastImage.resizeMode.contain}
@@ -131,8 +152,8 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
                 </Animated.View>
               )}
             />
-          )}
-        </View>
+          </View>
+        )}
       </SafeAreaView>
     </Modal>
   );
@@ -156,6 +177,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mainImageWrapper: {
+    flex: 1,
     width: width,
     justifyContent: 'center',
     alignItems: 'center',
@@ -170,6 +192,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   closeButton: {
+    zIndex: 1,
     alignSelf: 'flex-start',
     marginTop: heightPercentage(24),
     marginLeft: widthResponsive(24),
