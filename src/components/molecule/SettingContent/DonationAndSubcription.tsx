@@ -68,26 +68,25 @@ export const DASContent: FC<DASProps> = ({onPressGoBack}) => {
             label={t('Setting.Tips.Label.Current')}
             textStyles={{fontSize: normalize(10)}}
             onPress={() => setChangeTab('current')}
-            containerStyles={[
-              styles.containerButtonCurrent,
-              {
-                backgroundColor:
-                  changeTab === 'current' ? Color.Pink.linear : 'transparent',
-              },
-            ]}
+            containerStyles={{
+              width: widthPercentage(80),
+              aspectRatio: heightPercentage(80 / 24),
+              backgroundColor:
+                changeTab === 'current' ? Color.Pink.linear : 'transparent',
+            }}
             borderColor={Color.Pink.linear}
           />
           <Button
             type={changeTab === 'past' ? '' : 'border'}
             label={t('Setting.Tips.Label.Past')}
             textStyles={{fontSize: normalize(10)}}
-            containerStyles={[
-              styles.containerButtonPast,
-              {
-                backgroundColor:
-                  changeTab === 'past' ? Color.Pink.linear : 'transparent',
-              },
-            ]}
+            containerStyles={{
+              width: widthPercentage(80),
+              aspectRatio: heightPercentage(80 / 24),
+              marginLeft: widthPercentage(10),
+              backgroundColor:
+                changeTab === 'past' ? Color.Pink.linear : 'transparent',
+            }}
             onPress={() => setChangeTab('past')}
             borderColor={Color.Pink.linear}
           />
@@ -145,15 +144,6 @@ const styles = StyleSheet.create({
     marginTop: heightPercentage(15),
     justifyContent: 'space-between',
     paddingHorizontal: widthPercentage(6),
-  },
-  containerButtonCurrent: {
-    width: widthPercentage(80),
-    aspectRatio: heightPercentage(80 / 24),
-  },
-  containerButtonPast: {
-    width: widthPercentage(80),
-    aspectRatio: heightPercentage(80 / 24),
-    marginLeft: widthPercentage(10),
   },
   dropdown: {
     width: widthPercentage(138),
