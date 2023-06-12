@@ -61,7 +61,7 @@ const ListTips: React.FC<ListTipsProps> = props => {
     isFetchingNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ['/list-tips'],
+    [`/list-tips/${status}`],
     ({pageParam = 1}) =>
       getListTips({
         page: pageParam,
