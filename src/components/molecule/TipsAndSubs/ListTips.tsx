@@ -48,10 +48,6 @@ const ListTips: React.FC<ListTipsProps> = props => {
   const [loading, setLoading] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [isErrorStop, setIsErrorStop] = useState<boolean>(false);
-  const [filterColumn, setfilterColumn] = useState<string[]>([
-    'contribution_repeat_status',
-  ]);
-  const [filterValue, setFilterValue] = useState<number[]>([1]);
   const {
     data: dataTips,
     refetch,
@@ -61,13 +57,29 @@ const ListTips: React.FC<ListTipsProps> = props => {
     isFetchingNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    [`/list-tips/${status}`],
+    [`/list-tips/${status}/${duration}`],
     ({pageParam = 1}) =>
       getListTips({
         page: pageParam,
         perPage: 10,
-        filterColumn: filterColumn,
-        filterValue: filterValue,
+        filterColumn:
+          duration === ''
+            ? ['contribution_repeat_status']
+            : ['contribution_repeat_status', 'duration'],
+        filterValue:
+          duration === ''
+            ? [`${status === 'current' ? 1 : 2}`]
+            : [
+                `${status === 'current' ? 1 : 2}, ${
+                  duration === 'weekly'
+                    ? 7
+                    : duration === 'monthly'
+                    ? 30
+                    : duration === 'yearly'
+                    ? 365
+                    : 0
+                }`,
+              ],
       }),
     {
       getNextPageParam: lastPage => {
@@ -94,41 +106,35 @@ const ListTips: React.FC<ListTipsProps> = props => {
       );
     }
   }, [dataTips]);
+  //   let column: string[] = filterColumn;
+  //   let value: number[] = filterValue;
 
-  useEffect(() => {
-    let column: string[] = filterColumn;
-    let value: number[] = filterValue;
+  //   value[0] = status === 'current' ? 1 : 2;
+  //   if (duration === '') {
+  //     if (value.length > 1) {
+  //       column = column.splice(0, 1);
+  //       value = value.splice(0, 1);
+  //     }
+  //   } else {
+  //     const formatValue =
+  //       duration === 'weekly'
+  //         ? 7
+  //         : duration === 'monthly'
+  //         ? 30
+  //         : duration === 'yearly'
+  //         ? 365
+  //         : 0;
+  //     if (value.length > 1) {
+  //       value[1] = formatValue;
+  //     } else {
+  //       column.push('duration');
+  //       value.push(formatValue);
+  //     }
+  //   }
 
-    value[0] = status === 'current' ? 1 : 2;
-    if (duration === '') {
-      if (value.length > 1) {
-        column = column.splice(0, 1);
-        value = value.splice(0, 1);
-      }
-    } else {
-      const formatValue =
-        duration === 'weekly'
-          ? 7
-          : duration === 'monthly'
-          ? 30
-          : duration === 'yearly'
-          ? 365
-          : 0;
-      if (value.length > 1) {
-        value[1] = formatValue;
-      } else {
-        column.push('duration');
-        value.push(formatValue);
-      }
-    }
-
-    setfilterColumn(column);
-    setFilterValue(value);
-
-    setTimeout(() => {
-      refetch();
-    }, 100);
-  }, [status, duration]);
+  //   setfilterColumn(column);
+  //   setFilterValue(value);
+  // }, [status, duration]);
 
   const resultDataMore = (dataResult: DataDropDownType, val: TipsDataType) => {
     if (dataResult.value === '1') {
