@@ -9,6 +9,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 
 import {Indicator} from '../../atom';
@@ -71,12 +72,12 @@ export const Carousel: FC<CarouselProps> = ({data, onPressBanner}) => {
 
           const translateX = scrollX.interpolate({
             inputRange,
-            outputRange: [ITEM_LENGTH, 0, -ITEM_LENGTH],
+            outputRange: [ITEM_LENGTH + 20, 0, -ITEM_LENGTH + 20],
           });
 
           const scale = scrollX.interpolate({
             inputRange,
-            outputRange: [0.9, 1.1, 0.9],
+            outputRange: [0.9, 1.2, 0.9],
           });
 
           return (
@@ -103,18 +104,18 @@ export const Carousel: FC<CarouselProps> = ({data, onPressBanner}) => {
                   }
                   style={styles.itemImage}
                 />
-                <Animated.Text
+                <Text
                   numberOfLines={1}
                   ellipsizeMode={'tail'}
-                  style={[styles.itemText, {transform: [{translateX}]}]}>
+                  style={[styles.itemText]}>
                   {item.title}
-                </Animated.Text>
-                <Animated.Text
+                </Text>
+                <Text
                   numberOfLines={2}
                   ellipsizeMode={'tail'}
-                  style={[styles.itemSubtitle, {transform: [{translateX}]}]}>
+                  style={[styles.itemSubtitle]}>
                   {item.description}
-                </Animated.Text>
+                </Text>
               </Animated.View>
             </TouchableOpacity>
           );
