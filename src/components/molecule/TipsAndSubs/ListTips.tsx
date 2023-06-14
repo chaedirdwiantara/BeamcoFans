@@ -34,7 +34,7 @@ import {
 
 interface ListTipsProps {
   status: 'current' | 'past';
-  duration: '' | 'weekly' | 'monthly' | 'yearly' | string;
+  duration: '' | 'onetime' | 'weekly' | 'monthly' | 'yearly' | string;
 }
 
 const ListTips: React.FC<ListTipsProps> = props => {
@@ -57,12 +57,29 @@ const ListTips: React.FC<ListTipsProps> = props => {
     isFetchingNextPage,
     hasNextPage,
   } = useInfiniteQuery(
-    ['/list-tips'],
+    [`/list-tips/${status}/${duration}`],
     ({pageParam = 1}) =>
       getListTips({
         page: pageParam,
         perPage: 10,
-        filterValue: status === 'current' ? 1 : 2,
+        filterColumn:
+          duration === ''
+            ? ['contribution_repeat_status']
+            : ['contribution_repeat_status', 'duration'],
+        filterValue:
+          duration === ''
+            ? [`${status === 'current' ? 1 : 2}`]
+            : [
+                `${status === 'current' ? 1 : 2}, ${
+                  duration === 'weekly'
+                    ? 7
+                    : duration === 'monthly'
+                    ? 30
+                    : duration === 'yearly'
+                    ? 365
+                    : 0
+                }`,
+              ],
       }),
     {
       getNextPageParam: lastPage => {
@@ -89,10 +106,35 @@ const ListTips: React.FC<ListTipsProps> = props => {
       );
     }
   }, [dataTips]);
+  //   let column: string[] = filterColumn;
+  //   let value: number[] = filterValue;
 
-  useEffect(() => {
-    refetch();
-  }, [status, duration]);
+  //   value[0] = status === 'current' ? 1 : 2;
+  //   if (duration === '') {
+  //     if (value.length > 1) {
+  //       column = column.splice(0, 1);
+  //       value = value.splice(0, 1);
+  //     }
+  //   } else {
+  //     const formatValue =
+  //       duration === 'weekly'
+  //         ? 7
+  //         : duration === 'monthly'
+  //         ? 30
+  //         : duration === 'yearly'
+  //         ? 365
+  //         : 0;
+  //     if (value.length > 1) {
+  //       value[1] = formatValue;
+  //     } else {
+  //       column.push('duration');
+  //       value.push(formatValue);
+  //     }
+  //   }
+
+  //   setfilterColumn(column);
+  //   setFilterValue(value);
+  // }, [status, duration]);
 
   const resultDataMore = (dataResult: DataDropDownType, val: TipsDataType) => {
     if (dataResult.value === '1') {

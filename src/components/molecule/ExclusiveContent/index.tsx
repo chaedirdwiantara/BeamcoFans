@@ -183,7 +183,7 @@ export const ExclusiveContent: React.FC<ExclusiveProps> = ({
                 containerStyles={styles.btnCancel}
                 textStyles={{color: Color.Pink.linear}}
                 borderColor={Color.Pink.linear}
-                onPress={onPressSave}
+                onPress={onPressGoBack}
               />
             </View>
           </View>
