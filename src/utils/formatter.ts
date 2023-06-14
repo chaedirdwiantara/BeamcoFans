@@ -48,13 +48,24 @@ const formatShipping = (dataShippingInfo: DataShippingProps) => {
   }
 };
 
-const getCoinFromProductId = (productId: string): string => {
+const getCoinFromProductId = (props: {
+  productId: string;
+  type?: 'number' | 'currency';
+}): string => {
+  const {productId, type = 'currency'} = props;
   let totalCoin = '';
   let indexDelimiter = productId.lastIndexOf('_');
   if (indexDelimiter > -1) {
-    totalCoin = toCurrency(parseInt(productId.substring(indexDelimiter + 1)), {
-      withFraction: false,
-    });
+    if (type === 'currency') {
+      totalCoin = toCurrency(
+        parseInt(productId.substring(indexDelimiter + 1)),
+        {
+          withFraction: false,
+        },
+      );
+    } else {
+      totalCoin = productId.substring(indexDelimiter + 1);
+    }
   }
   return totalCoin;
 };
