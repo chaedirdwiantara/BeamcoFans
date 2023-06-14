@@ -5,6 +5,7 @@ import {createIapApple, generateSessionPurchase} from '../api/credit.api';
 import {getCoinFromProductId} from '../utils';
 import {useIapStore} from '../store/iap.store';
 import {storage} from './use-storage.hook';
+import {AuthType} from '../interface/auth.interface';
 
 export const useIapHook = () => {
   const productId = Platform.select({
@@ -63,19 +64,23 @@ export const useIapHook = () => {
         if (receipt) {
           // TODO: wiring to backend to add the credit into profile
           const deviceId = storage.getString('uniqueId');
+          const JSONProfile = storage.getString('profile') as string;
+          const profileObject = JSON.parse(JSONProfile) as AuthType;
+          const ownerId = profileObject.uuid;
+
           if (deviceId) {
             const generateSession = await generateSessionPurchase({
               deviceId: deviceId,
             });
-            // console.log(generateSession);
-            // console.log(
-            //   iapStore.productList.filter(
-            //     ar => ar.productId === purchase.productId,
-            //   ),
-            // );
+            console.log(generateSession);
+            console.log(
+              iapStore.productList.filter(
+                ar => ar.productId === purchase.productId,
+              ),
+            );
 
             // await createIapApple({
-            //   owner: string;
+            //   owner: ownerId;
             //   ownerType: 1, //1 fans, 2 musician
             //   trxReferenceId: purchase.transactionId ?? '',
             //   credit: Number(getCoinFromProductId(purchase.productId)),
@@ -86,7 +91,8 @@ export const useIapHook = () => {
             //   deviceId: deviceId,
             //   trxSession: generateSession.data.Session
             // })
-            // await getCreditCount
+
+            // await getCreditCount()
           }
         }
       },

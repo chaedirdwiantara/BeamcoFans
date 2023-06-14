@@ -68,6 +68,7 @@ import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
+import {randomString} from '../utils/randomString';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -228,7 +229,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     storage.set('recoverSuccess', false);
     const uniqueId = storage.getString('uniqueId');
     if (uniqueId === undefined) {
-      storage.set('uniqueId', 'abcdabcd');
+      storage.set('uniqueId', Date.now() + randomString(10)); //unix timestamp + random string (10)
     }
   }, []);
 
