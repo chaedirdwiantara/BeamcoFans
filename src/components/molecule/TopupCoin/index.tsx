@@ -4,7 +4,6 @@ import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import {Gap} from '../../atom';
 import {CoinCard} from './CoinCard';
 import {TabFilter} from '../TabFilter';
-import listPrice from '../../../data/topUp';
 import {TopNavigation} from '../TopNavigation';
 import {color, typography} from '../../../theme/';
 import {TransactionCard} from './TransactionCard';
@@ -17,6 +16,7 @@ import {
 } from '../../../utils';
 import {useTranslation} from 'react-i18next';
 import {useCreditHook} from '../../../hooks/use-credit.hook';
+import {useIapHook} from '../../../hooks/use-iap.hook';
 
 interface TopupCoinProps {
   onPressGoBack: () => void;
@@ -25,6 +25,16 @@ interface TopupCoinProps {
 export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
   const {t} = useTranslation();
   const {getCreditCount, creditCount} = useCreditHook();
+  const {
+    iapProduct,
+    initIAP,
+    endIap,
+    getProductIap,
+    purchaseProduct,
+    loadIapListener,
+    purchaseUpdateListener,
+    purchaseErrorListener,
+  } = useIapHook();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [filter] = useState([
     {filterName: 'TopUp.Filter.Buy'},
@@ -35,8 +45,24 @@ export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
   };
 
   useEffect(() => {
+    initIAP();
+    getProductIap();
+    loadIapListener();
+
+    return () => {
+      endIap();
+      purchaseUpdateListener?.remove();
+      purchaseErrorListener?.remove();
+    };
+  }, []);
+
+  useEffect(() => {
     getCreditCount();
   }, []);
+
+  const onPressCardCoin = (productId: string) => {
+    purchaseProduct(productId);
+  };
 
   return (
     <View style={styles.root}>
@@ -85,19 +111,20 @@ export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
 
         {filter[selectedIndex].filterName === 'TopUp.Filter.Buy' ? (
           <View style={styles.containerListPrice}>
-            {listPrice.map((val, i) => (
-              <View key={i} style={styles.padding}>
-                <CoinCard
-                  totalCoin={val.totalCoin}
-                  price={val.price}
-                  initialCoin={val.initialCoin}
-                  bonusCoin={val.bonusCoin}
-                />
-              </View>
-            ))}
+            {iapProduct
+              .sort((a, b) => parseInt(a.price) - parseInt(b.price))
+              .map((val, i) => (
+                <View key={i} style={styles.padding}>
+                  <CoinCard
+                    productId={val.productId}
+                    price={val.localizedPrice}
+                    onPress={() => onPressCardCoin(val.productId)}
+                  />
+                </View>
+              ))}
             <View style={styles.padding}>
               <CoinCard
-                totalCoin={''}
+                productId={''}
                 price={''}
                 initialCoin={''}
                 bonusCoin={''}

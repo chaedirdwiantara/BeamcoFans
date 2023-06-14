@@ -9,15 +9,16 @@ import {
   CreateDonationParams,
   SubsECParams,
 } from '../interface/credit.interface';
+import {useIapStore} from '../store/iap.store';
 
 export const useCreditHook = () => {
-  const [creditCount, setCreditCount] = useState(0);
+  const iapStore = useIapStore();
   const [alreadySubsEC, setAlreadySubsEC] = useState(false);
 
   const getCreditCount = async () => {
     try {
       const response = await getCredit();
-      setCreditCount(response.data.credit);
+      iapStore.setUserCredit(response.data.credit);
     } catch (err) {
       console.log(err);
     }
@@ -52,7 +53,7 @@ export const useCreditHook = () => {
   };
 
   return {
-    creditCount,
+    creditCount: iapStore.userCredit,
     getCreditCount,
     createNewDonation,
     checkSubs,

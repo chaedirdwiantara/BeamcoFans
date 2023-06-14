@@ -49,5 +49,3 @@ export const usePlayerStore = create<PlayerState>()(set => ({
   setRepeat: by => set(state => ({repeat: by})),
   setWithoutBottomTab: by => set(state => ({withoutBottomTab: by})),
 }));
-
-export const useDogStore = create(() => ({paw: true, snout: true, fur: true}));
