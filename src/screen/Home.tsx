@@ -226,6 +226,10 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     setToastVisible(isRecoverSuccess || false);
     setToastText('Welcome back to Beamco!');
     storage.set('recoverSuccess', false);
+    const uniqueId = storage.getString('uniqueId');
+    if (uniqueId === undefined) {
+      storage.set('uniqueId', 'abcdabcd');
+    }
   }, []);
 
   useEffect(() => {

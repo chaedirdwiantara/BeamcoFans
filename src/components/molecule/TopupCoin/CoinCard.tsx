@@ -11,8 +11,8 @@ import {Gap} from '../../atom';
 import {CoinIcon} from '../../../assets/icon';
 import {color, typography} from '../../../theme/';
 import {
+  getCoinFromProductId,
   heightPercentage,
-  toCurrency,
   width,
   widthPercentage,
 } from '../../../utils';
@@ -36,18 +36,6 @@ export const CoinCard: React.FC<CoinCardProps> = ({
   containerStyle,
   onPress,
 }) => {
-  const getCoinFromProductId = (productId: string): string => {
-    let totalCoin = '';
-    let indexDelimiter = productId.lastIndexOf('_');
-    if (indexDelimiter > -1) {
-      totalCoin = toCurrency(
-        parseInt(productId.substring(indexDelimiter + 1)),
-        {withFraction: false},
-      );
-    }
-    return totalCoin;
-  };
-
   return (
     <TouchableOpacity style={[styles.root, containerStyle]} onPress={onPress}>
       <View style={styles.containerCoinIcon}>
