@@ -436,8 +436,8 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                   <Gap
                     height={
                       Platform.OS === 'ios'
-                        ? heightResponsive(134)
-                        : heightResponsive(barHeight + 166)
+                        ? widthResponsive(134)
+                        : widthResponsive(barHeight + 137)
                     }
                   />
                 ) : null}
