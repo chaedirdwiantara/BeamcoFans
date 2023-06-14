@@ -42,7 +42,7 @@ export const CoinCard: React.FC<CoinCardProps> = ({
         {showIconCoin && <CoinIcon />}
         <Gap width={widthPercentage(5)} />
         <Text style={[typography.Subtitle1, {color: color.Neutral[10]}]}>
-          {getCoinFromProductId(productId)}
+          {getCoinFromProductId({productId: productId})}
         </Text>
       </View>
 

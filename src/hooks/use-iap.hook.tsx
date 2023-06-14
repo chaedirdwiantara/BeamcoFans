@@ -1,13 +1,14 @@
-import {useState} from 'react';
 import {EmitterSubscription, Platform} from 'react-native';
 import * as IAP from 'react-native-iap';
 import {createIapApple, generateSessionPurchase} from '../api/credit.api';
 import {getCoinFromProductId} from '../utils';
 import {useIapStore} from '../store/iap.store';
-import {storage} from './use-storage.hook';
+import {profileStorage, storage} from './use-storage.hook';
 import {AuthType} from '../interface/auth.interface';
+import {useCreditHook} from './use-credit.hook';
 
 export const useIapHook = () => {
+  const {getCreditCount} = useCreditHook();
   const productId = Platform.select({
     ios: [
       'Credit_beamco_100',
@@ -35,6 +36,7 @@ export const useIapHook = () => {
     try {
       const response = await IAP.getProducts({skus: productId ?? []});
       iapStore.setProductList(response);
+      return response;
     } catch (err) {
       console.log(err);
     }
@@ -67,33 +69,37 @@ export const useIapHook = () => {
           const JSONProfile = storage.getString('profile') as string;
           const profileObject = JSON.parse(JSONProfile) as AuthType;
           const ownerId = profileObject.uuid;
-
+          let selectedProduct: IAP.Product[] = [];
+          const listProduct = (await getProductIap()) as IAP.Product[];
+          selectedProduct = listProduct.filter(
+            ar => ar.productId === purchase.productId,
+          );
           if (deviceId) {
             const generateSession = await generateSessionPurchase({
               deviceId: deviceId,
             });
-            console.log(generateSession);
-            console.log(
-              iapStore.productList.filter(
-                ar => ar.productId === purchase.productId,
-              ),
-            );
-
-            // await createIapApple({
-            //   owner: ownerId;
-            //   ownerType: 1, //1 fans, 2 musician
-            //   trxReferenceId: purchase.transactionId ?? '',
-            //   credit: Number(getCoinFromProductId(purchase.productId)),
-            //   packageId: purchase.productId,
-            //   currency: string;
-            //   packagePrice: number;
-            //   trxStatus: 1,
-            //   deviceId: deviceId,
-            //   trxSession: generateSession.data.Session
-            // })
-
-            // await getCreditCount()
+            if (selectedProduct.length > 0) {
+              await createIapApple({
+                owner: ownerId,
+                ownerType: 1, //1 fans, 2 musician
+                trxReferenceId: purchase.transactionId ?? '',
+                credit: parseInt(
+                  getCoinFromProductId({
+                    productId: purchase.productId,
+                    type: 'number',
+                  }),
+                ),
+                packageId: purchase.productId,
+                currency: selectedProduct[0].currency,
+                packagePrice: Number(selectedProduct[0].price),
+                trxStatus: 1,
+                deviceId: deviceId,
+                trxSession: generateSession.data.Session,
+              });
+              await getCreditCount();
+            }
           }
+          await IAP.finishTransaction({purchase, isConsumable: true});
         }
       },
     );
