@@ -9,6 +9,8 @@ import {Button, ButtonGradient} from '../../atom';
 import {heightPercentage, normalize, width} from '../../../utils';
 import {ListContentType, listContentGuest} from '../../../data/guest';
 import {useTranslation} from 'react-i18next';
+import {usePlayerHook} from '../../../hooks/use-player.hook';
+import {storage} from '../../../hooks/use-storage.hook';
 
 interface GuestProps {
   containerStyle?: ViewStyle;
@@ -25,8 +27,28 @@ const ListContent: React.FC<ListContentType> = ({image, text}) => {
 
 export const GuestContent: React.FC<GuestProps> = ({containerStyle}) => {
   const {t} = useTranslation();
+  const {visible, hidePlayer, resetPlayer} = usePlayerHook();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const handleSignUp = () => {
+    if (visible) {
+      hidePlayer();
+      resetPlayer();
+      storage.set('resetPlayer', true);
+    }
+    navigation.navigate('Signup');
+  };
+
+  const handleLogin = () => {
+    if (visible) {
+      hidePlayer();
+      resetPlayer();
+      storage.set('resetPlayer', true);
+    }
+    storage.set('resetPlayer', true);
+    navigation.navigate('Login');
+  };
 
   return (
     <View style={[styles.root, containerStyle]}>
@@ -51,7 +73,7 @@ export const GuestContent: React.FC<GuestProps> = ({containerStyle}) => {
       <ButtonGradient
         label={t('Btn.SignUp')}
         textStyles={{fontSize: normalize(14)}}
-        onPress={() => navigation.navigate('Signup')}
+        onPress={handleSignUp}
         gradientStyles={{width: width * 0.75}}
         colors={['#F98FD9', '#FF70D4']}
       />
@@ -63,7 +85,7 @@ export const GuestContent: React.FC<GuestProps> = ({containerStyle}) => {
           marginVertical: heightPercentage(8),
           width: width * 0.75,
         }}
-        onPress={() => navigation.navigate('Login')}
+        onPress={handleLogin}
         borderColor={color.Pink.linear}
       />
     </View>
