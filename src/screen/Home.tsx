@@ -130,6 +130,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {counter, getCountNotification} = useNotificationHook();
 
   const isLogin = storage.getBoolean('isLogin');
+  console.log('isLogin', isLogin);
+  
   const isFocused = useIsFocused();
   const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
   const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
@@ -178,6 +180,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           getListDataFavoriteMusician({fansUUID: uuid});
         }
       } else {
+        console.log('masuk search musician');
+        
         getSearchMusicians({keyword: '', filterBy: 'top'});
       }
 
@@ -442,6 +446,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => setRefreshing(true)}
+            tintColor={'transparent'}
           />
         }
         onScroll={handleScroll}>
@@ -551,7 +556,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           {filterMusician[selectedIndexMusician].filterName ===
           'Home.Tab.TopMusician.Title' ? (
             <TopMusician
-              dataMusician={listMusician}
+              dataMusician={isLogin ? dataMusician : dataSearchMusicians}
               setFollowMusician={(
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,
