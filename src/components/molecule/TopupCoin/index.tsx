@@ -1,22 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {mvs} from 'react-native-size-matters';
 
-import {Gap} from '../../atom';
-import {CoinCard} from './CoinCard';
-import {TabFilter} from '../TabFilter';
-import {TopNavigation} from '../TopNavigation';
-import {color, typography} from '../../../theme/';
-import {TransactionCard} from './TransactionCard';
-import {ArrowLeftIcon, CoinDIcon} from '../../../assets/icon';
 import {
   heightPercentage,
   kFormatter,
   width,
   widthPercentage,
 } from '../../../utils';
-import {useTranslation} from 'react-i18next';
-import {useCreditHook} from '../../../hooks/use-credit.hook';
+import {Gap} from '../../atom';
+import {CoinCard} from './CoinCard';
+import {TabFilter} from '../TabFilter';
+import listPrice from '../../../data/topUp';
+import {TopNavigation} from '../TopNavigation';
+import {TransactionCard} from './TransactionCard';
+import {EmptyState} from '../EmptyState/EmptyState';
 import {useIapHook} from '../../../hooks/use-iap.hook';
+import {color, font, typography} from '../../../theme/';
+import {useCreditHook} from '../../../hooks/use-credit.hook';
+import {ArrowLeftIcon, CoinDIcon} from '../../../assets/icon';
 
 interface TopupCoinProps {
   onPressGoBack: () => void;
@@ -134,10 +137,16 @@ export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
             </View>
           </View>
         ) : (
-          <TransactionCard
-            title="20 Coin have been purchased!"
-            date="Dec 16, 2022"
+          <EmptyState
+            text={t('TopUp.EmptyState.Transaction') || ''}
+            hideIcon={true}
+            containerStyle={styles.containerEmpty}
+            textStyle={styles.emptyText}
           />
+          // <TransactionCard
+          //   title="20 Coin have been purchased!"
+          //   date="Dec 16, 2022"
+          // />
         )}
       </ScrollView>
     </View>
@@ -185,5 +194,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: heightPercentage(10),
     marginBottom: heightPercentage(20),
+  },
+  containerEmpty: {
+    alignSelf: 'center',
+    marginTop: mvs(120),
+  },
+  emptyText: {
+    fontFamily: font.InterRegular,
+    fontSize: mvs(13),
+    textAlign: 'center',
+    color: color.Neutral[10],
+    lineHeight: mvs(16),
   },
 });
