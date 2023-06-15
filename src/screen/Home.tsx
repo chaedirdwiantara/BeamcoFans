@@ -130,8 +130,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {counter, getCountNotification} = useNotificationHook();
 
   const isLogin = storage.getBoolean('isLogin');
-  console.log('isLogin', isLogin);
-  
   const isFocused = useIsFocused();
   const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
   const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
@@ -180,8 +178,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           getListDataFavoriteMusician({fansUUID: uuid});
         }
       } else {
-        console.log('masuk search musician');
-        
         getSearchMusicians({keyword: '', filterBy: 'top'});
       }
 
