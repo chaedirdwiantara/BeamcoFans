@@ -49,8 +49,10 @@ const validation = yup.object({
     .string()
     .required('Username can not be blank, set a username')
     .matches(
-      /^.{4,9}[a-z0-9]$/,
-      'Username should be between 5 to 10 alphanumeric characters',
+      // /^.{4,9}[a-z0-9]$/,
+      // 'Username should be between 5 to 10 alphanumeric characters',
+      /^.{2,29}[a-z0-9]$/,
+      'Username should be between 3 to 30 alphanumeric characters',
     ),
   fullname: yup
     .string()
