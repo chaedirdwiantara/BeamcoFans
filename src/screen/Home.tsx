@@ -396,9 +396,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     goToScreen('MusicPlayer');
   };
 
-  const bannerCondition = isLoadingBanner && dataBanner.length === 0 && isLogin;
-
-  if (bannerCondition) {
+  if (isLoadingBanner || isLoadingMusician || searchLoading) {
     return <View style={styles.root} />;
   }
 
