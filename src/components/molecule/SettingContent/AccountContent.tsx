@@ -170,7 +170,7 @@ export const AccountContent: React.FC<AccountProps> = ({
   }, [isValidating, isValid, valueMoods, valueGenres]);
 
   useEffect(() => {
-    if (getValues('username').length > 10) {
+    if (getValues('username').length < 3 || getValues('username').length > 30) {
       setError('username', {
         type: 'value',
         message: 'Username should be between 3 to 30 alphanumeric characters',
