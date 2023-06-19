@@ -51,7 +51,7 @@ const MerchList: FC<MerchListType> = props => {
         </View>
       )}
 
-      <EmptyState
+      {/* <EmptyState
         icon={
           <FriedEggIcon
             fill={Color.Dark[500]}
@@ -62,7 +62,7 @@ const MerchList: FC<MerchListType> = props => {
         }
         text={t('Event.ComingSoon') || ''}
         containerStyle={styles.containerEmpty}
-      />
+      /> */}
 
       {/* {!isLoading && (
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -90,7 +90,7 @@ const MerchList: FC<MerchListType> = props => {
         </View>
       )} */}
 
-      {/* <FlashList
+      <FlashList
         data={filterList?.data}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.ListContainer}
@@ -133,7 +133,7 @@ const MerchList: FC<MerchListType> = props => {
         refreshControl={
           <RefreshControl refreshing={false} onRefresh={refetch} />
         }
-      /> */}
+      />
     </>
   );
 };
