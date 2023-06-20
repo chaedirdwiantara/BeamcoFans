@@ -27,8 +27,8 @@ export const EventScreen: React.FC<EventProps> = ({navigation}: EventProps) => {
             maxLengthTitle={20}
             itemStrokeColor={'white'}
             rightIcon={<CartIcon />}
-            // rightIconAction={() => navigation.navigate('Cart')}
-            rightIconAction={() => null}
+            rightIconAction={() => navigation.navigate('Cart')}
+            // rightIconAction={() => null}
             leftIcon={<BoxStore />}
             leftIconAction={() => navigation.navigate('Transaction')}
             // leftIconAction={() => null}
