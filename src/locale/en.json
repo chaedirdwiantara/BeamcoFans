@@ -749,6 +749,9 @@
     "Filter": {
       "Buy": "Buy Package",
       "Transaction": "Transaction"
+    },
+    "EmptyState" : {
+      "Transaction": "The transaction list will be displayed here, but as of now, no transactions have been made."
     }
   },
   "RecoverAccount": {

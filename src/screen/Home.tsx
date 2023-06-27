@@ -396,14 +396,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     goToScreen('MusicPlayer');
   };
 
-  const listMusician = isLogin ? dataMusician : dataSearchMusicians;
-  const bannerCondition = isLoadingBanner && dataBanner.length === 0 && isLogin;
-
-  if (
-    listMusician?.length === 0 ||
-    listMusician === undefined ||
-    bannerCondition
-  ) {
+  if (isLoadingBanner || isLoadingMusician || searchLoading) {
     return <View style={styles.root} />;
   }
 
@@ -442,6 +435,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => setRefreshing(true)}
+            tintColor={'transparent'}
           />
         }
         onScroll={handleScroll}>
@@ -551,7 +545,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           {filterMusician[selectedIndexMusician].filterName ===
           'Home.Tab.TopMusician.Title' ? (
             <TopMusician
-              dataMusician={listMusician}
+              dataMusician={isLogin ? dataMusician : dataSearchMusicians}
               setFollowMusician={(
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,

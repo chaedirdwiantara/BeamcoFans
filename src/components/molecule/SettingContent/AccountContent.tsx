@@ -49,8 +49,10 @@ const validation = yup.object({
     .string()
     .required('Username can not be blank, set a username')
     .matches(
-      /^.{4,9}[a-z0-9]$/,
-      'Username should be between 5 to 10 alphanumeric characters',
+      // /^.{4,9}[a-z0-9]$/,
+      // 'Username should be between 5 to 10 alphanumeric characters',
+      /^.{2,29}[a-z0-9]$/,
+      'Username should be between 3 to 30 alphanumeric characters',
     ),
   fullname: yup
     .string()
@@ -83,6 +85,7 @@ export const AccountContent: React.FC<AccountProps> = ({
     control,
     formState: {errors, isValid, isValidating},
     getValues,
+    setError,
   } = useForm<InputProps>({
     resolver: yupResolver(validation),
     mode: 'onChange',
@@ -165,6 +168,15 @@ export const AccountContent: React.FC<AccountProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isValidating, isValid, valueMoods, valueGenres]);
+
+  useEffect(() => {
+    if (getValues('username').length < 3 || getValues('username').length > 30) {
+      setError('username', {
+        type: 'value',
+        message: 'Username should be between 3 to 30 alphanumeric characters',
+      });
+    }
+  }, []);
 
   return (
     <View style={styles.root}>

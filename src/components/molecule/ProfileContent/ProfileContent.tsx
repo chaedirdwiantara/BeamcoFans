@@ -148,7 +148,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={setRefreshing} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={setRefreshing}
+            tintColor={'transparent'}
+          />
         }
         onScroll={handleScroll}>
         <ProfileHeader
