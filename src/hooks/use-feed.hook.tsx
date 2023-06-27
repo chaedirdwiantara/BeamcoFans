@@ -59,7 +59,11 @@ export const useFeedHook = () => {
   const getListDataPostQuery = async (props?: ParamsProps) => {
     try {
       const response = await listPost(props);
-      return {data: response?.data, meta: response?.meta};
+      return {
+        data: response?.data,
+        meta: response?.meta,
+        message: response?.message,
+      };
     } catch (error) {
       console.log(error);
     }
@@ -137,7 +141,11 @@ export const useFeedHook = () => {
   const getListDataExclusiveQuery = async (props?: ParamsProps) => {
     try {
       const response = await listPostExclusive(props);
-      return {data: response?.data, meta: response?.meta};
+      return {
+        data: response?.data,
+        meta: response?.meta,
+        message: response?.message,
+      };
     } catch (error) {
       console.log(error);
     }
