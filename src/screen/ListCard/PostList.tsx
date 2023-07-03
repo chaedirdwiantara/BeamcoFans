@@ -123,7 +123,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
   );
 
   useEffect(() => {
-    getCreditCount();
+    if (modalDonate) getCreditCount();
   }, [modalDonate]);
 
   useEffect(() => {
