@@ -134,7 +134,8 @@ const MerchList: FC<MerchListType> = props => {
           <RefreshControl refreshing={false} onRefresh={refetch} />
         }
       />
-    </> */}
+      */}
+    </>
   );
 };
 
