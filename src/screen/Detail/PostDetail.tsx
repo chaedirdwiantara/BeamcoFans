@@ -168,7 +168,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [parentIdAddComment, setParentIdAddComment] = useState<string[]>([]);
 
   useEffect(() => {
-    getCreditCount();
+    if (modalDonate) getCreditCount();
   }, [modalDonate]);
 
   //* MUSIC HOOKS
