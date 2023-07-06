@@ -161,6 +161,7 @@ export const LoginScreen: React.FC = () => {
           index: 0,
           routes: [{name: 'Preference'}],
         });
+        storage.set('isPreference', true);
       } else {
         if (
           (watch('loginType') === 'email' && loginResult !== null) ||
@@ -181,6 +182,7 @@ export const LoginScreen: React.FC = () => {
                 index: 0,
                 routes: [{name: 'Preference'}],
               });
+              storage.set('isPreference', true);
             } else {
               navigation.reset({
                 index: 0,
