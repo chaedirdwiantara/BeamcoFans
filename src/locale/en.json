@@ -19,7 +19,8 @@
       "Music": "Share Music",
       "Playlist": "Share Playlist"
     },
-    "NoDescription": "No Description Given"
+    "NoDescription": "No Description Given",
+    "Required": "Required"
   },
   "Onboarding": {
     "Step1": {
@@ -129,7 +130,28 @@
     "Support": "I’m Here To",
     "Musician": "Who To Follow",
     "Follow": "Follow",
-    "Following": "Following"
+    "Following": "Following",
+    "Step": {
+      "Step1": "Step 1 of 5",
+      "Step2": "Step 2 of 5",
+      "Step3": "Step 3 of 5",
+      "Step4": "Step 4 of 5",
+      "Step5": "Step 5 of 5"
+    },
+    "Title": {
+      "Title1": "Select your favorite genre",
+      "Title2": "What fit’s your moods?",
+      "Title3": "I’m here to",
+      "Title4": "Who to follow",
+      "Title5": "Scan QR Code to Earn Bonuses!"
+    },
+    "Subtitle": {
+      "Subtitle1": "This step is to add your favorite genre so we can make a recommendation that suits for you",
+      "Subtitle2": "This step is to add your songs moods so we can make a recommendation that suits for you",
+      "Subtitle3": "Did you know? 78% of indie musician report that they only make $1K or less for their income.",
+      "Subtitle4": "You can follow most popular musician or musician that have same preference with you.",
+      "Subtitle5": "Scan referral code by pressing scan now button, to earn some free stuff and bonuses"
+    }
   },
   "Home": {
     "Topbar": {
@@ -315,7 +337,11 @@
       "HeaderPicture": "Edit Header",
       "Take": "Take Photo",
       "Add": "Add Photo From Gallery",
-      "Delete": "Delete Photo"
+      "Delete": "Delete Photo",
+      "AddPhotos": "Add Photos",
+      "AddBio": "Add Bio",
+      "AddWebsite": "Add Website or Social Media",
+      "DisplayProfile": "Display Profile"
     }
   },
   "Musician": {
@@ -378,7 +404,10 @@
         "Username": "Username",
         "Fullname": "Full Name",
         "Gender": "Gender",
-        "Location": "Location"
+        "Location": "Location",
+        "YearsActive": "Years Active",
+        "TypeOfMusician": "Type of Musician",
+        "DateOfBirth": "Date of Birth"
       },
       "Placeholder": {
         "Username": "Add Username",
@@ -848,5 +877,18 @@
     "Rating": "Take a moment to rate this item",
     "Input": "Have you satisfied about this product?",
     "Placeholder": "Ex: I love this product, the finishing is very clean!"
+  },
+  "ProfileProgress": {
+    "Title": "Profile Progress",
+    "Card": {
+      "Title": "Profile & Account Information",
+      "Subtitle": "Tap to complete your account information"
+    },
+    "Title2": "Task To Complete",
+    "Tab": {
+      "AccountInformation": "Account Information",
+      "ProfileInformation": "Profile Information"
+    },
+    "SubtitleTooltip": "To finish this step, you need to fulfill this information below:"
   }
 }
