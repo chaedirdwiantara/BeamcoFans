@@ -40,6 +40,7 @@ import {HomeScreen} from '../screen/Home';
 import {ListImageScreen} from '../screen/ListItem/ListImage';
 import {ListMusicScreen} from '../screen/ListItem/ListMusic';
 import {ListPostScreen} from '../screen/ListItem/ListPost';
+import {ProfileProgressScreen} from '../screen/ProfileProgress';
 
 // Setting
 import {SettingScreen} from '../screen/Setting/Setting';
@@ -208,6 +209,7 @@ export type RootStackParams = {
   };
   Preference: undefined;
   PreferenceSetting: undefined;
+  ProfileProgress: undefined;
   PushNotification: undefined;
   RecoverAccount: undefined;
   Referral: undefined;
@@ -455,6 +457,10 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="Webview" component={WebviewPage} />
     <RootStack.Screen name="MusicPlayer" component={MusicPlayer} />
     <RootStack.Screen name="TopupCoin" component={TopupCoinScreen} />
+    <RootStack.Screen
+      name="ProfileProgress"
+      component={ProfileProgressScreen}
+    />
     <RootStack.Screen name="MerchDetail" component={MerchDetail} />
     <RootStack.Screen name="ConcertDetail" component={ConcertDetail} />
     <RootStack.Screen name="PhotoGallery" component={PhotoGallery} />
