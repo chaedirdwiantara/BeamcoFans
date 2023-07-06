@@ -491,13 +491,13 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
       ) : dataTemporary?.length === 0 &&
         postData?.message === 'you not follow anyone' ? (
         <>
-          <Gap height={195} />
+          <Gap height={Platform.OS === 'android' ? 195 : 145} />
           <ListToFollowMusician />
         </>
       ) : dataTemporary?.length === 0 &&
         postData?.message === 'you not subscribe any premium content' ? (
         <>
-          <Gap height={195} />
+          <Gap height={Platform.OS === 'android' ? 195 : 145} />
           <EmptyState
             text={t('EmptyState.Donate') || ''}
             containerStyle={{
