@@ -69,6 +69,7 @@ import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
 import {randomString} from '../utils/randomString';
+import {ProgressCard} from '../components/molecule/ListCard/ProgressCard';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -96,7 +97,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   } = useMusicianHook();
   const {dataDiveIn, dataAlbumComingSoon, getListDiveIn, getListComingSoon} =
     useHomeHook();
-  const {dataProfile, getProfileUser} = useProfileHook();
+  const {dataProfile, profileProgress, getProfileUser, getProfileProgress} =
+    useProfileHook();
   const {
     dataSong,
     dataNewSong,
@@ -170,6 +172,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   useFocusEffect(
     useCallback(() => {
       if (isLogin) {
+        // Auto update when progress change
+        getProfileProgress();
+
         if (selectedIndexMusician === 0) {
           getListDataMusician({filterBy: 'top'});
         } else if (selectedIndexMusician === 1) {
@@ -400,6 +405,10 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     return <View style={styles.root} />;
   }
 
+  const goToProfileProgress = () => {
+    navigation.navigate('ProfileProgress');
+  };
+
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
@@ -446,6 +455,13 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             onTouchStart={handleSearchButton}
           />
         </TouchableOpacity>
+        {isLogin && profileProgress?.stepProgress !== '100%' ? (
+          <ProgressCard
+            percentage={profileProgress?.stepProgress}
+            onPress={goToProfileProgress}
+            containerStyle={{marginTop: mvs(20)}}
+          />
+        ) : null}
         <Carousel
           data={
             dataBanner?.length === 0
