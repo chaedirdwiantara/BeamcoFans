@@ -1,37 +1,49 @@
 import React, {useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, NativeModules} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import Color from '../theme/Color';
+import {heightResponsive} from '../utils';
 import {RootStackParams} from '../navigations';
+import {storage} from '../hooks/use-storage.hook';
 import {ImageSlider, SsuStatusBar} from '../components';
 import {useProfileHook} from '../hooks/use-profile.hook';
+import {useSettingHook} from '../hooks/use-setting.hook';
 import {UpdateProfilePropsType} from '../api/profile.api';
 import {useMusicianHook} from '../hooks/use-musician.hook';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
-import {useSettingHook} from '../hooks/use-setting.hook';
+
+const {StatusBarManager} = NativeModules;
+const barHeight = StatusBarManager.HEIGHT;
 
 export const PreferenceScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {updateProfilePreference} = useProfileHook();
+  const {
+    infoStep,
+    updateProfilePreference,
+    getLastStepWizard,
+    setLastStepWizard,
+  } = useProfileHook();
   const {
     dataMusician,
     getListDataMusician,
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
-  const {getListPreference, listPreference, isLoading} = useSettingHook();
+  const {getListPreference, listPreference} = useSettingHook();
   useEffect(() => {
     getListDataMusician();
-    getListPreference();
+    getListPreference({perPage: 25});
+    getLastStepWizard();
   }, []);
 
-  const goToScreenReferral = () => {
+  const goToHome = () => {
+    storage.set('isPreference', false);
     navigation.reset({
       index: 0,
-      routes: [{name: 'Referral'}],
+      routes: [{name: 'MainTab'}],
     });
   };
 
@@ -41,7 +53,7 @@ export const PreferenceScreen: React.FC = () => {
       <ImageSlider
         type="Preference"
         data={listPreference}
-        onPress={goToScreenReferral}
+        onPress={goToHome}
         onUpdatePreference={(props?: UpdateProfilePropsType) =>
           updateProfilePreference(props)
         }
@@ -52,7 +64,8 @@ export const PreferenceScreen: React.FC = () => {
           setUnfollowMusician(props, {}, true)
         }
         dataList={dataMusician}
-        isLoading={isLoading}
+        infoStep={infoStep}
+        setLastStepWizard={setLastStepWizard}
       />
     </View>
   );
@@ -61,8 +74,7 @@ export const PreferenceScreen: React.FC = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: Color.Dark[800],
+    paddingTop: heightResponsive(barHeight + 25),
   },
 });
