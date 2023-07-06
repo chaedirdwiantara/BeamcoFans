@@ -38,3 +38,15 @@ export const getCity = async (
 
   return data;
 };
+
+export const getCityOfCountry = async (
+  props: DataStateProps,
+): Promise<CityResponseType> => {
+  const {data} = await SsuAPI().request<CityResponseType>({
+    url: '/cities',
+    method: 'POST',
+    data: new URLSearchParams(props).toString(),
+  });
+
+  return data;
+};

@@ -1,12 +1,17 @@
 import {useState} from 'react';
-import {getAllCountry, getCity, getState} from '../api/location.api';
+import {
+  getAllCountry,
+  getCity,
+  getCityOfCountry,
+  getState,
+} from '../api/location.api';
 import {
   formatValueNameCity,
   formatValueNameLocation,
   formatValueNameState,
 } from '../utils/formatValueName';
-import {DataStateProps} from '../interface/location.interface';
 import {DataDropDownType} from '../data/dropdown';
+import {DataStateProps} from '../interface/location.interface';
 
 export const useLocationHook = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +19,8 @@ export const useLocationHook = () => {
   const [dataStateInCountry, setDataStateInCountry] =
     useState<DataDropDownType[]>();
   const [dataCitiesInState, setDataCitiesInState] =
+    useState<DataDropDownType[]>();
+  const [dataCitiesOfCountry, setDataCitiesOfCountry] =
     useState<DataDropDownType[]>();
   const [isError, setIsError] = useState(false);
 
@@ -64,14 +71,33 @@ export const useLocationHook = () => {
     }
   };
 
+  const getCitiesOfCountry = async (props: DataStateProps) => {
+    setIsLoading(true);
+    try {
+      const response = await getCityOfCountry(props);
+      let newResp = formatValueNameCity(response.data);
+      newResp.sort((a, b) =>
+        a.value > b.value ? 1 : b.value > a.value ? -1 : 0,
+      );
+      setDataCitiesOfCountry(newResp);
+    } catch (error) {
+      setIsError(true);
+      setDataCitiesOfCountry([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     isError,
     dataAllCountry,
     dataStateInCountry,
     dataCitiesInState,
+    dataCitiesOfCountry,
     getDataAllCountry,
     getStateInCountry,
     getCitiesInState,
+    getCitiesOfCountry,
   };
 };
