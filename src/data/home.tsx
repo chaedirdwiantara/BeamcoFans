@@ -10,3 +10,12 @@ export const defaultBanner: BannerList[] = [
     isDefault: true,
   },
 ];
+
+export const listRequiredAccount: string[] = [
+  'Setting.Account.Label.DateOfBirth',
+  'Setting.Account.Label.Gender',
+  'Setting.Account.Label.Location',
+  'Setting.Preference.Label.Genre',
+];
+
+export const listRequiredProfile: string[] = ['Profile.Edit.DisplayProfile'];
