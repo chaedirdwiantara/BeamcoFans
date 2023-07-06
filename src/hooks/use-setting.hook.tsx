@@ -292,12 +292,16 @@ export const useSettingHook = () => {
     }
   };
 
-  const getListPreference = async () => {
+  const getListPreference = async (props?: ParamsProps) => {
     setIsError(false);
     setIsLoading(true);
     try {
-      const genre = await getListGenre({perPage: 100});
-      const mood = await getListMood({perPage: 100});
+      const genre = await getListGenre({
+        perPage: props?.perPage ? props.perPage : 100,
+      });
+      const mood = await getListMood({
+        perPage: props?.perPage ? props.perPage : 100,
+      });
       const expectation = await getListExpectations();
 
       setListMood(mood.data);
