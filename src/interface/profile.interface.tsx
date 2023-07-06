@@ -112,3 +112,40 @@ export type ProfileCountResponseType = {
   message: string;
   status: number;
 };
+
+export type LastStepResponseType = {
+  lastStep: number;
+};
+
+export type SetLastStepResponseType = {
+  code: number;
+  data: LastStepResponseType;
+  message: string;
+  status: number;
+};
+
+export type GetStepResponseType = {
+  lastStep: number;
+};
+
+export type GetLastStepResponseType = {
+  code: number;
+  data: GetStepResponseType;
+  message: string;
+  status: number;
+};
+
+export type ProfileProgressResponseType = {
+  stepProgress: string;
+  uncompleteList: {
+    accountInformation: string[];
+    profileInformation: string[];
+  };
+};
+
+export type GetProfileProgressResponseType = {
+  code: number;
+  data: ProfileProgressResponseType;
+  message: string;
+  status: number;
+};
