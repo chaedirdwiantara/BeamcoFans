@@ -66,7 +66,7 @@ export const ExclusiveContent: React.FC<ExclusiveProps> = ({
     const form = {
       musicianUUID: data?.musician?.uuid || '',
       packageID: selectedPlan?.ID || '',
-      packagePlanID: selectedPlan?.pricingPlans[0]?.ID || '',
+      packagePlanID: selectedPlan?.pricingPlans?.[0].ID || '',
     };
 
     const response = await subsNewEC(form);
@@ -120,7 +120,7 @@ export const ExclusiveContent: React.FC<ExclusiveProps> = ({
                   {t('ExclusiveContent.Choose')}
                 </Text>
                 {planList.map((val, i) =>
-                  val.id === data?.pricingPlans[0].durationUnit ? (
+                  val.id === data?.pricingPlans?.[0].durationUnit ? (
                     <PlanCard
                       key={i}
                       title={val.title}
