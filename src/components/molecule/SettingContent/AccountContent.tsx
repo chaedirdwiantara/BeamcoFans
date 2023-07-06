@@ -35,6 +35,8 @@ interface AccountProps {
   dataAllCountry: DataDropDownType[];
   moods: PreferenceList[];
   genres: PreferenceList[];
+  dataCitiesOfCountry: DataDropDownType[];
+  setSelectedCountry: (value: string) => void;
 }
 
 interface InputProps {
@@ -42,6 +44,7 @@ interface InputProps {
   fullname: string;
   gender: string;
   locationCountry: string;
+  locationCity: string;
 }
 
 const validation = yup.object({
@@ -49,8 +52,6 @@ const validation = yup.object({
     .string()
     .required('Username can not be blank, set a username')
     .matches(
-      // /^.{4,9}[a-z0-9]$/,
-      // 'Username should be between 5 to 10 alphanumeric characters',
       /^.{2,29}[a-z0-9]$/,
       'Username should be between 3 to 30 alphanumeric characters',
     ),
@@ -61,6 +62,7 @@ const validation = yup.object({
     .matches(/^.{3,50}$/, 'Fullname allowed 3 to 50 character'),
   gender: yup.string(),
   locationCountry: yup.string(),
+  locationCity: yup.string(),
 });
 
 export const AccountContent: React.FC<AccountProps> = ({
@@ -69,6 +71,8 @@ export const AccountContent: React.FC<AccountProps> = ({
   dataAllCountry,
   genres,
   moods,
+  dataCitiesOfCountry,
+  setSelectedCountry,
 }) => {
   const {t} = useTranslation();
   const [changes, setChanges] = useState(false);
@@ -242,6 +246,7 @@ export const AccountContent: React.FC<AccountProps> = ({
             <Dropdown.Input
               initialValue={value}
               data={dataGender}
+              isRequired={true}
               placeHolder={t('Setting.Account.Placeholder.Gender')}
               dropdownLabel={t('Setting.Account.Label.Gender')}
               textTyped={(newText: {label: string; value: string}) => {
@@ -255,27 +260,62 @@ export const AccountContent: React.FC<AccountProps> = ({
           )}
         />
 
-        <Controller
-          name="locationCountry"
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <Dropdown.Input
-              type="location"
-              initialValue={value}
-              data={dataAllCountry}
-              placeHolder={'Search Country'}
-              dropdownLabel={t('Setting.Account.Label.Location')}
-              textTyped={(newText: {label: string; value: string}) => {
-                onChange(newText.value);
-                setChanges(true);
-              }}
-              containerStyles={{marginTop: heightPercentage(15)}}
-              isError={errors?.locationCountry ? true : false}
-              errorMsg={errors?.locationCountry?.message}
-              searchText="Search country"
-            />
-          )}
-        />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: heightPercentage(4),
+          }}>
+          <Controller
+            name="locationCountry"
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <Dropdown.Input
+                type="location"
+                isRequired={true}
+                initialValue={value}
+                data={dataAllCountry}
+                placeHolder={t('Setting.Shipping.Placeholder.Country') || ''}
+                dropdownLabel={t('Setting.Account.Label.Location') || ''}
+                textTyped={(newText: {label: string; value: string}) => {
+                  onChange(newText.value);
+                  setSelectedCountry(newText.value);
+                  setChanges(true);
+                }}
+                containerStyles={{
+                  marginTop: heightPercentage(16),
+                  width: '49%',
+                }}
+                isError={errors?.locationCountry ? true : false}
+                errorMsg={errors?.locationCountry?.message}
+              />
+            )}
+          />
+
+          <Controller
+            name="locationCity"
+            control={control}
+            render={({field: {onChange, value}}) => (
+              <Dropdown.Input
+                initialValue={value}
+                data={dataCitiesOfCountry}
+                showSearch={true}
+                placeHolder={t('Setting.Shipping.Placeholder.City') || ''}
+                dropdownLabel={''}
+                textTyped={(newText: {label: string; value: string}) => {
+                  onChange(newText.value);
+                  setChanges(true);
+                }}
+                containerStyles={{
+                  marginTop: heightPercentage(15),
+                  width: '49%',
+                }}
+                isError={errors?.locationCity ? true : false}
+                errorMsg={errors?.locationCity?.message}
+              />
+            )}
+          />
+        </View>
 
         <Dropdown.Multi
           data={formatValueName(genres) ?? []}
@@ -284,6 +324,7 @@ export const AccountContent: React.FC<AccountProps> = ({
           textTyped={(_newText: string) => null}
           containerStyles={{marginTop: heightPercentage(15)}}
           initialValue={valueGenres}
+          isRequired={true}
           setValues={val => setValueGenres(val)}
         />
 

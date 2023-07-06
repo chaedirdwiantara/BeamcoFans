@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -14,14 +14,29 @@ export const AccountScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataProfile, getProfileUser} = useProfileHook();
-  const {dataAllCountry, getDataAllCountry} = useLocationHook();
+  const {
+    dataAllCountry,
+    dataCitiesOfCountry,
+    getDataAllCountry,
+    getCitiesOfCountry,
+  } = useLocationHook();
   const {getListMoodGenre, listGenre, listMood} = useSettingHook();
+
+  const [selectedCountry, setSelectedCountry] = useState<string>(
+    dataProfile?.data.locationCountry || '',
+  );
 
   useEffect(() => {
     getProfileUser();
     getDataAllCountry();
     getListMoodGenre({page: 0, perPage: 30});
   }, []);
+
+  useEffect(() => {
+    if (selectedCountry) {
+      getCitiesOfCountry({country: selectedCountry});
+    }
+  }, [selectedCountry]);
 
   const onPressGoBack = () => {
     navigation.goBack();
@@ -36,6 +51,10 @@ export const AccountScreen: React.FC = () => {
           moods={listMood}
           genres={listGenre}
           onPressGoBack={onPressGoBack}
+          dataCitiesOfCountry={
+            dataCitiesOfCountry !== undefined ? dataCitiesOfCountry : []
+          }
+          setSelectedCountry={setSelectedCountry}
         />
       )}
     </View>
