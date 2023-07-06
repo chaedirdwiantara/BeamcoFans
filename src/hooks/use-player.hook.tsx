@@ -81,7 +81,7 @@ export const usePlayerHook = () => {
           artwork:
             item.imageUrl.length !== 0 ? item.imageUrl[1].image : dummySongImg,
           id: item.id,
-          musicianId: item.musicianId,
+          musicianId: item.musicianId || item.musicianUUID,
         };
       });
       if (playSongId) {
