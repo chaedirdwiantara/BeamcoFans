@@ -130,7 +130,7 @@ export type DataExclusiveResponse = {
     ID?: string;
     duration?: number;
     durationUnit?: string;
-    price?: number;
+    price: number;
   }[];
   createdAt?: string;
   updatedAt?: string;
