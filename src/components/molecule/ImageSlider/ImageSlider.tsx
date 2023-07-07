@@ -8,27 +8,25 @@ import {
   NativeSyntheticEvent,
   Image,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
 
 import {
-  heightPercentage,
-  heightResponsive,
-  width,
-  widthPercentage,
-} from '../../../utils';
-import Color from '../../../theme/Color';
+  GetStepResponseType,
+  LastStepResponseType,
+} from '../../../interface/profile.interface';
 import {FooterContent} from './FooterContent';
 import {
-  FollowMusicianPropsType,
   MusicianList,
+  FollowMusicianPropsType,
 } from '../../../interface/musician.interface';
-import Typography from '../../../theme/Typography';
+import {DataOnboardType} from '../../../data/onboard';
+import {color, font, typography} from '../../../theme';
 import {ListCard, SelectBox} from '../../../components';
 import {UpdateProfilePropsType} from '../../../api/profile.api';
-import {ModalLoading} from '../ModalLoading/ModalLoading';
-import {DataOnboardType} from '../../../data/onboard';
-import {useTranslation} from 'react-i18next';
+import {heightResponsive, width, widthPercentage} from '../../../utils';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -42,7 +40,8 @@ interface ImageSliderProps {
   setFollowMusician: (props?: FollowMusicianPropsType) => void;
   setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
   dataList?: MusicianList[];
-  isLoading: boolean;
+  setLastStepWizard?: (props: LastStepResponseType) => void;
+  infoStep?: GetStepResponseType;
 }
 
 export const ImageSlider: React.FC<ImageSliderProps> = ({
@@ -53,7 +52,8 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   setFollowMusician,
   setUnfollowMusician,
   dataList,
-  isLoading,
+  setLastStepWizard,
+  infoStep,
 }) => {
   const {t} = useTranslation();
   const scrollViewRef = useRef<ScrollView>(null);
@@ -64,25 +64,38 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   );
   const [activeIndexSlide, setActiveIndexSlide] = useState<number>(0);
   const [listMusician, setListMusician] = useState(dataList);
-  const [loadingSave, setLoadingSave] = useState(false);
 
   const selectedData = [selectedGenres, selectedMoods, selectedExpectations];
 
   const dataArray = [
     {
-      title: t('Preference.Genre'),
+      step: t('Preference.Step.Step1'),
+      title: t('Preference.Title.Title1'),
+      subtitle: t('Preference.Subtitle.Subtitle1'),
       list: data.genre,
     },
     {
-      title: t('Preference.Mood'),
+      step: t('Preference.Step.Step2'),
+      title: t('Preference.Title.Title2'),
+      subtitle: t('Preference.Subtitle.Subtitle2'),
       list: data.mood,
     },
     {
-      title: t('Preference.Support'),
+      step: t('Preference.Step.Step3'),
+      title: t('Preference.Title.Title3'),
+      subtitle: t('Preference.Subtitle.Subtitle3'),
       list: data.expectation,
     },
     {
-      title: t('Preference.Musician'),
+      step: t('Preference.Step.Step4'),
+      title: t('Preference.Title.Title4'),
+      subtitle: t('Preference.Subtitle.Subtitle4'),
+      list: [],
+    },
+    {
+      step: t('Preference.Step.Step5'),
+      title: t('Preference.Title.Title5'),
+      subtitle: t('Preference.Subtitle.Subtitle5'),
       list: [],
     },
   ];
@@ -92,6 +105,18 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
       setListMusician(dataList);
     }
   }, [dataList]);
+
+  useEffect(() => {
+    if (infoStep) {
+      const newIndex = infoStep.lastStep;
+      setActiveIndexSlide(newIndex);
+      scrollViewRef.current?.scrollTo({
+        x: width * newIndex,
+        y: 0,
+        animated: true,
+      });
+    }
+  }, [infoStep]);
 
   const followOnPress = (index: string, isFollowed: boolean) => {
     if (listMusician !== undefined) {
@@ -109,34 +134,21 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   };
 
   const handleNextSlide = async () => {
-    if (activeIndexSlide === 2 && onUpdatePreference) {
-      setLoadingSave(true);
+    if (activeIndexSlide < 3 && onUpdatePreference) {
       onUpdatePreference({
         favoriteGeneres: selectedGenres,
         moods: selectedMoods,
         expectations: selectedExpectations,
       });
     }
-    if (activeIndexSlide === 2) {
-      setTimeout(() => {
-        setLoadingSave(false);
-        const newIndex = activeIndexSlide + 1;
-        setActiveIndexSlide(newIndex);
-        scrollViewRef.current?.scrollTo({
-          x: width * newIndex,
-          y: 0,
-          animated: true,
-        });
-      }, 2000);
-    } else {
-      const newIndex = activeIndexSlide + 1;
-      setActiveIndexSlide(newIndex);
-      scrollViewRef.current?.scrollTo({
-        x: width * newIndex,
-        y: 0,
-        animated: true,
-      });
-    }
+    const newIndex = activeIndexSlide + 1;
+    setActiveIndexSlide(newIndex);
+    setLastStepWizard && setLastStepWizard({lastStep: newIndex});
+    scrollViewRef.current?.scrollTo({
+      x: width * newIndex,
+      y: 0,
+      animated: true,
+    });
   };
 
   const onPressBack = () => {
@@ -158,10 +170,17 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
       : onPress;
   };
 
+  const lastOnPress = () => {
+    onPress();
+    if (setLastStepWizard) {
+      setLastStepWizard({lastStep: dataArray.length});
+    }
+  };
+
   const onPressNext =
     type === 'Preference'
       ? activeIndexSlide === dataArray.length - 1
-        ? onPress
+        ? lastOnPress
         : handleNextSlide
       : activeIndexSlide === data.length - 1
       ? onPress
@@ -173,7 +192,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
           height: '80%',
         }
       : {
-          height: '60%',
+          height: Platform.OS === 'ios' ? '60%' : '65%',
         };
 
   return (
@@ -191,7 +210,6 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
           contentContainerStyle={[styles.containerScrollView, heightContent]}
           scrollEnabled={false}>
           {dataArray.map((item, index) => {
-            // TODO: render list of the favourites
             const selected =
               index === 0
                 ? selectedGenres
@@ -209,9 +227,18 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
             if (index === 3) {
               return (
                 <View key={index} style={{paddingVertical: mvs(30)}}>
-                  <Text style={[Typography.Heading4, styles.title]}>
-                    {item.title}
-                  </Text>
+                  <TouchableOpacity
+                    style={styles.containerSkip}
+                    onPress={onPress}>
+                    <Text style={styles.textSkip}>{t('Btn.Skip')}</Text>
+                  </TouchableOpacity>
+                  <View style={[styles.containerStep, {paddingTop: 0}]}>
+                    <Text style={styles.textStep}>{item.step}</Text>
+                    <Text style={[typography.Heading4, styles.title]}>
+                      {item.title}
+                    </Text>
+                    <Text style={styles.textSubtitle}>{item.subtitle}</Text>
+                  </View>
                   <View style={{height: '65%'}}>
                     <ScrollView>
                       {listMusician &&
@@ -248,15 +275,24 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
               );
             } else {
               return (
-                <View key={index} style={{paddingTop: heightPercentage(40)}}>
-                  <Text style={[Typography.Heading4, styles.title]}>
-                    {item.title}
-                  </Text>
-                  <SelectBox
-                    selected={selected}
-                    setSelected={setSelected}
-                    data={item.list}
-                  />
+                <View key={index}>
+                  <TouchableOpacity
+                    style={styles.containerSkip}
+                    onPress={onPress}>
+                    <Text style={styles.textSkip}>{t('Btn.Skip')}</Text>
+                  </TouchableOpacity>
+                  <View style={styles.containerStep}>
+                    <Text style={styles.textStep}>{item.step}</Text>
+                    <Text style={[typography.Heading4, styles.title]}>
+                      {item.title}
+                    </Text>
+                    <Text style={styles.textSubtitle}>{item.subtitle}</Text>
+                    <SelectBox
+                      selected={selected}
+                      setSelected={setSelected}
+                      data={item.list}
+                    />
+                  </View>
                 </View>
               );
             }
@@ -296,7 +332,6 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         onPressNext={onPressNext}
         selectedData={selectedData}
       />
-      <ModalLoading visible={isLoading || loadingSave} />
     </View>
   );
 };
@@ -304,15 +339,12 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: Color.Dark[800],
+    backgroundColor: color.Dark[800],
     justifyContent: 'center',
     alignItems: 'center',
   },
   containerScrollView: {
-    justifyContent: 'center',
-    alignItems: 'center',
     height: '100%',
-    // marginBottom: heightPercentage(20)
   },
   image: {
     width,
@@ -320,7 +352,43 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    color: Color.Neutral[10],
-    marginBottom: heightPercentage(32),
+    color: color.Neutral[10],
+    marginTop: mvs(5),
+    marginBottom: mvs(15),
+  },
+  containerStep: {
+    paddingTop: mvs(40),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  containerSkip: {
+    position: 'absolute',
+    right: widthPercentage(30),
+    zIndex: 1,
+  },
+  textSkip: {
+    fontSize: mvs(14),
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    lineHeight: mvs(17),
+    color: color.Success[400],
+  },
+  textStep: {
+    fontSize: mvs(12),
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    lineHeight: mvs(14.5),
+    color: color.Neutral[10],
+    textAlign: 'center',
+  },
+  textSubtitle: {
+    fontSize: mvs(12),
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    lineHeight: mvs(14.5),
+    color: '#788AA9',
+    textAlign: 'center',
+    maxWidth: width * 0.8,
+    marginBottom: mvs(25),
   },
 });

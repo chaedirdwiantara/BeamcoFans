@@ -41,7 +41,7 @@ export const FooterContent: React.FC<FooterContentProps> = ({
       style={[
         styles.containerFooterContent,
         {
-          height: type === 'Preference' ? '25%' : '35%',
+          height: type === 'Preference' ? '22%' : '35%',
         },
       ]}>
       {type !== 'Preference' &&
@@ -65,35 +65,27 @@ export const FooterContent: React.FC<FooterContentProps> = ({
       />
       {type === 'Preference' ? (
         <>
-          <Gap height={heightPercentage(45)} />
+          <Gap height={heightPercentage(20)} />
           <View style={styles.footer}>
             {activeIndexSlide === 0 ? (
               <ButtonGradient
                 label={t('Btn.Next')}
                 onPress={onPressNext}
                 gradientStyles={styles.btnFull}
-                disabled={selectedData[0].length === 0}
               />
             ) : (
               <>
                 <Button
                   type="border"
-                  label={activeIndexSlide === 3 ? t('Btn.Skip') : t('Btn.Back')}
+                  label={t('Btn.Back')}
                   containerStyles={styles.btnContainer}
                   textStyles={{color: Color.Success[400]}}
-                  onPress={activeIndexSlide === 3 ? onPressGoTo : onPressBack}
+                  onPress={onPressBack}
                 />
                 <ButtonGradient
-                  label={
-                    activeIndexSlide === 3 ? t('Btn.Finish') : t('Btn.Next')
-                  }
+                  label={t('Btn.Next')}
                   onPress={onPressNext}
                   gradientStyles={styles.btnContainer}
-                  disabled={
-                    activeIndexSlide < 3
-                      ? selectedData[activeIndexSlide].length === 0
-                      : false
-                  }
                 />
               </>
             )}

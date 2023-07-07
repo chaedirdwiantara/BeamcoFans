@@ -27,7 +27,6 @@ export const OnboardScreen: React.FC = () => {
         onPress={goToScreenGuest}
         setFollowMusician={() => null}
         setUnfollowMusician={() => null}
-        isLoading={false}
       />
     </View>
   );

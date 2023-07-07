@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Platform, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
 import {MultiSelect} from 'react-native-element-dropdown';
+
 import {CheckBox} from '../../atom';
 import {color, font, typography} from '../../../theme';
 import {heightPercentage, widthPercentage} from '../../../utils';
@@ -20,6 +22,7 @@ interface InputDropdownProps {
   initialValue?: (number | undefined)[] | null;
   setValues: (val: number[]) => void;
   disable?: boolean;
+  isRequired?: boolean;
 }
 
 const borderColor = color.Dark[500];
@@ -29,6 +32,7 @@ const fontColorMain = color.Neutral[10];
 const MultiDropdown: React.FC<InputDropdownProps> = (
   props: InputDropdownProps,
 ) => {
+  const {t} = useTranslation();
   const {
     initialValue,
     data,
@@ -38,6 +42,7 @@ const MultiDropdown: React.FC<InputDropdownProps> = (
     containerStyles,
     setValues,
     disable,
+    isRequired = false,
   } = props;
 
   const [value, setValue] = useState(initialValue ?? []);
@@ -48,16 +53,27 @@ const MultiDropdown: React.FC<InputDropdownProps> = (
 
   const renderLabel = () => {
     return (
-      <Text
-        style={[
-          typography.Overline,
-          {
-            color: color.Neutral[50],
-            paddingLeft: Platform.OS === 'ios' ? 0 : widthPercentage(4),
-          },
-        ]}>
-        {dropdownLabel}
-      </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <Text
+          style={[
+            typography.Overline,
+            {
+              color: color.Neutral[50],
+              paddingLeft: Platform.OS === 'ios' ? 0 : widthPercentage(4),
+            },
+          ]}>
+          {dropdownLabel}
+        </Text>
+        {isRequired && (
+          <Text style={[typography.Overline, {color: color.Pink[200]}]}>
+            {' *' + t('General.Required')}
+          </Text>
+        )}
+      </View>
     );
   };
 

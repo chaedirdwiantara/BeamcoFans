@@ -19,7 +19,8 @@
       "Music": "分享歌曲",
       "Playlist": "Share Playlist"
     },
-    "NoDescription": "No Description Given"
+    "NoDescription": "No Description Given",
+    "Required": "Required"
   },
   "Onboarding": {
     "Step1": {
@@ -313,7 +314,11 @@
       "HeaderPicture": "修改標題圖片",
       "Take": "拍攝照片",
       "Add": "由相簿添加",
-      "Delete": "刪除照片"
+      "Delete": "刪除照片",
+      "AddPhotos": "Add Photos",
+      "AddBio": "Add Bio",
+      "AddWebsite": "Add Website or Social Media",
+      "DisplayProfile": "Display Profile"
     }
   },
   "Musician": {
@@ -376,7 +381,10 @@
         "Username": "用戶名",
         "Fullname": "全名",
         "Gender": "性別",
-        "Location": "地點"
+        "Location": "地點",
+        "YearsActive": "Years Active",
+        "TypeOfMusician": "Type of Musician",
+        "DateOfBirth": "Date of Birth"
       },
       "Placeholder": {
         "Username": "Add Username",
@@ -847,5 +855,18 @@
     "Rating": "Take a moment to rate this item",
     "Input": "Have you satisfied about this product?",
     "Placeholder": "Ex: I love this product, the finishing is very clean!"
+  },
+  "ProfileProgress": {
+    "Title": "Profile Progress",
+    "Card": {
+      "Title": "Profile & Account Information",
+      "Subtitle": "Tap to complete your account information"
+    },
+    "Title2": "Task To Complete",
+    "Tab": {
+      "AccountInformation": "Account Information",
+      "ProfileInformation": "Profile Information"
+    },
+    "SubtitleTooltip": "To finish this step, you need to fulfill this information below:"
   }
 }
