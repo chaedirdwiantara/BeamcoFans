@@ -555,6 +555,42 @@
         "Success": "恭喜！ 現在您每筆交易將獲得 5% 的積分！"
       }
     },
+    "ReferralQR": {
+      "Title": "Referral Code",
+      "ReferFriend": {
+        "Title": "REFER A FRIEND",
+        "Text1": "Refer a friend and earn 50 free credits",
+        "Text2": "Use your @username as referral code",
+        "Btn1": "Refer a friend using link",
+        "Btn2": "Read Terms of Use"
+      },
+      "UseRefer": {
+        "Title": "USE REFERRAL",
+        "Text1": "Earn 50 free credits",
+        "Text2": "Your Friend’s Referral Code",
+        "Text3": "Referral code can not be changed",
+        "Invalid": "Referral code invalid"
+      },
+      "OnBoard": {
+        "Title": "Scan QR Code to Earn Bonuses!",
+        "Subtitle": "Scan referral code by pressing scan now button, to earn some free stuff and bonuses",
+        "Actived": "Referral Activated",
+        "SuccessTitle": "Your scan was successful!",
+        "SuccessDesc": "Congratulations! now you will get 5% credit every transaction!",
+        "Continue": "Continue",
+        "Next": "Next",
+        "DividerOnScan": "Or",
+        "DividerOnManualEnter": "Or Try Another Method",
+        "ReferralAdded": "Referral Code Added",
+        "BtnScan": "Scan Now",
+        "BtnManual": "Enter Manually"
+      },
+      "ScanFailed": {
+        "Title": "Scan QR Code",
+        "Desc": "Referral Code invalid, Scan another QR Code",
+        "Btn": "Dismiss"
+      }
+    },
     "Language": {
       "Title": "語言",
       "Placeholder": "Select Language",
@@ -757,7 +793,7 @@
       "Buy": "Buy Package",
       "Transaction": "Transaction"
     },
-    "EmptyState" : {
+    "EmptyState": {
       "Transaction": "The transaction list will be displayed here, but as of now, no transactions have been made."
     }
   },
