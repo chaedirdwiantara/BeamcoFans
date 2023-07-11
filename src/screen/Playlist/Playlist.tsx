@@ -179,7 +179,7 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
           goToEditPlaylist={goToEditPlaylist}
           goBackProfile={val =>
             route.params.from === 'other'
-              ? handleBackAction
+              ? handleBackAction()
               : goBackProfile(val)
           }
           goToAddSong={goToAddSong}
