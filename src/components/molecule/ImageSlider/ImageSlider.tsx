@@ -24,9 +24,10 @@ import {
 } from '../../../interface/musician.interface';
 import {DataOnboardType} from '../../../data/onboard';
 import {color, font, typography} from '../../../theme';
-import {ListCard, SelectBox} from '../../../components';
+import {ListCard, ReferralContent, SelectBox} from '../../../components';
 import {UpdateProfilePropsType} from '../../../api/profile.api';
 import {heightResponsive, width, widthPercentage} from '../../../utils';
+import {useProfileHook} from '../../../hooks/use-profile.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -56,6 +57,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   infoStep,
 }) => {
   const {t} = useTranslation();
+  const {isValidReferral, errorMsg, applyReferralUser} = useProfileHook();
   const scrollViewRef = useRef<ScrollView>(null);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [selectedMoods, setSelectedMoods] = useState<number[]>([]);
@@ -66,6 +68,27 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   const [listMusician, setListMusician] = useState(dataList);
 
   const selectedData = [selectedGenres, selectedMoods, selectedExpectations];
+
+  // Refferal Content
+  const [isScanFailed, setIsScanFailed] = useState<boolean>(false);
+  const [refCode, setRefCode] = useState<string>('');
+  const [isScanning, setIsScanning] = useState<boolean>(false);
+  const [isScanSuccess, setIsScanSuccess] = useState<boolean>(false);
+  const [isManualEnter, setIsManualEnter] = useState<boolean>(false);
+  const [isScanned, setIsScanned] = useState(false);
+
+  const onApplyReferral = (referralCode: string) => {
+    applyReferralUser(referralCode);
+  };
+
+  const handleSkipFailed = () => {
+    console.log('handle skip');
+
+    setIsScanFailed(false);
+    setIsScanning(true);
+    setIsScanned(false);
+    setRefCode('');
+  };
 
   const dataArray = [
     {
@@ -198,106 +221,152 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   return (
     <View style={styles.root}>
       {type === 'Preference' ? (
-        <ScrollView
-          ref={scrollViewRef}
-          horizontal={true}
-          pagingEnabled={true}
-          snapToInterval={width}
-          decelerationRate="fast"
-          scrollEventThrottle={200}
-          snapToAlignment={'center'}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={[styles.containerScrollView, heightContent]}
-          scrollEnabled={false}>
-          {dataArray.map((item, index) => {
-            const selected =
-              index === 0
-                ? selectedGenres
-                : index === 1
-                ? selectedMoods
-                : selectedExpectations;
+        <>
+          {isScanFailed && !isScanSuccess ? (
+            <View style={styles.backgroundFailed}>
+              <View style={styles.containerFailed}>
+                <Text style={[typography.Heading6, styles.titleStart]}>
+                  {t('Setting.ReferralQR.ScanFailed.Title')}
+                </Text>
+                <Text style={[typography.Body1, styles.titleStart]}>
+                  {t('Setting.ReferralQR.ScanFailed.Desc')}
+                </Text>
+                <TouchableOpacity onPress={handleSkipFailed}>
+                  <Text style={[typography.Body2, styles.titleEnd]}>
+                    {t('Setting.ReferralQR.ScanFailed.Btn')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            ''
+          )}
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal={true}
+            pagingEnabled={true}
+            snapToInterval={width}
+            decelerationRate="fast"
+            scrollEventThrottle={200}
+            snapToAlignment={'center'}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={[styles.containerScrollView, heightContent]}
+            scrollEnabled={false}>
+            {dataArray.map((item, index) => {
+              const selected =
+                index === 0
+                  ? selectedGenres
+                  : index === 1
+                  ? selectedMoods
+                  : selectedExpectations;
 
-            const setSelected =
-              index === 0
-                ? setSelectedGenres
-                : index === 1
-                ? setSelectedMoods
-                : setSelectedExpectations;
+              const setSelected =
+                index === 0
+                  ? setSelectedGenres
+                  : index === 1
+                  ? setSelectedMoods
+                  : setSelectedExpectations;
 
-            if (index === 3) {
-              return (
-                <View key={index} style={{paddingVertical: mvs(30)}}>
-                  <TouchableOpacity
-                    style={styles.containerSkip}
-                    onPress={onPress}>
-                    <Text style={styles.textSkip}>{t('Btn.Skip')}</Text>
-                  </TouchableOpacity>
-                  <View style={[styles.containerStep, {paddingTop: 0}]}>
-                    <Text style={styles.textStep}>{item.step}</Text>
-                    <Text style={[typography.Heading4, styles.title]}>
-                      {item.title}
-                    </Text>
-                    <Text style={styles.textSubtitle}>{item.subtitle}</Text>
+              if (index === 3) {
+                return (
+                  <View key={index} style={{paddingVertical: mvs(30)}}>
+                    <TouchableOpacity
+                      style={styles.containerSkip}
+                      onPress={onPress}>
+                      <Text style={styles.textSkip}>{t('Btn.Skip')}</Text>
+                    </TouchableOpacity>
+                    <View style={[styles.containerStep, {paddingTop: 0}]}>
+                      <Text style={styles.textStep}>{item.step}</Text>
+                      <Text style={[typography.Heading4, styles.title]}>
+                        {item.title}
+                      </Text>
+                      <Text style={styles.textSubtitle}>{item.subtitle}</Text>
+                    </View>
+                    <View style={{height: '65%'}}>
+                      <ScrollView>
+                        {listMusician &&
+                          listMusician?.map((musician, i) => (
+                            <View
+                              key={i}
+                              style={{
+                                width,
+                                paddingHorizontal: widthPercentage(15),
+                                paddingBottom:
+                                  i === listMusician.length - 1
+                                    ? heightResponsive(20)
+                                    : 0,
+                              }}>
+                              <ListCard.FollowMusician
+                                musicianName={musician.fullname}
+                                imgUri={musician.imageProfileUrls}
+                                containerStyles={{marginTop: mvs(20)}}
+                                followerCount={musician.followers}
+                                followOnPress={() =>
+                                  followOnPress(
+                                    musician.uuid,
+                                    musician.isFollowed,
+                                  )
+                                }
+                                stateButton={musician.isFollowed}
+                                toDetailOnPress={() => null}
+                              />
+                            </View>
+                          ))}
+                      </ScrollView>
+                    </View>
                   </View>
-                  <View style={{height: '65%'}}>
-                    <ScrollView>
-                      {listMusician &&
-                        listMusician?.map((musician, i) => (
-                          <View
-                            key={i}
-                            style={{
-                              width,
-                              paddingHorizontal: widthPercentage(15),
-                              paddingBottom:
-                                i === listMusician.length - 1
-                                  ? heightResponsive(20)
-                                  : 0,
-                            }}>
-                            <ListCard.FollowMusician
-                              musicianName={musician.fullname}
-                              imgUri={musician.imageProfileUrls}
-                              containerStyles={{marginTop: mvs(20)}}
-                              followerCount={musician.followers}
-                              followOnPress={() =>
-                                followOnPress(
-                                  musician.uuid,
-                                  musician.isFollowed,
-                                )
-                              }
-                              stateButton={musician.isFollowed}
-                              toDetailOnPress={() => null}
-                            />
-                          </View>
-                        ))}
-                    </ScrollView>
+                );
+              } else if (index === 4) {
+                return (
+                  <View key={index} style={{paddingVertical: mvs(30)}}>
+                    <View style={{height: '95%'}}>
+                      <ReferralContent
+                        onSkip={onPress}
+                        onPress={onApplyReferral}
+                        isError={errorMsg !== ''}
+                        errorMsg={errorMsg}
+                        isValidRef={isValidReferral}
+                        setIsScanFailed={setIsScanFailed}
+                        refCode={refCode}
+                        setRefCode={setRefCode}
+                        isScanning={isScanning}
+                        setIsScanning={setIsScanning}
+                        isScanSuccess={isScanSuccess}
+                        setIsScanSuccess={setIsScanSuccess}
+                        isScanned={isScanned}
+                        setIsScanned={setIsScanned}
+                        isManualEnter={isManualEnter}
+                        setIsManualEnter={setIsManualEnter}
+                      />
+                    </View>
                   </View>
-                </View>
-              );
-            } else {
-              return (
-                <View key={index}>
-                  <TouchableOpacity
-                    style={styles.containerSkip}
-                    onPress={onPress}>
-                    <Text style={styles.textSkip}>{t('Btn.Skip')}</Text>
-                  </TouchableOpacity>
-                  <View style={styles.containerStep}>
-                    <Text style={styles.textStep}>{item.step}</Text>
-                    <Text style={[typography.Heading4, styles.title]}>
-                      {item.title}
-                    </Text>
-                    <Text style={styles.textSubtitle}>{item.subtitle}</Text>
-                    <SelectBox
-                      selected={selected}
-                      setSelected={setSelected}
-                      data={item.list}
-                    />
+                );
+              } else {
+                return (
+                  <View key={index}>
+                    <TouchableOpacity
+                      style={styles.containerSkip}
+                      onPress={onPress}>
+                      <Text style={styles.textSkip}>{t('Btn.Skip')}</Text>
+                    </TouchableOpacity>
+                    <View style={styles.containerStep}>
+                      <Text style={styles.textStep}>{item.step}</Text>
+                      <Text style={[typography.Heading4, styles.title]}>
+                        {item.title}
+                      </Text>
+                      <Text style={styles.textSubtitle}>{item.subtitle}</Text>
+                      <SelectBox
+                        selected={selected}
+                        setSelected={setSelected}
+                        data={item.list}
+                      />
+                    </View>
                   </View>
-                </View>
-              );
-            }
-          })}
-        </ScrollView>
+                );
+              }
+            })}
+          </ScrollView>
+        </>
       ) : (
         <ScrollView
           ref={scrollViewRef}
@@ -356,6 +425,15 @@ const styles = StyleSheet.create({
     marginTop: mvs(5),
     marginBottom: mvs(15),
   },
+  titleStart: {
+    color: color.Neutral[10],
+    marginVertical: mvs(10),
+  },
+  titleEnd: {
+    textAlign: 'right',
+    color: color.Neutral[10],
+    marginVertical: mvs(10),
+  },
   containerStep: {
     paddingTop: mvs(40),
     justifyContent: 'center',
@@ -389,6 +467,23 @@ const styles = StyleSheet.create({
     color: '#788AA9',
     textAlign: 'center',
     maxWidth: width * 0.8,
-    marginBottom: mvs(25),
+    marginBottom: mvs(30),
+  },
+  backgroundFailed: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    zIndex: 10,
+    borderRadius: 4,
+    padding: 16,
+    gap: 16,
+    alignItems: 'center',
+  },
+  containerFailed: {
+    width: '90%',
+    marginTop: 220,
+    backgroundColor: color.Dark[800],
+    padding: 24,
   },
 });
