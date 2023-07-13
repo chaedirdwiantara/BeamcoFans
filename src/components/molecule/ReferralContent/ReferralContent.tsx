@@ -16,6 +16,7 @@ import ReferralQRSuccessImage from '../../../assets/image/ReferralQRSuccess.imag
 import SigninIcon from '../../../assets/icon/Signin.icon';
 
 interface ReferralContentProps {
+  isOnSetting?: boolean;
   containerStyle?: ViewStyle;
   onPress?: (refCode: string) => void;
   onSkip?: () => void;
@@ -24,6 +25,7 @@ interface ReferralContentProps {
   isValidRef: boolean | null;
   refCode: string;
   setRefCode: (value: string) => void;
+  referralFrom?: string | null;
   isScanning: boolean;
   setIsScanning: (value: boolean) => void;
   isScanSuccess: boolean;
@@ -40,6 +42,7 @@ interface ActivatedProps {
 }
 
 const titleToScan = 'Setting.ReferralQR.OnBoard.Title';
+const titleActivated = 'Setting.ReferralQR.OnBoard.Activated';
 const titleScanSuccess = 'Setting.ReferralQR.OnBoard.SuccessTitle';
 const descriptionToScan = 'Setting.ReferralQR.OnBoard.Subtitle';
 const descriptionScanSuccess = 'Setting.ReferralQR.OnBoard.SuccessDesc';
@@ -51,7 +54,7 @@ const BtnManual = 'Setting.ReferralQR.OnBoard.BtnManual';
 const friendReferral = 'Setting.ReferralQR.UseRefer.Text2';
 const refCannotBeChanged = 'Setting.ReferralQR.UseRefer.Text3';
 
-const ReferralActivated: React.FC<ActivatedProps> = ({refCode}) => {
+export const ReferralActivated: React.FC<ActivatedProps> = ({refCode}) => {
   const {t} = useTranslation();
   return (
     <View style={styles.containerActivated}>
@@ -72,6 +75,7 @@ const ReferralActivated: React.FC<ActivatedProps> = ({refCode}) => {
 };
 
 export const ReferralContent: React.FC<ReferralContentProps> = ({
+  isOnSetting,
   containerStyle,
   onPress,
   onSkip,
@@ -80,6 +84,7 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
   isValidRef,
   refCode,
   setRefCode,
+  referralFrom,
   isScanning,
   setIsScanning,
   isScanSuccess,
@@ -110,17 +115,18 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
     if (isScanning) {
       getPermission();
     }
+    console.log('isscanning check:', isScanning);
   }, [isScanning]);
 
   useEffect(() => {
-    if (isValidRef) {
-      setIsScanSuccess(isValidRef);
-    } else if (!isValidRef && isScanning) {
+    if (isValidRef || referralFrom !== null) {
+      setIsScanSuccess(true);
+    } else if ((!isValidRef || referralFrom !== null) && isScanning) {
       setIsScanFailed(true);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isValidRef]);
+  }, [isValidRef, referralFrom]);
 
   // QRCode
   const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE]);
@@ -156,11 +162,15 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
   const handleScanning = () => {
     setIsScanning(true);
     setIsManualEnter(false);
+
+    console.log('isscanning true :', isScanning);
   };
 
   const handleManualEnter = () => {
     setIsManualEnter(true);
     setIsScanning(false);
+
+    console.log('isscanning false :', isScanning);
   };
 
   const handleFocusInput = (input: string | null) => {
@@ -180,27 +190,53 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
 
   return (
     <View style={[styles.root, containerStyle]}>
-      <View style={{width: 5}}>
-        <Button
-          label={t('Btn.Skip')}
-          type="border"
-          borderColor="transparent"
-          textStyles={{fontSize: mvs(14), color: color.Success[400]}}
-          onPress={() => {
-            onSkip && onSkip();
-          }}
-        />
-      </View>
-      <Text style={[Typography.Subtitle2, styles.preTitle]}>Step 5 of 5</Text>
+      {!isOnSetting ? (
+        <>
+          <View style={{width: 5}}>
+            <Button
+              label={t('Btn.Skip')}
+              type="border"
+              borderColor="transparent"
+              textStyles={{fontSize: mvs(14), color: color.Success[400]}}
+              onPress={() => {
+                onSkip && onSkip();
+              }}
+            />
+          </View>
+          <Text style={[Typography.Subtitle2, styles.preTitle]}>
+            Step 5 of 5
+          </Text>
+        </>
+      ) : (
+        ''
+      )}
       <View style={styles.containerText}>
-        <Text style={[Typography.Heading4, styles.title]}>
-          {isScanSuccess ? t(titleScanSuccess) : t(titleToScan)}
+        <Text
+          style={[
+            isOnSetting ? Typography.Heading6 : Typography.Heading4,
+            styles.title,
+            {textAlign: 'center'},
+          ]}>
+          {(isScanSuccess || referralFrom !== null) && !isOnSetting
+            ? t(titleScanSuccess)
+            : isScanSuccess || referralFrom !== null
+            ? t(titleActivated)
+            : t(titleToScan)}
         </Text>
-        <Text style={[Typography.Subtitle2, styles.description]}>
-          {isScanSuccess ? t(descriptionScanSuccess) : t(descriptionToScan)}
-        </Text>
+        {referralFrom === null && !isOnSetting ? (
+          <Text
+            style={[
+              Typography.Subtitle2,
+              styles.description,
+              {textAlign: 'center'},
+            ]}>
+            {isScanSuccess ? t(descriptionScanSuccess) : t(descriptionToScan)}
+          </Text>
+        ) : (
+          <Text />
+        )}
       </View>
-      {isScanning && !isScanSuccess ? (
+      {isScanning && referralFrom === null ? (
         <>
           <View style={styles.cameraContainer}>
             {device !== undefined ? (
@@ -217,12 +253,18 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
           </View>
           <Gap height={32} />
         </>
-      ) : isScanSuccess ? (
+      ) : (isScanSuccess || referralFrom !== null) && !isOnSetting ? (
         <>
           <ReferralQRSuccessImage />
         </>
-      ) : (
+      ) : referralFrom !== null && isOnSetting ? (
+        ''
+      ) : referralFrom === null && isOnSetting ? (
         <ReferralQRImage />
+      ) : referralFrom === null && !isOnSetting ? (
+        <ReferralQRImage />
+      ) : (
+        ''
       )}
 
       {isManualEnter && !isScanSuccess ? (
@@ -252,7 +294,7 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
         ''
       )}
 
-      {isScanning || isManualEnter || isScanSuccess ? (
+      {(isScanning || isManualEnter || isScanSuccess) && !isOnSetting ? (
         <>
           <SsuDivider
             containerStyle={{paddingHorizontal: widthResponsive(48)}}
@@ -301,9 +343,9 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
           ''
         )}
         <View style={styles.container}>
-          {isScanSuccess ? (
+          {isScanSuccess || referralFrom !== null ? (
             <>
-              <ReferralActivated refCode={refCode} />
+              <ReferralActivated refCode={referralFrom || refCode} />
             </>
           ) : (
             ''
