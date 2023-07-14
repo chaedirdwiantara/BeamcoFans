@@ -67,7 +67,12 @@ import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
-import {heightPercentage, widthPercentage, widthResponsive} from '../utils';
+import {
+  heightPercentage,
+  width,
+  widthPercentage,
+  widthResponsive,
+} from '../utils';
 import {randomString} from '../utils/randomString';
 import {ProgressCard} from '../components/molecule/ListCard/ProgressCard';
 
@@ -156,24 +161,30 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     getListDiveIn();
     getListComingSoon();
     if (isLogin) {
-      getListDataBanner();
-      getProfileUser();
       getCountNotification();
       getCreditCount();
-    } else {
-      getListDataBannerPublic();
     }
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   }, [refreshing]);
 
+  // Doesn't trigger the banner when pull refresh
+  useEffect(() => {
+    if (isLogin) {
+      getListDataBanner();
+    } else {
+      getListDataBannerPublic();
+    }
+  }, []);
+
   // Triggering isFollowing musician when go back from other screen
   useFocusEffect(
     useCallback(() => {
       if (isLogin) {
-        // Auto update when progress change
+        // Triggering when go back from other screen
         getProfileProgress();
+        getProfileUser();
 
         if (selectedIndexMusician === 0) {
           getListDataMusician({filterBy: 'top'});
@@ -401,7 +412,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     goToScreen('MusicPlayer');
   };
 
-  if (isLoadingBanner || isLoadingMusician || searchLoading) {
+  if (isLoadingBanner) {
     return <View style={styles.root} />;
   }
 
@@ -450,7 +461,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         onScroll={handleScroll}>
         <TouchableOpacity onPress={handleSearchButton}>
           <SearchBar
-            containerStyle={{paddingHorizontal: widthResponsive(24)}}
+            containerStyle={{width: width * 0.9, alignSelf: 'center'}}
             disabled={true}
             onTouchStart={handleSearchButton}
           />
