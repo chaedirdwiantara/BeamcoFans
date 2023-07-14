@@ -24,10 +24,11 @@ import {
 } from '../../../interface/musician.interface';
 import {DataOnboardType} from '../../../data/onboard';
 import {color, font, typography} from '../../../theme';
-import {ListCard, ReferralContent, SelectBox} from '../../../components';
+import {ModalLoading} from '../ModalLoading/ModalLoading';
+import {useProfileHook} from '../../../hooks/use-profile.hook';
 import {UpdateProfilePropsType} from '../../../api/profile.api';
 import {heightResponsive, width, widthPercentage} from '../../../utils';
-import {useProfileHook} from '../../../hooks/use-profile.hook';
+import {ListCard, ReferralContent, SelectBox} from '../../../components';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -43,6 +44,7 @@ interface ImageSliderProps {
   dataList?: MusicianList[];
   setLastStepWizard?: (props: LastStepResponseType) => void;
   infoStep?: GetStepResponseType;
+  isLoading: boolean;
 }
 
 export const ImageSlider: React.FC<ImageSliderProps> = ({
@@ -55,6 +57,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   dataList,
   setLastStepWizard,
   infoStep,
+  isLoading,
 }) => {
   const {t} = useTranslation();
   const {isValidReferral, errorMsg, applyReferralUser} = useProfileHook();
@@ -401,6 +404,8 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         onPressNext={onPressNext}
         selectedData={selectedData}
       />
+
+      <ModalLoading visible={isLoading} />
     </View>
   );
 };
