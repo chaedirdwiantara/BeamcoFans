@@ -14,6 +14,11 @@ export type ListImageType = {
   presetName: string;
 };
 
+export type LocationType = {
+  id: number;
+  name: string;
+};
+
 export type ProfileResponseData = {
   uuid: string;
   username: string;
@@ -34,7 +39,9 @@ export type ProfileResponseData = {
   createdAt: string;
   updatedAt: string;
   referralFrom: string | null;
-  locationCountry: string;
+  locationCountry: LocationType;
+  locationCity: string;
+  birthdate: string;
   gender: string;
   followers: number;
   fans: number;
