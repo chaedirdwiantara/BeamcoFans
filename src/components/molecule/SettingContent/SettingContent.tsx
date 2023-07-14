@@ -55,7 +55,7 @@ export const SettingContent: React.FC<SettingProps> = ({
         modalConfirm: false,
       });
     } else {
-      onPressGoTo(val.replace(/\s/g, ''));
+      onPressGoTo(val.replace(/\s/g, ''), {fromScreen: 'setting'});
     }
   };
 
