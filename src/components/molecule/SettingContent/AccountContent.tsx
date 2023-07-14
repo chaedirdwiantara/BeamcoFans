@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, InteractionManager} from 'react-native';
 import * as yup from 'yup';
 import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
+import DatePicker from 'react-native-date-picker';
 import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 
@@ -13,37 +14,46 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../../utils';
+import {
+  ArrowLeftIcon,
+  ChevronDownIcon,
+  ErrorIcon,
+  TickCircleIcon,
+} from '../../../assets/icon';
 import {Dropdown} from '../DropDown';
 import Color from '../../../theme/Color';
 import {TopNavigation} from '../TopNavigation';
 import {font, typography} from '../../../theme';
 import {ModalConfirm} from '../Modal/ModalConfirm';
 import {dataProps} from '../DropDown/DropdownMulti';
+import {MenuText} from '../../atom/MenuText/MenuText';
 import {DataDropDownType} from '../../../data/dropdown';
 import {dataGender} from '../../../data/Settings/account';
+import {dateFormatBirth} from '../../../utils/date-format';
 import {Button, Gap, SsuInput, SsuToast} from '../../atom';
 import {useProfileHook} from '../../../hooks/use-profile.hook';
 import {formatValueName} from '../../../utils/formatValueName';
 import {PreferenceList} from '../../../interface/setting.interface';
+import {ListCountryType} from '../../../interface/location.interface';
 import {profileStorage, storage} from '../../../hooks/use-storage.hook';
 import {ProfileResponseType} from '../../../interface/profile.interface';
-import {ArrowLeftIcon, ErrorIcon, TickCircleIcon} from '../../../assets/icon';
 
 interface AccountProps {
   profile: ProfileResponseType;
   onPressGoBack: () => void;
-  dataAllCountry: DataDropDownType[];
+  dataAllCountry: ListCountryType[];
   moods: PreferenceList[];
   genres: PreferenceList[];
   dataCitiesOfCountry: DataDropDownType[];
-  setSelectedCountry: (value: string) => void;
+  setSelectedCountry: (value: number) => void;
+  fromScreen: string;
 }
 
 interface InputProps {
   username: string;
   fullname: string;
   gender: string;
-  locationCountry: string;
+  locationCountry: number;
   locationCity: string;
 }
 
@@ -61,7 +71,7 @@ const validation = yup.object({
     .trim('Full name cannot include leading and trailing spaces')
     .matches(/^.{3,50}$/, 'Fullname allowed 3 to 50 character'),
   gender: yup.string(),
-  locationCountry: yup.string(),
+  locationCountry: yup.number(),
   locationCity: yup.string(),
 });
 
@@ -73,6 +83,7 @@ export const AccountContent: React.FC<AccountProps> = ({
   moods,
   dataCitiesOfCountry,
   setSelectedCountry,
+  fromScreen,
 }) => {
   const {t} = useTranslation();
   const [changes, setChanges] = useState(false);
@@ -80,8 +91,10 @@ export const AccountContent: React.FC<AccountProps> = ({
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
-  const [valueMoods, setValueMoods] = useState<(number | undefined)[]>([]);
-  const [valueGenres, setValueGenres] = useState<(number | undefined)[]>([]);
+  const [valueMoods, setValueMoods] = useState<number[]>([]);
+  const [valueGenres, setValueGenres] = useState<number[]>([]);
+  const [birthdate, setBirthDate] = useState<string>('');
+  const [openPickerBirth, setOpenPickerBirth] = useState<boolean>(false);
   const {updateProfilePreference, isError, isLoading, errorMsg, setIsError} =
     useProfileHook();
 
@@ -97,7 +110,8 @@ export const AccountContent: React.FC<AccountProps> = ({
       username: profile?.data.username || '',
       fullname: profile?.data.fullname || '',
       gender: profile?.data.gender || '',
-      locationCountry: profile?.data.locationCountry || '',
+      locationCountry: profile?.data.locationCountry?.id || 0,
+      locationCity: profile?.data.locationCity || '',
     },
   });
 
@@ -117,6 +131,7 @@ export const AccountContent: React.FC<AccountProps> = ({
       const gr = getValue(formatValueName(profile.data?.favoriteGenres));
       setValueMoods(md);
       setValueGenres(gr);
+      setBirthDate(profile.data.birthdate);
     }
   }, [profile]);
 
@@ -139,6 +154,8 @@ export const AccountContent: React.FC<AccountProps> = ({
         fullname: getValues('fullname'),
         gender: getValues('gender'),
         locationCountry: getValues('locationCountry'),
+        locationCity: getValues('locationCity'),
+        birthdate,
         moods: valueMoods as number[],
         favoriteGeneres: valueGenres as number[],
       });
@@ -165,13 +182,19 @@ export const AccountContent: React.FC<AccountProps> = ({
   }, [isSubmit]);
 
   useEffect(() => {
-    if (isValid && valueMoods.length > 0 && valueGenres.length > 0) {
+    if (
+      isValid &&
+      valueGenres.length > 0 &&
+      getValues('locationCountry') &&
+      getValues('locationCity') &&
+      birthdate !== ''
+    ) {
       setDisabledButton(false);
     } else {
       setDisabledButton(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isValidating, isValid, valueMoods, valueGenres]);
+  }, [isValidating, isValid, valueGenres]);
 
   useEffect(() => {
     if (getValues('username').length < 3 || getValues('username').length > 30) {
@@ -215,6 +238,10 @@ export const AccountContent: React.FC<AccountProps> = ({
               isError={errors?.username ? true : false}
               errorMsg={errors?.username?.message}
               containerStyles={{marginTop: heightPercentage(15)}}
+              editable={fromScreen !== 'progress'}
+              inputStyles={{
+                color: fromScreen !== 'progress' ? '#fff' : 'gray',
+              }}
             />
           )}
         />
@@ -235,8 +262,55 @@ export const AccountContent: React.FC<AccountProps> = ({
               isError={errors?.fullname ? true : false}
               errorMsg={errors?.fullname?.message}
               containerStyles={{marginTop: heightPercentage(15)}}
+              editable={fromScreen !== 'progress'}
+              inputStyles={{
+                color: fromScreen !== 'progress' ? '#fff' : 'gray',
+              }}
             />
           )}
+        />
+
+        <View style={styles.containerBirth}>
+          <Text style={[typography.Overline, {color: Color.Neutral[50]}]}>
+            {t('Setting.Account.Label.DateOfBirth')}
+          </Text>
+          {fromScreen === 'progress' && (
+            <Text style={[typography.Overline, {color: Color.Pink[200]}]}>
+              {' *' + t('General.Required')}
+            </Text>
+          )}
+        </View>
+        <MenuText.RightIcon
+          text={birthdate === '' ? 'YYYY-MM-DD' : birthdate}
+          containerStyles={{marginTop: mvs(10), marginLeft: ms(4)}}
+          icon={
+            <ChevronDownIcon
+              stroke="#7c7b7c"
+              style={{
+                width: widthPercentage(15),
+                height: widthPercentage(15),
+                marginRight: ms(10),
+              }}
+            />
+          }
+          onPress={() => setOpenPickerBirth(true)}
+          onPressTooltip={() => setOpenPickerBirth(true)}
+        />
+
+        <DatePicker
+          modal
+          open={openPickerBirth}
+          date={birthdate === '' ? new Date() : new Date(birthdate)}
+          mode="date"
+          theme="dark"
+          textColor={Color.Pink[200]}
+          onConfirm={date => {
+            setOpenPickerBirth(false);
+            setBirthDate(dateFormatBirth(date));
+          }}
+          onCancel={() => {
+            setOpenPickerBirth(false);
+          }}
         />
 
         <Controller
@@ -246,7 +320,7 @@ export const AccountContent: React.FC<AccountProps> = ({
             <Dropdown.Input
               initialValue={value}
               data={dataGender}
-              isRequired={true}
+              isRequired={true && fromScreen === 'progress'}
               placeHolder={t('Setting.Account.Placeholder.Gender')}
               dropdownLabel={t('Setting.Account.Label.Gender')}
               textTyped={(newText: {label: string; value: string}) => {
@@ -272,12 +346,12 @@ export const AccountContent: React.FC<AccountProps> = ({
             render={({field: {onChange, value}}) => (
               <Dropdown.Input
                 type="location"
-                isRequired={true}
+                isRequired={true && fromScreen === 'progress'}
                 initialValue={value}
                 data={dataAllCountry}
                 placeHolder={t('Setting.Shipping.Placeholder.Country') || ''}
                 dropdownLabel={t('Setting.Account.Label.Location') || ''}
-                textTyped={(newText: {label: string; value: string}) => {
+                textTyped={(newText: {label: string; value: number}) => {
                   onChange(newText.value);
                   setSelectedCountry(newText.value);
                   setChanges(true);
@@ -324,7 +398,7 @@ export const AccountContent: React.FC<AccountProps> = ({
           textTyped={(_newText: string) => null}
           containerStyles={{marginTop: heightPercentage(15)}}
           initialValue={valueGenres}
-          isRequired={true}
+          isRequired={true && fromScreen === 'progress'}
           setValues={val => setValueGenres(val)}
         />
 
@@ -435,5 +509,16 @@ const styles = StyleSheet.create({
     marginTop: heightPercentage(25),
     alignSelf: 'center',
     backgroundColor: Color.Dark[50],
+  },
+  containerBirth: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: heightPercentage(15),
+  },
+  titleBirthDate: {
+    color: Color.Error[400],
+    fontFamily: font.InterRegular,
+    fontSize: normalize(10),
+    lineHeight: mvs(12),
   },
 });
