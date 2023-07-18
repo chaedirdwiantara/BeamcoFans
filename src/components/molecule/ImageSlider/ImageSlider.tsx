@@ -153,6 +153,15 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   //   console.log('isReferralStep :', isReferralStep);
   // }, [dataArray]);
 
+  const [currIndex, setCurrIndex] = useState(0);
+
+  // const handleScroll = (event: any) => {
+  //   const contentOffsetY: number = event.nativeEvent.contentOffset.y;
+  //   const index: number = Math.round(contentOffsetY / ITEM_HEIGHT); // Assuming ITEM_HEIGHT is a fixed value
+
+  //   setCurrIndex(index);
+  // };
+
   useEffect(() => {
     if (dataList !== undefined) {
       setListMusician(dataList);
@@ -313,7 +322,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                       <Text style={styles.textSubtitle}>{item.subtitle}</Text>
                     </View>
                     <View style={{height: '65%'}}>
-                      <ScrollView>
+                      <ScrollView onScroll={handleScroll}>
                         {listMusician &&
                           listMusician?.map((musician, i) => (
                             <View

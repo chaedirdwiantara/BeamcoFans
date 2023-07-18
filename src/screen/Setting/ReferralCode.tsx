@@ -6,9 +6,9 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {
   ReferAFriend,
-  ReferralContent,
   TabFilter,
   TopNavigation,
+  UseReferralContent,
 } from '../../components';
 import Color from '../../theme/Color';
 import {ArrowLeftIcon} from '../../assets/icon';
@@ -29,7 +29,6 @@ export const ReferralCodeSetting: React.FC = () => {
     dataProfile,
     getProfileUser,
   } = useProfileHook();
-  const [modeUseReferral, setModeUseReferral] = useState<string>('');
 
   // Refferal Content
   const [isScanFailed, setIsScanFailed] = useState<boolean>(false);
@@ -43,6 +42,21 @@ export const ReferralCodeSetting: React.FC = () => {
     applyReferralUser(referralCode);
   };
 
+  useEffect(() => {
+    getProfileUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (
+      dataProfile?.data.referralFrom !== null &&
+      dataProfile?.data.referralFrom !== undefined
+    ) {
+      setIsScanSuccess(true);
+      setRefCode(dataProfile?.data.referralFrom);
+    } else setIsScanSuccess(false);
+  }, [dataProfile]);
+
   const handleSkipFailed = () => {
     setIsScanFailed(false);
     setIsScanning(true);
@@ -50,31 +64,17 @@ export const ReferralCodeSetting: React.FC = () => {
     setRefCode('');
   };
 
-  useEffect(() => {
-    getProfileUser();
-    console.log(
-      '🚀 ~ file: ReferralContent.tsx:230 ~ referralFrom:',
-      dataProfile?.data.referralFrom,
-    );
-  }, []);
-
-  useEffect(() => {
-    if (dataProfile?.data.referralFrom !== null) {
-      setIsScanSuccess(true);
-    } else setIsScanSuccess(false);
-
-    console.log('is Scann Success :', isScanSuccess);
-  }, [dataProfile]);
-
   const [selectedIndex, setSelectedIndex] = useState(-0);
-  const [filter] = useState([
+  const filter = [
     {filterName: t('Setting.Referral.ReferFriend.Title')},
     {
-      filterName: isScanSuccess
-        ? t('Setting.Referral.ReferUsed.Title')
-        : t('Setting.Referral.UseRefer.Title'),
+      filterName:
+        refCode !== ''
+          ? t('Setting.Referral.ReferUsed.Title')
+          : t('Setting.Referral.UseRefer.Title'),
     },
-  ]);
+  ];
+
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);
   };
@@ -143,14 +143,14 @@ export const ReferralCodeSetting: React.FC = () => {
               style={{
                 flex: 1,
                 alignItems: 'center',
-                paddingTop: 50,
+                paddingTop: 40,
               }}>
-              <ReferralContent
-                isOnSetting={true}
+              <UseReferralContent
                 onPress={onApplyReferral}
                 isError={errorMsg !== ''}
                 errorMsg={errorMsg}
                 isValidRef={isValidReferral}
+                isScanFailed={isScanFailed}
                 setIsScanFailed={setIsScanFailed}
                 refCode={refCode}
                 setRefCode={setRefCode}
