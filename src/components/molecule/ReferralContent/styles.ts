@@ -81,9 +81,10 @@ const styles = StyleSheet.create({
   },
   containerReferralCode: {
     width: width * 0.9,
-    borderWidth: ms(1),
     borderColor: Color.Dark[500],
-    paddingVertical: mvs(15),
+    backgroundColor: Color.Dark[900],
+    borderRadius: 12,
+    paddingVertical: mvs(16),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
   note: {
     textAlign: 'center',
     color: Color.Neutral[10],
-    marginVertical: mvs(5),
+    marginVertical: mvs(8),
   },
   qrContainer: {
     width: widthPercentage(200),

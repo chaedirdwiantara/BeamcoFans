@@ -3,11 +3,11 @@ import {View, StyleSheet} from 'react-native';
 import {useTranslation} from 'react-i18next';
 
 import Color from '../../../theme/Color';
-import {Button, ButtonGradient, Gap, Indicator} from '../../../components';
-import {heightPercentage, width, widthPercentage} from '../../../utils';
-import {PreferenceList} from '../../../interface/setting.interface';
-import DescriptionBoarding from '../../atom/DescriptionBoarding/DescriptionBoarding';
 import {DataOnboardType} from '../../../data/onboard';
+import {Button, ButtonGradient, Gap, Indicator} from '../../../components';
+import {PreferenceList} from '../../../interface/setting.interface';
+import {heightPercentage, width, widthPercentage} from '../../../utils';
+import DescriptionBoarding from '../../atom/DescriptionBoarding/DescriptionBoarding';
 
 interface FooterContentProps {
   type?: string;
@@ -18,7 +18,6 @@ interface FooterContentProps {
   onPressBack?: () => void;
   onPressGoTo?: () => void;
   onPressNext: () => void;
-  selectedData: number[][];
 }
 
 export const FooterContent: React.FC<FooterContentProps> = ({
@@ -28,20 +27,18 @@ export const FooterContent: React.FC<FooterContentProps> = ({
   onPressBack,
   onPressGoTo,
   onPressNext,
-  selectedData,
 }) => {
   const {t} = useTranslation();
   const activeColor =
     type === 'Preference' ? Color.Dark[100] : Color.Success[400];
   const inActiveColor =
     type === 'Preference' ? Color.Dark[300] : Color.Success[700];
-
   return (
     <View
       style={[
         styles.containerFooterContent,
         {
-          height: type === 'Preference' ? '22%' : '35%',
+          height: type === 'Preference' ? '15%' : '35%',
         },
       ]}>
       {type !== 'Preference' &&
@@ -56,16 +53,16 @@ export const FooterContent: React.FC<FooterContentProps> = ({
             );
           }
         })}
-      <Gap height={heightPercentage(40)} />
       <Indicator
         activeIndex={activeIndexSlide}
         totalIndex={data.length}
         activeColor={activeColor}
         inActiveColor={inActiveColor}
       />
+      <Gap height={heightPercentage(32)} />
+
       {type === 'Preference' ? (
         <>
-          <Gap height={heightPercentage(20)} />
           <View style={styles.footer}>
             {activeIndexSlide === 0 ? (
               <ButtonGradient
@@ -127,7 +124,6 @@ const styles = StyleSheet.create({
     width: widthPercentage(327),
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: heightPercentage(40),
   },
   btnContainer: {
     width: widthPercentage(155),

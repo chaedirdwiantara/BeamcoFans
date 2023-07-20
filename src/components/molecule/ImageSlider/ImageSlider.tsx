@@ -76,8 +76,6 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   const selectedData = [selectedGenres, selectedMoods, selectedExpectations];
 
   // Refferal Content
-  const [stepIndex, setStepIndex] = useState<number>(0);
-  const [isReferralStep, setIsReferralStep] = useState<boolean>(false);
   const [isScanFailed, setIsScanFailed] = useState<boolean>(false);
   const [refCode, setRefCode] = useState<string>('');
   const [isScanning, setIsScanning] = useState<boolean>(false);
@@ -97,13 +95,10 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   };
 
   useEffect(() => {
-    // console.log('🚀 ~ file: ImageSlider.tsx:101 ~ stepIndex:', stepIndex);
-  }, [stepIndex]);
-
-  useEffect(() => {
-    if (dataProfile?.data.referralFrom !== null) {
+    if (dataProfile !== undefined && dataProfile.data.referralFrom !== null) {
       setIsScanSuccess(true);
       setIsScanning(false);
+      setRefCode(dataProfile.data.referralFrom);
     } else setIsScanSuccess(false);
   }, [dataProfile]);
 
@@ -143,24 +138,6 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
       list: [],
     },
   ];
-
-  // useEffect(() => {
-  //   // Check if the index 4 is present in the rendered components
-  //   const hasReferralStep = dataArray.some((item, index) => index === 4);
-
-  //   setIsReferralStep(hasReferralStep);
-
-  //   console.log('isReferralStep :', isReferralStep);
-  // }, [dataArray]);
-
-  const [currIndex, setCurrIndex] = useState(0);
-
-  // const handleScroll = (event: any) => {
-  //   const contentOffsetY: number = event.nativeEvent.contentOffset.y;
-  //   const index: number = Math.round(contentOffsetY / ITEM_HEIGHT); // Assuming ITEM_HEIGHT is a fixed value
-
-  //   setCurrIndex(index);
-  // };
 
   useEffect(() => {
     if (dataList !== undefined) {
@@ -355,9 +332,28 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                     </View>
                   </View>
                 );
-              } else if (index === 4) {
+              } else if (index === 4 && dataProfile) {
                 return (
                   <View key={index} style={{paddingVertical: mvs(30)}}>
+                    <TouchableOpacity
+                      style={styles.containerSkip}
+                      onPress={onPress}>
+                      <Text style={styles.textSkip}>{t('Btn.Skip')}</Text>
+                    </TouchableOpacity>
+                    <View style={[styles.containerStep, {paddingTop: 0}]}>
+                      <Text style={styles.textStep}>{item.step}</Text>
+                      <Text style={[typography.Heading4, styles.title]}>
+                        {isScanSuccess
+                          ? t('Setting.ReferralQR.OnBoard.SuccessTitle')
+                          : item.title}
+                      </Text>
+                      <Text style={styles.textSubtitle}>
+                        {isScanSuccess
+                          ? t('Setting.ReferralQR.OnBoard.SuccessDesc')
+                          : item.subtitle}
+                      </Text>
+                    </View>
+
                     <View style={{height: '95%'}}>
                       <ReferralContent
                         onSkip={onPress}
@@ -365,6 +361,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                         isError={errorMsg !== ''}
                         errorMsg={errorMsg}
                         isValidRef={isValidReferral}
+                        isScanFailed={isScanFailed}
                         setIsScanFailed={setIsScanFailed}
                         refCode={refCode}
                         setRefCode={setRefCode}
@@ -376,7 +373,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                         setIsScanned={setIsScanned}
                         isManualEnter={isManualEnter}
                         setIsManualEnter={setIsManualEnter}
-                        referralFrom={dataProfile?.data.referralFrom}
+                        referralFrom={dataProfile.data.referralFrom}
                       />
                     </View>
                   </View>
@@ -439,7 +436,6 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         onPressBack={onPressBack}
         onPressGoTo={onPress}
         onPressNext={onPressNext}
-        selectedData={selectedData}
       />
     </View>
   );
