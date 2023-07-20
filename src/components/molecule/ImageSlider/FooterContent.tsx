@@ -53,14 +53,15 @@ export const FooterContent: React.FC<FooterContentProps> = ({
             );
           }
         })}
-      <Indicator
-        activeIndex={activeIndexSlide}
-        totalIndex={data.length}
-        activeColor={activeColor}
-        inActiveColor={inActiveColor}
-      />
-      <Gap height={heightPercentage(32)} />
-
+      <Gap height={heightPercentage(40)} />
+      {type !== 'Preference' && (
+        <Indicator
+          activeIndex={activeIndexSlide}
+          totalIndex={data.length}
+          activeColor={activeColor}
+          inActiveColor={inActiveColor}
+        />
+      )}
       {type === 'Preference' ? (
         <>
           <View style={styles.footer}>

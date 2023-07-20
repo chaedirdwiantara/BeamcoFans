@@ -906,6 +906,7 @@
       "AccountInformation": "Account Information",
       "ProfileInformation": "Profile Information"
     },
-    "SubtitleTooltip": "To finish this step, you need to fulfill this information below:"
+    "SubtitleTooltip": "To finish this step, you need to fulfill this information below:",
+    "SubtitleTooltipFinish": "You have already completed your account information"
   }
 }

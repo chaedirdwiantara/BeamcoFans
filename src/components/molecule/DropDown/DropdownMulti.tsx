@@ -10,7 +10,7 @@ import {heightPercentage, widthPercentage} from '../../../utils';
 
 export interface dataProps {
   label: string;
-  value?: number;
+  value: number | string;
 }
 
 interface InputDropdownProps {

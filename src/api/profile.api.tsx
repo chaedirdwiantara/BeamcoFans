@@ -23,8 +23,10 @@ export type UpdateProfilePropsType = {
   imageProfileUrl?: string;
   banner?: string;
   about?: string;
-  locationCountry?: string;
+  locationCountry?: number;
+  locationCity?: string;
   gender?: string;
+  birthdate?: string;
 };
 
 export const getProfile = async (): Promise<ProfileResponseType> => {

@@ -24,6 +24,8 @@ export type ParamsProps = {
   isPremium?: boolean;
   mood?: string;
   genre?: string;
+  order?: 'asc' | 'desc';
+  id?: number;
 };
 
 export type imageTypes = {

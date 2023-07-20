@@ -12,10 +12,10 @@ export const defaultBanner: BannerList[] = [
 ];
 
 export const listRequiredAccount: string[] = [
+  'Setting.Preference.Label.Genre',
   'Setting.Account.Label.DateOfBirth',
   'Setting.Account.Label.Gender',
   'Setting.Account.Label.Location',
-  'Setting.Preference.Label.Genre',
 ];
 
 export const listRequiredProfile: string[] = ['Profile.Edit.DisplayProfile'];
