@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, StyleSheet, NativeModules} from 'react-native';
+import {View, StyleSheet, NativeModules, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -16,6 +16,10 @@ import {FollowMusicianPropsType} from '../interface/musician.interface';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
+const paddingTop =
+  Platform.OS === 'ios'
+    ? heightResponsive(barHeight + 5)
+    : heightResponsive(barHeight + 20);
 
 export const PreferenceScreen: React.FC = () => {
   const navigation =
@@ -32,7 +36,11 @@ export const PreferenceScreen: React.FC = () => {
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
-  const {getListPreference, listPreference} = useSettingHook();
+  const {
+    getListPreference,
+    listPreference,
+    isLoading: isLoadingPreference,
+  } = useSettingHook();
   useEffect(() => {
     getListDataMusician();
     getListPreference({perPage: 25});
@@ -66,6 +74,7 @@ export const PreferenceScreen: React.FC = () => {
         dataList={dataMusician}
         infoStep={infoStep}
         setLastStepWizard={setLastStepWizard}
+        isLoading={isLoadingPreference}
       />
     </View>
   );
@@ -75,6 +84,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: Color.Dark[800],
-    paddingTop: heightResponsive(barHeight + 25),
+    paddingTop,
   },
 });

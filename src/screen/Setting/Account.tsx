@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
 import {AccountContent} from '../../components';
@@ -10,9 +9,12 @@ import {useProfileHook} from '../../hooks/use-profile.hook';
 import {useSettingHook} from '../../hooks/use-setting.hook';
 import {useLocationHook} from '../../hooks/use-location.hook';
 
-export const AccountScreen: React.FC = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+type AccountProps = NativeStackScreenProps<RootStackParams, 'Account'>;
+export const AccountScreen: React.FC<AccountProps> = ({
+  navigation,
+  route,
+}: AccountProps) => {
+  const {fromScreen} = route.params;
   const {dataProfile, getProfileUser} = useProfileHook();
   const {
     dataAllCountry,
@@ -21,10 +23,7 @@ export const AccountScreen: React.FC = () => {
     getCitiesOfCountry,
   } = useLocationHook();
   const {getListMoodGenre, listGenre, listMood} = useSettingHook();
-
-  const [selectedCountry, setSelectedCountry] = useState<string>(
-    dataProfile?.data.locationCountry || '',
-  );
+  const [selectedCountry, setSelectedCountry] = useState<number>(0);
 
   useEffect(() => {
     getProfileUser();
@@ -33,10 +32,16 @@ export const AccountScreen: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedCountry) {
-      getCitiesOfCountry({country: selectedCountry});
+    if (dataProfile) {
+      setSelectedCountry(dataProfile.data.locationCountry?.id || 0);
     }
-  }, [selectedCountry]);
+  }, [dataProfile]);
+
+  useEffect(() => {
+    if (selectedCountry > 0) {
+      getCitiesOfCountry({id: selectedCountry});
+    }
+  }, [dataProfile, selectedCountry]);
 
   const onPressGoBack = () => {
     navigation.goBack();
@@ -55,6 +60,7 @@ export const AccountScreen: React.FC = () => {
             dataCitiesOfCountry !== undefined ? dataCitiesOfCountry : []
           }
           setSelectedCountry={setSelectedCountry}
+          fromScreen={fromScreen}
         />
       )}
     </View>

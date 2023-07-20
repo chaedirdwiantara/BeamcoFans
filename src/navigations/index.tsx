@@ -133,7 +133,9 @@ import ListPlaylist from '../screen/Playlist/ListPlaylist';
 
 export type RootStackParams = {
   AboutDeletion: undefined;
-  Account: undefined;
+  Account: {
+    fromScreen: string;
+  };
   AddToPlaylist: {id: number[]; type?: string; fromMainTab?: boolean};
   AddSong: Playlist;
   Album: AlbumData | {id: number; type?: string};

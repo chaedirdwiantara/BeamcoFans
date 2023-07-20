@@ -1,10 +1,9 @@
 import {
-  DataCountryType,
+  CitiesCountryResponseType,
   DataStatePropsType,
 } from '../interface/location.interface';
-import {PreferenceList} from '../interface/setting.interface';
 
-const formatValueName = (data: PreferenceList[]) => {
+const formatValueName = (data: {name: string; id: number}[]) => {
   return data.map(item => {
     return {
       label: item.name,
@@ -13,17 +12,9 @@ const formatValueName = (data: PreferenceList[]) => {
   });
 };
 
-const formatValueNameLocation = (data: DataCountryType[]) => {
-  return data.map(item => {
-    return {
-      ...item,
-      label: item.unicodeFlag + ' ' + item.name,
-      value: item.name,
-    };
-  });
-};
-
-const formatValueNameState = (data: DataStatePropsType[]) => {
+const formatValueNameState = (
+  data: DataStatePropsType[] | CitiesCountryResponseType[],
+) => {
   return data.map(item => {
     return {
       ...item,
@@ -42,9 +33,4 @@ const formatValueNameCity = (data: string[]) => {
   });
 };
 
-export {
-  formatValueName,
-  formatValueNameLocation,
-  formatValueNameState,
-  formatValueNameCity,
-};
+export {formatValueName, formatValueNameState, formatValueNameCity};
