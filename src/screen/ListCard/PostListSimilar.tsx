@@ -97,6 +97,7 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
   const [selectedCategoryMenu, setSelectedCategoryMenu] =
     useState<DataDropDownType>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [selectedMusicianId, setSelectedMusicianId] = useState<string>('');
 
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
@@ -110,6 +111,7 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
     getListSimilarPost,
     setLikePost,
     setUnlikePost,
+    sendLogShare,
   } = useFeedHook();
 
   const {
@@ -212,8 +214,9 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
     );
   };
 
-  const shareOnPress = () => {
+  const shareOnPress = (musicianId: string) => {
     setModalShare(true);
+    setSelectedMusicianId(musicianId);
   };
 
   //Credit onPress
@@ -249,6 +252,7 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
     setIsCopied(true);
     if (Clipboard && Clipboard.setString) {
       Clipboard.setString(urlText);
+      sendLogShare({id: selectedMusicianId});
     }
   };
 
@@ -350,7 +354,7 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
                   tokenOnPress={tokenOnPress}
-                  shareOnPress={shareOnPress}
+                  shareOnPress={() => shareOnPress(item.id)}
                   containerStyles={{marginTop: mvs(16)}}
                   commentCount={item.commentsCount}
                   myPost={item.musician.uuid === MyUuid}

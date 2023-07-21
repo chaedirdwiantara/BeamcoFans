@@ -66,6 +66,7 @@ import {
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useQuery} from 'react-query';
 import {useHeaderAnimation} from '../../hooks/use-header-animation.hook';
+import {usePostLogger} from './ListUtils/use-PostLogger';
 
 const {height} = Dimensions.get('screen');
 const {StatusBarManager} = NativeModules;
@@ -90,6 +91,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const {dataRightDropdown, dataLeftDropdown, uuidMusician = ''} = props;
 
   const {handleScroll, compCTranslateY} = useHeaderAnimation();
+  const {viewabilityConfig, onViewableItemsChanged} = usePostLogger();
 
   const [recorder, setRecorder] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string[]>();
@@ -127,6 +129,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     setLikePost,
     setUnlikePost,
     getListDataPostQuery,
+    sendLogShare,
   } = useFeedHook();
 
   const {
@@ -290,7 +293,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     );
   };
 
-  const shareOnPress = () => {
+  const shareOnPress = (musicianId: string) => {
+    setSelectedMusicianId(musicianId);
     setModalShare(true);
   };
 
@@ -328,6 +332,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     setIsCopied(true);
     if (Clipboard && Clipboard.setString) {
       Clipboard.setString(urlText);
+      sendLogShare({id: selectedMusicianId});
     }
   };
 
@@ -419,6 +424,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             onEndReached={handleEndScroll}
             onEndReachedThreshold={1}
             bounces={false}
+            viewabilityConfig={viewabilityConfig}
+            onViewableItemsChanged={onViewableItemsChanged}
             renderItem={({item, index}) => (
               <>
                 {index === 0 ? (
@@ -451,7 +458,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
                   tokenOnPress={() => tokenOnPress(item.musician_uuid)}
-                  shareOnPress={shareOnPress}
+                  shareOnPress={() => shareOnPress(item.id)}
                   containerStyles={{marginTop: mvs(16)}}
                   commentCount={item.commentsCount}
                   myPost={item.musician.uuid === MyUuid}

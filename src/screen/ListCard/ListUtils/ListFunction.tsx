@@ -38,7 +38,7 @@ export const useCheckNewUpdate = (
       if (postData?.data[0]?.caption !== previousData[0]?.caption) {
         setShowUpdateNotif(true);
         const index = postData.data.findIndex(
-          obj => obj.caption === previousData[0].caption,
+          obj => obj?.caption === previousData[0]?.caption,
         );
         setNumberOfNewData(index);
       }

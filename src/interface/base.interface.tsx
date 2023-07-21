@@ -25,7 +25,7 @@ export type ParamsProps = {
   mood?: string;
   genre?: string;
   order?: 'asc' | 'desc';
-  id?: number;
+  id?: number | string;
 };
 
 export type imageTypes = {

@@ -116,6 +116,7 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
     setLikePost,
     setUnlikePost,
     setCommentToPost,
+    sendLogShare,
   } = useFeedHook();
 
   const {
@@ -213,7 +214,8 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
     );
   };
 
-  const shareOnPress = () => {
+  const shareOnPress = (musicianId: string) => {
+    setSelectedMusicianId(musicianId);
     setModalShare(true);
   };
 
@@ -251,6 +253,7 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
     setIsCopied(true);
     if (Clipboard && Clipboard.setString) {
       Clipboard.setString(urlText);
+      sendLogShare({id: selectedMusicianId});
     }
   };
 
@@ -352,7 +355,7 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
                   tokenOnPress={() => tokenOnPress(item.musician.uuid)}
-                  shareOnPress={shareOnPress}
+                  shareOnPress={() => shareOnPress(item.id)}
                   containerStyles={{marginTop: mvs(16)}}
                   commentCount={item.commentsCount}
                   myPost={item.musician.uuid === MyUuid}
