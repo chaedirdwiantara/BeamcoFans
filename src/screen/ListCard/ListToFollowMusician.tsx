@@ -35,10 +35,6 @@ const ListToFollowMusician = () => {
     navigation.navigate('MusicianProfile', {id});
   };
 
-  useEffect(() => {
-    console.log({dataMusician});
-  }, [dataMusician]);
-
   return (
     <>
       <Text style={styles.textStyle}>{t('Musician.Label.Musicians')}</Text>

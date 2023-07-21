@@ -34,6 +34,8 @@ import {
   QuoteToPost,
   ViewsCount,
 } from '../interface/feed.interface';
+import {LogData} from '../interface/tracking.interface';
+import {sendShareLogEP, sendViewLogEP} from '../api/tracking.api';
 
 export const useFeedHook = () => {
   const [feedIsLoading, setFeedIsLoading] = useState(true);
@@ -358,6 +360,27 @@ export const useFeedHook = () => {
     }
   };
 
+  const [dataLog, setDataLog] = useState<LogData>();
+  const [dataLogIsError, setDataLogIsError] = useState<boolean>(false);
+
+  const sendLogView = async (props?: ParamsProps) => {
+    try {
+      const response = await sendViewLogEP(props);
+      setDataLog(response.data);
+    } catch (error) {
+      setDataLogIsError(true);
+    }
+  };
+
+  const sendLogShare = async (props?: ParamsProps) => {
+    try {
+      const response = await sendShareLogEP(props);
+      setDataLog(response.data);
+    } catch (error) {
+      setDataLogIsError(true);
+    }
+  };
+
   return {
     feedIsLoading,
     likePostLoading,
@@ -383,6 +406,8 @@ export const useFeedHook = () => {
     viewCountLoading,
     dataViewsCount,
     viewCountError,
+    dataLog,
+    dataLogIsError,
     setDataLoadMore,
     setDataComment,
     getListDataPost,
@@ -407,5 +432,7 @@ export const useFeedHook = () => {
     getListTopPostPublic,
     getListDataPostQuery,
     getListDataExclusiveQuery,
+    sendLogView,
+    sendLogShare,
   };
 };

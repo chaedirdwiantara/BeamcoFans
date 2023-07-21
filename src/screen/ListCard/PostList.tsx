@@ -74,6 +74,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     setUnlikePost,
     getListTopPost,
     getListTopPostPublic,
+    sendLogShare,
   } = useFeedHook();
   const {t} = useTranslation();
   const getListPost = isLogin ? getListTopPost : getListTopPostPublic;
@@ -180,9 +181,10 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     }
   };
 
-  const shareOnPress = () => {
+  const shareOnPress = (musicianId: string) => {
     if (isLogin) {
       setModalShare(true);
+      setSelectedMusicianId(musicianId);
     } else {
       setModalGuestVisible(true);
     }
@@ -225,6 +227,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     setIsCopied(true);
     if (Clipboard && Clipboard.setString) {
       Clipboard.setString(urlText);
+      sendLogShare({id: selectedMusicianId});
     }
   };
 
@@ -310,7 +313,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
                   tokenOnPress={() => tokenOnPress(item.musician.uuid)}
-                  shareOnPress={shareOnPress}
+                  shareOnPress={() => shareOnPress(item.id)}
                   commentCount={item.commentsCount}
                   myPost={item.musician.uuid === profileStorage()?.uuid}
                   selectedMenu={setSelectedMenu}

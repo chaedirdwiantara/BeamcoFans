@@ -86,6 +86,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
+  const [selectedMusicianId, setSelectedMusicianId] = useState<string>('');
 
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
@@ -100,6 +101,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
     setUnlikePost,
     getListProfilePost,
     getListProfilePostGuestMode,
+    sendLogShare,
   } = useFeedHook();
 
   const {
@@ -167,9 +169,10 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
     );
   };
 
-  const shareOnPress = () => {
+  const shareOnPress = (musicianId: string) => {
     if (isLogin) {
       setModalShare(true);
+      setSelectedMusicianId(musicianId);
     } else {
       handleNotLogin();
     }
@@ -212,6 +215,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
     setIsCopied(true);
     if (Clipboard && Clipboard.setString) {
       Clipboard.setString(urlText);
+      sendLogShare({id: selectedMusicianId});
     }
   };
 
@@ -327,7 +331,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
                   tokenOnPress={tokenOnPress}
-                  shareOnPress={shareOnPress}
+                  shareOnPress={() => shareOnPress(item.id)}
                   commentCount={item.commentsCount}
                   myPost={item.musician.uuid === MyUuid}
                   selectedMenu={() => {}}
