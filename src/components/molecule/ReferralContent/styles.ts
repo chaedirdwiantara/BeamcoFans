@@ -8,7 +8,7 @@ import {
   widthPercentage,
   widthResponsive,
 } from '../../../utils';
-import {color} from '../../../theme';
+import {color, font} from '../../../theme';
 import Font from '../../../theme/Font';
 
 const styles = StyleSheet.create({
@@ -34,6 +34,14 @@ const styles = StyleSheet.create({
   title: {
     color: Color.Neutral[10],
     maxWidth: width * 0.9,
+  },
+  textSubtitle: {
+    fontSize: mvs(12),
+    fontWeight: '500',
+    lineHeight: mvs(14.5),
+    color: '#788AA9',
+    textAlign: 'center',
+    maxWidth: width * 0.8,
   },
   description: {
     maxWidth: width * 0.9,
@@ -73,9 +81,10 @@ const styles = StyleSheet.create({
   },
   containerReferralCode: {
     width: width * 0.9,
-    borderWidth: ms(1),
     borderColor: Color.Dark[500],
-    paddingVertical: mvs(15),
+    backgroundColor: Color.Dark[900],
+    borderRadius: 12,
+    paddingVertical: mvs(16),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -96,7 +105,7 @@ const styles = StyleSheet.create({
   note: {
     textAlign: 'center',
     color: Color.Neutral[10],
-    marginVertical: mvs(5),
+    marginVertical: mvs(8),
   },
   qrContainer: {
     width: widthPercentage(200),
