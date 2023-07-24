@@ -51,6 +51,8 @@ import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
 import LoadingSpinner from '../../atom/Loading/LoadingSpinner';
 import {ListDataSearchSongs} from '../../../interface/search.interface';
 import {DataDropDownType, dropDownHeaderAlbum} from '../../../data/dropdown';
+import {useShareHook} from '../../../hooks/use-share.hook';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface Props {
   dataSong: SongList[] | ListDataSearchSongs[];
@@ -84,6 +86,7 @@ export const AlbumContent: React.FC<Props> = ({
   const {t} = useTranslation();
   const isFocused = useIsFocused();
   const {addSong} = usePlayerHook();
+  const {shareLink, getShareLink, successGetLink} = useShareHook();
   const [toastVisible, setToastVisible] = useState(false);
   const [toastText, setToastText] = useState<string>('');
   const [modalDonate, setModalDonate] = useState<boolean>(false);
@@ -173,6 +176,19 @@ export const AlbumContent: React.FC<Props> = ({
 
   const checkImageAlbum = detailAlbum && detailAlbum.imageUrl.length > 0;
   const totalSong = comingSoon ? dataSongComingSoon.length : dataSong.length;
+
+  useEffect(() => {
+    if (detailAlbum) {
+      getShareLink({
+        scheme: `/album/${detailAlbum?.id}`,
+        image: detailAlbum?.imageUrl[1].image,
+        title: t('ShareLink.Music.Title', {title: detailAlbum?.title}),
+        description: t('ShareLink.Music.Album', {
+          owner: detailAlbum.musician.name,
+        }),
+      });
+    }
+  }, [detailAlbum]);
 
   return (
     <View style={styles.root}>
@@ -308,9 +324,7 @@ export const AlbumContent: React.FC<Props> = ({
       />
 
       <ModalShare
-        url={
-          'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0'
-        }
+        url={shareLink}
         modalVisible={modalShare}
         onPressClose={() => setModalShare(false)}
         titleModal={t('General.Share.Album')}
@@ -323,10 +337,12 @@ export const AlbumContent: React.FC<Props> = ({
         artist={detailAlbum.musician.name}
         onPressCopy={() =>
           InteractionManager.runAfterInteractions(() => {
+            Clipboard.setString(shareLink);
             setToastText(t('General.LinkCopied') || '');
             setToastVisible(true);
           })
         }
+        disabled={!successGetLink}
       />
 
       <SsuToast

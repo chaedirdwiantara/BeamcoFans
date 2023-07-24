@@ -21,8 +21,15 @@ import {ModalSuccessDonate} from '../../Modal/ModalSuccessDonate';
 import {ModalShare} from '../../Modal/ModalShare';
 import {useTranslation} from 'react-i18next';
 import {TickCircleIcon} from '../../../../assets/icon';
-import {heightPercentage, widthResponsive} from '../../../../utils';
+import {
+  elipsisText,
+  heightPercentage,
+  widthResponsive,
+} from '../../../../utils';
 import ImageModal from '../../../../screen/Detail/ImageModal';
+import {imageShare} from '../../../../utils/share';
+import {useShareHook} from '../../../../hooks/use-share.hook';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface PopularPostProps {
   uuidMusician: string;
@@ -52,6 +59,14 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
     playerProgress,
     addPlaylistFeed,
   } = usePlayerHook();
+
+  const {
+    shareLink,
+    getShareLink,
+    successGetLink,
+    setSelectedSharePost,
+    selectedSharePost,
+  } = useShareHook();
 
   const {creditCount, getCreditCount} = useCreditHook();
 
@@ -181,8 +196,9 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
     setModalDonate(true);
   };
 
-  const shareOnPress = () => {
+  const shareOnPress = (content: PostList) => {
     setModalShare(true);
+    setSelectedSharePost(content);
   };
 
   const handlePausePlay = () => {
@@ -207,6 +223,22 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
     setModalSuccessDonate(false);
     setTrigger2ndModal(false);
   };
+
+  // SHARE LINK
+  useEffect(() => {
+    if (selectedSharePost) {
+      getShareLink({
+        scheme: `/feed/${selectedSharePost.id}`,
+        image: imageShare(selectedSharePost),
+        title: t('ShareLink.Feed.Title', {
+          musician: selectedSharePost.musician.fullname,
+        }),
+        description: selectedSharePost.caption
+          ? elipsisText(selectedSharePost.caption, 50)
+          : t('ShareLink.Feed.Subtitle'),
+      });
+    }
+  }, [selectedSharePost]);
 
   return (
     <View>
@@ -272,7 +304,7 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
                 : dataPostList[0].likesCount
             }
             tokenOnPress={tokenOnPress}
-            shareOnPress={shareOnPress}
+            shareOnPress={() => shareOnPress(dataPostList[0])}
             commentCount={dataPostList[0].commentsCount}
             myPost={dataPostList[0].musician.uuid === MyUuid}
             selectedMenu={setSelectedMenu}
@@ -309,16 +341,18 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
         toggleModal={onPressSuccess}
       />
       <ModalShare
-        url={
-          'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0'
-        }
+        url={shareLink}
         modalVisible={modalShare}
         onPressClose={() => setModalShare(false)}
         titleModal={t('General.Share.Feed')}
         hideMusic
         onPressCopy={() =>
-          InteractionManager.runAfterInteractions(() => setToastVisible(true))
+          InteractionManager.runAfterInteractions(() => {
+            Clipboard.setString(shareLink);
+            setToastVisible(true);
+          })
         }
+        disabled={!successGetLink}
       />
       <SsuToast
         modalVisible={toastVisible}
