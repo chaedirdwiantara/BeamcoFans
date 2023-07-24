@@ -11,6 +11,7 @@ import {
 } from '../api/search.api';
 import {
   FollowersProps,
+  ListDataFans,
   ListDataSearchFans,
   ListDataSearchMusician,
   ListDataSearchSongs,
@@ -30,7 +31,7 @@ export const useSearchHook = () => {
   );
   const [dataPublicBanner, setDataPublicBanner] = useState<BannerList[]>([]);
   const [dataFollowers, setDataFollowers] = useState<ListDataSearchFans[]>([]);
-  const [dataFans, setDataFans] = useState<ListDataSearchFans[]>([]);
+  const [dataFans, setDataFans] = useState<ListDataFans[]>([]);
 
   const getSearchFans = async (props?: SearchProps) => {
     try {
