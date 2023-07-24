@@ -155,18 +155,15 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   );
 
   useEffect(() => {
-    getListMoodPublic();
-    getListGenrePublic();
+    listMood.length === 0 && getListMoodPublic();
+    listGenre.length === 0 && getListGenrePublic();
+    dataDiveIn.length === 0 && getListDiveIn();
     refetchPlaylist();
-    getListDiveIn();
     getListComingSoon();
     if (isLogin) {
       getCountNotification();
       getCreditCount();
     }
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1000);
   }, [refreshing]);
 
   // Doesn't trigger the banner when pull refresh

@@ -60,7 +60,13 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   isLoading,
 }) => {
   const {t} = useTranslation();
-  const {isValidReferral, errorMsg, applyReferralUser} = useProfileHook();
+  const {
+    isValidReferral,
+    errorMsg,
+    applyReferralUser,
+    dataProfile,
+    getProfileUser,
+  } = useProfileHook();
   const scrollViewRef = useRef<ScrollView>(null);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [selectedMoods, setSelectedMoods] = useState<number[]>([]);
@@ -85,13 +91,23 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   };
 
   const handleSkipFailed = () => {
-    console.log('handle skip');
-
     setIsScanFailed(false);
     setIsScanning(true);
     setIsScanned(false);
     setRefCode('');
   };
+
+  useEffect(() => {
+    if (dataProfile !== undefined && dataProfile.data.referralFrom !== null) {
+      setIsScanSuccess(true);
+      setIsScanning(false);
+      setRefCode(dataProfile.data.referralFrom);
+    } else setIsScanSuccess(false);
+  }, [dataProfile]);
+
+  useEffect(() => {
+    getProfileUser();
+  }, []);
 
   const dataArray = [
     {
@@ -286,7 +302,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                       <Text style={styles.textSubtitle}>{item.subtitle}</Text>
                     </View>
                     <View style={{height: '65%'}}>
-                      <ScrollView>
+                      <ScrollView onScroll={handleScroll}>
                         {listMusician &&
                           listMusician?.map((musician, i) => (
                             <View
@@ -319,9 +335,28 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                     </View>
                   </View>
                 );
-              } else if (index === 4) {
+              } else if (index === 4 && dataProfile) {
                 return (
                   <View key={index} style={{paddingVertical: mvs(30)}}>
+                    <TouchableOpacity
+                      style={styles.containerSkip}
+                      onPress={onPress}>
+                      <Text style={styles.textSkip}>{t('Btn.Skip')}</Text>
+                    </TouchableOpacity>
+                    <View style={[styles.containerStep, {paddingTop: 0}]}>
+                      <Text style={styles.textStep}>{item.step}</Text>
+                      <Text style={[typography.Heading4, styles.title]}>
+                        {isScanSuccess
+                          ? t('Setting.ReferralQR.OnBoard.SuccessTitle')
+                          : item.title}
+                      </Text>
+                      <Text style={styles.textSubtitle}>
+                        {isScanSuccess
+                          ? t('Setting.ReferralQR.OnBoard.SuccessDesc')
+                          : item.subtitle}
+                      </Text>
+                    </View>
+
                     <View style={{height: '95%'}}>
                       <ReferralContent
                         onSkip={onPress}
@@ -329,6 +364,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                         isError={errorMsg !== ''}
                         errorMsg={errorMsg}
                         isValidRef={isValidReferral}
+                        isScanFailed={isScanFailed}
                         setIsScanFailed={setIsScanFailed}
                         refCode={refCode}
                         setRefCode={setRefCode}
@@ -340,6 +376,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                         setIsScanned={setIsScanned}
                         isManualEnter={isManualEnter}
                         setIsManualEnter={setIsManualEnter}
+                        referralFrom={dataProfile.data.referralFrom}
                       />
                     </View>
                   </View>
@@ -402,7 +439,6 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
         onPressBack={onPressBack}
         onPressGoTo={onPress}
         onPressNext={onPressNext}
-        selectedData={selectedData}
       />
 
       <ModalLoading visible={isLoading} />
