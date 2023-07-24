@@ -84,6 +84,7 @@ import ShuffleIcon from './Shuffle.icon';
 import SnapchatIcon from './Snapchat.icon';
 import SoundIcon from './Sound.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
+import ThreeDotsHorizonIcon from './ThreeDotsHorizon.icon';
 import TickCircleIcon from './TickCircle.icon';
 import TiktokIcon from './Tiktok.icon';
 import TooltipIcon from './Tooltip.icon';
@@ -195,6 +196,7 @@ export {
   SnapchatIcon,
   SoundIcon,
   ThreeDotsIcon,
+  ThreeDotsHorizonIcon,
   TickCircleIcon,
   TiktokIcon,
   TooltipIcon,

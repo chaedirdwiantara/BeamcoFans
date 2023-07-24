@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {IconMore} from '../../../atom';
@@ -23,11 +24,27 @@ interface DropdownV2Props {
   selectedid?: (id: string) => void;
   selectedMenu: (data: DataDropDownType) => void;
   dataFilter: DataDropDownType[];
+  containerStyle?: ViewStyle;
+  iconContainerStyle?: ViewStyle;
   compWitdth?: number;
+  iconChildren?: React.ReactNode;
+  topPosition?: number;
+  leftPosition?: number;
 }
 
 const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
-  const {id, selectedid, selectedMenu, dataFilter, compWitdth} = props;
+  const {
+    id,
+    selectedid,
+    selectedMenu,
+    dataFilter,
+    containerStyle,
+    iconContainerStyle,
+    compWitdth,
+    iconChildren,
+    topPosition = 0,
+    leftPosition = 0,
+  } = props;
   const [offsetSortFilter, setOffsetSortFilter] = useState<{
     px: number;
     py: number;
@@ -39,10 +56,10 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
   const [heightPercent, setHeightPercent] = useState<number>(0);
 
   const handleOnClose = () => {
-    if (menuSelected !== undefined) {
+    if (menuSelected) {
       selectedMenu?.(menuSelected);
       setMenuSelected(undefined);
-      if (id !== undefined) {
+      if (id) {
         selectedid?.(id);
       }
     }
@@ -61,7 +78,7 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
 
   return (
     <View
-      style={styles.dropdownContainer}
+      style={[styles.dropdownContainer, containerStyle]}
       onLayout={event => {
         event.target.measure(() => {});
       }}
@@ -82,9 +99,9 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
             }
       }>
       <TouchableOpacity
-        style={styles.iconContainer}
+        style={[styles.iconContainer, iconContainerStyle]}
         onPress={() => setIsModalVisible(true)}>
-        <IconMore />
+        {iconChildren ?? <IconMore />}
       </TouchableOpacity>
       {offsetSortFilter !== undefined && (
         <FilterModal
@@ -99,13 +116,14 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
           containerStyle={{
             top:
               heightPercent > 30
-                ? offsetSortFilter?.py + ms(2)
+                ? offsetSortFilter?.py + ms(2) + topPosition
                 : offsetSortFilter?.py +
                   ms(2) -
-                  (compHeight + dropDownHeight + 15),
+                  (compHeight + dropDownHeight + 15) +
+                  topPosition,
             left: compWitdth
-              ? offsetSortFilter?.px - compWitdth
-              : offsetSortFilter?.px - widthResponsive(117),
+              ? offsetSortFilter?.px - compWitdth + leftPosition
+              : offsetSortFilter?.px - widthResponsive(117) + leftPosition,
           }}
           textStyle={{fontSize: mvs(12)}}
           buttonContainerStyle={{

@@ -134,3 +134,8 @@ export const dropDownActionSort: DataDropDownType[] = [
   {label: 'Event.Dropdown.Sort.LowestPrice', value: '2'},
   {label: 'Event.Dropdown.Sort.MostSold', value: '3'},
 ];
+
+export const dataReportPost: DataDropDownType[] = [
+  {label: 'Post.Dropdown.Visit', value: '11'},
+  {label: 'Post.Dropdown.Report', value: '22'},
+];
