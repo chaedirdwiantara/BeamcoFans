@@ -58,6 +58,7 @@ import {
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useShareHook} from '../../hooks/use-share.hook';
 import {imageShare} from '../../utils/share';
+import {DataDropDownType} from '../../data/dropdown';
 
 const {height} = Dimensions.get('screen');
 
@@ -95,6 +96,10 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
   const [idNowPlaying, setIdNowPlaing] = useState<string>();
+
+  const [selectedIdPost, setSelectedIdPost] = useState<string>();
+  const [selectedMenuPost, setSelectedMenuPost] = useState<DataDropDownType>();
+  const [selectedUserUuid, setSelectedUserUuid] = useState<string>();
 
   const {
     feedIsLoading,
@@ -253,6 +258,28 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   };
   // ! END OF MUSIC AREA
 
+  // ! REPORT POST AREA
+  useEffect(() => {
+    if (selectedIdPost && selectedMenuPost && selectedUserUuid && dataMain) {
+      const selectedValue = t(selectedMenuPost.value);
+
+      switch (selectedValue) {
+        case '11':
+          navigation.navigate('MusicianProfile', {
+            id: selectedUserUuid,
+          });
+          break;
+        case '22':
+          console.log('REPORT', selectedIdPost);
+          break;
+        default:
+          break;
+      }
+      setSelectedMenuPost(undefined);
+    }
+  }, [selectedIdPost, selectedMenuPost, selectedUserUuid]);
+  // ! END OF REPORT POST AREA
+
   const handleOnBlur = () => {
     setModalConfirm(true);
   };
@@ -363,13 +390,22 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                   shareOnPress={() => shareOnPress(item)}
                   commentCount={item.commentsCount}
                   myPost={item.musician.uuid === MyUuid}
-                  selectedMenu={() => {}}
+                  musicianUuid={item.musician.uuid}
                   idPost={item.id}
-                  selectedIdPost={() => {}}
+                  selectedMenu={setSelectedMenuPost}
+                  selectedIdPost={setSelectedIdPost}
+                  selectedUserUuid={setSelectedUserUuid}
                   isPremium={item.isPremiumPost}
                   viewCount={item.viewsCount}
                   shareCount={item.shareCount}
-                  showDropdown
+                  showDropdown={
+                    item.isPremiumPost &&
+                    item.musician.uuid !== MyUuid &&
+                    !item.isSubscribe
+                      ? false
+                      : true
+                  }
+                  onProfile
                   noNavigate
                   children={
                     <ChildrenCard

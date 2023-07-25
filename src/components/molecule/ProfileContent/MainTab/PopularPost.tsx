@@ -14,7 +14,7 @@ import {dateFormat} from '../../../../utils/date-format';
 import {DataDropDownType} from '../../../../data/dropdown';
 import ChildrenCard from '../../../../screen/ListCard/ChildrenCard';
 import {usePlayerHook} from '../../../../hooks/use-player.hook';
-import {profileStorage} from '../../../../hooks/use-storage.hook';
+import {profileStorage, storage} from '../../../../hooks/use-storage.hook';
 import {useCreditHook} from '../../../../hooks/use-credit.hook';
 import {ModalDonate} from '../../Modal/ModalDonate';
 import {ModalSuccessDonate} from '../../Modal/ModalSuccessDonate';
@@ -26,20 +26,25 @@ import {
   heightPercentage,
   widthResponsive,
 } from '../../../../utils';
-import ImageModal from '../../../../screen/Detail/ImageModal';
 import {imageShare} from '../../../../utils/share';
 import {useShareHook} from '../../../../hooks/use-share.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
+import {BottomSheetGuest} from '../../GuestComponent/BottomSheetGuest';
+import {ModalConfirm} from '../../Modal/ModalConfirm';
 
 interface PopularPostProps {
   uuidMusician: string;
+  coverImage: string;
+  title: string;
+  description: string;
 }
 
 const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
-  const {uuidMusician} = props;
+  const {coverImage, title, description, uuidMusician} = props;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const MyUuid = profileStorage()?.uuid;
+  const isLogin = storage.getString('profile');
   const {
     feedIsLoading,
     feedIsError,
@@ -74,13 +79,16 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
   const [selectedId, setSelectedId] = useState<string[]>();
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalShare, setModalShare] = useState<boolean>(false);
-  const [selectedMenu, setSelectedMenu] = useState<DataDropDownType>();
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
   const [idNowPlaying, setIdNowPlaing] = useState<string>();
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
+  const [modalGuestVisible, setModalGuestVisible] = useState(false);
+  const [modalConfirm, setModalConfirm] = useState(false);
+  const [selectedMenuPost, setSelectedMenuPost] = useState<DataDropDownType>();
+  const [selectedUserUuid, setSelectedUserUuid] = useState<string>();
 
   const {t} = useTranslation();
 
@@ -224,6 +232,26 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
     setTrigger2ndModal(false);
   };
 
+  const handleMaybeLater = () => {
+    setModalConfirm(false);
+  };
+
+  const handleConfirmModal = () => {
+    setModalConfirm(false);
+    navigation.navigate('ExclusiveContent', {data: props});
+  };
+
+  // ! REPORT POST AREA
+  useEffect(() => {
+    if (selectedIdPost && selectedMenuPost && selectedUserUuid) {
+      const selectedValue = t(selectedMenuPost.value);
+
+      if (selectedValue) console.log('REPORT', selectedIdPost);
+      setSelectedMenuPost(undefined);
+    }
+  }, [selectedIdPost, selectedMenuPost, selectedUserUuid]);
+  // ! END OF REPORT POST AREA
+
   // SHARE LINK
   useEffect(() => {
     if (selectedSharePost) {
@@ -240,6 +268,16 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
     }
   }, [selectedSharePost]);
 
+  const handleNotLogin = () => {
+    setModalGuestVisible(true);
+  };
+
+  const handleOnBlur = () => {
+    setModalConfirm(true);
+  };
+
+  const item = dataPostList[0];
+
   return (
     <View>
       {dataPostList.length > 0 && (
@@ -250,81 +288,111 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
           <ListCard.PostList
             containerStyles={{paddingHorizontal: 0}}
             toDetailOnPress={() => {}}
-            musicianName={dataPostList[0].musician.fullname}
-            musicianId={`@${dataPostList[0].musician.username}`}
+            musicianName={item.musician.fullname}
+            musicianId={`@${item.musician.username}`}
             imgUri={
-              dataPostList[0].musician.imageProfileUrls.length !== 0
-                ? dataPostList[0].musician.imageProfileUrls[0]?.image
+              item.musician.imageProfileUrls.length !== 0
+                ? item.musician.imageProfileUrls[0]?.image
                 : ''
             }
-            postDate={
-              dataPostList[0]?.timeAgo
-                ? dataPostList[0].timeAgo
-                : dateFormat(dataPostList[0].createdAt)
-            }
-            postDate2={dataPostList[0].createdAt}
-            category={categoryNormalize(dataPostList[0].category)}
-            onPress={() => cardOnPress(dataPostList[0])}
-            likeOnPress={() =>
-              likeOnPress(dataPostList[0].id, dataPostList[0].isLiked)
-            }
+            postDate={item?.timeAgo ? item.timeAgo : dateFormat(item.createdAt)}
+            postDate2={item.createdAt}
+            category={categoryNormalize(item.category)}
+            onPress={() => cardOnPress(item)}
+            likeOnPress={() => likeOnPress(item.id, item.isLiked)}
             likePressed={
               selectedId === undefined
-                ? dataPostList[0].isLiked
-                : selectedId.includes(dataPostList[0].id) &&
-                  recorder.includes(dataPostList[0].id)
+                ? item.isLiked
+                : selectedId.includes(item.id) && recorder.includes(item.id)
                 ? true
-                : !selectedId.includes(dataPostList[0].id) &&
-                  recorder.includes(dataPostList[0].id)
+                : !selectedId.includes(item.id) && recorder.includes(item.id)
                 ? false
-                : !selectedId.includes(dataPostList[0].id) &&
-                  !recorder.includes(dataPostList[0].id)
-                ? dataPostList[0].isLiked
-                : dataPostList[0].isLiked
+                : !selectedId.includes(item.id) && !recorder.includes(item.id)
+                ? item.isLiked
+                : item.isLiked
             }
             likeCount={
               selectedId === undefined
-                ? dataPostList[0].likesCount
-                : selectedId.includes(dataPostList[0].id) &&
-                  recorder.includes(dataPostList[0].id) &&
-                  dataPostList[0].isLiked === true
-                ? dataPostList[0].likesCount
-                : selectedId.includes(dataPostList[0].id) &&
-                  recorder.includes(dataPostList[0].id) &&
-                  dataPostList[0].isLiked === false
-                ? dataPostList[0].likesCount + 1
-                : !selectedId.includes(dataPostList[0].id) &&
-                  recorder.includes(dataPostList[0].id) &&
-                  dataPostList[0].isLiked === true
-                ? dataPostList[0].likesCount - 1
-                : !selectedId.includes(dataPostList[0].id) &&
-                  recorder.includes(dataPostList[0].id) &&
-                  dataPostList[0].isLiked === false
-                ? dataPostList[0].likesCount
-                : dataPostList[0].likesCount
+                ? item.likesCount
+                : selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === true
+                ? item.likesCount
+                : selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === false
+                ? item.likesCount + 1
+                : !selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === true
+                ? item.likesCount - 1
+                : !selectedId.includes(item.id) &&
+                  recorder.includes(item.id) &&
+                  item.isLiked === false
+                ? item.likesCount
+                : item.likesCount
             }
             tokenOnPress={tokenOnPress}
-            shareOnPress={() => shareOnPress(dataPostList[0])}
-            commentCount={dataPostList[0].commentsCount}
-            myPost={dataPostList[0].musician.uuid === MyUuid}
-            selectedMenu={setSelectedMenu}
-            idPost={dataPostList[0].id}
+            shareOnPress={() => shareOnPress(item)}
+            commentCount={item.commentsCount}
+            myPost={item.musician.uuid === MyUuid}
+            musicianUuid={item.musician.uuid}
+            idPost={item.id}
+            selectedMenu={setSelectedMenuPost}
             selectedIdPost={setSelectedIdPost}
-            isPremium={dataPostList[0].isPremiumPost}
-            viewCount={dataPostList[0].viewsCount}
-            shareCount={dataPostList[0].shareCount}
-            showDropdown
+            selectedUserUuid={setSelectedUserUuid}
+            isPremium={item.isPremiumPost}
+            viewCount={item.viewsCount}
+            shareCount={item.shareCount}
+            showDropdown={
+              item.isPremiumPost &&
+              item.musician.uuid !== MyUuid &&
+              !item.isSubscribe
+                ? false
+                : true
+            }
+            onProfile
+            noNavigate
             children={
               <ChildrenCard
-                data={dataPostList[0]}
-                onPress={onPressPlaySong}
+                data={item}
+                onPress={
+                  !isLogin
+                    ? handleNotLogin
+                    : item.isPremiumPost &&
+                      item.musician.uuid !== MyUuid &&
+                      !item.isSubscribe
+                    ? handleOnBlur
+                    : onPressPlaySong
+                }
                 isPlay={isPlaying}
-                playOrPause={handlePausePlay}
+                playOrPause={
+                  !isLogin
+                    ? handleNotLogin
+                    : item.isPremiumPost &&
+                      item.musician.uuid !== MyUuid &&
+                      !item.isSubscribe
+                    ? handleOnBlur
+                    : handlePausePlay
+                }
                 pauseModeOn={pauseModeOn}
                 currentProgress={playerProgress.position}
                 duration={playerProgress.duration}
-                seekPlayer={seekPlayer}
+                seekPlayer={
+                  !isLogin
+                    ? handleNotLogin
+                    : item.isPremiumPost &&
+                      item.musician.uuid !== MyUuid &&
+                      !item.isSubscribe
+                    ? handleOnBlur
+                    : seekPlayer
+                }
                 isIdNowPlaying={dataPostList[0].id === idNowPlaying}
+                blurModeOn={
+                  item.isPremiumPost &&
+                  item.musician.uuid !== MyUuid &&
+                  !item.isSubscribe
+                }
               />
             }
           />
@@ -332,17 +400,6 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
           <Gap height={heightPercentage(24)} />
         </>
       )}
-      <ModalDonate
-        userId={uuidMusician}
-        onPressDonate={onPressDonate}
-        modalVisible={modalDonate}
-        onPressClose={onPressCloseModalDonate}
-        onModalHide={() => setModalSuccessDonate(true)}
-      />
-      <ModalSuccessDonate
-        modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
-        toggleModal={onPressSuccess}
-      />
       <ModalShare
         url={shareLink}
         modalVisible={modalShare}
@@ -374,6 +431,30 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
           </View>
         }
         modalStyle={{marginHorizontal: widthResponsive(24)}}
+      />
+      <ModalDonate
+        userId={uuidMusician}
+        onPressDonate={onPressDonate}
+        modalVisible={modalDonate}
+        onPressClose={onPressCloseModalDonate}
+        onModalHide={() => setModalSuccessDonate(true)}
+      />
+      <ModalSuccessDonate
+        modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
+        toggleModal={onPressSuccess}
+      />
+      <ModalConfirm
+        modalVisible={modalConfirm}
+        title={'Subscribe to reveal exclusive content'}
+        subtitle={
+          'You need to subscribe exclusive content to unlock current post'
+        }
+        onPressClose={handleMaybeLater}
+        onPressOk={handleConfirmModal}
+      />
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
       />
     </View>
   );

@@ -23,6 +23,7 @@ import CoinB from '../../../assets/icon/CoinB.icon';
 import {
   DataDropDownType,
   dataReportPost,
+  dataReportPostProfile,
   dataUpdatePost,
 } from '../../../data/dropdown';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
@@ -58,6 +59,9 @@ interface ListProps extends TouchableOpacityProps {
   showDropdown?: boolean;
   viewCount: number;
   shareCount: number;
+  musicianUuid?: string;
+  selectedUserUuid?: (uuid: string) => void;
+  onProfile?: boolean;
 }
 
 const PostListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -88,7 +92,13 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
     showDropdown,
     viewCount,
     shareCount,
+    musicianUuid,
+    selectedUserUuid,
+    onProfile,
   } = props;
+
+  const dataReport = onProfile ? dataReportPostProfile : dataReportPost;
+  const leftPosition = onProfile ? widthResponsive(55) : widthResponsive(27);
 
   return (
     <TouchableOpacity {...props}>
@@ -144,9 +154,11 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                 </View>
                 <DropdownMore
                   id={idPost}
+                  uuid={musicianUuid}
                   selectedid={selectedIdPost}
                   selectedMenu={selectedMenu}
-                  dataFilter={myPost ? dataUpdatePost : dataReportPost}
+                  selectedUserUuid={selectedUserUuid}
+                  dataFilter={myPost ? dataUpdatePost : dataReport}
                   iconChildren={<ThreeDotsHorizonIcon />}
                   containerStyle={{
                     marginTop: 0,
@@ -156,7 +168,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                     marginRight: 0,
                   }}
                   topPosition={widthResponsive(-33)}
-                  leftPosition={widthResponsive(27)}
+                  leftPosition={leftPosition}
                 />
               </View>
             ) : (

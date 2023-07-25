@@ -181,6 +181,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   >([]);
   const [parentIdAddComment, setParentIdAddComment] = useState<string[]>([]);
 
+  // * REPORT HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
   const [selectedMenuPost, setSelectedMenuPost] = useState<DataDropDownType>();
 
