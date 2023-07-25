@@ -17,6 +17,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // Screen
 import {EventScreen} from '../screen/Event';
+import {MerchScreen} from '../screen/Merch';
+import {TicketScreen} from '../screen/Ticket';
 import {FeedScreen} from '../screen/Feed';
 import {ForgotPassword} from '../screen/ForgotPassword';
 import {LoginScreen} from '../screen/Login';
@@ -88,7 +90,13 @@ import {AlbumScreen} from '../screen/Album/Album';
 import {TopupCoinScreen} from '../screen/TopupCoin';
 
 // Icon
-import {CrownIcon, FeedIcon, HomeIcon, UserProfileIcon} from '../assets/icon';
+import {
+  CrownIcon,
+  FeedIcon,
+  HomeIcon,
+  TicketDefaultIcon,
+  UserProfileIcon,
+} from '../assets/icon';
 
 // Action
 import Cart from '../screen/Action/Cart';
@@ -260,6 +268,8 @@ export type RootStackParams = {
   SplashScreen: undefined;
   ListPlaylist: undefined;
   Event: undefined;
+  Merch: undefined;
+  Ticket: undefined;
   Cart: {
     promoId?: string;
   };
@@ -285,6 +295,8 @@ export type RootStackParams = {
 export type MainTabParams = {
   Collection: undefined;
   Event: undefined;
+  Merch: undefined;
+  Ticket: undefined;
   Feed: undefined;
   Home: {
     showToast?: boolean;
@@ -350,12 +362,24 @@ const TabScreen = () => {
         }}
       />
       <MainTab.Screen
-        name="Event"
-        component={EventScreen}
+        name="Merch"
+        component={MerchScreen}
         options={{
           tabBarIcon: ({color}) => (
             <View style={styles.root}>
               <CrownIcon stroke={color} />
+              <Text style={[styles.label, {color}]}>{'Merch'}</Text>
+            </View>
+          ),
+        }}
+      />
+      <MainTab.Screen
+        name="Ticket"
+        component={MerchScreen}
+        options={{
+          tabBarIcon: ({color}) => (
+            <View style={styles.root}>
+              <TicketDefaultIcon fill={color} />
               <Text style={[styles.label, {color}]}>{'Action'}</Text>
             </View>
           ),
