@@ -48,6 +48,8 @@ import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {Playlist} from '../../../interface/playlist.interface';
 import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
 import {ListDataSearchSongs} from '../../../interface/search.interface';
+import {useShareHook} from '../../../hooks/use-share.hook';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface Props {
   goBackProfile: (showToast: boolean) => void;
@@ -87,6 +89,7 @@ export const PlaylistContent: React.FC<Props> = ({
 }) => {
   const {t} = useTranslation();
   const {addSong} = usePlayerHook();
+  const {shareLink, getShareLink, successGetLink} = useShareHook();
   const isLogin = storage.getBoolean('isLogin');
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState<boolean>(false);
@@ -244,6 +247,19 @@ export const PlaylistContent: React.FC<Props> = ({
   const firstSong = songIsExist ? listSongs[0] : null;
   const othersPlaylist = dataDetail.isOtherOwnerPlaylist;
 
+  useEffect(() => {
+    if (dataDetail) {
+      getShareLink({
+        scheme: `/playlist/${playlistId}`,
+        image: dataDetail?.thumbnailUrl,
+        title: t('ShareLink.Music.Title', {title: dataDetail?.name}),
+        description: t('ShareLink.Music.Playlist', {
+          owner: dataDetail?.playlistOwner?.fullname,
+        }),
+      });
+    }
+  }, [dataDetail]);
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
@@ -371,9 +387,7 @@ export const PlaylistContent: React.FC<Props> = ({
       />
 
       <ModalShare
-        url={
-          'https://open.ssu.io/track19AiJfAtRiccvSU1EWcttTsi=36b9a686dad44ae0'
-        }
+        url={shareLink}
         modalVisible={modalShare}
         onPressClose={() => setModalShare(false)}
         titleModal={modalShareTitle}
@@ -384,9 +398,13 @@ export const PlaylistContent: React.FC<Props> = ({
         createdOn={dateLongMonth(dataDetail.createdAt)}
         artist={dataDetail?.playlistOwner?.fullname}
         onPressCopy={() => {
-          InteractionManager.runAfterInteractions(() => setToastVisible(true));
-          setToastText(t('General.LinkCopied') || '');
+          InteractionManager.runAfterInteractions(() => {
+            Clipboard.setString(shareLink);
+            setToastVisible(true);
+            setToastText(t('General.LinkCopied') || '');
+          });
         }}
+        disabled={!successGetLink}
       />
     </View>
   );
