@@ -100,6 +100,7 @@ import BoxStore from './BoxStore.icon';
 import CheckIcon from './Check.icon';
 import MinusIcon from './Minus.icon';
 import TicketIcon from './Ticket.icon';
+import TicketDefaultIcon from './TicketDefault.icon';
 import DiscountIcon from './Discount.icon';
 import TrashIcon from './Trash.icon';
 import ClockIcon from './Clock.icon';
@@ -213,6 +214,7 @@ export {
   CheckIcon,
   MinusIcon,
   TicketIcon,
+  TicketDefaultIcon,
   DiscountIcon,
   TrashIcon,
   ClockIcon,

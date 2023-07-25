@@ -934,5 +934,21 @@
     },
     "SubtitleTooltip": "To finish this step, you need to fulfill this information below:",
     "SubtitleTooltipFinish": "You have already completed your account information"
+  },
+  "ShareLink": {
+    "Music": {
+      "Title": "Listen To {{title}}",
+      "Playlist": "Unleash Your Ears: Indulge in an Extraordinary Playlist Experience!",
+      "Song": "Unleash the Melodies: Immerse Yourself in This Captivating Song!",
+      "Album": "Immerse Yourself in a Diverse Musical Experience with This Captivating Collection"
+    },
+    "Feed": {
+      "Title": "{{musician}}'s post",
+      "Subtitle": "Get the Latest Updates from Your Favorite Musician!"
+    },
+    "Profile": {
+      "Title": "Get in touch with {{name}}",
+      "Subtitle": "Discover Attention-Grabbing Musicians to Explore!"
+    }
   }
 }

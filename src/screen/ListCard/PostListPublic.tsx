@@ -29,7 +29,12 @@ import {
   DropDownSortType,
 } from '../../data/dropdown';
 import {color, font, typography} from '../../theme';
-import {heightPercentage, heightResponsive, widthResponsive} from '../../utils';
+import {
+  elipsisText,
+  heightPercentage,
+  heightResponsive,
+  widthResponsive,
+} from '../../utils';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
@@ -67,6 +72,8 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {useQuery} from 'react-query';
 import {useHeaderAnimation} from '../../hooks/use-header-animation.hook';
 import {usePostLogger} from './ListUtils/use-PostLogger';
+import {useShareHook} from '../../hooks/use-share.hook';
+import {imageShare} from '../../utils/share';
 
 const {height} = Dimensions.get('screen');
 const {StatusBarManager} = NativeModules;
@@ -81,9 +88,6 @@ interface PostListProps {
   dataLeftDropdown: DropDownFilterType[] | DropDownSortType[];
   uuidMusician?: string;
 }
-
-const urlText =
-  'https://open.ssu.io/track/19AiJfAtRiccvSU1EWcttT?si=36b9a686dad44ae0';
 
 const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
@@ -141,6 +145,14 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     playerProgress,
     addPlaylistFeed,
   } = usePlayerHook();
+
+  const {
+    shareLink,
+    getShareLink,
+    successGetLink,
+    setSelectedSharePost,
+    selectedSharePost,
+  } = useShareHook();
 
   const {creditCount, getCreditCount} = useCreditHook();
   const MyUuid = profileStorage()?.uuid;
@@ -293,8 +305,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     );
   };
 
-  const shareOnPress = (musicianId: string) => {
-    setSelectedMusicianId(musicianId);
+  const shareOnPress = (content: PostList) => {
+    setSelectedMusicianId(content.id);
+    setSelectedSharePost(content);
     setModalShare(true);
   };
 
@@ -331,7 +344,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const onPressCopy = () => {
     setIsCopied(true);
     if (Clipboard && Clipboard.setString) {
-      Clipboard.setString(urlText);
+      Clipboard.setString(shareLink);
       sendLogShare({id: selectedMusicianId});
     }
   };
@@ -356,6 +369,22 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     }
   };
   // ! END OF MUSIC AREA
+
+  // SHARE LINK
+  useEffect(() => {
+    if (selectedSharePost) {
+      getShareLink({
+        scheme: `/feed/${selectedSharePost.id}`,
+        image: imageShare(selectedSharePost),
+        title: t('ShareLink.Feed.Title', {
+          musician: selectedSharePost.musician.fullname,
+        }),
+        description: selectedSharePost.caption
+          ? elipsisText(selectedSharePost.caption, 50)
+          : t('ShareLink.Feed.Subtitle'),
+      });
+    }
+  }, [selectedSharePost]);
 
   return (
     <>
@@ -458,7 +487,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
                   tokenOnPress={() => tokenOnPress(item.musician_uuid)}
-                  shareOnPress={() => shareOnPress(item.id)}
+                  shareOnPress={() => shareOnPress(item)}
                   containerStyles={{marginTop: mvs(16)}}
                   commentCount={item.commentsCount}
                   myPost={item.musician.uuid === MyUuid}
@@ -507,7 +536,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
         </>
       ) : null}
       <ModalShare
-        url={urlText}
+        url={shareLink}
         modalVisible={modalShare}
         onPressClose={() => setModalShare(false)}
         titleModal={t('General.Share.Feed')}
@@ -518,6 +547,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             ? onModalShareHide
             : () => console.log(modalShare, 'modal is hide')
         }
+        disabled={!successGetLink}
       />
       <SsuToast
         modalVisible={toastVisible}
