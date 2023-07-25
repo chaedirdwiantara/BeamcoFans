@@ -966,9 +966,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
                 selectedIdPost={setSelectedIdPost}
                 isPremium={data.isPremiumPost}
                 disableComment={false}
-                showDropdown={
-                  dataPostDetail.musician.uuid !== dataProfile?.data.uuid
-                }
+                viewCount={dataPostDetail.viewsCount}
+                shareCount={dataPostDetail.shareCount}
+                showDropdown
                 children={
                   <DetailChildrenCard
                     data={dataPostDetail}

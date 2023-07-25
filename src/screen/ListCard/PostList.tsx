@@ -320,6 +320,9 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   idPost={item.id}
                   selectedIdPost={setSelectedIdPost}
                   isPremium={item.isPremiumPost}
+                  viewCount={item.viewsCount}
+                  shareCount={item.shareCount}
+                  showDropdown
                   children={
                     <ChildrenCard
                       data={item}
