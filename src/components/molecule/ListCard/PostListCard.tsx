@@ -16,9 +16,14 @@ import {
   HornChatIcon,
   LoveIcon,
   ShareIcon,
+  ThreeDotsHorizonIcon,
 } from '../../../assets/icon';
 import CoinB from '../../../assets/icon/CoinB.icon';
-import {DataDropDownType, dataUpdatePost} from '../../../data/dropdown';
+import {
+  DataDropDownType,
+  dataReportPost,
+  dataUpdatePost,
+} from '../../../data/dropdown';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {
   dateFormatDayOnly,
@@ -49,6 +54,7 @@ interface ListProps extends TouchableOpacityProps {
   noNavigate?: boolean;
   disableComment?: boolean;
   commentOnPress?: () => void;
+  showDropdown?: boolean;
 }
 
 const PostListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -76,6 +82,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
     noNavigate,
     disableComment = true,
     commentOnPress,
+    showDropdown,
   } = props;
   return (
     <TouchableOpacity {...props}>
@@ -124,9 +131,33 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
             <Text style={styles.songTitle} onPress={toDetailOnPress}>
               {musicianName}
             </Text>
-            <View style={[styles.category]}>
-              <Text style={styles.categoryText}>{category}</Text>
-            </View>
+            {showDropdown ? (
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={[styles.category]}>
+                  <Text style={styles.categoryText}>{category}</Text>
+                </View>
+                <DropdownMore
+                  id={idPost}
+                  selectedid={selectedIdPost}
+                  selectedMenu={selectedMenu}
+                  dataFilter={dataReportPost}
+                  iconChildren={<ThreeDotsHorizonIcon />}
+                  containerStyle={{
+                    marginTop: 0,
+                    marginBottom: 0,
+                  }}
+                  iconContainerStyle={{
+                    marginRight: 0,
+                  }}
+                  topPosition={widthResponsive(-33)}
+                  leftPosition={widthResponsive(27)}
+                />
+              </View>
+            ) : (
+              <View style={[styles.category]}>
+                <Text style={styles.categoryText}>{category}</Text>
+              </View>
+            )}
           </View>
           <Gap height={4} />
           <View style={styles.bottomSection}>

@@ -698,6 +698,10 @@
     },
     "Placeholder": {
       "Write": "Write your reply"
+    },
+    "Dropdown":{
+      "Visit": "Visit Profile",
+      "Report": "Report"
     }
   },
   "Notification": {

@@ -175,6 +175,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   >([]);
   const [parentIdAddComment, setParentIdAddComment] = useState<string[]>([]);
 
+  const [selectedIdPost, setSelectedIdPost] = useState<string>();
+  const [selectedMenuPost, setSelectedMenuPost] = useState<DataDropDownType>();
+
   useEffect(() => {
     if (modalDonate) getCreditCount();
   }, [modalDonate]);
@@ -867,6 +870,32 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   }, [dataUserCheck, idUserTonavigate]);
   // ! End of Navigate to Fans / Musician Area
 
+  // ! REPORT POST AREA
+  useEffect(() => {
+    if (
+      selectedIdPost !== undefined &&
+      selectedMenuPost !== undefined &&
+      dataPostDetail
+    ) {
+      const selectedValue = t(selectedMenuPost.value);
+
+      switch (selectedValue) {
+        case '11':
+          navigation.navigate('MusicianProfile', {
+            id: dataPostDetail.musician.uuid,
+          });
+          break;
+        case '22':
+          console.log('REPORT', selectedIdPost);
+          break;
+        default:
+          break;
+      }
+      setSelectedMenuPost(undefined);
+    }
+  }, [selectedIdPost, selectedMenuPost]);
+  // ! END OF REPORT POST AREA
+
   const handleBackAction = () => {
     show && setWithoutBottomTab(false);
     navigation.goBack();
@@ -932,11 +961,14 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
                 commentOnPress={() => commentOnPress(data.id, musicianName)}
                 commentCount={commentCountLvl1}
                 myPost={dataPostDetail.musician.uuid === dataProfile?.data.uuid}
-                selectedMenu={setSelectedMenu}
+                selectedMenu={setSelectedMenuPost}
                 idPost={dataPostDetail.id}
-                selectedIdPost={() => {}}
+                selectedIdPost={setSelectedIdPost}
                 isPremium={data.isPremiumPost}
                 disableComment={false}
+                showDropdown={
+                  dataPostDetail.musician.uuid !== dataProfile?.data.uuid
+                }
                 children={
                   <DetailChildrenCard
                     data={dataPostDetail}
