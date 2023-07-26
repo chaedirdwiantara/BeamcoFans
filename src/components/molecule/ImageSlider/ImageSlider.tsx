@@ -302,7 +302,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
                       <Text style={styles.textSubtitle}>{item.subtitle}</Text>
                     </View>
                     <View style={{height: '65%'}}>
-                      <ScrollView onScroll={handleScroll}>
+                      <ScrollView>
                         {listMusician &&
                           listMusician?.map((musician, i) => (
                             <View
