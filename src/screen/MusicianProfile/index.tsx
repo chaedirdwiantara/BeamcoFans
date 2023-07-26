@@ -60,10 +60,6 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     }, [uuid]),
   );
 
-  useEffect(() => {
-    console.log({dataDetailMusician});
-  }, [dataDetailMusician]);
-
   const musicianPlaylist =
     dataPlaylist !== undefined && dataPlaylist !== null
       ? dataPlaylist?.filter(val => !val.isDefaultPlaylist && val.isPublic)
