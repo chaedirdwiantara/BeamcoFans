@@ -181,6 +181,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   >([]);
   const [parentIdAddComment, setParentIdAddComment] = useState<string[]>([]);
 
+  // * REPORT HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
   const [selectedMenuPost, setSelectedMenuPost] = useState<DataDropDownType>();
 
@@ -989,9 +990,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
                 selectedIdPost={setSelectedIdPost}
                 isPremium={data.isPremiumPost}
                 disableComment={false}
-                showDropdown={
-                  dataPostDetail.musician.uuid !== dataProfile?.data.uuid
-                }
+                viewCount={dataPostDetail.viewsCount}
+                shareCount={dataPostDetail.shareCount}
+                showDropdown
                 children={
                   <DetailChildrenCard
                     data={dataPostDetail}

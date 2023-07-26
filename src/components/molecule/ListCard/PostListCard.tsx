@@ -13,6 +13,7 @@ import {heightResponsive, widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
 import {
   CommentIcon,
+  DiagramIcon,
   HornChatIcon,
   LoveIcon,
   ShareIcon,
@@ -22,6 +23,7 @@ import CoinB from '../../../assets/icon/CoinB.icon';
 import {
   DataDropDownType,
   dataReportPost,
+  dataReportPostProfile,
   dataUpdatePost,
 } from '../../../data/dropdown';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
@@ -55,6 +57,11 @@ interface ListProps extends TouchableOpacityProps {
   disableComment?: boolean;
   commentOnPress?: () => void;
   showDropdown?: boolean;
+  viewCount: number;
+  shareCount: number;
+  musicianUuid?: string;
+  selectedUserUuid?: (uuid: string) => void;
+  onProfile?: boolean;
 }
 
 const PostListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -83,7 +90,16 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
     disableComment = true,
     commentOnPress,
     showDropdown,
+    viewCount,
+    shareCount,
+    musicianUuid,
+    selectedUserUuid,
+    onProfile,
   } = props;
+
+  const dataReport = onProfile ? dataReportPostProfile : dataReportPost;
+  const leftPosition = onProfile ? widthResponsive(55) : widthResponsive(27);
+
   return (
     <TouchableOpacity {...props}>
       <View style={[styles.topContainer, containerStyles]}>
@@ -138,9 +154,11 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                 </View>
                 <DropdownMore
                   id={idPost}
+                  uuid={musicianUuid}
                   selectedid={selectedIdPost}
                   selectedMenu={selectedMenu}
-                  dataFilter={dataReportPost}
+                  selectedUserUuid={selectedUserUuid}
+                  dataFilter={myPost ? dataUpdatePost : dataReport}
                   iconChildren={<ThreeDotsHorizonIcon />}
                   containerStyle={{
                     marginTop: 0,
@@ -150,7 +168,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                     marginRight: 0,
                   }}
                   topPosition={widthResponsive(-33)}
-                  leftPosition={widthResponsive(27)}
+                  leftPosition={leftPosition}
                 />
               </View>
             ) : (
@@ -173,8 +191,8 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
             style={[
               styles.bottomContainer,
               {
-                marginTop: !myPost ? 4 : -4.5,
-                marginBottom: !myPost ? 10 : 0,
+                marginTop: !myPost ? 4 : 2,
+                marginBottom: 10,
               },
             ]}>
             <View style={styles.socialContainer}>
@@ -209,16 +227,24 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                     <CoinB fill={color.Dark[100]} />
                   </TouchableOpacity>
                 ) : (
-                  <TouchableOpacity onPress={shareOnPress}>
+                  <TouchableOpacity
+                    onPress={shareOnPress}
+                    style={styles.socialIcon}>
                     <ShareIcon fill={color.Dark[100]} />
+                    <Gap width={5.5} />
+                    <Text style={styles.regularText}>{shareCount ?? 0}</Text>
                   </TouchableOpacity>
                 )}
               </View>
               {/* share section */}
               <View>
                 {!myPost ? (
-                  <TouchableOpacity onPress={shareOnPress}>
+                  <TouchableOpacity
+                    onPress={shareOnPress}
+                    style={styles.socialIcon}>
                     <ShareIcon fill={color.Dark[100]} />
+                    <Gap width={5.5} />
+                    <Text style={styles.regularText}>{shareCount ?? 0}</Text>
                   </TouchableOpacity>
                 ) : (
                   <DropdownMore
@@ -226,6 +252,17 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                     selectedMenu={selectedMenu}
                   />
                 )}
+              </View>
+              {/* view section */}
+              <View>
+                <TouchableOpacity
+                  onPress={() => {}}
+                  disabled
+                  style={styles.socialIcon}>
+                  <DiagramIcon fill={color.Dark[100]} />
+                  <Gap width={5.5} />
+                  <Text style={styles.regularText}>{viewCount ?? 0}</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
