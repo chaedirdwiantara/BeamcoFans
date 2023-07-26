@@ -62,6 +62,7 @@ import {SecurityScreen} from '../screen/Setting/Security';
 import {TnCAndPPScreen} from '../screen/Setting/TnCAndPP';
 import {AboutDeletionScreen} from '../screen/Setting/DeleteAccount/AboutDeletion';
 import {InputDeletionScreen} from '../screen/Setting/DeleteAccount/InputDeletion';
+import {SendAppealScreen} from '../screen/Setting/SendAppeal';
 
 // Profile
 import {ProfileScreen} from '../screen/Profile/Profile';
@@ -224,6 +225,7 @@ export type RootStackParams = {
   RecoverAccount: undefined;
   Referral: undefined;
   ReferralCode: undefined;
+  SendAppeal: {title: string};
   SendReport: {title: string};
   Setting: undefined;
   Security: {
@@ -453,6 +455,7 @@ export const RootStackScreen = () => (
       name="DonationAndSubscription"
       component={DonationAndSubscription}
     />
+    <RootStack.Screen name="SendAppeal" component={SendAppealScreen} />
     <RootStack.Screen name="SendReport" component={SendReportScreen} />
     <RootStack.Screen name="Setting" component={SettingScreen} />
     <RootStack.Screen name="Security" component={SecurityScreen} />
