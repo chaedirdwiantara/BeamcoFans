@@ -320,7 +320,7 @@ export const AccountContent: React.FC<AccountProps> = ({
             <Dropdown.Input
               initialValue={value}
               data={dataGender}
-              isRequired={true && fromScreen === 'progress'}
+              isRequired={true}
               placeHolder={t('Setting.Account.Placeholder.Gender')}
               dropdownLabel={t('Setting.Account.Label.Gender')}
               textTyped={(newText: {label: string; value: string}) => {
@@ -346,7 +346,7 @@ export const AccountContent: React.FC<AccountProps> = ({
             render={({field: {onChange, value}}) => (
               <Dropdown.Input
                 type="location"
-                isRequired={true && fromScreen === 'progress'}
+                isRequired={true}
                 initialValue={value}
                 data={dataAllCountry}
                 placeHolder={t('Setting.Shipping.Placeholder.Country') || ''}
@@ -398,7 +398,7 @@ export const AccountContent: React.FC<AccountProps> = ({
           textTyped={(_newText: string) => null}
           containerStyles={{marginTop: heightPercentage(15)}}
           initialValue={valueGenres}
-          isRequired={true && fromScreen === 'progress'}
+          isRequired={true}
           setValues={val => setValueGenres(val)}
         />
 
