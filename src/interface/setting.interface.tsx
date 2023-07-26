@@ -53,6 +53,7 @@ export type ChangePasswordResponseType = {
 export type DataShippingProps = {
   email: string;
   phoneNumber: string;
+  phoneNumberCode: string;
   fullname: string;
   province: string;
   country: string;
