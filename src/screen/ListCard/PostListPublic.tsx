@@ -102,6 +102,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
+  const [reportToast, setReportToast] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
@@ -387,7 +388,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           });
           break;
         case '22':
-          console.log('REPORT', selectedIdPost);
+          setReportToast(true);
           break;
         default:
           break;
@@ -594,6 +595,12 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             </Text>
           </View>
         }
+        modalStyle={{marginHorizontal: widthResponsive(24)}}
+      />
+      <SsuToast
+        modalVisible={reportToast}
+        onBackPressed={() => setReportToast(false)}
+        children={<View style={[styles.modalContainer]}></View>}
         modalStyle={{marginHorizontal: widthResponsive(24)}}
       />
       <ModalDonate

@@ -14,6 +14,7 @@ import {
   Gap,
   ListCard,
   ModalDonate,
+  ModalReport,
   ModalShare,
   ModalSuccessDonate,
   SsuToast,
@@ -134,6 +135,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [dataProfileImg, setDataProfileImg] = useState<string>('');
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
+  const [reportToast, setReportToast] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
@@ -894,7 +896,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           });
           break;
         case '22':
-          console.log('REPORT', selectedIdPost);
+          setReportToast(true);
           break;
         default:
           break;
@@ -1082,6 +1084,11 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             </View>
           }
           modalStyle={{marginHorizontal: widthResponsive(24)}}
+        />
+        <ModalReport
+          modalVisible={reportToast}
+          onPressClose={() => setReportToast(false)}
+          title="Why are you reporting this post?"
         />
         <ModalDonate
           userId={data.musician.uuid}

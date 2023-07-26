@@ -33,6 +33,7 @@ import {ModalConfirm} from './Modal/ModalConfirm';
 import {ModalCustom} from './Modal/ModalCustom';
 import {ModalDonate} from './Modal/ModalDonate';
 import {ModalImagePicker} from './Modal/ModalImagePicker';
+import {ModalReport} from './Modal/ModalReport';
 import {ModalShare} from './Modal/ModalShare';
 import {ModalSuccessDonate} from './Modal/ModalSuccessDonate';
 import {MusicSection} from './MusicSection/MusicSection';
@@ -100,6 +101,7 @@ export {
   ModalCustom,
   ModalDonate,
   ModalImagePicker,
+  ModalReport,
   ModalShare,
   ModalSuccessDonate,
   MusicSection,
