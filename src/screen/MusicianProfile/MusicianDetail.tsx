@@ -187,6 +187,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     setTrigger2ndModal(true);
   };
 
+  useEffect(() => {
+    modalSuccessDonate &&
+      setTimeout(() => {
+        setModalSuccessDonate(false);
+      }, 3000);
+  }, [modalSuccessDonate, trigger2ndModal]);
+
   const onPressSuccess = () => {
     setModalSuccessDonate(false);
   };
@@ -336,7 +343,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         onPressDonate={onPressDonate}
         modalVisible={modalDonate}
         onPressClose={() => setModalDonate(false)}
-        onModalHide={() => setModalSuccessDonate(true)}
+        onModalHide={() =>
+          setTimeout(() => {
+            setModalSuccessDonate(true);
+          }, 1000)
+        }
       />
 
       <ModalSuccessDonate
