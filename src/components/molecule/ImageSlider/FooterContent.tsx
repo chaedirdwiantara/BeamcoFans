@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Platform} from 'react-native';
 import {useTranslation} from 'react-i18next';
 
 import Color from '../../../theme/Color';
@@ -38,7 +38,12 @@ export const FooterContent: React.FC<FooterContentProps> = ({
       style={[
         styles.containerFooterContent,
         {
-          height: type === 'Preference' ? '15%' : '35%',
+          height:
+            type === 'Preference'
+              ? '15%'
+              : Platform.OS === 'ios'
+              ? '38%'
+              : '42%',
         },
       ]}>
       {type !== 'Preference' &&
@@ -53,17 +58,9 @@ export const FooterContent: React.FC<FooterContentProps> = ({
             );
           }
         })}
-      <Gap height={heightPercentage(40)} />
-      {type !== 'Preference' && (
-        <Indicator
-          activeIndex={activeIndexSlide}
-          totalIndex={data.length}
-          activeColor={activeColor}
-          inActiveColor={inActiveColor}
-        />
-      )}
       {type === 'Preference' ? (
         <>
+          <Gap height={heightPercentage(40)} />
           <View style={styles.footer}>
             {activeIndexSlide === 0 ? (
               <ButtonGradient
@@ -91,6 +88,14 @@ export const FooterContent: React.FC<FooterContentProps> = ({
         </>
       ) : (
         <View>
+          <View>
+            <Indicator
+              activeIndex={activeIndexSlide}
+              totalIndex={data.length}
+              activeColor={activeColor}
+              inActiveColor={inActiveColor}
+            />
+          </View>
           <ButtonGradient
             label={t('Btn.Next')}
             onPress={onPressNext}
@@ -114,9 +119,9 @@ export const FooterContent: React.FC<FooterContentProps> = ({
 const styles = StyleSheet.create({
   containerFooterContent: {
     position: 'absolute',
-    bottom: heightPercentage(40),
+    bottom: Platform.OS === 'ios' ? heightPercentage(30) : heightPercentage(10),
     left: 0,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     width,
     flex: 1,
