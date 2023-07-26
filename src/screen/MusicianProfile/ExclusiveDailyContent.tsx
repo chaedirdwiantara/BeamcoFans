@@ -1,10 +1,10 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {heightResponsive, widthResponsive} from '../../utils';
 import {Gap, Title} from '../../components';
 import {color, font} from '../../theme';
 import {ms, mvs} from 'react-native-size-matters';
-import {ChevronDown2, ChevronUp} from '../../assets/icon';
+import {ChevronDown2, ChevronUp2} from '../../assets/icon';
 import {BeamcoLogo} from '../../assets/logo';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -12,7 +12,6 @@ import {RootStackParams} from '../../navigations';
 import {useTranslation} from 'react-i18next';
 import {DataExclusiveResponse} from '../../interface/setting.interface';
 import SquareComp from './SquareComp';
-import {useCreditHook} from '../../hooks/use-credit.hook';
 
 const dummy = {
   imgUri:
@@ -37,7 +36,7 @@ const ExclusiveDailyContent = (props: DataExclusiveResponse) => {
         />
         <TouchableOpacity onPress={() => setIsShowComponent(!isShowComponent)}>
           {isShowComponent ? (
-            <ChevronUp fill={color.Pink[200]} />
+            <ChevronUp2 fill={color.Pink[200]} />
           ) : (
             <ChevronDown2 fill={color.Pink[200]} />
           )}

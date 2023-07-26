@@ -14,6 +14,7 @@ import CheckGradientIcon from './CheckGradien.icon';
 import ChevronDownIcon from './ChevronDown.icon';
 import ChevronDown2 from './ChevronDown2.icon';
 import ChevronUp from './ChevronUp.icon';
+import ChevronUp2 from './ChevronUp2.icon';
 import CloseIcon from './Close.icon';
 import CloseCircleIcon from './CloseCircle.icon';
 import CoinInput from './CoinInput';
@@ -128,6 +129,7 @@ export {
   ChevronDownIcon,
   ChevronDown2,
   ChevronUp,
+  ChevronUp2,
   CloseIcon,
   CloseCircleIcon,
   CoinCIcon,
