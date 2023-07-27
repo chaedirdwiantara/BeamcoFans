@@ -51,6 +51,7 @@ import {usePlayerStore} from '../../store/player.store';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {imageShare} from '../../utils/share';
 import {useShareHook} from '../../hooks/use-share.hook';
+import {reportingMenu} from '../../data/report';
 
 export const {width} = Dimensions.get('screen');
 
@@ -1089,6 +1090,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           modalVisible={reportToast}
           onPressClose={() => setReportToast(false)}
           title="Why are you reporting this post?"
+          dataReport={reportingMenu}
         />
         <ModalDonate
           userId={data.musician.uuid}

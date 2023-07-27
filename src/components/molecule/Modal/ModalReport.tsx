@@ -6,6 +6,7 @@ import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 import {useTranslation} from 'react-i18next';
+import {DataDropDownType} from '../../../data/report';
 
 interface ModalReportProps {
   title?: string;
@@ -13,13 +14,15 @@ interface ModalReportProps {
   onPressClose?: () => void;
   onPressOk?: () => void;
   disabled?: boolean;
+  dataReport: DataDropDownType[];
 }
 
 export const ModalReport: React.FC<ModalReportProps> = (
   props: ModalReportProps,
 ) => {
   const {t} = useTranslation();
-  const {title, modalVisible, onPressClose, onPressOk, disabled} = props;
+  const {title, modalVisible, onPressClose, onPressOk, disabled, dataReport} =
+    props;
   return (
     <Modal
       isVisible={modalVisible}
@@ -33,7 +36,11 @@ export const ModalReport: React.FC<ModalReportProps> = (
       <View style={styles.root}>
         <View style={styles.card}>
           <Text style={styles.title}>{title}</Text>
-
+          {dataReport.map((item, index) => (
+            <Text key={index} style={styles.subtitle}>
+              {item.label}
+            </Text>
+          ))}
           <View style={styles.containerButton}>
             <TouchableOpacity onPress={onPressClose}>
               <Text style={styles.option}>{'Cancel'}</Text>
