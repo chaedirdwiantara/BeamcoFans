@@ -138,6 +138,7 @@ import {
 } from '../interface/setting.interface';
 import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
 import ListPlaylist from '../screen/Playlist/ListPlaylist';
+import {MyQRCode} from '../screen/Setting/MyQRCode';
 
 export type RootStackParams = {
   AboutDeletion: undefined;
@@ -226,6 +227,7 @@ export type RootStackParams = {
   ReferralCode: undefined;
   SendReport: {title: string};
   Setting: undefined;
+  MyQRCode: {uuid?: string};
   Security: {
     info?: boolean;
     message?: string;
@@ -455,6 +457,7 @@ export const RootStackScreen = () => (
     />
     <RootStack.Screen name="SendReport" component={SendReportScreen} />
     <RootStack.Screen name="Setting" component={SettingScreen} />
+    <RootStack.Screen name="MyQRCode" component={MyQRCode} />
     <RootStack.Screen name="Security" component={SecurityScreen} />
     <RootStack.Screen name="TnCAndPP" component={TnCAndPPScreen} />
     <RootStack.Screen name="AboutDeletion" component={AboutDeletionScreen} />
