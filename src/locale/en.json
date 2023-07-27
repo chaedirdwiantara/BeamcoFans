@@ -615,6 +615,11 @@
         "Title": "Scan QR Code",
         "Desc": "Referral Code invalid, Scan another QR Code",
         "Btn": "Dismiss"
+      },
+      "ShareQR": {
+        "Subtitle": "Share this QR code to let others know your referral code and earn credit bonuses!",
+        "BtnShare": "Share QR Code",
+        "BtnBack": "Back"
       }
     },
     "Language": {
@@ -723,7 +728,7 @@
     "Placeholder": {
       "Write": "Write your reply"
     },
-    "Dropdown":{
+    "Dropdown": {
       "Visit": "Visit Profile",
       "Report": "Report"
     }
