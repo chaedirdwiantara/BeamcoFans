@@ -99,7 +99,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
       <ProfileContent
         profile={profile}
         goToPlaylist={goToPlaylist}
-        dataPlaylist={dataPlaylist.filter(val => val.isPublic)}
+        dataPlaylist={dataPlaylist?.filter(val => val.isPublic)}
         goToEditProfile={() => {}}
         goToFollowing={goToFollowing}
         showCreateCard={false}
