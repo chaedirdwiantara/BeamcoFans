@@ -7,6 +7,12 @@ import Color from '../../../theme/Color';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 import {useTranslation} from 'react-i18next';
 import {DataDropDownType} from '../../../data/report';
+import {
+  CheckCircle2Icon,
+  CheckCircleIcon,
+  CheckIcon,
+  RadioButtonIcon,
+} from '../../../assets/icon';
 
 interface ModalReportProps {
   title?: string;
@@ -37,9 +43,12 @@ export const ModalReport: React.FC<ModalReportProps> = (
         <View style={styles.card}>
           <Text style={styles.title}>{title}</Text>
           {dataReport.map((item, index) => (
-            <Text key={index} style={styles.subtitle}>
-              {item.label}
-            </Text>
+            <View style={styles.choiceContainer}>
+              <RadioButtonIcon />
+              <Text key={index} style={styles.subtitle}>
+                {item.label}
+              </Text>
+            </View>
           ))}
           <View style={styles.containerButton}>
             <TouchableOpacity onPress={onPressClose}>
@@ -89,5 +98,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthPercentage(12),
     color: Color.Neutral[10],
     fontFamily: Font.InterRegular,
+  },
+  choiceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

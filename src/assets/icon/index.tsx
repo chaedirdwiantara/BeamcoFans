@@ -66,6 +66,7 @@ import MusicSquareAddIcon from './MusicSquareAdd.icon';
 import NextIcon from './Next.icon';
 import NormalScreenIcon from './NormalScreen.icon';
 import NotificationIcon from './Notification.icon';
+import RadioButtonIcon from './RadioButton.icon';
 import RepeatIcon from './Repeaticon';
 import RepeatOneIcon from './RepeatOne.icon';
 import PauseIcon from './Pause.icon';
@@ -189,6 +190,7 @@ export {
   PreviousIcon,
   ProcessingIcon,
   PublicIcon,
+  RadioButtonIcon,
   RepeatIcon,
   RepeatOneIcon,
   SaveIcon,
