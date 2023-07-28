@@ -12,7 +12,7 @@ const RadioButtonIcon = ({
   style,
 }: SvgProps) => (
   <View style={[{width, height}, style]}>
-    <Svg width={'100%'} height={'100%'} fill={fill} viewBox={'0 0 20 20'}>
+    <Svg width={'100%'} height={'100%'} fill={'none'} viewBox={'0 0 20 20'}>
       <G clipPath="url(#clip0_1_88289)">
         <Rect
           width={19}

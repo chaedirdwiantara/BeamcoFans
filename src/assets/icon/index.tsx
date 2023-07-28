@@ -77,6 +77,7 @@ import PlayIcon2 from './Play2.icon';
 import PlayVideoIcon from './PlayVideo.icon';
 import PreviousIcon from './Previous.icon';
 import ProcessingIcon from './Processing.icon';
+import PressedRadioIcon from './PressedRadio.icon';
 import PublicIcon from './Public.icon';
 import SaveIcon from './Save.icon';
 import SearchIcon from './Search.icon';
@@ -188,6 +189,7 @@ export {
   PlayIcon2,
   PlayVideoIcon,
   PreviousIcon,
+  PressedRadioIcon,
   ProcessingIcon,
   PublicIcon,
   RadioButtonIcon,
