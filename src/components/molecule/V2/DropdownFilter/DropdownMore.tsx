@@ -12,7 +12,7 @@ import React, {useEffect, useState} from 'react';
 import {IconMore} from '../../../atom';
 import {widthResponsive} from '../../../../utils';
 import FilterModal from './modalFilter';
-import {DataDropDownType, dataUpdateComment} from '../../../../data/dropdown';
+import {DataDropDownType} from '../../../../data/dropdown';
 import {ms, mvs} from 'react-native-size-matters';
 
 const {StatusBarManager} = NativeModules;
@@ -132,7 +132,9 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
               ? offsetSortFilter?.px - compWitdth + leftPosition
               : offsetSortFilter?.px - widthResponsive(117) + leftPosition,
           }}
-          textStyle={{fontSize: mvs(12)}}
+          textStyle={{
+            fontSize: mvs(12),
+          }}
           buttonContainerStyle={{
             marginVertical: mvs(4),
             marginHorizontal: ms(4),

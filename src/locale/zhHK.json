@@ -701,7 +701,8 @@
     },
     "Dropdown":{
       "Visit": "Visit Profile",
-      "Report": "Report"
+      "Report": "Report",
+      "ReportSent": "Report Sent!"
     }
   },
   "Notification": {

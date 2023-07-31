@@ -51,6 +51,13 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {imageShare} from '../../utils/share';
 import {useShareHook} from '../../hooks/use-share.hook';
 import {reportingMenu} from '../../data/report';
+import {useReportHook} from '../../hooks/use-report.hook';
+import {ReportParamsProps} from '../../interface/report.interface';
+import {
+  getLikeCount,
+  getLikePressedStatus,
+  useLikeStatus,
+} from '../../utils/detailPostUtils';
 
 export const {width} = Dimensions.get('screen');
 
@@ -184,8 +191,11 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [parentIdAddComment, setParentIdAddComment] = useState<string[]>([]);
 
   // * REPORT HOOKS
-  const [selectedIdPost, setSelectedIdPost] = useState<string>();
+  const [selectedIdPost, setSelectedIdPost] = useState<string | number>();
   const [selectedMenuPost, setSelectedMenuPost] = useState<DataDropDownType>();
+  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const [reason, setReason] = useState<string>('');
+  const [successReport, setSuccessReport] = useState<boolean>(false);
 
   useEffect(() => {
     if (modalDonate) getCreditCount();
@@ -749,29 +759,14 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   // ! LIKE AREA
   // * Handle Like / Unlike on Post
   const likeOnPress = (id: string, isLiked: boolean) => {
-    if (isLiked === true) {
-      if (likePressed === true) {
-        setUnlikePost({id});
-        setLikePressed(false);
-      } else if (likePressed === false) {
-        setLikePost({id});
-        setLikePressed(true);
-      } else {
-        setUnlikePost({id});
-        setLikePressed(false);
-      }
-    } else if (isLiked === false) {
-      if (likePressed === true) {
-        setUnlikePost({id});
-        setLikePressed(false);
-      } else if (likePressed === false) {
-        setLikePost({id});
-        setLikePressed(true);
-      } else {
-        setLikePost({id});
-        setLikePressed(true);
-      }
-    }
+    useLikeStatus(
+      id,
+      isLiked,
+      likePressed,
+      setUnlikePost,
+      setLikePost,
+      setLikePressed,
+    );
   };
 
   // * Handle Like / Unlike on Comment Section
@@ -881,6 +876,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   // ! End of Navigate to Fans / Musician Area
 
   // ! REPORT POST AREA
+  const {dataReport, reportIsLoading, reportIsError, setPostReport} =
+    useReportHook();
+
   useEffect(() => {
     if (
       selectedIdPost !== undefined &&
@@ -904,6 +902,25 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       setSelectedMenuPost(undefined);
     }
   }, [selectedIdPost, selectedMenuPost]);
+
+  useEffect(() => {
+    if (dataReport) setSuccessReport(true);
+  }, [dataReport]);
+
+  const sendOnPress = () => {
+    const reportBody: ReportParamsProps = {
+      reportType: 'post',
+      reportTypeId: selectedIdPost ?? 0,
+      reporterUuid: dataProfile?.data.uuid ?? '',
+      reportCategory: t(selectedCategory ?? ''),
+      reportReason: reason ?? '',
+    };
+    setPostReport(reportBody);
+  };
+
+  const closeModalSuccess = () => {
+    setSuccessReport(false);
+  };
   // ! END OF REPORT POST AREA
 
   const handleBackAction = () => {
@@ -962,26 +979,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
                 likeOnPress={() =>
                   likeOnPress(dataPostDetail.id, dataPostDetail.isLiked)
                 }
-                likePressed={
-                  likePressed === undefined
-                    ? dataPostDetail.isLiked
-                    : likePressed === true
-                    ? true
-                    : false
-                }
-                likeCount={
-                  likePressed === undefined
-                    ? dataPostDetail.likesCount
-                    : likePressed === true && dataPostDetail.isLiked === true
-                    ? dataPostDetail.likesCount
-                    : likePressed === true && dataPostDetail.isLiked === false
-                    ? dataPostDetail.likesCount + 1
-                    : likePressed === false && dataPostDetail.isLiked === true
-                    ? dataPostDetail.likesCount - 1
-                    : likePressed === false && dataPostDetail.isLiked === false
-                    ? dataPostDetail.likesCount
-                    : dataPostDetail.likesCount
-                }
+                likePressed={getLikePressedStatus(likePressed, dataPostDetail)}
+                likeCount={getLikeCount(likePressed, dataPostDetail)}
                 tokenOnPress={tokenOnPress}
                 shareOnPress={() => shareOnPress(data)}
                 commentOnPress={() => commentOnPress(data.id, musicianName)}
@@ -995,6 +994,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
                 viewCount={dataPostDetail.viewsCount}
                 shareCount={dataPostDetail.shareCount}
                 showDropdown
+                reportSent={dataPostDetail.reportSent}
                 children={
                   <DetailChildrenCard
                     data={dataPostDetail}
@@ -1091,6 +1091,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           title={`${t('ModalComponent.Report.Type.Post.FirstTitle')}`}
           secondTitle={`${t('ModalComponent.Report.Type.Post.SecondTitle')}`}
           dataReport={reportingMenu}
+          onPressOk={sendOnPress}
+          category={setSelectedCategory}
+          reportReason={setReason}
+        />
+        <SsuToast
+          modalVisible={successReport}
+          onBackPressed={closeModalSuccess}
+          children={<View style={[styles.modalContainer]}></View>}
+          modalStyle={{marginHorizontal: widthResponsive(24)}}
         />
         <ModalDonate
           userId={data.musician.uuid}
