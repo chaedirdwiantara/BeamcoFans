@@ -1,16 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {Platform, StyleSheet, Text, View, ViewStyle} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
 import {MultiSelect} from 'react-native-element-dropdown';
 
-import {CheckBox} from '../../atom';
+import {CheckBox, Gap} from '../../atom';
+import {CloseCircleIcon} from '../../../assets/icon';
 import {color, font, typography} from '../../../theme';
 import {heightPercentage, widthPercentage} from '../../../utils';
 
 export interface dataProps {
   label: string;
-  value: number | string;
+  value: number;
 }
 
 interface InputDropdownProps {
@@ -19,7 +27,7 @@ interface InputDropdownProps {
   dropdownLabel: string;
   textTyped: (data: any) => void;
   containerStyles?: ViewStyle;
-  initialValue?: (number | undefined)[] | null;
+  initialValue?: (string | number | undefined)[] | null;
   setValues: (val: number[]) => void;
   disable?: boolean;
   isRequired?: boolean;
@@ -98,22 +106,16 @@ const MultiDropdown: React.FC<InputDropdownProps> = (
     );
   };
 
-  const renderSelectedItem = () => {
-    return <></>;
-  };
-
-  const mappingValue = () => {
-    const array: dataProps[] = [];
-    value.map(val => {
-      const find = data.find(item => item.value === val);
-      if (find) {
-        array.push(find);
-      }
-    });
-
-    return array.map(item => {
-      return ' ' + item.label;
-    });
+  const renderSelectedItem = (item: any, unSelect?: (item: any) => void) => {
+    return (
+      <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+        <View style={styles.badgeContainer}>
+          <Text style={styles.textStyle}>{item.label}</Text>
+          <Gap width={widthPercentage(5)} />
+          <CloseCircleIcon style={styles.closeIcon} />
+        </View>
+      </TouchableOpacity>
+    );
   };
 
   useEffect(() => {
@@ -126,16 +128,22 @@ const MultiDropdown: React.FC<InputDropdownProps> = (
     <View style={[styles.container, containerStyles]}>
       {renderLabel()}
       <MultiSelect
+        search
+        searchPlaceholder="Search..."
         style={[styles.dropdown]}
         containerStyle={styles.containerStyle}
-        placeholderStyle={styles.placeholderStyle}
+        placeholderStyle={{
+          fontSize: mvs(13),
+          color: color.Neutral[10],
+          paddingLeft: Platform.OS === 'ios' ? 0 : mvs(4),
+        }}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
         data={data}
         maxHeight={mvs(300)}
         labelField="label"
         valueField="value"
-        placeholder={value.length > 0 ? mappingValue().toString() : placeHolder}
+        placeholder={placeHolder}
         value={value}
         disable={disable}
         onChange={item => {
@@ -183,7 +191,6 @@ const styles = StyleSheet.create({
   placeholderStyle: {
     fontSize: mvs(13),
     color: color.Neutral[10],
-    paddingLeft: Platform.OS === 'ios' ? 0 : mvs(4),
   },
   selectedTextStyle: {
     fontSize: mvs(13),
@@ -209,5 +216,26 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
     borderColor: 'transparent',
     borderBottomColor: color.Pink[200],
+  },
+  badgeContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: widthPercentage(15),
+    paddingVertical: widthPercentage(6),
+    backgroundColor: color.Dark[400],
+    borderRadius: 2,
+    marginRight: widthPercentage(7),
+    marginTop: widthPercentage(7),
+    flexDirection: 'row',
+  },
+  textStyle: {
+    fontSize: ms(12),
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    color: color.Neutral[10],
+  },
+  closeIcon: {
+    width: widthPercentage(20),
+    height: widthPercentage(20),
   },
 });
