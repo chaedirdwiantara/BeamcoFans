@@ -876,8 +876,13 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   // ! End of Navigate to Fans / Musician Area
 
   // ! REPORT POST AREA
-  const {dataReport, reportIsLoading, reportIsError, setPostReport} =
-    useReportHook();
+  const {
+    dataReport,
+    reportIsLoading,
+    reportIsError,
+    setDataReport,
+    setPostReport,
+  } = useReportHook();
 
   useEffect(() => {
     if (
@@ -903,10 +908,6 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     }
   }, [selectedIdPost, selectedMenuPost]);
 
-  useEffect(() => {
-    if (dataReport) setSuccessReport(true);
-  }, [dataReport]);
-
   const sendOnPress = () => {
     const reportBody: ReportParamsProps = {
       reportType: 'post',
@@ -919,7 +920,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   };
 
   const closeModalSuccess = () => {
-    setSuccessReport(false);
+    setDataReport(false);
   };
   // ! END OF REPORT POST AREA
 
@@ -1096,9 +1097,21 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           reportReason={setReason}
         />
         <SsuToast
-          modalVisible={successReport}
+          modalVisible={dataReport}
           onBackPressed={closeModalSuccess}
-          children={<View style={[styles.modalContainer]}></View>}
+          children={
+            <View style={[styles.modalContainer]}>
+              <TickCircleIcon
+                width={widthResponsive(21)}
+                height={heightPercentage(20)}
+                stroke={color.Neutral[10]}
+              />
+              <Gap width={widthResponsive(7)} />
+              <Text style={[typography.Button2, styles.textStyle]}>
+                {t('ModalComponent.Report.ReportSuccess')}
+              </Text>
+            </View>
+          }
           modalStyle={{marginHorizontal: widthResponsive(24)}}
         />
         <ModalDonate
