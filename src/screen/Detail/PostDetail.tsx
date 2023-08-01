@@ -195,7 +195,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [selectedMenuPost, setSelectedMenuPost] = useState<DataDropDownType>();
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const [reason, setReason] = useState<string>('');
-  const [successReport, setSuccessReport] = useState<boolean>(false);
+  const [statusDisable, setStatusDisable] = useState<boolean>(false);
 
   useEffect(() => {
     if (modalDonate) getCreditCount();
@@ -908,6 +908,13 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     }
   }, [selectedIdPost, selectedMenuPost]);
 
+  //? set status disable after report sent to make sure the status report is updated
+  useEffect(() => {
+    if (dataReport) {
+      setStatusDisable(true);
+    }
+  }, [dataReport]);
+
   const sendOnPress = () => {
     const reportBody: ReportParamsProps = {
       reportType: 'post',
@@ -995,7 +1002,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
                 viewCount={dataPostDetail.viewsCount}
                 shareCount={dataPostDetail.shareCount}
                 showDropdown
-                reportSent={dataPostDetail.reportSent}
+                reportSent={statusDisable ?? dataPostDetail.reportSent}
                 children={
                   <DetailChildrenCard
                     data={dataPostDetail}
