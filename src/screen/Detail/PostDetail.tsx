@@ -58,6 +58,7 @@ import {
   getLikePressedStatus,
   useLikeStatus,
 } from '../../utils/detailPostUtils';
+import {feedReportRecorded} from '../../store/idReported';
 
 export const {width} = Dimensions.get('screen');
 
@@ -191,11 +192,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [parentIdAddComment, setParentIdAddComment] = useState<string[]>([]);
 
   // * REPORT HOOKS
-  const [selectedIdPost, setSelectedIdPost] = useState<string | number>();
+  const [selectedIdPost, setSelectedIdPost] = useState<string>();
   const [selectedMenuPost, setSelectedMenuPost] = useState<DataDropDownType>();
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const [reason, setReason] = useState<string>('');
-  const [statusDisable, setStatusDisable] = useState<boolean>(false);
 
   useEffect(() => {
     if (modalDonate) getCreditCount();
@@ -884,6 +884,8 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setPostReport,
   } = useReportHook();
 
+  const {idReported, setIdReported} = feedReportRecorded();
+
   useEffect(() => {
     if (
       selectedIdPost !== undefined &&
@@ -910,8 +912,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   //? set status disable after report sent to make sure the status report is updated
   useEffect(() => {
-    if (dataReport) {
-      setStatusDisable(true);
+    if (dataReport && selectedIdPost) {
+      if (!idReported.includes(selectedIdPost)) {
+        setIdReported([...idReported, selectedIdPost]);
+      }
     }
   }, [dataReport]);
 
@@ -920,6 +924,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       reportType: 'post',
       reportTypeId: selectedIdPost ?? 0,
       reporterUuid: dataProfile?.data.uuid ?? '',
+      reportedUuid: dataPostDetail?.musician.uuid ?? '',
       reportCategory: t(selectedCategory ?? ''),
       reportReason: reason ?? '',
     };
@@ -1002,7 +1007,10 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
                 viewCount={dataPostDetail.viewsCount}
                 shareCount={dataPostDetail.shareCount}
                 showDropdown
-                reportSent={statusDisable ?? dataPostDetail.reportSent}
+                reportSent={
+                  idReported.includes(dataPostDetail.id) ??
+                  dataPostDetail.reportSent
+                }
                 children={
                   <DetailChildrenCard
                     data={dataPostDetail}

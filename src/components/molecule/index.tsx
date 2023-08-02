@@ -56,6 +56,7 @@ import {SongDetailsContent} from './SongDetailsContent/SongDetailContent';
 import {SongTitlePlay} from './SongTitlePlay/SongTitlePlay';
 import SsuOTPInput from './OtpInput';
 import SsuOTPTimer from './OtpTimer';
+import SuccessToast from './Toast/SuccessToast';
 import {ShowCreditContent} from './SongDetailsContent/ShowCreditContent';
 import {TabFilter} from './TabFilter';
 import TermAndConditions from './Tnc';
@@ -124,6 +125,7 @@ export {
   SongTitlePlay,
   SsuOTPInput,
   SsuOTPTimer,
+  SuccessToast,
   ShowCreditContent,
   TabFilter,
   TermAndConditions,
