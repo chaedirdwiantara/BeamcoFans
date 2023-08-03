@@ -19,6 +19,8 @@ import {
   ModalSuccessDonate,
   BottomSheetGuest,
   MusicSection,
+  ModalReport,
+  SuccessToast,
 } from '../';
 import {
   heightPercentage,
@@ -42,7 +44,7 @@ import {
 import {TopNavigation} from '../TopNavigation';
 import {RootStackParams} from '../../../navigations';
 import {color, font, typography} from '../../../theme';
-import {storage} from '../../../hooks/use-storage.hook';
+import {profileStorage, storage} from '../../../hooks/use-storage.hook';
 import {dateLongMonth} from '../../../utils/date-format';
 import ListSongs from '../../../screen/ListCard/ListSongs';
 import {usePlayerHook} from '../../../hooks/use-player.hook';
@@ -50,9 +52,18 @@ import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {PhotoPlaylist} from '../PlaylistContent/PhotoPlaylist';
 import LoadingSpinner from '../../atom/Loading/LoadingSpinner';
 import {ListDataSearchSongs} from '../../../interface/search.interface';
-import {DataDropDownType, dropDownHeaderAlbum} from '../../../data/dropdown';
+import {
+  DataDropDownType,
+  albumReport,
+  albumReportSent,
+  dropDownHeaderAlbum,
+} from '../../../data/dropdown';
 import {useShareHook} from '../../../hooks/use-share.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
+import {reportingMenu} from '../../../data/report';
+import {ReportParamsProps} from '../../../interface/report.interface';
+import {useReportHook} from '../../../hooks/use-report.hook';
+import {mediaReportRecorded} from '../../../store/idReported';
 
 interface Props {
   dataSong: SongList[] | ListDataSearchSongs[];
@@ -74,6 +85,7 @@ export const AlbumContent: React.FC<Props> = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const isLogin = storage.getBoolean('isLogin');
+  const MyUuid = profileStorage()?.uuid;
 
   const {
     isPlaying,
@@ -82,6 +94,16 @@ export const AlbumContent: React.FC<Props> = ({
     hidePlayer,
     addPlaylist,
   } = usePlayerHook();
+
+  const {
+    dataReport,
+    reportIsLoading,
+    reportIsError,
+    setDataReport,
+    setPostReport,
+  } = useReportHook();
+
+  const {idReported, setIdReported} = mediaReportRecorded();
 
   const {t} = useTranslation();
   const isFocused = useIsFocused();
@@ -95,6 +117,9 @@ export const AlbumContent: React.FC<Props> = ({
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
   const [songIdList, setSongIdList] = useState<number[]>([]);
   const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
+  const [reportToast, setReportToast] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const [reason, setReason] = useState<string>('');
 
   useEffect(() => {
     if (isFocused && isPlaying) {
@@ -128,6 +153,15 @@ export const AlbumContent: React.FC<Props> = ({
     }
   }, [dataSong]);
 
+  //? set status disable after report sent to make sure the status report is updated
+  useEffect(() => {
+    if (dataReport && detailAlbum?.id) {
+      if (!idReported.includes(detailAlbum.id)) {
+        setIdReported([...idReported, detailAlbum.id]);
+      }
+    }
+  }, [dataReport]);
+
   const resultDataMore = (dataResult: DataDropDownType) => {
     if (isLogin) {
       if (dataResult.value === '1') {
@@ -136,12 +170,30 @@ export const AlbumContent: React.FC<Props> = ({
           setToastText('Playlist added to queue!');
           addSong(dataSong);
         }
+      } else if (dataResult.value === '22') {
+        setReportToast(true);
       } else {
         setModalShare(true);
       }
     } else {
       setModalGuestVisible(true);
     }
+  };
+
+  const sendOnPress = () => {
+    const reportBody: ReportParamsProps = {
+      reportType: 'album',
+      reportTypeId: detailAlbum.id ?? 0,
+      reporterUuid: MyUuid ?? '',
+      reportedUuid: detailAlbum.musician.uuid ?? '',
+      reportCategory: t(selectedCategory ?? ''),
+      reportReason: reason ?? '',
+    };
+    setPostReport(reportBody);
+  };
+
+  const closeModalSuccess = () => {
+    setDataReport(false);
   };
 
   const onPressCoin = () => {
@@ -190,6 +242,10 @@ export const AlbumContent: React.FC<Props> = ({
     }
   }, [detailAlbum]);
 
+  const dropDownAlbumReport = !idReported.includes(detailAlbum?.id)
+    ? albumReport
+    : albumReportSent;
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
@@ -199,7 +255,11 @@ export const AlbumContent: React.FC<Props> = ({
             <></>
           ) : (
             <DropdownMore
-              dataFilter={dropDownHeaderAlbum}
+              dataFilter={
+                detailAlbum?.musician.uuid === MyUuid
+                  ? dropDownHeaderAlbum
+                  : dropDownAlbumReport
+              }
               selectedMenu={resultDataMore}
             />
           )
@@ -362,6 +422,23 @@ export const AlbumContent: React.FC<Props> = ({
           </View>
         }
         modalStyle={{marginHorizontal: widthPercentage(24)}}
+      />
+
+      <ModalReport
+        modalVisible={reportToast}
+        onPressClose={() => setReportToast(false)}
+        title={`${t('ModalComponent.Report.Type.Album.FirstTitle')}`}
+        secondTitle={`${t('ModalComponent.Report.Type.Album.SecondTitle')}`}
+        dataReport={reportingMenu}
+        onPressOk={sendOnPress}
+        category={setSelectedCategory}
+        reportReason={setReason}
+      />
+      {/* //? When report succesfully */}
+      <SuccessToast
+        toastVisible={dataReport}
+        onBackPressed={closeModalSuccess}
+        caption={t('ModalComponent.Report.ReportSuccess')}
       />
     </View>
   );
