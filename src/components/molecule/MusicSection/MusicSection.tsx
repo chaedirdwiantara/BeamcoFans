@@ -18,13 +18,23 @@ import {RootStackParams} from '../../../navigations';
 import {ModalShare} from '../Modal/ModalShare';
 import {ModalDonate} from '../Modal/ModalDonate';
 import {CheckCircle2Icon} from '../../../assets/icon';
-import {storage} from '../../../hooks/use-storage.hook';
+import {profileStorage, storage} from '../../../hooks/use-storage.hook';
 import {ModalSuccessDonate} from '../Modal/ModalSuccessDonate';
 import {heightPercentage, normalize, widthResponsive} from '../../../utils';
 import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
 import {useCreditHook} from '../../../hooks/use-credit.hook';
 import {useShareHook} from '../../../hooks/use-share.hook';
 import Clipboard from '@react-native-clipboard/clipboard';
+import {
+  dataListSongAlbum,
+  dataListSongAlbumReportSent,
+} from '../../../data/dropdown';
+import {mediaReportRecorded} from '../../../store/idReported';
+import {ModalReport} from '../Modal/ModalReport';
+import SuccessToast from '../Toast/SuccessToast';
+import {reportingMenu} from '../../../data/report';
+import {ReportParamsProps} from '../../../interface/report.interface';
+import {useReportHook} from '../../../hooks/use-report.hook';
 
 interface DataMore {
   label: string;
@@ -57,21 +67,28 @@ interface ListProps {
 }
 
 export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
-  const {newDataMore, newOnPressMore, singerId} = props;
+  const {newDataMore, newOnPressMore, singerId, songId} = props;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const isLogin = storage.getString('profile');
   const {t} = useTranslation();
   const {creditCount, getCreditCount} = useCreditHook();
   const {shareLink, getShareLink, successGetLink} = useShareHook();
+  const {idReported, setIdReported} = mediaReportRecorded();
+  const MyUuid = profileStorage()?.uuid;
 
-  const dataMore = [
-    {label: t('Home.Tab.TopSong.Playlist'), value: '1'},
-    {label: t('Home.Tab.TopSong.Tip'), value: '2'},
-    {label: t('Home.Tab.TopSong.Queue'), value: '3'},
-    {label: t('Home.Tab.TopSong.Share'), value: '4'},
-    {label: t('Home.Tab.TopSong.Details'), value: '5'},
-  ];
+  const {
+    dataReport,
+    reportIsLoading,
+    reportIsError,
+    setDataReport,
+    setPostReport,
+  } = useReportHook();
+
+  const dataMore = !idReported.includes(songId)
+    ? dataListSongAlbum
+    : dataListSongAlbumReportSent;
+
   const [textToast, setTextToast] = useState<string>('');
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
@@ -79,6 +96,9 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
   const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
+  const [reportToast, setReportToast] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const [reason, setReason] = useState<string>('');
 
   useEffect(() => {
     if (modalDonate) getCreditCount();
@@ -97,6 +117,15 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
         setModalSuccessDonate(false);
       }, 3000);
   }, [modalSuccessDonate, trigger2ndModal]);
+
+  //? set status disable after report sent to make sure the status report is updated
+  useEffect(() => {
+    if (dataReport && songId) {
+      if (!idReported.includes(songId)) {
+        setIdReported([...idReported, songId]);
+      }
+    }
+  }, [dataReport]);
 
   const onPressDonate = () => {
     setModalDonate(false);
@@ -131,12 +160,30 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
         setTextToast('Song added to queue!');
       } else if (dataResult.value === '4') {
         setModalShare(true);
+      } else if (dataResult.value === '22') {
+        setReportToast(true);
       } else {
         navigation.navigate('ShowCredit', {songId: props.songId});
       }
     } else {
       setModalGuestVisible(true);
     }
+  };
+
+  const sendOnPress = () => {
+    const reportBody: ReportParamsProps = {
+      reportType: 'song',
+      reportTypeId: songId ?? 0,
+      reporterUuid: MyUuid ?? '',
+      reportedUuid: singerId ?? '',
+      reportCategory: t(selectedCategory ?? ''),
+      reportReason: reason ?? '',
+    };
+    setPostReport(reportBody);
+  };
+
+  const closeModalSuccess = () => {
+    setDataReport(false);
   };
 
   // SHARE LINK
@@ -200,6 +247,23 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
           </View>
         }
         modalStyle={styles.toast}
+      />
+
+      <ModalReport
+        modalVisible={reportToast}
+        onPressClose={() => setReportToast(false)}
+        title={`${t('ModalComponent.Report.Type.Song.FirstTitle')}`}
+        secondTitle={`${t('ModalComponent.Report.Type.Song.SecondTitle')}`}
+        dataReport={reportingMenu}
+        onPressOk={sendOnPress}
+        category={setSelectedCategory}
+        reportReason={setReason}
+      />
+      {/* //? When report succesfully */}
+      <SuccessToast
+        toastVisible={dataReport}
+        onBackPressed={closeModalSuccess}
+        caption={t('ModalComponent.Report.ReportSuccess')}
       />
     </>
   );

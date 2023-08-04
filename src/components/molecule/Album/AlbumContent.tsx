@@ -355,7 +355,7 @@ export const AlbumContent: React.FC<Props> = ({
             ) : (
               <ListSongs
                 onPress={onPressSong}
-                hideDropdownMore={true}
+                loveIcon={true}
                 dataSong={dataSong}
                 type="home"
                 disabled={comingSoon}
