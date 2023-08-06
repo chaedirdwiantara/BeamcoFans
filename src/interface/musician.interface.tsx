@@ -109,6 +109,7 @@ export type AlbumData = {
   barcodeUpc: string;
   createdAt: string;
   updatedAt: string;
+  albumType?: string;
   type?: string;
 };
 
@@ -131,6 +132,21 @@ export type DataDetailMusicianLite = {
 export type DetailMusicianLiteResponseType = {
   code: number;
   data: DataDetailMusicianLite;
+  message: string;
+  status: number;
+};
+
+export type AppearsOnDataType = {
+  id: number;
+  title: string;
+  albumType: string;
+  imageUrl: imageTypes[];
+  productionYear: string;
+};
+
+export type AppearsOnResponseType = {
+  code: number;
+  data: AppearsOnDataType[];
   message: string;
   status: number;
 };
