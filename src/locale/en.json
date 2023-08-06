@@ -182,7 +182,8 @@
         "Tip": "Send Tip",
         "Queue": "Add to Queue",
         "Share": "Share Music",
-        "Details": "Show Details"
+        "Details": "Show Details",
+        "Credits": "Show Credits"
       },
       "TopPost": {
         "Title": "Top Post",
@@ -372,7 +373,9 @@
       "Album": "Album",
       "Merch": "Merch",
       "Exclusive": "Exclusive Daily Content",
-      "Musicians": "People who might fit your interest"
+      "Musicians": "People who might fit your interest",
+      "MyAlbum": "My Album",
+      "AppearsOn": "Appears On"
     },
     "Tab": {
       "Profile": "PROFILE",
