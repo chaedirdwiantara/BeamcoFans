@@ -211,7 +211,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 !showCreateCard && (
                   <EmptyState
                     text={t('Profile.Label.NoPlaylist') || ''}
-                    containerStyle={{marginTop: heightPercentage(30)}}
+                    containerStyle={{marginVertical: heightPercentage(30)}}
                   />
                 )
               )}
@@ -228,7 +228,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             // ) :
             <EmptyState
               text={textMusician || ''}
-              containerStyle={{marginTop: heightPercentage(30)}}
+              containerStyle={{marginVertical: heightPercentage(30)}}
             />
           ) : (
             // Dihold karena badge belum fix
@@ -243,7 +243,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             // ) :
             <EmptyState
               text={textBadge || ''}
-              containerStyle={{marginTop: heightPercentage(30)}}
+              containerStyle={{marginVertical: heightPercentage(30)}}
             />
           )}
         </View>
