@@ -53,6 +53,8 @@ import {FansScreen} from './ListFans';
 import {ArrowLeftIcon} from '../../assets/icon';
 import {mvs} from 'react-native-size-matters';
 import {usePlayerStore} from '../../store/player.store';
+import MerchList from '../ListCard/MerchList';
+import ConcertList from '../ListCard/ConcertList';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -89,6 +91,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     {filterName: 'Musician.Tab.Music'},
     {filterName: 'Musician.Tab.Fans'},
     {filterName: 'Musician.Tab.Profile'},
+    {filterName: 'Musician.Tab.Merchandise'},
+    {filterName: 'Musician.Tab.Ticket'},
   ]);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
@@ -280,7 +284,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
               filterData={filter}
               onPress={filterData}
               selectedIndex={selectedIndex}
-              flatlistContainerStyle={{paddingHorizontal: widthResponsive(24)}}
+              flatlistContainerStyle={{
+                paddingHorizontal: widthResponsive(24),
+                width: 'auto',
+              }}
               translation={true}
             />
 
@@ -338,6 +345,21 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                   title={exclusiveContent?.title ?? ''}
                   description={exclusiveContent?.description ?? ''}
                 />
+              </View>
+            ) : filter[selectedIndex].filterName ===
+              'Musician.Tab.Merchandise' ? (
+              <View
+                style={{
+                  paddingHorizontal: widthResponsive(20),
+                }}>
+                <MerchList />
+              </View>
+            ) : filter[selectedIndex].filterName === 'Musician.Tab.Ticket' ? (
+              <View
+                style={{
+                  paddingHorizontal: widthResponsive(20),
+                }}>
+                <ConcertList />
               </View>
             ) : null}
           </View>
