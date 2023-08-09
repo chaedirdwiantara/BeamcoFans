@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 
 import Color from '../../../theme/Color';
 import {DataOnboardType} from '../../../data/onboard';
-import {Button, ButtonGradient, Gap, Indicator} from '../../../components';
+import {Button, ButtonGradient, Indicator} from '../../../components';
 import {PreferenceList} from '../../../interface/setting.interface';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 import DescriptionBoarding from '../../atom/DescriptionBoarding/DescriptionBoarding';
@@ -60,7 +60,6 @@ export const FooterContent: React.FC<FooterContentProps> = ({
         })}
       {type === 'Preference' ? (
         <>
-          <Gap height={heightPercentage(40)} />
           <View style={styles.footer}>
             {activeIndexSlide === 0 ? (
               <ButtonGradient
@@ -130,6 +129,7 @@ const styles = StyleSheet.create({
     width: widthPercentage(327),
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: heightPercentage(20),
   },
   btnContainer: {
     width: widthPercentage(155),

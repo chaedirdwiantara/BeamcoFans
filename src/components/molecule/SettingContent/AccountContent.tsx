@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, InteractionManager} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  InteractionManager,
+  ScrollView,
+} from 'react-native';
 import * as yup from 'yup';
 import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
@@ -218,7 +224,8 @@ export const AccountContent: React.FC<AccountProps> = ({
         }}
       />
 
-      <View
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{
           paddingHorizontal: widthResponsive(20),
         }}>
@@ -396,7 +403,7 @@ export const AccountContent: React.FC<AccountProps> = ({
           placeHolder={t('Setting.Preference.Placeholder.Genre')}
           dropdownLabel={t('Setting.Preference.Label.Genre')}
           textTyped={(_newText: string) => null}
-          containerStyles={{marginTop: heightPercentage(15)}}
+          containerStyles={{marginTop: mvs(15), marginBottom: mvs(5)}}
           initialValue={valueGenres}
           isRequired={true}
           setValues={val => setValueGenres(val)}
@@ -407,7 +414,7 @@ export const AccountContent: React.FC<AccountProps> = ({
           placeHolder={t('Setting.Preference.Placeholder.Mood')}
           dropdownLabel={t('Setting.Preference.Label.Mood')}
           textTyped={(_newText: string) => null}
-          containerStyles={{marginTop: heightPercentage(15)}}
+          containerStyles={{marginTop: mvs(15), marginBottom: mvs(5)}}
           initialValue={valueMoods}
           setValues={val => setValueMoods(val)}
         />
@@ -429,7 +436,7 @@ export const AccountContent: React.FC<AccountProps> = ({
           }
           disabled={disabledButton}
         />
-      </View>
+      </ScrollView>
 
       <ModalConfirm
         modalVisible={showModal}
@@ -475,7 +482,7 @@ const styles = StyleSheet.create({
   button: {
     width: width * 0.9,
     aspectRatio: widthPercentage(327 / 38),
-    marginTop: heightPercentage(25),
+    marginVertical: heightPercentage(25),
     alignSelf: 'center',
   },
   modalContainer: {
@@ -506,7 +513,7 @@ const styles = StyleSheet.create({
   buttonDisabled: {
     width: '100%',
     aspectRatio: widthPercentage(327 / 36),
-    marginTop: heightPercentage(25),
+    marginVertical: heightPercentage(25),
     alignSelf: 'center',
     backgroundColor: Color.Dark[50],
   },
