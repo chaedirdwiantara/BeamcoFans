@@ -1,6 +1,5 @@
 import {
   Dimensions,
-  FlatList,
   StyleSheet,
   Text,
   TextStyle,
@@ -79,21 +78,22 @@ const FilterModal: FC<ModalFilterProps> = (props: ModalFilterProps) => {
           },
           containerStyle,
         ]}>
-        <FlatList
-          data={dataFilter}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={false}
-          keyExtractor={(_, index) => index.toString()}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              style={[styles.buttonContainer, buttonContainerStyle]}
-              onPress={() => filterButtonHandler(item)}>
-              <Text style={[styles.textFilter, textStyle]}>
-                {translation ? t(item.label) : item.label}
-              </Text>
-            </TouchableOpacity>
-          )}
-        />
+        {dataFilter.map((item, index) => (
+          <TouchableOpacity
+            key={index.toString()}
+            style={[styles.buttonContainer, buttonContainerStyle]}
+            onPress={() => filterButtonHandler(item)}
+            disabled={item?.disabled ?? false}>
+            <Text
+              style={[
+                styles.textFilter,
+                {color: item?.disabled ? color.Dark[100] : color.Neutral[10]},
+                textStyle,
+              ]}>
+              {translation ? t(item.label) : item.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </Modal>
   );

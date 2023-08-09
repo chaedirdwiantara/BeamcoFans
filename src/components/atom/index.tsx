@@ -2,6 +2,7 @@ import {Avatar} from './Avatar/Avatar';
 import {Button} from './Button/Button';
 import {ButtonGradient} from './Button/ButtonGradient';
 import CheckBox from './CheckBox';
+import ErrorWarning from './ErrorWarning/ErrorWarning';
 import {Indicator} from './Indicator/Indicator';
 import Gap from './Gap/Gap';
 import SearchBar from './SearchBar';
@@ -21,6 +22,7 @@ export {
   Button,
   ButtonGradient,
   CheckBox,
+  ErrorWarning,
   Gap,
   Indicator,
   SearchBar,

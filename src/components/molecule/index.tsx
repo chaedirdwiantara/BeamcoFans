@@ -33,6 +33,7 @@ import {ModalConfirm} from './Modal/ModalConfirm';
 import {ModalCustom} from './Modal/ModalCustom';
 import {ModalDonate} from './Modal/ModalDonate';
 import {ModalImagePicker} from './Modal/ModalImagePicker';
+import {ModalReport} from './Modal/ModalReport';
 import {ModalShare} from './Modal/ModalShare';
 import {ModalSuccessDonate} from './Modal/ModalSuccessDonate';
 import {MusicSection} from './MusicSection/MusicSection';
@@ -55,6 +56,7 @@ import {SongDetailsContent} from './SongDetailsContent/SongDetailContent';
 import {SongTitlePlay} from './SongTitlePlay/SongTitlePlay';
 import SsuOTPInput from './OtpInput';
 import SsuOTPTimer from './OtpTimer';
+import SuccessToast from './Toast/SuccessToast';
 import {ShowCreditContent} from './SongDetailsContent/ShowCreditContent';
 import {TabFilter} from './TabFilter';
 import TermAndConditions from './Tnc';
@@ -100,6 +102,7 @@ export {
   ModalCustom,
   ModalDonate,
   ModalImagePicker,
+  ModalReport,
   ModalShare,
   ModalSuccessDonate,
   MusicSection,
@@ -122,6 +125,7 @@ export {
   SongTitlePlay,
   SsuOTPInput,
   SsuOTPTimer,
+  SuccessToast,
   ShowCreditContent,
   TabFilter,
   TermAndConditions,

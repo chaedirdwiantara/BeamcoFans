@@ -67,6 +67,7 @@ import MusicSquareAddIcon from './MusicSquareAdd.icon';
 import NextIcon from './Next.icon';
 import NormalScreenIcon from './NormalScreen.icon';
 import NotificationIcon from './Notification.icon';
+import RadioButtonIcon from './RadioButton.icon';
 import RepeatIcon from './Repeaticon';
 import RepeatOneIcon from './RepeatOne.icon';
 import PauseIcon from './Pause.icon';
@@ -77,6 +78,7 @@ import PlayIcon2 from './Play2.icon';
 import PlayVideoIcon from './PlayVideo.icon';
 import PreviousIcon from './Previous.icon';
 import ProcessingIcon from './Processing.icon';
+import PressedRadioIcon from './PressedRadio.icon';
 import PublicIcon from './Public.icon';
 import SaveIcon from './Save.icon';
 import SearchIcon from './Search.icon';
@@ -189,8 +191,10 @@ export {
   PlayIcon2,
   PlayVideoIcon,
   PreviousIcon,
+  PressedRadioIcon,
   ProcessingIcon,
   PublicIcon,
+  RadioButtonIcon,
   RepeatIcon,
   RepeatOneIcon,
   SaveIcon,

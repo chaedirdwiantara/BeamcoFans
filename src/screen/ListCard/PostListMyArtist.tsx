@@ -2,7 +2,6 @@ import React, {FC, useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
-  NativeModules,
   RefreshControl,
   StyleSheet,
   Text,
@@ -14,16 +13,17 @@ import {
   Gap,
   ListCard,
   ModalDonate,
+  ModalReport,
   ModalShare,
   ModalSuccessDonate,
-  SsuToast,
+  SuccessToast,
 } from '../../components';
 import {
   DataDropDownType,
   DropDownFilterType,
   DropDownSortType,
 } from '../../data/dropdown';
-import {color, font, typography} from '../../theme';
+import {color, font} from '../../theme';
 import {
   elipsisText,
   heightPercentage,
@@ -37,7 +37,6 @@ import {EmptyState} from '../../components/molecule/EmptyState/EmptyState';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {PostList} from '../../interface/feed.interface';
 import {dateFormat} from '../../utils/date-format';
-import {TickCircleIcon} from '../../assets/icon';
 import categoryNormalize from '../../utils/categoryNormalize';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useTranslation} from 'react-i18next';
@@ -62,8 +61,17 @@ import {
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useShareHook} from '../../hooks/use-share.hook';
 import {imageShare} from '../../utils/share';
+import {useReportHook} from '../../hooks/use-report.hook';
+import {feedReportRecorded} from '../../store/idReported';
+import {ReportParamsProps} from '../../interface/report.interface';
+import {reportingMenu} from '../../data/report';
 
 const {height} = Dimensions.get('screen');
+
+type RenderItemProps = {
+  item: PostList;
+  index: number;
+};
 
 interface PostListProps {
   dataRightDropdown: DataDropDownType[];
@@ -71,9 +79,6 @@ interface PostListProps {
   uuidMusician?: string;
   hideDropdown?: boolean;
 }
-
-const {StatusBarManager} = NativeModules;
-const barHeight = StatusBarManager.HEIGHT;
 
 const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
   const navigation =
@@ -90,6 +95,7 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
+  const [reportToast, setReportToast] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
@@ -113,6 +119,8 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
   const [selectedMenuPost, setSelectedMenuPost] = useState<DataDropDownType>();
   const [selectedUserUuid, setSelectedUserUuid] = useState<string>();
+  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const [reason, setReason] = useState<string>('');
 
   const {
     feedIsLoading,
@@ -295,6 +303,16 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
   // ! END OF MUSIC AREA
 
   // ! REPORT POST AREA
+  const {
+    dataReport,
+    reportIsLoading,
+    reportIsError,
+    setDataReport,
+    setPostReport,
+  } = useReportHook();
+
+  const {idReported, setIdReported} = feedReportRecorded();
+
   useEffect(() => {
     if (selectedIdPost && selectedMenuPost && selectedUserUuid && dataMain) {
       const selectedValue = t(selectedMenuPost.value);
@@ -306,7 +324,7 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
           });
           break;
         case '22':
-          console.log('REPORT', selectedIdPost);
+          setReportToast(true);
           break;
         default:
           break;
@@ -314,6 +332,31 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
       setSelectedMenuPost(undefined);
     }
   }, [selectedIdPost, selectedMenuPost, selectedUserUuid]);
+
+  //? set status disable after report sent to make sure the status report is updated
+  useEffect(() => {
+    if (dataReport && selectedIdPost) {
+      if (!idReported.includes(selectedIdPost)) {
+        setIdReported([...idReported, selectedIdPost]);
+      }
+    }
+  }, [dataReport]);
+
+  const sendOnPress = () => {
+    const reportBody: ReportParamsProps = {
+      reportType: 'post',
+      reportTypeId: selectedIdPost ?? 0,
+      reporterUuid: MyUuid ?? '',
+      reportedUuid: selectedUserUuid ?? '',
+      reportCategory: t(selectedCategory ?? ''),
+      reportReason: reason ?? '',
+    };
+    setPostReport(reportBody);
+  };
+
+  const closeModalSuccess = () => {
+    setDataReport(false);
+  };
   // ! END OF REPORT POST AREA
 
   // SHARE LINK
@@ -386,7 +429,7 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
             }
             onEndReached={handleEndScroll}
             onEndReachedThreshold={1}
-            renderItem={({item, index}) => (
+            renderItem={({item, index}: RenderItemProps) => (
               <>
                 <ListCard.PostList
                   toDetailOnPress={() =>
@@ -422,6 +465,7 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
                   viewCount={item.viewsCount}
                   shareCount={item.shareCount}
                   showDropdown
+                  reportSent={idReported.includes(item.id) ?? item.reportSent}
                   children={
                     <ChildrenCard
                       data={item}
@@ -448,6 +492,22 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
           hideIcon={true}
         />
       ) : null}
+      <ModalReport
+        modalVisible={reportToast}
+        onPressClose={() => setReportToast(false)}
+        title={`${t('ModalComponent.Report.Type.Post.FirstTitle')}`}
+        secondTitle={`${t('ModalComponent.Report.Type.Post.SecondTitle')}`}
+        dataReport={reportingMenu}
+        onPressOk={sendOnPress}
+        category={setSelectedCategory}
+        reportReason={setReason}
+      />
+      {/* //? When report succesfully */}
+      <SuccessToast
+        toastVisible={dataReport}
+        onBackPressed={closeModalSuccess}
+        caption={t('ModalComponent.Report.ReportSuccess')}
+      />
       <ModalShare
         url={shareLink}
         modalVisible={modalShare}
@@ -462,23 +522,11 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
         }
         disabled={!successGetLink}
       />
-      <SsuToast
-        modalVisible={toastVisible}
+      {/* //? When copy link done */}
+      <SuccessToast
+        toastVisible={toastVisible}
         onBackPressed={() => setToastVisible(false)}
-        children={
-          <View style={[styles.modalContainer]}>
-            <TickCircleIcon
-              width={widthResponsive(21)}
-              height={heightPercentage(20)}
-              stroke={color.Neutral[10]}
-            />
-            <Gap width={widthResponsive(7)} />
-            <Text style={[typography.Button2, styles.textStyle]}>
-              {t('General.LinkCopied')}
-            </Text>
-          </View>
-        }
-        modalStyle={{marginHorizontal: widthResponsive(24)}}
+        caption={t('General.LinkCopied')}
       />
       <ModalDonate
         userId={selectedMusicianId}
@@ -511,21 +559,6 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: mvs(13),
-    color: color.Neutral[10],
-  },
-  modalContainer: {
-    width: '100%',
-    position: 'absolute',
-    bottom: heightPercentage(22),
-    height: heightPercentage(36),
-    backgroundColor: color.Success[400],
-    paddingHorizontal: widthResponsive(12),
-    borderRadius: 4,
-    flexDirection: 'row',
-    alignItems: 'center',
-    zIndex: 1,
-  },
-  textStyle: {
     color: color.Neutral[10],
   },
   categoryContainerStyle: {
