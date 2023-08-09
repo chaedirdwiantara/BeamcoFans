@@ -63,6 +63,8 @@ import {TnCAndPPScreen} from '../screen/Setting/TnCAndPP';
 import {AboutDeletionScreen} from '../screen/Setting/DeleteAccount/AboutDeletion';
 import {InputDeletionScreen} from '../screen/Setting/DeleteAccount/InputDeletion';
 import {SendAppealScreen} from '../screen/Setting/SendAppeal';
+import {ListAddressScreen} from '../screen/Setting/ShippingInfo/ListAddress';
+import {AddNewAddressScreen} from '../screen/Setting/ShippingInfo/AddNewAddress';
 
 // Profile
 import {ProfileScreen} from '../screen/Profile/Profile';
@@ -245,6 +247,12 @@ export type RootStackParams = {
   };
   ShippingInformation: {
     data: DataShippingProps | null;
+    from?: string;
+  };
+  ListAddress: {
+    from?: string;
+  };
+  AddNewAddress: {
     from?: string;
   };
   ShowCredit: {
@@ -453,6 +461,9 @@ export const RootStackScreen = () => (
       name="ShippingInformation"
       component={ShippingInformationScreen}
     />
+
+    <RootStack.Screen name="ListAddress" component={ListAddressScreen} />
+    <RootStack.Screen name="AddNewAddress" component={AddNewAddressScreen} />
     <RootStack.Screen
       name="DonationAndSubscription"
       component={DonationAndSubscription}
