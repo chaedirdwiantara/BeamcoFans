@@ -93,7 +93,7 @@ export type PostList = {
   timeAgo: string;
   viewsCount: number;
   shareCount: number;
-  reportSent: boolean;
+  reportSent?: boolean;
 };
 
 export type ListPostResponseType = {
