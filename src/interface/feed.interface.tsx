@@ -66,12 +66,15 @@ export type QuoteToPost = {
   startAt: string;
   endAt: string;
   musicianId?: string;
+  lyrics?: string;
+  originalSongUrl?: string;
 };
 
 export type VideoResponseType = {
   coverImage: imageTypes[];
   encodeDashUrl: string;
   encodeHlsUrl: string;
+  duration: string;
   views: number;
 };
 

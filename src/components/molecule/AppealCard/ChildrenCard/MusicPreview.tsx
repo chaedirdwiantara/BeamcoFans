@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ViewStyle} from 'react-native';
 import React, {FC} from 'react';
 import {ms, mvs} from 'react-native-size-matters';
 import {Gap, SquareImage, SsuDivider} from '../../../atom';
@@ -6,18 +6,21 @@ import {PlayIcon} from '../../../../assets/icon';
 import {color, font} from '../../../../theme';
 import {widthResponsive} from '../../../../utils';
 
-interface MusicPreviewProps {
+interface MusicPreviewAppealProps {
   title: string;
   musician: string;
   coverImage: string;
   duration: string;
+  containerStyle?: ViewStyle;
 }
 
-const MusicListPreview: FC<MusicPreviewProps> = (props: MusicPreviewProps) => {
-  const {title, musician, coverImage, duration} = props;
+const MusicPreviewAppeal: FC<MusicPreviewAppealProps> = (
+  props: MusicPreviewAppealProps,
+) => {
+  const {title, musician, coverImage, duration, containerStyle} = props;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <View style={styles.imageContainer}>
         <SquareImage imgUri={coverImage} size={widthResponsive(80)} />
         <View style={styles.iconOnPress}>
@@ -40,7 +43,8 @@ const MusicListPreview: FC<MusicPreviewProps> = (props: MusicPreviewProps) => {
           </Text>
         </View>
         <View style={styles.sliderStyle}>
-          <SsuDivider />
+          <SsuDivider lineStyle={styles.lineStyle} />
+          <Gap height={3} />
           <View style={styles.progresTextContainer}>
             <Text style={styles.progresText}>0:00</Text>
             <Text style={styles.progresText}>{duration ?? '0:00'}</Text>
@@ -51,7 +55,7 @@ const MusicListPreview: FC<MusicPreviewProps> = (props: MusicPreviewProps) => {
   );
 };
 
-export default MusicListPreview;
+export default MusicPreviewAppeal;
 
 const styles = StyleSheet.create({
   container: {
@@ -98,4 +102,8 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
   },
   imageContainer: {width: widthResponsive(80), height: widthResponsive(80)},
+  lineStyle: {
+    height: widthResponsive(2),
+    backgroundColor: color.Dark[600],
+  },
 });
