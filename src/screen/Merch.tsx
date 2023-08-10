@@ -1,9 +1,11 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import {StyleSheet, SafeAreaView, View, Text} from 'react-native';
 import {SsuStatusBar} from '../components';
 import Color from '../theme/Color';
 import WebView from 'react-native-webview';
-import {width} from '../utils';
+import {heightPercentage, width} from '../utils';
+import {FriedEggIcon} from '../assets/icon';
+import {color, typography} from '../theme';
 
 export const MerchScreen: React.FC = () => {
   const merchantUrl =
@@ -11,7 +13,16 @@ export const MerchScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.root}>
       <SsuStatusBar type="black" />
-      <WebView source={{uri: merchantUrl}} />
+      <View style={styles.wrapperContent}>
+        <FriedEggIcon />
+        <Text style={[typography.Button2, styles.title]}>
+          {'Coming Soon\nStay tuned for the big reveal!'}
+        </Text>
+      </View>
+      {/* 
+      // TODO: will gonna activate after ready for production
+      <WebView source={{uri: merchantUrl}} /> 
+      */}
     </SafeAreaView>
   );
 };
@@ -31,5 +42,15 @@ const styles = StyleSheet.create({
     borderBottomColor: Color.Dark[500],
     borderBottomWidth: 1,
     flexDirection: 'row',
+  },
+  wrapperContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    color: color.Neutral[10],
+    textAlign: 'center',
+    marginTop: heightPercentage(8),
   },
 });

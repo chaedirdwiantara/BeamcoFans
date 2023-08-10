@@ -379,7 +379,7 @@ const TabScreen = () => {
       />
       <MainTab.Screen
         name="Events"
-        component={MerchScreen}
+        component={TicketScreen}
         options={{
           tabBarIcon: ({color}) => (
             <View style={styles.root}>
