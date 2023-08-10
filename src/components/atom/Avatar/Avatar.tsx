@@ -5,7 +5,7 @@ import {ms} from 'react-native-size-matters';
 import {DefaultAvatar} from '../../../assets/icon';
 
 interface AvatarProps {
-  imgUri: string;
+  imgUri?: string;
   size?: number;
 }
 

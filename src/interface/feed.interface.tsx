@@ -66,12 +66,15 @@ export type QuoteToPost = {
   startAt: string;
   endAt: string;
   musicianId?: string;
+  lyrics?: string;
+  originalSongUrl?: string;
 };
 
 export type VideoResponseType = {
   coverImage: imageTypes[];
   encodeDashUrl: string;
   encodeHlsUrl: string;
+  duration: string;
   views: number;
 };
 
@@ -93,7 +96,7 @@ export type PostList = {
   timeAgo: string;
   viewsCount: number;
   shareCount: number;
-  reportSent: boolean;
+  reportSent?: boolean;
 };
 
 export type ListPostResponseType = {

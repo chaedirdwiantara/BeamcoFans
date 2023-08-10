@@ -84,10 +84,8 @@ const ChildrenCard: FC<ChildrenCardProps> = (props: ChildrenCardProps) => {
             <View style={{height: '100%', width: '100%'}}>
               <ImageList
                 imgData={data.images}
-                width={132}
                 height={69.5}
                 heightType2={142}
-                widthType2={269}
                 onPress={blurModeOn ? () => {} : toggleModalOnPress}
                 blurModeOn={blurModeOn}
                 disabled={false}

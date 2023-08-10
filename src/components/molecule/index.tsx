@@ -8,6 +8,7 @@ import {Carousel} from './Carousel/Carousel';
 import {ChangeEmailContent} from './SettingContent/ChangeEmailContent';
 import {ChangePasswordContent} from './SettingContent/ChangePasswordContent';
 import CommentInputModal from './CommentInputModal/CommentInputModal';
+import CommentAppeal from './CommentAppeal';
 import {CreateNewCard} from './CreateNewCard/CreateNewCard';
 import {CreateNewPlaylistContent} from './PlaylistContent/CreateNewPlaylistContent';
 import {Dropdown} from './DropDown';
@@ -77,6 +78,7 @@ export {
   ChangeEmailContent,
   ChangePasswordContent,
   CommentInputModal,
+  CommentAppeal,
   CreateNewCard,
   CreateNewPlaylistContent,
   DetailPost,
