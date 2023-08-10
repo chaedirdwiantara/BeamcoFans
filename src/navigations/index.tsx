@@ -300,7 +300,7 @@ export type MainTabParams = {
   Collection: undefined;
   Event: undefined;
   Merch: undefined;
-  Ticket: undefined;
+  Events: undefined;
   Feed: undefined;
   Home: {
     showToast?: boolean;
@@ -378,13 +378,13 @@ const TabScreen = () => {
         }}
       />
       <MainTab.Screen
-        name="Ticket"
+        name="Events"
         component={MerchScreen}
         options={{
           tabBarIcon: ({color}) => (
             <View style={styles.root}>
               <TicketDefaultIcon fill={color} />
-              <Text style={[styles.label, {color}]}>{'Action'}</Text>
+              <Text style={[styles.label, {color}]}>{'Events'}</Text>
             </View>
           ),
         }}

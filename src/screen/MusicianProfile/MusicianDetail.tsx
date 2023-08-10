@@ -28,6 +28,7 @@ import {color, font} from '../../theme';
 import DataMusician from './DataMusician';
 import {
   AlbumData,
+  AppearsOnDataType,
   DataDetailMusician,
   FollowMusicianPropsType,
 } from '../../interface/musician.interface';
@@ -55,6 +56,7 @@ import {mvs} from 'react-native-size-matters';
 import {usePlayerStore} from '../../store/player.store';
 import MerchList from '../ListCard/MerchList';
 import ConcertList from '../ListCard/ConcertList';
+import ListAlbum from './ListAlbum';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -63,6 +65,7 @@ interface MusicianDetailProps {
   profile: DataDetailMusician;
   uuid: string;
   dataAlbum: AlbumData[];
+  dataAppearsOn: AppearsOnDataType[];
   dataPlaylist: Playlist[];
   setFollowMusician: (props?: FollowMusicianPropsType) => void;
   setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
@@ -77,6 +80,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   setFollowMusician,
   setUnfollowMusician,
   exclusiveContent,
+  dataAppearsOn,
 }) => {
   const {t} = useTranslation();
   const navigation =
@@ -225,6 +229,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     );
   };
 
+  const showContentMusic =
+    dataPlaylist?.length > 0 ||
+    dataAlbum.length > 0 ||
+    dataAppearsOn.length > 0;
+
   return (
     <View style={styles.container}>
       <SsuStatusBar type={'black'} />
@@ -316,13 +325,30 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                 <PostListProfile uuidMusician={uuid} {...exclusiveContent} />
               </View>
             ) : filter[selectedIndex].filterName === 'Musician.Tab.Music' ? (
-              dataPlaylist?.length > 0 ? (
-                <View style={{paddingHorizontal: widthResponsive(30)}}>
+              showContentMusic ? (
+                <View style={{paddingHorizontal: widthResponsive(20)}}>
                   <ListPlaylist
                     data={dataPlaylist}
                     onPress={goToPlaylist}
                     scrollable={false}
                   />
+                  <Gap height={mvs(20)} />
+                  {/* List Album Horizontal */}
+                  {dataAlbum && dataAlbum?.length > 0 && (
+                    <ListAlbum
+                      data={dataAlbum}
+                      title={t('Musician.Label.Album')}
+                      containerStyles={{marginBottom: mvs(30)}}
+                    />
+                  )}
+                  {/* List Appears On */}
+                  {dataAppearsOn && dataAppearsOn?.length > 0 && (
+                    <ListAlbum
+                      data={dataAppearsOn}
+                      title={t('Musician.Label.AppearsOn')}
+                      containerStyles={{marginBottom: mvs(30)}}
+                    />
+                  )}
                 </View>
               ) : (
                 <EmptyState

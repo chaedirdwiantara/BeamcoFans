@@ -29,11 +29,13 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     isLoadingMusician,
     dataDetailMusician,
     dataAlbum,
+    dataAppearsOn,
     getAlbum,
     getDetailMusician,
     getDetailMusicianGuest,
     setFollowMusician,
     setUnfollowMusician,
+    getDataAppearsOn,
   } = useMusicianHook();
   const {dataExclusiveContent, getExclusiveContent} = useSettingHook();
 
@@ -57,6 +59,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   useFocusEffect(
     useCallback(() => {
       getAlbum({uuid: uuid});
+      getDataAppearsOn({uuid});
     }, [uuid]),
   );
 
@@ -76,6 +79,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           }}
           uuid={uuid}
           dataAlbum={dataAlbum}
+          dataAppearsOn={dataAppearsOn}
           dataPlaylist={musicianPlaylist}
           setFollowMusician={(props?: FollowMusicianPropsType) =>
             setFollowMusician(props, {}, true)

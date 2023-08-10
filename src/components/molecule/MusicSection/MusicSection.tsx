@@ -163,7 +163,7 @@ export const MusicSection: React.FC<ListProps> = (props: ListProps) => {
       } else if (dataResult.value === '22') {
         setReportToast(true);
       } else {
-        navigation.navigate('ShowCredit', {songId: props.songId});
+        navigation.push('SongDetails', {songId, musicianId: singerId});
       }
     } else {
       setModalGuestVisible(true);

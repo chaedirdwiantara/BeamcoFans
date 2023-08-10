@@ -35,7 +35,7 @@ export const FansScreen: React.FC<FollowersProps> = (props: FollowersProps) => {
           text={'Musician do not have any fans.'}
           containerStyle={{
             alignSelf: 'center',
-            marginTop: heightPercentage(30),
+            marginVertical: heightPercentage(30),
           }}
         />
       )}

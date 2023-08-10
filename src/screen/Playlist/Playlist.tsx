@@ -123,8 +123,8 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
     navigation.navigate('Album', {id});
   };
 
-  const goToDetailSong = (id: number) => {
-    navigation.navigate('ShowCredit', {songId: id});
+  const goToDetailSong = (songId: number, musicianId: string) => {
+    navigation.push('SongDetails', {songId, musicianId});
   };
 
   const goToProfile = (uuid: string, type: string) => {
