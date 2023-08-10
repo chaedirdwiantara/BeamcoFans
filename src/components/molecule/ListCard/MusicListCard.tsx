@@ -40,6 +40,8 @@ interface ListProps {
   likeOnPress?: () => void;
   isLiked?: boolean;
   disabled?: boolean;
+  size?: number;
+  appeal?: boolean;
 }
 
 const MusicListCard: React.FC<ListProps> = ({
@@ -61,6 +63,8 @@ const MusicListCard: React.FC<ListProps> = ({
   likeOnPress,
   isLiked,
   disabled,
+  size,
+  appeal,
 }) => {
   const {t} = useTranslation();
   // ? Dropdown Menu Example
@@ -82,7 +86,7 @@ const MusicListCard: React.FC<ListProps> = ({
 
   return (
     <TouchableOpacity
-      disabled={disabled}
+      disabled={appeal ?? disabled}
       activeOpacity={activeOpacity}
       style={[styles.container, containerStyles]}
       onPress={onPressCard}>
@@ -103,18 +107,22 @@ const MusicListCard: React.FC<ListProps> = ({
         </Text>
       )}
       {imgUri ? (
-        <View style={styles.imageContainer}>
+        <View
+          style={{
+            width: widthResponsive(size ?? 44),
+            height: widthResponsive(size ?? 44),
+          }}>
           <SquareImage
             imgUri={imgUri}
             borderRadius={4}
             darkImage={disabled}
-            size={widthPercentage(44)}
+            size={widthPercentage(size ?? 44)}
           />
         </View>
       ) : (
         <DefaultImage.SongCover
-          width={widthPercentage(44)}
-          height={heightPercentage(44)}
+          width={widthPercentage(size ?? 44)}
+          height={heightPercentage(size ?? 44)}
         />
       )}
 
@@ -190,7 +198,7 @@ const styles = StyleSheet.create({
   },
   songTitle: {
     fontFamily: font.InterRegular,
-    fontSize: mvs(14),
+    fontSize: mvs(13),
     fontWeight: '500',
     color: color.Neutral[10],
   },
@@ -219,5 +227,4 @@ const styles = StyleSheet.create({
     marginRight: widthPercentage(10),
     alignItems: 'center',
   },
-  imageContainer: {width: widthResponsive(80), height: widthResponsive(80)},
 });
