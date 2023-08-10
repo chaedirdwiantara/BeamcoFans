@@ -1,9 +1,12 @@
+import {EventType} from './event.interface';
+
 export interface TransactionMerch {
   id: string;
   seller: string;
   sellerImage: string;
   status: number;
   estArrival: string;
+  type: EventType;
   items: {
     name: string;
     image: string;
