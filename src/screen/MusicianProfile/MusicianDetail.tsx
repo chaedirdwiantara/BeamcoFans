@@ -95,8 +95,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     {filterName: 'Musician.Tab.Music'},
     {filterName: 'Musician.Tab.Fans'},
     {filterName: 'Musician.Tab.Profile'},
-    {filterName: 'Musician.Tab.Merchandise'},
-    {filterName: 'Musician.Tab.Ticket'},
+    // {filterName: 'Musician.Tab.Merchandise'},
+    // {filterName: 'Musician.Tab.Ticket'},
   ]);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
