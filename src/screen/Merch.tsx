@@ -1,28 +1,33 @@
-import React from 'react';
-import {StyleSheet, SafeAreaView, View, Text} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
 import {SsuStatusBar} from '../components';
 import Color from '../theme/Color';
 import WebView from 'react-native-webview';
-import {heightPercentage, width} from '../utils';
-import {FriedEggIcon} from '../assets/icon';
-import {color, typography} from '../theme';
+import {width} from '../utils';
+import {profileStorage} from '../hooks/use-storage.hook';
+import {useFocusEffect} from '@react-navigation/native';
+import {getBookyayToken} from '../service/refreshBookyayToken';
+import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 
 export const MerchScreen: React.FC = () => {
-  const merchantUrl =
-    'https://m.bookyay.com/items/product?clause=product_5000001';
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useFocusEffect(
+    useCallback(() => {
+      getBookyayToken();
+      setLoading(false);
+    }, []),
+  );
+
+  const bookyayToken = profileStorage()?.bookyayToken;
+
+  const merchantUrl = `https://uat.yeah-yeah.com/items/product?clause=product_5000001&token=${bookyayToken}`;
+
   return (
     <SafeAreaView style={styles.root}>
       <SsuStatusBar type="black" />
-      <View style={styles.wrapperContent}>
-        <FriedEggIcon />
-        <Text style={[typography.Button2, styles.title]}>
-          {'Coming Soon\nStay tuned for the big reveal!'}
-        </Text>
-      </View>
-      {/* 
-      // TODO: will gonna activate after ready for production
-      <WebView source={{uri: merchantUrl}} /> 
-      */}
+      <ModalLoading visible={loading} />
+      {!loading && <WebView source={{uri: merchantUrl}} />}
     </SafeAreaView>
   );
 };
@@ -42,15 +47,5 @@ const styles = StyleSheet.create({
     borderBottomColor: Color.Dark[500],
     borderBottomWidth: 1,
     flexDirection: 'row',
-  },
-  wrapperContent: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    color: color.Neutral[10],
-    textAlign: 'center',
-    marginTop: heightPercentage(8),
   },
 });

@@ -121,9 +121,6 @@ export interface SearchEventInput {
   countryCode?: string;
   query?: string;
 }
-
-export type TypeEvent = 'event' | 'merch';
-
 export interface SearchItem {
   category: string;
   charge: string;
@@ -199,4 +196,13 @@ export interface SearchResponse {
 export enum EventType {
   Merch = 'Merch',
   Concert = 'Concert',
+}
+
+export type TypeEvent = 'event' | 'merch' | string;
+export interface RequestPropsListMerch {
+  pageSize: number;
+  pageNo: number;
+  referer: string;
+  referId: string;
+  limit?: number;
 }

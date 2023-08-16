@@ -95,8 +95,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     {filterName: 'Musician.Tab.Music'},
     {filterName: 'Musician.Tab.Fans'},
     {filterName: 'Musician.Tab.Profile'},
-    // {filterName: 'Musician.Tab.Merchandise'},
-    // {filterName: 'Musician.Tab.Ticket'},
+    {filterName: 'Musician.Tab.Merchandise'},
+    {filterName: 'Musician.Tab.Ticket'},
   ]);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
@@ -378,14 +378,14 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                 style={{
                   paddingHorizontal: widthResponsive(20),
                 }}>
-                <MerchList />
+                <MerchList musicianId={uuid} />
               </View>
             ) : filter[selectedIndex].filterName === 'Musician.Tab.Ticket' ? (
               <View
                 style={{
                   paddingHorizontal: widthResponsive(20),
                 }}>
-                <ConcertList />
+                <ConcertList musicianId={uuid} />
               </View>
             ) : null}
           </View>
