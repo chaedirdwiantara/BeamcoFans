@@ -51,6 +51,7 @@ export type ProfileResponseData = {
     daily: number;
     lasUpdated: string;
   };
+  isBanned: boolean;
 };
 
 export type ExpectationType = {

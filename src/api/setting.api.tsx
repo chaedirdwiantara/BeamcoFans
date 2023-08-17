@@ -16,6 +16,9 @@ import {
   ExclusiveResponseType,
   ListReasonResponseType,
   UpdateShippingResponseType,
+  ListViolationsResponseType,
+  RequestAppealResponseType,
+  SendAppealPropsType,
 } from '../interface/setting.interface';
 import {ParamsProps} from '../interface/base.interface';
 
@@ -260,6 +263,27 @@ export const listReason = async (): Promise<ListReasonResponseType> => {
   const {data} = await SsuAPI().request<ListReasonResponseType>({
     url: '/public/reasons-delete',
     method: 'GET',
+  });
+
+  return data;
+};
+
+export const listViolations = async (): Promise<ListViolationsResponseType> => {
+  const {data} = await SsuAPI().request<ListViolationsResponseType>({
+    url: '/violations',
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const requestAppeal = async (
+  props: SendAppealPropsType,
+): Promise<RequestAppealResponseType> => {
+  const {data} = await SsuAPI().request<RequestAppealResponseType>({
+    url: '/violations/request-appeal',
+    method: 'POST',
+    data: props,
   });
 
   return data;
