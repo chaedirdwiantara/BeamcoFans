@@ -62,9 +62,10 @@ import {SecurityScreen} from '../screen/Setting/Security';
 import {TnCAndPPScreen} from '../screen/Setting/TnCAndPP';
 import {AboutDeletionScreen} from '../screen/Setting/DeleteAccount/AboutDeletion';
 import {InputDeletionScreen} from '../screen/Setting/DeleteAccount/InputDeletion';
-import {SendAppealScreen} from '../screen/Setting/SendAppeal';
 import {ListAddressScreen} from '../screen/Setting/ShippingInfo/ListAddress';
 import {AddNewAddressScreen} from '../screen/Setting/ShippingInfo/AddNewAddress';
+import {SendAppealScreen} from '../screen/Setting/SendAppeal/SendAppeal';
+import {ReportedContentScreen} from '../screen/Setting/SendAppeal/ReportedContent';
 
 // Profile
 import {ProfileScreen} from '../screen/Profile/Profile';
@@ -135,8 +136,10 @@ import {ChangePNScreen} from '../screen/Setting/PhoneNumber/ChangePN';
 import {OtpPNScreen} from '../screen/Setting/PhoneNumber/OTP';
 import {SplashScreen} from '../screen/SplashScreen';
 import {
+  CommentReportedType,
   DataExclusiveResponse,
   DataShippingProps,
+  ListViolationsType,
   OtpEmailScreen as OtpEmailProps,
   OtpPhoneScreen,
 } from '../interface/setting.interface';
@@ -233,7 +236,14 @@ export type RootStackParams = {
   RecoverAccount: undefined;
   Referral: undefined;
   ReferralCode: undefined;
-  SendAppeal: {title: string};
+  ReportedContent: {
+    title: string;
+    dataViolation: ListViolationsType;
+  };
+  SendAppeal: {
+    title: string;
+    selectedViolation?: CommentReportedType;
+  };
   SendReport: {title: string};
   Setting: undefined;
   MyQRCode: {uuid?: string};
@@ -467,6 +477,10 @@ export const RootStackScreen = () => (
       component={DonationAndSubscription}
     />
     <RootStack.Screen name="SendAppeal" component={SendAppealScreen} />
+    <RootStack.Screen
+      name="ReportedContent"
+      component={ReportedContentScreen}
+    />
     <RootStack.Screen name="SendReport" component={SendReportScreen} />
     <RootStack.Screen name="Setting" component={SettingScreen} />
     <RootStack.Screen name="MyQRCode" component={MyQRCode} />
