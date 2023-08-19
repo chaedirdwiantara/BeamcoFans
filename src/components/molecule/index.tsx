@@ -52,7 +52,7 @@ import {ReferAFriend} from './SettingContent/ReferAFriend';
 import {SendReportContent} from './SettingContent/SendReportContent';
 import {SettingContent} from './SettingContent/SettingContent';
 import {SignInGuestContent} from './SignInGuestContent/SignInGuestContent';
-import {ShippingInformationContent} from './SettingContent/ShippingInformation';
+import {AddShippingAddress} from './SettingContent/AddShippingAddress';
 import {SongDetailsContent} from './SongDetailsContent/SongDetailContent';
 import {SongTitlePlay} from './SongTitlePlay/SongTitlePlay';
 import SsuOTPInput from './OtpInput';
@@ -122,7 +122,7 @@ export {
   SendReportContent,
   SettingContent,
   SignInGuestContent,
-  ShippingInformationContent,
+  AddShippingAddress,
   SongDetailsContent,
   SongTitlePlay,
   SsuOTPInput,
