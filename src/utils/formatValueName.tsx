@@ -1,5 +1,6 @@
 import {
   CitiesCountryResponseType,
+  DataCountryType,
   DataStatePropsType,
 } from '../interface/location.interface';
 
@@ -33,4 +34,19 @@ const formatValueNameCity = (data: string[]) => {
   });
 };
 
-export {formatValueName, formatValueNameState, formatValueNameCity};
+const formatValueNameCountry = (data: DataCountryType[]) => {
+  return data.map(item => {
+    return {
+      label: item.name,
+      value: item.countryCode,
+      id: item.id,
+    };
+  });
+};
+
+export {
+  formatValueName,
+  formatValueNameState,
+  formatValueNameCity,
+  formatValueNameCountry,
+};
