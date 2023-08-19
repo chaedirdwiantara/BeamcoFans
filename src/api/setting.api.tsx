@@ -15,6 +15,7 @@ import {
   LanguageResponseType,
   ExclusiveResponseType,
   ListReasonResponseType,
+  UpdateShippingResponseType,
 } from '../interface/setting.interface';
 import {ParamsProps} from '../interface/base.interface';
 
@@ -125,8 +126,8 @@ export const getShipping = async (): Promise<ShippingResponseType> => {
 
 export const createShipping = async (
   props: DataShippingProps,
-): Promise<ShippingResponseType> => {
-  const {data} = await SsuAPI().request<ShippingResponseType>({
+): Promise<UpdateShippingResponseType> => {
+  const {data} = await SsuAPI().request<UpdateShippingResponseType>({
     url: '/musician-app/shipping/create',
     method: 'POST',
     data: props,
@@ -137,8 +138,8 @@ export const createShipping = async (
 
 export const updateShipping = async (
   props: DataShippingProps,
-): Promise<ShippingResponseType> => {
-  const {data} = await SsuAPI().request<ShippingResponseType>({
+): Promise<UpdateShippingResponseType> => {
+  const {data} = await SsuAPI().request<UpdateShippingResponseType>({
     url: `/musician-app/shipping/update/${props?.bookyayShipmentID}`,
     method: 'PUT',
     data: props,
@@ -149,8 +150,8 @@ export const updateShipping = async (
 
 export const deleteShipping = async (
   props: DataShippingProps,
-): Promise<ShippingResponseType> => {
-  const {data} = await SsuAPI().request<ShippingResponseType>({
+): Promise<UpdateShippingResponseType> => {
+  const {data} = await SsuAPI().request<UpdateShippingResponseType>({
     url: `/musician-app/shipping/delete/${props?.bookyayShipmentID}`,
     method: 'DELETE',
   });
