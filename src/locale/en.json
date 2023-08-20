@@ -384,7 +384,8 @@
       "Music": "MUSIC",
       "Fans": "FANS",
       "Merchandise": "MERCHANDISE",
-      "Ticket": "TICKET"
+      "Ticket": "TICKET",
+      "Event": "EVENT"
     }
   },
   "ExclusiveContent": {

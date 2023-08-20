@@ -57,6 +57,7 @@ import {usePlayerStore} from '../../store/player.store';
 import MerchList from '../ListCard/MerchList';
 import ConcertList from '../ListCard/ConcertList';
 import ListAlbum from './ListAlbum';
+import EventMusician from '../../components/molecule/EventMusician';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -94,6 +95,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     {filterName: 'Musician.Tab.Musician'},
     {filterName: 'Musician.Tab.Music'},
     {filterName: 'Musician.Tab.Fans'},
+    {filterName: 'Musician.Tab.Event'},
     {filterName: 'Musician.Tab.Profile'},
     {filterName: 'Musician.Tab.Merchandise'},
     {filterName: 'Musician.Tab.Ticket'},
@@ -386,6 +388,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                   paddingHorizontal: widthResponsive(20),
                 }}>
                 <ConcertList musicianId={uuid} />
+              </View>
+            ) : filter[selectedIndex].filterName === 'Musician.Tab.Event' ? (
+              <View
+                style={{
+                  paddingHorizontal: widthResponsive(20),
+                }}>
+                <EventMusician />
               </View>
             ) : null}
           </View>
