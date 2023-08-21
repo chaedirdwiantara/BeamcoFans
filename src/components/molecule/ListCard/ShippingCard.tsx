@@ -5,6 +5,7 @@ import {
   ViewStyle,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
@@ -12,7 +13,7 @@ import {ms, mvs} from 'react-native-size-matters';
 import {width} from '../../../utils';
 import {Button, Gap} from '../../atom';
 import {color, font} from '../../../theme';
-import {TrashIcon} from '../../../assets/icon';
+import {Trash2Icon} from '../../../assets/icon';
 import {DataShippingProps} from '../../../interface/setting.interface';
 
 export interface ShippingCardProps {
@@ -110,7 +111,7 @@ export const ShippingCard: React.FC<ShippingCardProps> = (
               <TouchableOpacity
                 style={styles.trashIcon}
                 onPress={onPressRemove}>
-                <TrashIcon
+                <Trash2Icon
                   style={{width: ms(18), height: ms(18)}}
                   stroke={color.Pink.linear}
                 />
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     marginTop: mvs(20),
   },
   trashIcon: {
-    width: width * 0.09,
+    width: Platform.OS === 'ios' ? width * 0.09 : width * 0.1,
     aspectRatio: 1 / 1,
     borderWidth: mvs(1),
     borderColor: color.Pink.linear,
