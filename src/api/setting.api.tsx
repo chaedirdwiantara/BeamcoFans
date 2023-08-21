@@ -128,7 +128,7 @@ export const createShipping = async (
   props: DataShippingProps,
 ): Promise<UpdateShippingResponseType> => {
   const {data} = await SsuAPI().request<UpdateShippingResponseType>({
-    url: '/musician-app/shipping/create',
+    url: '/fans-app/shipping/create',
     method: 'POST',
     data: props,
   });
@@ -137,10 +137,10 @@ export const createShipping = async (
 };
 
 export const updateShipping = async (
-  props: DataShippingProps,
+  props?: DataShippingProps,
 ): Promise<UpdateShippingResponseType> => {
   const {data} = await SsuAPI().request<UpdateShippingResponseType>({
-    url: `/musician-app/shipping/update/${props?.bookyayShipmentID}`,
+    url: `/fans-app/shipping/update/${props?.bookyayShipmentID}`,
     method: 'PUT',
     data: props,
   });
@@ -152,7 +152,7 @@ export const deleteShipping = async (
   props: DataShippingProps,
 ): Promise<UpdateShippingResponseType> => {
   const {data} = await SsuAPI().request<UpdateShippingResponseType>({
-    url: `/musician-app/shipping/delete/${props?.bookyayShipmentID}`,
+    url: `/fans-app/shipping/delete/${props?.bookyayShipmentID}`,
     method: 'DELETE',
   });
 
