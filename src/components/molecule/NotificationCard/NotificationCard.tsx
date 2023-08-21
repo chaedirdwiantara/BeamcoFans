@@ -45,6 +45,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = (
               // data={item.data}
               size={32}
               desc={item.content}
+              wordReplacer={item.wordReplacer}
             />
           </View>
         </View>
