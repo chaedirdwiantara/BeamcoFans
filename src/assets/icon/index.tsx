@@ -114,6 +114,7 @@ import BagTickIcon from './BagTick.icon';
 import StarIcon from './Star.icon';
 import ImportPhotoIcon from './ImportPhoto.icon';
 import CalendarIcon from './Calendar.icon';
+import LiveIcon from './Live.icon';
 
 export {
   AddIcon,
@@ -232,4 +233,5 @@ export {
   StarIcon,
   ImportPhotoIcon,
   CalendarIcon,
+  LiveIcon,
 };

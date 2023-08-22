@@ -36,6 +36,7 @@ import MusicianProfile from '../screen/MusicianProfile';
 import {WebviewPage} from '../screen/Webview';
 import {MusicPlayer} from '../screen/Music';
 import {OtherUserProfile} from '../screen/OtherUserProfile/OtherUserProfile';
+import {EventDetail} from '../screen/EventDetail';
 
 // Home
 import {HomeScreen} from '../screen/Home';
@@ -310,6 +311,7 @@ export type MainTabParams = {
     deletePlaylist?: boolean;
   };
   Search: undefined;
+  EventDetail: {id: string};
 };
 
 const screenOption: NativeStackNavigationOptions = {
@@ -518,6 +520,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="Track" component={Track} />
     <RootStack.Screen name="TicketDetail" component={TicketDetail} />
     <RootStack.Screen name="Shop" component={Shop} />
+    <RootStack.Screen name="EventDetail" component={EventDetail} />
   </RootStack.Navigator>
 );
 
