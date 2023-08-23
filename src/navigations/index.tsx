@@ -295,6 +295,7 @@ export type RootStackParams = {
   };
   TicketDetail: undefined;
   Shop: undefined;
+  EventDetail: {id: string};
 };
 
 export type MainTabParams = {
@@ -311,7 +312,6 @@ export type MainTabParams = {
     deletePlaylist?: boolean;
   };
   Search: undefined;
-  EventDetail: {id: string};
 };
 
 const screenOption: NativeStackNavigationOptions = {

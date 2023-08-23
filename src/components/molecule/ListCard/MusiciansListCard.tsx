@@ -8,7 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
-import {Avatar, Button, Gap} from '../../atom';
+import {Avatar, Button, Gap, SquareImage} from '../../atom';
 import {
   heightPercentage,
   heightResponsive,
@@ -19,7 +19,7 @@ import {
   widthResponsive,
 } from '../../../utils';
 import {color, font} from '../../../theme';
-import {DefaultAvatar, LiveIcon} from '../../../assets/icon';
+import {DefaultAvatar, DefaultImage, LiveIcon} from '../../../assets/icon';
 import {useTranslation} from 'react-i18next';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {useDebounce} from '../../../utils/debounce';
@@ -41,6 +41,8 @@ export interface ListProps {
   onClickTip?: () => void;
   showCredit?: boolean;
   creditCount?: number;
+  isEvent?: boolean;
+  eventDate?: string;
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -61,6 +63,8 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     onClickTip,
     showCredit = false,
     creditCount,
+    isEvent,
+    eventDate,
   } = props;
 
   // ? Dropdown Menu Example
@@ -115,7 +119,22 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
       )}
 
       <TouchableOpacity onPress={useDebounce(onPressImage)}>
-        {imgUri ? (
+        {isEvent ? (
+          imgUri ? (
+            <View
+              style={{
+                width: widthResponsive(44),
+                height: widthResponsive(44),
+              }}>
+              <SquareImage imgUri={imgUri} borderRadius={4} size={44} />
+            </View>
+          ) : (
+            <DefaultImage.SongCover
+              width={widthPercentage(44)}
+              height={heightPercentage(44)}
+            />
+          )
+        ) : imgUri ? (
           <Avatar imgUri={imgUri} size={widthPercentage(44)} />
         ) : (
           <DefaultAvatar.MusicianIcon />
@@ -158,6 +177,17 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
               </View>
             </>
           )}
+
+          {isEvent && (
+            <>
+              <Gap height={heightResponsive(2)} />
+              <View>
+                <Text style={styles.eventDate} numberOfLines={1}>
+                  {eventDate}
+                </Text>
+              </View>
+            </>
+          )}
         </TouchableOpacity>
       </View>
       <View style={styles.rightContainer}>
@@ -167,7 +197,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
         {activeMore && moreMenu()}
       </View>
 
-      {isLive && (
+      {isLive && !isEvent && (
         <>
           <Gap width={8} />
           <Button
@@ -249,5 +279,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: normalize(10),
     color: Color.Pink.linear,
+  },
+  eventDate: {
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(10.5),
+    color: color.Dark[50],
   },
 });

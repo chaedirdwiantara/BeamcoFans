@@ -75,6 +75,7 @@ import {
 } from '../utils';
 import {randomString} from '../utils/randomString';
 import {ProgressCard} from '../components/molecule/ListCard/ProgressCard';
+import EventList from './ListCard/EventList';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -610,6 +611,21 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           )}
         </View>
         {/* End of Tab Musician */}
+        {/* Tab Event */}
+        <View style={[styles.containerContent]}>
+          <TabFilter.Type3
+            filterData={[{filterName: 'Event.Live'}]}
+            onPress={() => null}
+            selectedIndex={0}
+            translation={true}
+          />
+          <EventList
+            // TODO: get response from api and change data
+            dataEvent={isLogin ? dataMusician : dataSearchMusicians}
+            isLoading={isLoadingMusician || searchLoading}
+          />
+        </View>
+        {/* End of Tab Event */}
         {/* Playlist */}
         <ListPlaylistHome
           title={t('Home.Playlist.Title')}
