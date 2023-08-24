@@ -3,12 +3,13 @@ import {StyleSheet, View} from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import Color from '../theme/Color';
-import {RootStackParams} from '../navigations';
-import {TopupCoinContent} from '../components';
-import {usePlayerStore} from '../store/player.store';
+import Color from '../../theme/Color';
+import {RootStackParams} from '../../navigations';
+import {TopUpCreditContent} from '../../components';
+import {usePlayerStore} from '../../store/player.store';
+import {TransactionHistoryPropsType} from '../../interface/credit.interface';
 
-export const TopupCoinScreen: React.FC = () => {
+export const TopUpCreditScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {setWithoutBottomTab, show} = usePlayerStore();
@@ -26,9 +27,16 @@ export const TopupCoinScreen: React.FC = () => {
     navigation.goBack();
   };
 
+  const goToDetailTransaction = (dataDetail: TransactionHistoryPropsType) => {
+    navigation.navigate('DetailHistoryTransaction', {dataDetail});
+  };
+
   return (
     <View style={styles.root}>
-      <TopupCoinContent onPressGoBack={onPressGoBack} />
+      <TopUpCreditContent
+        onPressGoBack={onPressGoBack}
+        goToDetailTransaction={goToDetailTransaction}
+      />
     </View>
   );
 };
