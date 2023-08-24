@@ -139,7 +139,8 @@ export const ExclusiveContent: React.FC<ExclusiveProps> = ({
             </View>
 
             <View>
-              <Text style={[typography.Subtitle1, styles.titlePlan]}>
+              {/* Hide */}
+              {/* <Text style={[typography.Subtitle1, styles.titlePlan]}>
                 {t('ExclusiveContent.Support')}
               </Text>
 
@@ -165,7 +166,7 @@ export const ExclusiveContent: React.FC<ExclusiveProps> = ({
                 keyboardType={'number-pad'}
                 isError={false}
                 errorMsg={t('ExclusiveContent.ErrorCoinBonus') || ''}
-              />
+              /> */}
 
               <Button
                 label={t('Btn.Purchase')}
