@@ -1,33 +1,40 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {useQuery} from 'react-query';
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
 
 import {
-  heightPercentage,
-  kFormatter,
   width,
+  kFormatter,
+  toCurrency,
   widthPercentage,
+  heightPercentage,
 } from '../../../utils';
 import {Gap} from '../../atom';
 import {CoinCard} from './CoinCard';
 import {TabFilter} from '../TabFilter';
-import listPrice from '../../../data/topUp';
 import {TopNavigation} from '../TopNavigation';
 import {TransactionCard} from './TransactionCard';
 import {EmptyState} from '../EmptyState/EmptyState';
 import {useIapHook} from '../../../hooks/use-iap.hook';
-import {color, font, typography} from '../../../theme/';
+import {color, font, typography} from '../../../theme';
+import {dateLongMonth} from '../../../utils/date-format';
 import {useCreditHook} from '../../../hooks/use-credit.hook';
 import {ArrowLeftIcon, CoinDIcon} from '../../../assets/icon';
+import {TransactionHistoryPropsType} from '../../../interface/credit.interface';
 
-interface TopupCoinProps {
+interface TopUpCreditProps {
   onPressGoBack: () => void;
+  goToDetailTransaction: (data: TransactionHistoryPropsType) => void;
 }
 
-export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
+export const TopUpCreditContent: React.FC<TopUpCreditProps> = ({
+  onPressGoBack,
+  goToDetailTransaction,
+}) => {
   const {t} = useTranslation();
-  const {getCreditCount, creditCount} = useCreditHook();
+  const {getCreditCount, creditCount, getTransactionHistory} = useCreditHook();
   const {
     iapProduct,
     initIAP,
@@ -38,6 +45,11 @@ export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
     purchaseUpdateListener,
     purchaseErrorListener,
   } = useIapHook();
+  const {data: dataHistory, isLoading} = useQuery(
+    ['/transaction-history'],
+    () => getTransactionHistory(),
+  );
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [filter] = useState([
     {filterName: 'TopUp.Filter.Buy'},
@@ -136,6 +148,19 @@ export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
               />
             </View>
           </View>
+        ) : isLoading ? null : dataHistory && dataHistory.data.length > 0 ? (
+          <View style={styles.containerContent}>
+            {dataHistory.data.map((val, i) => (
+              <TransactionCard
+                key={i}
+                title={t('TopUp.Transaction.SuccessPurchased', {
+                  credit: toCurrency(val.credit, {withFraction: false}),
+                })}
+                date={dateLongMonth(val.createdAt)}
+                onPress={() => goToDetailTransaction(val)}
+              />
+            ))}
+          </View>
         ) : (
           <EmptyState
             text={t('TopUp.EmptyState.Transaction') || ''}
@@ -143,10 +168,6 @@ export const TopupCoinContent: React.FC<TopupCoinProps> = ({onPressGoBack}) => {
             containerStyle={styles.containerEmpty}
             textStyle={styles.emptyText}
           />
-          // <TransactionCard
-          //   title="20 Coin have been purchased!"
-          //   date="Dec 16, 2022"
-          // />
         )}
       </ScrollView>
     </View>
@@ -176,6 +197,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthPercentage(20),
     paddingVertical: heightPercentage(15),
     marginVertical: heightPercentage(20),
+  },
+  containerContent: {
+    marginTop: heightPercentage(10),
+    marginBottom: heightPercentage(40),
   },
   containerListPrice: {
     width,
