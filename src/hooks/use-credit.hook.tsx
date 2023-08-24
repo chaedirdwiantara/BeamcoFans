@@ -3,6 +3,7 @@ import {
   checkSubsEC,
   createDonation,
   getCredit,
+  getHistoryTransaction,
   subsEC,
 } from '../api/credit.api';
 import {
@@ -52,6 +53,19 @@ export const useCreditHook = () => {
     }
   };
 
+  const getTransactionHistory = async () => {
+    try {
+      const response = await getHistoryTransaction();
+      return {
+        data: response?.data,
+        meta: response?.meta,
+        message: response?.message,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     creditCount: iapStore.userCredit,
     getCreditCount,
@@ -59,5 +73,6 @@ export const useCreditHook = () => {
     checkSubs,
     alreadySubsEC,
     subsNewEC,
+    getTransactionHistory,
   };
 };
