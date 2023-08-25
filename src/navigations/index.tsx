@@ -90,7 +90,8 @@ import {SongDetailsScreen} from '../screen/SongDetails/SongDetails';
 import {AlbumScreen} from '../screen/Album/Album';
 
 // TopUp
-import {TopupCoinScreen} from '../screen/TopupCoin';
+import {TopUpCreditScreen} from '../screen/TopUpCredit/TopUpCredit';
+import {DetailHistoryTransactionScreen} from '../screen/TopUpCredit/DetailHistoryTransaction';
 
 // Icon
 import {
@@ -142,6 +143,7 @@ import {
 import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
 import ListPlaylist from '../screen/Playlist/ListPlaylist';
 import {MyQRCode} from '../screen/Setting/MyQRCode';
+import {TransactionHistoryPropsType} from '../interface/credit.interface';
 
 export type RootStackParams = {
   AboutDeletion: undefined;
@@ -164,6 +166,9 @@ export type RootStackParams = {
   };
   OtpPhoneNumber: OtpPhoneScreen;
   CreateNewPlaylist: {id?: number[]; type?: string};
+  DetailHistoryTransaction: {
+    dataDetail: TransactionHistoryPropsType;
+  };
   DonationAndSubscription: undefined;
   EditProfile: ProfileResponseData;
   EditPlaylist: Playlist;
@@ -263,7 +268,7 @@ export type RootStackParams = {
   PostDetail: PostList;
   SearchScreen: undefined;
   TnCAndPP: undefined;
-  TopupCoin: undefined;
+  TopUpCredit: undefined;
   MusicianProfile: {
     id: string;
   };
@@ -492,7 +497,11 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="MusicianProfile" component={MusicianProfile} />
     <RootStack.Screen name="Webview" component={WebviewPage} />
     <RootStack.Screen name="MusicPlayer" component={MusicPlayer} />
-    <RootStack.Screen name="TopupCoin" component={TopupCoinScreen} />
+    <RootStack.Screen name="TopUpCredit" component={TopUpCreditScreen} />
+    <RootStack.Screen
+      name="DetailHistoryTransaction"
+      component={DetailHistoryTransactionScreen}
+    />
     <RootStack.Screen
       name="ProfileProgress"
       component={ProfileProgressScreen}

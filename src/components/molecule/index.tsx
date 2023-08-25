@@ -62,7 +62,7 @@ import {ShowCreditContent} from './SongDetailsContent/ShowCreditContent';
 import {TabFilter} from './TabFilter';
 import TermAndConditions from './Tnc';
 import Title from './Title';
-import {TopupCoinContent} from './TopupCoin';
+import {TopUpCreditContent} from './TopUpCredit';
 import {TopNavigation} from './TopNavigation';
 import {UseReferralContent} from './SettingContent/UseReferralContent';
 import {UserInfoCard} from './UserInfoCard/UserInfoCard';
@@ -133,7 +133,7 @@ export {
   TermAndConditions,
   Title,
   TopNavigation,
-  TopupCoinContent,
+  TopUpCreditContent,
   UseReferralContent,
   UserInfoCard,
 };

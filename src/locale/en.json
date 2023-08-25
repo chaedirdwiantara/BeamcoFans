@@ -358,6 +358,7 @@
       "Delete": "Delete Photo",
       "AddPhotos": "Add Photos",
       "AddBio": "Add Bio",
+      "About": "Tell us about yourself",
       "AddWebsite": "Add Website or Social Media",
       "DisplayProfile": "Display Profile"
     }
@@ -875,6 +876,25 @@
     "Filter": {
       "Buy": "Buy Package",
       "Transaction": "Transaction"
+    },
+    "Transaction": {
+      "SuccessPurchased": "{{credit}} Coin have been purchased",
+      "Detail": {
+        "Title": "Transaction Details",
+        "StatusInfo": "Credit added successfully!",
+        "ReferenceNumber": "Reference Number",
+        "Status": "Status",
+        "Success": "Success",
+        "Failed": "Failed",
+        "Date": "Date",
+        "Time": "Time",
+        "PaymentMethods": "Payment Methods",
+        "Total": "Total",
+        "Credit": "Credit",
+        "Bonus": "Bonus",
+        "NeedHelp": "Need Help?",
+        "ContactSupport": "Contact our support"
+      }
     },
     "EmptyState": {
       "Transaction": "The transaction list will be displayed here, but as of now, no transactions have been made."

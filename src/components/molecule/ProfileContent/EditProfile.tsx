@@ -126,7 +126,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
           label=""
           value={bio}
           onChangeText={(newText: string) => setBio(newText)}
-          placeholder={'Playlist Name'}
+          placeholder={t('Profile.Edit.About') || ''}
           inputStyles={styles.inputBio}
           maxLength={110}
           multiline

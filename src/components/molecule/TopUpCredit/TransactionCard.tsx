@@ -1,23 +1,25 @@
 import React from 'react';
-import {StyleSheet, View, Text, ViewStyle} from 'react-native';
+import {StyleSheet, Text, ViewStyle, TouchableOpacity} from 'react-native';
 
 import {Gap} from '../../atom';
-import {color, typography} from '../../../theme/';
+import {color, typography} from '../../../theme';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 
 interface TransactionCardProps {
   title: string;
   date: string;
+  onPress: () => void;
   containerStyle?: ViewStyle;
 }
 
 export const TransactionCard: React.FC<TransactionCardProps> = ({
   title,
   date,
+  onPress,
   containerStyle,
 }) => {
   return (
-    <View style={[styles.root, containerStyle]}>
+    <TouchableOpacity onPress={onPress} style={[styles.root, containerStyle]}>
       <Text style={[typography.Button2, {color: color.Neutral[10]}]}>
         {title}
       </Text>
@@ -25,7 +27,7 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({
       <Text style={[typography.Overline, {color: color.Success[400]}]}>
         {date}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -37,6 +39,6 @@ const styles = StyleSheet.create({
     borderColor: color.Dark[500],
     paddingHorizontal: widthPercentage(20),
     paddingVertical: heightPercentage(15),
-    marginTop: heightPercentage(20),
+    marginTop: heightPercentage(10),
   },
 });
