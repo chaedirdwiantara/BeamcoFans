@@ -37,6 +37,7 @@ import {WebviewPage} from '../screen/Webview';
 import {MusicPlayer} from '../screen/Music';
 import {OtherUserProfile} from '../screen/OtherUserProfile/OtherUserProfile';
 import {EventDetail} from '../screen/EventDetail';
+import {LiveTipping} from '../screen/LiveTipping';
 
 // Home
 import {HomeScreen} from '../screen/Home';
@@ -305,6 +306,7 @@ export type RootStackParams = {
   TicketDetail: undefined;
   Shop: undefined;
   EventDetail: {id: string};
+  LiveTipping: {id: string};
 };
 
 export type MainTabParams = {
@@ -532,6 +534,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="TicketDetail" component={TicketDetail} />
     <RootStack.Screen name="Shop" component={Shop} />
     <RootStack.Screen name="EventDetail" component={EventDetail} />
+    <RootStack.Screen name="LiveTipping" component={LiveTipping} />
   </RootStack.Navigator>
 );
 
