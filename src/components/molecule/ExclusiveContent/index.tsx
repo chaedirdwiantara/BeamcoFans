@@ -128,7 +128,7 @@ export const ExclusiveContent: React.FC<ExclusiveProps> = ({
                       coin={kFormatter(data?.pricingPlans[0].price) + '/'}
                       time={val.time}
                       isError={
-                        credit ? credit < data?.pricingPlans[0].price : false
+                        credit ? credit < data?.pricingPlans[0].price : true
                       }
                       onPressSelected={() => onPressSelected(data)}
                       selected={selectedPlan?.ID === data?.ID}
@@ -139,7 +139,8 @@ export const ExclusiveContent: React.FC<ExclusiveProps> = ({
             </View>
 
             <View>
-              <Text style={[typography.Subtitle1, styles.titlePlan]}>
+              {/* Hide */}
+              {/* <Text style={[typography.Subtitle1, styles.titlePlan]}>
                 {t('ExclusiveContent.Support')}
               </Text>
 
@@ -165,7 +166,7 @@ export const ExclusiveContent: React.FC<ExclusiveProps> = ({
                 keyboardType={'number-pad'}
                 isError={false}
                 errorMsg={t('ExclusiveContent.ErrorCoinBonus') || ''}
-              />
+              /> */}
 
               <Button
                 label={t('Btn.Purchase')}
