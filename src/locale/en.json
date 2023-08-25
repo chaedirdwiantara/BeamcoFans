@@ -1092,5 +1092,11 @@
       "Warning": "You need to select one of the report category",
       "ReportSuccess": "Report have been sent!"
     }
+  },
+  "ClaimReward": {
+    "Title": "Reward Detail",
+    "ValidUntil": "Valid until",
+    "Claim": "Claim",
+    "Claimed": "Claimed"
   }
 }

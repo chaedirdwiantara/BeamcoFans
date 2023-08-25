@@ -38,6 +38,7 @@ import {MusicPlayer} from '../screen/Music';
 import {OtherUserProfile} from '../screen/OtherUserProfile/OtherUserProfile';
 import {EventDetail} from '../screen/EventDetail';
 import {LiveTipping} from '../screen/LiveTipping';
+import ClaimReward from '../screen/EventDetail/ClaimReward';
 
 // Home
 import {HomeScreen} from '../screen/Home';
@@ -307,6 +308,9 @@ export type RootStackParams = {
   Shop: undefined;
   EventDetail: {id: string};
   LiveTipping: {id: string};
+  ClaimReward: {
+    id: string;
+  };
 };
 
 export type MainTabParams = {
@@ -535,6 +539,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="Shop" component={Shop} />
     <RootStack.Screen name="EventDetail" component={EventDetail} />
     <RootStack.Screen name="LiveTipping" component={LiveTipping} />
+    <RootStack.Screen name="ClaimReward" component={ClaimReward} />
   </RootStack.Navigator>
 );
 
