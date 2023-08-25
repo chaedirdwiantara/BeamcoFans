@@ -50,6 +50,7 @@ import {ReferralContent} from './ReferralContent/ReferralContent';
 import {RadioButton} from './RadioButton/RadioButton';
 import {ReferAFriend} from './SettingContent/ReferAFriend';
 import {SendReportContent} from './SettingContent/SendReportContent';
+import {SendAppealContent} from './SettingContent/SendAppealContent';
 import {SettingContent} from './SettingContent/SettingContent';
 import {SignInGuestContent} from './SignInGuestContent/SignInGuestContent';
 import {AddShippingAddress} from './SettingContent/AddShippingAddress';
@@ -120,6 +121,7 @@ export {
   ReferralContent,
   ReferAFriend,
   SendReportContent,
+  SendAppealContent,
   SettingContent,
   SignInGuestContent,
   AddShippingAddress,

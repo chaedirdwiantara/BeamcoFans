@@ -20,6 +20,7 @@ import {
   createShipping,
   updateShipping,
   deleteShipping,
+  listViolations,
 } from '../api/setting.api';
 import {ParamsProps} from '../interface/base.interface';
 import {
@@ -30,6 +31,7 @@ import {
   EmailPhoneVerifProps,
   ListAllPreference,
   ListReasonType,
+  ListViolationsType,
   PreferenceList,
   PreferenceProps,
   VerifPasswordSetting,
@@ -56,6 +58,7 @@ export const useSettingHook = () => {
   const [listReasonDelete, setListReasonDelete] = useState<ListReasonType[]>(
     [],
   );
+  const [listViolation, setListViolation] = useState<ListViolationsType>();
   const [dataExclusiveContent, setDataExclusiveContent] =
     useState<DataExclusiveResponse | null>(null);
 
@@ -459,6 +462,15 @@ export const useSettingHook = () => {
     }
   };
 
+  const getListViolations = async () => {
+    try {
+      const response = await listViolations();
+      setListViolation(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -471,6 +483,8 @@ export const useSettingHook = () => {
     listExpectation,
     listPreference,
     listReasonDelete,
+    dataExclusiveContent,
+    listViolation,
     changeEmail,
     changePhoneNumber,
     getVerificationCode,
@@ -483,7 +497,6 @@ export const useSettingHook = () => {
     getShippingInfo,
     getListPreference,
     getListMoodGenre,
-    dataExclusiveContent,
     getExclusiveContent,
     getListMoodPublic,
     getListGenrePublic,
@@ -491,5 +504,6 @@ export const useSettingHook = () => {
     createShippingInfo,
     updateShippingInfo,
     deleteShippingInfo,
+    getListViolations,
   };
 };
