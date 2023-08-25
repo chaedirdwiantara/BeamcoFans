@@ -53,7 +53,6 @@ import {ChangePasswordScreen} from '../screen/Setting/ChangePassword';
 import {LanguageScreen} from '../screen/Setting/Language';
 import {ReferralCodeSetting} from '../screen/Setting/ReferralCode';
 import {PhoneNumberScreen} from '../screen/Setting/PhoneNumber/PhoneNumber';
-import {ShippingInformationScreen} from '../screen/Setting/ShippingInformation';
 import {DonationAndSubscription} from '../screen/Setting/DonationAndSubscription';
 import {SendReportScreen} from '../screen/Setting/SendReport';
 import {PushNotificationScreen} from '../screen/Setting/PushNotification';
@@ -63,6 +62,8 @@ import {TnCAndPPScreen} from '../screen/Setting/TnCAndPP';
 import {AboutDeletionScreen} from '../screen/Setting/DeleteAccount/AboutDeletion';
 import {InputDeletionScreen} from '../screen/Setting/DeleteAccount/InputDeletion';
 import {SendAppealScreen} from '../screen/Setting/SendAppeal';
+import {ListAddressScreen} from '../screen/Setting/ShippingInfo/ListAddress';
+import {AddNewAddressScreen} from '../screen/Setting/ShippingInfo/AddNewAddress';
 
 // Profile
 import {ProfileScreen} from '../screen/Profile/Profile';
@@ -243,8 +244,11 @@ export type RootStackParams = {
   SignInGuest: {
     showToastDelete?: boolean;
   };
-  ShippingInformation: {
-    data: DataShippingProps | null;
+  ListAddress: {
+    from?: string;
+  };
+  AddNewAddress: {
+    data?: DataShippingProps;
     from?: string;
   };
   ShowCredit: {
@@ -449,10 +453,8 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="ChangePassword" component={ChangePasswordScreen} />
     <RootStack.Screen name="ReferralCode" component={ReferralCodeSetting} />
     <RootStack.Screen name="Language" component={LanguageScreen} />
-    <RootStack.Screen
-      name="ShippingInformation"
-      component={ShippingInformationScreen}
-    />
+    <RootStack.Screen name="ListAddress" component={ListAddressScreen} />
+    <RootStack.Screen name="AddNewAddress" component={AddNewAddressScreen} />
     <RootStack.Screen
       name="DonationAndSubscription"
       component={DonationAndSubscription}

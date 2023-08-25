@@ -6,14 +6,14 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
 import {SettingContent} from '../../components';
 import {RootStackParams} from '../../navigations';
-import {useSettingHook} from '../../hooks/use-setting.hook';
 import {usePlayerStore} from '../../store/player.store';
+import {useProfileHook} from '../../hooks/use-profile.hook';
 
 export const SettingScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const {dataShippingInfo, getShippingInfo} = useSettingHook();
+  const {dataProfile, getProfileUser} = useProfileHook();
   const {setWithoutBottomTab, show} = usePlayerStore();
 
   useFocusEffect(
@@ -26,7 +26,7 @@ export const SettingScreen: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getShippingInfo();
+      getProfileUser();
     }, []),
   );
 
@@ -36,8 +36,13 @@ export const SettingScreen: React.FC = () => {
   };
 
   const onPressGoTo = (screenName: any, params: any) => {
-    if (screenName === 'ShippingInformation') {
-      navigation.navigate('ShippingInformation', {data: dataShippingInfo});
+    if (screenName === 'Account') {
+      navigation.navigate(screenName, {
+        data: dataProfile?.data,
+        fromScreen: 'setting',
+      });
+    } else if (screenName === 'ShippingInformation') {
+      navigation.navigate('ListAddress', {from: ''});
     } else {
       navigation.navigate(screenName, {...params});
     }
