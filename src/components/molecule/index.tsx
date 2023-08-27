@@ -66,6 +66,7 @@ import {TopupCoinContent} from './TopupCoin';
 import {TopNavigation} from './TopNavigation';
 import {UseReferralContent} from './SettingContent/UseReferralContent';
 import {UserInfoCard} from './UserInfoCard/UserInfoCard';
+import VoteCard from './Vote';
 
 export {
   AccountContent,
@@ -136,4 +137,5 @@ export {
   TopupCoinContent,
   UseReferralContent,
   UserInfoCard,
+  VoteCard,
 };
