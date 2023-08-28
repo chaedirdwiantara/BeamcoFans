@@ -932,7 +932,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const sendOnPress = () => {
     const reportBodyPost: ReportParamsProps = {
       reportType: reportType ?? 'post',
-      reportTypeId: selectedIdPost ?? 0,
+      reportTypeId: selectedIdPost ?? '0',
       reporterUuid: dataProfile?.data.uuid ?? '',
       reportedUuid: dataPostDetail?.musician.uuid ?? '',
       reportCategory: t(selectedCategory ?? ''),
@@ -941,7 +941,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
     const reportBodyReplies: ReportParamsProps = {
       reportType: reportType ?? 'replies',
-      reportTypeId: idComment ?? 0,
+      reportTypeId: idComment ?? '0',
       reporterUuid: dataProfile?.data.uuid ?? '',
       reportedUuid: selectedUserUuid ?? '',
       reportCategory: t(selectedCategory ?? ''),

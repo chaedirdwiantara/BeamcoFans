@@ -142,6 +142,13 @@ export type DetailPostData = {
   shareCount: number;
   isSubscribe: boolean;
   reportSent: boolean;
+  isPolling: boolean;
+  pollingOptions: PollingOptions[];
+  pollDuration: number;
+  pollCount: number;
+  isOwner: boolean;
+  isVoted: boolean;
+  pollTimeLeft: string;
 };
 
 export type DetailPostResponseType = {
