@@ -2,6 +2,7 @@ import {useQuery} from 'react-query';
 import {ParamsProps} from '../interface/base.interface';
 import {
   EventHomeResponse,
+  EventMusicianResponse,
   MerchListResponse,
   SearchEventInput,
 } from '../interface/event.interface';
@@ -78,6 +79,31 @@ export function useEventHome(params?: ParamsProps, isLogin?: boolean) {
   return useQuery(
     [`event/home/${isLogin ? 'login' : 'public'}`],
     () => (isLogin ? listEventHome(params) : listEventHomePublic(params)),
+    {
+      enabled: false,
+    },
+  );
+}
+
+export const listEventMusician = async (
+  uuid: string,
+  props?: ParamsProps,
+): Promise<EventMusicianResponse> => {
+  const {data} = await RinjaniAPI().request<EventMusicianResponse>({
+    url: `/events/${uuid}/profile`,
+    method: 'GET',
+    params: {
+      ...props,
+    },
+  });
+
+  return data;
+};
+
+export function useEventMusician(uuid: string, params?: ParamsProps) {
+  return useQuery(
+    [`event/musician/${uuid}`],
+    () => listEventMusician(uuid, params),
     {
       enabled: false,
     },

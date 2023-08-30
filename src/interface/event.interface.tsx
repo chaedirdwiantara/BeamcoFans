@@ -233,6 +233,7 @@ export interface EventListData {
   endDate: string;
   imageCover: imageTypes[];
   status?: string;
+  isLive?: boolean;
 }
 
 export interface EventListInterface {
@@ -241,4 +242,8 @@ export interface EventListInterface {
 }
 export interface EventHomeResponse extends BaseResponseApi {
   data: EventListData[];
+}
+
+export interface EventMusicianResponse extends BaseResponseApi {
+  data: EventListInterface[];
 }
