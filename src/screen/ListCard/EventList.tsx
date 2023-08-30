@@ -2,9 +2,7 @@ import React, {FC, useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
-import {MusicianList} from '../../interface/musician.interface';
 import {heightResponsive, widthResponsive} from '../../utils';
-import {ListDataSearchMusician} from '../../interface/search.interface';
 import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
 import {EmptyStateSongMusician} from '../../components/molecule/EmptyState/EmptyStateSongMusician';
 import MusiciansListCard from '../../components/molecule/ListCard/MusiciansListCard';
@@ -12,104 +10,117 @@ import Color from '../../theme/Color';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
+import {EventListData} from '../../interface/event.interface';
 
 interface EventListProps {
   type?: string;
   scrollable?: boolean;
-  dataEvent?: MusicianList[] | ListDataSearchMusician[];
+  dataEvent?: EventListData[];
   emptyState?: React.ComponentType;
   isLoading?: boolean;
+  setModalGuestVisible: (status: boolean) => void;
+  isLogin: boolean;
 }
 
-const EventList: FC<EventListProps> = ({type, dataEvent, isLoading}) => {
+const EventList: FC<EventListProps> = ({
+  type,
+  dataEvent,
+  isLoading,
+  setModalGuestVisible,
+  isLogin,
+}) => {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const [listMusician, setListMusician] = useState(dataEvent);
+  const [listEvent, setlistEvent] = useState(dataEvent);
 
   useEffect(() => {
     if (dataEvent !== undefined) {
-      setListMusician(dataEvent);
+      setlistEvent(dataEvent);
     }
   }, [dataEvent]);
 
-  return listMusician && listMusician?.length > 0 ? (
+  return listEvent && listEvent?.length > 0 ? (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
-        // TODO: get response from api and change style
-        // paddingRight: listMusician?.length > 5 ? widthResponsive(24) : 0,
-        // width: listMusician?.length > 5 ? 'auto' : '100%',
+        paddingRight: listEvent?.length > 5 ? widthResponsive(24) : 0,
+        width: listEvent?.length > 5 ? 'auto' : '100%',
         paddingLeft: widthResponsive(24),
-        paddingRight: 0,
-        width: '100%',
       }}>
       <View
         style={{
           marginRight: ms(20),
           flex: 1,
-          // TODO: get response from api and change style
-          //   width: listMusician?.length > 5 ? widthResponsive(255) : '100%',
-          width: '100%',
+          width: listEvent?.length > 5 ? widthResponsive(255) : '100%',
         }}>
-        {listMusician?.map((item, index) => {
+        {listEvent?.map((item, index) => {
           if (index <= 4) {
             return (
               <MusiciansListCard
-                key={item.uuid}
+                key={item.id}
                 musicianNum={(index + 1).toLocaleString('en-US', {
                   minimumIntegerDigits: 2,
                   useGrouping: false,
                 })}
-                musicianName={item.fullname}
-                imgUri={item.imageProfileUrls[1]?.image || ''}
+                musicianName={item.name}
+                imgUri={item.imageCover?.[0]?.image || ''}
                 containerStyles={
-                  // TODO: get response from api isLive
-                  index === 0 ? styles.eventLive : {marginTop: mvs(18)}
+                  item.status === 'active'
+                    ? styles.eventLive
+                    : {marginTop: mvs(18)}
                 }
-                point={type === 'profile' ? item.point || '' : ''}
+                point={type === 'profile' ? '' : ''}
                 isEvent={true}
                 activeMore={false}
                 onPressImage={() =>
-                  navigation.navigate('EventDetail', {id: '1'})
+                  !isLogin
+                    ? setModalGuestVisible(true)
+                    : navigation.navigate('EventDetail', {id: item.id})
                 }
                 onPressMore={() => null}
-                eventDate="Hongkong, 8 Feb 2024"
-                isLive={index === 0}
+                eventDate={`${item.locationCity}, ${item.locationCountry}`}
+                isLive={item.status === 'active'}
               />
             );
           }
         })}
       </View>
-      {/* {listMusician?.length > 5 && (
+      {listEvent?.length > 5 && (
         <View style={{width: widthResponsive(255)}}>
-          {listMusician?.map((item, index) => {
+          {listEvent?.map((item, index) => {
             if (index > 4 && index < 10) {
               return (
-                <MusicianSection
-                  key={item.uuid}
-                  userId={item.uuid}
+                <MusiciansListCard
+                  key={item.id}
                   musicianNum={(index + 1).toLocaleString('en-US', {
                     minimumIntegerDigits: 2,
                     useGrouping: false,
                   })}
-                  musicianName={item.fullname}
-                  imgUri={item.imageProfileUrls[1]?.image || ''}
-                  containerStyles={{
-                    marginTop: mvs(12),
-                  }}
-                  point={type === 'profile' ? item.point || '' : ''}
-                  isFollowed={item.isFollowed}
-                  followOnPress={() =>
-                    followOnPress(item.uuid, item.isFollowed)
+                  musicianName={item.name}
+                  imgUri={item.imageCover?.[0]?.image || ''}
+                  containerStyles={
+                    // TODO: get response from api isLive
+                    item.status === 'active'
+                      ? styles.eventLive
+                      : {marginTop: mvs(18)}
                   }
+                  point={type === 'profile' ? '' : ''}
+                  isEvent={true}
+                  activeMore={false}
+                  onPressImage={() =>
+                    navigation.navigate('EventDetail', {id: item.id})
+                  }
+                  onPressMore={() => null}
+                  eventDate={`${item.locationCity}, ${item.locationCountry}`}
+                  isLive={item.status === 'active'}
                 />
               );
             }
           })}
         </View>
-      )} */}
+      )}
     </ScrollView>
   ) : isLoading ? (
     <View
@@ -120,9 +131,7 @@ const EventList: FC<EventListProps> = ({type, dataEvent, isLoading}) => {
       <LoadingSpinner />
     </View>
   ) : (
-    <EmptyStateSongMusician
-      text={t('Home.Musician.EmptyState', {title: 'Top Musician'})}
-    />
+    <EmptyStateSongMusician text={t('Event.EmptyState.Home')} />
   );
 };
 

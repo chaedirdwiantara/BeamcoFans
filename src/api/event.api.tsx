@@ -1,10 +1,14 @@
+import {useQuery} from 'react-query';
 import {ParamsProps} from '../interface/base.interface';
 import {
+  EventHomeResponse,
   MerchListResponse,
   SearchEventInput,
 } from '../interface/event.interface';
 import BookYayAPI from './baseBookYay';
+import RinjaniAPI from './baseRinjani';
 
+// Bookyay
 export const listMerch = async (
   props?: ParamsProps,
 ): Promise<MerchListResponse> => {
@@ -40,3 +44,42 @@ export const searchEvent = async (
 
   return data;
 };
+
+// Internal Event
+export const listEventHome = async (
+  props?: ParamsProps,
+): Promise<EventHomeResponse> => {
+  const {data} = await RinjaniAPI().request<EventHomeResponse>({
+    url: '/events',
+    method: 'GET',
+    params: {
+      ...props,
+    },
+  });
+
+  return data;
+};
+
+export const listEventHomePublic = async (
+  props?: ParamsProps,
+): Promise<EventHomeResponse> => {
+  const {data} = await RinjaniAPI().request<EventHomeResponse>({
+    url: '/public/events',
+    method: 'GET',
+    params: {
+      ...props,
+    },
+  });
+
+  return data;
+};
+
+export function useEventHome(params?: ParamsProps, isLogin?: boolean) {
+  return useQuery(
+    [`event/home/${isLogin ? 'login' : 'public'}`],
+    () => (isLogin ? listEventHome(params) : listEventHomePublic(params)),
+    {
+      enabled: false,
+    },
+  );
+}

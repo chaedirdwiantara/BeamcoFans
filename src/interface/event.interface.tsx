@@ -1,3 +1,5 @@
+import {BaseResponseApi, imageTypes} from './base.interface';
+
 export interface MerchListResponse {
   total: number;
   data: MerchData[];
@@ -218,4 +220,25 @@ export interface EventMusicianInterface {
   id: string;
   date: string;
   item: EventCardInterface[];
+}
+
+// Internal Event
+
+export interface EventListData {
+  id: string;
+  name: string;
+  locationCountry: string;
+  locationCity: string;
+  startDate: string;
+  endDate: string;
+  imageCover: imageTypes[];
+  status?: string;
+}
+
+export interface EventListInterface {
+  month?: string;
+  events: EventListData[];
+}
+export interface EventHomeResponse extends BaseResponseApi {
+  data: EventListData[];
 }

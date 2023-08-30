@@ -285,5 +285,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: normalize(10.5),
     color: color.Dark[50],
+    textTransform: 'capitalize',
   },
 });
