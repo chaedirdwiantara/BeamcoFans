@@ -14,6 +14,7 @@ import {
   DropDownFilter,
   Gap,
   ListCard,
+  ModalConfirm,
   ModalDonate,
   ModalReport,
   ModalShare,
@@ -122,6 +123,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     useState<DataDropDownType>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [selectedMusicianId, setSelectedMusicianId] = useState<string>('');
+  const [modalConfirm, setModalConfirm] = useState<boolean>(false);
+  const [selectedUserName, setSelectedUserName] = useState<string>('');
 
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
@@ -404,6 +407,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
         case '22':
           setReportToast(true);
           break;
+        case '33':
+          setModalConfirm(true);
+          break;
         default:
           break;
       }
@@ -423,7 +429,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const sendOnPress = () => {
     const reportBody: ReportParamsProps = {
       reportType: 'post',
-      reportTypeId: selectedIdPost ?? 0,
+      reportTypeId: selectedIdPost ?? '0',
       reporterUuid: MyUuid ?? '',
       reportedUuid: selectedUserUuid ?? '',
       reportCategory: t(selectedCategory ?? ''),
@@ -563,6 +569,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
                   selectedMenu={setSelectedMenuPost}
                   selectedIdPost={setSelectedIdPost}
                   selectedUserUuid={setSelectedUserUuid}
+                  selectedUserName={setSelectedUserName}
                   isPremium={item.isPremiumPost}
                   viewCount={item.viewsCount}
                   shareCount={item.shareCount}
@@ -661,6 +668,20 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           numberOfNewData={numberOfNewData}
         />
       )}
+
+      {/* //? Block user modal */}
+      {modalConfirm && (
+        <ModalConfirm
+          modalVisible={modalConfirm}
+          title={`${t('Block.Modal.Title')} @${selectedUserName} ?`}
+          subtitle={`${t('Block.Modal.Subtitle')} @${selectedUserName}`}
+          yesText={`${t('Block.Modal.RightButton')}`}
+          noText={`${t('Block.Modal.LeftButton')}`}
+          onPressClose={() => setModalConfirm(false)}
+          onPressOk={() => {}}
+          rightButtonStyle={styles.rightButtonStyle}
+        />
+      )}
     </>
   );
 };
@@ -696,5 +717,11 @@ const styles = StyleSheet.create({
   loadingContainer: {
     alignItems: 'center',
     paddingVertical: heightPercentage(20),
+  },
+  rightButtonStyle: {
+    backgroundColor: color.Error.block,
+    borderRadius: 4,
+    paddingHorizontal: widthResponsive(16),
+    paddingVertical: widthResponsive(6),
   },
 });

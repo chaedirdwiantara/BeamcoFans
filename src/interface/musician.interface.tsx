@@ -67,6 +67,8 @@ export type DataDetailMusician = {
   albums: [];
   merchs: [];
   favoriteGenres: TheGenres[];
+  blockIs: boolean; // pov i being blocked by that user
+  isBlock: boolean; // pov i blocked that user
 };
 
 export type DetailMusicianResponseType = {
