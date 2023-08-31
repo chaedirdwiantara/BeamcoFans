@@ -67,6 +67,7 @@ import {TopUpCreditContent} from './TopUpCredit';
 import {TopNavigation} from './TopNavigation';
 import {UseReferralContent} from './SettingContent/UseReferralContent';
 import {UserInfoCard} from './UserInfoCard/UserInfoCard';
+import VoteCard from './Vote';
 
 export {
   AccountContent,
@@ -138,4 +139,5 @@ export {
   TopUpCreditContent,
   UseReferralContent,
   UserInfoCard,
+  VoteCard,
 };
