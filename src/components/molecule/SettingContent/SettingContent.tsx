@@ -170,7 +170,6 @@ export const SettingContent: React.FC<SettingProps> = ({
           <MenuText.RightIcon
             key={i}
             text={t(val.text) || ''}
-            textStyles={{fontSize: mvs(14)}}
             containerStyles={{marginTop: heightPercentage(15)}}
             onPress={() => onPress(val.value)}
           />
