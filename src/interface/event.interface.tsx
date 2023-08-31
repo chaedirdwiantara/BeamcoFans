@@ -240,10 +240,40 @@ export interface EventListInterface {
   month?: string;
   events: EventListData[];
 }
+
+export interface EventDetailData extends EventListData {
+  organizer: string;
+  locationProvince: string;
+  locationPostalCode: number;
+  fullAddress: string;
+  description: string;
+  status: string;
+  urlGoogle: string;
+}
+
+export interface EventLineUp {
+  musician: {
+    UUID: string;
+    username: string;
+    fullname: string;
+    image: imageTypes[];
+    followers: number;
+  };
+  totalTipping: number;
+  statusLineUpEvent: string;
+}
 export interface EventHomeResponse extends BaseResponseApi {
   data: EventListData[];
 }
 
 export interface EventMusicianResponse extends BaseResponseApi {
   data: EventListInterface[];
+}
+
+export interface EventDetailResponse extends BaseResponseApi {
+  data: EventDetailData;
+}
+
+export interface EventLineUpResponse extends BaseResponseApi {
+  data: EventLineUp[];
 }

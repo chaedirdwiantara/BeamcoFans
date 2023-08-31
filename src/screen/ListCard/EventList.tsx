@@ -67,7 +67,7 @@ const EventList: FC<EventListProps> = ({
                 musicianName={item.name}
                 imgUri={item.imageCover?.[0]?.image || ''}
                 containerStyles={
-                  item.status === 'active'
+                  item.status === 'live'
                     ? styles.eventLive
                     : {marginTop: mvs(18)}
                 }
@@ -81,7 +81,7 @@ const EventList: FC<EventListProps> = ({
                 }
                 onPressMore={() => null}
                 eventDate={`${item.locationCity}, ${item.locationCountry}`}
-                isLive={item.status === 'active'}
+                isLive={item.status === 'live'}
               />
             );
           }
@@ -102,7 +102,7 @@ const EventList: FC<EventListProps> = ({
                   imgUri={item.imageCover?.[0]?.image || ''}
                   containerStyles={
                     // TODO: get response from api isLive
-                    item.status === 'active'
+                    item.status === 'live'
                       ? styles.eventLive
                       : {marginTop: mvs(18)}
                   }
@@ -114,7 +114,7 @@ const EventList: FC<EventListProps> = ({
                   }
                   onPressMore={() => null}
                   eventDate={`${item.locationCity}, ${item.locationCountry}`}
-                  isLive={item.status === 'active'}
+                  isLive={item.status === 'live'}
                 />
               );
             }
