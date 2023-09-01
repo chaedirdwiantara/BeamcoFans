@@ -10,6 +10,7 @@ import {mvs} from 'react-native-size-matters';
 import {
   DropDownFilter,
   ListCard,
+  ModalConfirm,
   ModalDonate,
   ModalReport,
   ModalShare,
@@ -63,6 +64,7 @@ import {useReportHook} from '../../hooks/use-report.hook';
 import {feedReportRecorded} from '../../store/idReported';
 import {ReportParamsProps} from '../../interface/report.interface';
 import {reportingMenu} from '../../data/report';
+import {useBlockHook} from '../../hooks/use-block.hook';
 
 const {height} = Dimensions.get('screen');
 
@@ -109,6 +111,9 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
     useState<DataDropDownType>();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [selectedMusicianId, setSelectedMusicianId] = useState<string>('');
+  const [modalConfirm, setModalConfirm] = useState<boolean>(false);
+  const [selectedUserName, setSelectedUserName] = useState<string>('');
+  const [toastBlockSucceed, setToastBlockSucceed] = useState<boolean>(false);
 
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
@@ -148,6 +153,9 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
     setSelectedSharePost,
     selectedSharePost,
   } = useShareHook();
+
+  const {blockLoading, blockError, blockResponse, setBlockUser} =
+    useBlockHook();
 
   const {creditCount, getCreditCount} = useCreditHook();
   const MyUuid = profileStorage()?.uuid;
@@ -328,6 +336,9 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
         case '22':
           setReportToast(true);
           break;
+        case '33':
+          setModalConfirm(true);
+          break;
         default:
           break;
       }
@@ -347,7 +358,7 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
   const sendOnPress = () => {
     const reportBody: ReportParamsProps = {
       reportType: 'post',
-      reportTypeId: selectedIdPost ?? 0,
+      reportTypeId: selectedIdPost ?? '0',
       reporterUuid: MyUuid ?? '',
       reportedUuid: selectedUserUuid ?? '',
       reportCategory: t(selectedCategory ?? ''),
@@ -376,6 +387,21 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
       });
     }
   }, [selectedSharePost]);
+
+  // ! BLOCK USER AREA
+  const blockModalOnPress = () => {
+    setBlockUser({uuid: selectedUserUuid});
+    setModalConfirm(false);
+  };
+
+  useEffect(() => {
+    if (blockResponse === 'Success') {
+      setDataMain(
+        dataMain.filter(data => data.musician.uuid !== selectedUserUuid),
+      );
+      setToastBlockSucceed(true);
+    }
+  }, [blockResponse]);
 
   return (
     <>
@@ -463,6 +489,7 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
                   selectedMenu={setSelectedMenuPost}
                   selectedIdPost={setSelectedIdPost}
                   selectedUserUuid={setSelectedUserUuid}
+                  selectedUserName={setSelectedUserName}
                   isPremium={item.isPremiumPost}
                   viewCount={item.viewsCount}
                   shareCount={item.shareCount}
@@ -542,6 +569,26 @@ const PostListSimilar: FC<PostListProps> = (props: PostListProps) => {
         modalVisible={modalSuccessDonate && trigger2ndModal ? true : false}
         toggleModal={onPressSuccess}
       />
+
+      {/* //? Block user modal */}
+      {modalConfirm && (
+        <ModalConfirm
+          modalVisible={modalConfirm}
+          title={`${t('Block.Modal.Title')} @${selectedUserName} ?`}
+          subtitle={`${t('Block.Modal.Subtitle')} @${selectedUserName}`}
+          yesText={`${t('Block.Modal.RightButton')}`}
+          noText={`${t('Block.Modal.LeftButton')}`}
+          onPressClose={() => setModalConfirm(false)}
+          onPressOk={blockModalOnPress}
+          rightButtonStyle={styles.rightButtonStyle}
+        />
+      )}
+      {/* //? When block succeed */}
+      <SuccessToast
+        toastVisible={toastBlockSucceed}
+        onBackPressed={() => setToastBlockSucceed(false)}
+        caption={`${t('General.BlockSucceed')} @${selectedUserName}`}
+      />
     </>
   );
 };
@@ -588,5 +635,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: color.Neutral[10],
     lineHeight: mvs(16),
+  },
+  rightButtonStyle: {
+    backgroundColor: color.Error.block,
+    borderRadius: 4,
+    paddingHorizontal: widthResponsive(16),
+    paddingVertical: widthResponsive(6),
   },
 });
