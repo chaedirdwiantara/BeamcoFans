@@ -61,6 +61,11 @@ import ListAlbum from './ListAlbum';
 import {useBlockHook} from '../../hooks/use-block.hook';
 import {blockUserRecorded} from '../../store/blockUser.store';
 import BlockProfileUI from '../../components/molecule/BlockOnProfile';
+import {
+  DataDropDownType,
+  dataProfileDropdown,
+  dataProfileDropdownBlocked,
+} from '../../data/dropdown';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -96,10 +101,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const {
     blockLoading,
     blockError,
+    blockResponse,
     unblockResponse,
-    setUnblockResponse,
+    setBlockUser,
     setUnblockUser,
   } = useBlockHook();
+  const {uuidBlocked, setuuidBlocked} = blockUserRecorded();
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
@@ -122,8 +130,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
   const [showStatePopUp, setShowStatePopUp] = useState<boolean>();
   const [modalConfirm, setModalConfirm] = useState<boolean>(false);
+  const [modalUnblock, setModalUnblock] = useState<boolean>(false);
+  const [modalBlock, setModalBlock] = useState<boolean>(false);
   const [toastUnblock, settoastUnblock] = useState<boolean>(false);
-  const {uuidBlocked, setuuidBlocked} = blockUserRecorded();
+  const [toastBlockSucceed, setToastBlockSucceed] = useState<boolean>(false);
 
   const showPopUp: boolean | undefined = storage.getBoolean('showPopUp');
 
@@ -232,6 +242,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
 
   //! BLOCK/UNBLOCK AREA
   useEffect(() => {
+    if (blockResponse === 'Success') {
+      setToastBlockSucceed(true);
+      setRefreshing!();
+    }
+  }, [blockResponse]);
+
+  useEffect(() => {
     if (unblockResponse === 'Success') {
       settoastUnblock(true);
       setRefreshing!();
@@ -251,7 +268,33 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     setuuidBlocked(uuidBlocked.filter(x => x !== profile.uuid));
     settoastUnblock(false);
   };
+
+  const blockModalOnPress = () => {
+    setBlockUser({uuid: profile.uuid});
+    setModalBlock(false);
+  };
   //! END OF BLOCK/UNBLOCK AREA
+
+  const resultDataDropdown = (selectedMenu: DataDropDownType) => {
+    const value = t(selectedMenu.value);
+
+    switch (value) {
+      case '1':
+        onPressShareQR();
+        break;
+      case '2':
+        console.log('SHARE CHOOSEN');
+        break;
+      case '3':
+        setModalBlock(true);
+        break;
+      case '4':
+        setModalUnblock(true);
+        break;
+      default:
+        break;
+    }
+  };
 
   const leftIconHeader = () => {
     return (
@@ -277,7 +320,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     <View style={styles.container}>
       <SsuStatusBar type={'black'} />
       <TopNavigation.Type1
-        type="musician detail"
+        type="user detail"
         title=""
         leftIcon={scrolEffect && leftIconHeader()}
         leftIconAction={handleBackAction}
@@ -285,7 +328,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         itemStrokeColor={'white'}
         bgColor={scrolEffect ? color.Dark[800] : 'transparent'}
         containerStyles={styles.topNavStyle}
-        onPressShareQR={onPressShareQR}
+        dropdownData={
+          profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
+        }
+        resultDataDropdown={resultDataDropdown}
+        beingBlocked={profile.blockIs}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -494,22 +541,42 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         onPressClose={() => setModalGuestVisible(false)}
       />
 
-      {/* //? Unblock user modal */}
-      {modalConfirm && (
+      {/* //? Block user modal */}
+      {modalBlock && (
         <ModalConfirm
-          modalVisible={modalConfirm}
+          modalVisible={modalBlock}
+          title={`${t('Block.Modal.Title')} @${profile.fullname} ?`}
+          subtitle={`${t('Block.Modal.Subtitle')} @${profile.fullname}`}
+          yesText={`${t('Block.Modal.RightButton')}`}
+          noText={`${t('Block.Modal.LeftButton')}`}
+          onPressClose={() => setModalBlock(false)}
+          onPressOk={blockModalOnPress}
+          rightButtonStyle={styles.rightButtonStyle}
+        />
+      )}
+      {/* //? When block succeed */}
+      <SuccessToast
+        toastVisible={toastBlockSucceed}
+        onBackPressed={() => setToastBlockSucceed(false)}
+        caption={`${t('General.BlockSucceed')} @${profile.fullname}`}
+      />
+
+      {/* //? Unblock user modal */}
+      {modalUnblock && (
+        <ModalConfirm
+          modalVisible={modalUnblock}
           title={`${t('Block.BlockUI.unBlockTitle')} @${profile.fullname} ?`}
           subtitle={`${t('Block.BlockUI.unBlockCaptionA')} @${
             profile.fullname
           } ${t('Block.BlockUI.unBlockCaptionB')} @${profile.fullname}`}
           yesText={`${t('Block.BlockUI.unblockButtonYes')}`}
           noText={`${t('Block.Modal.LeftButton')}`}
-          onPressClose={() => setModalConfirm(false)}
+          onPressClose={() => setModalUnblock(false)}
           onPressOk={unblockModalOnPress}
           rightButtonStyle={styles.rightButtonStyle}
         />
       )}
-      {/* //? When block succeed */}
+      {/* //? When unblock succeed */}
       <SuccessToast
         toastVisible={toastUnblock}
         onBackPressed={handleToastUnblock}
