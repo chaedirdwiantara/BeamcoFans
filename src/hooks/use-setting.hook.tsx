@@ -17,6 +17,10 @@ import {
   updatePhoneNumber,
   verifPasswordSetting,
   listReason,
+  createShipping,
+  updateShipping,
+  deleteShipping,
+  listViolations,
 } from '../api/setting.api';
 import {ParamsProps} from '../interface/base.interface';
 import {
@@ -27,6 +31,7 @@ import {
   EmailPhoneVerifProps,
   ListAllPreference,
   ListReasonType,
+  ListViolationsType,
   PreferenceList,
   PreferenceProps,
   VerifPasswordSetting,
@@ -39,8 +44,9 @@ export const useSettingHook = () => {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [successMsg, setSuccessMsg] = useState<string>('');
   const [fetchData, setFetchData] = useState(true);
-  const [dataShippingInfo, setDataShippingInfo] =
-    useState<DataShippingProps | null>(null);
+  const [dataShippingInfo, setDataShippingInfo] = useState<DataShippingProps[]>(
+    [],
+  );
   const [listMood, setListMood] = useState<PreferenceList[]>([]);
   const [listGenre, setListGenre] = useState<PreferenceList[]>([]);
   const [listExpectation, setListExpectation] = useState<PreferenceList[]>([]);
@@ -52,6 +58,7 @@ export const useSettingHook = () => {
   const [listReasonDelete, setListReasonDelete] = useState<ListReasonType[]>(
     [],
   );
+  const [listViolation, setListViolation] = useState<ListViolationsType>();
   const [dataExclusiveContent, setDataExclusiveContent] =
     useState<DataExclusiveResponse | null>(null);
 
@@ -281,12 +288,49 @@ export const useSettingHook = () => {
     setIsLoading(true);
     try {
       const response = await getShipping();
-      setDataShippingInfo(response.data);
-      setFetchData(false);
+      return {
+        data: response?.data,
+        message: response?.message,
+      };
     } catch (error) {
       setIsError(true);
-      setDataShippingInfo(null);
-      setFetchData(false);
+      setDataShippingInfo([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const createShippingInfo = async (props: DataShippingProps) => {
+    setIsLoading(true);
+    try {
+      await createShipping(props);
+    } catch (error) {
+      setIsError(true);
+      setDataShippingInfo([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateShippingInfo = async (props: DataShippingProps) => {
+    setIsLoading(true);
+    try {
+      await updateShipping(props);
+    } catch (error) {
+      setIsError(true);
+      setDataShippingInfo([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteShippingInfo = async (props: DataShippingProps) => {
+    setIsLoading(true);
+    try {
+      await deleteShipping(props);
+    } catch (error) {
+      setIsError(true);
+      setDataShippingInfo([]);
     } finally {
       setIsLoading(false);
     }
@@ -418,6 +462,15 @@ export const useSettingHook = () => {
     }
   };
 
+  const getListViolations = async () => {
+    try {
+      const response = await listViolations();
+      setListViolation(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -430,6 +483,8 @@ export const useSettingHook = () => {
     listExpectation,
     listPreference,
     listReasonDelete,
+    dataExclusiveContent,
+    listViolation,
     changeEmail,
     changePhoneNumber,
     getVerificationCode,
@@ -442,10 +497,13 @@ export const useSettingHook = () => {
     getShippingInfo,
     getListPreference,
     getListMoodGenre,
-    dataExclusiveContent,
     getExclusiveContent,
     getListMoodPublic,
     getListGenrePublic,
     getListReasonDelete,
+    createShippingInfo,
+    updateShippingInfo,
+    deleteShippingInfo,
+    getListViolations,
   };
 };

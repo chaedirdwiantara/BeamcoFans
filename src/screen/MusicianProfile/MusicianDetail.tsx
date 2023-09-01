@@ -66,6 +66,7 @@ import {
   dataProfileDropdown,
   dataProfileDropdownBlocked,
 } from '../../data/dropdown';
+import EventMusician from '../../components/molecule/EventMusician';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -115,6 +116,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     {filterName: 'Musician.Tab.Musician'},
     {filterName: 'Musician.Tab.Music'},
     {filterName: 'Musician.Tab.Fans'},
+    // {filterName: 'Musician.Tab.Event'},
     {filterName: 'Musician.Tab.Profile'},
     // {filterName: 'Musician.Tab.Merchandise'},
     // {filterName: 'Musician.Tab.Ticket'},
@@ -503,6 +505,39 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                       paddingHorizontal: widthResponsive(20),
                     }}>
                     <ConcertList />
+                  </View>
+                ) : filter[selectedIndex].filterName === 'Musician.Tab.Main' ? (
+                  <View style={{paddingHorizontal: widthResponsive(20)}}>
+                    <MainTab
+                      uuid={uuid}
+                      coverImage={exclusiveContent?.coverImage ?? ''}
+                      title={exclusiveContent?.title ?? ''}
+                      description={exclusiveContent?.description ?? ''}
+                    />
+                  </View>
+                ) : filter[selectedIndex].filterName ===
+                  'Musician.Tab.Merchandise' ? (
+                  <View
+                    style={{
+                      paddingHorizontal: widthResponsive(20),
+                    }}>
+                    <MerchList musicianId={uuid} />
+                  </View>
+                ) : filter[selectedIndex].filterName ===
+                  'Musician.Tab.Ticket' ? (
+                  <View
+                    style={{
+                      paddingHorizontal: widthResponsive(20),
+                    }}>
+                    <ConcertList musicianId={uuid} />
+                  </View>
+                ) : filter[selectedIndex].filterName ===
+                  'Musician.Tab.Event' ? (
+                  <View
+                    style={{
+                      paddingHorizontal: widthResponsive(20),
+                    }}>
+                    <EventMusician />
                   </View>
                 ) : null}
               </View>

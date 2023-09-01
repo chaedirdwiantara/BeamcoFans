@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -7,18 +8,22 @@ import {
   ViewStyle,
 } from 'react-native';
 import {ms, mvs} from 'react-native-size-matters';
-import {Avatar, Gap} from '../../atom';
+import {Avatar, Button, Gap, SquareImage} from '../../atom';
 import {
+  heightPercentage,
+  heightResponsive,
   normalize,
   toCurrency,
+  width,
   widthPercentage,
   widthResponsive,
 } from '../../../utils';
 import {color, font} from '../../../theme';
-import {DefaultAvatar} from '../../../assets/icon';
+import {DefaultAvatar, DefaultImage, LiveIcon} from '../../../assets/icon';
 import {useTranslation} from 'react-i18next';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {useDebounce} from '../../../utils/debounce';
+import Color from '../../../theme/Color';
 
 export interface ListProps {
   musicianNum?: number | string;
@@ -32,6 +37,12 @@ export interface ListProps {
   followerMode?: boolean;
   followersCount?: number;
   activeMore?: boolean;
+  isLive?: boolean;
+  onClickTip?: () => void;
+  showCredit?: boolean;
+  creditCount?: number;
+  isEvent?: boolean;
+  eventDate?: string;
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -48,6 +59,12 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     followersCount,
     followerMode,
     activeMore = true,
+    isLive = false,
+    onClickTip,
+    showCredit = false,
+    creditCount,
+    isEvent,
+    eventDate,
   } = props;
 
   // ? Dropdown Menu Example
@@ -70,14 +87,54 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
 
   return (
     <View style={[styles.container, containerStyles]}>
-      <Text style={styles.rankStyle}>
-        {musicianNum?.toLocaleString('en-US', {
-          minimumIntegerDigits: 2,
-          useGrouping: false,
-        })}
-      </Text>
+      {isLive && (
+        <ImageBackground
+          style={styles.imageBackground}
+          source={require('../../../assets/image/live.jpg')}
+          blurRadius={10}
+        />
+      )}
+
+      {isLive ? (
+        <LiveIcon
+          style={{
+            width: widthResponsive(30),
+            paddingRight: widthPercentage(15),
+          }}
+        />
+      ) : (
+        <Text
+          style={[
+            styles.rankStyle,
+            {
+              color: color.Dark[100],
+              marginRight: musicianNum ? widthResponsive(15) : 0,
+            },
+          ]}>
+          {musicianNum?.toLocaleString('en-US', {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })}
+        </Text>
+      )}
+
       <TouchableOpacity onPress={useDebounce(onPressImage)}>
-        {imgUri ? (
+        {isEvent ? (
+          imgUri ? (
+            <View
+              style={{
+                width: widthResponsive(44),
+                height: widthResponsive(44),
+              }}>
+              <SquareImage imgUri={imgUri} borderRadius={4} size={44} />
+            </View>
+          ) : (
+            <DefaultImage.SongCover
+              width={widthPercentage(44)}
+              height={heightPercentage(44)}
+            />
+          )
+        ) : imgUri ? (
           <Avatar imgUri={imgUri} size={widthPercentage(44)} />
         ) : (
           <DefaultAvatar.MusicianIcon />
@@ -90,19 +147,46 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
             {musicianName}
           </Text>
           {followerMode && (
-            <View>
-              {followersCount !== 0 ? (
-                <Text style={styles.followersCount} numberOfLines={1}>
-                  {`${toCurrency(followersCount, {
+            <>
+              <Gap height={heightResponsive(2)} />
+              <View>
+                {followersCount !== 0 ? (
+                  <Text style={styles.followersCount} numberOfLines={1}>
+                    {`${toCurrency(followersCount, {
+                      withFraction: false,
+                    })} ${t('General.Followers')}`}
+                  </Text>
+                ) : (
+                  <Text style={styles.followersCount} numberOfLines={1}>
+                    0 {t('General.Followers')}
+                  </Text>
+                )}
+              </View>
+            </>
+          )}
+
+          {showCredit && (
+            <>
+              <Gap height={heightResponsive(2)} />
+              <View>
+                <Text style={styles.creditCount} numberOfLines={1}>
+                  {`${toCurrency(creditCount, {
                     withFraction: false,
-                  })} ${t('General.Followers')}`}
+                  })} Credits`}
                 </Text>
-              ) : (
-                <Text style={styles.followersCount} numberOfLines={1}>
-                  0 {t('General.Followers')}
+              </View>
+            </>
+          )}
+
+          {isEvent && (
+            <>
+              <Gap height={heightResponsive(2)} />
+              <View>
+                <Text style={styles.eventDate} numberOfLines={1}>
+                  {eventDate}
                 </Text>
-              )}
-            </View>
+              </View>
+            </>
           )}
         </TouchableOpacity>
       </View>
@@ -112,6 +196,18 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
         ) : null}
         {activeMore && moreMenu()}
       </View>
+
+      {isLive && !isEvent && (
+        <>
+          <Gap width={8} />
+          <Button
+            onPress={onClickTip}
+            label={t('Home.Tab.TopMusician.Tip')}
+            containerStyles={styles.button}
+            textStyles={styles.buttonText}
+          />
+        </>
+      )}
     </View>
   );
 };
@@ -130,7 +226,6 @@ const styles = StyleSheet.create({
     fontFamily: font.InterMedium,
     fontSize: normalize(10),
     fontWeight: '600',
-    marginRight: widthResponsive(15),
     marginTop: ms(2),
     color: color.Dark[100],
   },
@@ -161,6 +256,34 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontWeight: '500',
     fontSize: normalize(10),
+    color: color.Dark[50],
+  },
+  imageBackground: {
+    position: 'absolute',
+    width: '105%',
+    height: '117%',
+    left: 0,
+    top: 0,
+    borderRadius: widthResponsive(4),
+  },
+  button: {
+    width: width * 0.2,
+    aspectRatio: heightPercentage(120 / 40),
+    backgroundColor: Color.Pink.linear,
+  },
+  buttonText: {
+    fontSize: mvs(10),
+  },
+  creditCount: {
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(10),
+    color: Color.Pink.linear,
+  },
+  eventDate: {
+    fontFamily: font.InterRegular,
+    fontWeight: '500',
+    fontSize: normalize(10.5),
     color: color.Dark[50],
   },
 });

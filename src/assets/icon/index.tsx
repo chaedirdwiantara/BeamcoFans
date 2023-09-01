@@ -107,6 +107,7 @@ import TicketIcon from './Ticket.icon';
 import TicketDefaultIcon from './TicketDefault.icon';
 import DiscountIcon from './Discount.icon';
 import TrashIcon from './Trash.icon';
+import Trash2Icon from './Trash2.icon';
 import ClockIcon from './Clock.icon';
 import WalletIcon from './Wallet.icon';
 import LocationIcon from './Location.icon';
@@ -115,6 +116,7 @@ import BagTickIcon from './BagTick.icon';
 import StarIcon from './Star.icon';
 import ImportPhotoIcon from './ImportPhoto.icon';
 import CalendarIcon from './Calendar.icon';
+import LiveIcon from './Live.icon';
 
 export {
   AddIcon,
@@ -226,6 +228,7 @@ export {
   TicketDefaultIcon,
   DiscountIcon,
   TrashIcon,
+  Trash2Icon,
   ClockIcon,
   WalletIcon,
   LocationIcon,
@@ -234,4 +237,5 @@ export {
   StarIcon,
   ImportPhotoIcon,
   CalendarIcon,
+  LiveIcon,
 };

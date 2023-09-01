@@ -6,15 +6,18 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import Color from '../../theme/Color';
 import {SettingContent} from '../../components';
 import {RootStackParams} from '../../navigations';
-import {useSettingHook} from '../../hooks/use-setting.hook';
 import {usePlayerStore} from '../../store/player.store';
+import {useProfileHook} from '../../hooks/use-profile.hook';
+import {useSettingHook} from '../../hooks/use-setting.hook';
+import {dummyViolations} from '../../data/Settings/setting';
 
 export const SettingScreen: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
-  const {dataShippingInfo, getShippingInfo} = useSettingHook();
   const {setWithoutBottomTab, show} = usePlayerStore();
+  const {dataProfile, getProfileUser} = useProfileHook();
+  const {listViolation, getListViolations} = useSettingHook();
 
   useFocusEffect(
     useCallback(() => {
@@ -26,7 +29,8 @@ export const SettingScreen: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getShippingInfo();
+      getProfileUser();
+      getListViolations();
     }, []),
   );
 
@@ -36,8 +40,13 @@ export const SettingScreen: React.FC = () => {
   };
 
   const onPressGoTo = (screenName: any, params: any) => {
-    if (screenName === 'ShippingInformation') {
-      navigation.navigate('ShippingInformation', {data: dataShippingInfo});
+    if (screenName === 'Account') {
+      navigation.navigate(screenName, {
+        data: dataProfile?.data,
+        fromScreen: 'setting',
+      });
+    } else if (screenName === 'ShippingInformation') {
+      navigation.navigate('ListAddress', {from: ''});
     } else {
       navigation.navigate(screenName, {...params});
     }
@@ -45,7 +54,12 @@ export const SettingScreen: React.FC = () => {
 
   return (
     <View style={styles.root}>
-      <SettingContent onPressGoBack={onPressGoBack} onPressGoTo={onPressGoTo} />
+      <SettingContent
+        dataProfile={dataProfile}
+        listViolation={listViolation}
+        onPressGoBack={onPressGoBack}
+        onPressGoTo={onPressGoTo}
+      />
     </View>
   );
 };

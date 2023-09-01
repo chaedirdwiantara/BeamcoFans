@@ -36,6 +36,7 @@ import MusicianProfile from '../screen/MusicianProfile';
 import {WebviewPage} from '../screen/Webview';
 import {MusicPlayer} from '../screen/Music';
 import {OtherUserProfile} from '../screen/OtherUserProfile/OtherUserProfile';
+import {EventDetail} from '../screen/EventDetail';
 
 // Home
 import {HomeScreen} from '../screen/Home';
@@ -53,7 +54,6 @@ import {ChangePasswordScreen} from '../screen/Setting/ChangePassword';
 import {LanguageScreen} from '../screen/Setting/Language';
 import {ReferralCodeSetting} from '../screen/Setting/ReferralCode';
 import {PhoneNumberScreen} from '../screen/Setting/PhoneNumber/PhoneNumber';
-import {ShippingInformationScreen} from '../screen/Setting/ShippingInformation';
 import {DonationAndSubscription} from '../screen/Setting/DonationAndSubscription';
 import {SendReportScreen} from '../screen/Setting/SendReport';
 import {PushNotificationScreen} from '../screen/Setting/PushNotification';
@@ -62,7 +62,10 @@ import {SecurityScreen} from '../screen/Setting/Security';
 import {TnCAndPPScreen} from '../screen/Setting/TnCAndPP';
 import {AboutDeletionScreen} from '../screen/Setting/DeleteAccount/AboutDeletion';
 import {InputDeletionScreen} from '../screen/Setting/DeleteAccount/InputDeletion';
-import {SendAppealScreen} from '../screen/Setting/SendAppeal';
+import {ListAddressScreen} from '../screen/Setting/ShippingInfo/ListAddress';
+import {AddNewAddressScreen} from '../screen/Setting/ShippingInfo/AddNewAddress';
+import {SendAppealScreen} from '../screen/Setting/SendAppeal/SendAppeal';
+import {ReportedContentScreen} from '../screen/Setting/SendAppeal/ReportedContent';
 
 // Profile
 import {ProfileScreen} from '../screen/Profile/Profile';
@@ -88,7 +91,8 @@ import {SongDetailsScreen} from '../screen/SongDetails/SongDetails';
 import {AlbumScreen} from '../screen/Album/Album';
 
 // TopUp
-import {TopupCoinScreen} from '../screen/TopupCoin';
+import {TopUpCreditScreen} from '../screen/TopUpCredit/TopUpCredit';
+import {DetailHistoryTransactionScreen} from '../screen/TopUpCredit/DetailHistoryTransaction';
 
 // Icon
 import {
@@ -132,14 +136,17 @@ import {ChangePNScreen} from '../screen/Setting/PhoneNumber/ChangePN';
 import {OtpPNScreen} from '../screen/Setting/PhoneNumber/OTP';
 import {SplashScreen} from '../screen/SplashScreen';
 import {
+  CommentReportedType,
   DataExclusiveResponse,
   DataShippingProps,
+  ListViolationsType,
   OtpEmailScreen as OtpEmailProps,
   OtpPhoneScreen,
 } from '../interface/setting.interface';
 import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
 import ListPlaylist from '../screen/Playlist/ListPlaylist';
 import {MyQRCode} from '../screen/Setting/MyQRCode';
+import {TransactionHistoryPropsType} from '../interface/credit.interface';
 
 export type RootStackParams = {
   AboutDeletion: undefined;
@@ -162,6 +169,9 @@ export type RootStackParams = {
   };
   OtpPhoneNumber: OtpPhoneScreen;
   CreateNewPlaylist: {id?: number[]; type?: string};
+  DetailHistoryTransaction: {
+    dataDetail: TransactionHistoryPropsType;
+  };
   DonationAndSubscription: undefined;
   EditProfile: ProfileResponseData;
   EditPlaylist: Playlist;
@@ -226,7 +236,14 @@ export type RootStackParams = {
   RecoverAccount: undefined;
   Referral: undefined;
   ReferralCode: undefined;
-  SendAppeal: {title: string};
+  ReportedContent: {
+    title: string;
+    dataViolation: ListViolationsType;
+  };
+  SendAppeal: {
+    title: string;
+    selectedViolation?: CommentReportedType;
+  };
   SendReport: {title: string};
   Setting: undefined;
   MyQRCode: {uuid?: string};
@@ -243,8 +260,11 @@ export type RootStackParams = {
   SignInGuest: {
     showToastDelete?: boolean;
   };
-  ShippingInformation: {
-    data: DataShippingProps | null;
+  ListAddress: {
+    from?: string;
+  };
+  AddNewAddress: {
+    data?: DataShippingProps;
     from?: string;
   };
   ShowCredit: {
@@ -258,7 +278,7 @@ export type RootStackParams = {
   PostDetail: PostList;
   SearchScreen: undefined;
   TnCAndPP: undefined;
-  TopupCoin: undefined;
+  TopUpCredit: undefined;
   MusicianProfile: {
     id: string;
   };
@@ -294,6 +314,7 @@ export type RootStackParams = {
   };
   TicketDetail: undefined;
   Shop: undefined;
+  EventDetail: {id: string};
 };
 
 export type MainTabParams = {
@@ -449,15 +470,17 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="ChangePassword" component={ChangePasswordScreen} />
     <RootStack.Screen name="ReferralCode" component={ReferralCodeSetting} />
     <RootStack.Screen name="Language" component={LanguageScreen} />
-    <RootStack.Screen
-      name="ShippingInformation"
-      component={ShippingInformationScreen}
-    />
+    <RootStack.Screen name="ListAddress" component={ListAddressScreen} />
+    <RootStack.Screen name="AddNewAddress" component={AddNewAddressScreen} />
     <RootStack.Screen
       name="DonationAndSubscription"
       component={DonationAndSubscription}
     />
     <RootStack.Screen name="SendAppeal" component={SendAppealScreen} />
+    <RootStack.Screen
+      name="ReportedContent"
+      component={ReportedContentScreen}
+    />
     <RootStack.Screen name="SendReport" component={SendReportScreen} />
     <RootStack.Screen name="Setting" component={SettingScreen} />
     <RootStack.Screen name="MyQRCode" component={MyQRCode} />
@@ -488,7 +511,11 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="MusicianProfile" component={MusicianProfile} />
     <RootStack.Screen name="Webview" component={WebviewPage} />
     <RootStack.Screen name="MusicPlayer" component={MusicPlayer} />
-    <RootStack.Screen name="TopupCoin" component={TopupCoinScreen} />
+    <RootStack.Screen name="TopUpCredit" component={TopUpCreditScreen} />
+    <RootStack.Screen
+      name="DetailHistoryTransaction"
+      component={DetailHistoryTransactionScreen}
+    />
     <RootStack.Screen
       name="ProfileProgress"
       component={ProfileProgressScreen}
@@ -518,6 +545,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="Track" component={Track} />
     <RootStack.Screen name="TicketDetail" component={TicketDetail} />
     <RootStack.Screen name="Shop" component={Shop} />
+    <RootStack.Screen name="EventDetail" component={EventDetail} />
   </RootStack.Navigator>
 );
 

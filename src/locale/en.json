@@ -21,7 +21,8 @@
     },
     "NoDescription": "No Description Given",
     "Required": "Required",
-    "BlockSucceed": "You've been blocked"
+    "BlockSucceed": "You've been blocked",
+    "Dismiss": "Dismiss"
   },
   "Onboarding": {
     "Step1": {
@@ -315,7 +316,15 @@
         "LowestPrice": "Lowest Price",
         "MostSold": "Most Sold"
       }
-    }
+    },
+    "Detail": {
+      "Title": "Event Detail",
+      "LineUp": "LINE UP",
+      "TopTiper": "TOP TIPER",
+      "TipDistribution": "Tip Distribution",
+      "MusicianTipped": "Musician Tipped"
+    },
+    "Live": "Live"
   },
   "Profile": {
     "Label": {
@@ -350,6 +359,7 @@
       "Delete": "Delete Photo",
       "AddPhotos": "Add Photos",
       "AddBio": "Add Bio",
+      "About": "Tell us about yourself",
       "AddWebsite": "Add Website or Social Media",
       "DisplayProfile": "Display Profile"
     }
@@ -385,7 +395,8 @@
       "Music": "MUSIC",
       "Fans": "FANS",
       "Merchandise": "MERCHANDISE",
-      "Ticket": "TICKET"
+      "Ticket": "TICKET",
+      "Event": "LIVE"
     }
   },
   "ExclusiveContent": {
@@ -499,8 +510,23 @@
     },
     "Shipping": {
       "Title": "Shipping Information",
-      "Confirm": "Are you sure you want to save your shipping information?",
+      "AddNewAddress": "+ Add New Address",
+      "MainAddress": "Main Address",
+      "New": "New",
+      "EditAddress": "Edit Address",
+      "ChangeMainAddress": "Change Main Address",
       "Confirm2": "Are you sure you want to save your shipping information and continue your progress?",
+      "ConfirmChangeMainAddress": "Are you sure you want to change your main address?",
+      "AddAddress": "Add New Address",
+      "ConfirmAddAddress": "Are you sure you want to add new address?",
+      "ChangeAddress": "Change Address",
+      "ConfirmChangeAddress": "Are you sure you want to change your address?",
+      "DeleteAddress": "Delete Address",
+      "ConfirmDeleteAddress": "Are you sure you want to delete your address?",
+      "ToastMainAddress": "Your main address has been updated!",
+      "ToastAddAddress": "Address has been added!",
+      "ToastChangeAddress": "Address has been updated!",
+      "ToastDeleteAddress": "Address has been deleted!",
       "Label": {
         "Email": "Email",
         "Phone": "Phone Number",
@@ -509,7 +535,9 @@
         "Country": "Country",
         "Postal": "Postal Code",
         "City": "City",
-        "Address": "Address"
+        "Address": "Address",
+        "FirstName": "First Name",
+        "LastName": "Last Name"
       },
       "Placeholder": {
         "Email": "Add Email",
@@ -519,8 +547,11 @@
         "Country": "Select Country",
         "Postal": "Add Postal Code",
         "City": "Select City",
-        "Address": "Add Address"
-      }
+        "Address": "Add Address",
+        "FirstName": "Add First Name",
+        "LastName": "Add Last Name"
+      },
+      "EmptyState": "You need to provide shipping information to receive your purchased merchandise. Please add a new address to your shipping information."
     },
     "Preference": {
       "Title": "Preferences",
@@ -667,6 +698,24 @@
       "Placeholder": {
         "Email": "Enter your email",
         "Text": "How can we improve your experience using this app?"
+      }
+    },
+    "SendAppeal": {
+      "ReportedContent": {
+        "Title": "Send Appeal to recover your account and content",
+        "Subtitle": "Select content to recover : "
+      },
+      "ContentToRecover": "Content to recover",
+      "ModalBanned": {
+        "Title": "You’ve been banned",
+        "Subtitle": "Are you sure to send this appeal?",
+        "Button1": "Let me think",
+        "Button2": "Send"
+      },
+      "ModalSuccess": {
+        "Title": "Your Appeal has been sent!",
+        "Subtitle": "Kindly wait for the review. Once your appeal approved your penalty will removed",
+        "Button": "Back to Settings"
       }
     },
     "Helps": {
@@ -847,6 +896,25 @@
     "Filter": {
       "Buy": "Buy Package",
       "Transaction": "Transaction"
+    },
+    "Transaction": {
+      "SuccessPurchased": "{{credit}} Coin have been purchased",
+      "Detail": {
+        "Title": "Transaction Details",
+        "StatusInfo": "Credit added successfully!",
+        "ReferenceNumber": "Reference Number",
+        "Status": "Status",
+        "Success": "Success",
+        "Failed": "Failed",
+        "Date": "Date",
+        "Time": "Time",
+        "PaymentMethods": "Payment Methods",
+        "Total": "Total",
+        "Credit": "Credit",
+        "Bonus": "Bonus",
+        "NeedHelp": "Need Help?",
+        "ContactSupport": "Contact our support"
+      }
     },
     "EmptyState": {
       "Transaction": "The transaction list will be displayed here, but as of now, no transactions have been made."

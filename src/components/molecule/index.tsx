@@ -51,9 +51,10 @@ import {ReferralContent} from './ReferralContent/ReferralContent';
 import {RadioButton} from './RadioButton/RadioButton';
 import {ReferAFriend} from './SettingContent/ReferAFriend';
 import {SendReportContent} from './SettingContent/SendReportContent';
+import {SendAppealContent} from './SettingContent/SendAppealContent';
 import {SettingContent} from './SettingContent/SettingContent';
 import {SignInGuestContent} from './SignInGuestContent/SignInGuestContent';
-import {ShippingInformationContent} from './SettingContent/ShippingInformation';
+import {AddShippingAddress} from './SettingContent/AddShippingAddress';
 import {SongDetailsContent} from './SongDetailsContent/SongDetailContent';
 import {SongTitlePlay} from './SongTitlePlay/SongTitlePlay';
 import SsuOTPInput from './OtpInput';
@@ -63,7 +64,7 @@ import {ShowCreditContent} from './SongDetailsContent/ShowCreditContent';
 import {TabFilter} from './TabFilter';
 import TermAndConditions from './Tnc';
 import Title from './Title';
-import {TopupCoinContent} from './TopupCoin';
+import {TopUpCreditContent} from './TopUpCredit';
 import {TopNavigation} from './TopNavigation';
 import {UseReferralContent} from './SettingContent/UseReferralContent';
 import {UserInfoCard} from './UserInfoCard/UserInfoCard';
@@ -123,9 +124,10 @@ export {
   ReferralContent,
   ReferAFriend,
   SendReportContent,
+  SendAppealContent,
   SettingContent,
   SignInGuestContent,
-  ShippingInformationContent,
+  AddShippingAddress,
   SongDetailsContent,
   SongTitlePlay,
   SsuOTPInput,
@@ -136,7 +138,7 @@ export {
   TermAndConditions,
   Title,
   TopNavigation,
-  TopupCoinContent,
+  TopUpCreditContent,
   UseReferralContent,
   UserInfoCard,
   VoteCard,
