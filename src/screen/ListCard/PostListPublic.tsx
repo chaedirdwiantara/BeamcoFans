@@ -76,6 +76,7 @@ import {useReportHook} from '../../hooks/use-report.hook';
 import {ReportParamsProps} from '../../interface/report.interface';
 import {reportingMenu} from '../../data/report';
 import {feedReportRecorded} from '../../store/idReported';
+import {useBlockHook} from '../../hooks/use-block.hook';
 
 const {height} = Dimensions.get('screen');
 const {StatusBarManager} = NativeModules;
@@ -125,6 +126,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
   const [selectedMusicianId, setSelectedMusicianId] = useState<string>('');
   const [modalConfirm, setModalConfirm] = useState<boolean>(false);
   const [selectedUserName, setSelectedUserName] = useState<string>('');
+  const [toastBlockSucceed, setToastBlockSucceed] = useState<boolean>(false);
 
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
@@ -166,6 +168,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     setSelectedSharePost,
     selectedSharePost,
   } = useShareHook();
+
+  const {blockLoading, blockError, blockResponse, setBlockUser} =
+    useBlockHook();
 
   const {creditCount, getCreditCount} = useCreditHook();
   const MyUuid = profileStorage()?.uuid;
@@ -459,6 +464,21 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     }
   }, [selectedSharePost]);
 
+  // ! BLOCK USER AREA
+  const blockModalOnPress = () => {
+    setBlockUser({uuid: selectedUserUuid});
+    setModalConfirm(false);
+  };
+
+  useEffect(() => {
+    if (blockResponse === 'Success') {
+      setDataMain(
+        dataMain.filter(data => data.musician.uuid !== selectedUserUuid),
+      );
+      setToastBlockSucceed(true);
+    }
+  }, [blockResponse]);
+
   return (
     <>
       <Animated.View
@@ -678,10 +698,16 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           yesText={`${t('Block.Modal.RightButton')}`}
           noText={`${t('Block.Modal.LeftButton')}`}
           onPressClose={() => setModalConfirm(false)}
-          onPressOk={() => {}}
+          onPressOk={blockModalOnPress}
           rightButtonStyle={styles.rightButtonStyle}
         />
       )}
+      {/* //? When block succeed */}
+      <SuccessToast
+        toastVisible={toastBlockSucceed}
+        onBackPressed={() => setToastBlockSucceed(false)}
+        caption={`${t('General.BlockSucceed')} @${selectedUserName}`}
+      />
     </>
   );
 };

@@ -109,11 +109,12 @@ const styles = StyleSheet.create({
     fontSize: mvs(15),
     color: Color.Neutral[10],
     fontFamily: Font.InterRegular,
-    marginTop: heightPercentage(5),
+    marginTop: heightPercentage(16),
   },
   containerButton: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    alignItems: 'center',
     marginTop: heightPercentage(25),
   },
   option: {

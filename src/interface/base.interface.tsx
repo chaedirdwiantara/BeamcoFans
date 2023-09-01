@@ -26,6 +26,7 @@ export type ParamsProps = {
   genre?: string;
   order?: 'asc' | 'desc';
   id?: number | string;
+  myUUID?: string;
 };
 
 export type imageTypes = {

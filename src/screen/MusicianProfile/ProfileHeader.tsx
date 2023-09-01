@@ -33,6 +33,7 @@ export interface ProfileHeaderProps {
   followOnPress: (isFollowed: boolean) => void;
   onPressDonate: () => void;
   onPressImage?: (uri: string) => void;
+  blocked?: boolean;
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = (
@@ -50,6 +51,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
     followOnPress,
     onPressDonate,
     onPressImage,
+    blocked,
   } = props;
 
   const {t} = useTranslation();
@@ -93,45 +95,47 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
               <View style={styles.containerFooter}>
                 <Text style={styles.description}>{bio}</Text>
                 <Gap height={16} />
-                <View style={styles.buttonContainer}>
-                  {followed ? (
-                    <>
-                      <Button
-                        type="border"
-                        label={t('Musician.Label.Following')}
-                        containerStyles={styles.btnContainerFollowed}
-                        textStyles={{color: color.Pink.linear}}
-                        onPress={() => {
-                          isLogin && setFollowed(false);
-                          followOnPress(true);
-                        }}
-                      />
-                      <Gap width={11} />
-                      <Button
-                        label={t('Musician.Label.Tip')}
-                        containerStyles={styles.btnContainer2}
-                        onPress={onPressDonate}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        label={t('Musician.Label.Follow')}
-                        containerStyles={styles.btnContainer}
-                        onPress={() => {
-                          isLogin && setFollowed(true);
-                          followOnPress(false);
-                        }}
-                      />
-                      <Gap width={11} />
-                      <Button
-                        label={t('Musician.Label.Tip')}
-                        containerStyles={styles.btnContainer2}
-                        onPress={onPressDonate}
-                      />
-                    </>
-                  )}
-                </View>
+                {!blocked && (
+                  <View style={styles.buttonContainer}>
+                    {followed ? (
+                      <>
+                        <Button
+                          type="border"
+                          label={t('Musician.Label.Following')}
+                          containerStyles={styles.btnContainerFollowed}
+                          textStyles={{color: color.Pink.linear}}
+                          onPress={() => {
+                            isLogin && setFollowed(false);
+                            followOnPress(true);
+                          }}
+                        />
+                        <Gap width={11} />
+                        <Button
+                          label={t('Musician.Label.Tip')}
+                          containerStyles={styles.btnContainer2}
+                          onPress={onPressDonate}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          label={t('Musician.Label.Follow')}
+                          containerStyles={styles.btnContainer}
+                          onPress={() => {
+                            isLogin && setFollowed(true);
+                            followOnPress(false);
+                          }}
+                        />
+                        <Gap width={11} />
+                        <Button
+                          label={t('Musician.Label.Tip')}
+                          containerStyles={styles.btnContainer2}
+                          onPress={onPressDonate}
+                        />
+                      </>
+                    )}
+                  </View>
+                )}
               </View>
             )}
           </View>
