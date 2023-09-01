@@ -496,31 +496,6 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                     style={{
                       paddingHorizontal: widthResponsive(20),
                     }}>
-                    <MerchList />
-                  </View>
-                ) : filter[selectedIndex].filterName ===
-                  'Musician.Tab.Ticket' ? (
-                  <View
-                    style={{
-                      paddingHorizontal: widthResponsive(20),
-                    }}>
-                    <ConcertList />
-                  </View>
-                ) : filter[selectedIndex].filterName === 'Musician.Tab.Main' ? (
-                  <View style={{paddingHorizontal: widthResponsive(20)}}>
-                    <MainTab
-                      uuid={uuid}
-                      coverImage={exclusiveContent?.coverImage ?? ''}
-                      title={exclusiveContent?.title ?? ''}
-                      description={exclusiveContent?.description ?? ''}
-                    />
-                  </View>
-                ) : filter[selectedIndex].filterName ===
-                  'Musician.Tab.Merchandise' ? (
-                  <View
-                    style={{
-                      paddingHorizontal: widthResponsive(20),
-                    }}>
                     <MerchList musicianId={uuid} />
                   </View>
                 ) : filter[selectedIndex].filterName ===
