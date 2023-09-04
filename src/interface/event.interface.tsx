@@ -277,3 +277,9 @@ export interface EventDetailResponse extends BaseResponseApi {
 export interface EventLineUpResponse extends BaseResponseApi {
   data: EventLineUp[];
 }
+
+export interface OrderListBookyay {
+  total: number;
+  success: boolean;
+  data: any;
+}

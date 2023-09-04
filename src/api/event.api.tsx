@@ -1,4 +1,4 @@
-import {useQuery} from 'react-query';
+import {UseInfiniteQueryOptions, useInfiniteQuery, useQuery} from 'react-query';
 import {ParamsProps} from '../interface/base.interface';
 import {
   EventDetailResponse,
@@ -6,10 +6,12 @@ import {
   EventLineUpResponse,
   EventMusicianResponse,
   MerchListResponse,
+  OrderListBookyay,
   SearchEventInput,
 } from '../interface/event.interface';
 import BookYayAPI from './baseBookYay';
 import RinjaniAPI from './baseRinjani';
+import {AxiosError} from 'axios';
 
 // Bookyay
 export const listMerch = async (
@@ -156,4 +158,44 @@ export function useEventLineUp(id: string, params?: ParamsProps) {
       enabled: false,
     },
   );
+}
+
+export default async function fetchListOrder(
+  token: string,
+  params: ParamsProps,
+): Promise<OrderListBookyay> {
+  return await BookYayAPI()
+    .get(`orders`, {headers: {Authorization: `Bearer ${token}`}, params})
+    .then((res: any) => res.data)
+    .catch(err => {
+      return err;
+    });
+}
+
+export function useOrderListBookYay(
+  token: string,
+  totalPage: number,
+  params?: ParamsProps,
+  options?: UseInfiniteQueryOptions<
+    OrderListBookyay,
+    AxiosError,
+    OrderListBookyay
+  >,
+) {
+  return useInfiniteQuery({
+    queryKey: ['bookyay-order-' + token],
+    enabled: false,
+    queryFn: ({pageParam = 1}) =>
+      fetchListOrder(token, {...params, page: pageParam, pageSize: 10}),
+    keepPreviousData: true,
+    ...options,
+    getNextPageParam: lastPage => {
+      if ((lastPage?.data?.length as number) < totalPage) {
+        const nextPage = (lastPage?.data?.length as number) + 1;
+        return nextPage;
+      }
+      return null;
+    },
+    getPreviousPageParam: () => null,
+  });
 }
