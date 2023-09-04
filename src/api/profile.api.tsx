@@ -39,11 +39,12 @@ export const getProfile = async (): Promise<ProfileResponseType> => {
 };
 
 export const getOtherUserProfile = async (
-  props?: PostPropsTypeA,
+  props?: ParamsProps,
 ): Promise<ProfileResponseType> => {
   const {data} = await SsuAPI().request<ProfileResponseType>({
     url: `/public/fans/${props?.id}`,
     method: 'GET',
+    params: {myUUID: props?.myUUID},
   });
 
   return data;

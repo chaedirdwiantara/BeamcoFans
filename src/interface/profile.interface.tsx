@@ -51,6 +51,8 @@ export type ProfileResponseData = {
     daily: number;
     lasUpdated: string;
   };
+  blockIs?: boolean; // pov i being blocked by that user
+  isBlock?: boolean; // pov i blocked that user
   isBanned: boolean;
 };
 

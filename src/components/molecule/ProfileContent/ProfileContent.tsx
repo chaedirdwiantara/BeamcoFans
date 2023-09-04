@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -13,7 +13,7 @@ import {
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
 
-import {font} from '../../../theme';
+import {color, font} from '../../../theme';
 import {TabFilter} from '../TabFilter';
 import Color from '../../../theme/Color';
 import {Gap, SsuToast} from '../../atom';
@@ -29,7 +29,27 @@ import {
   CheckCircle2Icon,
   SettingIcon,
 } from '../../../assets/icon';
-import {width, widthPercentage, heightPercentage} from '../../../utils';
+import {
+  width,
+  widthPercentage,
+  heightPercentage,
+  widthResponsive,
+} from '../../../utils';
+import BlockProfileUI from '../BlockOnProfile';
+import {ModalConfirm} from '../Modal/ModalConfirm';
+import SuccessToast from '../Toast/SuccessToast';
+import {useBlockHook} from '../../../hooks/use-block.hook';
+import {blockUserRecorded} from '../../../store/blockUser.store';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../../../navigations';
+import {usePlayerStore} from '../../../store/player.store';
+import {
+  DataDropDownType,
+  dataProfileDropdown,
+  dataProfileDropdownBlocked,
+} from '../../../data/dropdown';
+import {TopNavigation} from '../TopNavigation';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -75,10 +95,27 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   goToCreatePlaylist,
 }) => {
   const {t} = useTranslation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const {
+    blockLoading,
+    blockError,
+    blockResponse,
+    unblockResponse,
+    setBlockUser,
+    setUnblockUser,
+  } = useBlockHook();
+  const {setWithoutBottomTab, show} = usePlayerStore();
+
+  const {uuidBlocked, setuuidBlocked} = blockUserRecorded();
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [scrollEffect, setScrollEffect] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [zoomImage, setZoomImage] = useState<string>('');
+  const [modalUnblock, setModalUnblock] = useState<boolean>(false);
+  const [modalBlock, setModalBlock] = useState<boolean>(false);
+  const [toastUnblock, settoastUnblock] = useState<boolean>(false);
+  const [toastBlockSucceed, setToastBlockSucceed] = useState<boolean>(false);
 
   const showImage = (uri: string) => {
     setModalVisible(!isModalVisible);
@@ -113,6 +150,71 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
       ? heightPercentage(360)
       : heightPercentage(310);
 
+  const handleBackAction = () => {
+    show && setWithoutBottomTab(false);
+    navigation.goBack();
+  };
+
+  const onPressShareQR = () => {
+    // navigation.navigate('MyQRCode', {uuid: profile.uuid});
+  };
+
+  //! BLOCK/UNBLOCK AREA
+  useEffect(() => {
+    if (blockResponse === 'Success') {
+      setToastBlockSucceed(true);
+      setRefreshing!();
+    }
+  }, [blockResponse]);
+
+  useEffect(() => {
+    if (unblockResponse === 'Success') {
+      settoastUnblock(true);
+      setRefreshing();
+    }
+  }, [unblockResponse]);
+
+  const handleUnblock = () => {
+    setModalUnblock(true);
+  };
+
+  const unblockModalOnPress = () => {
+    setUnblockUser({uuid: profile.uuid});
+    setModalUnblock(false);
+  };
+
+  const handleToastUnblock = () => {
+    setuuidBlocked(uuidBlocked.filter(x => x !== profile.uuid));
+    settoastUnblock(false);
+  };
+
+  const blockModalOnPress = () => {
+    setBlockUser({uuid: profile.uuid});
+    setModalBlock(false);
+  };
+  //! END OF BLOCK/UNBLOCK AREA
+
+  const resultDataDropdown = (selectedMenu: DataDropDownType) => {
+    const value = t(selectedMenu.value);
+
+    switch (value) {
+      case '1':
+        onPressShareQR();
+        break;
+      case '2':
+        console.log('SHARE CHOOSEN');
+        break;
+      case '3':
+        setModalBlock(true);
+        break;
+      case '4':
+        setModalUnblock(true);
+        break;
+      default:
+        break;
+    }
+  };
+
   const leftIconHeader = () => {
     if (showCreateCard) {
       return (
@@ -143,7 +245,21 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 
   return (
     <View style={styles.root}>
-      {scrollEffect && leftIconHeader()}
+      <TopNavigation.Type1
+        type="user detail"
+        title=""
+        leftIcon={scrollEffect && leftIconHeader()}
+        leftIconAction={handleBackAction}
+        maxLengthTitle={20}
+        itemStrokeColor={'white'}
+        bgColor={scrollEffect ? color.Dark[800] : 'transparent'}
+        containerStyles={styles.topNavStyle}
+        dropdownData={
+          profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
+        }
+        resultDataDropdown={resultDataDropdown}
+        beingBlocked={profile.blockIs}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
@@ -185,66 +301,88 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           followersCount={0}
         />
         <View style={styles.containerContent}>
-          <TabFilter.Type1
-            filterData={filter}
-            onPress={filterData}
-            selectedIndex={selectedIndex}
-            translation={true}
-          />
-          {filter[selectedIndex].filterName === 'Profile.Tab.Playlist' ? (
-            <View>
-              {showCreateCard && (
-                <CreateNewCard
-                  num="00"
-                  text={t('Profile.Button.CreatePlaylist')}
-                  onPress={goToCreatePlaylist}
-                />
-              )}
-              {dataPlaylist !== undefined && dataPlaylist?.length > 0 ? (
-                <ListPlaylist
-                  data={dataPlaylist === null ? [] : dataPlaylist}
-                  onPress={goToPlaylist}
-                  scrollable={false}
-                  playerVisible={playerVisible}
-                />
-              ) : (
-                !showCreateCard && (
-                  <EmptyState
-                    text={t('Profile.Label.NoPlaylist') || ''}
-                    containerStyle={{marginVertical: heightPercentage(30)}}
-                  />
-                )
-              )}
-            </View>
-          ) : filter[selectedIndex].filterName === 'Profile.Tab.TopMusician' ? (
-            // Dihold karena point belum fix
-
-            // MusicianListData.length > 0 ? (
-            //   <TopMusician
-            //     scrollable={false}
-            //     type={'profile'}
-            //     dataMusician={[]}
-            //   />
-            // ) :
-            <EmptyState
-              text={textMusician || ''}
-              containerStyle={{marginVertical: heightPercentage(30)}}
+          {profile.isBlock ? (
+            <BlockProfileUI
+              title={`@${profile.fullname} ${t(
+                'Block.BlockUI.isBlockedProfTitle',
+              )}`}
+              caption={`${t('Block.BlockUI.isBlockedProfCaption')} @${
+                profile.fullname
+              }`}
+              buttonOnPress={handleUnblock}
+            />
+          ) : profile.blockIs ? (
+            <BlockProfileUI
+              title={`${t('Block.BlockUI.blockIsProfTitle')}`}
+              caption={`${t('Block.BlockUI.blockIsProfCaption')} @${
+                profile.fullname
+              }`}
             />
           ) : (
-            // Dihold karena badge belum fix
+            <>
+              <TabFilter.Type1
+                filterData={filter}
+                onPress={filterData}
+                selectedIndex={selectedIndex}
+                translation={true}
+              />
+              {filter[selectedIndex].filterName === 'Profile.Tab.Playlist' ? (
+                <View>
+                  {showCreateCard && (
+                    <CreateNewCard
+                      num="00"
+                      text={t('Profile.Button.CreatePlaylist')}
+                      onPress={goToCreatePlaylist}
+                    />
+                  )}
+                  {dataPlaylist !== undefined && dataPlaylist?.length > 0 ? (
+                    <ListPlaylist
+                      data={dataPlaylist === null ? [] : dataPlaylist}
+                      onPress={goToPlaylist}
+                      scrollable={false}
+                      playerVisible={playerVisible}
+                    />
+                  ) : (
+                    !showCreateCard && (
+                      <EmptyState
+                        text={t('Profile.Label.NoPlaylist') || ''}
+                        containerStyle={{marginVertical: heightPercentage(30)}}
+                      />
+                    )
+                  )}
+                </View>
+              ) : filter[selectedIndex].filterName ===
+                'Profile.Tab.TopMusician' ? (
+                // Dihold karena point belum fix
 
-            // MusicianListData.length > 0 ? (
-            //   <MenuText.LeftIconWithSubtitle
-            //     text="No Room for Speed"
-            //     subtitle="Be the first jam contributor on 100 artist"
-            //     onPress={() => null}
-            //     icon={<ProcessingIcon />}
-            //   />
-            // ) :
-            <EmptyState
-              text={textBadge || ''}
-              containerStyle={{marginVertical: heightPercentage(30)}}
-            />
+                // MusicianListData.length > 0 ? (
+                //   <TopMusician
+                //     scrollable={false}
+                //     type={'profile'}
+                //     dataMusician={[]}
+                //   />
+                // ) :
+                <EmptyState
+                  text={textMusician || ''}
+                  containerStyle={{marginVertical: heightPercentage(30)}}
+                />
+              ) : (
+                // Dihold karena badge belum fix
+
+                // MusicianListData.length > 0 ? (
+                //   <MenuText.LeftIconWithSubtitle
+                //     text="No Room for Speed"
+                //     subtitle="Be the first jam contributor on 100 artist"
+                //     onPress={() => null}
+                //     icon={<ProcessingIcon />}
+                //   />
+                // ) :
+                <EmptyState
+                  text={textBadge || ''}
+                  containerStyle={{marginVertical: heightPercentage(30)}}
+                />
+              )}
+            </>
           )}
         </View>
       </ScrollView>
@@ -269,6 +407,48 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         imageIdx={0}
         imageUri={zoomImage}
         type={'zoomProfile'}
+      />
+
+      {/* //? Block user modal */}
+      {modalBlock && (
+        <ModalConfirm
+          modalVisible={modalBlock}
+          title={`${t('Block.Modal.Title')} @${profile.fullname} ?`}
+          subtitle={`${t('Block.Modal.Subtitle')} @${profile.fullname}`}
+          yesText={`${t('Block.Modal.RightButton')}`}
+          noText={`${t('Block.Modal.LeftButton')}`}
+          onPressClose={() => setModalBlock(false)}
+          onPressOk={blockModalOnPress}
+          rightButtonStyle={styles.rightButtonStyle}
+        />
+      )}
+      {/* //? When block succeed */}
+      <SuccessToast
+        toastVisible={toastBlockSucceed}
+        onBackPressed={() => setToastBlockSucceed(false)}
+        caption={`${t('General.BlockSucceed')} @${profile.fullname}`}
+      />
+
+      {/* //? Unblock user modal */}
+      {modalUnblock && (
+        <ModalConfirm
+          modalVisible={modalUnblock}
+          title={`${t('Block.BlockUI.unBlockTitle')} @${profile.fullname} ?`}
+          subtitle={`${t('Block.BlockUI.unBlockCaptionA')} @${
+            profile.fullname
+          } ${t('Block.BlockUI.unBlockCaptionB')} @${profile.fullname}`}
+          yesText={`${t('Block.BlockUI.unblockButtonYes')}`}
+          noText={`${t('Block.Modal.LeftButton')}`}
+          onPressClose={() => setModalUnblock(false)}
+          onPressOk={unblockModalOnPress}
+          rightButtonStyle={styles.rightButtonStyle}
+        />
+      )}
+      {/* //? When unblock succeed */}
+      <SuccessToast
+        toastVisible={toastUnblock}
+        onBackPressed={handleToastUnblock}
+        caption={`@${profile.fullname} ${t('Block.BlockUI.unblockSuccess')}`}
       />
     </View>
   );
@@ -299,6 +479,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthPercentage(20),
     backgroundColor: Color.Dark[800],
     height: heightPercentage(85),
+  },
+  topNavStyle: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 100,
+    borderBottomWidth: 0,
+    paddingBottom: heightPercentage(15),
   },
   containerLeftIcon: {
     width: width,
@@ -340,5 +528,11 @@ const styles = StyleSheet.create({
   loadingContainer: {
     alignItems: 'center',
     paddingVertical: heightPercentage(20),
+  },
+  rightButtonStyle: {
+    backgroundColor: color.Error.block,
+    borderRadius: 4,
+    paddingHorizontal: widthResponsive(16),
+    paddingVertical: widthResponsive(6),
   },
 });

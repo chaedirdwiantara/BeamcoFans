@@ -26,11 +26,12 @@ export const listMusician = async (
 };
 
 export const detailMusician = async (
-  props?: PostPropsTypeA,
+  props?: ParamsProps,
 ): Promise<DetailMusicianResponseType> => {
   const {data} = await SsuAPI().request<DetailMusicianResponseType>({
     url: `/fans-app/musicians/${props?.id}`,
     method: 'GET',
+    params: {myUUID: props?.myUUID},
   });
 
   return data;

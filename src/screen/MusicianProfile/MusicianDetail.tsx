@@ -16,10 +16,12 @@ import {
   BottomSheetGuest,
   EmptyState,
   Gap,
+  ModalConfirm,
   ModalDonate,
   ModalSuccessDonate,
   PopUp,
   SsuStatusBar,
+  SuccessToast,
   TabFilter,
   TopNavigation,
   UserInfoCard,
@@ -36,7 +38,6 @@ import ImageModal from '../Detail/ImageModal';
 import {ProfileHeader} from './ProfileHeader';
 import {RootStackParams} from '../../navigations';
 import ListPlaylist from '../ListCard/ListPlaylist';
-import {PostList} from '../../interface/feed.interface';
 import {useCreditHook} from '../../hooks/use-credit.hook';
 import ExclusiveDailyContent from './ExclusiveDailyContent';
 import {Playlist} from '../../interface/playlist.interface';
@@ -57,6 +58,14 @@ import {usePlayerStore} from '../../store/player.store';
 import MerchList from '../ListCard/MerchList';
 import ConcertList from '../ListCard/ConcertList';
 import ListAlbum from './ListAlbum';
+import {useBlockHook} from '../../hooks/use-block.hook';
+import {blockUserRecorded} from '../../store/blockUser.store';
+import BlockProfileUI from '../../components/molecule/BlockOnProfile';
+import {
+  DataDropDownType,
+  dataProfileDropdown,
+  dataProfileDropdownBlocked,
+} from '../../data/dropdown';
 import EventMusician from '../../components/molecule/EventMusician';
 
 type OnScrollEventHandler = (
@@ -71,6 +80,7 @@ interface MusicianDetailProps {
   setFollowMusician: (props?: FollowMusicianPropsType) => void;
   setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
   exclusiveContent?: DataExclusiveResponse;
+  setRefreshing?: () => void;
 }
 
 export const MusicianDetail: React.FC<MusicianDetailProps> = ({
@@ -82,12 +92,23 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   setUnfollowMusician,
   exclusiveContent,
   dataAppearsOn,
+  setRefreshing,
 }) => {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const isLogin = storage.getBoolean('isLogin');
   const {checkSubs, alreadySubsEC} = useCreditHook();
+  const {
+    blockLoading,
+    blockError,
+    blockResponse,
+    unblockResponse,
+    setBlockUser,
+    setUnblockUser,
+  } = useBlockHook();
+  const {uuidBlocked, setuuidBlocked} = blockUserRecorded();
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
@@ -110,6 +131,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [zoomImage, setZoomImage] = useState<string>('');
   const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
   const [showStatePopUp, setShowStatePopUp] = useState<boolean>();
+  const [modalConfirm, setModalConfirm] = useState<boolean>(false);
+  const [modalUnblock, setModalUnblock] = useState<boolean>(false);
+  const [modalBlock, setModalBlock] = useState<boolean>(false);
+  const [toastUnblock, settoastUnblock] = useState<boolean>(false);
+  const [toastBlockSucceed, setToastBlockSucceed] = useState<boolean>(false);
 
   const showPopUp: boolean | undefined = storage.getBoolean('showPopUp');
 
@@ -216,6 +242,62 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     navigation.navigate('MyQRCode', {uuid});
   };
 
+  //! BLOCK/UNBLOCK AREA
+  useEffect(() => {
+    if (blockResponse === 'Success') {
+      setToastBlockSucceed(true);
+      setRefreshing!();
+    }
+  }, [blockResponse]);
+
+  useEffect(() => {
+    if (unblockResponse === 'Success') {
+      settoastUnblock(true);
+      setRefreshing!();
+    }
+  }, [unblockResponse]);
+
+  const handleUnblock = () => {
+    setModalConfirm(true);
+  };
+
+  const unblockModalOnPress = () => {
+    setUnblockUser({uuid: profile.uuid});
+    setModalConfirm(false);
+  };
+
+  const handleToastUnblock = () => {
+    setuuidBlocked(uuidBlocked.filter(x => x !== profile.uuid));
+    settoastUnblock(false);
+  };
+
+  const blockModalOnPress = () => {
+    setBlockUser({uuid: profile.uuid});
+    setModalBlock(false);
+  };
+  //! END OF BLOCK/UNBLOCK AREA
+
+  const resultDataDropdown = (selectedMenu: DataDropDownType) => {
+    const value = t(selectedMenu.value);
+
+    switch (value) {
+      case '1':
+        onPressShareQR();
+        break;
+      case '2':
+        console.log('SHARE CHOOSEN');
+        break;
+      case '3':
+        setModalBlock(true);
+        break;
+      case '4':
+        setModalUnblock(true);
+        break;
+      default:
+        break;
+    }
+  };
+
   const leftIconHeader = () => {
     return (
       <View style={styles.containerLeftIcon}>
@@ -240,7 +322,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     <View style={styles.container}>
       <SsuStatusBar type={'black'} />
       <TopNavigation.Type1
-        type="musician detail"
+        type="user detail"
         title=""
         leftIcon={scrolEffect && leftIconHeader()}
         leftIconAction={handleBackAction}
@@ -248,7 +330,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         itemStrokeColor={'white'}
         bgColor={scrolEffect ? color.Dark[800] : 'transparent'}
         containerStyles={styles.topNavStyle}
-        onPressShareQR={onPressShareQR}
+        dropdownData={
+          profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
+        }
+        resultDataDropdown={resultDataDropdown}
+        beingBlocked={profile.blockIs}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -274,6 +360,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
             isLogin ? setModalDonate(true) : setModalGuestVisible(true)
           }
           onPressImage={showImage}
+          blocked={profile.isBlock || profile.blockIs}
         />
         <View style={styles.infoCard}>
           <UserInfoCard
@@ -282,122 +369,155 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
             followersCount={followersCount}
             disabled={true}
           />
-          {exclusiveContent && (
-            <ExclusiveDailyContent
-              {...exclusiveContent}
-              subs={alreadySubsEC}
-              musician={profile}
+          {profile.isBlock ? (
+            <BlockProfileUI
+              title={`@${profile.fullname} ${t(
+                'Block.BlockUI.isBlockedProfTitle',
+              )}`}
+              caption={`${t('Block.BlockUI.isBlockedProfCaption')} @${
+                profile.fullname
+              }`}
+              buttonOnPress={handleUnblock}
+              containerStyle={styles.blockProfile}
             />
-          )}
-          <Gap height={10} />
-          <View style={styles.containerContent}>
-            <TabFilter.Type1
-              filterData={filter}
-              onPress={filterData}
-              selectedIndex={selectedIndex}
-              flatlistContainerStyle={{
-                paddingHorizontal: widthResponsive(24),
-                width: 'auto',
-              }}
-              translation={true}
+          ) : profile.blockIs ? (
+            <BlockProfileUI
+              title={`${t('Block.BlockUI.blockIsProfTitle')}`}
+              caption={`${t('Block.BlockUI.blockIsProfCaption')} @${
+                profile.fullname
+              }`}
+              containerStyle={styles.blockProfile}
             />
-
-            {showStatePopUp !== false && (
-              <View
-                style={{width: '100%', paddingHorizontal: widthResponsive(20)}}>
-                <Gap height={12} />
-                <PopUp
-                  title={'Show your appreciation'}
-                  subTitle={
-                    'Send tips to support your favorite musician to see them growth'
-                  }
-                  closeOnPress={closeOnPress}
+          ) : (
+            <>
+              {exclusiveContent && (
+                <ExclusiveDailyContent
+                  {...exclusiveContent}
+                  subs={alreadySubsEC}
+                  musician={profile}
                 />
-              </View>
-            )}
-
-            {filter[selectedIndex].filterName === 'Musician.Tab.Profile' ? (
-              <DataMusician profile={profile} dataAlbum={dataAlbum} />
-            ) : filter[selectedIndex].filterName === 'Musician.Tab.Musician' ? (
-              <View
-                style={{
-                  paddingHorizontal: widthResponsive(24),
-                  width: '100%',
-                }}>
-                <PostListProfile uuidMusician={uuid} {...exclusiveContent} />
-              </View>
-            ) : filter[selectedIndex].filterName === 'Musician.Tab.Music' ? (
-              showContentMusic ? (
-                <View style={{paddingHorizontal: widthResponsive(20)}}>
-                  <ListPlaylist
-                    data={dataPlaylist}
-                    onPress={goToPlaylist}
-                    scrollable={false}
-                  />
-                  <Gap height={mvs(20)} />
-                  {/* List Album Horizontal */}
-                  {dataAlbum && dataAlbum?.length > 0 && (
-                    <ListAlbum
-                      data={dataAlbum}
-                      title={t('Musician.Label.Album')}
-                      containerStyles={{marginBottom: mvs(30)}}
-                    />
-                  )}
-                  {/* List Appears On */}
-                  {dataAppearsOn && dataAppearsOn?.length > 0 && (
-                    <ListAlbum
-                      data={dataAppearsOn}
-                      title={t('Musician.Label.AppearsOn')}
-                      containerStyles={{marginBottom: mvs(30)}}
-                    />
-                  )}
-                </View>
-              ) : (
-                <EmptyState
-                  text={t('Profile.Label.NoPlaylist') || ''}
-                  containerStyle={{
-                    alignSelf: 'center',
-                    marginTop: heightPercentage(30),
+              )}
+              <Gap height={10} />
+              <View style={styles.containerContent}>
+                <TabFilter.Type1
+                  filterData={filter}
+                  onPress={filterData}
+                  selectedIndex={selectedIndex}
+                  flatlistContainerStyle={{
+                    paddingHorizontal: widthResponsive(24),
+                    width: 'auto',
                   }}
+                  translation={true}
                 />
-              )
-            ) : filter[selectedIndex].filterName === 'Musician.Tab.Fans' ? (
-              <View style={{paddingHorizontal: widthResponsive(20)}}>
-                <FansScreen uuid={uuid} />
+
+                {showStatePopUp !== false && (
+                  <View
+                    style={{
+                      width: '100%',
+                      paddingHorizontal: widthResponsive(20),
+                    }}>
+                    <Gap height={12} />
+                    <PopUp
+                      title={'Show your appreciation'}
+                      subTitle={
+                        'Send tips to support your favorite musician to see them growth'
+                      }
+                      closeOnPress={closeOnPress}
+                    />
+                  </View>
+                )}
+
+                {filter[selectedIndex].filterName === 'Musician.Tab.Profile' ? (
+                  <DataMusician profile={profile} dataAlbum={dataAlbum} />
+                ) : filter[selectedIndex].filterName ===
+                  'Musician.Tab.Musician' ? (
+                  <View
+                    style={{
+                      paddingHorizontal: widthResponsive(24),
+                      width: '100%',
+                    }}>
+                    <PostListProfile
+                      uuidMusician={uuid}
+                      {...exclusiveContent}
+                    />
+                  </View>
+                ) : filter[selectedIndex].filterName ===
+                  'Musician.Tab.Music' ? (
+                  showContentMusic ? (
+                    <View style={{paddingHorizontal: widthResponsive(20)}}>
+                      <ListPlaylist
+                        data={dataPlaylist}
+                        onPress={goToPlaylist}
+                        scrollable={false}
+                      />
+                      <Gap height={mvs(20)} />
+                      {/* List Album Horizontal */}
+                      {dataAlbum && dataAlbum?.length > 0 && (
+                        <ListAlbum
+                          data={dataAlbum}
+                          title={t('Musician.Label.Album')}
+                          containerStyles={{marginBottom: mvs(30)}}
+                        />
+                      )}
+                      {/* List Appears On */}
+                      {dataAppearsOn && dataAppearsOn?.length > 0 && (
+                        <ListAlbum
+                          data={dataAppearsOn}
+                          title={t('Musician.Label.AppearsOn')}
+                          containerStyles={{marginBottom: mvs(30)}}
+                        />
+                      )}
+                    </View>
+                  ) : (
+                    <EmptyState
+                      text={t('Profile.Label.NoPlaylist') || ''}
+                      containerStyle={{
+                        alignSelf: 'center',
+                        marginTop: heightPercentage(30),
+                      }}
+                    />
+                  )
+                ) : filter[selectedIndex].filterName === 'Musician.Tab.Fans' ? (
+                  <View style={{paddingHorizontal: widthResponsive(20)}}>
+                    <FansScreen uuid={uuid} />
+                  </View>
+                ) : filter[selectedIndex].filterName === 'Musician.Tab.Main' ? (
+                  <View style={{paddingHorizontal: widthResponsive(20)}}>
+                    <MainTab
+                      uuid={uuid}
+                      coverImage={exclusiveContent?.coverImage ?? ''}
+                      title={exclusiveContent?.title ?? ''}
+                      description={exclusiveContent?.description ?? ''}
+                    />
+                  </View>
+                ) : filter[selectedIndex].filterName ===
+                  'Musician.Tab.Merchandise' ? (
+                  <View
+                    style={{
+                      paddingHorizontal: widthResponsive(20),
+                    }}>
+                    <MerchList musicianId={uuid} />
+                  </View>
+                ) : filter[selectedIndex].filterName ===
+                  'Musician.Tab.Ticket' ? (
+                  <View
+                    style={{
+                      paddingHorizontal: widthResponsive(20),
+                    }}>
+                    <ConcertList musicianId={uuid} />
+                  </View>
+                ) : filter[selectedIndex].filterName ===
+                  'Musician.Tab.Event' ? (
+                  <View
+                    style={{
+                      paddingHorizontal: widthResponsive(20),
+                    }}>
+                    <EventMusician musicianId={uuid} />
+                  </View>
+                ) : null}
               </View>
-            ) : filter[selectedIndex].filterName === 'Musician.Tab.Main' ? (
-              <View style={{paddingHorizontal: widthResponsive(20)}}>
-                <MainTab
-                  uuid={uuid}
-                  coverImage={exclusiveContent?.coverImage ?? ''}
-                  title={exclusiveContent?.title ?? ''}
-                  description={exclusiveContent?.description ?? ''}
-                />
-              </View>
-            ) : filter[selectedIndex].filterName ===
-              'Musician.Tab.Merchandise' ? (
-              <View
-                style={{
-                  paddingHorizontal: widthResponsive(20),
-                }}>
-                <MerchList musicianId={uuid} />
-              </View>
-            ) : filter[selectedIndex].filterName === 'Musician.Tab.Ticket' ? (
-              <View
-                style={{
-                  paddingHorizontal: widthResponsive(20),
-                }}>
-                <ConcertList musicianId={uuid} />
-              </View>
-            ) : filter[selectedIndex].filterName === 'Musician.Tab.Event' ? (
-              <View
-                style={{
-                  paddingHorizontal: widthResponsive(20),
-                }}>
-                <EventMusician musicianId={uuid} />
-              </View>
-            ) : null}
-          </View>
+            </>
+          )}
         </View>
       </ScrollView>
 
@@ -429,6 +549,48 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       <BottomSheetGuest
         modalVisible={modalGuestVisible}
         onPressClose={() => setModalGuestVisible(false)}
+      />
+
+      {/* //? Block user modal */}
+      {modalBlock && (
+        <ModalConfirm
+          modalVisible={modalBlock}
+          title={`${t('Block.Modal.Title')} @${profile.fullname} ?`}
+          subtitle={`${t('Block.Modal.Subtitle')} @${profile.fullname}`}
+          yesText={`${t('Block.Modal.RightButton')}`}
+          noText={`${t('Block.Modal.LeftButton')}`}
+          onPressClose={() => setModalBlock(false)}
+          onPressOk={blockModalOnPress}
+          rightButtonStyle={styles.rightButtonStyle}
+        />
+      )}
+      {/* //? When block succeed */}
+      <SuccessToast
+        toastVisible={toastBlockSucceed}
+        onBackPressed={() => setToastBlockSucceed(false)}
+        caption={`${t('General.BlockSucceed')} @${profile.fullname}`}
+      />
+
+      {/* //? Unblock user modal */}
+      {modalUnblock && (
+        <ModalConfirm
+          modalVisible={modalUnblock}
+          title={`${t('Block.BlockUI.unBlockTitle')} @${profile.fullname} ?`}
+          subtitle={`${t('Block.BlockUI.unBlockCaptionA')} @${
+            profile.fullname
+          } ${t('Block.BlockUI.unBlockCaptionB')} @${profile.fullname}`}
+          yesText={`${t('Block.BlockUI.unblockButtonYes')}`}
+          noText={`${t('Block.Modal.LeftButton')}`}
+          onPressClose={() => setModalUnblock(false)}
+          onPressOk={unblockModalOnPress}
+          rightButtonStyle={styles.rightButtonStyle}
+        />
+      )}
+      {/* //? When unblock succeed */}
+      <SuccessToast
+        toastVisible={toastUnblock}
+        onBackPressed={handleToastUnblock}
+        caption={`@${profile.fullname} ${t('Block.BlockUI.unblockSuccess')}`}
       />
     </View>
   );
@@ -465,5 +627,14 @@ const styles = StyleSheet.create({
     lineHeight: heightPercentage(20),
     color: color.Neutral[10],
     paddingLeft: widthPercentage(10),
+  },
+  rightButtonStyle: {
+    backgroundColor: color.Error.block,
+    borderRadius: 4,
+    paddingHorizontal: widthResponsive(16),
+    paddingVertical: widthResponsive(6),
+  },
+  blockProfile: {
+    paddingHorizontal: widthResponsive(16),
   },
 });

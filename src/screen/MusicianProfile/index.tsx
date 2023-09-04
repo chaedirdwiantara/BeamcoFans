@@ -12,7 +12,7 @@ import {usePlaylistHook} from '../../hooks/use-playlist.hook';
 import {useMusicianHook} from '../../hooks/use-musician.hook';
 import {FollowMusicianPropsType} from '../../interface/musician.interface';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
-import {storage} from '../../hooks/use-storage.hook';
+import {profileStorage, storage} from '../../hooks/use-storage.hook';
 
 type PostDetailProps = NativeStackScreenProps<
   RootStackParams,
@@ -21,6 +21,7 @@ type PostDetailProps = NativeStackScreenProps<
 
 const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const uuid = route.params.id;
+  const MyUuid = profileStorage()?.uuid;
   const isLogin = storage.getBoolean('isLogin');
   const {dataCountProfile, getTotalCountProfile} = useProfileHook();
   const {dataPlaylist, getPlaylist, getPlaylistPublic} = usePlaylistHook();
@@ -43,7 +44,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   useFocusEffect(
     useCallback(() => {
       isLogin
-        ? getDetailMusician({id: uuid})
+        ? getDetailMusician({id: uuid, myUUID: MyUuid})
         : getDetailMusicianGuest({id: uuid});
       getTotalCountProfile({uuid});
       getExclusiveContent({uuid: uuid});
@@ -62,6 +63,10 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       getDataAppearsOn({uuid});
     }, [uuid]),
   );
+
+  const handleRefreshing = () => {
+    getDetailMusician({id: uuid, myUUID: MyUuid});
+  };
 
   const musicianPlaylist =
     dataPlaylist !== undefined && dataPlaylist !== null
@@ -88,6 +93,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             setUnfollowMusician(props, {}, true)
           }
           exclusiveContent={dataExclusiveContent ?? undefined}
+          setRefreshing={handleRefreshing}
         />
       )}
       <ModalLoading visible={isLoadingMusician} />

@@ -149,6 +149,8 @@ export type DetailPostData = {
   isOwner: boolean;
   isVoted: boolean;
   pollTimeLeft: string;
+  blockIs: boolean; // pov i being blocked by that user
+  isBlock: boolean; // pov i blocked that user
 };
 
 export type DetailPostResponseType = {
@@ -193,6 +195,8 @@ export type CommentList = {
     username: string;
     image: string;
   };
+  blockIs?: boolean; // pov i being blocked by that user
+  isBlock?: boolean; // pov i blocked that user
 };
 
 export type CommentList2 = {
@@ -214,6 +218,8 @@ export type CommentList2 = {
     username: string;
     image: string;
   };
+  blockIs?: boolean; // pov i being blocked by that user
+  isBlock?: boolean; // pov i blocked that user
 };
 
 export type CommentList3 = {
@@ -233,6 +239,8 @@ export type CommentList3 = {
     username: string;
     image: string;
   };
+  blockIs?: boolean; // pov i being blocked by that user
+  isBlock?: boolean; // pov i blocked that user
 };
 
 export type ListCommentResponseType = {

@@ -13,7 +13,7 @@ import {
 import Color from '../../theme/Color';
 import {ProfileContent} from '../../components';
 import {RootStackParams} from '../../navigations';
-import {storage} from '../../hooks/use-storage.hook';
+import {profileStorage, storage} from '../../hooks/use-storage.hook';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
@@ -35,6 +35,8 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
     dataCountLiked,
     getUserCountLikedSong,
   } = useProfileHook();
+  const MyUuid = profileStorage()?.uuid;
+
   const {dataPlaylist, getPlaylist, getPlaylistPublic} = usePlaylistHook();
   const isLogin = storage.getBoolean('isLogin');
   const isFocused = useIsFocused();
@@ -56,7 +58,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
 
   useFocusEffect(
     useCallback(() => {
-      getOtherProfileUser({id: data.id});
+      getOtherProfileUser({id: data.id, myUUID: MyUuid});
       getUserCountLikedSong({uuid: data.id});
       if (isLogin) {
         getPlaylist({uuid: data.id});
@@ -80,6 +82,9 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
         : '',
     totalFollowing: dataProfile?.data.following,
     totalPoint: dataProfile?.data.point.daily,
+    isBlock: dataProfile?.data.isBlock,
+    blockIs: dataProfile?.data.blockIs,
+    uuid: dataProfile?.data.uuid,
   };
 
   const goToPlaylist = (id: number, name: string) => {
@@ -92,6 +97,10 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
 
   const onPressGoBack = () => {
     navigation.goBack();
+  };
+
+  const handleRefreshing = () => {
+    getOtherProfileUser({id: data.id, myUUID: MyUuid});
   };
 
   return (
@@ -109,7 +118,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
         playerVisible={playerVisible}
         totalCountlikedSong={dataCountLiked?.countLikedSong}
         refreshing={false}
-        setRefreshing={() => {}}
+        setRefreshing={handleRefreshing}
         otherUserProfile={true}
         onPressGoBack={onPressGoBack}
         goToSetting={() => {}}
