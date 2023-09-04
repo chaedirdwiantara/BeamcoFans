@@ -76,6 +76,7 @@ import {
 import {randomString} from '../utils/randomString';
 import {ProgressCard} from '../components/molecule/ListCard/ProgressCard';
 import EventList from './ListCard/EventList';
+import {useEventHome} from '../api/event.api';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -136,8 +137,12 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   } = useSearchHook();
   const {creditCount, getCreditCount} = useCreditHook();
   const {counter, getCountNotification} = useNotificationHook();
-
   const isLogin = storage.getBoolean('isLogin');
+  const {
+    data: dataEvent,
+    isLoading: isLoadingEvent,
+    refetch: refetchEvent,
+  } = useEventHome({}, isLogin);
   const isFocused = useIsFocused();
   const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
   const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
@@ -161,6 +166,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     dataDiveIn.length === 0 && getListDiveIn();
     refetchPlaylist();
     getListComingSoon();
+    refetchEvent();
     if (isLogin) {
       getCountNotification();
       getCreditCount();
@@ -623,8 +629,10 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           />
           <EventList
             // TODO: get response from api and change data
-            dataEvent={isLogin ? dataMusician : dataSearchMusicians}
-            isLoading={isLoadingMusician || searchLoading}
+            dataEvent={dataEvent?.data}
+            isLoading={isLoadingEvent}
+            setModalGuestVisible={setModalGuestVisible}
+            isLogin={isLogin ?? false}
           />
         </View>
         {/* End of Tab Event */}

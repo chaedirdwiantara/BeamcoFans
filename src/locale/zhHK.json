@@ -22,7 +22,8 @@
     "NoDescription": "No Description Given",
     "Required": "Required",
     "BlockSucceed": "You've been blocked",
-    "Dismiss": "Dismiss"
+    "Dismiss": "Dismiss",
+    "Topup": "Top Up"
   },
   "Onboarding": {
     "Step1": {
@@ -301,7 +302,17 @@
       "TipDistribution": "Tip Distribution",
       "MusicianTipped": "Musician Tipped"
     },
-    "Live": "Live"
+    "Live": "Live",
+    "EmptyState": {
+      "Home": "No live events are currently available at this time.\nStay tuned for exciting upcoming experiences!",
+      "Title": "Discover Live Event",
+      "Profile": "You have no events, your events will be displayed here",
+      "Other": "Currently, this musician don’t have any event.",
+      "TopTipper": {
+        "Title": "Top Tipper Will Displayed Here",
+        "Subtitle": "Wait until event goes live to view the top tipper"
+      }
+    }
   },
   "Profile": {
     "Label": {
@@ -401,6 +412,7 @@
     "EnterVerifCode": "輸入驗證碼",
     "Account": {
       "Title": "帳戶",
+      "AccountInformation": "Account Information",
       "Confirm": "Are you sure you want to update your account?",
       "Label": {
         "Username": "用戶名",
@@ -417,6 +429,17 @@
         "Gender": "Select Gender",
         "Location": "Select Location"
       }
+    },
+    "BlockedUser": {
+      "Title": "Blocked User",
+      "Unblock": "Unblock",
+      "Cancel": "Cancel",
+      "ModalConfirm": {
+        "Title": "Are you sure to unblock @{{username}}?",
+        "Subtitle": "By unblocking @{{username}} they will be able view your content, and you will see content or notification from @{{username}}"
+      },
+      "EmptyState": "There are no blocked users at the moment.\nAny blocked users will appear here.",
+      "ToastSuccess": "@{{username}} have been unblocked!"
     },
     "Security": {
       "Title": "Security"
@@ -833,6 +856,18 @@
     "StopDonation": {
       "Title": "Stop Donation",
       "Subtitle": "Are you sure you want to stop donation to {{musician}}?"
+    },
+    "CreditEmpty": {
+      "Title": "Aw, your credit is empty!",
+      "Subtitle": "Let’s top up credits to continue tipping"
+    },
+    "SessionEnd": {
+      "Title": "Session has been end!",
+      "Subtitle": "Let’s view other musician performer"
+    },
+    "ClaimReward": {
+      "Title": "You have claimed your reward!",
+      "Subtitle": "Thank you for supporting the community!"
     }
   },
   "EmptyState": {
@@ -1106,6 +1141,11 @@
         "block":"Block",
         "unblock": "Unblock"
       }
-    }
+    }},
+  "ClaimReward": {
+    "Title": "Reward Detail",
+    "ValidUntil": "Valid until",
+    "Claim": "Claim",
+    "Claimed": "Claimed"
   }
 }

@@ -37,6 +37,8 @@ import {WebviewPage} from '../screen/Webview';
 import {MusicPlayer} from '../screen/Music';
 import {OtherUserProfile} from '../screen/OtherUserProfile/OtherUserProfile';
 import {EventDetail} from '../screen/EventDetail';
+import {LiveTipping} from '../screen/LiveTipping';
+import ClaimReward from '../screen/EventDetail/ClaimReward';
 
 // Home
 import {HomeScreen} from '../screen/Home';
@@ -48,6 +50,8 @@ import {ProfileProgressScreen} from '../screen/ProfileProgress';
 // Setting
 import {SettingScreen} from '../screen/Setting/Setting';
 import {AccountScreen} from '../screen/Setting/Account';
+import {AccountInformationScreen} from '../screen/Setting/Account/AccountInformation';
+import {BlockedUserScreen} from '../screen/Setting/Account/BlockedUser';
 import {EmailScreen} from '../screen/Setting/Email/Email';
 import {ChangeEmailScreen} from '../screen/Setting/Email/ChangeEmail';
 import {ChangePasswordScreen} from '../screen/Setting/ChangePassword';
@@ -150,12 +154,14 @@ import {TransactionHistoryPropsType} from '../interface/credit.interface';
 
 export type RootStackParams = {
   AboutDeletion: undefined;
-  Account: {
+  Account: undefined;
+  AccountInformation: {
     fromScreen: string;
   };
   AddToPlaylist: {id: number[]; type?: string; fromMainTab?: boolean};
   AddSong: Playlist;
   Album: AlbumData | {id: number; type?: string};
+  BlockedUser: undefined;
   Boarding: undefined;
   ChangeEmail: {
     type: 'Add' | 'Change';
@@ -315,6 +321,10 @@ export type RootStackParams = {
   TicketDetail: undefined;
   Shop: undefined;
   EventDetail: {id: string};
+  LiveTipping: {id: string};
+  ClaimReward: {
+    id: string;
+  };
 };
 
 export type MainTabParams = {
@@ -453,6 +463,11 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="Preference" component={PreferenceScreen} />
     <RootStack.Screen name="Referral" component={ReferralScreen} />
     <RootStack.Screen name="Account" component={AccountScreen} />
+    <RootStack.Screen
+      name="AccountInformation"
+      component={AccountInformationScreen}
+    />
+    <RootStack.Screen name="BlockedUser" component={BlockedUserScreen} />
     <RootStack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
     <RootStack.Screen name="OtpEmail" component={OtpEmailScreen} />
     <RootStack.Screen name="Email" component={EmailScreen} />
@@ -546,6 +561,8 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="TicketDetail" component={TicketDetail} />
     <RootStack.Screen name="Shop" component={Shop} />
     <RootStack.Screen name="EventDetail" component={EventDetail} />
+    <RootStack.Screen name="LiveTipping" component={LiveTipping} />
+    <RootStack.Screen name="ClaimReward" component={ClaimReward} />
   </RootStack.Navigator>
 );
 
