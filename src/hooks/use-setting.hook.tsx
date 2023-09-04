@@ -21,6 +21,7 @@ import {
   updateShipping,
   deleteShipping,
   listViolations,
+  listBlockedUser,
 } from '../api/setting.api';
 import {ParamsProps} from '../interface/base.interface';
 import {
@@ -471,6 +472,21 @@ export const useSettingHook = () => {
     }
   };
 
+  const getListBlockedUser = async () => {
+    setIsLoading(true);
+    try {
+      const response = await listBlockedUser();
+      return {
+        data: response?.data,
+        message: response?.message,
+      };
+    } catch (error) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     isError,
@@ -505,5 +521,6 @@ export const useSettingHook = () => {
     updateShippingInfo,
     deleteShippingInfo,
     getListViolations,
+    getListBlockedUser,
   };
 };

@@ -272,3 +272,28 @@ export type RequestAppealResponseType = {
   message: string;
   status: number;
 };
+
+export type ListBlockedType = {
+  uuid: string;
+  username: string;
+  fullname: string;
+  image: {
+    image: string;
+    presetName: string;
+  }[];
+  userType: string;
+};
+
+export type ListBlockedUserResponseType = {
+  code: number;
+  data: ListBlockedType[];
+  message: string;
+  status: number;
+};
+
+export type SetUnblockUserResponseType = {
+  code: number;
+  data: null;
+  message: string;
+  status: number;
+};

@@ -19,6 +19,8 @@ import {
   ListViolationsResponseType,
   RequestAppealResponseType,
   SendAppealPropsType,
+  ListBlockedUserResponseType,
+  SetUnblockUserResponseType,
 } from '../interface/setting.interface';
 import {ParamsProps} from '../interface/base.interface';
 
@@ -282,6 +284,28 @@ export const requestAppeal = async (
 ): Promise<RequestAppealResponseType> => {
   const {data} = await SsuAPI().request<RequestAppealResponseType>({
     url: '/violations/request-appeal',
+    method: 'POST',
+    data: props,
+  });
+
+  return data;
+};
+
+export const listBlockedUser =
+  async (): Promise<ListBlockedUserResponseType> => {
+    const {data} = await SsuAPI().request<ListBlockedUserResponseType>({
+      url: '/blocks',
+      method: 'GET',
+    });
+
+    return data;
+  };
+
+export const unblockUser = async (
+  props?: ParamsProps,
+): Promise<SetUnblockUserResponseType> => {
+  const {data} = await SsuAPI().request<SetUnblockUserResponseType>({
+    url: `/blocks/unblock/${props?.uuid}`,
     method: 'POST',
     data: props,
   });
