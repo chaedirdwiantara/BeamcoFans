@@ -76,7 +76,7 @@ import {
 import {randomString} from '../utils/randomString';
 import {ProgressCard} from '../components/molecule/ListCard/ProgressCard';
 import EventList from './ListCard/EventList';
-import {useEventHome} from '../api/event.api';
+import {useEventHook} from '../hooks/use-event.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -137,6 +137,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   } = useSearchHook();
   const {creditCount, getCreditCount} = useCreditHook();
   const {counter, getCountNotification} = useNotificationHook();
+  const {useEventHome} = useEventHook();
   const isLogin = storage.getBoolean('isLogin');
   const {
     data: dataEvent,
