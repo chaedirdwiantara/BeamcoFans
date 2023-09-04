@@ -567,21 +567,10 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                   />
                 ) : null}
                 <ListCard.PostList
+                  data={item}
                   toDetailOnPress={() =>
                     handleToDetailMusician(item.musician.uuid)
                   }
-                  musicianName={item.musician.fullname}
-                  musicianId={`@${item.musician.username}`}
-                  imgUri={
-                    item.musician.imageProfileUrls?.length !== 0
-                      ? item.musician.imageProfileUrls[0]?.image
-                      : ''
-                  }
-                  postDate={
-                    item?.timeAgo ? item.timeAgo : dateFormat(item.createdAt)
-                  }
-                  postDate2={item.createdAt}
-                  category={categoryNormalize(item.category)}
                   onPress={() => cardOnPress(item)}
                   likeOnPress={() => likeOnPress(item.id, item.isLiked)}
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
@@ -589,17 +578,10 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
                   tokenOnPress={() => tokenOnPress(item.musician.uuid)}
                   shareOnPress={() => shareOnPress(item)}
                   containerStyles={{marginTop: mvs(16)}}
-                  commentCount={item.commentsCount}
-                  myPost={item.musician.uuid === MyUuid}
-                  musicianUuid={item.musician.uuid}
-                  idPost={item.id}
                   selectedMenu={setSelectedMenuPost}
                   selectedIdPost={setSelectedIdPost}
                   selectedUserUuid={setSelectedUserUuid}
                   selectedUserName={setSelectedUserName}
-                  isPremium={item.isPremiumPost}
-                  viewCount={item.viewsCount}
-                  shareCount={item.shareCount}
                   showDropdown
                   reportSent={idReported.includes(item.id) ?? item.reportSent}
                   children={

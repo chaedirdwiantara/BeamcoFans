@@ -50,6 +50,7 @@ import {
   dataProfileDropdownBlocked,
 } from '../../../data/dropdown';
 import {TopNavigation} from '../TopNavigation';
+import {profileStorage} from '../../../hooks/use-storage.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -106,6 +107,8 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
     setUnblockUser,
   } = useBlockHook();
   const {setWithoutBottomTab, show} = usePlayerStore();
+
+  const myUuid = profileStorage()?.uuid;
 
   const {uuidBlocked, setuuidBlocked} = blockUserRecorded();
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -245,21 +248,23 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 
   return (
     <View style={styles.root}>
-      <TopNavigation.Type1
-        type="user detail"
-        title=""
-        leftIcon={scrollEffect && leftIconHeader()}
-        leftIconAction={handleBackAction}
-        maxLengthTitle={20}
-        itemStrokeColor={'white'}
-        bgColor={scrollEffect ? color.Dark[800] : 'transparent'}
-        containerStyles={styles.topNavStyle}
-        dropdownData={
-          profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
-        }
-        resultDataDropdown={resultDataDropdown}
-        beingBlocked={profile.blockIs}
-      />
+      {myUuid !== profile.uuid && (
+        <TopNavigation.Type1
+          type="user detail"
+          title=""
+          leftIcon
+          leftIconAction={handleBackAction}
+          maxLengthTitle={20}
+          itemStrokeColor={'white'}
+          bgColor={scrollEffect ? color.Dark[800] : 'transparent'}
+          containerStyles={styles.topNavStyle}
+          dropdownData={
+            profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
+          }
+          resultDataDropdown={resultDataDropdown}
+          beingBlocked={profile.blockIs}
+        />
+      )}
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
@@ -272,7 +277,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         }
         onScroll={handleScroll}>
         <ProfileHeader
-          type="profile"
+          type={myUuid !== profile.uuid ? 'user detail' : 'profile'}
           avatarUri={profile.avatarUri}
           backgroundUri={profile.backgroundUri}
           fullname={profile.fullname}
@@ -282,7 +287,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           iconPress={goToSetting}
           scrollEffect={scrollEffect}
           noEdit={!showCreateCard}
-          backIcon={!showCreateCard}
+          backIcon={showCreateCard}
           onPressImage={showImage}
           refreshing={refreshing}
         />
