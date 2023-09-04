@@ -21,7 +21,8 @@
     },
     "NoDescription": "No Description Given",
     "Required": "Required",
-    "Dismiss": "Dismiss"
+    "Dismiss": "Dismiss",
+    "Topup": "Top Up"
   },
   "Onboarding": {
     "Step1": {
@@ -323,7 +324,17 @@
       "TipDistribution": "Tip Distribution",
       "MusicianTipped": "Musician Tipped"
     },
-    "Live": "Live"
+    "Live": "Live",
+    "EmptyState": {
+      "Home": "No live events are currently available at this time.\nStay tuned for exciting upcoming experiences!",
+      "Title": "Discover Live Event",
+      "Profile": "You have no events, your events will be displayed here",
+      "Other": "Currently, this musician don’t have any event.",
+      "TopTipper": {
+        "Title": "Top Tipper Will Displayed Here",
+        "Subtitle": "Wait until event goes live to view the top tipper"
+      }
+    }
   },
   "Profile": {
     "Label": {
@@ -853,6 +864,18 @@
     "StopDonation": {
       "Title": "Stop Donation",
       "Subtitle": "Are you sure you want to stop donation to {{musician}}?"
+    },
+    "CreditEmpty": {
+      "Title": "Aw, your credit is empty!",
+      "Subtitle": "Let’s top up credits to continue tipping"
+    },
+    "SessionEnd": {
+      "Title": "Session has been end!",
+      "Subtitle": "Let’s view other musician performer"
+    },
+    "ClaimReward": {
+      "Title": "You have claimed your reward!",
+      "Subtitle": "Thank you for supporting the community!"
     }
   },
   "EmptyState": {
@@ -1097,5 +1120,11 @@
       "Warning": "You need to select one of the report category",
       "ReportSuccess": "Report have been sent!"
     }
+  },
+  "ClaimReward": {
+    "Title": "Reward Detail",
+    "ValidUntil": "Valid until",
+    "Claim": "Claim",
+    "Claimed": "Claimed"
   }
 }
