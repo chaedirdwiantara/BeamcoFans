@@ -50,7 +50,7 @@ export const AvatarProfile: React.FC<AvatarProps> = (props: AvatarProps) => {
           styles.root,
           {width: size, backgroundColor: color.Success[400]},
         ]}>
-        {type === '' ? (
+        {type !== 'edit' ? (
           <Text style={[typography.Heading4, styles.name]}>{initialName}</Text>
         ) : (
           <TouchableOpacity
