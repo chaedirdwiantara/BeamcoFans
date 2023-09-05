@@ -27,6 +27,7 @@ export type ParamsProps = {
   order?: 'asc' | 'desc';
   id?: number | string;
   myUUID?: string;
+  pageSize?: number;
 };
 
 export type imageTypes = {
