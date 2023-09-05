@@ -5,6 +5,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <CodePush/CodePush.h>
 
 #import <React/RCTAppSetupUtils.h>
 
