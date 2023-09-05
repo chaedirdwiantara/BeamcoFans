@@ -298,21 +298,6 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     }
   };
 
-  const leftIconHeader = () => {
-    return (
-      <View style={styles.containerLeftIcon}>
-        <TouchableOpacity onPress={onPressGoBack}>
-          <ArrowLeftIcon
-            stroke={color.Neutral[10]}
-            style={{marginLeft: widthPercentage(24)}}
-          />
-        </TouchableOpacity>
-        <Gap width={widthPercentage(20)} />
-        <Text style={styles.name}>{profile.fullname}</Text>
-      </View>
-    );
-  };
-
   const showContentMusic =
     dataPlaylist?.length > 0 ||
     dataAlbum.length > 0 ||
@@ -324,7 +309,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       <TopNavigation.Type1
         type="user detail"
         title=""
-        leftIcon={scrolEffect && leftIconHeader()}
+        leftIcon
         leftIconAction={handleBackAction}
         maxLengthTitle={20}
         itemStrokeColor={'white'}

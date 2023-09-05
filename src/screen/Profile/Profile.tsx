@@ -107,6 +107,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     totalFollowing: dataProfile?.data.following,
     totalLikedSong: dataProfile?.data.songAdded,
     totalPoint: dataProfile?.data.point.daily,
+    uuid: dataProfile?.data.uuid,
   };
 
   return (
