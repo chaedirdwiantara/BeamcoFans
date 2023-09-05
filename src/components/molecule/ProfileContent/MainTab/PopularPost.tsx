@@ -283,7 +283,7 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
   const sendOnPress = () => {
     const reportBody: ReportParamsProps = {
       reportType: 'post',
-      reportTypeId: selectedIdPost ?? 0,
+      reportTypeId: selectedIdPost ?? '0',
       reporterUuid: MyUuid ?? '',
       reportedUuid: selectedUserUuid ?? '',
       reportCategory: t(selectedCategory ?? ''),
@@ -331,34 +331,18 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
           <Gap height={heightPercentage(16)} />
 
           <ListCard.PostList
+            data={item}
             containerStyles={{paddingHorizontal: 0}}
             toDetailOnPress={() => {}}
-            musicianName={item.musician.fullname}
-            musicianId={`@${item.musician.username}`}
-            imgUri={
-              item.musician.imageProfileUrls.length !== 0
-                ? item.musician.imageProfileUrls[0]?.image
-                : ''
-            }
-            postDate={item?.timeAgo ? item.timeAgo : dateFormat(item.createdAt)}
-            postDate2={item.createdAt}
-            category={categoryNormalize(item.category)}
             onPress={() => cardOnPress(item)}
             likeOnPress={() => likeOnPress(item.id, item.isLiked)}
             likePressed={likePressedInFeed(selectedId, item, recorder)}
             likeCount={likesCountInFeed(selectedId, item, recorder)}
             tokenOnPress={tokenOnPress}
             shareOnPress={() => shareOnPress(item)}
-            commentCount={item.commentsCount}
-            myPost={item.musician.uuid === MyUuid}
-            musicianUuid={item.musician.uuid}
-            idPost={item.id}
             selectedMenu={setSelectedMenuPost}
             selectedIdPost={setSelectedIdPost}
             selectedUserUuid={setSelectedUserUuid}
-            isPremium={item.isPremiumPost}
-            viewCount={item.viewsCount}
-            shareCount={item.shareCount}
             showDropdown={
               item.isPremiumPost &&
               item.musician.uuid !== MyUuid &&
