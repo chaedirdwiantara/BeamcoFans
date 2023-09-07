@@ -39,7 +39,6 @@ import BlockProfileUI from '../BlockOnProfile';
 import {ModalConfirm} from '../Modal/ModalConfirm';
 import SuccessToast from '../Toast/SuccessToast';
 import {useBlockHook} from '../../../hooks/use-block.hook';
-import {blockUserRecorded} from '../../../store/blockUser.store';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../../navigations';
@@ -112,7 +111,6 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 
   const myUuid = profileStorage()?.uuid;
 
-  const {uuidBlocked, setuuidBlocked} = blockUserRecorded();
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [scrollEffect, setScrollEffect] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
@@ -191,7 +189,6 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   };
 
   const handleToastUnblock = () => {
-    setuuidBlocked(uuidBlocked.filter(x => x !== profile.uuid));
     settoastUnblock(false);
   };
 
