@@ -105,6 +105,8 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
     unblockResponse,
     setBlockUser,
     setUnblockUser,
+    setBlockResponse,
+    setUnblockResponse,
   } = useBlockHook();
   const {setWithoutBottomTab, show} = usePlayerStore();
 
@@ -118,7 +120,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   const [modalUnblock, setModalUnblock] = useState<boolean>(false);
   const [modalBlock, setModalBlock] = useState<boolean>(false);
   const [toastUnblock, settoastUnblock] = useState<boolean>(false);
-  const [toastBlockSucceed, setToastBlockSucceed] = useState<boolean>(false);
+  const [toastBlock, setToastBlock] = useState<boolean>(false);
 
   const showImage = (uri: string) => {
     setModalVisible(!isModalVisible);
@@ -165,15 +167,17 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   //! BLOCK/UNBLOCK AREA
   useEffect(() => {
     if (blockResponse === 'Success') {
-      setToastBlockSucceed(true);
       setRefreshing!();
+      setToastBlock(true);
+      setBlockResponse(undefined);
     }
   }, [blockResponse]);
 
   useEffect(() => {
     if (unblockResponse === 'Success') {
+      setRefreshing!();
       settoastUnblock(true);
-      setRefreshing();
+      setUnblockResponse(undefined);
     }
   }, [unblockResponse]);
 
@@ -189,6 +193,10 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   const handleToastUnblock = () => {
     setuuidBlocked(uuidBlocked.filter(x => x !== profile.uuid));
     settoastUnblock(false);
+  };
+
+  const handleToastBlock = () => {
+    setToastBlock(false);
   };
 
   const blockModalOnPress = () => {
@@ -429,8 +437,8 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
       )}
       {/* //? When block succeed */}
       <SuccessToast
-        toastVisible={toastBlockSucceed}
-        onBackPressed={() => setToastBlockSucceed(false)}
+        toastVisible={toastBlock}
+        onBackPressed={handleToastBlock}
         caption={`${t('General.BlockSucceed')} @${profile.fullname}`}
       />
 
