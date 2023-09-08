@@ -60,9 +60,12 @@ const LineUp: FC<EventLineUpInterface> = ({dataLineUp, isLoading}) => {
             followersCount={item?.musician?.followers}
             activeMore={false}
             isLive={item?.statusLineUpEvent === 'live'}
-            onClickTip={() => navigation.push('LiveTipping', {id: '1'})}
+            onClickTip={() =>
+              navigation.push('LiveTipping', {id: item?.musician?.UUID})
+            }
             onPressImage={() =>
-              navigation.push('MusicianProfile', {id: item?.musician?.UUID})
+              // navigation.push('MusicianProfile', {id: item?.musician?.UUID})
+              navigation.push('LiveTipping', {id: item?.musician?.UUID})
             }
             onPressMore={() => null}
           />
