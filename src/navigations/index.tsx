@@ -41,7 +41,7 @@ import {LiveTipping} from '../screen/LiveTipping';
 import ClaimReward from '../screen/EventDetail/ClaimReward';
 
 // Home
-import {HomeScreen} from '../screen/Home';
+import HomeScreen from '../screen/Home';
 import {ListImageScreen} from '../screen/ListItem/ListImage';
 import {ListMusicScreen} from '../screen/ListItem/ListMusic';
 import {ListPostScreen} from '../screen/ListItem/ListPost';
