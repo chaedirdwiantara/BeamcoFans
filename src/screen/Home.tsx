@@ -77,16 +77,14 @@ import {randomString} from '../utils/randomString';
 import {ProgressCard} from '../components/molecule/ListCard/ProgressCard';
 import EventList from './ListCard/EventList';
 import {useEventHook} from '../hooks/use-event.hook';
-import CodePush from 'react-native-code-push';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
 ) => void;
 
 type HomeProps = NativeStackScreenProps<MainTabParams, 'Home'>;
-let codePushOptions = {checkFrequency: CodePush.CheckFrequency.MANUAL};
 
-const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
+export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {t} = useTranslation();
   const {showToast} = route.params;
   const navigation =
@@ -325,17 +323,9 @@ const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   };
 
   const handleWebview = (title: string, url: string) => {
-    // navigation.navigate('Webview', {
-    //   title: title,
-    //   url: url,
-    // });
-    CodePush.sync({
-      updateDialog: {
-        title: 'An update is available!',
-        appendReleaseDescription: true,
-        descriptionPrefix: '\n\nChange log:\n',
-      },
-      installMode: CodePush.InstallMode.IMMEDIATE,
+    navigation.navigate('Webview', {
+      title: title,
+      url: url,
     });
   };
 
@@ -697,8 +687,6 @@ const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     </View>
   );
 };
-
-export default CodePush(codePushOptions)(HomeScreen);
 
 const styles = StyleSheet.create({
   root: {
