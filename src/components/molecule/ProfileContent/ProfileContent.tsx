@@ -39,7 +39,6 @@ import BlockProfileUI from '../BlockOnProfile';
 import {ModalConfirm} from '../Modal/ModalConfirm';
 import SuccessToast from '../Toast/SuccessToast';
 import {useBlockHook} from '../../../hooks/use-block.hook';
-import {blockUserRecorded} from '../../../store/blockUser.store';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../../navigations';
@@ -105,12 +104,13 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
     unblockResponse,
     setBlockUser,
     setUnblockUser,
+    setBlockResponse,
+    setUnblockResponse,
   } = useBlockHook();
   const {setWithoutBottomTab, show} = usePlayerStore();
 
   const myUuid = profileStorage()?.uuid;
 
-  const {uuidBlocked, setuuidBlocked} = blockUserRecorded();
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [scrollEffect, setScrollEffect] = useState<boolean>(false);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
@@ -118,7 +118,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   const [modalUnblock, setModalUnblock] = useState<boolean>(false);
   const [modalBlock, setModalBlock] = useState<boolean>(false);
   const [toastUnblock, settoastUnblock] = useState<boolean>(false);
-  const [toastBlockSucceed, setToastBlockSucceed] = useState<boolean>(false);
+  const [toastBlock, setToastBlock] = useState<boolean>(false);
 
   const showImage = (uri: string) => {
     setModalVisible(!isModalVisible);
@@ -165,15 +165,17 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   //! BLOCK/UNBLOCK AREA
   useEffect(() => {
     if (blockResponse === 'Success') {
-      setToastBlockSucceed(true);
       setRefreshing!();
+      setToastBlock(true);
+      setBlockResponse(undefined);
     }
   }, [blockResponse]);
 
   useEffect(() => {
     if (unblockResponse === 'Success') {
+      setRefreshing!();
       settoastUnblock(true);
-      setRefreshing();
+      setUnblockResponse(undefined);
     }
   }, [unblockResponse]);
 
@@ -187,8 +189,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   };
 
   const handleToastUnblock = () => {
-    setuuidBlocked(uuidBlocked.filter(x => x !== profile.uuid));
     settoastUnblock(false);
+  };
+
+  const handleToastBlock = () => {
+    setToastBlock(false);
   };
 
   const blockModalOnPress = () => {
@@ -429,8 +434,8 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
       )}
       {/* //? When block succeed */}
       <SuccessToast
-        toastVisible={toastBlockSucceed}
-        onBackPressed={() => setToastBlockSucceed(false)}
+        toastVisible={toastBlock}
+        onBackPressed={handleToastBlock}
         caption={`${t('General.BlockSucceed')} @${profile.fullname}`}
       />
 

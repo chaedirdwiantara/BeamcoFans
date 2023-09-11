@@ -1,6 +1,7 @@
 import {
   Dimensions,
   LogBox,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -30,7 +31,6 @@ import CommentSection from './CommentSection';
 import ImageModal from './ImageModal';
 import {useFeedHook} from '../../hooks/use-feed.hook';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {dateFormat} from '../../utils/date-format';
 import {
   CommentList,
   CommentList2,
@@ -41,7 +41,6 @@ import {useProfileHook} from '../../hooks/use-profile.hook';
 import {TickCircleIcon} from '../../assets/icon';
 import {makeId} from './function';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
-import categoryNormalize from '../../utils/categoryNormalize';
 import {DataDropDownType} from '../../data/dropdown';
 import {usePlayerHook} from '../../hooks/use-player.hook';
 import {useTranslation} from 'react-i18next';
@@ -62,7 +61,6 @@ import {
 } from '../../utils/detailPostUtils';
 import {feedReportRecorded} from '../../store/idReported';
 import {useBlockHook} from '../../hooks/use-block.hook';
-import {blockUserRecorded} from '../../store/blockUser.store';
 
 export const {width} = Dimensions.get('screen');
 
@@ -128,8 +126,6 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setSelectedSharePost,
     selectedSharePost,
   } = useShareHook();
-
-  const {uuidBlocked, setuuidBlocked} = blockUserRecorded();
 
   const {blockLoading, blockError, blockResponse, setBlockUser} =
     useBlockHook();
@@ -202,6 +198,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     string[]
   >([]);
   const [parentIdAddComment, setParentIdAddComment] = useState<string[]>([]);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   // * REPORT HOOKS
   const [selectedIdPost, setSelectedIdPost] = useState<string>();
@@ -212,6 +209,12 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     'post' | 'replies' | 'album' | 'song'
   >();
   const [selectedUserUuid, setSelectedUserUuid] = useState<string>();
+
+  useEffect(() => {
+    if (refreshing) {
+      getDetailPost({id: data.id});
+    }
+  }, [refreshing]);
 
   useEffect(() => {
     if (modalDonate) getCreditCount();
@@ -252,9 +255,16 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   // ? Set data comment lvl 1 when dataPostDetail is there
   useEffect(() => {
-    if (dataPostDetail !== null) {
+    if (dataPostDetail) {
       if (commentLvl1 == undefined) {
         return setCommentLvl1(dataPostDetail?.comments);
+      }
+      if (blockResponse === 'Success' && selectedUserUuid) {
+        return setCommentLvl1(dataPostDetail?.comments);
+      }
+      if (refreshing) {
+        setCommentLvl1(dataPostDetail?.comments);
+        setRefreshing(false);
       }
     }
   }, [dataPostDetail]);
@@ -875,6 +885,12 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   // ! Navigate to Fans / Musician Area
   const handleToDetailMusician = (id: string) => {
+    setActivePage(1);
+    setCommentLvl2(undefined);
+    setCommentLvl3(undefined);
+    setDataParent([]);
+    setSelectedMenuPost(undefined);
+    setSelectedIdPost(undefined);
     navigation.navigate('MusicianProfile', {id});
   };
 
@@ -895,6 +911,12 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         );
       } else if (dataUserCheck === 'Fans') {
         return (
+          setActivePage(1),
+          setCommentLvl2(undefined),
+          setCommentLvl3(undefined),
+          setDataParent([]),
+          setSelectedMenuPost(undefined),
+          setSelectedIdPost(undefined),
           navigation.navigate('OtherUserProfile', {id: idUserTonavigate}),
           setDataUserCheck(''),
           setIdUserTonavigate(undefined)
@@ -925,6 +947,12 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
       switch (selectedValue) {
         case '11':
+          setActivePage(1);
+          setCommentLvl2(undefined);
+          setCommentLvl3(undefined);
+          setDataParent([]);
+          setSelectedMenuPost(undefined);
+          setSelectedIdPost(undefined);
           navigation.navigate('MusicianProfile', {
             id: dataPostDetail.musician.uuid,
           });
@@ -940,6 +968,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           break;
       }
       setSelectedMenuPost(undefined);
+      setSelectedIdPost(undefined);
     }
   }, [selectedIdPost, selectedMenuPost]);
 
@@ -1008,9 +1037,6 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   useEffect(() => {
     if (blockResponse === 'Success' && selectedUserUuid) {
       setToastBlockSucceed(true);
-      if (!uuidBlocked.includes(selectedUserUuid)) {
-        setuuidBlocked([...uuidBlocked, selectedUserUuid]);
-      }
     }
   }, [blockResponse]);
 
@@ -1031,7 +1057,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         itemStrokeColor={color.Neutral[10]}
       />
       {/* Post Detail Section */}
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => setRefreshing(true)}
+            tintColor={'transparent'}
+          />
+        }>
         <View style={styles.bodyContainer}>
           {dataPostDetail ? (
             <>
