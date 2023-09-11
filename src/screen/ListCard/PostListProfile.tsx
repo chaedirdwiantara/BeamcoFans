@@ -10,6 +10,7 @@ import {
 import {mvs} from 'react-native-size-matters';
 import {
   BottomSheetGuest,
+  DropDownFilter,
   Gap,
   ListCard,
   ModalConfirm,
@@ -49,16 +50,22 @@ import {
   likePressedOnFeed,
   likesCountInFeed,
   playSongOnFeed,
+  useCategoryFilter,
   useGetCreditCount,
   useGetDataOnMount,
   useRefreshingEffect,
   useSetDataToMainData,
+  useSortFilterPostType,
   useStopRefreshing,
 } from './ListUtils/ListFunction';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useShareHook} from '../../hooks/use-share.hook';
 import {imageShare} from '../../utils/share';
-import {DataDropDownType} from '../../data/dropdown';
+import {
+  DataDropDownType,
+  dropDownDataCategory,
+  dropDownDataFilterBy,
+} from '../../data/dropdown';
 import {useReportHook} from '../../hooks/use-report.hook';
 import {feedReportRecorded} from '../../store/idReported';
 import {ReportParamsProps} from '../../interface/report.interface';
@@ -102,6 +109,12 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   const [modalConfirm, setModalConfirm] = useState(false);
   const [modalGuestVisible, setModalGuestVisible] = useState(false);
   const [selectedMusicianId, setSelectedMusicianId] = useState<string>('');
+  const [selectedFilterMenu, setSelectedFilterMenu] =
+    useState<DataDropDownType>();
+  const [selectedCategoryMenu, setSelectedCategoryMenu] =
+    useState<DataDropDownType>();
+  const [filterByValue, setFilterByValue] = useState<string>();
+  const [categoryValue, setCategoryValue] = useState<string>();
 
   //* MUSIC HOOKS
   const [pauseModeOn, setPauseModeOn] = useState<boolean>(false);
@@ -165,6 +178,30 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   //* set response data list post to main data
   useSetDataToMainData(dataPostList, filterActive, dataMain, setDataMain);
 
+  //* hit sort by endpoint
+  useSortFilterPostType(
+    selectedFilterMenu?.label,
+    getListProfilePost,
+    perPage,
+    page,
+    categoryValue,
+    setFilterActive,
+    setFilterByValue,
+  );
+
+  //* hit category endpoint
+  useCategoryFilter(
+    selectedCategoryMenu?.value,
+    getListProfilePost,
+    perPage,
+    page,
+    filterByValue,
+    selectedCategoryMenu?.value,
+    setFilterActive,
+    setCategoryValue,
+    uuidMusician,
+  );
+
   //* Handle when end of Scroll
   const handleEndScroll = () => {
     handleEndScrollOnFeed(
@@ -174,6 +211,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
       page,
       setPage,
       setFilterActive,
+      uuidMusician,
     );
   };
 
@@ -363,6 +401,36 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
 
   return (
     <>
+      <View style={styles.filterContainer}>
+        <DropDownFilter
+          labelCaption={
+            selectedFilterMenu
+              ? t(selectedFilterMenu.label)
+              : t('Feed.FilterBy.Title')
+          }
+          dataFilter={dropDownDataFilterBy}
+          selectedMenu={setSelectedFilterMenu}
+          leftPosition={widthResponsive(-59)}
+          containerStyle={{
+            marginTop: widthResponsive(20),
+            marginBottom: widthResponsive(20),
+          }}
+        />
+        <DropDownFilter
+          labelCaption={
+            selectedCategoryMenu
+              ? t(selectedCategoryMenu.label)
+              : t('Home.Tab.TopPost.Category.Title')
+          }
+          dataFilter={dropDownDataCategory}
+          selectedMenu={setSelectedCategoryMenu}
+          leftPosition={widthResponsive(-140)}
+          containerStyle={{
+            marginTop: widthResponsive(20),
+            marginBottom: widthResponsive(20),
+          }}
+        />
+      </View>
       {dataMain !== null && dataMain.length !== 0 ? (
         <View
           style={{
@@ -571,6 +639,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: heightResponsive(10),
     marginBottom: heightResponsive(8),
+  },
+  filterContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: color.Dark[800],
   },
   childrenPostTitle: {
     flexShrink: 1,
