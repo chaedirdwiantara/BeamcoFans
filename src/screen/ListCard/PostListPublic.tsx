@@ -601,8 +601,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           <Gap height={Platform.OS === 'android' ? 195 : 145} />
           <ListToFollowMusician />
         </>
-      ) : dataTemporary?.length === 0 &&
-        postData?.message === 'musician not have post' ? (
+      ) : (
         <>
           <Gap height={Platform.OS === 'android' ? 195 : 145} />
           <EmptyState
@@ -613,7 +612,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             }}
           />
         </>
-      ) : null}
+      )}
       <ModalReport
         modalVisible={reportToast}
         onPressClose={() => setReportToast(false)}

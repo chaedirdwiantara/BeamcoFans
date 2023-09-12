@@ -98,28 +98,28 @@ const ListPlaylist: React.FC<PlaylistProps> = ({navigation}: PlaylistProps) => {
         )}
         <FlatList
           showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item?.id}
           contentContainerStyle={{
             paddingBottom: isFetchingNextPage
               ? heightPercentage(0)
               : heightPercentage(200),
           }}
           data={
-            dataSearchPlaylists?.pages?.map((page: any) => page.data).flat() ??
+            dataSearchPlaylists?.pages?.map((page: any) => page?.data).flat() ??
             []
           }
           renderItem={({item, index}) => (
             <ListCard.MusicList
-              imgUri={item.thumbnailUrl}
+              imgUri={item?.thumbnailUrl}
               musicNum={(index + 1).toLocaleString('en-US', {
                 minimumIntegerDigits: 2,
                 useGrouping: false,
               })}
-              musicTitle={item.name}
-              singerName={item.playlistOwner.fullname}
+              musicTitle={item?.name}
+              singerName={item?.playlistOwner.fullname}
               onPressMore={resultDataMore}
               containerStyles={{marginTop: mvs(20)}}
-              onPressCard={() => cardOnPress(item.id)}
+              onPressCard={() => cardOnPress(item?.id)}
               hideDropdownMore
             />
           )}
