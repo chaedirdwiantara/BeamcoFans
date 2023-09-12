@@ -120,6 +120,7 @@ import {ConcertDetail} from '../screen/ConcertDetail';
 import {MerchDetail} from '../screen/MerchDetail';
 import {TicketDetail} from '../screen/ConcertDetail/TicketDetail';
 import Shop from '../screen/Action/Shop';
+import {TransactionDetail} from '../screen/Action/TransactionDetail';
 
 import Font from '../theme/Font';
 import Color from '../theme/Color';
@@ -323,6 +324,9 @@ export type RootStackParams = {
   EventDetail: {id: string};
   LiveTipping: {id: string};
   ClaimReward: {
+    id: string;
+  };
+  TransactionDetail: {
     id: string;
   };
 };
@@ -563,6 +567,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="EventDetail" component={EventDetail} />
     <RootStack.Screen name="LiveTipping" component={LiveTipping} />
     <RootStack.Screen name="ClaimReward" component={ClaimReward} />
+    <RootStack.Screen name="TransactionDetail" component={TransactionDetail} />
   </RootStack.Navigator>
 );
 
