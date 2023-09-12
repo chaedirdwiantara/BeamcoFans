@@ -635,7 +635,19 @@ const PostListExclusive: FC<PostListProps> = (props: PostListProps) => {
             icon={<FriedEggIcon />}
           />
         </>
-      ) : null}
+      ) : (
+        <>
+          <Gap height={195} />
+          <EmptyState
+            text={t('EmptyState.Exclusive') || ''}
+            containerStyle={{
+              justifyContent: 'flex-start',
+              paddingTop: heightPercentage(24),
+            }}
+            icon={<FriedEggIcon />}
+          />
+        </>
+      )}
       <ModalReport
         modalVisible={reportToast}
         onPressClose={() => setReportToast(false)}

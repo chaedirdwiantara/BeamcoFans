@@ -556,7 +556,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
         </View>
       ) : dataMain?.length === 0 && feedMessage === 'you not follow anyone' ? (
         <ListToFollowMusician />
-      ) : dataMain?.length === 0 && feedMessage === 'musician not have post' ? (
+      ) : (
         <EmptyState
           text={t('EmptyState.FollowMusician') || ''}
           containerStyle={{
@@ -564,7 +564,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
             paddingTop: heightPercentage(24),
           }}
         />
-      ) : null}
+      )}
       <ModalReport
         modalVisible={reportToast}
         onPressClose={() => setReportToast(false)}
