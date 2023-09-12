@@ -8,7 +8,7 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 import {CrashLog, CrashRecord} from './service/crashReport';
 import codePush from 'react-native-code-push';
 
-let codePushOptions = {checkFrequency: codePush.CheckFrequency.ON_APP_RESUME};
+let codePushOptions = {checkFrequency: codePush.CheckFrequency.ON_APP_START};
 
 import * as Sentry from '@sentry/react-native';
 
