@@ -170,10 +170,19 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
     setPage,
   );
 
+  const noPostYetMessage = "Musician don't have any post";
+
   //* call when refreshing
   useRefreshingEffect(refreshing, getListProfilePost, getCreditCount, perPage);
 
   useStopRefreshing(feedIsLoading, setRefreshing);
+
+  //? set no data into main cz of message
+  useEffect(() => {
+    if (dataPostList?.length === 0 && feedMessage === noPostYetMessage) {
+      setDataMain(dataPostList);
+    }
+  }, [dataPostList, feedMessage]);
 
   //* set response data list post to main data
   useSetDataToMainData(dataPostList, filterActive, dataMain, setDataMain);
@@ -187,11 +196,12 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
     categoryValue,
     setFilterActive,
     setFilterByValue,
+    uuidMusician,
   );
 
   //* hit category endpoint
   useCategoryFilter(
-    selectedCategoryMenu?.value,
+    selectedCategoryMenu?.label,
     getListProfilePost,
     perPage,
     page,
@@ -436,7 +446,6 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
           style={{
             flex: 1,
             marginHorizontal: widthResponsive(-24),
-            marginTop: widthResponsive(24),
           }}>
           {refreshing && (
             <View style={styles.loadingContainer}>
