@@ -98,6 +98,8 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataRightDropdown, dataLeftDropdown, uuidMusician = ''} = props;
 
+  const noPostYetMessage = 'musician not have post';
+
   const {handleScroll, compCTranslateY} = useHeaderAnimation();
   const {viewabilityConfig, onViewableItemsChanged} = usePostLogger();
 
@@ -263,6 +265,13 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
       setDataTemporary(dataPostList);
     }
   }, [dataPostList]);
+
+  //? set no data into main cz of message
+  useEffect(() => {
+    if (dataTemporary?.length === 0 && feedMessage === noPostYetMessage) {
+      setDataMain(dataTemporary);
+    }
+  }, [dataTemporary, feedMessage]);
 
   useSetDataToMainData(dataTemporary, filterActive, dataMain, setDataMain);
 
@@ -601,7 +610,9 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
           <Gap height={Platform.OS === 'android' ? 195 : 145} />
           <ListToFollowMusician />
         </>
-      ) : (
+      ) : dataTemporary?.length === 0 &&
+        (postData?.message === noPostYetMessage ||
+          feedMessage === noPostYetMessage) ? (
         <>
           <Gap height={Platform.OS === 'android' ? 195 : 145} />
           <EmptyState
@@ -612,7 +623,7 @@ const PostListPublic: FC<PostListProps> = (props: PostListProps) => {
             }}
           />
         </>
-      )}
+      ) : null}
       <ModalReport
         modalVisible={reportToast}
         onPressClose={() => setReportToast(false)}
