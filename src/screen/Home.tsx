@@ -61,7 +61,7 @@ import FavoriteMusician from './ListCard/FavoriteMusician';
 import {CheckCircle2Icon, SearchIcon} from '../assets/icon';
 import {MainTabParams, RootStackParams} from '../navigations';
 import RecomendedMusician from './ListCard/RecomendedMusician';
-import {profileStorage, storage} from '../hooks/use-storage.hook';
+import {storage} from '../hooks/use-storage.hook';
 import {useNotificationHook} from '../hooks/use-notification.hook';
 import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
@@ -77,6 +77,7 @@ import {randomString} from '../utils/randomString';
 import {ProgressCard} from '../components/molecule/ListCard/ProgressCard';
 import EventList from './ListCard/EventList';
 import {useEventHook} from '../hooks/use-event.hook';
+import {CrashInit} from '../service/crashReport';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -413,6 +414,12 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       i18n.changeLanguage(dataProfile?.data.language);
     }
   }, [dataProfile]);
+
+  useEffect(() => {
+    if (isLogin && dataProfile?.data.email) {
+      CrashInit();
+    }
+  }, [dataProfile, isLogin]);
 
   const handleMiniPlayerOnPress = () => {
     hidePlayer();
