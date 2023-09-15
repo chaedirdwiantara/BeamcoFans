@@ -97,6 +97,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [reportToast, setReportToast] = useState(false);
+  const [reportSuccessToast, setReportSuccessToast] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
@@ -353,6 +354,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   //? set status disable after report sent to make sure the status report is updated
   useEffect(() => {
     if (dataReport && selectedIdPost) {
+      setReportToast(false);
       if (!idReported.includes(selectedIdPost)) {
         setIdReported([...idReported, selectedIdPost]);
       }
@@ -371,8 +373,13 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
     setPostReport(reportBody);
   };
 
+  const onModalReportHide = () => {
+    setReportSuccessToast(true);
+  };
+
   const closeModalSuccess = () => {
     setDataReport(false);
+    setReportSuccessToast(false);
   };
   // ! END OF REPORT POST AREA
 
@@ -512,7 +519,9 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                       ? false
                       : true
                   }
-                  reportSent={idReported.includes(item.id) ?? item.reportSent}
+                  reportSent={
+                    idReported.includes(item.id) ? true : item.reportSent
+                  }
                   onProfile
                   noNavigate
                   children={
@@ -583,10 +592,15 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
         onPressOk={sendOnPress}
         category={setSelectedCategory}
         reportReason={setReason}
+        modalOnHide={
+          dataReport
+            ? onModalReportHide
+            : () => console.log(modalShare, 'modal is hide')
+        }
       />
       {/* //? When report succesfully */}
       <SuccessToast
-        toastVisible={dataReport}
+        toastVisible={reportSuccessToast}
         onBackPressed={closeModalSuccess}
         caption={t('ModalComponent.Report.ReportSuccess')}
       />

@@ -149,6 +149,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [modalShare, setModalShare] = useState<boolean>(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [reportToast, setReportToast] = useState(false);
+  const [reportSuccessToast, setReportSuccessToast] = useState(false);
   const [modalDonate, setModalDonate] = useState<boolean>(false);
   const [modalSuccessDonate, setModalSuccessDonate] = useState<boolean>(false);
   const [trigger2ndModal, setTrigger2ndModal] = useState<boolean>(false);
@@ -968,13 +969,13 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           break;
       }
       setSelectedMenuPost(undefined);
-      setSelectedIdPost(undefined);
     }
   }, [selectedIdPost, selectedMenuPost]);
 
   //? set status disable after report sent to make sure the status report is updated
   useEffect(() => {
     if (dataReport && selectedIdPost) {
+      setReportToast(false);
       if (!idReported.includes(selectedIdPost)) {
         setIdReported([...idReported, selectedIdPost]);
       }
@@ -1002,8 +1003,13 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     setPostReport(reportType === 'post' ? reportBodyPost : reportBodyReplies);
   };
 
+  const onModalReportHide = () => {
+    setReportSuccessToast(true);
+  };
+
   const closeModalSuccess = () => {
     setDataReport(false);
+    setReportSuccessToast(false);
   };
   // ! END OF REPORT POST AREA
 
@@ -1091,8 +1097,9 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
                 disableComment={false}
                 showDropdown
                 reportSent={
-                  idReported.includes(dataPostDetail.id) ??
-                  dataPostDetail.reportSent
+                  idReported.includes(dataPostDetail.id)
+                    ? true
+                    : dataPostDetail.reportSent
                 }
                 children={
                   <DetailChildrenCard
@@ -1203,25 +1210,19 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           onPressOk={sendOnPress}
           category={setSelectedCategory}
           reportReason={setReason}
-        />
-        <SsuToast
-          modalVisible={dataReport}
-          onBackPressed={closeModalSuccess}
-          children={
-            <View style={[styles.modalContainer]}>
-              <TickCircleIcon
-                width={widthResponsive(21)}
-                height={heightPercentage(20)}
-                stroke={color.Neutral[10]}
-              />
-              <Gap width={widthResponsive(7)} />
-              <Text style={[typography.Button2, styles.textStyle]}>
-                {t('ModalComponent.Report.ReportSuccess')}
-              </Text>
-            </View>
+          modalOnHide={
+            dataReport
+              ? onModalReportHide
+              : () => console.log(modalShare, 'modal is hide')
           }
-          modalStyle={{marginHorizontal: widthResponsive(24)}}
         />
+        {/* //? When report succesfully */}
+        <SuccessToast
+          toastVisible={reportSuccessToast}
+          onBackPressed={closeModalSuccess}
+          caption={t('ModalComponent.Report.ReportSuccess')}
+        />
+
         <ModalDonate
           userId={data.musician.uuid}
           onPressDonate={onPressDonate}
