@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -33,6 +37,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>CodePushDeploymentKey</key>
+	<string>R0AK_73Rp6ndyUMi789f09afscnWRa1VxO2Jv</string>
 	<key>FacebookAppID</key>
 	<string>687852656020966</string>
 	<key>FacebookClientToken</key>
@@ -60,11 +66,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-  <string>Allow $(PRODUCT_NAME) to use your camera to post image and take a photo to set as my profile image</string>
+	<string>Allow $(PRODUCT_NAME) to use your camera to post image and take a photo to set as my profile image</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-  <string>Allow $(PRODUCT_NAME) to access your photos to post image or video and to take a photo to set as my profile image</string>
+	<string>Allow $(PRODUCT_NAME) to access your photos to post image or video and to take a photo to set as my profile image</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-Black.ttf</string>
@@ -81,6 +87,7 @@
 	<array>
 		<string>audio</string>
 		<string>fetch</string>
+		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -97,7 +104,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CodePushDeploymentKey</key>
-	<string>ADGSNH7aEOh61HPoXI0Ceznw-pPZdVvzseoPt</string>
 </dict>
 </plist>

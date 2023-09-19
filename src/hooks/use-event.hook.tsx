@@ -5,6 +5,7 @@ import {
   getEventLineUp,
   getEventMusicianTipped,
   getEventTopTipper,
+  getStatusLiveMusician,
   listConcert,
   listEventHome,
   listEventHomePublic,
@@ -152,6 +153,17 @@ export const useEventHook = () => {
     });
   };
 
+  const useEventMusicianLiveStatus = (eventId: string, musicianId: string) => {
+    return useQuery(
+      [`event/${eventId}/${musicianId}`],
+      () => getStatusLiveMusician(eventId, musicianId),
+      {
+        refetchInterval: 5000,
+        refetchIntervalInBackground: true,
+      },
+    );
+  };
+
   return {
     getListDataMerch,
     getListDataConcert,
@@ -164,5 +176,6 @@ export const useEventHook = () => {
     useOrderListBookYay,
     useEventTopTipper,
     useEventMusicianTipped,
+    useEventMusicianLiveStatus,
   };
 };

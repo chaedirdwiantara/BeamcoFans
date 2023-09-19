@@ -232,6 +232,7 @@ export const EventDetail: React.FC<EventDetailProps> = ({
             <LineUp
               dataLineUp={dataLineUp?.data}
               isLoading={isLoadingLineUp || isRefetchingLineUp}
+              eventId={id}
             />
           ) : (
             <TopTiper
