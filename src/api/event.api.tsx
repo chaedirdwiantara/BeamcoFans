@@ -184,3 +184,21 @@ export const getStatusLiveMusician = async (
 
   return data;
 };
+
+export const getEventLiveRank = async (
+  events: string,
+  musician?: string,
+  props?: ParamsProps,
+): Promise<EventTopTipperResponse> => {
+  const {data} = await KrakatauAPI().request<EventTopTipperResponse>({
+    url: `/events/live/top-tipper`,
+    method: 'GET',
+    params: {
+      events,
+      musician,
+      ...props,
+    },
+  });
+
+  return data;
+};
