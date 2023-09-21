@@ -131,6 +131,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
               goToSetting={goToSetting}
               goToFollowing={goToFollowing}
               goToCreatePlaylist={goToCreatePlaylist}
+              qrType="myProfile"
             />
           )}
         </>

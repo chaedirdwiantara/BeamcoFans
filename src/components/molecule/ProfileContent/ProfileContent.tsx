@@ -73,6 +73,7 @@ interface ProfileContentProps {
   goToFollowing: () => void;
   goToSetting: () => void;
   goToCreatePlaylist: () => void;
+  qrType: 'fans' | 'otherMusician' | 'myProfile';
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -93,6 +94,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   goToSetting,
   goToFollowing,
   goToCreatePlaylist,
+  qrType,
 }) => {
   const {t} = useTranslation();
   const navigation =
@@ -159,7 +161,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   };
 
   const onPressShareQR = () => {
-    // navigation.navigate('MyQRCode', {uuid: profile.uuid});
+    navigation.navigate('MyQRCode', {uuid: profile.uuid, type: qrType});
   };
 
   //! BLOCK/UNBLOCK AREA
