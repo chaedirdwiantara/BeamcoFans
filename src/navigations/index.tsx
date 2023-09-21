@@ -252,7 +252,7 @@ export type RootStackParams = {
   };
   SendReport: {title: string};
   Setting: undefined;
-  MyQRCode: {uuid?: string};
+  MyQRCode: {uuid?: string; type?: 'fans' | 'otherMusician' | 'myProfile'};
   Security: {
     info?: boolean;
     message?: string;

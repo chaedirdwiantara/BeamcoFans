@@ -123,6 +123,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
         onPressGoBack={onPressGoBack}
         goToSetting={() => {}}
         goToCreatePlaylist={() => {}}
+        qrType="fans"
       />
     </View>
   );
