@@ -262,7 +262,7 @@
       "Latest": "Latest",
       "Popular": "Popular"
     },
-    "FilterBy":{
+    "FilterBy": {
       "Title": "Filter by",
       "All": "All",
       "Exclusive": "Exclusive",
@@ -1179,5 +1179,10 @@
     "ValidUntil": "Valid until",
     "Claim": "Claim",
     "Claimed": "Claimed"
+  },
+  "LiveTipping": {
+    "SwipeUp": "Swipe Up To Tip",
+    "TooFast": "You swipe to fast!",
+    "EnjoyShow": "Let’s enjoy the show\nand take a rest for few second"
   }
 }

@@ -6,6 +6,7 @@ import {
   CreateIapResponseType,
   CreditResponseType,
   GetTransactionHistoryResponseType,
+  LiveTippingParams,
   SessionPurchaseProps,
   SessionPurchaseResponseType,
   SubsECParams,
@@ -161,3 +162,13 @@ export const getHistoryTransaction =
 
     return data;
   };
+
+export const liveTipping = async (props?: LiveTippingParams): Promise<any> => {
+  const {data} = await SsuAPI().request<any>({
+    url: '/donation/tipping',
+    method: 'POST',
+    data: props,
+  });
+
+  return data;
+};

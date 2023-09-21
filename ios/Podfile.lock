@@ -519,6 +519,8 @@ PODS:
   - React-jsinspector (0.70.2)
   - React-logger (0.70.2):
     - glog
+  - react-native-background-actions (3.0.0):
+    - React-Core
   - react-native-date-picker (4.2.13):
     - React-Core
   - react-native-fbsdk-next (11.1.0):
@@ -782,6 +784,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-background-actions (from `../node_modules/react-native-background-actions`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
@@ -934,6 +937,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-background-actions:
+    :path: "../node_modules/react-native-background-actions"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
   react-native-fbsdk-next:
@@ -1089,6 +1094,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 53bd208e5c27939c6e6365528393445a596a9a2b
   React-jsinspector: 26c42646ab0bb69e29e837e23754fe7121eeaf94
   React-logger: 1bfd109a0ffa4c0989bbfac0c2d8c4abe4637faa
+  react-native-background-actions: 30c71460dd98a2aaae31f6f5c87546dd243b8921
   react-native-date-picker: 04e866ba4e7857f83abd504ad42e787f0f02ae00
   react-native-fbsdk-next: c78dede90e3c50ab6936a7d56c43e1a9eb37e25a
   react-native-get-random-values: a6ea6a8a65dc93e96e24a11105b1a9c8cfe1d72a
