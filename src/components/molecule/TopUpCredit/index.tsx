@@ -44,10 +44,10 @@ export const TopUpCreditContent: React.FC<TopUpCreditProps> = ({
     purchaseUpdateListener,
     purchaseErrorListener,
   } = useIapHook();
-  const {data: dataHistory, isLoading} = useQuery(
-    ['/transaction-history'],
-    () => getTransactionHistory(),
-  );
+  const {data: dataHistory, isLoading} = useQuery({
+    queryKey: ['transaction-history'],
+    queryFn: () => getTransactionHistory(),
+  });
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [filter] = useState([

@@ -4,9 +4,10 @@ import ErrorBoundary from 'react-native-error-boundary';
 import {AppProvider} from './context/app.context';
 import {PortalProvider} from '@gorhom/portal';
 import {RootStackScreen} from './navigations';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClientProvider} from 'react-query';
 import {CrashLog, CrashRecord} from './service/crashReport';
 import codePush from 'react-native-code-push';
+import {queryClient} from './service/queryClient';
 
 let codePushOptions = {checkFrequency: codePush.CheckFrequency.ON_APP_START};
 
@@ -17,8 +18,6 @@ Sentry.init({
 });
 
 const App = () => {
-  const queryClient = new QueryClient();
-
   const errorHandler = (error: Error, stackTrace: string) => {
     CrashLog({message: stackTrace});
     CrashRecord({error: error});
