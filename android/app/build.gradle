@@ -131,9 +131,9 @@ def reactNativeArchitectures() {
     return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
 
-ext.versionMajor = 0
+ext.versionMajor = 1
 ext.versionMinor = 0
-ext.versionPatch = 13
+ext.versionPatch = 2
 ext.versionClassifier = null
 ext.isSnapshot = false
 

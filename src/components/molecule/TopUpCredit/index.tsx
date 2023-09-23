@@ -37,7 +37,6 @@ export const TopUpCreditContent: React.FC<TopUpCreditProps> = ({
   const {getCreditCount, creditCount, getTransactionHistory} = useCreditHook();
   const {
     iapProduct,
-    initIAP,
     endIap,
     getProductIap,
     purchaseProduct,
@@ -60,7 +59,6 @@ export const TopUpCreditContent: React.FC<TopUpCreditProps> = ({
   };
 
   useEffect(() => {
-    initIAP();
     getProductIap();
     loadIapListener();
 
