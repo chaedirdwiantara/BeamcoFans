@@ -50,7 +50,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
     useEventHook();
   const profile = profileStorage();
 
-  const [showModalEmpty, setShowModalEmpty] = useState<boolean>(false);
+  const [showModalEmpty, setShowModalEmpty] = useState<boolean>(true);
   const [showModalSession, setShowModalSession] = useState<boolean>(false);
   const [showMoney, setShowMoney] = useState<boolean>(true);
   const [opacityMoney, setOpacityMoney] = useState<number>(1);
@@ -89,7 +89,9 @@ export const LiveTipping: FC<LiveTippingProps> = ({
   }, []);
 
   useEffect(() => {
-    setShowModalSession(!dataStatus?.data as boolean);
+    if (dataStatus) {
+      setShowModalSession(!dataStatus?.data as boolean);
+    }
   }, [dataStatus]);
 
   const formatRanker = (data: EventTopTipper[]) => {
@@ -368,6 +370,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
                     username={v.username}
                     credit={v.credit}
                     isYou={v.isYou}
+                    avatar={v.avatar}
                   />
                   {i < 3 && <Gap width={widthResponsive(8)} />}
                 </React.Fragment>
@@ -497,7 +500,12 @@ export const LiveTipping: FC<LiveTippingProps> = ({
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate('TopUpCredit')}>
+                onPress={() => {
+                  setShowModalEmpty(false);
+                  setTimeout(() => {
+                    navigation.navigate('TopUpCredit');
+                  }, 500);
+                }}>
                 <Text
                   style={[
                     Typography.Body2,
