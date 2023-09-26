@@ -61,6 +61,7 @@ import {
 } from '../../utils/detailPostUtils';
 import {feedReportRecorded} from '../../store/idReported';
 import {useBlockHook} from '../../hooks/use-block.hook';
+import {userProfile} from '../../store/userProfile.store';
 
 export const {width} = Dimensions.get('screen');
 
@@ -110,14 +111,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     addPlaylistFeed,
   } = usePlayerHook();
 
-  const {
-    dataUserCheck,
-    setDataUserCheck,
-    isLoading,
-    getCheckUser,
-    dataProfile,
-    getProfileUser,
-  } = useProfileHook();
+  const {dataUserCheck, setDataUserCheck, getCheckUser} = useProfileHook();
 
   const {
     shareLink,
@@ -133,6 +127,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const {creditCount, getCreditCount} = useCreditHook();
 
   const MyUuid = profileStorage()?.uuid;
+  const {profileStore} = userProfile();
 
   const data = route.params;
   const musicianName = data.musician.fullname;
@@ -159,6 +154,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const [modalConfirm, setModalConfirm] = useState<boolean>(false);
   const [selectedUserName, setSelectedUserName] = useState<string>('');
   const [toastBlockSucceed, setToastBlockSucceed] = useState<boolean>(false);
+  const [modalBanned, setModalBanned] = useState<boolean>(false);
 
   // * VIEW MORE HOOKS
   const [viewMore, setViewMore] = useState<string>('');
@@ -233,19 +229,13 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     }, [show]),
   );
 
-  // ! FIRST LOAD when open the screen
-  // ? Get Profile
-  useEffect(() => {
-    getProfileUser();
-  }, []);
-
   // ? Set profile picture for profile img
   useEffect(() => {
-    dataProfile?.data.images.length !== 0 &&
-    dataProfile?.data.images !== undefined
-      ? setDataProfileImg(dataProfile?.data.images[0].image)
+    profileStore?.data.images.length !== 0 &&
+    profileStore?.data.images !== undefined
+      ? setDataProfileImg(profileStore?.data.images[0].image)
       : '';
-  }, [dataProfile]);
+  }, [profileStore]);
 
   //  ? Get Detail Post
   useFocusEffect(
@@ -427,15 +417,19 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   }, [dataPostDetail]);
   // ? Handle Comment To Post
   const commentOnPress = (id: string, username: string) => {
-    setInputCommentModal(true);
-    setMusicianId(id);
-    setUserName(username);
-    setCmntToCmntLvl0({
-      id: makeId(5),
-      userName: dataProfile?.data.fullname ? dataProfile.data.fullname : '',
-      commentLvl: 0,
-      parentID: dataPostDetail?.id ? dataPostDetail.id : '0',
-    });
+    if (profileStore.data.isBanned) {
+      setModalBanned(true);
+    } else {
+      setInputCommentModal(true);
+      setMusicianId(id);
+      setUserName(username);
+      setCmntToCmntLvl0({
+        id: makeId(5),
+        userName: profileStore?.data.fullname ? profileStore.data.fullname : '',
+        commentLvl: 0,
+        parentID: dataPostDetail?.id ? dataPostDetail.id : '0',
+      });
+    }
   };
 
   // ? Handle Comment To Comment
@@ -509,15 +503,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         isLiked: false,
         timeAgo: 'posting...',
         commentOwner: {
-          UUID: dataProfile?.data.uuid ? dataProfile?.data.uuid : '',
-          fullname: dataProfile?.data.fullname
-            ? dataProfile?.data.fullname
+          UUID: profileStore?.data.uuid ? profileStore?.data.uuid : '',
+          fullname: profileStore?.data.fullname
+            ? profileStore?.data.fullname
             : '',
-          username: dataProfile?.data.username
-            ? dataProfile?.data.username
+          username: profileStore?.data.username
+            ? profileStore?.data.username
             : '',
-          image: dataProfile?.data.images
-            ? dataProfile?.data.images[0]?.image
+          image: profileStore?.data.images
+            ? profileStore?.data.images[0]?.image
             : '',
         },
       },
@@ -649,7 +643,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         let commentNow = commentLvl1.filter((x: CommentList) =>
           idComment.includes(x.id),
         )[0];
-        if (t(selectedMenu.label) === 'Delete Reply') {
+        if (t(selectedMenu.value) === '2') {
           setCommentLvl1(
             commentLvl1.filter((x: CommentList) => !idComment.includes(x.id)),
           );
@@ -662,16 +656,20 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             commentNow.parentID,
           ]);
         }
-        if (t(selectedMenu.label) === 'Edit Reply') {
-          setCmntToCmnt({
-            id: commentNow.id,
-            userName: commentNow.commentOwner.username,
-            commentLvl: selectedLvlComment,
-            parentID: commentNow.parentID,
-          });
-          setCommentCaption(commentNow.caption);
-          setUpdateComment(true);
-          setDisallowStatic(false);
+        if (t(selectedMenu.value) === '1') {
+          if (profileStore.data.isBanned) {
+            setModalBanned(true);
+          } else {
+            setCmntToCmnt({
+              id: commentNow.id,
+              userName: commentNow.commentOwner.username,
+              commentLvl: selectedLvlComment,
+              parentID: commentNow.parentID,
+            });
+            setCommentCaption(commentNow.caption);
+            setUpdateComment(true);
+            setDisallowStatic(false);
+          }
         }
       }
       // * delete/edit comment lvl2
@@ -679,7 +677,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         let commentNow = commentLvl2.filter((x: CommentList2) =>
           idComment.includes(x.id),
         )[0];
-        if (t(selectedMenu.label) === 'Delete Reply') {
+        if (t(selectedMenu.value) === '2') {
           setCommentLvl2(
             commentLvl2.filter((x: CommentList2) => !idComment.includes(x.id)),
           );
@@ -689,16 +687,20 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             commentNow.parentID,
           ]);
         }
-        if (t(selectedMenu.label) === 'Edit Reply') {
-          setCmntToCmnt({
-            id: commentNow.id,
-            userName: commentNow.commentOwner.username,
-            commentLvl: selectedLvlComment,
-            parentID: commentNow.parentID,
-          });
-          setCommentCaption(commentNow.caption);
-          setUpdateComment(true);
-          setDisallowStatic(false);
+        if (t(selectedMenu.value) === '1') {
+          if (profileStore.data.isBanned) {
+            setModalBanned(true);
+          } else {
+            setCmntToCmnt({
+              id: commentNow.id,
+              userName: commentNow.commentOwner.username,
+              commentLvl: selectedLvlComment,
+              parentID: commentNow.parentID,
+            });
+            setCommentCaption(commentNow.caption);
+            setUpdateComment(true);
+            setDisallowStatic(false);
+          }
         }
       }
       // * delete/edit comment lvl3
@@ -706,7 +708,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         let commentNow = commentLvl3.filter((x: CommentList3) =>
           idComment.includes(x.id),
         )[0];
-        if (t(selectedMenu.label) === 'Delete Reply') {
+        if (t(selectedMenu.value) === '2') {
           setCommentLvl3(
             commentLvl3.filter((x: CommentList3) => !idComment.includes(x.id)),
           );
@@ -716,16 +718,20 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             commentNow.parentID,
           ]);
         }
-        if (t(selectedMenu.label) === 'Edit Reply') {
-          setCmntToCmnt({
-            id: commentNow.id,
-            userName: commentNow.commentOwner.username,
-            commentLvl: selectedLvlComment,
-            parentID: commentNow.parentID,
-          });
-          setCommentCaption(commentNow.caption);
-          setUpdateComment(true);
-          setDisallowStatic(false);
+        if (t(selectedMenu.value) === '1') {
+          if (profileStore.data.isBanned) {
+            setModalBanned(true);
+          } else {
+            setCmntToCmnt({
+              id: commentNow.id,
+              userName: commentNow.commentOwner.username,
+              commentLvl: selectedLvlComment,
+              parentID: commentNow.parentID,
+            });
+            setCommentCaption(commentNow.caption);
+            setUpdateComment(true);
+            setDisallowStatic(false);
+          }
         }
       }
       // ? the call of update api will be handled on handleReplyOnPress
@@ -749,15 +755,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         isLiked: false,
         timeAgo: 'posting...',
         commentOwner: {
-          UUID: dataProfile?.data.uuid ? dataProfile?.data.uuid : '',
-          fullname: dataProfile?.data.fullname
-            ? dataProfile?.data.fullname
+          UUID: profileStore?.data.uuid ? profileStore?.data.uuid : '',
+          fullname: profileStore?.data.fullname
+            ? profileStore?.data.fullname
             : '',
-          username: dataProfile?.data.username
-            ? dataProfile?.data.username
+          username: profileStore?.data.username
+            ? profileStore?.data.username
             : '',
-          image: dataProfile?.data.images
-            ? dataProfile?.data.images[0]?.image
+          image: profileStore?.data.images
+            ? profileStore?.data.images[0]?.image
             : '',
         },
       },
@@ -799,14 +805,18 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   // ! LIKE AREA
   // * Handle Like / Unlike on Post
   const likeOnPress = (id: string, isLiked: boolean) => {
-    useLikeStatus(
-      id,
-      isLiked,
-      likePressed,
-      setUnlikePost,
-      setLikePost,
-      setLikePressed,
-    );
+    if (profileStore.data.isBanned) {
+      setModalBanned(true);
+    } else {
+      useLikeStatus(
+        id,
+        isLiked,
+        likePressed,
+        setUnlikePost,
+        setLikePost,
+        setLikePressed,
+      );
+    }
   };
 
   // * Handle Like / Unlike on Comment Section
@@ -844,13 +854,21 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   // ? Credit onPress
   const tokenOnPress = () => {
-    setModalDonate(true);
+    if (profileStore.data.isBanned) {
+      setModalBanned(true);
+    } else {
+      setModalDonate(true);
+    }
   };
 
   const shareOnPress = (content: PostList) => {
-    setModalShare(true);
-    setSelectedMusicianId(content.id);
-    setSelectedSharePost(content);
+    if (profileStore.data.isBanned) {
+      setModalBanned(true);
+    } else {
+      setModalShare(true);
+      setSelectedMusicianId(content.id);
+      setSelectedSharePost(content);
+    }
   };
 
   const onModalShareHide = () => {
@@ -986,7 +1004,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     const reportBodyPost: ReportParamsProps = {
       reportType: reportType ?? 'post',
       reportTypeId: selectedIdPost ?? '0',
-      reporterUuid: dataProfile?.data.uuid ?? '',
+      reporterUuid: profileStore?.data.uuid ?? '',
       reportedUuid: dataPostDetail?.musician.uuid ?? '',
       reportCategory: t(selectedCategory ?? ''),
       reportReason: reason ?? '',
@@ -995,7 +1013,7 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     const reportBodyReplies: ReportParamsProps = {
       reportType: reportType ?? 'replies',
       reportTypeId: idComment ?? '0',
-      reporterUuid: dataProfile?.data.uuid ?? '',
+      reporterUuid: profileStore?.data.uuid ?? '',
       reportedUuid: selectedUserUuid ?? '',
       reportCategory: t(selectedCategory ?? ''),
       reportReason: reason ?? '',
@@ -1051,6 +1069,15 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     if (dataPostDetail?.musician.uuid === selectedUserUuid) {
       navigation.goBack();
     }
+  };
+
+  const handleCloseBanModal = () => {
+    setModalBanned(false);
+  };
+
+  const handleOkBanModal = () => {
+    setModalBanned(false);
+    navigation.navigate('Setting');
   };
 
   return (
@@ -1137,11 +1164,13 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             selectedMenu={setSelectedMenu}
             selectedIdComment={setIdComment}
             selectedLvlComment={setSelectedLvlComment}
-            profileUUID={dataProfile?.data.uuid ? dataProfile.data.uuid : ''}
+            profileUUID={profileStore?.data.uuid ? profileStore.data.uuid : ''}
             deletedCommentParentId={parentIdDeletedComment}
             addCommentParentId={parentIdAddComment}
             selectedUserUuid={setSelectedUserUuid}
             selectedUserName={setSelectedUserName}
+            isBanned={profileStore?.data.isBanned}
+            modalBanned={setModalBanned}
           />
         ) : null}
         <ImageModal
@@ -1255,6 +1284,19 @@ export const PostDetail: FC<PostDetailProps> = ({route}: PostDetailProps) => {
           toastVisible={toastBlockSucceed}
           onBackPressed={toastOnclose}
           caption={`${t('General.BlockSucceed')} @${selectedUserName}`}
+        />
+
+        {/* //? Banned user modal */}
+        <ModalConfirm
+          modalVisible={modalBanned}
+          title={`${t('Setting.PreventInteraction.Title')}`}
+          subtitle={`${t('Setting.PreventInteraction.Subtitle')}`}
+          yesText={`${t('Btn.Send')}`}
+          noText={`${t('Btn.Cancel')}`}
+          onPressClose={handleCloseBanModal}
+          onPressOk={handleOkBanModal}
+          textNavigate={`${t('Setting.PreventInteraction.TextNavigate')}`}
+          textOnPress={handleOkBanModal}
         />
       </ScrollView>
     </View>

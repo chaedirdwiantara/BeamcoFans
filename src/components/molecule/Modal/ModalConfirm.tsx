@@ -12,6 +12,7 @@ import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 import {useTranslation} from 'react-i18next';
+import {color} from '../../../theme';
 
 interface ModalConfirmProps {
   title?: string;
@@ -24,6 +25,8 @@ interface ModalConfirmProps {
   noText?: string;
   oneButton?: boolean;
   rightButtonStyle?: ViewStyle;
+  textNavigate?: string;
+  textOnPress?: () => void;
 }
 
 export const ModalConfirm: React.FC<ModalConfirmProps> = (
@@ -41,7 +44,36 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = (
     noText,
     oneButton,
     rightButtonStyle,
+    textNavigate,
+    textOnPress,
   } = props;
+
+  const renderHighlightedSubtitle = (
+    markedText: string,
+    textToSearch: string,
+  ) => {
+    const indexStart = textToSearch.indexOf(markedText);
+    const indexEnd = indexStart + markedText.length;
+
+    if (indexStart === -1) {
+      return <Text style={styles.highlightedText}>{textToSearch}</Text>;
+    }
+
+    const beforeHighlight = textToSearch.substring(0, indexStart);
+    const highlighted = textToSearch.substring(indexStart, indexEnd);
+    const afterHighlight = textToSearch.substring(indexEnd);
+
+    return (
+      <Text style={styles.subtitle}>
+        {beforeHighlight}
+        <Text style={styles.highlightedText} onPress={textOnPress}>
+          {highlighted}
+        </Text>
+        {afterHighlight}
+      </Text>
+    );
+  };
+
   return (
     <Modal
       isVisible={modalVisible}
@@ -55,7 +87,11 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = (
       <View style={styles.root}>
         <View style={styles.card}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtitle}>{subtitle}</Text>
+          {textNavigate && subtitle ? (
+            renderHighlightedSubtitle(textNavigate, subtitle)
+          ) : (
+            <Text style={styles.subtitle}>{subtitle}</Text>
+          )}
           {!oneButton ? (
             <View style={styles.containerButton}>
               <TouchableOpacity onPress={onPressClose}>
@@ -122,5 +158,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthPercentage(12),
     color: Color.Neutral[10],
     fontFamily: Font.InterRegular,
+  },
+  highlightedText: {
+    color: color.Pink[200],
   },
 });

@@ -23,8 +23,10 @@ import {
   ProfileProgressResponseType,
   ProfileResponseType,
 } from '../interface/profile.interface';
+import {userProfile} from '../store/userProfile.store';
 
 export const useProfileHook = () => {
+  const {setProfileStore} = userProfile();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
@@ -46,6 +48,7 @@ export const useProfileHook = () => {
     try {
       const response = await getProfile();
       setDataProfile(response);
+      setProfileStore(response);
     } catch (error) {
       console.log(error);
     } finally {
