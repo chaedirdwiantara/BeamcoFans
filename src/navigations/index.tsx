@@ -322,7 +322,7 @@ export type RootStackParams = {
   TicketDetail: undefined;
   Shop: undefined;
   EventDetail: {id: string};
-  LiveTipping: {id: string; eventId: string};
+  LiveTipping: {id: string; eventId: string; endDate: string};
   ClaimReward: {
     id: string;
   };
