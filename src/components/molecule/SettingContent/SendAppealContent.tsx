@@ -60,7 +60,7 @@ export const SendAppealContent: React.FC<SendAppealProps> = ({
   const onPressSend = async () => {
     try {
       const selectedId = selectedViolation
-        ? {id: selectedViolation.reportedViolationId}
+        ? {reportedViolationId: selectedViolation.reportedViolationId}
         : {};
       const payload = {
         ...selectedId,

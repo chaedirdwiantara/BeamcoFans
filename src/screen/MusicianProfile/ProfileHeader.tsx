@@ -93,7 +93,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
             <Gap height={19} />
             {type === '' && (
               <View style={styles.containerFooter}>
-                <Text style={styles.description}>{bio}</Text>
+                <Text style={styles.description}>
+                  {bio?.replace(/\n/g, ' ')}
+                </Text>
                 <Gap height={16} />
                 {!blocked && (
                   <View style={styles.buttonContainer}>

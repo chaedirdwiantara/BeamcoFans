@@ -145,7 +145,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
 
             {type === 'profile' && (
               <View style={styles.containerFooter}>
-                <Text style={styles.description}>{bio}</Text>
+                <Text style={styles.description}>
+                  {bio?.replace(/\n/g, ' ')}
+                </Text>
                 {noEdit ? null : (
                   <ButtonGradient
                     label={t('Profile.Button.Edit')}
