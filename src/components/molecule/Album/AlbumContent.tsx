@@ -120,6 +120,7 @@ export const AlbumContent: React.FC<Props> = ({
   const [reportToast, setReportToast] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const [reason, setReason] = useState<string>('');
+  const [reportSuccessToast, setReportSuccessToast] = useState(false);
 
   useEffect(() => {
     if (isFocused && isPlaying) {
@@ -194,6 +195,11 @@ export const AlbumContent: React.FC<Props> = ({
 
   const closeModalSuccess = () => {
     setDataReport(false);
+    setReportSuccessToast(false);
+  };
+
+  const onModalReportHide = () => {
+    setReportSuccessToast(true);
   };
 
   const onPressCoin = () => {
@@ -432,10 +438,15 @@ export const AlbumContent: React.FC<Props> = ({
         onPressOk={sendOnPress}
         category={setSelectedCategory}
         reportReason={setReason}
+        modalOnHide={
+          dataReport
+            ? onModalReportHide
+            : () => console.log(modalShare, 'modal is hide')
+        }
       />
       {/* //? When report succesfully */}
       <SuccessToast
-        toastVisible={dataReport}
+        toastVisible={reportSuccessToast}
         onBackPressed={closeModalSuccess}
         caption={t('ModalComponent.Report.ReportSuccess')}
       />
