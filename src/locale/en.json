@@ -796,7 +796,7 @@
       "Edit": "Edit Playlist",
       "Delete": "Delete Playlist",
       "Share": "Share Playlist",
-      "Success": "{{song}} successfully added to playlist {{playlist}}", //update di tambahin nama song sama playlist
+      "Success": "{{song}} successfully added to playlist {{playlist}}",
       "Remove": "Remove from Playlist",
       "ViewAlbum": "View Album"
     },
