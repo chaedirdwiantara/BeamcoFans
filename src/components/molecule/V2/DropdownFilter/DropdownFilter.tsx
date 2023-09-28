@@ -1,11 +1,13 @@
 import {
+  Dimensions,
   NativeModules,
   Platform,
   StyleSheet,
+  TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button} from '../../../atom';
 import {widthResponsive} from '../../../../utils';
 import FilterModal from './modalFilter';
@@ -15,6 +17,7 @@ import {color} from '../../../../theme';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
+const {height} = Dimensions.get('screen');
 
 interface DropdownV2Props {
   selectedMenu: (data: DataDropDownType) => void;
@@ -22,8 +25,15 @@ interface DropdownV2Props {
   iconContainerStyle?: ViewStyle;
   labelCaption: string;
   topPosition?: number;
+  bottomPosition?: number;
   leftPosition: number;
   containerStyle?: ViewStyle;
+  textCustomStyle?: TextStyle;
+  compWitdth?: number;
+  iconColor?: string;
+  dropdownStyle?: ViewStyle;
+  gapTextToIcon?: number;
+  iconSize?: number;
 }
 
 const DropDownFilter: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
@@ -33,8 +43,15 @@ const DropDownFilter: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
     iconContainerStyle,
     labelCaption,
     topPosition = 0,
+    bottomPosition = 0,
     leftPosition,
     containerStyle,
+    textCustomStyle,
+    compWitdth,
+    iconColor,
+    dropdownStyle,
+    gapTextToIcon,
+    iconSize,
   } = props;
   const [offsetSortFilter, setOffsetSortFilter] = useState<{
     px: number;
@@ -42,6 +59,9 @@ const DropDownFilter: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
   }>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [menuSelected, setMenuSelected] = useState<DataDropDownType>();
+  const [compHeight, setCompHeight] = useState(0);
+  const [dropDownHeight, setDropdownHeight] = useState(0);
+  const [heightPercent, setHeightPercent] = useState<number>(0);
 
   const handleOnClose = () => {
     if (menuSelected !== undefined) {
@@ -53,6 +73,13 @@ const DropDownFilter: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
   const handleSelectedOnPress = (data: DataDropDownType) => {
     setMenuSelected(data);
   };
+
+  useEffect(() => {
+    if (offsetSortFilter) {
+      setHeightPercent(((height - offsetSortFilter?.py) * 100) / height);
+      setCompHeight(dataFilter.length * widthResponsive(35));
+    }
+  }, [offsetSortFilter]);
 
   return (
     <View
@@ -79,10 +106,13 @@ const DropDownFilter: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
         label={labelCaption}
         type="border"
         containerStyles={styles.categoryContainerStyle}
-        textStyles={styles.categoryTextStyle}
+        textStyles={{...styles.categoryTextStyle, ...textCustomStyle}}
         borderColor={'transparent'}
         typeOfButton={'withIcon'}
         onPress={() => setIsModalVisible(true)}
+        iconColor={iconColor}
+        iconSize={iconSize}
+        gapTextToIcon={gapTextToIcon}
       />
       {offsetSortFilter !== undefined && (
         <FilterModal
@@ -92,11 +122,20 @@ const DropDownFilter: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
           selectedMenu={handleSelectedOnPress}
           sendCategory={() => {}}
           translation={true}
-          xPosition={offsetSortFilter?.px}
+          xPosition={0}
           yPosition={offsetSortFilter?.py}
           containerStyle={{
-            top: offsetSortFilter?.py + topPosition,
-            left: offsetSortFilter?.px + leftPosition,
+            top:
+              heightPercent > 45
+                ? offsetSortFilter?.py + ms(2) + topPosition
+                : offsetSortFilter?.py +
+                  ms(2) -
+                  (compHeight + dropDownHeight + 15) +
+                  bottomPosition,
+            left: compWitdth
+              ? offsetSortFilter?.px - compWitdth + leftPosition
+              : offsetSortFilter?.px - widthResponsive(117) + leftPosition,
+            ...dropdownStyle,
           }}
           textStyle={{fontSize: mvs(12)}}
           buttonContainerStyle={{

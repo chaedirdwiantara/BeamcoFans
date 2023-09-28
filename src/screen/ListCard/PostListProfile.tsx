@@ -2,6 +2,7 @@ import React, {FC, useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
+  Platform,
   RefreshControl,
   StyleSheet,
   Text,
@@ -431,7 +432,9 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
           }
           dataFilter={dropDownDataFilterBy}
           selectedMenu={setSelectedFilterMenu}
-          leftPosition={widthResponsive(-59)}
+          leftPosition={widthResponsive(54)}
+          topPosition={widthResponsive(3)}
+          bottomPosition={widthResponsive(-30)}
           containerStyle={{
             marginTop: widthResponsive(20),
             marginBottom: widthResponsive(20),
@@ -445,7 +448,11 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
           }
           dataFilter={dropDownDataCategory}
           selectedMenu={setSelectedCategoryMenu}
-          leftPosition={widthResponsive(-140)}
+          leftPosition={
+            Platform.OS === 'ios' ? widthResponsive(-26) : widthResponsive(-23)
+          }
+          topPosition={widthResponsive(3)}
+          bottomPosition={widthResponsive(-35)}
           containerStyle={{
             marginTop: widthResponsive(20),
             marginBottom: widthResponsive(20),
