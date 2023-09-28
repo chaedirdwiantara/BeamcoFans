@@ -552,6 +552,8 @@ PODS:
   - react-native-track-player (3.2.0):
     - React-Core
     - SwiftAudioEx (= 0.15.3)
+  - react-native-version-check (3.4.7):
+    - React-Core
   - react-native-video (6.0.0-alpha.4):
     - React-Core
     - react-native-video/Video (= 6.0.0-alpha.4)
@@ -654,7 +656,7 @@ PODS:
   - RNGoogleSignin (8.2.1):
     - GoogleSignIn (~> 6.2)
     - React-Core
-  - RNIap (12.10.5):
+  - RNIap (12.10.8):
     - React-Core
   - RNImageCropPicker (0.38.1):
     - React-Core
@@ -721,7 +723,7 @@ PODS:
   - vision-camera-code-scanner (0.2.0):
     - GoogleMLKit/BarcodeScanning
     - React-Core
-  - VisionCamera (2.15.4):
+  - VisionCamera (2.16.1):
     - React
     - React-callinvoker
     - React-Core
@@ -791,6 +793,7 @@ DEPENDENCIES:
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-track-player (from `../node_modules/react-native-track-player`)
+  - react-native-version-check (from `../node_modules/react-native-version-check`)
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -951,6 +954,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-track-player:
     :path: "../node_modules/react-native-track-player"
+  react-native-version-check:
+    :path: "../node_modules/react-native-version-check"
   react-native-video:
     :path: "../node_modules/react-native-video"
   react-native-webview:
@@ -1101,6 +1106,7 @@ SPEC CHECKSUMS:
   react-native-mmkv: 69b9c003f10afdd01addf7c6ee784ce42ee2eff3
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
   react-native-track-player: 0c26d981b5097910486cbbeb6d8f5352d41be069
+  react-native-version-check: 6cd36aad4e30b8e3216747e3b4ddeb09e0647af8
   react-native-video: b2a6434fa0cc7a5381985ca2af8f8c570f110743
   react-native-webview: a71da846ed2e9085440e1d6659c04e285528834b
   React-perflogger: 6009895616a455781293950bbd63d53cfc7ffbc5
@@ -1124,7 +1130,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: 4a184e1af5bff970cbf70eab2263c85f612683eb
   RNFlashList: 18d906a373da5ff16776e5013df9495d826edc7e
   RNGoogleSignin: 3db2d849581299f425f5b61b90cb482a9e68c7af
-  RNIap: c397f49db45af3b10dca64b2325f21bb8078ad21
+  RNIap: 99a559a3642155b47aa0622f9693632010a0b4f7
   RNImageCropPicker: 648356d68fbf9911a1016b3e3723885d28373eda
   RNNotifee: 70639b9ffa4d40f43c5cd3da9159436222a9e51e
   RNReanimated: 6668b0587bebd4b15dd849b99e5a9c70fc12ed95
@@ -1140,10 +1146,10 @@ SPEC CHECKSUMS:
   SwiftAudioEx: 83eabba2940924fc1c0d5cb0896049921365229c
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   vision-camera-code-scanner: dda884a7f3ec8243a2a6d6489b91860648371bca
-  VisionCamera: e9a95af10e00aaebe99d648ff4519fd336e16ffe
+  VisionCamera: 038cba190635523eedb2ae8a67bb226d7ef2f054
   Yoga: 043f8eb97345d0171f27fead4d1849cacf0472a5
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: b43c865e4e6ca4ece3091fd1ea606c41c5c72f97
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1
