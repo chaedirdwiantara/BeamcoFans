@@ -5,6 +5,7 @@ import {
   followMusician,
   getAlbumById,
   getAppersOnAlbum,
+  listContribution,
   listMusician,
   recommendedMusician,
   unfollowMusician,
@@ -172,6 +173,24 @@ export const useMusicianHook = () => {
     }
   };
 
+  const getListContribution = async (props?: ParamsProps) => {
+    setIsLoadingMusician(true);
+    try {
+      const response = await listContribution(props);
+      return {
+        data: response.data,
+        message: response.message,
+        meta: response.meta,
+      };
+    } catch (error) {
+      console.log(error);
+      setIsErrorMusician(true);
+      setDataMusician([]);
+    } finally {
+      setIsLoadingMusician(false);
+    }
+  };
+
   return {
     isLoadingMusician,
     isErrorMusician,
@@ -191,5 +210,6 @@ export const useMusicianHook = () => {
     getListDataRecommendedMusician,
     getDetailMusicianGuest,
     getDataAppearsOn,
+    getListContribution,
   };
 };
