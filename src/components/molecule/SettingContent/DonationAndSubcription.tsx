@@ -104,7 +104,12 @@ export const DASContent: FC<DASProps> = ({onPressGoBack}) => {
                 : dropDownDataDonation
             }
             selectedMenu={setSelectedFilterMenu}
-            leftPosition={widthResponsive(-100)}
+            leftPosition={
+              filter[selectedIndex].filterName === 'Setting.Tips.Tab.Subs'
+                ? widthResponsive(35)
+                : widthResponsive(25)
+            }
+            topPosition={widthResponsive(5)}
           />
         </View>
       </View>

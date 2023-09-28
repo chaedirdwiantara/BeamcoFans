@@ -12,19 +12,21 @@ import {ms} from 'react-native-size-matters';
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
-import Gap from '../Gap/Gap';
 import {ChevronDownIcon} from '../../../assets/icon';
-import {color} from '../../../theme';
+import Gap from '../Gap/Gap';
 
 interface ButtonProps {
   label: string;
   type?: string;
   borderColor?: string;
   containerStyles?: ViewStyle;
-  textStyles?: TextStyle;
+  textStyles?: TextStyle | undefined;
   disabled?: boolean;
   onPress?: () => void;
   typeOfButton?: 'withIcon' | undefined;
+  iconColor?: string;
+  iconSize?: number;
+  gapTextToIcon?: number;
 }
 
 export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
@@ -37,6 +39,9 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
     disabled,
     onPress,
     typeOfButton,
+    iconColor = Color.Pink[200],
+    gapTextToIcon,
+    iconSize,
   } = props;
 
   const withBorder = type === 'border' && {
@@ -60,11 +65,11 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
         <Text style={[styles.labelStyle, textStyles]}>{label}</Text>
         {typeOfButton === 'withIcon' && (
           <View style={{flexDirection: 'row'}}>
-            <Gap width={4} />
+            <Gap width={gapTextToIcon ?? 4} />
             <ChevronDownIcon
-              width={16}
-              height={16}
-              stroke={color.Pink.linear}
+              width={iconSize ?? 16}
+              height={iconSize ?? 16}
+              stroke={iconColor}
             />
           </View>
         )}
