@@ -50,6 +50,7 @@ import {
 } from '../../../data/dropdown';
 import {TopNavigation} from '../TopNavigation';
 import {profileStorage} from '../../../hooks/use-storage.hook';
+import ListContributionToMusician from './components/ListContribution';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -365,19 +366,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                 </View>
               ) : filter[selectedIndex].filterName ===
                 'Profile.Tab.TopMusician' ? (
-                // Dihold karena point belum fix
-
-                // MusicianListData.length > 0 ? (
-                //   <TopMusician
-                //     scrollable={false}
-                //     type={'profile'}
-                //     dataMusician={[]}
-                //   />
-                // ) :
-                <EmptyState
-                  text={textMusician || ''}
-                  containerStyle={{marginVertical: heightPercentage(30)}}
-                />
+                <ListContributionToMusician uuid={profile.uuid} />
               ) : (
                 // Dihold karena badge belum fix
 
