@@ -39,10 +39,14 @@ const Type1: React.FC<Props> = (props: Props) => {
       <TouchableOpacity
         style={topNavstyles.iconLeftContainer}
         onPress={props.leftIconAction}>
-        <ArrowLeftIcon
-          stroke={color.Neutral[10]}
-          style={{marginLeft: widthPercentage(24)}}
-        />
+        {props.leftIcon ? (
+          props.leftIcon
+        ) : (
+          <ArrowLeftIcon
+            stroke={color.Neutral[10]}
+            style={{marginLeft: widthPercentage(24)}}
+          />
+        )}
       </TouchableOpacity>
     );
   };
