@@ -465,6 +465,7 @@ const styles = StyleSheet.create({
     color: color.Neutral[10],
     marginTop: mvs(5),
     marginBottom: mvs(15),
+    maxWidth: width * 0.8,
   },
   titleStart: {
     color: color.Neutral[10],

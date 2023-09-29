@@ -198,6 +198,7 @@ export const SendAppealContent: React.FC<SendAppealProps> = ({
         containerInputStyles={{borderBottomWidth: 0}}
         listImage={listImage}
         onPressDeleteImage={removeImage}
+        blurOnSubmit={true}
       />
 
       <ModalLoading visible={isLoadingImage} />
