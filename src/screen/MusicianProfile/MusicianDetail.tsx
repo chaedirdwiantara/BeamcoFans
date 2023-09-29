@@ -312,7 +312,6 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       <TopNavigation.Type1
         type="user detail"
         title=""
-        leftIcon
         leftIconAction={handleBackAction}
         maxLengthTitle={20}
         itemStrokeColor={'white'}
