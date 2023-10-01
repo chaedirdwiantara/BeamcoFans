@@ -400,7 +400,7 @@ const TabScreen = () => {
           ),
         }}
       />
-      {/* <MainTab.Screen
+      <MainTab.Screen
         name="Merch"
         component={MerchScreen}
         options={{
@@ -423,7 +423,7 @@ const TabScreen = () => {
             </View>
           ),
         }}
-      /> */}
+      />
       <MainTab.Screen
         name="Profile"
         component={ProfileScreen}
