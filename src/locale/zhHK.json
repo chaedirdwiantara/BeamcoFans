@@ -5,45 +5,46 @@
     "TopDescription": "登入或註冊以探索完整功能並支持音樂人",
     "Yes": "是的",
     "No": "不",
-    "NoVerifCode": "Didn’t receive verification codes? click to resend",
+    "NoVerifCode": "沒有收到驗證碼？點擊重新發送",
     "Thanks": "謝謝你！",
-    "LinkCopied": "Link have been copied to clipboard!",
+    "LinkCopied": "連結已複製到剪貼板！",
     "Followers": "追蹤者",
-    "FollowYou": "Follow you",
-    "ItsMe": "It's Me",
+    "FollowYou": "關注你",
+    "ItsMe": "是我",
     "Listeners": "人聽過",
-    "GotIt": "Ok, I Got It",
+    "GotIt": "好的，我知道了",
     "Share": {
-      "Feed": "Share Feed",
-      "Album": "Share Album",
+      "Feed": "分享動態",
+      "Album": "分享專輯",
       "Music": "分享歌曲",
-      "Playlist": "Share Playlist"
+      "Playlist": "分享播放列表"
     },
-    "NoDescription": "No Description Given",
-    "Required": "Required",
-    "BlockSucceed": "You've been blocked",
-    "Dismiss": "Dismiss",
-    "Topup": "Top Up"
+    "NoDescription": "未提供描述",
+    "Required": "必需的",
+    "Dismiss": "撤銷",
+    "BlockSucceed": "你已被封鎖",
+    "Topup": "充值"
   },
+
   "Onboarding": {
     "Step1": {
-      "Title": "讓樂迷與喜愛的音樂人一起成長",
-      "Description": "歡迎來到我們的音樂平台！ 我們很高興您能加入我們音樂人和樂迷的社區。"
+      "Title": "培養你的超級粉絲群",
+      "Description": "我們很高興歡迎你來到我們的音樂人和粉絲社區"
     },
     "Step2": {
-      "Title": "讓樂迷與喜愛的音樂人一起成長",
-      "Description": "我們的平台旨在通過提供工具和資源來幫助音樂人分享和推廣他們的音樂，支持音樂人的成長，邁向成功。"
+      "Title": "參與並獲得收益！",
+      "Description": "我們的工具使你能夠識別並參與你忠實的粉絲，陪伴你走向成功的道路"
     },
     "Step3": {
-      "Title": "讓樂迷與喜愛的音樂人一起成長",
-      "Description": "我們致力於支持樂迷和音樂人共同成長，期待看到您在我們的平台上茁壯成長。"
+      "Title": "成長並獎勵愛你的人！",
+      "Description": "由音樂人創建，為音樂人而生。最重要的是粉絲。"
     }
   },
   "Login": {
     "Title": "登入",
-    "Footer": "讓樂迷與喜愛的音樂人一起成長",
+    "Footer": "培養你的超級粉絲群",
     "ExploreGuest": "以訪客身份瀏覽",
-    "DontHaveAccount": "沒有帳號？",
+    "DontHaveAccount": "沒有帳號？註冊",
     "ForgotPassword": "忘記密碼",
     "Form": {
       "Email": "電子郵箱",
@@ -62,12 +63,12 @@
     "Password": "密碼",
     "PasswordRepeat": "重複輸入密碼",
     "TnC": {
-      "Phrase1": "我同意 Beamco ",
-      "Phrase2": "條款",
+      "Phrase1": "我理解並同意 Beamco 的",
+      "Phrase2": "使用條款",
       "Phrase3": "和",
       "Phrase4": "隱私政策"
     },
-    "Footer": "已有帳號？"
+    "Footer": "已有帳號？登入"
   },
   "OTP": {
     "Phone": {
@@ -76,17 +77,16 @@
     },
     "Email": {
       "Title": "電郵驗證碼",
-      "Subtitle": "我們已將六位驗證碼發送至地址 {{email}} 檢查您的收件箱並在此處輸入驗證碼"
+      "Subtitle": "我們已將六位驗證碼發送至地址 {{email}}，請檢查您的收件箱並在此處輸入驗證碼"
     },
-    "ResendAfter": "You can resend recovery code after ",
-    "ResendSuccess": "We've just resend a new code!",
-    "Accepted": "Recovery code accepted",
-    "Rejected": "Please enter a valid recovery code"
+    "ResendAfter": "您可以在之後重新發送恢復碼",
+    "ResendSuccess": "我們剛剛重新發送了新的代碼！",
+    "Accepted": "恢復碼已接受",
+    "Rejected": "請輸入有效的恢復碼"
   },
   "Btn": {
     "Next": "下一步",
     "Skip": "略過",
-    "Close": "Close",
     "Finish": "完成",
     "SignIn": "登入",
     "SignUp": "註冊",
@@ -98,19 +98,20 @@
     "Cancel": "取消",
     "Purchase": "購買",
     "Save": "保存",
+    "Close": "關閉",
     "Edit": "編輯",
     "VerificationCode": "發送驗證碼",
     "TurnOff": "關閉",
     "TurnOn": "打開",
-    "SignOut": "Sign Out",
+    "SignOut": "登出",
     "MaybeLater": "以後再說",
     "Send": "發送",
-    "Create": "創造",
+    "Create": "創建",
     "Reply": "回复",
     "GoToHome": "回主頁",
-    "CopyLink": "Copy Link",
-    "Dismiss": "Dismiss",
-    "Update": "Update"
+    "CopyLink": "複製連結",
+    "Dismiss": "撤銷",
+    "Update": "更新"
   },
   "ForgotPassword": {
     "Title": "更改密碼",
@@ -119,386 +120,409 @@
       "Email": "請輸入電郵地址以取回密碼"
     },
     "Otp": {
-      "Title": "Input OTP",
-      "Subtitle": "Enter the recovery code we just sent to"
+      "Title": "輸入 OTP",
+      "Subtitle": "請輸入我們剛剛發送的恢復碼"
     },
     "Modal": {
-      "Title": "Set New Password",
-      "Subtitle": "Are you sure you want to leave your progress unsaved?"
+      "Title": "設置新密碼",
+      "Subtitle": "您確定要離開並且不保存您的進度嗎？"
     }
   },
   "Preference": {
     "Genre": "選擇您喜歡的類型",
-    "Mood": "適合你的氣氛？",
-    "Support": "我是來這裡...",
-    "Musician": "Who To Follow",
+    "Mood": "心情？",
+    "Support": "我在這裡要：",
+    "Musician": "推薦的音樂人資料",
     "Follow": "追蹤",
-    "Following": "正在追蹤"
+    "Following": "正在追蹤",
+    "Step": {
+      "Step1": "第1步，共5步",
+      "Step2": "第2步，共5步",
+      "Step3": "第3步，共5步",
+      "Step4": "第4步，共5步",
+      "Step5": "第5步，共5步"
+    },
+    "Title": {
+      "Title1": "選擇您喜歡的類型",
+      "Title2": "心情",
+      "Title3": "我在這裡要：",
+      "Title4": "推薦的音樂人資料",
+      "Title5": "掃描QR碼以獲得獎金！"
+    },
+    "Subtitle": {
+      "Subtitle1": "選擇以獲得更好的推薦",
+      "Subtitle2": "選擇以獲得更好的推薦",
+      "Subtitle3": "你知道嗎？ 78％的獨立音樂人報告說他們的收入只有1000美元或更少",
+      "Subtitle4": "追蹤與您口味相似的音樂人",
+      "Subtitle5": "按“立即掃描”掃描推薦碼以獲得獎金"
+    }
   },
   "Home": {
     "Topbar": {
-      "Hi": "您好, {{name}}",
+      "Hi": "嗨，{{name}}",
       "Search": {
         "Title": "搜索",
         "Song": "歌曲",
         "Musician": "音樂家",
-        "Fans": "樂迷",
+        "Fans": "粉絲",
         "Album": "專輯",
-        "Merch": "產品",
+        "Merch": "商品",
         "Event": "活動",
-        "Playlist": "播放清單"
+        "Playlist": "播放列表"
       }
     },
     "Tab": {
       "TopMusician": {
-        "Title": "Top Musician",
-        "Follow": "追蹤",
-        "Unfollow": "取消关注",
-        "Tip": "Send Tip",
-        "Profile": "進入音樂人頁面",
-        "Donation": "Send Donation"
+        "Title": "頂尖音樂家",
+        "Follow": "關注",
+        "Unfollow": "取消關注",
+        "Tip": "發送 Beam",
+        "Profile": "前往音樂家",
+        "Donation": "發送捐款"
       },
       "TopSong": {
-        "Title": "Top Songs",
-        "Playlist": "儲存至播放清單",
-        "Tip": "捐贈",
-        "Queue": "加入序列",
-        "Share": "分享歌曲",
-        "Details": "顯示積分",
-        "Credits": "Show Credits"
+        "Title": "熱門歌曲",
+        "Playlist": "添加到播放列表",
+        "Tip": "發送 Beam",
+        "Queue": "添加到隊列",
+        "Share": "分享音樂",
+        "Details": "顯示詳情",
+        "Credits": "顯示信用"
       },
       "TopPost": {
-        "Title": "Top Post",
+        "Title": "熱門帖子",
         "Filter": {
-          "Title": "篩選",
+          "Title": "按照篩選",
           "Today": "今天",
           "LastWeek": "上週",
           "ThisMonth": "本月"
         },
         "Category": {
-          "Title": "分類",
-          "All": "全部",
-          "ComingUp": "快將推出",
-          "Tour": "演出",
+          "Title": "類別",
+          "All": "所有",
+          "ComingUp": "即將來臨",
+          "Tour": "巡演",
           "DailyLife": "日常生活",
           "BTS": "幕後花絮",
           "Backstage": "後台",
-          "Highlight": "突出显示帖子"
+          "Highlight": "突出帖子"
         }
       },
       "Recomended": {
-        "Title": "Recomended"
+        "Title": "推薦"
       },
       "Favorite": {
-        "Title": "Favorite"
+        "Title": "最愛"
       },
       "NewSong": {
-        "Title": "New Songs"
+        "Title": "新歌曲"
       }
     },
     "ListMood": {
-      "Title": "Mood",
-      "EmptyState": "Sorry, we don't have any music available for this mood at the moment. Check back soon as we're always adding new music!"
+      "Title": "心情",
+      "EmptyState": "抱歉，我們目前沒有任何適合這種心情的音樂。請稍後再檢查，因為我們總是在添加新音樂！"
     },
     "ListGenre": {
-      "Title": "Genre",
-      "EmptyState": "Sorry, we don't have any music available for this genre at the moment. Check back soon as we're always adding new music!"
+      "Title": "流派",
+      "EmptyState": "抱歉，但目前沒有這種流派的歌曲。請隨時關注更新！"
     },
     "DiveIn": {
-      "Title": "Dive In",
-      "Subtitle": "Based on your preferences",
+      "Title": "深入",
+      "Subtitle": "基於您的偏好",
       "Trending": {
-        "EmptyState": "We're sorry! There's no trending feed available right now. Check back soon, as we're always working to bring you the best music social media experience."
+        "EmptyState": "抱歉！目前沒有趨勢動態。請稍後再檢查，因為我們總是在努力為您提供最佳體驗。"
       },
       "Similar": {
-        "EmptyState": "We're sorry, but there are currently no feeds available from similar artists. Check back soon for new updates!"
+        "EmptyState": "抱歉，但目前沒有來自類似藝術家的動態。請隨時關注更新！"
       },
       "MyArtist": {
-        "EmptyState": "Looks like there are no posts from the musicians you follow. Follow more musicians to see their posts in your feed."
+        "EmptyState": "看起來您關注的藝術家沒有帖子。關注更多藝術家以查看他們的帖子！"
       }
     },
     "ComingSoon": {
-      "Title": "Coming Soon",
-      "EmptyState": "Unfortunately, there are no new albums coming soon from any musicians. We'll let you know as soon as something new is on the horizon."
+      "Title": "即將推出",
+      "EmptyState": "不幸的是，目前沒有任何藝術家的新專輯即將推出。只要有新的東西出現在地平線上，我們就會通知您。"
     },
     "Song": {
-      "EmptyState": "Oops! We couldn't find any {{title}} for you. Check back soon as we're always adding new music!"
+      "EmptyState": "哎呀！我們找不到任何{{title}}給您。請稍後再檢查，因為我們總是在添加新音樂！"
     },
     "Musician": {
-      "EmptyState": "We couldn't find any {{title}} for you. Check back soon as we're always adding new musician!"
+      "EmptyState": "我們找不到任何{{title}}給您。請稍後再檢查，因為我們總是在添加新藝術家！"
     },
     "Playlist": {
-      "Title": "Playlist",
-      "EmptyState": "Oops! We couldn't find any playlists for you. Create your own & help other discover great music!"
+      "Title": "播放列表",
+      "EmptyState": "創建您自己的自定義播放列表並分享！"
     }
   },
   "Feed": {
     "Title": "動態",
     "Public": "公開",
-    "Exclusive": "專屬內容",
+    "Exclusive": "獨家",
     "Sort": {
-      "Title": "排序方式",
-      "Latest": "最新的",
-      "Popular": "最新的"
+      "Title": "排序",
+      "Latest": "最新",
+      "Popular": "受歡迎"
     },
     "FilterBy": {
-      "Title": "Filter by",
-      "All": "All",
-      "Exclusive": "Exclusive",
-      "Public": "Public"
+      "Title": "篩選",
+      "All": "全部",
+      "Exclusive": "獨家",
+      "Public": "公開"
     },
-    "NoMore": "No more feeds"
+    "NoMore": "沒有更多動態"
   },
   "Event": {
-    "Title": "行動",
+    "Title": "活動",
     "Quantity": "數量",
     "Description": "描述",
-    "ComingSoon": "Coming Soon\nStay tuned for the big reveal!",
+    "ComingSoon": "即將推出！請密切關注大揭露！",
     "Concert": {
-      "Title": "門票",
-      "NoConcert": "未有活動",
-      "Detail": "門票詳情",
-      "LineUp": "排隊",
-      "Class": "選擇等級",
-      "Date": "Date",
-      "Time": "Time",
-      "Venue": "Venue",
-      "OpenGate": "Open Gate",
-      "Duration": "Duration",
-      "Location": "Location",
-      "ChooseDate": "Choose Date",
-      "Ticket": "Ticket Category",
-      "Total": "Total Price",
-      "Details": "Details",
+      "Title": "音樂會",
+      "NoConcert": "沒有可用的活動",
+      "Detail": "票務詳情",
+      "LineUp": "陣容",
+      "Class": "選擇類別",
+      "Date": "日期",
+      "Time": "時間",
+      "Venue": "場地",
+      "OpenGate": "開門",
+      "Duration": "持續時間",
+      "Location": "地點",
+      "ChooseDate": "選擇日期",
+      "Ticket": "票務類別",
+      "Total": "總價",
+      "Details": "詳情",
       "ComingSoon": {
-        "Title": "Discover Ticket",
-        "Subtitle": "When musicians list ticket, you’ll see them here"
+        "Title": "發現票務",
+        "Subtitle": "當藝術家列出票務時，您會在這裡看到它們"
       }
     },
     "Merch": {
-      "Title": "產品",
-      "NoMerch": "未有產品",
-      "Detail": "產品詳情",
-      "Size": "Select Size",
-      "Color": "Choose Color",
-      "Variant": "Choose Variant",
-      "Condition": "Condition",
-      "Sold": "Sold",
-      "Product": "Product",
+      "Title": "商品",
+      "NoMerch": "沒有可用的商品",
+      "Detail": "商品詳情",
+      "Size": "選擇尺寸",
+      "Color": "選擇顏色",
+      "Variant": "選擇變體",
+      "Condition": "條件",
+      "Sold": "已售出",
+      "Product": "產品",
       "ComingSoon": {
-        "Title": "Discover Merchandise",
-        "Subtitle": "When musicians list merchandise, you’ll see them here"
+        "Title": "發現商品",
+        "Subtitle": "當藝術家列出商品時，您會在這裡看到它們"
       }
     },
     "Dropdown": {
       "Category": {
-        "Fashion": "Fashion",
-        "Collection": "Collection"
+        "All": "所有類別",
+        "Fashion": "時尚",
+        "Collection": "收藏"
       },
       "Sort": {
-        "HighestPrice": "Highest Price",
-        "LowestPrice": "Lowest Price",
-        "MostSold": "Most Sold"
+        "Placeholder": "排序",
+        "HighestPrice": "最高價格",
+        "LowestPrice": "最低價格",
+        "MostSold": "最多售出"
       }
     },
     "Detail": {
-      "Title": "Event Detail",
-      "LineUp": "LINE UP",
-      "TopTiper": "TOP TIPER",
-      "TipDistribution": "Tip Distribution",
-      "MusicianTipped": "Musician Tipped"
+      "Title": "活動詳情",
+      "LineUp": "陣容",
+      "TopTiper": "最佳打賞者",
+      "TipDistribution": "打賞分佈",
+      "MusicianTipped": "藝術家打賞"
     },
-    "Live": "Live",
+    "Live": "直播",
     "EmptyState": {
-      "Home": "No live events are currently available at this time.\nStay tuned for exciting upcoming experiences!",
-      "Title": "Discover Live Event",
-      "Profile": "You have no events, your events will be displayed here",
-      "Other": "Currently, this musician don’t have any event.",
+      "Home": "目前沒有任何直播活動。\n請密切關注即將到來的精彩體驗！",
+      "Title": "發現直播活動",
+      "Profile": "您沒有活動，您的活動將在此處顯示",
+      "Other": "目前，此藝術家沒有任何活動。",
       "TopTipper": {
-        "Title": "Top Tipper Will Displayed Here",
-        "Subtitle": "Wait until event goes live to view the top tipper"
+        "Title": "最佳打賞者將在此顯示",
+        "Subtitle": "等待活動直播以查看最佳打賞者"
       }
     }
   },
   "Profile": {
     "Label": {
-      "Description": "我是來支持音樂人的",
-      "Following": "追蹤中",
+      "Description": "我在這裡支持藝術家",
+      "Following": "正在關注",
       "Liked": "喜歡的歌曲",
-      "Point": "積分",
-      "CreatedBy": "製作的",
-      "NoPlaylist": "No Playlist have been made",
-      "NoMusician": "您尚未對任何音樂人作出貢獻",
-      "NoMusicianOther": "This user don’t have contributions to any musicians",
-      "NoBadge": "你尚未有任何徽章",
-      "NoBadgeOther": "This user don’t have any badges"
+      "Point": "經驗",
+      "CreatedBy": "創建者",
+      "NoPlaylist": "沒有創建播放列表",
+      "NoMusician": "此用戶尚未對任何藝術家發送Beam",
+      "NoMusicianOther": "此用戶尚未對任何藝術家發送Beam",
+      "NoBadge": "此用戶沒有任何徽章",
+      "NoBadgeOther": "此用戶沒有任何徽章"
     },
     "Button": {
       "Edit": "編輯個人資料",
-      "CreatePlaylist": "新增播放清單",
-      "NewPlaylist": "New Playlist"
+      "CreatePlaylist": "創建新播放列表",
+      "NewPlaylist": "新播放列表"
     },
     "Tab": {
-      "Playlist": "播放清單",
-      "TopMusician": "TOP MUSICIAN",
-      "Badge": "BADGE"
+      "Playlist": "播放列表",
+      "TopMusician": "頂尖藝術家",
+      "Badge": "徽章"
     },
     "Edit": {
       "Title": "編輯個人資料",
       "Bio": "簡介",
-      "ProfilePicture": "修改頭像",
-      "HeaderPicture": "修改標題圖片",
-      "Take": "拍攝照片",
-      "Add": "由相簿添加",
+      "ProfilePicture": "編輯顯示資料",
+      "HeaderPicture": "編輯標頭",
+      "Take": "拍照",
+      "Add": "從相冊中添加照片",
       "Delete": "刪除照片",
-      "AddPhotos": "Add Photos",
-      "AddBio": "Add Bio",
-      "About": "Tell us about yourself",
-      "AddWebsite": "Add Website or Social Media",
-      "DisplayProfile": "Display Profile"
+      "AddPhotos": "添加照片",
+      "AddBio": "添加簡介",
+      "About": "告訴我們關於你自己",
+      "AddWebsite": "添加網站或社交媒體",
+      "DisplayProfile": "顯示資料"
     }
   },
   "Musician": {
     "Label": {
-      "Fans": "樂迷",
-      "Follow": "追蹤",
-      "Following": " 正在追蹤",
-      "Tip": "捐贈",
-      "Followers": "追蹤者",
-      "Releases": "發布",
-      "Playlists": "播放清單",
+      "Fans": "粉絲",
+      "Follow": "關注",
+      "Following": "正在關注",
+      "Tip": "Beam",
+      "Followers": "關注者",
+      "Releases": "發行",
+      "Playlists": "播放列表",
       "Rank": "排名",
       "About": "關於",
       "Social": "社交媒體",
-      "Origin": "來自",
-      "Active": "活躍年期",
-      "Members": "會員/成員",
+      "Origin": "起源",
+      "Active": "活躍年份",
+      "Members": "成員",
       "Website": "網站",
-      "Photos": "相片",
+      "Photos": "照片",
       "Album": "專輯",
-      "Merch": "產品",
-      "Exclusive": "專屬每日內容",
-      "Musicians": "People who might fit your interest",
-      "MyAlbum": "My Album",
-      "AppearsOn": "Appears On"
+      "Merch": "商品",
+      "Exclusive": "獨家日常內容",
+      "Musicians": "可能符合您興趣的人",
+      "MyAlbum": "我的專輯",
+      "AppearsOn": "出現在"
     },
     "Tab": {
-      "Profile": "人資料",
-      "Main": "MAIN",
-      "Musician": "POST",
-      "Music": "MUSIC",
-      "Fans": "樂迷",
-      "Merchandise": "MERCHANDISE",
-      "Ticket": "TICKET",
-      "Event": "LIVE"
+      "Profile": "個人資料",
+      "Main": "主要",
+      "Musician": "帖子",
+      "Music": "音樂",
+      "Fans": "粉絲",
+      "Merchandise": "商品",
+      "Ticket": "票",
+      "Event": "直播"
     }
   },
   "ExclusiveContent": {
-    "Title": "專屬內容",
+    "Title": "獨家內容",
     "Content": "內容",
-    "Choose": "選擇一個計劃",
+    "Choose": "選擇計劃",
     "Weekly": "每週",
     "Monthly": "每月",
     "Yearly": "每年",
     "Week": "週",
     "Month": "月",
     "Year": "年",
-    "Support": "為您的計劃添加支援",
-    "Optional": "支援（可選）",
-    "InputBonus": "Input Bonus",
-    "ErrorCoinBonus": "Insufficient coin, add more coin to give bonus",
-    "ErrorCoinSubs": "Insufficient coin, add more coin to subscribe",
-    "Active": "Subscription Active",
-    "Success": "Congratulations! Your Exclusive Content have been Paid!",
-    "View": "View Exclusive Content",
-    "Subscribe": "Subscribe Exclusive Content"
+    "Support": "用您的計劃支持",
+    "Optional": "額外的支持（可選）",
+    "InputBonus": "輸入額外的支持",
+    "ErrorCoinBonus": "硬幣不足，添加更多硬幣以提供額外的支持",
+    "ErrorCoinSubs": "硬幣不足，添加更多硬幣以訂閱",
+    "Active": "訂閱已激活",
+    "Success": "恭喜！您的獨家內容已付款！",
+    "View": "查看獨家內容",
+    "Subscribe": "訂閱獨家內容"
   },
   "Setting": {
-    "Title": "設定",
+    "Title": "設置",
     "EnterVerifCode": "輸入驗證碼",
     "Account": {
       "Title": "帳戶",
-      "AccountInformation": "Account Information",
-      "Confirm": "Are you sure you want to update your account?",
+      "AccountInformation": "帳戶信息",
+      "Confirm": "您確定要更新您的帳戶嗎？",
       "Label": {
         "Username": "用戶名",
         "Fullname": "全名",
         "Gender": "性別",
-        "Location": "地點",
-        "YearsActive": "Years Active",
-        "TypeOfMusician": "Type of Musician",
-        "DateOfBirth": "Date of Birth"
+        "Location": "位置",
+        "YearsActive": "活躍年份",
+        "TypeOfMusician": "藝術家類型",
+        "DateOfBirth": "出生日期"
       },
       "Placeholder": {
-        "Username": "Add Username",
-        "Fullname": "Add Full Name",
-        "Gender": "Select Gender",
-        "Location": "Select Location"
+        "Username": "添加用戶名",
+        "Fullname": "添加全名",
+        "Gender": "選擇性別",
+        "Location": "選擇位置"
       }
     },
     "BlockedUser": {
-      "Title": "Blocked User",
-      "Unblock": "Unblock",
-      "Cancel": "Cancel",
+      "Title": "已封鎖的用戶",
+      "Unblock": "解鎖",
+      "Cancel": "取消",
       "ModalConfirm": {
-        "Title": "Are you sure to unblock @{{username}}?",
-        "Subtitle": "By unblocking @{{username}} they will be able view your content, and you will see content or notification from @{{username}}"
+        "Title": "您確定要解鎖@{{username}}嗎？",
+        "Subtitle": "解鎖@{{username}}後，他們將能夠查看您的內容，您也將看到來自@{{username}}的內容或通知"
       },
-      "EmptyState": "There are no blocked users at the moment.\nAny blocked users will appear here.",
-      "ToastSuccess": "@{{username}} have been unblocked!"
+      "EmptyState": "目前沒有被封鎖的用戶。\n任何被封鎖的用戶都會出現在這裡。",
+      "ToastSuccess": "@{{username}}已被解鎖！"
     },
     "Security": {
-      "Title": "Security"
+      "Title": "安全"
     },
     "DeleteAccount": {
-      "Title": "Delete Account",
-      "Subtitle": "Are you sure you want to delete your account?",
-      "ToastDeletion": "Your account is undergoing deletion",
+      "Title": "刪除帳戶",
+      "Subtitle": "您確定要刪除您的帳戶嗎？",
+      "ToastDeletion": "您的帳戶正在被刪除",
       "About": {
-        "TitleDeletion": "About Account Deletion",
-        "FirstParagraph": "This means that all of your assets and data associated with your account will be permanently deleted.",
-        "SecondParagraph": "Unfortunately, this action is irreversible and cannot be reversed in the future. We understand that this decision may not be easy for you to make.",
-        "ThirdParagraph": "Therefore, we allow you to have 30 days to log in and cancel your account deletion request. Once this period has passed, your account will be permanently deleted.",
-        "TitleReason": "Reason of Deletion",
-        "FourthParagraph": "If you wish to delete your account, please select a reason from the dropdown menu below : "
+        "TitleDeletion": "關於帳戶刪除",
+        "FirstParagraph": "與您的帳戶相關的所有資產和數據將被永久刪除。",
+        "SecondParagraph": "不幸的是，此操作是不可逆的，無法撤消。",
+        "ThirdParagraph": "但是，您將有30天的時間重新登錄以取消您的帳戶刪除請求。 30天後，您的帳戶將被永久刪除。",
+        "TitleReason": "刪除原因",
+        "FourthParagraph": "請從下面的下拉菜單中選擇一個原因："
       },
       "InputDeletion": {
-        "ReasonInput": "Reason",
-        "ReasonPlaceholder": "Tell us more",
-        "PasswordInput": "Input Password"
+        "ReasonInput": "原因",
+        "ReasonPlaceholder": "告訴我們更多",
+        "PasswordInput": "輸入密碼"
       },
       "Reason": {
-        "First": "I don’t feel safe on Beamco",
-        "Second": "I don’t find Beamco useful",
-        "Third": "I have another Beamco Account",
-        "Fourth": "I spend too much time using Beamco",
-        "Five": "I don’t understand how to use Beamco"
+        "First": "我在Beamco上感覺不安全",
+        "Second": "我覺得Beamco沒有用",
+        "Third": "我有另一個Beamco帳戶",
+        "Fourth": "我花太多時間使用Beamco",
+        "Five": "我不明白如何使用Beamco"
       }
     },
     "TnC&PP": {
-      "Title": "TnC & Privacy Policy"
+      "Title": "條款和隱私政策"
     },
     "Password": {
       "Title": "更改密碼",
-      "Confirm": "Are you sure you want to change your password?",
+      "Confirm": "您確定要更改密碼嗎？",
       "Label": {
         "Old": "輸入舊密碼",
         "New": "新密碼",
-        "Repeat": "重複輸入密碼"
+        "Repeat": "重新輸入密碼"
       }
     },
     "Email": {
-      "Title": "電郵",
+      "Title": "電子郵件",
       "Toast": {
-        "Success": "Your email have been updated!"
+        "Success": "您的電子郵件已更新！"
       },
       "Label": {
         "Add": "添加電子郵件",
-        "Change": "更改電郵",
-        "Old": "更改電郵",
-        "New": "新電郵",
-        "Sso": "SSO Email Can`t Be Changed",
-        "Password": "Current Password"
+        "Change": "更改電子郵件",
+        "Old": "舊電子郵件",
+        "New": "新電子郵件",
+        "Sso": "SSO電子郵件不能更改",
+        "Password": "當前密碼"
       },
       "Placeholder": {
         "Email": "添加電子郵件"
@@ -508,32 +532,32 @@
       "Title": "電話號碼",
       "Label": {
         "Change": "更改電話號碼",
-        "Add": "Add Phone Number",
+        "Add": "添加電話號碼",
         "Old": "舊電話號碼",
         "New": "新電話號碼",
-        "Password": "Current Password"
+        "Password": "當前密碼"
       }
     },
     "Shipping": {
       "Title": "運送信息",
-      "AddNewAddress": "+ Add New Address",
-      "MainAddress": "Main Address",
-      "New": "New",
-      "EditAddress": "Edit Address",
-      "ChangeMainAddress": "Change Main Address",
-      "Confirm2": "Are you sure you want to save your shipping information and continue your progress?",
-      "ConfirmChangeMainAddress": "Are you sure you want to change your main address?",
-      "AddAddress": "Add New Address",
-      "ConfirmAddAddress": "Are you sure you want to add new address?",
-      "ChangeAddress": "Change Address",
-      "ConfirmChangeAddress": "Are you sure you want to change your address?",
-      "DeleteAddress": "Delete Address",
-      "ConfirmDeleteAddress": "Are you sure you want to delete your address?",
-      "ToastMainAddress": "Your main address has been updated!",
-      "ToastAddAddress": "Address has been added!",
-      "ToastChangeAddress": "Address has been updated!",
-      "ToastDeleteAddress": "Address has been deleted!",
-      "PhoneNumberInvalid": "Phone number is invalid, ensure phone number you've entered is correct",
+      "AddNewAddress": "+ 添加新地址",
+      "MainAddress": "主要地址",
+      "New": "新",
+      "EditAddress": "編輯地址",
+      "ChangeMainAddress": "更改主要地址",
+      "Confirm2": "您確定要保存您的運送信息並繼續您的進度嗎？",
+      "ConfirmChangeMainAddress": "您確定要保存更改嗎？",
+      "AddAddress": "添加新地址",
+      "ConfirmAddAddress": "您確定要添加新地址嗎？",
+      "ChangeAddress": "更改地址",
+      "ConfirmChangeAddress": "您確定要更改地址嗎？",
+      "DeleteAddress": "刪除地址",
+      "ConfirmDeleteAddress": "您確定要刪除地址嗎？",
+      "ToastMainAddress": "您的主要地址已更新！",
+      "ToastAddAddress": "地址已添加！",
+      "ToastChangeAddress": "地址已更新！",
+      "ToastDeleteAddress": "地址已刪除！",
+      "PhoneNumberInvalid": "電話號碼無效，請確保您輸入的電話號碼正確",
       "Label": {
         "Email": "電子郵件",
         "Phone": "電話號碼",
@@ -543,45 +567,45 @@
         "Postal": "郵政編碼",
         "City": "城市",
         "Address": "地址",
-        "FirstName": "First Name",
-        "LastName": "Last Name"
+        "FirstName": "名字",
+        "LastName": "姓氏"
       },
       "Placeholder": {
-        "Email": "Add Email",
-        "Phone": "Add Phone Number",
-        "Fullname": "Add Full Name",
-        "State": "Select State/Province",
-        "Country": "Select Country",
-        "Postal": "Add Postal Code",
-        "City": "Select City",
-        "Address": "Add Address",
-        "FirstName": "Add First Name",
-        "LastName": "Add Last Name"
+        "Email": "添加電子郵件",
+        "Phone": "添加電話號碼",
+        "Fullname": "添加全名",
+        "State": "選擇州/省",
+        "Country": "選擇國家",
+        "Postal": "添加郵政編碼",
+        "City": "選擇城市",
+        "Address": "添加地址",
+        "FirstName": "添加名字",
+        "LastName": "添加姓氏"
       },
-      "EmptyState": "You need to provide shipping information to receive your purchased merchandise. Please add a new address to your shipping information."
+      "EmptyState": "請提供您的運送地址詳細信息"
     },
     "Preference": {
       "Title": "偏好",
       "Label": {
         "Genre": "類型",
-        "Mood": "氣氛"
+        "Mood": "心情"
       },
       "Placeholder": {
-        "Genre": "Select Genre",
-        "Mood": "Select Mood"
+        "Genre": "選擇類型",
+        "Mood": "選擇心情"
       }
     },
     "Tips": {
-      "Title": "捐贈與訂閱",
-      "AddCustom": "Add custom tip",
-      "CustomTip": "Custom tip",
+      "Title": "支持和訂閱",
+      "AddCustom": "自定義支持",
+      "CustomTip": "自定義支持",
       "Tab": {
-        "Donation": "Donation",
-        "Subs": "Subscription"
+        "Donation": "支持",
+        "Subs": "訂閱"
       },
       "Filter": {
-        "Duration": "付款間距",
-        "All": "全部",
+        "Duration": "持續時間",
+        "All": "所有",
         "OneTime": "一次性",
         "Weekly": "每週",
         "Monthly": "每月",
@@ -589,152 +613,147 @@
       },
       "Label": {
         "Past": "過去",
-        "Current": "現有/進行中",
-        "TipType": "Do you want to send tip the musician?",
-        "ContinueSendTip": "Do you want to keep continue sending tip?",
-        "AddMoreCoin": "Add more credit",
-        "YourCoin": "Your credit",
-        "InputDonation": "Add credit to send tip",
-        "Success": "Congratulations! Your Tip\nhave been Sent!"
+        "Current": "當前",
+        "TipType": "您想支持藝術家嗎？",
+        "ContinueSendTip": "激活重複支持？",
+        "AddMoreCoin": "添加更多信用",
+        "YourCoin": "您的支持信用",
+        "InputDonation": "添加信用以發送支持",
+        "Success": "恭喜！您的支持\n已經發送！"
       },
       "Menu": {
         "Donation": {
-          "GoToMusician": "往音樂人頁面",
-          "Stop": "停止捐贈"
+          "GoToMusician": "前往藝術家",
+          "Stop": "停止支持"
         },
         "Subs": {
-          "GoToMusician": "往音樂人頁面",
-          "Unsubs": "終止訂閱"
+          "GoToMusician": "前往藝術家",
+          "Unsubs": "取消訂閱"
         }
       }
     },
     "Referral": {
-      "Title": "Referral Code",
+      "Title": "推薦碼",
       "ReferFriend": {
-        "Title": "Refer A Friend",
-        "Text1": "Refer a friend and earn 50 free credits",
-        "Text2": "Use your @username as referral code",
-        "Btn1": "Refer a friend using link",
-        "Btn2": "Read Terms and Conditions"
+        "Title": "推薦朋友",
+        "Text1": "推薦朋友並獲得50個免費信用",
+        "Text2": "使用您的@username作為推薦碼",
+        "Btn1": "使用鏈接推薦朋友",
+        "Btn2": "閱讀條款和條件"
       },
       "UseRefer": {
-        "Title": "Use Referral",
-        "Text1": "Earn 50 free credits",
-        "Text2": "Your Friend’s Referral Code",
-        "Text3": "Refferal code can not be changed"
+        "Title": "使用推薦",
+        "Text1": "獲得50個免費信用",
+        "Text2": "您朋友的推薦碼",
+        "Text3": "推薦碼無法更改"
       },
       "ReferUsed": {
-        "Title": "Referral Used"
+        "Title": "已使用推薦"
       },
       "OnBoard": {
-        "Title": "Do you have a referral code?",
-        "Subtitle": "Enter your code to jumpstart your Beamco Journey!",
-        "Actived": "Referral Activated",
-        "Success": "Congratulations! now you will get 5% credit every transaction!"
+        "Title": "您有推薦碼嗎？",
+        "Subtitle": "輸入您的碼以開始您的Beamco之旅！",
+        "Actived": "推薦已激活",
+        "Success": "恭喜！現在您將在每筆交易中獲得5％的信用！"
       }
     },
     "ReferralQR": {
-      "Title": "Referral Code",
+      "Title": "推薦碼",
       "ReferFriend": {
-        "Title": "REFER A FRIEND",
-        "Text1": "Refer a friend and earn 50 free credits",
-        "Text2": "Use your @username as referral code",
-        "Btn1": "Refer a friend using link",
-        "Btn2": "Read Terms of Use"
+        "Title": "推薦朋友",
+        "Text1": "推薦朋友並獲得50個免費信用",
+        "Text2": "使用您的@username作為推薦碼",
+        "Btn1": "使用鏈接推薦朋友",
+        "Btn2": "閱讀使用條款"
       },
       "UseRefer": {
-        "Title": "USE REFERRAL",
-        "Text1": "Earn 50 free credits",
-        "Text2": "Your Friend’s Referral Code",
-        "Text3": "Referral code can not be changed",
-        "Invalid": "Referral code invalid"
+        "Title": "使用推薦",
+        "Text1": "獲得50個免費信用",
+        "Text2": "您朋友的推薦碼",
+        "Text3": "推薦碼無法更改",
+        "Invalid": "推薦碼無效"
       },
       "OnBoard": {
-        "Title": "Scan QR Code to Earn Bonuses!",
-        "Subtitle": "Scan referral code by pressing scan now button, to earn some free stuff and bonuses",
-        "Activated": "Your 5% Comission for every transaction have been activated!",
-        "SuccessTitle": "Your scan was successful!",
-        "SuccessDesc": "Congratulations! now you will get 5% credit every transaction!",
-        "Continue": "Continue",
-        "Next": "Next",
-        "DividerOnScan": "Or",
-        "DividerOnManualEnter": "Or Try Another Method",
-        "ReferralAdded": "Referral Code Added",
-        "BtnScan": "Scan Now",
-        "BtnManual": "Enter Manually"
+        "Title": "掃描QR碼以獲得獎金！",
+        "Subtitle": "按“立即掃描”掃描推薦碼以獲得獎金",
+        "Activated": "您每筆交易的5％佣金已激活！", //123#yogialign
+        "SuccessTitle": "成功！",
+        "SuccessDesc": "恭喜！現在您將在每筆交易中獲得5％的信用！",
+        "Continue": "繼續",
+        "Next": "下一個",
+        "DividerOnScan": "或者",
+        "DividerOnManualEnter": "或嘗試另一種方法",
+        "ReferralAdded": "已添加推薦碼",
+        "BtnScan": "立即掃描",
+        "BtnManual": "手動輸入"
       },
       "ScanFailed": {
-        "Title": "Scan QR Code",
-        "Desc": "Referral Code invalid, Scan another QR Code",
-        "Btn": "Dismiss"
+        "Title": "掃描QR碼",
+        "Desc": "掃描失敗！嘗試使用另一個碼",
+        "Btn": "取消"
       },
       "ShareQR": {
-        "Subtitle": "Share this QR code to let others know your referral code and earn credit bonuses!",
-        "BtnShare": "Share Profile",
-        "BtnBack": "Back"
+        "Subtitle": "分享此QR碼以讓其他人知道您的推薦碼並獲得支持獎金！",
+        "BtnShare": "分享個人資料",
+        "BtnBack": "返回"
       }
     },
     "Language": {
       "Title": "語言",
-      "Placeholder": "Select Language",
+      "Placeholder": "選擇語言",
       "Modal": {
-        "Title": "Change Language",
-        "Subtitle": "Are you sure you want to change your language?"
+        "Title": "更改語言",
+        "Subtitle": "您確定要更改語言嗎？"
       }
     },
     "Notification": {
       "Title": "推送通知",
       "Label": {
         "Title": "打開推送通知",
-        "Subtitle": "您尚未在手機上激活推送通知。 立即激活以獲取最新信息！"
+        "Subtitle": "您尚未在您的設備上激活推送通知。 在“設置”下選擇“立即激活”"
       }
     },
     "Report": {
       "Title": "發送報告",
       "Modal": {
-        "Title": "需要幫忙？",
+        "Title": "需要幫助嗎？",
         "Bug": "報告錯誤",
-        "TextBug": "應用程式中的某些內容已損壞或無法按預期操作",
-        "Suggest": "改進建議",
-        "TextSuggest": "此應用程式的新想法或需要加強的功能",
-        "Help": "Help",
-        "TextHelp": "If you want to know more contact us",
-        "SendAppeal": "Send Appeal",
-        "TextSendAppeal": "Request account or content recovery"
+        "TextBug": "應用程序中的某些內容已損壞或無法按預期工作",
+        "Suggest": "建議改進",
+        "TextSuggest": "此應用程序的新想法或期望的增強功能",
+        "Help": "幫助",
+        "TextHelp": "如果您想了解更多信息，請聯絡我們",
+        "SendAppeal": "發送上訴",
+        "TextSendAppeal": "請求帳戶或內容恢復"
       },
       "Placeholder": {
-        "Email": "輸入你的電郵",
-        "Text": "我們如何改善您使用此應用程式的體驗？"
+        "Email": "輸入您的電子郵件",
+        "Text": "我們如何改善您使用此應用程序的體驗？"
       }
     },
     "SendAppeal": {
       "ReportedContent": {
-        "Title": "Send Appeal to recover your account and content",
-        "Subtitle": "Select content to recover : "
+        "Title": "發送上訴以恢復您的帳戶和內容",
+        "Subtitle": "選擇要恢復的內容："
       },
-      "ContentToRecover": "Content to recover",
+      "ContentToRecover": "要恢復的內容",
       "ModalBanned": {
-        "Title": "You’ve been banned",
-        "Subtitle": "Are you sure to send this appeal?",
-        "Button1": "Let me think",
-        "Button2": "Send"
+        "Title": "哎呀！看起來您已被禁止",
+        "Subtitle": "您確定要發送此上訴嗎？",
+        "Button1": "讓我想想",
+        "Button2": "發送"
       },
       "ModalSuccess": {
-        "Title": "Your Appeal has been sent!",
-        "Subtitle": "Kindly wait for the review. Once your appeal approved your penalty will removed",
-        "Button": "Back to Settings"
+        "Title": "您的上訴已收到！",
+        "Subtitle": "我們將及時通知您",
+        "Button": "返回設置"
       }
-    }, 
-    "PreventInteraction": {
-      "Title": "You've been banned",
-      "Subtitle": "You are not able to have an interaction with other people. Visit help in settings to send appeal and remove your banned by sending a valid reason",
-      "TextNavigate": "help in settings"
     },
     "Helps": {
       "Title": "幫助"
     },
     "TnC": {
-      "Title": "服務條款"
+      "Title": "條款和條件"
     },
     "Privacy": {
       "Title": "隱私政策"
@@ -743,75 +762,74 @@
       "Title": "版本"
     },
     "Transaction": {
-      "Title": "Transaction"
+      "Title": "交易"
     }
   },
   "Music": {
     "Label": {
       "NowPlaying": "正在播放",
-      "SongDetails": "歌曲詳情",
+      "SongDetails": "歌曲详情",
       "SongDesc": "歌曲描述",
-      "SingBy": "唱",
-      "AddToMyPlaylist": "新增到我的播放清單",
-      "By": "由 ",
+      "AddToMyPlaylist": "添加到我的播放列表",
+      "By": "由",
       "SongList": "歌曲列表",
-      "AddSong": "新增歌曲",
-      "CreatedOn": "製作於",
-      "ComingSoon": "Coming soon",
-      "NoSong": "No Song Added",
+      "AddSong": "添加歌曲",
+      "CreatedOn": "创建于",
+      "ComingSoon": "即将推出",
+      "NoSong": "没有添加歌曲",
       "Songs": "歌曲"
     },
     "NewPlaylist": {
-      "Title": "New Playlist",
-      "Cover": "Edit Playlist Cover",
+      "Title": "新播放列表",
+      "Cover": "编辑播放列表封面艺术",
       "Placeholder": {
-        "Name": "Playlist Name",
-        "Desc": "Playlist Description"
+        "Name": "播放列表名称",
+        "Desc": "播放列表描述"
       },
       "Visibility": {
-        "Title": "Visibility",
-        "Public": "公開",
+        "Title": "可见度",
+        "Public": "公开",
         "Private": "私人"
       }
     },
     "Playlist": {
-      "Edit": "Edit Playlist",
-      "Delete": "Delete Playlist",
-      "Share": "Share Playlist",
-      "Success": "{{song}} successfully added to playlist {{playlist}}",
-      "Remove": "Remove from Playlist",
-      "ViewAlbum": "View Album"
+      "Edit": "编辑播放列表",
+      "Delete": "删除播放列表",
+      "Share": "分享播放列表",
+      "Success": "{{song}}成功添加到播放列表{{playlist}}",
+      "Remove": "从播放列表中移除",
+      "ViewAlbum": "查看专辑"
     },
     "Credit": {
-      "Title": "顯示製作人",
-      "SingBy": "唱",
+      "Title": "显示Beam信用",
+      "SingBy": "表演者",
       "Featuring": "特色",
-      "Writer": "作曲",
+      "Writer": "作曲家",
       "Format": "格式",
-      "Label": "唱片公司",
-      "Genre": "類型",
-      "Release": "發布日期",
-      "Copyright": "版權"
+      "Label": "标签名称",
+      "Genre": "流派",
+      "Release": "发布日期",
+      "Copyright": "版权"
     }
   },
   "Post": {
-    "Title": "帖",
+    "Title": "帖子",
     "Label": {
-      "RepliedTo": "回復了",
-      "ViewMoreReply": "View more reply",
-      "EditReply": "Edit Reply",
-      "DeleteReply": "Delete Reply",
-      "EditPost": "Edit Post",
-      "DeletePost": "Delete Post"
+      "RepliedTo": "回复给",
+      "ViewMoreReply": "查看更多回复",
+      "EditReply": "编辑回复",
+      "DeleteReply": "删除回复",
+      "EditPost": "编辑帖子",
+      "DeletePost": "删除帖子"
     },
     "Placeholder": {
-      "Write": "Write your reply"
+      "Write": "写下你的回复"
     },
     "Dropdown": {
-      "Visit": "Visit Profile",
-      "Report": "Report",
-      "ReportSent": "Report Sent!",
-      "Block": "Block"
+      "Visit": "访问个人资料",
+      "Report": "举报",
+      "ReportSent": "报告已发送！",
+      "Block": "阻止"
     }
   },
   "Notification": {
@@ -819,353 +837,353 @@
   },
   "Modal": {
     "MusicianNotAvail": {
-      "Title": "Featuring Musician",
-      "Subtitle": "Musician that you’ve looking for is not available in beam platform, we'll let you know as soon as something new is on the horizon."
+      "Title": "特色艺术家",
+      "Subtitle": "您正在寻找的艺术家在Beamco平台上不可用，我们会在有新消息时通知您。"
     },
     "Limit": {
-      "Title": "Limit Reached",
-      "SubtitleSR1": "You have reached the limit of uploading 4 photos, please delete some of your photos to upload new ones.",
-      "SubtitleSR2": "Some of your photos cannot be uploaded because you have reached your limit. You can only upload up to 4 photos. Delete some photos to upload the new ones."
+      "Title": "已达到限制",
+      "SubtitleSR1": "您已达到上传4张照片的限制，请删除一些照片以上传新照片。",
+      "SubtitleSR2": "由于您已达到限制，无法上传一些照片。您只能上传多达4张照片。删除一些照片以上传新照片。"
     },
     "EditProfile": {
-      "Title": "編輯個人資料",
-      "Subtitle": "Are you sure to finish edit profile?"
+      "Title": "编辑个人资料",
+      "Subtitle": "保存更改？"
     },
     "Playlist": {
-      "Save": "Are you sure you want to save your new playlist?",
-      "Update": "Are you sure you want to update your playlist?",
-      "Delete": "Are you sure you want to delete this playlist?",
-      "Cover": "Edit Playlist Cover"
+      "Save": "您确定要保存新的播放列表吗？",
+      "Update": "您确定要更新播放列表吗？",
+      "Delete": "您确定要删除此播放列表吗？",
+      "Cover": "编辑播放列表封面"
     },
     "Donation": {
-      "Unsubs": "您確定要終止訂閱 {{name}}?"
+      "Unsubs": "您确定要取消订阅{{name}}吗？"
     },
     "Email": {
-      "Add": "Are you sure you want to add new email?",
-      "Change": "您確定要更改電郵？"
+      "Add": "您确定要添加新电子邮件吗？",
+      "Change": "您确定要更改电子邮件吗？"
     },
     "Phone": {
-      "Add": "Are you sure you want to add new phone number?",
-      "Change": "您確定要更改電話號碼？"
+      "Add": "您确定要添加新电话号码吗？",
+      "Change": "您确定要更新电话号码吗？"
     },
     "Report": {
-      "Success": "We’ve received your feedback. Thank you for helping us make Beamco better.",
-      "Back": "Back to Settings"
+      "Success": "感谢您的反馈！",
+      "Back": "返回设置"
     },
-    "SignOut": "Are you sure you want to sign out?",
+    "SignOut": "您确定要退出吗？",
     "Guest": {
-      "Title": "註冊或登入",
-      "Subtitle": "您正以訪客身份探索，註冊或登錄以享受完整內容"
+      "Title": "注册或登录",
+      "Subtitle": "您正在以访客身份探索，注册或登录以享受完整内容"
     },
     "Update": {
-      "Title": "New Version Available",
-      "Subtitle": "We added new feature and fix some bug to make your experience better. Please update your application to the latest version."
+      "Title": "有新的更新可用",
+      "Subtitle": "我们添加了新的功能以增强您的体验"
     },
     "Unsub": {
-      "Title": "Unsubscribe",
-      "Subtitle": "Are you sure you want to unsubscribe {{musician}}?"
+      "Title": "取消订阅",
+      "Subtitle": "您确定要取消订阅{{musician}}吗？"
     },
     "StopDonation": {
-      "Title": "Stop Donation",
-      "Subtitle": "Are you sure you want to stop donation to {{musician}}?"
+      "Title": "停止捐赠",
+      "Subtitle": "您确定要停止向{{musician}}捐赠吗？"
     },
     "CreditEmpty": {
-      "Title": "Aw, your credit is empty!",
-      "Subtitle": "Let’s top up credits to continue tipping"
+      "Title": "哎呀，您的Beam信用为空！",
+      "Subtitle": "让我们充值信用继续Beaming"
     },
     "SessionEnd": {
-      "Title": "Session has been end!",
-      "Subtitle": "Let’s view other musician performer"
+      "Title": "会话已结束！",
+      "Subtitle": "让我们查看其他艺术家的表演"
     },
     "ClaimReward": {
-      "Title": "You have claimed your reward!",
-      "Subtitle": "Thank you for supporting the community!"
+      "Title": "您已领取奖励！",
+      "Subtitle": "感谢您支持社区！"
     }
   },
   "EmptyState": {
-    "Donate": "你還沒有獎勵任何音樂人，嘗試捐贈你喜歡的音樂人",
-    "Exclusive": "You don’t have access to any exclusive content. Try subsrcibing to your favorite musician",
-    "NoData": "No data available",
-    "FollowMusician": "This musician doesn't seem to have any posts right now. Try following more musicians",
+    "Donate": "看起来你还没有奖励任何艺术家，尝试捐赠你最喜欢的艺术家",
+    "Exclusive": "你的Feed目前是空的。尝试订阅你最喜欢的艺术家",
+    "NoData": "没有可用的数据",
+    "FollowMusician": "目前你喜欢的艺术家还没有任何帖子。关注更多艺术家",
     "Search": {
-      "Album": "Album not found",
-      "Event": "Event not found",
-      "Merch": "Merch not found",
-      "Musician": "Musician not found",
-      "Playlist": "Playlist not found",
-      "Song": "Song not found",
-      "Fans": "Fans not found"
+      "Album": "找不到专辑",
+      "Event": "找不到事件",
+      "Merch": "找不到商品",
+      "Musician": "找不到艺术家",
+      "Playlist": "找不到播放列表",
+      "Song": "找不到歌曲",
+      "Fans": "找不到粉丝"
     },
-    "NoAlbum": "No Album Available.",
-    "NoMerch": "未有產品",
-    "NoInfo": "No Information Given.",
-    "NoPhoto": "No Photos Available.",
-    "NoFollowersTitle": "People follow this musician",
-    "NoFollowersSubtitle": "When people follow musician, you'll see them here",
-    "Subscribe": "You don’t have any subscription, try to subsrcibe your favorite musician"
+    "NoAlbum": "没有可用的专辑。",
+    "NoMerch": "没有可用的商品。",
+    "NoInfo": "没有提供信息。",
+    "NoPhoto": "没有可用的照片。",
+    "NoFollowersTitle": "人们关注这位艺术家",
+    "NoFollowerBeamcobtitle": "当人们关注艺术家时，你会在这里看到他们",
+    "Subscribe": "你没有任何订阅。尝试订阅你最喜欢的艺术家"
   },
   "Guest": {
-    "Title": "立即註冊與音樂人互動",
-    "Subtitle": "註冊後，你就可以",
-    "UnlimitedSong": "無限播放歌曲",
-    "GetEvent": "取得最新活動資訊",
-    "GetExclusive": "獲取獨家內容",
-    "Support": "支持你的音樂人"
+    "Title": "注册以与艺术家互动",
+    "Subtitle": "当你注册时，你可以",
+    "UnlimitedSong": "播放无限制的\n歌曲",
+    "GetEvent": "获取最新的\n事件更新",
+    "GetExclusive": "获取独家\n内容",
+    "Support": "支持\n你的艺术家"
   },
   "TopUp": {
-    "Title": "Credit",
-    "Subtitle1": "BEAMCO Credit is your way to show your appreciation",
-    "Subtitle2": "BEAMCO Credit allows you to parcitipate in Musician’s upside and grow their community",
-    "Subtitle3": "Find Musician who is providing a lot of value? Rewards them with BEAMCO Credit as a support",
-    "MyCoin": "My Credit",
+    "Title": "购买积分",
+    "Subtitle1": "使用积分支持并与你最喜欢的艺术家互动",
+    "Subtitle2": "BEAMCO积分允许你参与艺术家的增值并发展他们的社区",
+    "Subtitle3": "找到提供很多价值的艺术家？用BEAMCO积分作为支持奖励他们",
+    "MyCoin": "Beam余额",
     "Filter": {
-      "Buy": "Buy Package",
-      "Transaction": "Transaction"
+      "Buy": "购买套餐",
+      "Transaction": "交易历史"
     },
     "Transaction": {
-      "SuccessPurchased": "{{credit}} Coin have been purchased",
+      "SuccessPurchased": "你已成功购买{{credit}}积分！",
       "Detail": {
-        "Title": "Transaction Details",
-        "StatusInfo": "Credit added successfully!",
-        "ReferenceNumber": "Reference Number",
-        "Status": "Status",
-        "Success": "Success",
-        "Failed": "Failed",
-        "Date": "Date",
-        "Time": "Time",
-        "PaymentMethods": "Payment Methods",
-        "Total": "Total",
-        "Credit": "Credit",
-        "Bonus": "Bonus",
-        "NeedHelp": "Need Help?",
-        "ContactSupport": "Contact our support"
+        "Title": "交易详情",
+        "StatusInfo": "积分购买成功！",
+        "ReferenceNumber": "参考号",
+        "Status": "状态",
+        "Success": "成功",
+        "Failed": "失败",
+        "Date": "日期",
+        "Time": "时间",
+        "PaymentMethods": "支付方式",
+        "Total": "总计",
+        "Credit": "积分",
+        "Bonus": "奖金",
+        "NeedHelp": "需要帮助？",
+        "ContactSupport": "联系我们的支持"
       }
     },
     "EmptyState": {
-      "Transaction": "The transaction list will be displayed here, but as of now, no transactions have been made."
+      "Transaction": "交易列表将在这里显示，但是现在还没有进行任何交易。"
     }
   },
   "RecoverAccount": {
-    "Title": "Account Deletion",
-    "FirstParagraph": "You have signed in to your account which is currently undergoing the deletion process.",
-    "SecondParagraph": "Please keep in mind that you can still recover your account within the next 30 days.",
-    "ThirdParagraph": "However, once you delete your account, all of your data, including your saved preferences and settings, will be permanently erased.",
+    "Title": "账户删除",
+    "FirstParagraph": "你已登录到当前正在删除的账户。",
+    "SecondParagraph": "请记住，你在接下来的30天内仍然可以恢复你的账户。",
+    "ThirdParagraph": "一旦你删除你的账户，所有的数据，包括你保存的偏好和设置，都将被永久删除。",
     "Btn": {
-      "Recover": "Recover My Account",
-      "SignOut": "No, Sign Out"
+      "Recover": "恢复我的账户",
+      "SignOut": "不，退出登录"
     },
     "Modal": {
-      "Title": "Recover Account",
-      "Subtitle": "Are you sure you recover your account?"
+      "Title": "恢复账户",
+      "Subtitle": "你确定要恢复你的账户吗？"
     }
   },
   "Cart": {
-    "Title": "Cart",
-    "SelectAll": "Select All",
-    "Delete": "Delete",
-    "Checkout": "Checkout"
+    "Title": "购物车",
+    "SelectAll": "全选",
+    "Delete": "删除",
+    "Checkout": "结账"
   },
   "Promo": {
     "Code": {
-      "Title": "Promo Code",
-      "Time": "Ended in {{time}}"
+      "Title": "促销代码",
+      "Time": "{{time}}结束"
     },
     "Detail": {
-      "Title": "Promo Detail",
-      "Time": "Ended in",
-      "Minimum": "Minimum Transactions",
-      "TnC": "Terms & Conditions"
+      "Title": "促销详情",
+      "Time": "结束时间",
+      "Minimum": "最低交易",
+      "TnC": "条款和条件"
     }
   },
   "Checkout": {
-    "Title": "Checkout",
-    "AddShipping": "Add shipping location",
-    "Delivery": "Choose Delivery",
-    "Agent": "Delivery Agent",
+    "Title": "结账",
+    "AddShipping": "添加送货地点",
+    "Delivery": "选择送货",
+    "Agent": "送货代理",
     "Modal": {
-      "Title": "Congratulations! You have successfully purchased your product",
-      "Btn": "View Transaction"
+      "Title": "恭喜！你已成功购买你的产品",
+      "Btn": "查看交易"
     }
   },
   "Transaction": {
-    "Title": "Transaction",
+    "Title": "交易",
     "Merch": {
-      "All": "All",
-      "Unpaid": "Unpaid",
-      "Paid": "Paid",
-      "ToShip": "To Ship",
-      "Shipped": "Shipped",
-      "Review": "Review",
-      "Estimated": "Estimated arrival"
+      "All": "全部",
+      "Unpaid": "未付款",
+      "Paid": "已付款",
+      "ToShip": "待发货",
+      "Shipped": "已发货",
+      "Review": "评论",
+      "Estimated": "预计到达"
     },
     "Detail": {
-      "Title": "Details",
-      "Product": "Detail Product",
-      "Total": "Total",
+      "Title": "詳情",
+      "Product": "產品詳情",
+      "Total": "總計",
       "Purchase": {
-        "Title": "Purchase Information",
-        "Date": "Purchasing Date",
-        "Cancel": "Auto Cancel On"
+        "Title": "購買資訊",
+        "Date": "購買日期",
+        "Cancel": "自動取消於"
       },
       "Shipping": {
-        "Title": "Shipping Information",
-        "Address": "Adress",
-        "Estimation": "Estimation"
+        "Title": "運送資訊",
+        "Address": "地址",
+        "Estimation": "估計"
       },
       "Payment": {
-        "Title": "Payment Details",
-        "Total": "Total Price",
-        "Delivery": "Delivery Price",
-        "Promo": "Promo code",
-        "Tax": "Tax"
+        "Title": "付款詳情",
+        "Total": "總價",
+        "Delivery": "運費",
+        "Promo": "促銷代碼",
+        "Tax": "稅"
       },
-      "Ticket": "Ticket"
+      "Ticket": "票"
     },
-    "Finish": "Finish Order",
-    "Track": "Track Status",
-    "Cancel": "Cancel Order",
+    "Finish": "完成訂單",
+    "Track": "追踪狀態",
+    "Cancel": "取消訂單",
     "Order": {
-      "Title": "Finish Order",
-      "Confirm": "Are you sure to finish this order?",
-      "Finish": "Order Finished!"
+      "Title": "完成訂單",
+      "Confirm": "你確定要完成這個訂單嗎？",
+      "Finish": "訂單已完成！"
     },
     "Dropdown": {
       "Category": {
-        "Placeholder": "Category",
-        "All": "All",
-        "Merchandise": "Merchandise",
-        "Ticket": "Ticket"
+        "Placeholder": "類別",
+        "All": "全部",
+        "Merchandise": "商品",
+        "Ticket": "票"
       },
       "Sort": {
-        "Placeholder": "Sort By",
-        "Newest": "Newest",
-        "Oldest": "Oldest"
+        "Placeholder": "排序依據",
+        "Newest": "最新",
+        "Oldest": "最舊"
       }
     },
-    "EmptyState": "Oops! you don’t have any transaction.\nYour transaction will be displayed here"
+    "EmptyState": "哎呀！你沒有任何交易。你的交易將在這裡顯示"
   },
   "Tracking": {
-    "Title": "Track Status"
+    "Title": "追踪狀態"
   },
   "Shop": {
-    "Title": "Shop"
+    "Title": "商店"
   },
   "Review": {
-    "Title": "Review",
-    "Rating": "Take a moment to rate this item",
-    "Input": "Have you satisfied about this product?",
-    "Placeholder": "Ex: I love this product, the finishing is very clean!"
+    "Title": "評價",
+    "Rating": "花一點時間為這個項目評分",
+    "Input": "你對這個產品滿意嗎？",
+    "Placeholder": "例如：我喜歡這個產品，完成得非常乾淨！"
   },
   "ProfileProgress": {
-    "Title": "Profile Progress",
+    "Title": "個人資料進度",
     "Card": {
-      "Title": "Profile & Account Information",
-      "Subtitle": "Tap to complete your account information"
+      "Title": "個人資料和帳戶資訊",
+      "Subtitle": "點擊以完成你的帳戶資訊"
     },
-    "Title2": "Task To Complete",
+    "Title2": "要完成的任務",
     "Tab": {
-      "AccountInformation": "Account Information",
-      "ProfileInformation": "Profile Information"
+      "AccountInformation": "帳戶資訊",
+      "ProfileInformation": "個人資料資訊"
     },
-    "SubtitleTooltip": "To finish this step, you need to fulfill this information below:",
-    "SubtitleTooltipFinish": "You have already completed your account information"
+    "SubtitleTooltip": "完成你的個人資料：",
+    "SubtitleTooltipFinish": "你已經完成了你的帳戶資訊"
   },
   "ShareLink": {
     "Music": {
-      "Title": "Listen To {{title}}",
-      "Playlist": "Unleash Your Ears: Indulge in an Extraordinary Playlist Experience!",
-      "Song": "Unleash the Melodies: Immerse Yourself in This Captivating Song!",
-      "Album": "Immerse Yourself in a Diverse Musical Experience with This Captivating Collection"
+      "Title": "聽 {{title}}",
+      "Playlist": "釋放你的耳朵：享受非凡的播放列表體驗！",
+      "Song": "釋放旋律：沉浸在這首迷人的歌曲中！",
+      "Album": "沉浸在這個迷人的音樂集合中，享受多元的音樂體驗！"
     },
     "Feed": {
-      "Title": "{{musician}}'s post",
-      "Subtitle": "Get the Latest Updates from Your Favorite Musician!"
+      "Title": "{{musician}} 的帖子",
+      "Subtitle": "獲取你最喜愛的藝術家的最新更新！"
     },
     "Profile": {
-      "Title": "Get in touch with {{name}}",
-      "Subtitle": "Discover Attention-Grabbing Musicians to Explore!",
-      "LinkCopied": "The profile URL has been copied!"
+      "Title": "與 {{name}} 保持聯繫",
+      "Subtitle": "發現吸引眼球的藝術家，探索更多！",
+      "LinkCopied": "個人資料的網址已複製！"
     }
   },
   "ModalComponent": {
     "Report": {
       "Type": {
         "Song": {
-          "FirstTitle": "Why are you reporting this song?",
-          "SecondTitle": "Are you sure to report this song?"
+          "FirstTitle": "你為什麼要舉報這首歌？",
+          "SecondTitle": "你確定要舉報這首歌嗎？"
         },
         "Album": {
-          "FirstTitle": "Why are you reporting this album?",
-          "SecondTitle": "Are you sure to report this album?"
+          "FirstTitle": "你為什麼要舉報這個專輯？",
+          "SecondTitle": "你確定要舉報這個專輯嗎？"
         },
         "Post": {
-          "FirstTitle": "Why are you reporting this post?",
-          "SecondTitle": "Are you sure to report this post?"
+          "FirstTitle": "你為什麼要舉報這個帖子？",
+          "SecondTitle": "你確定要舉報這個帖子嗎？"
         },
         "Replies": {
-          "FirstTitle": "Why are you reporting this replies?",
-          "SecondTitle": "Are you sure to report this replies?"
+          "FirstTitle": "你為什麼要舉報這個？",
+          "SecondTitle": "你確定要舉報這個嗎？"
         }
       },
       "Category": {
-        "OptionA": "Abusive behavior and violent threats",
-        "OptionB": "Spam and system abuse",
-        "OptionC": "Unauthorized use of copyrighted materials",
-        "OptionD": "Show sensitive or disturbing content"
+        "OptionA": "辱罵行為和暴力威脅",
+        "OptionB": "垃圾郵件和系統濫用",
+        "OptionC": "未經授權使用版權材料",
+        "OptionD": "敏感或令人不安的內容"
       },
       "Button": {
-        "Cancel": "Cancel",
-        "Send": "Send",
-        "Edit": "Let me edit"
+        "Cancel": "取消",
+        "Send": "發送",
+        "Edit": "讓我編輯"
       },
-      "Placeholder": "Add Reason",
+      "Placeholder": "添加原因（其他）",
       "Subtitle": {
-        "Category": "Category",
-        "Reason": "Reason"
+        "Category": "類別",
+        "Reason": "原因"
       },
-      "Warning": "You need to select one of the report category",
-      "ReportSuccess": "Report have been sent!"
+      "Warning": "你需要選擇一個舉報類別",
+      "ReportSuccess": "舉報已發送！"
     }
   },
   "Block": {
     "Modal": {
-      "Title": "Block",
-      "Subtitle": "They will not be able to follow you or view your content, and you will not see content from",
-      "LeftButton": "Cancel",
-      "RightButton": "Block"
+      "Title": "封鎖",
+      "Subtitle": "他們將無法關注你或查看你的內容，你也不會看到來自",
+      "LeftButton": "取消",
+      "RightButton": "封鎖"
     },
     "BlockUI": {
-      "isBlockCaption": "This comment is from the people you've been blocked visit user profile",
-      "blockIsCaption": "You've been blocked by the people who replies this content visit user profile",
-      "linkCaption": "visit user profile",
-      "isBlockedProfTitle": "is Blocked",
-      "isBlockedProfCaption": "They can't follow or view your post and you can't see replies or notification from",
-      "blockIsProfTitle": "You have been Blocked",
-      "blockIsProfCaption": "You can't see replies or notification from",
-      "unBlockTitle": "Are you sure to unblock",
-      "unBlockCaptionA": "by unblocking",
-      "unBlockCaptionB": "They will be able view your content, and you will see content or notification from",
-      "unblockButtonYes": "Unblock",
-      "unblockSuccess": "have been unblocked!"
-    },
-    "Dropdown": {
-      "Profile": {
-        "qr": "QR Code",
-        "share": "Share Profile",
-        "block": "Block",
-        "unblock": "Unblock"
-      }
+      "isBlockCaption": "這個評論來自你已經封鎖的人，訪問用戶資料",
+      "blockIsCaption": "回覆此內容的人已封鎖你，訪問用戶資料",
+      "linkCaption": "訪問用戶資料",
+      "isBlockedProfTitle": "已封鎖",
+      "isBlockedProfCaption": "此頁面目前無法使用",
+      "blockIsProfTitle": "你已被封鎖",
+      "blockIsProfCaption": "你無法看到來自",
+      "unBlockTitle": "你確定要解除封鎖",
+      "unBlockCaptionA": "通過解除封鎖",
+      "unBlockCaptionB": "你們將能夠看到彼此的個人資料",
+      "unblockButtonYes": "解除封鎖",
+      "unblockSuccess": "已解除封鎖！"
+    }
+  },
+  "Dropdown": {
+    "Profile": {
+      "qr": "QR 碼",
+      "share": "分享個人資料",
+      "block": "封鎖",
+      "unblock": "解除封鎖"
     }
   },
   "ClaimReward": {
-    "Title": "Reward Detail",
-    "ValidUntil": "Valid until",
-    "Claim": "Claim",
-    "Claimed": "Claimed"
+    "Title": "獎勵詳情",
+    "ValidUntil": "有效期至",
+    "Claim": "認領",
+    "Claimed": "已認領"
   },
   "LiveTipping": {
-    "SwipeUp": "Swipe Up To Tip",
-    "TooFast": "You swipe to fast!",
-    "EnjoyShow": "Let’s enjoy the show\nand take a rest for few second"
+    "SwipeUp": "向上滑動以發送",
+    "TooFast": "你滑動得太快了！",
+    "EnjoyShow": "讓我們享受表演\n並休息幾秒鐘"
   }
 }

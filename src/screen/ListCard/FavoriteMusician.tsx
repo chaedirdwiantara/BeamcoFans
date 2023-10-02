@@ -137,7 +137,7 @@ const FavoriteMusician: FC<FavoriteMusicianProps> = ({
     </View>
   ) : (
     <EmptyStateSongMusician
-      text={t('Home.Musician.EmptyState', {title: 'Favorite Musician'})}
+      text={t('Home.Musician.EmptyState', {title: 'Favorite Artist'})}
     />
   );
 };
