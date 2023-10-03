@@ -20,6 +20,7 @@ import {
 } from '../interface/musician.interface';
 import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
+import {useInfiniteQuery} from 'react-query';
 
 export const useMusicianHook = () => {
   const [isLoadingMusician, setIsLoadingMusician] = useState(false);
@@ -173,22 +174,22 @@ export const useMusicianHook = () => {
     }
   };
 
-  const getListContribution = async (props?: ParamsProps) => {
-    setIsLoadingMusician(true);
-    try {
-      const response = await listContribution(props);
-      return {
-        data: response.data,
-        message: response.message,
-        meta: response.meta,
-      };
-    } catch (error) {
-      console.log(error);
-      setIsErrorMusician(true);
-      setDataMusician([]);
-    } finally {
-      setIsLoadingMusician(false);
-    }
+  const useListContribution = (totalPage: number, params?: ParamsProps) => {
+    return useInfiniteQuery({
+      queryKey: ['list-contribution'],
+      enabled: false,
+      queryFn: ({pageParam = 1}) =>
+        listContribution({...params, page: pageParam, perPage: 10}),
+      keepPreviousData: true,
+      getNextPageParam: lastPage => {
+        if ((lastPage?.data?.length as number) < totalPage) {
+          const nextPage = (lastPage?.data?.length as number) + 1;
+          return nextPage;
+        }
+        return null;
+      },
+      getPreviousPageParam: () => null,
+    });
   };
 
   return {
@@ -210,6 +211,6 @@ export const useMusicianHook = () => {
     getListDataRecommendedMusician,
     getDetailMusicianGuest,
     getDataAppearsOn,
-    getListContribution,
+    useListContribution,
   };
 };

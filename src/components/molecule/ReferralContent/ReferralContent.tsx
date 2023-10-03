@@ -119,7 +119,6 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
   useEffect(() => {
     if (isValidRef) {
       setIsScanSuccess(isValidRef);
-      setRefCode(refe);
     } else if (!isValidRef && isScanning) {
       setIsScanFailed(true);
     }
