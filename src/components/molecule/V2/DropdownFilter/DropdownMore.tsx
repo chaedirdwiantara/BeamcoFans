@@ -33,6 +33,7 @@ interface DropdownV2Props {
   topPosition?: number;
   leftPosition?: number;
   userName?: string;
+  onPress?: () => void;
 }
 
 const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
@@ -51,6 +52,7 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
     iconChildren,
     topPosition = 0,
     leftPosition = 0,
+    onPress,
   } = props;
   const [offsetSortFilter, setOffsetSortFilter] = useState<{
     px: number;
@@ -113,7 +115,13 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
       }>
       <TouchableOpacity
         style={[styles.iconContainer, iconContainerStyle]}
-        onPress={() => setIsModalVisible(true)}>
+        onPress={() => {
+          if (onPress) {
+            onPress();
+          } else {
+            setIsModalVisible(true);
+          }
+        }}>
         {iconChildren ?? <IconMore />}
       </TouchableOpacity>
       {offsetSortFilter !== undefined && (

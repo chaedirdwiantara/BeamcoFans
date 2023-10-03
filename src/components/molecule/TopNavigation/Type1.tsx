@@ -27,11 +27,19 @@ type Props = {
   resultDataDropdown?: (dataResult: DataDropDownType) => void;
   dropdownData?: DataDropDownType[];
   beingBlocked?: boolean;
+  containerTextStyle?: ViewStyle;
+  onPressDropdown?: () => void;
 };
 
 /** == COMPONENT === */
 const Type1: React.FC<Props> = (props: Props) => {
-  const {dropdownData, resultDataDropdown, beingBlocked} = props;
+  const {
+    dropdownData,
+    resultDataDropdown,
+    beingBlocked,
+    containerTextStyle,
+    onPressDropdown,
+  } = props;
 
   /** => icon left */
   const iconLeft = () => {
@@ -63,7 +71,8 @@ const Type1: React.FC<Props> = (props: Props) => {
           props.containerStyles,
         ]}>
         <View style={topNavstyles.leftContainer}>{iconLeft()}</View>
-        <View style={[topNavstyles.centerContainer, {flex: 5}]}>
+        <View
+          style={[topNavstyles.centerContainer, {flex: 5}, containerTextStyle]}>
           <Text
             numberOfLines={1}
             style={[
@@ -82,6 +91,7 @@ const Type1: React.FC<Props> = (props: Props) => {
                 iconChildren={<DropDownIcon />}
                 topPosition={widthResponsive(5)}
                 leftPosition={widthResponsive(20)}
+                onPress={onPressDropdown}
               />
             </View>
           )}

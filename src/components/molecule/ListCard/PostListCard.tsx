@@ -58,6 +58,7 @@ interface ListProps extends TouchableOpacityProps {
   selectedUserName?: (name: string) => void;
   onProfile?: boolean;
   reportSent?: boolean;
+  onPressDropdown?: () => void;
 }
 
 const PostListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -81,6 +82,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
     selectedUserName,
     onProfile,
     reportSent,
+    onPressDropdown,
   } = props;
 
   const myUuid = profileStorage()?.uuid;
@@ -184,6 +186,7 @@ const PostListCard: React.FC<ListProps> = (props: ListProps) => {
                   }}
                   topPosition={widthResponsive(-33)}
                   leftPosition={leftPosition}
+                  onPress={onPressDropdown}
                 />
               </View>
             ) : (
