@@ -84,7 +84,7 @@ interface PostListProps extends DataExclusiveResponse {
 }
 
 const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
-  const isLogin = storage.getString('profile');
+  const isLogin = storage.getBoolean('isLogin');
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -515,11 +515,16 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                       ? handleOnBlur
                       : () => cardOnPress(item)
                   }
-                  likeOnPress={() => likeOnPress(item.id, item.isLiked)}
+                  likeOnPress={
+                    !isLogin
+                      ? handleNotLogin
+                      : () => likeOnPress(item.id, item.isLiked)
+                  }
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
                   tokenOnPress={() => tokenOnPress(item.musician.uuid)}
                   shareOnPress={() => shareOnPress(item)}
+                  onPressDropdown={!isLogin ? handleNotLogin : () => null}
                   selectedMenu={setSelectedMenuPost}
                   selectedIdPost={setSelectedIdPost}
                   selectedUserUuid={setSelectedUserUuid}

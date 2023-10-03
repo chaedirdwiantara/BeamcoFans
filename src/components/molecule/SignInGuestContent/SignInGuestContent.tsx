@@ -57,6 +57,7 @@ export const SignInGuestContent: React.FC<GuestProps> = ({onPress}) => {
           textStyles={{fontSize: normalize(14), color: Color.Success[400]}}
           onPress={() => {
             storage.set('isGuest', true);
+            storage.set('isLogin', false);
             onPress('MainTab');
           }}
         />

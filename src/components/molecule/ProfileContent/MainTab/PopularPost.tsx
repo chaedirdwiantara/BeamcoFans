@@ -49,7 +49,7 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const MyUuid = profileStorage()?.uuid;
-  const isLogin = storage.getString('profile');
+  const isLogin = storage.getBoolean('isLogin');
   const {
     feedIsLoading,
     feedIsError,
@@ -334,15 +334,20 @@ const PopularPost: FC<PopularPostProps> = (props: PopularPostProps) => {
             data={item}
             containerStyles={{paddingHorizontal: 0}}
             toDetailOnPress={() => {}}
-            onPress={() => cardOnPress(item)}
-            likeOnPress={() => likeOnPress(item.id, item.isLiked)}
+            onPress={!isLogin ? handleNotLogin : () => cardOnPress(item)}
+            likeOnPress={
+              !isLogin
+                ? handleNotLogin
+                : () => likeOnPress(item.id, item.isLiked)
+            }
             likePressed={likePressedInFeed(selectedId, item, recorder)}
             likeCount={likesCountInFeed(selectedId, item, recorder)}
-            tokenOnPress={tokenOnPress}
-            shareOnPress={() => shareOnPress(item)}
+            tokenOnPress={!isLogin ? handleNotLogin : tokenOnPress}
+            shareOnPress={!isLogin ? handleNotLogin : () => shareOnPress(item)}
             selectedMenu={setSelectedMenuPost}
             selectedIdPost={setSelectedIdPost}
             selectedUserUuid={setSelectedUserUuid}
+            onPressDropdown={!isLogin ? handleNotLogin : () => null}
             showDropdown={
               item.isPremiumPost &&
               item.musician.uuid !== MyUuid &&
