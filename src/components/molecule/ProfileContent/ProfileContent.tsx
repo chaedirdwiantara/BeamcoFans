@@ -259,7 +259,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
       {myUuid !== profile.uuid && (
         <TopNavigation.Type1
           type="user detail"
-          title=""
+          title={scrollEffect ? profile.fullname : ''}
           leftIconAction={handleBackAction}
           maxLengthTitle={20}
           itemStrokeColor={'white'}
@@ -270,6 +270,10 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           }
           resultDataDropdown={resultDataDropdown}
           beingBlocked={profile.blockIs}
+          containerTextStyle={{
+            justifyContent: 'flex-start',
+            marginLeft: widthPercentage(20),
+          }}
         />
       )}
       <ScrollView

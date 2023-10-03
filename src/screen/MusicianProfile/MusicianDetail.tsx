@@ -311,7 +311,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       <SsuStatusBar type={'black'} />
       <TopNavigation.Type1
         type="user detail"
-        title=""
+        title={scrolEffect ? profile.fullname : ''}
         leftIconAction={handleBackAction}
         maxLengthTitle={20}
         itemStrokeColor={'white'}
@@ -321,7 +321,12 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
         }
         resultDataDropdown={resultDataDropdown}
+        onPressDropdown={() => (isLogin ? null : setModalGuestVisible(true))}
         beingBlocked={profile.blockIs}
+        containerTextStyle={{
+          justifyContent: 'flex-start',
+          marginLeft: widthPercentage(20),
+        }}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -405,10 +410,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                     }}>
                     <Gap height={12} />
                     <PopUp
-                      title={'Show your appreciation'}
-                      subTitle={
-                        'Send tips to support your favorite musician to see them growth'
-                      }
+                      title={t('Musician.ShowAppreciate')}
+                      subTitle={t('Musician.SendTip')}
                       closeOnPress={closeOnPress}
                     />
                   </View>
