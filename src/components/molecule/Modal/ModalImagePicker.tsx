@@ -43,6 +43,17 @@ export const ModalImagePicker: React.FC<ModalImagePickerProps> = ({
       compressImageQuality: 0.9,
       mediaType: 'photo',
       cropping: true,
+      smartAlbums: [
+        'RecentlyAdded',
+        'Favorites',
+        'UserLibrary',
+        'Screenshots',
+        'Generic',
+        'PhotoStream',
+        'SelfPortraits',
+        'Panoramas',
+        'Bursts',
+      ],
     }).then(image => {
       sendUri(image);
       onPressClose();
