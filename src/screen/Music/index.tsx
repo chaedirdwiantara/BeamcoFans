@@ -81,6 +81,7 @@ export const MusicPlayer: FC<MusicProps> = ({navigation}: MusicProps) => {
   };
 
   const artistOnPress = () => {
+    showMiniPlayerOnly();
     navigation.navigate('MusicianProfile', {id: currentTrack?.musicianId});
   };
 

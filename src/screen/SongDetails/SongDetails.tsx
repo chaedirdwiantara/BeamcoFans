@@ -11,6 +11,7 @@ import {RootStackParams} from '../../navigations';
 import {SongDetailsContent} from '../../components';
 import {storage} from '../../hooks/use-storage.hook';
 import {useSongHook} from '../../hooks/use-song.hook';
+import { usePlayerStore } from '../../store/player.store';
 
 type SongDetailProps = NativeStackScreenProps<RootStackParams, 'SongDetails'>;
 
@@ -23,6 +24,7 @@ export const SongDetailsScreen: React.FC<SongDetailProps> = ({
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const {dataDetailSong, getDetailSong, getDetailSongPublic} = useSongHook();
+  const {setWithoutBottomTab, show} = usePlayerStore();
   const [showModalNotAvail, setShowModalNotAvail] = useState<boolean>(false);
 
   useFocusEffect(
@@ -35,7 +37,16 @@ export const SongDetailsScreen: React.FC<SongDetailProps> = ({
     }, []),
   );
 
+  useFocusEffect(
+    useCallback(() => {
+      if (show) {
+        setWithoutBottomTab(true);
+      }
+    }, [show]),
+  );
+
   const onPressGoBack = () => {
+    show && setWithoutBottomTab(false);
     navigation.goBack();
   };
 
