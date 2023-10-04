@@ -44,7 +44,7 @@
     "Title": "Login",
     "Footer": "Become a Part of Your Favourite Artist's Story",
     "ExploreGuest": "Explore as Guest",
-    "DontHaveAccount": "Don't Have an Account? Sign Up",
+    "DontHaveAccount": "Don't Have an Account?",
     "ForgotPassword": "I Forgot My Password",
     "Form": {
       "Email": "Email",
@@ -68,7 +68,7 @@
       "Phrase3": " & ",
       "Phrase4": "Privacy Policy"
     },
-    "Footer": "Already Have an Account? Sign In"
+    "Footer": "Already Have an Account? "
   },
   "OTP": {
     "Phone": {
