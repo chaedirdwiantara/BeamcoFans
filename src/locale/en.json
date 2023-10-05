@@ -176,14 +176,14 @@
         "Title": "Top Artist",
         "Follow": "Follow",
         "Unfollow": "Unfollow",
-        "Tip": "Send Beam",
+        "Tip": "Beam",
         "Profile": "Go to Artist",
         "Donation": "Send Donation"
       },
       "TopSong": {
         "Title": "Top Songs",
         "Playlist": "Add to Playlist",
-        "Tip": "Send Beam",
+        "Tip": "Beam",
         "Queue": "Add to Queue",
         "Share": "Share Music",
         "Details": "Show Details",
