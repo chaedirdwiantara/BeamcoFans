@@ -24,6 +24,7 @@ import {useInfiniteQuery} from 'react-query';
 
 export const useMusicianHook = () => {
   const [isLoadingMusician, setIsLoadingMusician] = useState(false);
+  const [isLoadingAlbum, setIsLoadingAlbum] = useState(false);
   const [dataMusician, setDataMusician] = useState<MusicianList[]>([]);
   const [dataFavoriteMusician, setDataFavoriteMusician] = useState<
     MusicianList[]
@@ -109,7 +110,7 @@ export const useMusicianHook = () => {
   };
 
   const getAlbum = async (props?: paramsTypeUuid) => {
-    setIsLoadingMusician(true);
+    setIsLoadingAlbum(true);
     try {
       const response = await getAlbumById(props);
       setDataAlbum(response.data);
@@ -118,7 +119,7 @@ export const useMusicianHook = () => {
       setIsErrorMusician(true);
       setDataAlbum([]);
     } finally {
-      setIsLoadingMusician(false);
+      setIsLoadingAlbum(false);
     }
   };
 
@@ -202,6 +203,7 @@ export const useMusicianHook = () => {
     dataFavoriteMusician,
     dataRecommendedMusician,
     dataAppearsOn,
+    isLoadingAlbum,
     getListDataMusician,
     setFollowMusician,
     setUnfollowMusician,
