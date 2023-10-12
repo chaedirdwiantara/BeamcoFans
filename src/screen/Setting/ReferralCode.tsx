@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -115,50 +123,58 @@ export const ReferralCodeSetting: React.FC = () => {
       />
 
       {profileStore && (
-        <>
-          <TabFilter.Type1
-            filterData={filter}
-            onPress={filterData}
-            selectedIndex={selectedIndex}
-            TouchableStyle={{width: width * 0.45}}
-            translation={true}
-          />
-
-          {filter[selectedIndex].filterName ===
-          t('Setting.Referral.ReferFriend.Title') ? (
-            <ReferAFriend
-              username={profileStore.data.username}
-              handleWebview={handleWebview}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}>
+          <View>
+            <TabFilter.Type1
+              filterData={filter}
+              onPress={filterData}
+              selectedIndex={selectedIndex}
+              TouchableStyle={{width: width * 0.45}}
+              translation={true}
             />
-          ) : (
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                paddingTop: 40,
-              }}>
-              <UseReferralContent
-                onPress={onApplyReferral}
-                isError={errorMsg !== ''}
-                errorMsg={errorMsg}
-                isValidRef={isValidReferral}
-                isScanFailed={isScanFailed}
-                setIsScanFailed={setIsScanFailed}
-                refCode={refCode}
-                setRefCode={setRefCode}
-                isScanning={isScanning}
-                setIsScanning={setIsScanning}
-                isScanSuccess={isScanSuccess}
-                setIsScanSuccess={setIsScanSuccess}
-                isScanned={isScanned}
-                setIsScanned={setIsScanned}
-                isManualEnter={isManualEnter}
-                setIsManualEnter={setIsManualEnter}
-                referralFrom={profileStore.data.referralFrom}
+
+            {filter[selectedIndex].filterName ===
+            t('Setting.Referral.ReferFriend.Title') ? (
+              <ReferAFriend
+                username={profileStore.data.username}
+                handleWebview={handleWebview}
               />
-            </View>
-          )}
-        </>
+            ) : (
+              <ScrollView
+                decelerationRate="fast"
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled">
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    paddingTop: 40,
+                  }}>
+                  <UseReferralContent
+                    onPress={onApplyReferral}
+                    isError={errorMsg !== ''}
+                    errorMsg={errorMsg}
+                    isValidRef={isValidReferral}
+                    isScanFailed={isScanFailed}
+                    setIsScanFailed={setIsScanFailed}
+                    refCode={refCode}
+                    setRefCode={setRefCode}
+                    isScanning={isScanning}
+                    setIsScanning={setIsScanning}
+                    isScanSuccess={isScanSuccess}
+                    setIsScanSuccess={setIsScanSuccess}
+                    isScanned={isScanned}
+                    setIsScanned={setIsScanned}
+                    isManualEnter={isManualEnter}
+                    setIsManualEnter={setIsManualEnter}
+                    referralFrom={profileStore.data.referralFrom}
+                  />
+                </View>
+              </ScrollView>
+            )}
+          </View>
+        </KeyboardAvoidingView>
       )}
     </View>
   );
