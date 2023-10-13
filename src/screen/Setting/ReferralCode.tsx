@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -17,18 +25,15 @@ import {useProfileHook} from '../../hooks/use-profile.hook';
 import {heightPercentage, width, widthPercentage} from '../../utils';
 import {color, typography} from '../../theme';
 import {mvs} from 'react-native-size-matters';
+import {userProfile} from '../../store/userProfile.store';
 
 export const ReferralCodeSetting: React.FC = () => {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {
-    isValidReferral,
-    errorMsg,
-    applyReferralUser,
-    dataProfile,
-    getProfileUser,
-  } = useProfileHook();
+  const {isValidReferral, errorMsg, applyReferralUser} = useProfileHook();
+
+  const {profileStore} = userProfile();
 
   // Refferal Content
   const [isScanFailed, setIsScanFailed] = useState<boolean>(false);
@@ -43,19 +48,14 @@ export const ReferralCodeSetting: React.FC = () => {
   };
 
   useEffect(() => {
-    getProfileUser();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     if (
-      dataProfile?.data.referralFrom !== null &&
-      dataProfile?.data.referralFrom !== undefined
+      profileStore?.data.referralFrom !== null &&
+      profileStore?.data.referralFrom !== undefined
     ) {
       setIsScanSuccess(true);
-      setRefCode(dataProfile?.data.referralFrom);
+      setRefCode(profileStore?.data.referralFrom);
     } else setIsScanSuccess(false);
-  }, [dataProfile]);
+  }, [profileStore]);
 
   const handleSkipFailed = () => {
     setIsScanFailed(false);
@@ -122,51 +122,60 @@ export const ReferralCodeSetting: React.FC = () => {
         }}
       />
 
-      {dataProfile && (
-        <>
-          <TabFilter.Type1
-            filterData={filter}
-            onPress={filterData}
-            selectedIndex={selectedIndex}
-            TouchableStyle={{width: width * 0.45}}
-            translation={true}
-          />
-
-          {filter[selectedIndex].filterName ===
-          t('Setting.Referral.ReferFriend.Title') ? (
-            <ReferAFriend
-              username={dataProfile.data.username}
-              handleWebview={handleWebview}
+      {profileStore && (
+        <KeyboardAvoidingView
+          behavior={'padding'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}>
+          <View>
+            <TabFilter.Type1
+              filterData={filter}
+              onPress={filterData}
+              selectedIndex={selectedIndex}
+              TouchableStyle={{width: width * 0.45}}
+              translation={true}
             />
-          ) : (
-            <View
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                paddingTop: 40,
-              }}>
-              <UseReferralContent
-                onPress={onApplyReferral}
-                isError={errorMsg !== ''}
-                errorMsg={errorMsg}
-                isValidRef={isValidReferral}
-                isScanFailed={isScanFailed}
-                setIsScanFailed={setIsScanFailed}
-                refCode={refCode}
-                setRefCode={setRefCode}
-                isScanning={isScanning}
-                setIsScanning={setIsScanning}
-                isScanSuccess={isScanSuccess}
-                setIsScanSuccess={setIsScanSuccess}
-                isScanned={isScanned}
-                setIsScanned={setIsScanned}
-                isManualEnter={isManualEnter}
-                setIsManualEnter={setIsManualEnter}
-                referralFrom={dataProfile.data.referralFrom}
+
+            {filter[selectedIndex].filterName ===
+            t('Setting.Referral.ReferFriend.Title') ? (
+              <ReferAFriend
+                username={profileStore.data.username}
+                handleWebview={handleWebview}
               />
-            </View>
-          )}
-        </>
+            ) : (
+              <ScrollView
+                decelerationRate="fast"
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled">
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    paddingTop: 40,
+                  }}>
+                  <UseReferralContent
+                    onPress={onApplyReferral}
+                    isError={errorMsg !== ''}
+                    errorMsg={errorMsg}
+                    isValidRef={isValidReferral}
+                    isScanFailed={isScanFailed}
+                    setIsScanFailed={setIsScanFailed}
+                    refCode={refCode}
+                    setRefCode={setRefCode}
+                    isScanning={isScanning}
+                    setIsScanning={setIsScanning}
+                    isScanSuccess={isScanSuccess}
+                    setIsScanSuccess={setIsScanSuccess}
+                    isScanned={isScanned}
+                    setIsScanned={setIsScanned}
+                    isManualEnter={isManualEnter}
+                    setIsManualEnter={setIsManualEnter}
+                    referralFrom={profileStore.data.referralFrom}
+                  />
+                </View>
+              </ScrollView>
+            )}
+          </View>
+        </KeyboardAvoidingView>
       )}
     </View>
   );
