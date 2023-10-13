@@ -636,7 +636,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             translation={true}
           />
           <EventList
-            // TODO: get response from api and change data
             dataEvent={dataEvent?.data}
             isLoading={isLoadingEvent}
             setModalGuestVisible={setModalGuestVisible}
