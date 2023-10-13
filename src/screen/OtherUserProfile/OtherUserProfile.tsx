@@ -69,6 +69,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
   );
 
   const profile = {
+    ...dataProfile?.data,
     fullname: dataProfile?.data.fullname,
     username: '@' + dataProfile?.data.username,
     bio: dataProfile?.data.about,

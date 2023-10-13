@@ -51,6 +51,7 @@ import {
 import {TopNavigation} from '../TopNavigation';
 import {profileStorage} from '../../../hooks/use-storage.hook';
 import ListContributionToMusician from './components/ListContribution';
+import {useBadgeHook} from '../../../hooks/use-badge.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -112,6 +113,14 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   } = useBlockHook();
   const {setWithoutBottomTab, show} = usePlayerStore();
 
+  // BADGE
+  const {useCheckBadge} = useBadgeHook();
+  // fans type = 1
+  const {data: dataBadge} = useCheckBadge({
+    userType: 1,
+    point: profile.point?.pointLifetime,
+  });
+
   const myUuid = profileStorage()?.uuid;
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -153,8 +162,8 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 
   const topPosition =
     Platform.OS === 'ios' && refreshing
-      ? heightPercentage(360)
-      : heightPercentage(310);
+      ? heightPercentage(400)
+      : heightPercentage(350);
 
   const handleBackAction = () => {
     show && setWithoutBottomTab(false);
@@ -301,6 +310,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           backIcon={showCreateCard}
           onPressImage={showImage}
           refreshing={refreshing}
+          dataBadge={dataBadge?.data}
         />
         <UserInfoCard
           type="self"

@@ -12,12 +12,19 @@ import {
 
 import {mvs} from 'react-native-size-matters';
 import {CameraIcon} from '../../assets/icon';
-import {AvatarProfile, Button, ButtonGradient, Gap} from '../../components';
+import {
+  AvatarProfile,
+  BadgeLevel,
+  Button,
+  ButtonGradient,
+  Gap,
+} from '../../components';
 import {storage} from '../../hooks/use-storage.hook';
 import {color, font} from '../../theme';
 import Color from '../../theme/Color';
 import {heightPercentage, width, widthResponsive} from '../../utils';
 import initialname from '../../utils/initialname';
+import {DataBadgeType} from '../../interface/badge.interface';
 
 export interface ProfileHeaderProps {
   avatarUri?: string;
@@ -34,6 +41,7 @@ export interface ProfileHeaderProps {
   onPressDonate: () => void;
   onPressImage?: (uri: string) => void;
   blocked?: boolean;
+  dataBadge?: DataBadgeType;
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = (
@@ -52,6 +60,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
     onPressDonate,
     onPressImage,
     blocked,
+    dataBadge,
   } = props;
 
   const {t} = useTranslation();
@@ -85,11 +94,19 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
                 type={type}
                 showIcon={false}
                 icon={<CameraIcon />}
+                showBorder={true}
+                borderColor={dataBadge?.colour}
               />
             </TouchableOpacity>
             <Gap height={12} />
             <Text style={styles.fullname}>{fullname}</Text>
             <Text style={styles.username}>{username}</Text>
+            {/* // BADGE */}
+            <BadgeLevel
+              imageUri={dataBadge?.image[0]?.image || ''}
+              backgroundColor={dataBadge?.colour || ''}
+              text={dataBadge?.title || ''}
+            />
             <Gap height={19} />
             {type === '' && (
               <View style={styles.containerFooter}>
