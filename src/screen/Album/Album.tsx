@@ -10,6 +10,7 @@ import {storage} from '../../hooks/use-storage.hook';
 import {useSongHook} from '../../hooks/use-song.hook';
 import {useSearchHook} from '../../hooks/use-search.hook';
 import {usePlayerStore} from '../../store/player.store';
+import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 
 type AlbumProps = NativeStackScreenProps<RootStackParams, 'Album'>;
 
@@ -70,6 +71,8 @@ export const AlbumScreen: React.FC<AlbumProps> = ({
           isLoading={searchLoading || isLoadingSong}
         />
       )}
+
+      <ModalLoading visible={albumLoading} />
     </View>
   );
 };
