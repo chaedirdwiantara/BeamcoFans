@@ -25,8 +25,13 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {t} = useTranslation();
-  const {dataProfile, dataCountLiked, getProfileUser, getUserCountLikedSong} =
-    useProfileHook();
+  const {
+    isLoading,
+    dataProfile,
+    dataCountLiked,
+    getProfileUser,
+    getUserCountLikedSong,
+  } = useProfileHook();
   const {dataPlaylist, getPlaylist, getPlaylistPublic} = usePlaylistHook();
   const isLogin = storage.getString('profile');
   const isFetching = storage.getBoolean('fetchingProfile');
@@ -99,6 +104,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
       : null;
 
   const profile = {
+    ...dataProfile?.data,
     fullname: dataProfile?.data.fullname,
     username: '@' + dataProfile?.data.username,
     bio: dataProfile?.data.about || t('Profile.Label.Description'),

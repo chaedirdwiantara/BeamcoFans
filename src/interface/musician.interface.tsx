@@ -35,6 +35,11 @@ export type TheGenres = {
 };
 
 export type DataDetailMusician = {
+  point: {
+    daily: number;
+    lastUpdated: string;
+    pointLifetime: number;
+  };
   uuid: string;
   username: string;
   fullname: string;
