@@ -3,6 +3,7 @@ import {AddSongContent} from './PlaylistContent/AddSongContent';
 import {AddToPlaylistContent} from './PlaylistContent/AddToPlaylistContent';
 import {AlbumContent} from './Album/AlbumContent';
 import {AvatarProfile} from './AvatarProfile/AvatarProfile';
+import {BadgeLevel} from './BadgeLevel';
 import BlockUser from './BlockUserUI';
 import {BottomSheetGuest} from './GuestComponent/BottomSheetGuest';
 import {Carousel} from './Carousel/Carousel';
@@ -76,6 +77,7 @@ export {
   AddToPlaylistContent,
   AlbumContent,
   AvatarProfile,
+  BadgeLevel,
   BlockUser,
   BottomSheetGuest,
   Carousel,
