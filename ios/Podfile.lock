@@ -48,6 +48,9 @@ PODS:
   - Firebase/Crashlytics (10.2.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 10.2.0)
+  - Firebase/DynamicLinks (10.2.0):
+    - Firebase/CoreOnly
+    - FirebaseDynamicLinks (~> 10.2.0)
   - Firebase/Messaging (10.2.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 10.2.0)
@@ -85,6 +88,8 @@ PODS:
     - GoogleUtilities/Environment (~> 7.8)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (~> 2.1)
+  - FirebaseDynamicLinks (10.2.0):
+    - FirebaseCore (~> 10.0)
   - FirebaseInstallations (10.11.0):
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
@@ -646,6 +651,11 @@ PODS:
     - FirebaseCoreExtension (= 10.2.0)
     - React-Core
     - RNFBApp
+  - RNFBDynamicLinks (18.5.0):
+    - Firebase/DynamicLinks (= 10.2.0)
+    - GoogleUtilities/AppDelegateSwizzler
+    - React-Core
+    - RNFBApp
   - RNFBMessaging (16.4.6):
     - Firebase/Messaging (= 10.2.0)
     - FirebaseCoreExtension (= 10.2.0)
@@ -814,6 +824,7 @@ DEPENDENCIES:
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBCrashlytics (from `../node_modules/@react-native-firebase/crashlytics`)"
+  - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFlashList (from `../node_modules/@shopify/flash-list`)"
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
@@ -846,6 +857,7 @@ SPEC REPOS:
     - FirebaseCoreExtension
     - FirebaseCoreInternal
     - FirebaseCrashlytics
+    - FirebaseDynamicLinks
     - FirebaseInstallations
     - FirebaseMessaging
     - Flipper
@@ -996,6 +1008,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBCrashlytics:
     :path: "../node_modules/@react-native-firebase/crashlytics"
+  RNFBDynamicLinks:
+    :path: "../node_modules/@react-native-firebase/dynamic-links"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
   RNFlashList:
@@ -1046,6 +1060,7 @@ SPEC CHECKSUMS:
   FirebaseCoreExtension: d08b424832917cf13612021574399afbbedffeef
   FirebaseCoreInternal: 9e46c82a14a3b3a25be4e1e151ce6d21536b89c0
   FirebaseCrashlytics: df7406152189d48346deafb716806d7bd9ebb573
+  FirebaseDynamicLinks: f832045bdb98db10ecaca9ab7e258f1602395d7c
   FirebaseInstallations: 2a2c6859354cbec0a228a863d4daf6de7c74ced4
   FirebaseMessaging: cc9f40f5b7494680f3844d08e517e92aa4e8d9f7
   Flipper: 26fc4b7382499f1281eb8cb921e5c3ad6de91fe0
@@ -1127,6 +1142,7 @@ SPEC CHECKSUMS:
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBApp: a6a92a67882cde38e6b466a446312de6c6c9b384
   RNFBCrashlytics: 7b485fb0b21381dc4c2b225b14af4906ae2e14cd
+  RNFBDynamicLinks: 0265c2b517c0edd907cceb262e0516ddabd0697c
   RNFBMessaging: 4a184e1af5bff970cbf70eab2263c85f612683eb
   RNFlashList: 18d906a373da5ff16776e5013df9495d826edc7e
   RNGoogleSignin: 3db2d849581299f425f5b61b90cb482a9e68c7af
