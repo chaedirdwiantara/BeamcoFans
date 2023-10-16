@@ -231,9 +231,9 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
     );
   };
 
-  const cardOnPress = (data: PostList) => {
+  const cardOnPress = (id: string) => {
     if (isLogin) {
-      navigation.navigate('PostDetail', data);
+      navigation.navigate('PostDetail', {id});
     } else {
       handleNotLogin();
     }
@@ -513,7 +513,7 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                         item.musician.uuid !== MyUuid &&
                         !item.isSubscribe
                       ? handleOnBlur
-                      : () => cardOnPress(item)
+                      : () => cardOnPress(item.id)
                   }
                   likeOnPress={
                     !isLogin
