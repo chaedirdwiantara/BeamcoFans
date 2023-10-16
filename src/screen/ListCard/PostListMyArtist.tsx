@@ -229,8 +229,8 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
     );
   };
 
-  const cardOnPress = (data: PostList) => {
-    navigation.navigate('PostDetail', data);
+  const cardOnPress = (id: string) => {
+    navigation.navigate('PostDetail', {id});
   };
 
   const likeOnPress = (id: string, isLiked: boolean) => {
@@ -471,7 +471,7 @@ const PostListMyArtist: FC<PostListProps> = (props: PostListProps) => {
                   toDetailOnPress={() =>
                     handleToDetailMusician(item.musician.uuid)
                   }
-                  onPress={() => cardOnPress(item)}
+                  onPress={() => cardOnPress(item.id)}
                   likeOnPress={() => likeOnPress(item.id, item.isLiked)}
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}

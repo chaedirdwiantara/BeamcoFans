@@ -186,9 +186,9 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
     }
   }, [selectedCategoryMenu]);
 
-  const cardOnPress = (data: PostList) => {
+  const cardOnPress = (id: string) => {
     isLogin
-      ? navigation.navigate('PostDetail', data)
+      ? navigation.navigate('PostDetail', {id})
       : setModalGuestVisible(true);
   };
 
@@ -437,7 +437,7 @@ const PostListHome: FC<PostListProps> = (props: PostListProps) => {
                   toDetailOnPress={() =>
                     handleToDetailMusician(item.musician.uuid)
                   }
-                  onPress={() => cardOnPress(item)}
+                  onPress={() => cardOnPress(item.id)}
                   likeOnPress={() => likeOnPress(item.id, item.isLiked)}
                   likePressed={likePressedInFeed(selectedId, item, recorder)}
                   likeCount={likesCountInFeed(selectedId, item, recorder)}
