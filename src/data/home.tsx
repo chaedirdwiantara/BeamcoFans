@@ -13,6 +13,7 @@ export const defaultBanner: BannerList[] = [
 
 export const listRequiredAccount: string[] = [
   'Setting.Preference.Label.Genre',
+  'Setting.Preference.Label.Mood',
   'Setting.Account.Label.DateOfBirth',
   'Setting.Account.Label.Gender',
   'Setting.Account.Label.Location',

@@ -156,6 +156,8 @@ export const AccountContent: React.FC<AccountProps> = ({
     setShowModal(false);
     try {
       const payload = {
+        username: getValues('username'),
+        fullname: getValues('fullname'),
         gender: getValues('gender'),
         locationCountry: getValues('locationCountry'),
         locationCity: getValues('locationCity'),
@@ -163,19 +165,7 @@ export const AccountContent: React.FC<AccountProps> = ({
         moods: valueMoods as number[],
         favoriteGeneres: valueGenres as number[],
       };
-
-      // if previous screen is progress profile
-      // user doesn't need to send username & full name (req from BE)
-      const newPayload =
-        fromScreen === 'progress'
-          ? payload
-          : {
-              ...payload,
-              username: getValues('username'),
-              fullname: getValues('fullname'),
-            };
-
-      await updateProfilePreference(newPayload);
+      await updateProfilePreference(payload);
 
       storage.set(
         'profile',
@@ -200,13 +190,7 @@ export const AccountContent: React.FC<AccountProps> = ({
   }, [isSubmit]);
 
   useEffect(() => {
-    if (
-      isValid &&
-      valueGenres.length > 0 &&
-      getValues('locationCountry') &&
-      getValues('locationCity') &&
-      birthdate !== ''
-    ) {
+    if (isValid) {
       setDisabledButton(false);
     } else {
       setDisabledButton(true);
@@ -257,10 +241,6 @@ export const AccountContent: React.FC<AccountProps> = ({
               isError={errors?.username ? true : false}
               errorMsg={errors?.username?.message}
               containerStyles={{marginTop: heightPercentage(15)}}
-              editable={fromScreen !== 'progress'}
-              inputStyles={{
-                color: fromScreen !== 'progress' ? '#fff' : 'gray',
-              }}
             />
           )}
         />
@@ -281,10 +261,6 @@ export const AccountContent: React.FC<AccountProps> = ({
               isError={errors?.fullname ? true : false}
               errorMsg={errors?.fullname?.message}
               containerStyles={{marginTop: heightPercentage(15)}}
-              editable={fromScreen !== 'progress'}
-              inputStyles={{
-                color: fromScreen !== 'progress' ? '#fff' : 'gray',
-              }}
             />
           )}
         />
@@ -293,11 +269,6 @@ export const AccountContent: React.FC<AccountProps> = ({
           <Text style={[typography.Overline, {color: Color.Neutral[50]}]}>
             {t('Setting.Account.Label.DateOfBirth')}
           </Text>
-          {fromScreen === 'progress' && (
-            <Text style={[typography.Overline, {color: Color.Pink[200]}]}>
-              {' *' + t('General.Required')}
-            </Text>
-          )}
         </View>
         <MenuText.RightIcon
           text={birthdate === '' ? 'YYYY-MM-DD' : birthdate}
@@ -339,7 +310,6 @@ export const AccountContent: React.FC<AccountProps> = ({
             <Dropdown.Input
               initialValue={value}
               data={dataGender}
-              isRequired={true}
               placeHolder={t('Setting.Account.Placeholder.Gender')}
               dropdownLabel={t('Setting.Account.Label.Gender')}
               textTyped={(newText: {label: string; value: string}) => {
@@ -365,7 +335,6 @@ export const AccountContent: React.FC<AccountProps> = ({
             render={({field: {onChange, value}}) => (
               <Dropdown.Input
                 type="location"
-                isRequired={true}
                 initialValue={value}
                 data={dataAllCountry}
                 placeHolder={t('Setting.Shipping.Placeholder.Country') || ''}
@@ -417,7 +386,6 @@ export const AccountContent: React.FC<AccountProps> = ({
           textTyped={(_newText: string) => null}
           containerStyles={{marginTop: mvs(15), marginBottom: mvs(5)}}
           initialValue={valueGenres}
-          isRequired={true}
           setValues={val => setValueGenres(val)}
         />
 
@@ -530,8 +498,6 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Dark[50],
   },
   containerBirth: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginTop: heightPercentage(15),
   },
   titleBirthDate: {
