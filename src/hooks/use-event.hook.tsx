@@ -100,7 +100,9 @@ export const useEventHook = () => {
       [`event/detail/lineup/${id}`],
       () => getEventLineUp(id, params),
       {
-        enabled: false,
+        enabled: true,
+        refetchInterval: 5000,
+        refetchIntervalInBackground: true,
       },
     );
   };
@@ -110,7 +112,9 @@ export const useEventHook = () => {
       [`event/detail/toptipper/${events}`],
       () => getEventTopTipper(events, params),
       {
-        enabled: false,
+        enabled: true,
+        refetchInterval: 5000,
+        refetchIntervalInBackground: true,
       },
     );
   };
