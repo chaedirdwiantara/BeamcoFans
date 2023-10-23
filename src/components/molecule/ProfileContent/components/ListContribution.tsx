@@ -5,11 +5,11 @@ import {FlashList} from '@shopify/flash-list';
 import {mvs} from 'react-native-size-matters';
 
 import {heightPercentage} from '../../../../utils';
-import {EmptyState} from '../../EmptyState/EmptyState';
 import {useMusicianHook} from '../../../../hooks/use-musician.hook';
 import MusicianSection from '../../MusicianSection/MusicianSection';
 import {MusicianList} from '../../../../interface/musician.interface';
 import LoadingSpinner from '../../../atom/Loading/LoadingSpinner';
+import EmptyStateFeed from '../../EmptyState/EmptyStateFeed';
 
 export interface ListContributonProps {
   uuid: string;
@@ -64,10 +64,7 @@ const ListContributionToMusician: FC<ListContributonProps> = (
         onTouchEnd={loadMore}
         ListEmptyComponent={
           !isLoading ? (
-            <EmptyState
-              text={t('Profile.Label.NoMusician') || ''}
-              containerStyle={{marginVertical: heightPercentage(30)}}
-            />
+            <EmptyStateFeed text={t('Profile.Label.NoMusician') || ''} />
           ) : (
             <View style={styles.loadingContainer}>
               <LoadingSpinner />

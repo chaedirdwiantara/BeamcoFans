@@ -20,6 +20,7 @@ import {EditPlaylistContent} from './PlaylistContent/EditPlaylist';
 import {EditProfile} from './ProfileContent/EditProfile';
 import {EmailContent} from './SettingContent/EmailContent';
 import {EmptyState} from './EmptyState/EmptyState';
+import EmptyStateFeed from './EmptyState/EmptyStateFeed';
 import EmptyStateHome from './EmptyState/EmptyStateHome';
 import {ExclusiveContent} from './ExclusiveContent';
 import {FollowingList} from './ProfileContent/components/FollowingList';
@@ -93,6 +94,7 @@ export {
   EditPlaylistContent,
   EditProfile,
   EmailContent,
+  EmptyStateFeed,
   EmptyState,
   EmptyStateHome,
   ExclusiveContent,
