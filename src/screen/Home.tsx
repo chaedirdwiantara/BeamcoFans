@@ -115,8 +115,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     getListDataNewSong,
     getListDataNewSongGuest,
   } = useSongHook();
-  const {listGenre, listMood, getListMoodPublic, getListGenrePublic} =
-    useSettingHook();
+  // ? TICKET https://thebeamco.atlassian.net/browse/BEAM-1211 Hide Mood & Genre*/}
+  // const {listGenre, listMood, getListMoodPublic, getListGenrePublic} =
+  //   useSettingHook();
   const {dataBanner, getListDataBanner, isLoadingBanner} = useBannerHook();
   const {addFcmToken} = useFcmHook();
   const {
@@ -163,8 +164,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   );
 
   useEffect(() => {
-    listMood.length === 0 && getListMoodPublic();
-    listGenre.length === 0 && getListGenrePublic();
+    // ? TICKET https://thebeamco.atlassian.net/browse/BEAM-1211 Hide Mood & Genre
+    // listMood.length === 0 && getListMoodPublic();
+    // listGenre.length === 0 && getListGenrePublic();
     dataDiveIn.length === 0 && getListDiveIn();
     refetchPlaylist();
     getListComingSoon();
@@ -498,17 +500,18 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           onPressBanner={handleWebview}
         />
 
+        {/* // ? TICKET https://thebeamco.atlassian.net/browse/BEAM-1211 Hide Mood & Genre*/}
         {/* Mood */}
-        <ListMoodGenre
+        {/* <ListMoodGenre
           title={t('Home.ListMood.Title')}
           data={listMood}
           containerStyle={styles.containerList}
           onPress={() => onPressMoodGenre('Moods', 'mood')}
           onPressImage={(id, name) => goToListMusic(name, 'song', id, 'mood')}
-        />
+        /> */}
         {/* End Of Mood */}
         {/* Genre */}
-        <ListMoodGenre
+        {/* <ListMoodGenre
           title={t('Home.ListGenre.Title')}
           data={listGenre}
           containerStyle={styles.containerList}
@@ -518,7 +521,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           }}
           onPress={() => onPressMoodGenre('Genre', 'genre')}
           onPressImage={(id, name) => goToListMusic(name, 'song', id, 'genre')}
-        />
+        /> */}
         {/* End Of Genre */}
         {/* Dive In */}
         <View
@@ -644,11 +647,13 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         </View>
         {/* End of Tab Event */}
         {/* Playlist */}
-        <ListPlaylistHome
-          title={t('Home.Playlist.Title')}
-          data={dataPlaylist?.data}
-          onPress={() => navigation.navigate('ListPlaylist')}
-        />
+        {dataPlaylist?.data && dataPlaylist?.data.length > 0 ? (
+          <ListPlaylistHome
+            title={t('Home.Playlist.Title')}
+            data={dataPlaylist?.data}
+            onPress={() => navigation.navigate('ListPlaylist')}
+          />
+        ) : null}
         {/* End of Playlist */}
         <Gap height={heightPercentage(10)} />
         {/* Coming Soon */}
@@ -660,12 +665,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             onPress={() => goToListMusic('Coming Soon', 'album')}
             onPressImage={(name, id) => goToDetailAlbum(name, id)}
           />
-        ) : (
-          <EmptyStateHome
-            title={t('Home.ComingSoon.Title')}
-            onPress={() => goToListMusic('Coming Soon', 'album')}
-          />
-        )}
+        ) : null}
         <Gap height={heightPercentage(40)} />
         {/* End Of Coming Soon */}
       </ScrollView>
