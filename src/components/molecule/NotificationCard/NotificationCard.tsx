@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import {ListAvatar} from './ListAvatar';
-import {BellNotif} from '../../../assets/icon';
+import {BellNotif, HeartIcon} from '../../../assets/icon';
 import {heightPercentage, widthResponsive} from '../../../utils';
 import {color} from '../../../theme';
 import {
@@ -34,11 +34,11 @@ export const NotificationCard: React.FC<NotificationCardProps> = (
       keyExtractor={(_, index) => index.toString()}
       renderItem={({item}) => (
         <View style={styles.root}>
-          {/* {item.type === 'like' ? (
+          {item?.type === '2' ? (
             <HeartIcon style={styles.icon} />
           ) : (
             <BellNotif style={styles.icon} />
-          )} */}
+          )}
           <BellNotif style={styles.icon} />
           <View style={{width: '100%'}}>
             <ListAvatar
