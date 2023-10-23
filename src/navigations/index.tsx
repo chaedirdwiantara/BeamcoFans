@@ -39,6 +39,7 @@ import {OtherUserProfile} from '../screen/OtherUserProfile/OtherUserProfile';
 import {EventDetail} from '../screen/EventDetail';
 import {LiveTipping} from '../screen/LiveTipping';
 import ClaimReward from '../screen/EventDetail/ClaimReward';
+import DiscoverArtist from '../screen/DiscoverArtist';
 
 // Home
 import {HomeScreen} from '../screen/Home';
@@ -179,6 +180,7 @@ export type RootStackParams = {
   DetailHistoryTransaction: {
     dataDetail: TransactionHistoryPropsType;
   };
+  DiscoverArtist: undefined;
   DonationAndSubscription: undefined;
   EditProfile: ProfileResponseData;
   EditPlaylist: Playlist;
@@ -568,6 +570,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="LiveTipping" component={LiveTipping} />
     <RootStack.Screen name="ClaimReward" component={ClaimReward} />
     <RootStack.Screen name="TransactionDetail" component={TransactionDetail} />
+    <RootStack.Screen name="DiscoverArtist" component={DiscoverArtist} />
   </RootStack.Navigator>
 );
 

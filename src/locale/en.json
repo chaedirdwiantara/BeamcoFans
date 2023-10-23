@@ -1188,5 +1188,8 @@
     "SwipeUp": "Swipe Up To Beam",
     "TooFast": "You swipe to fast!",
     "EnjoyShow": "Let’s enjoy the show\nand take a rest for few second"
+  },
+  "DiscoverArtist":{
+    "Title":"Discover Artist"
   }
 }
