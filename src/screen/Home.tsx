@@ -103,8 +103,13 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     setFollowMusician,
     setUnfollowMusician,
   } = useMusicianHook();
-  const {dataDiveIn, dataAlbumComingSoon, getListDiveIn, getListComingSoon} =
-    useHomeHook();
+  const {
+    dataDiveIn,
+    dataAlbumComingSoon,
+    getListDiveIn,
+    getListComingSoon,
+    setLastActive,
+  } = useHomeHook();
   const {dataProfile, profileProgress, getProfileUser, getProfileProgress} =
     useProfileHook();
   const {
@@ -193,6 +198,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         // Triggering when go back from other screen
         getProfileProgress();
         getProfileUser();
+        setLastActive();
 
         if (selectedIndexMusician === 0) {
           getListDataMusician({filterBy: 'top'});
