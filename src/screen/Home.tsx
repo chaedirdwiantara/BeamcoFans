@@ -535,61 +535,22 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           onPressImage={(id, name) => goToListMusic(name, 'song', id, 'genre')}
         /> */}
         {/* End Of Genre */}
-        {/* Dive In */}
-        <View
-          style={{
-            marginTop: heightPercentage(20),
-            marginBottom: heightPercentage(10),
-            paddingLeft: widthPercentage(24),
-          }}>
-          <Text style={styles.diveInText}>{t('Home.DiveIn.Title')}</Text>
-          <Text style={styles.diveInDesc}>{t('Home.DiveIn.Subtitle')}</Text>
-        </View>
-        <ListImageDesc
-          title=""
-          hideArrow={true}
-          data={dataDiveIn}
-          containerStyle={{
-            marginTop: heightPercentage(10),
-            marginBottom: heightPercentage(20),
-          }}
-          imageStyle={{
-            width: widthPercentage(115),
-            height: widthPercentage(115),
-          }}
-          onPress={() => null}
-          onPressImage={goToMusicianPost}
-        />
-        {/* End Of Dive In */}
-        {/* Tab Song */}
-        <View style={[styles.containerContent]}>
+        {/* Tab Event */}
+        <View style={[styles.containerContent, {marginTop: mvs(20)}]}>
           <TabFilter.Type3
-            filterData={filterSong}
-            onPress={filterDataSong}
-            selectedIndex={selectedIndexSong}
+            filterData={[{filterName: 'Event.Live'}]}
+            onPress={() => null}
+            selectedIndex={0}
             translation={true}
           />
-          {filterSong[selectedIndexSong].filterName ===
-          'Home.Tab.TopSong.Title' ? (
-            <TopSong
-              dataSong={isLogin ? dataSong : dataSearchSongs}
-              onPress={onPressTopSong}
-              type={'home'}
-              loveIcon={isLogin}
-              fromMainTab={true}
-              isLoading={isLoadingSong || searchLoading}
-            />
-          ) : (
-            <NewSong
-              dataSong={dataNewSong}
-              onPress={onPressNewSong}
-              type={'home'}
-              loveIcon={isLogin}
-              isLoading={isLoadingSong}
-            />
-          )}
+          <EventList
+            dataEvent={dataEvent?.data}
+            isLoading={isLoadingEvent}
+            setModalGuestVisible={setModalGuestVisible}
+            isLogin={isLogin ?? false}
+          />
         </View>
-        {/* End of Tab Song */}
+        {/* End of Tab Event */}
         {/* Tab Musician */}
         <View style={[styles.containerContent]}>
           <TabFilter.Type3
@@ -642,22 +603,61 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           )}
         </View>
         {/* End of Tab Musician */}
-        {/* Tab Event */}
+        {/* Tab Song */}
         <View style={[styles.containerContent]}>
           <TabFilter.Type3
-            filterData={[{filterName: 'Event.Live'}]}
-            onPress={() => null}
-            selectedIndex={0}
+            filterData={filterSong}
+            onPress={filterDataSong}
+            selectedIndex={selectedIndexSong}
             translation={true}
           />
-          <EventList
-            dataEvent={dataEvent?.data}
-            isLoading={isLoadingEvent}
-            setModalGuestVisible={setModalGuestVisible}
-            isLogin={isLogin ?? false}
-          />
+          {filterSong[selectedIndexSong].filterName ===
+          'Home.Tab.TopSong.Title' ? (
+            <TopSong
+              dataSong={isLogin ? dataSong : dataSearchSongs}
+              onPress={onPressTopSong}
+              type={'home'}
+              loveIcon={isLogin}
+              fromMainTab={true}
+              isLoading={isLoadingSong || searchLoading}
+            />
+          ) : (
+            <NewSong
+              dataSong={dataNewSong}
+              onPress={onPressNewSong}
+              type={'home'}
+              loveIcon={isLogin}
+              isLoading={isLoadingSong}
+            />
+          )}
         </View>
-        {/* End of Tab Event */}
+        {/* End of Tab Song */}
+        {/* Dive In */}
+        <View
+          style={{
+            marginTop: heightPercentage(10),
+            marginBottom: heightPercentage(10),
+            paddingLeft: widthPercentage(24),
+          }}>
+          <Text style={styles.diveInText}>{t('Home.DiveIn.Title')}</Text>
+          <Text style={styles.diveInDesc}>{t('Home.DiveIn.Subtitle')}</Text>
+        </View>
+        <ListImageDesc
+          title=""
+          hideArrow={true}
+          data={dataDiveIn}
+          containerStyle={{
+            marginTop: heightPercentage(10),
+            marginBottom: heightPercentage(20),
+          }}
+          imageStyle={{
+            width: widthPercentage(115),
+            height: widthPercentage(115),
+          }}
+          onPress={() => null}
+          onPressImage={goToMusicianPost}
+        />
+        {/* End Of Dive In */}
         {/* Playlist */}
         {dataPlaylist?.data && dataPlaylist?.data.length > 0 ? (
           <ListPlaylistHome
