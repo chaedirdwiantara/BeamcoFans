@@ -33,6 +33,7 @@ import ListImageDesc from './ListCard/ListImageDesc';
 import ListMoodGenre from './ListCard/ListMoodGenre';
 import ListPlaylistHome from './ListCard/ListPlaylistHome';
 import {LoginDescription} from './LoginDescription/LoginDescription';
+import {ModalClaimCredits} from './Modal/ModalClaimCredits';
 import {ModalConfirm} from './Modal/ModalConfirm';
 import {ModalCustom} from './Modal/ModalCustom';
 import {ModalDonate} from './Modal/ModalDonate';
@@ -108,6 +109,7 @@ export {
   ListMoodGenre,
   ListPlaylistHome,
   LoginDescription,
+  ModalClaimCredits,
   ModalConfirm,
   ModalCustom,
   ModalDonate,
