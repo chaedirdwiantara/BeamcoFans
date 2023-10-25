@@ -901,6 +901,13 @@
     "ClaimReward": {
       "Title": "You have claimed your reward!",
       "Subtitle": "Thank you for supporting the community!"
+    },
+    "ClaimCredits": {
+      "Title": "Surprise!\nYou Get 10 Free Credits",
+      "Subtitle": "Claim your free credits to support your favorite artists",
+      "TitleClaim": "Congrats!\nCredits have been claimed!",
+      "SubtitleClaim": "Spend your credits by subscribe exclusive content or beam your favorite artists!",
+      "ClaimNow": "Claim Now"
     }
   },
   "EmptyState": {
