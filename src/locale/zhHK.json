@@ -901,6 +901,13 @@
     "ClaimReward": {
       "Title": "你已領取獎勵！",
       "Subtitle": "感謝你支持Beamco！"
+    },
+    "ClaimCredits": {
+      "Title": "驚喜!\n你獲得10個免費信用",
+      "Subtitle": "立即索取你的免費信用，支持你喜愛的藝術家",
+      "TitleClaim": "恭喜!\n信用已經成功索取！",
+      "SubtitleClaim": "用你的信用訂閱獨家內容或贊助你喜愛的藝術家！",
+      "ClaimNow": "立即索取"
     }
   },
   "EmptyState": {
