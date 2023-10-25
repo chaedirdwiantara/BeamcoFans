@@ -37,6 +37,7 @@ import {
   TopNavigation,
   ListPlaylistHome,
   BottomSheetGuest,
+  ModalClaimCredits,
 } from '../components';
 import {font} from '../theme';
 import Color from '../theme/Color';
@@ -155,6 +156,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
   const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [showModalClaim, setShowModalClaim] = useState<boolean>(false);
 
   const JSONProfile = storage.getString('profile');
   let uuid: string = '';
@@ -162,6 +164,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     const profileObject = JSON.parse(JSONProfile);
     uuid = profileObject.uuid;
   }
+  const isClaimedCredit = storage.getBoolean('claimCredits');
 
   const {data: dataPlaylist, refetch: refetchPlaylist} = useQuery(
     ['/search-playlist'],
@@ -178,7 +181,10 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     refetchEvent();
     if (isLogin) {
       getCountNotification();
-      getCreditCount();
+
+      // first time register user, can claim 10 credits
+      // for first time user, fetch get credit when click claim now on popup
+      isClaimedCredit ? setShowModalClaim(true) : getCreditCount();
     }
   }, [refreshing]);
 
@@ -453,7 +459,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         rightIconAction={onPressNotif}
         maxLengthTitle={14}
         itemStrokeColor={Color.Pink[100]}
-        points={isLogin ? creditCount : 0}
+        points={isLogin && !isClaimedCredit ? creditCount : 0}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
         onPressCoin={onPressCoin}
         guest={!isLogin}
@@ -696,6 +702,12 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
       />
 
       <ModalPlayMusic onPressModal={handleMiniPlayerOnPress} />
+
+      <ModalClaimCredits
+        modalVisible={showModalClaim}
+        onPressClose={() => setShowModalClaim(false)}
+        onPressClaim={getCreditCount}
+      />
     </View>
   );
 };

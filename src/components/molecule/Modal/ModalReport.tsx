@@ -92,6 +92,7 @@ export const ModalReport: React.FC<ModalReportProps> = (
         <Gap height={20} />
         {dataReport.map((item, index) => (
           <TouchableOpacity
+            key={index}
             style={styles.choiceContainer}
             onPress={() => choiceOnPress(item.label, index)}>
             {activeIndex === index ? (

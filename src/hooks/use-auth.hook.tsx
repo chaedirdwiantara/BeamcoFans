@@ -63,6 +63,7 @@ export const useAuthHook = () => {
       console.log('auth result', response);
 
       if (response.code === 200) {
+        storage.set('claimCredits', true);
         setAuthResult(response);
       } else {
         setIsError(true);
