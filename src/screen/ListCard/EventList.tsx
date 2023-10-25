@@ -60,6 +60,7 @@ const EventList: FC<EventListProps> = ({
           if (index <= 4) {
             return (
               <TouchableOpacity
+                key={index}
                 onPress={() => {
                   !isLogin
                     ? setModalGuestVisible(true)
