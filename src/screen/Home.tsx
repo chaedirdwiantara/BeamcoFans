@@ -164,6 +164,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     const profileObject = JSON.parse(JSONProfile);
     uuid = profileObject.uuid;
   }
+  const isClaimedCredit = storage.getBoolean('claimCredits');
 
   const {data: dataPlaylist, refetch: refetchPlaylist} = useQuery(
     ['/search-playlist'],
@@ -183,7 +184,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
 
       // first time register user, can claim 10 credits
       // for first time user, fetch get credit when click claim now on popup
-      const isClaimedCredit = storage.getBoolean('claimCredits');
       isClaimedCredit ? setShowModalClaim(true) : getCreditCount();
     }
   }, [refreshing]);
@@ -459,7 +459,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         rightIconAction={onPressNotif}
         maxLengthTitle={14}
         itemStrokeColor={Color.Pink[100]}
-        points={isLogin ? creditCount : 0}
+        points={isLogin && !isClaimedCredit ? creditCount : 0}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
         onPressCoin={onPressCoin}
         guest={!isLogin}
