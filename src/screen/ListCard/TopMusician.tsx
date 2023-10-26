@@ -28,6 +28,7 @@ interface TopMusicianProps {
   ) => void;
   emptyState?: React.ComponentType;
   isLoading?: boolean;
+  toDetailOnPress: (uuid: string) => void;
 }
 
 const TopMusician: FC<TopMusicianProps> = ({
@@ -36,6 +37,7 @@ const TopMusician: FC<TopMusicianProps> = ({
   setFollowMusician,
   setUnfollowMusician,
   isLoading,
+  toDetailOnPress,
 }) => {
   const {t} = useTranslation();
   const [listMusician, setListMusician] = useState(dataMusician);
@@ -90,7 +92,7 @@ const TopMusician: FC<TopMusicianProps> = ({
                 containerStyles={{marginTop: mvs(12)}}
                 followOnPress={() => followOnPress(item.uuid, item.isFollowed)}
                 stateButton={item.isFollowed ?? false}
-                toDetailOnPress={() => null}
+                toDetailOnPress={() => toDetailOnPress(item.uuid)}
                 recommended
               />
             );
@@ -115,7 +117,7 @@ const TopMusician: FC<TopMusicianProps> = ({
                     followOnPress(item.uuid, item.isFollowed)
                   }
                   stateButton={item.isFollowed ?? false}
-                  toDetailOnPress={() => null}
+                  toDetailOnPress={() => toDetailOnPress(item.uuid)}
                   recommended
                 />
               );

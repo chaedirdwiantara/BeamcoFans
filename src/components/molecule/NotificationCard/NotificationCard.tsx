@@ -39,7 +39,6 @@ export const NotificationCard: React.FC<NotificationCardProps> = (
           ) : (
             <BellNotif style={styles.icon} />
           )}
-          <BellNotif style={styles.icon} />
           <View style={{width: '100%'}}>
             <ListAvatar
               // data={item.data}

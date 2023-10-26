@@ -448,6 +448,10 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     navigation.navigate('ProfileProgress');
   };
 
+  const goToMusicianProfile = (uuid: string) => {
+    navigation.navigate('MusicianProfile', {id: uuid});
+  };
+
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
@@ -572,6 +576,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
               isLoading={isLoadingMusician || searchLoading}
+              toDetailOnPress={goToMusicianProfile}
             />
           ) : filterMusician[selectedIndexMusician].filterName ===
             'Home.Tab.Recomended.Title' ? (
@@ -586,6 +591,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
               isLoading={isLoadingMusician}
+              toDetailOnPress={goToMusicianProfile}
             />
           ) : (
             <FavoriteMusician
@@ -599,6 +605,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
                 params?: ParamsProps,
               ) => setUnfollowMusician(props, params)}
               isLoading={isLoadingMusician}
+              toDetailOnPress={goToMusicianProfile}
             />
           )}
         </View>

@@ -52,12 +52,12 @@ export const ListAvatar: React.FC<ListAvatarProps> = (
   // ? #1 AREA
   const linkTNC =
     wordReplacer && wordReplacer?.length > 0
-      ? wordReplacer[1].link
+      ? wordReplacer[1]?.link
       : 'https://www.thebeam.co/termsandcondition';
 
   const colorLinkTNC =
     wordReplacer && wordReplacer?.length > 0
-      ? wordReplacer[1].color
+      ? wordReplacer[1]?.color
       : color.Neutral[10];
 
   const onPressFirstSpecialText = () => {
@@ -70,12 +70,12 @@ export const ListAvatar: React.FC<ListAvatarProps> = (
   // ? #2 AREA
   const linkSettings =
     wordReplacer && wordReplacer?.length > 0
-      ? wordReplacer[2].link
+      ? wordReplacer[2]?.link
       : 'SendAppeal';
 
   const colorLinkSettings =
     wordReplacer && wordReplacer?.length > 0
-      ? wordReplacer[1].color
+      ? wordReplacer[1]?.color
       : color.Pink[200];
 
   const onPressSecondSpecialText = () => {
