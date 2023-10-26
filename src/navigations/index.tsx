@@ -245,12 +245,8 @@ export type RootStackParams = {
   RecoverAccount: undefined;
   Referral: undefined;
   ReferralCode: undefined;
-  ReportedContent: {
-    title: string;
-    dataViolation: ListViolationsType;
-  };
+  ReportedContent: undefined;
   SendAppeal: {
-    title: string;
     selectedViolation?: CommentReportedType;
   };
   SendReport: {title: string};
