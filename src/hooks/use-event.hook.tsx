@@ -125,7 +125,7 @@ export const useEventHook = () => {
     params?: ParamsProps,
   ) => {
     return useQuery(
-      [`event/detail/toptipper/${tipperuuid}/${event_id}`],
+      [`event/detail/musician-tipped/${tipperuuid}/${event_id}`],
       () => getEventMusicianTipped(tipperuuid, event_id, params),
       {
         enabled: false,
@@ -178,7 +178,7 @@ export const useEventHook = () => {
     params?: ParamsProps,
   ) => {
     return useQuery(
-      [`event/detail/toptipper/${events}`],
+      [`event/detail/ranker-live/${events}`],
       () => getEventLiveRank(events, musician, params),
       {
         refetchInterval: 5000,
