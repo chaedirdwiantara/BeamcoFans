@@ -60,7 +60,6 @@ export const useAuthHook = () => {
     setIsLoading(true);
     try {
       const response = await registerUser(props);
-      console.log('auth result', response);
 
       if (response.code === 200) {
         storage.set('claimCredits', true);
