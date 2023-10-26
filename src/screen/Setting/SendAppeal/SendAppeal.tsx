@@ -11,7 +11,7 @@ export const SendAppealScreen: React.FC<SendAppealProps> = ({
   navigation,
   route,
 }: SendAppealProps) => {
-  const {title, selectedViolation} = route.params;
+  const {selectedViolation} = route.params;
 
   const onPressGoBack = () => {
     navigation.goBack();
@@ -25,7 +25,6 @@ export const SendAppealScreen: React.FC<SendAppealProps> = ({
     <View style={styles.root}>
       <SendAppealContent
         selectedViolation={selectedViolation}
-        title={title}
         onPressGoBack={onPressGoBack}
         goToSetting={goToSetting}
       />

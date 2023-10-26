@@ -1,40 +1,44 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {width} from '../../../utils';
 import {color, font} from '../../../theme';
 import {ArrowLeftIcon} from '../../../assets/icon';
 import {RootStackParams} from '../../../navigations';
+import {useNavigation} from '@react-navigation/native';
+import {useSettingHook} from '../../../hooks/use-setting.hook';
 import {CommentAppeal, TopNavigation} from '../../../components';
 import {CommentReportedType} from '../../../interface/setting.interface';
 
-type ReportedContentProps = NativeStackScreenProps<
-  RootStackParams,
-  'ReportedContent'
->;
-export const ReportedContentScreen: React.FC<ReportedContentProps> = ({
-  navigation,
-  route,
-}: ReportedContentProps) => {
+export const ReportedContentScreen: React.FC = () => {
   const {t} = useTranslation();
-  const {title, dataViolation} = route.params;
+
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
+  const {listViolation, getListViolations} = useSettingHook();
   const [selectedContent, setSelectedContent] = useState<number>(-1);
+
+  useEffect(() => {
+    getListViolations();
+  }, []);
+
   const onPressGoBack = () => {
     navigation.goBack();
   };
 
   const goToSendAppeal = (val: CommentReportedType) => {
     setSelectedContent(val.reportedViolationId);
-    navigation.navigate('SendAppeal', {title, selectedViolation: val});
+    navigation.navigate('SendAppeal', {selectedViolation: val});
   };
 
   return (
     <View style={styles.root}>
       <TopNavigation.Type1
-        title={title}
+        title={t('Setting.Report.Modal.SendAppeal')}
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={color.Neutral[10]}
         leftIconAction={onPressGoBack}
@@ -51,7 +55,7 @@ export const ReportedContentScreen: React.FC<ReportedContentProps> = ({
         <Text style={styles.subtitle}>
           {t('Setting.SendAppeal.ReportedContent.Subtitle')}
         </Text>
-        {dataViolation.commentReported.map((val, i) => (
+        {listViolation?.commentReported.map((val, i) => (
           <CommentAppeal
             key={i}
             isSelected={val.reportedViolationId === selectedContent}

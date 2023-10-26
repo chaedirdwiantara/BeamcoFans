@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Platform, Text} from 'react-native';
+import {View, StyleSheet, Platform, Text, ScrollView} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
 import ImagePicker, {Image} from 'react-native-image-crop-picker';
@@ -9,6 +9,7 @@ import {Button, SsuInput} from '../../atom';
 import CommentAppeal from '../CommentAppeal';
 import {ModalLimit} from '../Modal/ModalLimit';
 import {TopNavigation} from '../TopNavigation';
+import {KeyboardShift} from '../KeyboardShift';
 import {ArrowLeftIcon} from '../../../assets/icon';
 import {width, widthPercentage} from '../../../utils';
 import {requestAppeal} from '../../../api/setting.api';
@@ -18,14 +19,12 @@ import {useUploadImageHook} from '../../../hooks/use-uploadImage.hook';
 import {CommentReportedType} from '../../../interface/setting.interface';
 
 interface SendAppealProps {
-  title: string;
   selectedViolation?: CommentReportedType;
   onPressGoBack: () => void;
   goToSetting: () => void;
 }
 
 export const SendAppealContent: React.FC<SendAppealProps> = ({
-  title,
   selectedViolation,
   onPressGoBack,
   goToSetting,
@@ -153,80 +152,84 @@ export const SendAppealContent: React.FC<SendAppealProps> = ({
   };
 
   return (
-    <View style={styles.root}>
-      <TopNavigation.Type1
-        title={title}
-        leftIcon={<ArrowLeftIcon />}
-        itemStrokeColor={color.Neutral[10]}
-        leftIconAction={onPressGoBack}
-        containerStyles={{paddingHorizontal: widthPercentage(12)}}
-      />
+    <KeyboardShift>
+      <View style={styles.root}>
+        <TopNavigation.Type1
+          title={t('Setting.Report.Modal.SendAppeal')}
+          leftIcon={<ArrowLeftIcon />}
+          itemStrokeColor={color.Neutral[10]}
+          leftIconAction={onPressGoBack}
+          containerStyles={{paddingHorizontal: widthPercentage(12)}}
+        />
 
-      {selectedViolation ? (
-        <>
-          <View style={styles.containerViolation}>
-            <Text style={styles.title}>
-              {t('Setting.SendAppeal.ContentToRecover')}
-            </Text>
-            <CommentAppeal
-              fullname={selectedViolation.commentOwner.fullname}
-              username={selectedViolation.commentOwner.username}
-              repliedTo={selectedViolation.repliedTo}
-              postDate={selectedViolation.timeAgo}
-              caption={selectedViolation.caption}
-              likesCount={selectedViolation.likesCount}
-              commentsCount={selectedViolation.commentsCount}
-              containerStyles={{marginBottom: mvs(15)}}
-              hideChoiceIcon={true}
-            />
-          </View>
-          <View style={styles.separator} />
-        </>
-      ) : null}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {selectedViolation ? (
+            <>
+              <View style={styles.containerViolation}>
+                <Text style={styles.title}>
+                  {t('Setting.SendAppeal.ContentToRecover')}
+                </Text>
+                <CommentAppeal
+                  fullname={selectedViolation.commentOwner.fullname}
+                  username={selectedViolation.commentOwner.username}
+                  repliedTo={selectedViolation.repliedTo}
+                  postDate={selectedViolation.timeAgo}
+                  caption={selectedViolation.caption}
+                  likesCount={selectedViolation.likesCount}
+                  commentsCount={selectedViolation.commentsCount}
+                  containerStyles={{marginBottom: mvs(15)}}
+                  hideChoiceIcon={true}
+                />
+              </View>
+              <View style={styles.separator} />
+            </>
+          ) : null}
 
-      <SsuInput.InputLabel
-        value={description}
-        onChangeText={(newText: string) => setDescription(newText)}
-        placeholder={t('Setting.Report.Placeholder.Text') || ''}
-        containerStyles={styles.textArea}
-        multiline
-        numberOfLines={10}
-        inputStyles={styles.inputDesc}
-        showImage={true}
-        onPressCamera={onCameraPress}
-        onPressLibrary={onImageLibraryPress}
-        containerInputStyles={{borderBottomWidth: 0}}
-        listImage={listImage}
-        onPressDeleteImage={removeImage}
-        blurOnSubmit={true}
-      />
+          <SsuInput.InputLabel
+            value={description}
+            onChangeText={(newText: string) => setDescription(newText)}
+            placeholder={t('Setting.SendAppeal.Placeholder') || ''}
+            containerStyles={styles.textArea}
+            multiline
+            numberOfLines={10}
+            inputStyles={styles.inputDesc}
+            showImage={true}
+            onPressCamera={onCameraPress}
+            onPressLibrary={onImageLibraryPress}
+            containerInputStyles={{borderBottomWidth: 0}}
+            listImage={listImage}
+            onPressDeleteImage={removeImage}
+            blurOnSubmit={true}
+          />
 
-      <ModalLoading visible={isLoadingImage} />
+          <Button
+            label={t('Btn.Send')}
+            onPress={onPressSend}
+            containerStyles={styles.button}
+          />
 
-      <ModalSuccessDonate
-        title={t('Setting.SendAppeal.ModalSuccess.Title') || ''}
-        subtitle={t('Setting.SendAppeal.ModalSuccess.Subtitle') || ''}
-        buttonText={t('Setting.SendAppeal.ModalSuccess.Button') || ''}
-        modalVisible={showModalSuccess}
-        toggleModal={goToSetting}
-      />
+          <ModalLoading visible={isLoadingImage} />
 
-      <ModalLimit
-        text={
-          modalLimitType === 'onUpload'
-            ? t('Modal.Limit.SubtitleSR2')
-            : t('Modal.Limit.SubtitleSR1')
-        }
-        modalVisible={showModalLimit}
-        onPressClose={() => setShowModalLimit(false)}
-      />
+          <ModalSuccessDonate
+            title={t('Setting.SendAppeal.ModalSuccess.Title') || ''}
+            subtitle={t('Setting.SendAppeal.ModalSuccess.Subtitle') || ''}
+            buttonText={t('Setting.SendAppeal.ModalSuccess.Button') || ''}
+            modalVisible={showModalSuccess}
+            toggleModal={goToSetting}
+          />
 
-      <Button
-        label={t('Btn.Send')}
-        onPress={onPressSend}
-        containerStyles={styles.button}
-      />
-    </View>
+          <ModalLimit
+            text={
+              modalLimitType === 'onUpload'
+                ? t('Modal.Limit.SubtitleSR2')
+                : t('Modal.Limit.SubtitleSR1')
+            }
+            modalVisible={showModalLimit}
+            onPressClose={() => setShowModalLimit(false)}
+          />
+        </ScrollView>
+      </View>
+    </KeyboardShift>
   );
 };
 
@@ -251,10 +254,8 @@ const styles = StyleSheet.create({
   button: {
     width: width * 0.9,
     aspectRatio: widthPercentage(327 / 36),
-    position: 'absolute',
-    bottom: 0,
     alignSelf: 'center',
-    marginBottom: mvs(30),
+    marginVertical: mvs(40),
   },
   title: {
     color: color.Neutral[10],
