@@ -152,7 +152,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     isLoading: isLoadingEvent,
     refetch: refetchEvent,
   } = useEventHome({}, isLogin);
-  const isFocused = useIsFocused();
+
   const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
   const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -498,13 +498,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             onTouchStart={handleSearchButton}
           />
         </TouchableOpacity>
-        {isLogin && profileProgress?.stepProgress !== '100%' ? (
-          <ProgressCard
-            percentage={profileProgress?.stepProgress}
-            onPress={goToProfileProgress}
-            containerStyle={{marginTop: mvs(20)}}
-          />
-        ) : null}
+
         <Carousel
           data={
             dataBanner?.length === 0
@@ -639,10 +633,19 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           )}
         </View>
         {/* End of Tab Song */}
+
+        {isLogin && profileProgress?.stepProgress !== '100%' ? (
+          <ProgressCard
+            percentage={profileProgress?.stepProgress}
+            onPress={goToProfileProgress}
+            containerStyle={{marginTop: mvs(20)}}
+          />
+        ) : null}
+
         {/* Dive In */}
         <View
           style={{
-            marginTop: heightPercentage(10),
+            marginTop: heightPercentage(20),
             marginBottom: heightPercentage(10),
             paddingLeft: widthPercentage(24),
           }}>
