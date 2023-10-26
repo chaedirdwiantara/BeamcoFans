@@ -12,6 +12,7 @@ import {ListDataSearchMusician} from '../../interface/search.interface';
 import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
 import MusicianSection from '../../components/molecule/MusicianSection/MusicianSection';
 import {EmptyStateSongMusician} from '../../components/molecule/EmptyState/EmptyStateSongMusician';
+import {ListCard} from '../../components';
 
 interface FavoriteMusicianProps {
   type?: string;
@@ -27,6 +28,7 @@ interface FavoriteMusicianProps {
   ) => void;
   emptyState?: React.ComponentType;
   isLoading?: boolean;
+  toDetailOnPress: (uuid: string) => void;
 }
 
 const FavoriteMusician: FC<FavoriteMusicianProps> = ({
@@ -35,6 +37,7 @@ const FavoriteMusician: FC<FavoriteMusicianProps> = ({
   setFollowMusician,
   setUnfollowMusician,
   isLoading,
+  toDetailOnPress,
 }) => {
   const {t} = useTranslation();
   const [listMusician, setListMusician] = useState(dataMusician);
@@ -78,21 +81,19 @@ const FavoriteMusician: FC<FavoriteMusicianProps> = ({
         {listMusician?.map((item, index) => {
           if (index <= 4) {
             return (
-              <MusicianSection
+              <ListCard.FollowMusician
                 key={item.uuid}
-                userId={item.uuid}
                 musicianNum={(index + 1).toLocaleString('en-US', {
                   minimumIntegerDigits: 2,
                   useGrouping: false,
                 })}
                 musicianName={item.fullname}
-                imgUri={item.imageProfileUrls[1]?.image || ''}
-                containerStyles={{
-                  marginTop: mvs(12),
-                }}
-                point={type === 'profile' ? item.point || '' : ''}
-                isFollowed={item.isFollowed}
+                imgUri={item.imageProfileUrls}
+                containerStyles={{marginTop: mvs(12)}}
                 followOnPress={() => followOnPress(item.uuid, item.isFollowed)}
+                stateButton={item.isFollowed ?? false}
+                toDetailOnPress={() => toDetailOnPress(item.uuid)}
+                recommended
               />
             );
           }
@@ -103,23 +104,21 @@ const FavoriteMusician: FC<FavoriteMusicianProps> = ({
           {listMusician?.map((item, index) => {
             if (index > 4 && index < 10) {
               return (
-                <MusicianSection
+                <ListCard.FollowMusician
                   key={item.uuid}
-                  userId={item.uuid}
                   musicianNum={(index + 1).toLocaleString('en-US', {
                     minimumIntegerDigits: 2,
                     useGrouping: false,
                   })}
                   musicianName={item.fullname}
-                  imgUri={item.imageProfileUrls[1]?.image || ''}
-                  containerStyles={{
-                    marginTop: mvs(12),
-                  }}
-                  point={type === 'profile' ? item.point || '' : ''}
-                  isFollowed={item.isFollowed}
+                  imgUri={item.imageProfileUrls}
+                  containerStyles={{marginTop: mvs(12)}}
                   followOnPress={() =>
                     followOnPress(item.uuid, item.isFollowed)
                   }
+                  stateButton={item.isFollowed ?? false}
+                  toDetailOnPress={() => toDetailOnPress(item.uuid)}
+                  recommended
                 />
               );
             }

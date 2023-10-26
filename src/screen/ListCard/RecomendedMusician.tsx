@@ -27,6 +27,7 @@ interface RecomendedMusicianProps {
   ) => void;
   emptyState?: React.ComponentType;
   isLoading?: boolean;
+  toDetailOnPress: (uuid: string) => void;
 }
 
 const RecomendedMusician: FC<RecomendedMusicianProps> = ({
@@ -34,6 +35,7 @@ const RecomendedMusician: FC<RecomendedMusicianProps> = ({
   setFollowMusician,
   setUnfollowMusician,
   isLoading,
+  toDetailOnPress,
 }) => {
   const {t} = useTranslation();
   const [listMusician, setListMusician] = useState(dataMusician);
@@ -88,7 +90,7 @@ const RecomendedMusician: FC<RecomendedMusicianProps> = ({
                 containerStyles={{marginTop: mvs(12)}}
                 followOnPress={() => followOnPress(item.uuid, item.isFollowed)}
                 stateButton={item.isFollowed ?? false}
-                toDetailOnPress={() => null}
+                toDetailOnPress={() => toDetailOnPress(item.uuid)}
                 recommended
               />
             );
@@ -113,7 +115,7 @@ const RecomendedMusician: FC<RecomendedMusicianProps> = ({
                     followOnPress(item.uuid, item.isFollowed)
                   }
                   stateButton={item.isFollowed ?? false}
-                  toDetailOnPress={() => null}
+                  toDetailOnPress={() => toDetailOnPress(item.uuid)}
                   recommended
                 />
               );

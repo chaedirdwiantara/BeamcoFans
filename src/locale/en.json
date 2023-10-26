@@ -752,6 +752,11 @@
         "Button": "Back to Settings"
       }
     },
+    "PreventInteraction": {
+      "Title": "You've been banned",
+      "Subtitle": "You are not able to have an interaction with other people. Visit help in settings to send appeal and remove your banned by sending a valid reason",
+      "TextNavigate": "help in settings"
+    },
     "Helps": {
       "Title": "Helps"
     },
