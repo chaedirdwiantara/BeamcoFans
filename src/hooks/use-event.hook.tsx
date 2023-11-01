@@ -72,13 +72,25 @@ export const useEventHook = () => {
   };
 
   const useEventHome = (params?: ParamsProps, isLogin?: boolean) => {
-    return useQuery(
-      [`event/home/${isLogin ? 'login' : 'public'}`],
-      () => (isLogin ? listEventHome(params) : listEventHomePublic(params)),
-      {
-        enabled: false,
+    return useInfiniteQuery({
+      queryKey: [`event/home/${isLogin ? 'login' : 'public'}`],
+      enabled: true,
+      queryFn: ({pageParam = 1}) =>
+        isLogin
+          ? listEventHome({...params, page: pageParam, perPage: 3})
+          : listEventHomePublic({...params, page: pageParam, perPage: 3}),
+      keepPreviousData: false,
+      getNextPageParam: lastPage => {
+        if (
+          (lastPage?.data?.length as number) < Math.ceil(lastPage?.meta?.total)
+        ) {
+          const nextPage = (lastPage?.meta?.page as number) + 1;
+          return nextPage;
+        }
+        return null;
       },
-    );
+      getPreviousPageParam: () => null,
+    });
   };
 
   const useEventMusician = (uuid: string, params?: ParamsProps) => {

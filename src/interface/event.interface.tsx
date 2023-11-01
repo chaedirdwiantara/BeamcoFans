@@ -263,7 +263,14 @@ export interface EventLineUp {
   statusLineupEvent: string;
 }
 export interface EventHomeResponse extends BaseResponseApi {
+  pages: any;
   data: EventListData[];
+  meta: {
+    page: number;
+    perPage: number;
+    total: number;
+    totalAll: number;
+  };
 }
 
 export interface EventMusicianResponse extends BaseResponseApi {
