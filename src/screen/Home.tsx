@@ -147,11 +147,10 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {counter, getCountNotification} = useNotificationHook();
   const {useEventHome} = useEventHook();
   const isLogin = storage.getBoolean('isLogin');
-  const {
-    data: dataEvent,
-    isLoading: isLoadingEvent,
-    refetch: refetchEvent,
-  } = useEventHome({}, isLogin);
+  const {isLoading: isLoadingEvent, refetch: refetchEvent} = useEventHome(
+    {},
+    isLogin,
+  );
 
   const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
   const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
@@ -542,7 +541,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             translation={true}
           />
           <EventList
-            dataEvent={dataEvent?.data}
             isLoading={isLoadingEvent}
             setModalGuestVisible={setModalGuestVisible}
             isLogin={isLogin ?? false}

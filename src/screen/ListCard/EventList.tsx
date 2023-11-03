@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect} from 'react';
 import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {ms, mvs} from 'react-native-size-matters';
@@ -10,13 +10,14 @@ import Color from '../../theme/Color';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
-import {EventListData} from '../../interface/event.interface';
+import {EventHomeResponse} from '../../interface/event.interface';
 import dayjs from 'dayjs';
+import {storage} from '../../hooks/use-storage.hook';
+import {useEventHook} from '../../hooks/use-event.hook';
 
 interface EventListProps {
   type?: string;
   scrollable?: boolean;
-  dataEvent?: EventListData[];
   emptyState?: React.ComponentType;
   isLoading?: boolean;
   setModalGuestVisible: (status: boolean) => void;
@@ -25,123 +26,116 @@ interface EventListProps {
 
 const EventList: FC<EventListProps> = ({
   type,
-  dataEvent,
   isLoading,
   setModalGuestVisible,
-  isLogin,
 }) => {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const [listEvent, setlistEvent] = useState(dataEvent);
+  const isLogin = storage.getBoolean('isLogin');
+  const {useEventHome} = useEventHook();
+
+  const {
+    data: dataEvent,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    isRefetching,
+  } = useEventHome({}, isLogin);
+
+  const handleNextPage = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
 
   useEffect(() => {
-    if (dataEvent !== undefined) {
-      setlistEvent(dataEvent);
-    }
-  }, [dataEvent]);
+    handleNextPage();
+  }, []);
 
-  return listEvent && listEvent?.length > 0 ? (
+  let number = 0;
+
+  return dataEvent && dataEvent?.pages?.length > 0 ? (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
+      onTouchEnd={handleNextPage}
       contentContainerStyle={{
-        paddingRight: listEvent?.length > 5 ? widthResponsive(24) : 0,
-        width: listEvent?.length > 5 ? 'auto' : '100%',
+        paddingRight:
+          dataEvent?.pages[0]?.meta?.total > 3 ? widthResponsive(24) : 0,
+        width: dataEvent?.pages[0]?.meta?.total > 3 ? 'auto' : '100%',
         paddingLeft: widthResponsive(24),
       }}>
-      <View
-        style={{
-          marginRight: ms(20),
-          flex: 1,
-          width: listEvent?.length > 5 ? widthResponsive(255) : '100%',
-        }}>
-        {listEvent?.map((item, index) => {
-          if (index <= 4) {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => {
-                  !isLogin
-                    ? setModalGuestVisible(true)
-                    : navigation.navigate('EventDetail', {id: item.id});
-                }}>
-                <MusiciansListCard
-                  key={item.id}
-                  musicianNum={(index + 1).toLocaleString('en-US', {
-                    minimumIntegerDigits: 2,
-                    useGrouping: false,
-                  })}
-                  musicianName={item.name}
-                  imgUri={item.imageCover?.[0]?.image || ''}
-                  containerStyles={
-                    item.status === 'live'
-                      ? styles.eventLive
-                      : {marginTop: mvs(18)}
-                  }
-                  point={type === 'profile' ? '' : ''}
-                  isEvent={true}
-                  activeMore={false}
-                  onPressImage={() =>
-                    !isLogin
-                      ? setModalGuestVisible(true)
-                      : navigation.navigate('EventDetail', {id: item.id})
-                  }
-                  onPressMore={() => null}
-                  eventDate={`${item.locationCountry}, ${dayjs(
-                    item.startDate,
-                  ).format('D MMM YYYY')}`}
-                  isLive={item.status === 'live'}
-                />
-              </TouchableOpacity>
-            );
-          }
-        })}
-      </View>
-      {listEvent?.length > 5 && (
-        <View style={{width: widthResponsive(255)}}>
-          {listEvent?.map((item, index) => {
-            if (index > 4 && index < 10) {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    !isLogin
-                      ? setModalGuestVisible(true)
-                      : navigation.navigate('EventDetail', {id: item.id});
-                  }}>
-                  <MusiciansListCard
-                    key={item.id}
-                    musicianNum={(index + 1).toLocaleString('en-US', {
-                      minimumIntegerDigits: 2,
-                      useGrouping: false,
-                    })}
-                    musicianName={item.name}
-                    imgUri={item.imageCover?.[0]?.image || ''}
-                    containerStyles={
-                      item.status === 'live'
-                        ? styles.eventLive
-                        : {marginTop: mvs(18)}
-                    }
-                    point={type === 'profile' ? '' : ''}
-                    isEvent={true}
-                    activeMore={false}
-                    onPressImage={() =>
-                      navigation.navigate('EventDetail', {id: item.id})
-                    }
-                    onPressMore={() => null}
-                    eventDate={`${item.locationCountry}, ${dayjs(
-                      item.startDate,
-                    ).format('D MMM YYYY')}`}
-                    isLive={item.status === 'live'}
-                  />
-                </TouchableOpacity>
-              );
-            }
-          })}
+      {dataEvent?.pages?.map((page: EventHomeResponse) => {
+        if (page?.data?.length > 0) {
+          return (
+            <View
+              style={{
+                marginRight: ms(18),
+                flex: 1,
+                width:
+                  dataEvent?.pages[0]?.meta?.total > 3
+                    ? widthResponsive(255)
+                    : '100%',
+              }}>
+              {page?.data?.map(item => {
+                number += 1;
+                return (
+                  <TouchableOpacity
+                    key={number}
+                    onPress={() => {
+                      !isLogin
+                        ? setModalGuestVisible(true)
+                        : navigation.navigate('EventDetail', {id: item.id});
+                    }}>
+                    <MusiciansListCard
+                      key={item.id}
+                      musicianNum={number.toLocaleString('en-US', {
+                        minimumIntegerDigits: 2,
+                        useGrouping: false,
+                      })}
+                      musicianName={item.name}
+                      imgUri={item.imageCover?.[0]?.image || ''}
+                      containerStyles={
+                        item.status === 'live'
+                          ? styles.eventLive
+                          : {marginVertical: mvs(12)}
+                      }
+                      point={type === 'profile' ? '' : ''}
+                      isEvent={true}
+                      activeMore={false}
+                      onPressImage={() =>
+                        !isLogin
+                          ? setModalGuestVisible(true)
+                          : navigation.navigate('EventDetail', {id: item.id})
+                      }
+                      onPressMore={() => null}
+                      eventDate={`${item.locationCountry}, ${dayjs(
+                        item.startDate,
+                      ).format('D MMM YYYY')}`}
+                      isLive={item.status === 'live'}
+                    />
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          );
+        }
+      })}
+      {isFetchingNextPage && (
+        <View
+          style={{
+            marginRight: ms(20),
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: widthResponsive(255),
+          }}>
+          <LoadingSpinner />
         </View>
       )}
     </ScrollView>
-  ) : isLoading ? (
+  ) : isLoading || isRefetching ? (
     <View
       style={{
         alignItems: 'center',
@@ -158,7 +152,7 @@ export default EventList;
 
 const styles = StyleSheet.create({
   eventLive: {
-    marginTop: mvs(18),
+    marginVertical: mvs(3),
     borderColor: Color.Pink.linear,
     borderWidth: 1,
     paddingHorizontal: widthResponsive(6),
