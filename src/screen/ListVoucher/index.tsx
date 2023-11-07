@@ -17,7 +17,7 @@ const ListVoucher: FC<ListVoucherProps> = ({
   route,
   navigation,
 }: ListVoucherProps) => {
-  const id = route.params.id;
+  const eventId = route.params?.id;
   const {t} = useTranslation();
   const {useEventVoucherList} = useEventHook();
 
@@ -30,7 +30,7 @@ const ListVoucher: FC<ListVoucherProps> = ({
     refetch: refetchList,
     isLoading: isLoadingList,
     isRefetching: isRefetchingList,
-  } = useEventVoucherList(id);
+  } = useEventVoucherList(eventId);
 
   useFocusEffect(
     useCallback(() => {
@@ -47,6 +47,7 @@ const ListVoucher: FC<ListVoucherProps> = ({
         leftIcon={<ArrowLeftIcon />}
         leftIconAction={handleBackAction}
         containerStyles={styles.topNavStyle}
+        rightIconAction={() => {}}
       />
       <View>
         <FlatList
@@ -61,7 +62,10 @@ const ListVoucher: FC<ListVoucherProps> = ({
                 image={item.voucher.imageUrl[1]?.image}
                 imageStyle={styles.imageStyle}
                 onPress={() =>
-                  navigation.navigate('DetailVoucher', {id: item.id})
+                  navigation.navigate('DetailVoucher', {
+                    id: item.id,
+                    eventId: eventId,
+                  })
                 }
               />
             </View>
