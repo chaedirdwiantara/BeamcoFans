@@ -927,6 +927,12 @@
       "TitleClaim": "Congrats!\nCredits have been claimed!",
       "SubtitleClaim": "Spend your credits by subscribe exclusive content or beam your favorite artists!",
       "ClaimNow": "Claim Now"
+    },
+    "FreeBeer": {
+      "Title": "YOU GOT A FREE BEER!",
+      "Subtitle": "Be one of the 50 early birds to redeem your free drink at the bar!",
+      "Dismiss": "Dismiss",
+      "Redeem": "Redeem"
     }
   },
   "EmptyState": {

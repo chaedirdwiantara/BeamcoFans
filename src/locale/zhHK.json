@@ -927,6 +927,12 @@
       "TitleClaim": "恭喜!\n信用已經成功索取！",
       "SubtitleClaim": "用你的信用訂閱獨家內容或贊助你喜愛的藝術家！",
       "ClaimNow": "立即索取"
+    },
+    "FreeBeer": {
+      "Title": "你獲得一杯免費飲品",
+      "Subtitle": "恭喜你成為我們首50位觀眾。請立刻前往酒吧去換領你的飲品！",
+      "Dismiss": "Dismiss",
+      "Redeem": "Redeem"
     }
   },
   "EmptyState": {
