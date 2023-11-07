@@ -29,6 +29,8 @@ type Props = {
   beingBlocked?: boolean;
   containerTextStyle?: ViewStyle;
   onPressDropdown?: () => void;
+  rightIcon?: React.ReactNode;
+  rightIconAction: () => void;
 };
 
 /** == COMPONENT === */
@@ -39,6 +41,8 @@ const Type1: React.FC<Props> = (props: Props) => {
     beingBlocked,
     containerTextStyle,
     onPressDropdown,
+    rightIcon,
+    rightIconAction,
   } = props;
 
   /** => icon left */
@@ -55,6 +59,19 @@ const Type1: React.FC<Props> = (props: Props) => {
             style={{marginLeft: widthPercentage(24)}}
           />
         )}
+      </TouchableOpacity>
+    );
+  };
+
+  const iconRight = (title?: string) => {
+    if (title === '') {
+      return <View style={topNavstyles.iconRightContainer}>{rightIcon}</View>;
+    }
+    return (
+      <TouchableOpacity
+        style={topNavstyles.iconRightContainer}
+        onPress={rightIconAction}>
+        {rightIcon}
       </TouchableOpacity>
     );
   };
@@ -95,6 +112,7 @@ const Type1: React.FC<Props> = (props: Props) => {
               />
             </View>
           )}
+          {props.type === 'event detail' && rightIcon && iconRight(props.title)}
         </View>
       </View>
     );
