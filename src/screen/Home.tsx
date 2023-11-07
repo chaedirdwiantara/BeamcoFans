@@ -209,8 +209,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     mutationFn: generateEventBasedVoucher,
     onSuccess(res) {
       if (res?.code === 200) {
-        // TODO: Mas Andi aktifin ini ya kalo screen nya udah beres
-        // navigation.navigate('ListVoucher', {eventId: generateVoucherPayload.eventId});
+        navigation.navigate('ListVoucher', {
+          id: generateVoucherPayload.eventId,
+        });
         setShowModalBeer(false);
         storage.set('RedeemFreeBeer', true);
       }
