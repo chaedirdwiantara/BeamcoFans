@@ -37,6 +37,7 @@ import {ModalClaimCredits} from './Modal/ModalClaimCredits';
 import {ModalConfirm} from './Modal/ModalConfirm';
 import {ModalCustom} from './Modal/ModalCustom';
 import {ModalDonate} from './Modal/ModalDonate';
+import {ModalFreeBeer} from './Modal/ModalFreeBeer';
 import {ModalImagePicker} from './Modal/ModalImagePicker';
 import {ModalReport} from './Modal/ModalReport';
 import {ModalShare} from './Modal/ModalShare';
@@ -113,6 +114,7 @@ export {
   ModalConfirm,
   ModalCustom,
   ModalDonate,
+  ModalFreeBeer,
   ModalImagePicker,
   ModalReport,
   ModalShare,
