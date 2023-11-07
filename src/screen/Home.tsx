@@ -9,13 +9,14 @@ import {
   Text,
   RefreshControl,
   Platform,
+  InteractionManager,
 } from 'react-native';
 import {
   useNavigation,
   useIsFocused,
   useFocusEffect,
 } from '@react-navigation/native';
-import {useQuery} from 'react-query';
+import {useMutation, useQuery} from 'react-query';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
@@ -38,6 +39,7 @@ import {
   ListPlaylistHome,
   BottomSheetGuest,
   ModalClaimCredits,
+  ModalFreeBeer,
 } from '../components';
 import {font} from '../theme';
 import Color from '../theme/Color';
@@ -79,6 +81,8 @@ import {ProgressCard} from '../components/molecule/ListCard/ProgressCard';
 import EventList from './ListCard/EventList';
 import {useEventHook} from '../hooks/use-event.hook';
 import {CrashInit} from '../service/crashReport';
+import {GenerateEventVoucherReq} from '../interface/event.interface';
+import {generateEventBasedVoucher} from '../api/event.api';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -145,17 +149,21 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   } = useSearchHook();
   const {creditCount, getCreditCount} = useCreditHook();
   const {counter, getCountNotification} = useNotificationHook();
-  const {useEventHome} = useEventHook();
+  const {useEventHome, useCheckAvailVoucher} = useEventHook();
   const isLogin = storage.getBoolean('isLogin');
   const {isLoading: isLoadingEvent, refetch: refetchEvent} = useEventHome(
     {},
     isLogin,
   );
+  const {data: dataCheckVoucher} = useCheckAvailVoucher('event_based');
 
   const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
   const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [showModalClaim, setShowModalClaim] = useState<boolean>(false);
+  const [showModalBeer, setShowModalBeer] = useState<boolean>(false);
+  const [generateVoucherPayload, setGenerateVoucherPayload] =
+    useState<GenerateEventVoucherReq>();
 
   const JSONProfile = storage.getString('profile');
   let uuid: string = '';
@@ -171,6 +179,45 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   );
 
   useEffect(() => {
+    // if the user has already redeemed the voucher, modal will not appear
+    // if the user is a new user, it will appear when modal claim credit disappear
+    const hideModalFreeBeer = storage.getBoolean('RedeemFreeBeer');
+    if (!hideModalFreeBeer && !showModalClaim && isLogin) {
+      if (dataCheckVoucher?.data) {
+        // if voucher avail, show modal free beer
+        const isAvail = dataCheckVoucher.data.isAvailable;
+        setTimeout(() => {
+          InteractionManager.runAfterInteractions(() =>
+            setShowModalBeer(isAvail),
+          );
+        }, 500);
+
+        // payload for generate voucher when redeem free beer
+        const payload = {
+          userUUID: uuid,
+          userType: 'fans',
+          eventId: dataCheckVoucher.data.eventID,
+          endDateEvent: dataCheckVoucher.data.endDate,
+        };
+        setGenerateVoucherPayload(payload);
+      }
+    }
+  }, [dataCheckVoucher, isLogin, showModalClaim, uuid]);
+
+  const setGenerateEventVoucher = useMutation({
+    mutationKey: ['generate-voucher'],
+    mutationFn: generateEventBasedVoucher,
+    onSuccess(res) {
+      if (res?.code === 200) {
+        // TODO: Mas Andi aktifin ini ya kalo screen nya udah beres
+        // navigation.navigate('ListVoucher', {eventId: generateVoucherPayload.eventId});
+        setShowModalBeer(false);
+        storage.set('RedeemFreeBeer', true);
+      }
+    },
+  });
+
+  useEffect(() => {
     // ? TICKET https://thebeamco.atlassian.net/browse/BEAM-1211 Hide Mood & Genre
     // listMood.length === 0 && getListMoodPublic();
     // listGenre.length === 0 && getListGenrePublic();
@@ -183,7 +230,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
 
       // first time register user, can claim 10 credits
       // for first time user, fetch get credit when click claim now on popup
-      isClaimedCredit ? setShowModalClaim(true) : getCreditCount();
+      isClaimedCredit
+        ? InteractionManager.runAfterInteractions(() => setShowModalClaim(true))
+        : getCreditCount();
     }
   }, [refreshing]);
 
@@ -715,6 +764,14 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         modalVisible={showModalClaim}
         onPressClose={() => setShowModalClaim(false)}
         onPressClaim={getCreditCount}
+      />
+
+      <ModalFreeBeer
+        modalVisible={showModalBeer}
+        onPressClose={() => setShowModalBeer(false)}
+        onPressRedeem={() =>
+          setGenerateEventVoucher.mutate(generateVoucherPayload)
+        }
       />
     </View>
   );

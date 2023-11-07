@@ -2,6 +2,7 @@ import {ParamsProps} from '../interface/base.interface';
 import {
   CheckIsGeneratedTopupVoucherReq,
   CheckIsGeneratedTopupVoucherResponse,
+  CheckVoucherAvailResponse,
   ClaimVoucherResponse,
   EventDetailResponse,
   EventHomeResponse,
@@ -9,6 +10,7 @@ import {
   EventMusicianResponse,
   EventMusicianTippedResponse,
   EventTopTipperResponse,
+  GenerateEventVoucherReq,
   GenerateVoucherReq,
   GenerateVoucherResponse,
   GetVoucherByEventResponse,
@@ -266,6 +268,20 @@ export const checkIsGeneratedTopupVoucher = async ({
   return data;
 };
 
+export const checkVoucherAvail = async (
+  generateType: string,
+): Promise<CheckVoucherAvailResponse> => {
+  const {data} = await KrakatauAPI().request<CheckVoucherAvailResponse>({
+    url: '/vouchers/check-voucher-available',
+    method: 'GET',
+    params: {
+      generateType,
+    },
+  });
+
+  return data;
+};
+
 export const generateTopupVoucher = async ({
   userUUID,
   userType,
@@ -281,6 +297,18 @@ export const generateTopupVoucher = async ({
       eventId,
       endDateEvent,
     },
+  });
+
+  return data;
+};
+
+export const generateEventBasedVoucher = async (
+  params: GenerateEventVoucherReq,
+): Promise<ClaimVoucherResponse> => {
+  const {data} = await KrakatauAPI().request<ClaimVoucherResponse>({
+    url: '/vouchers/generate-event-based-voucher',
+    method: 'POST',
+    data: params,
   });
 
   return data;

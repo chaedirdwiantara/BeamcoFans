@@ -1,6 +1,7 @@
 import {UseInfiniteQueryOptions, useInfiniteQuery, useQuery} from 'react-query';
 import {
   checkIsGeneratedTopupVoucher,
+  checkVoucherAvail,
   fetchListOrder,
   getEventDetail,
   getEventDetailVoucher,
@@ -221,6 +222,12 @@ export const useEventHook = () => {
     );
   };
 
+  const useCheckAvailVoucher = (generateType: string) => {
+    return useQuery(['event/check-voucher'], () =>
+      checkVoucherAvail(generateType),
+    );
+  };
+
   return {
     getListDataMerch,
     getListDataConcert,
@@ -238,5 +245,6 @@ export const useEventHook = () => {
     useEventGenerateVoucher,
     useEventDetailVoucher,
     useEventCheckGeneratedTopupVoucher,
+    useCheckAvailVoucher,
   };
 };
