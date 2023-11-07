@@ -384,3 +384,18 @@ export interface CheckIsGeneratedTopupVoucherReq {
 export interface CheckIsGeneratedTopupVoucherResponse extends BaseResponseApi {
   data: boolean;
 }
+
+export interface CheckVoucherAvailResponse extends BaseResponseApi {
+  data: {
+    eventID: string;
+    isAvailable: boolean;
+    endDate: string;
+  };
+}
+
+export interface GenerateEventVoucherReq {
+  userUUID: string;
+  userType: string;
+  eventId: string;
+  endDateEvent: string;
+}
