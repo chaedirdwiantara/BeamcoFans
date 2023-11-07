@@ -23,7 +23,8 @@
     "Required": "Required",
     "BlockSucceed": "Oops! it looks like you have been blocked",
     "Dismiss": "Dismiss",
-    "Topup": "Top Up"
+    "Topup": "Top Up",
+    "BuyNow": "Buy Now"
   },
 
   "Onboarding": {
@@ -330,7 +331,19 @@
       "LineUp": "LINE UP",
       "TopTiper": "TOP BEAMER",
       "TipDistribution": "Beam Distribution",
-      "MusicianTipped": "Artist Beamed"
+      "MusicianTipped": "Artist Beamed",
+      "LimitedOffer": "Limited Offer",
+      "Freebies": "FREEBIES!",
+      "Popup": {
+        "TitleReward": "Get a limited time reward!",
+        "SubtitleReward": "Top-up 540 credits to get a limited time voucher as a reward!",
+        "Package1": {
+          "Title": "Buy our $88 package now to get",
+          "Subtitle1": "2 drinks",
+          "Subtitle2": "540 BEAMCO credits",
+          "Subtitle3": "2 VIP concert tickets when you become the top Beamer"
+        }
+      }
     },
     "Live": "Live",
     "EmptyState": {
@@ -928,6 +941,12 @@
       "TitleClaim": "Congrats!\nCredits have been claimed!",
       "SubtitleClaim": "Spend your credits by subscribe exclusive content or beam your favorite artists!",
       "ClaimNow": "Claim Now"
+    },
+    "FreeBeer": {
+      "Title": "YOU GOT A FREE BEER!",
+      "Subtitle": "Be one of the 50 early birds to redeem your free drink at the bar!",
+      "Dismiss": "Dismiss",
+      "Redeem": "Redeem"
     }
   },
   "EmptyState": {
@@ -963,9 +982,9 @@
   "TopUp": {
     "Title": "Purchase Credits",
     "Subtitle1": "Use Credits to Support and Engage with Your Favourite Artists",
-    "Subtitle2": "BEAMCO Credit allows you to parcitipate in Artist’s upside and grow their community",
-    "Subtitle3": "Find Artist who is providing a lot of value? Rewards them with BEAMCO Credit as a support",
-    "MyCoin": "Beam Balance",
+    "Subtitle2": "Beamco Credits allow you to participate in our Artist’s journey and join our rankings",
+    "Subtitle3": "Find an Artist you love? Reward them with Beamco Credits as support",
+    "MyCoin": "Credit Balance",
     "Filter": {
       "Buy": "Buy Package",
       "Transaction": "Transaction History"
@@ -1216,7 +1235,7 @@
     "TooFast": "You swipe to fast!",
     "EnjoyShow": "Let’s enjoy the show\nand take a rest for few second"
   },
-  "DiscoverArtist":{
-    "Title":"Discover Artist"
+  "DiscoverArtist": {
+    "Title": "Discover Artist"
   }
 }

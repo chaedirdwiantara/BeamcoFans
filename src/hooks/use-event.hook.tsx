@@ -1,5 +1,7 @@
 import {UseInfiniteQueryOptions, useInfiniteQuery, useQuery} from 'react-query';
 import {
+  checkIsGeneratedTopupVoucher,
+  checkVoucherAvail,
   fetchListOrder,
   getEventDetail,
   getEventDetailVoucher,
@@ -19,6 +21,7 @@ import {
   searchEvent,
 } from '../api/event.api';
 import {
+  CheckIsGeneratedTopupVoucherReq,
   GenerateVoucherReq,
   OrderListBookyay,
   RequestPropsListMerch,
@@ -224,6 +227,21 @@ export const useEventHook = () => {
     );
   };
 
+  const useEventCheckGeneratedTopupVoucher = (
+    params: CheckIsGeneratedTopupVoucherReq,
+  ) => {
+    return useQuery(
+      [`event/check-voucher-topup/${params?.userUUID}/${params?.eventId}`],
+      () => checkIsGeneratedTopupVoucher(params),
+    );
+  };
+
+  const useCheckAvailVoucher = (generateType: string) => {
+    return useQuery(['event/check-voucher'], () =>
+      checkVoucherAvail(generateType),
+    );
+  };
+
   return {
     getListDataMerch,
     getListDataConcert,
@@ -242,5 +260,7 @@ export const useEventHook = () => {
     useEventDetailVoucher,
     useEventVoucherList,
     useEventVoucherListDetail,
+    useEventCheckGeneratedTopupVoucher,
+    useCheckAvailVoucher,
   };
 };

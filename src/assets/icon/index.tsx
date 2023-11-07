@@ -117,6 +117,7 @@ import StarIcon from './Star.icon';
 import ImportPhotoIcon from './ImportPhoto.icon';
 import CalendarIcon from './Calendar.icon';
 import LiveIcon from './Live.icon';
+import TicketEventIcon from './TicketEvent.icon';
 
 export {
   AddIcon,
@@ -238,4 +239,5 @@ export {
   ImportPhotoIcon,
   CalendarIcon,
   LiveIcon,
+  TicketEventIcon,
 };

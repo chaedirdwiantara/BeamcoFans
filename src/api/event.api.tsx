@@ -1,5 +1,8 @@
 import {ParamsProps} from '../interface/base.interface';
 import {
+  CheckIsGeneratedTopupVoucherReq,
+  CheckIsGeneratedTopupVoucherResponse,
+  CheckVoucherAvailResponse,
   ClaimVoucherResponse,
   EventDetailResponse,
   EventHomeResponse,
@@ -7,6 +10,7 @@ import {
   EventMusicianResponse,
   EventMusicianTippedResponse,
   EventTopTipperResponse,
+  GenerateEventVoucherReq,
   GenerateVoucherReq,
   GenerateVoucherResponse,
   GetVoucherByEventResponse,
@@ -258,12 +262,77 @@ export const getEventVoucherList = async (
   return data;
 };
 
+export const checkIsGeneratedTopupVoucher = async ({
+  userUUID,
+  userType,
+  eventId,
+}: CheckIsGeneratedTopupVoucherReq): Promise<CheckIsGeneratedTopupVoucherResponse> => {
+  const {data} =
+    await KrakatauAPI().request<CheckIsGeneratedTopupVoucherResponse>({
+      url: `/vouchers/check-isgenerated-topup-credit`,
+      method: 'POST',
+      data: {
+        userUUID,
+        userType,
+        eventId,
+      },
+    });
+
+  return data;
+};
+
+export const checkVoucherAvail = async (
+  generateType: string,
+): Promise<CheckVoucherAvailResponse> => {
+  const {data} = await KrakatauAPI().request<CheckVoucherAvailResponse>({
+    url: '/vouchers/check-voucher-available',
+    method: 'GET',
+    params: {
+      generateType,
+    },
+  });
+
+  return data;
+};
+
 export const getEventVoucherListDetail = async (
   voucherId: string,
 ): Promise<GetVoucherListDetailResponse> => {
   const {data} = await KrakatauAPI().request<GetVoucherListDetailResponse>({
     url: `/vouchers/detail/${voucherId}`,
     method: 'GET',
+  });
+
+  return data;
+};
+
+export const generateTopupVoucher = async ({
+  userUUID,
+  userType,
+  eventId,
+  endDateEvent,
+}: CheckIsGeneratedTopupVoucherReq): Promise<ClaimVoucherResponse> => {
+  const {data} = await KrakatauAPI().request<ClaimVoucherResponse>({
+    url: `/vouchers/generate-based-topup`,
+    method: 'POST',
+    data: {
+      userUUID,
+      userType,
+      eventId,
+      endDateEvent,
+    },
+  });
+
+  return data;
+};
+
+export const generateEventBasedVoucher = async (
+  params: GenerateEventVoucherReq,
+): Promise<ClaimVoucherResponse> => {
+  const {data} = await KrakatauAPI().request<ClaimVoucherResponse>({
+    url: '/vouchers/generate-event-based-voucher',
+    method: 'POST',
+    data: params,
   });
 
   return data;
