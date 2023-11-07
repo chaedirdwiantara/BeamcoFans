@@ -23,7 +23,8 @@
     "Required": "必填",
     "Dismiss": "摒棄",
     "BlockSucceed": "封鎖成功",
-    "Topup": "充值"
+    "Topup": "充值",
+    "BuyNow": "Buy Now"
   },
 
   "Onboarding": {
@@ -330,7 +331,19 @@
       "LineUp": "陣容",
       "TopTiper": "最佳Beamer",
       "TipDistribution": "Beam分佈",
-      "MusicianTipped": "Beamed音樂人"
+      "MusicianTipped": "Beamed音樂人",
+      "LimitedOffer": "限時優惠",
+      "Freebies": "FREEBIES!",
+      "Popup": {
+        "TitleReward": "獲得有限時間的獎勵！",
+        "SubtitleReward": "充值540學分以獲得有限時間的優惠券作為獎勵！",
+        "Package1": {
+          "Title": "限時優惠！現只需$88便可獲得 to get",
+          "Subtitle1": "2 杯飲品",
+          "Subtitle2": "540 BEAMCO 幣",
+          "Subtitle3": "2張VIP演唱會門票（當你成為最佳Beamer)"
+        }
+      }
     },
     "Live": "直播",
     "EmptyState": {
@@ -1202,7 +1215,7 @@
     "TooFast": "滑動太快，請重新再試！",
     "EnjoyShow": "讓我們盡情享受表演！"
   },
-  "DiscoverArtist":{
-    "Title":"Discover Artist"
+  "DiscoverArtist": {
+    "Title": "Discover Artist"
   }
 }
