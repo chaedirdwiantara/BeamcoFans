@@ -7,6 +7,7 @@ import {
   NativeSyntheticEvent,
   Text,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -79,6 +80,8 @@ interface MusicianDetailProps {
   setFollowMusician: (props?: FollowMusicianPropsType) => void;
   setUnfollowMusician: (props?: FollowMusicianPropsType) => void;
   exclusiveContent?: DataExclusiveResponse;
+  refresh: boolean;
+  setRefresh: () => void;
   setRefreshing?: () => void;
   isLoading?: boolean;
 }
@@ -92,6 +95,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   setUnfollowMusician,
   exclusiveContent,
   dataAppearsOn,
+  refresh,
+  setRefresh,
   setRefreshing,
   isLoading,
 }) => {
@@ -342,6 +347,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
+        refreshControl={
+          <RefreshControl
+            refreshing={refresh}
+            onRefresh={setRefresh}
+            tintColor={'transparent'}
+          />
+        }
         onScroll={handleScroll}>
         <ProfileHeader
           avatarUri={
@@ -365,6 +377,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           onPressImage={showImage}
           blocked={profile.isBlock || profile.blockIs}
           dataBadge={dataBadge?.data}
+          refresh={refresh}
         />
         <View style={styles.infoCard}>
           <UserInfoCard

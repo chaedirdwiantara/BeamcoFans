@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {FC, useCallback, useEffect} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
@@ -25,7 +25,6 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   const isLogin = storage.getBoolean('isLogin');
   const {dataCountProfile, getTotalCountProfile} = useProfileHook();
   const {dataPlaylist, getPlaylist, getPlaylistPublic} = usePlaylistHook();
-
   const {
     isLoadingAlbum,
     isLoadingMusician,
@@ -40,6 +39,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     getDataAppearsOn,
   } = useMusicianHook();
   const {dataExclusiveContent, getExclusiveContent} = useSettingHook();
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   //  ? Get Detail Musician
   useFocusEffect(
@@ -54,7 +54,11 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
       } else {
         getPlaylistPublic({uuid});
       }
-    }, [uuid]),
+
+      setTimeout(() => {
+        setRefresh(false);
+      }, 1000);
+    }, [uuid, refresh]),
   );
 
   //  ? Get Album Musician
@@ -62,7 +66,11 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
     useCallback(() => {
       getAlbum({uuid: uuid});
       getDataAppearsOn({uuid});
-    }, [uuid]),
+
+      setTimeout(() => {
+        setRefresh(false);
+      }, 1000);
+    }, [uuid, refresh]),
   );
 
   const handleRefreshing = () => {
@@ -94,11 +102,15 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
             setUnfollowMusician(props, {}, true)
           }
           exclusiveContent={dataExclusiveContent ?? undefined}
+          refresh={refresh}
+          setRefresh={() => setRefresh(true)}
           setRefreshing={handleRefreshing}
           isLoading={isLoadingMusician || isLoadingAlbum}
         />
       )}
-      <ModalLoading visible={isLoadingMusician || isLoadingAlbum} />
+      <ModalLoading
+        visible={(isLoadingMusician || isLoadingAlbum) && !refresh}
+      />
     </View>
   );
 };

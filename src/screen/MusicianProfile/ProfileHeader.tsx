@@ -25,6 +25,7 @@ import Color from '../../theme/Color';
 import {heightPercentage, width, widthResponsive} from '../../utils';
 import initialname from '../../utils/initialname';
 import {DataBadgeType} from '../../interface/badge.interface';
+import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
 
 export interface ProfileHeaderProps {
   avatarUri?: string;
@@ -42,6 +43,7 @@ export interface ProfileHeaderProps {
   onPressImage?: (uri: string) => void;
   blocked?: boolean;
   dataBadge?: DataBadgeType;
+  refresh?: boolean;
 }
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = (
@@ -61,6 +63,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
     onPressImage,
     blocked,
     dataBadge,
+    refresh,
   } = props;
 
   const {t} = useTranslation();
@@ -70,6 +73,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
 
   const avatarPress = avatarUri === '' || avatarUri === null;
   const backgroundPress = backgroundUri === '' || backgroundUri === null;
+  const showLoading = Platform.OS === 'ios' && refresh;
 
   return (
     <View style={[styles.root, containerStyles]}>
@@ -83,6 +87,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
           resizeMode="cover"
           style={styles.image}>
           <View style={styles.bgChild}>
+            {showLoading && <LoadingSpinner type={'profile'} />}
             <TouchableOpacity
               activeOpacity={avatarPress ? 1 : 0.5}
               onPress={() =>
