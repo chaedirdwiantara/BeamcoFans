@@ -342,6 +342,11 @@
           "Subtitle1": "2 drinks",
           "Subtitle2": "540 BEAMCO credits",
           "Subtitle3": "2 VIP concert tickets when you become the top Beamer"
+        },
+        "SuccessTopup": {
+          "Title": "Topup Success!",
+          "Subtitle": "You are now eligible to claim a reward!",
+          "ButtonClaim": "Claim Reward"
         }
       }
     },
@@ -360,15 +365,15 @@
       "Title": "Vouchers Available",
       "EmptyState": "You don’t have any vouchers yet. You can get them by purchasing some credits!"
     },
-    "DetailVoucher":{
+    "DetailVoucher": {
       "Title": "Reward Details",
-      "PopUp":{
+      "PopUp": {
         "Title": "Congratulations!",
-        "Desc":"Here’s the QR code to redeem your free drink(s) at the bar.",
-        "ButtonTitle":"Dismiss"
+        "Desc": "Here’s the QR code to redeem your free drink(s) at the bar.",
+        "ButtonTitle": "Dismiss"
       },
       "Expired": "Valid Until",
-      "Tnc":"Terms & Conditions"
+      "Tnc": "Terms & Conditions"
     }
   },
   "Profile": {

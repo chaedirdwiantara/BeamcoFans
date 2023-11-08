@@ -35,6 +35,7 @@ import {useEventHook} from '../../hooks/use-event.hook';
 import {useFocusEffect} from '@react-navigation/native';
 import {profileStorage} from '../../hooks/use-storage.hook';
 import {Image} from 'react-native';
+import {ModalSuccessTopupVoucher} from '../../components/molecule/Modal/ModalSuccessTopupVoucher';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -62,6 +63,7 @@ export const EventDetail: React.FC<EventDetailProps> = ({
     {filterName: 'Event.Detail.TopTiper'},
   ]);
   const [showModalTopup, setShowModaltopup] = useState<boolean>(false);
+  const [showModalSuccess, setShowModalSuccess] = useState<boolean>(true);
 
   const filterDataTab = (item: any, index: any) => {
     setSelectedIndex(index);
@@ -133,7 +135,7 @@ export const EventDetail: React.FC<EventDetailProps> = ({
             <TopNavigation.EventDetailNav
               onPressGift={() =>
                 navigation.navigate('ListVoucher', {
-                  id: dataDetail?.data.id,
+                  id: dataDetail?.data.id ?? '',
                 })
               }
               isGenerated={dataVoucher?.data ?? true}
@@ -184,7 +186,7 @@ export const EventDetail: React.FC<EventDetailProps> = ({
                   <TopNavigation.EventDetailNav
                     onPressGift={() =>
                       navigation.navigate('ListVoucher', {
-                        id: dataDetail?.data.id,
+                        id: dataDetail?.data.id ?? '',
                       })
                     }
                     isGenerated={dataVoucher?.data ?? true}
@@ -414,6 +416,18 @@ export const EventDetail: React.FC<EventDetailProps> = ({
             </View>
           </View>
         }
+      />
+
+      <ModalSuccessTopupVoucher
+        modalVisible={showModalSuccess}
+        toggleModal={() => {
+          setShowModalSuccess(false);
+          setTimeout(() => {
+            navigation.navigate('ListVoucher', {
+              id: dataDetail?.data.id ?? '',
+            });
+          }, 500);
+        }}
       />
 
       <ModalLoading visible={isLoadingDetail} />
