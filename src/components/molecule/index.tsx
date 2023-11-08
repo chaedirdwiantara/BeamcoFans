@@ -42,6 +42,7 @@ import {ModalImagePicker} from './Modal/ModalImagePicker';
 import {ModalReport} from './Modal/ModalReport';
 import {ModalShare} from './Modal/ModalShare';
 import {ModalSuccessDonate} from './Modal/ModalSuccessDonate';
+import {ModalTopUp} from './Modal/ModalTopUp';
 import {MusicSection} from './MusicSection/MusicSection';
 import NewPostAvail from './NewPostAvail/newPostAvail';
 import {NoMoreFeeds} from './NoMoreFeeds/NoMoreFeeds';
@@ -119,6 +120,7 @@ export {
   ModalReport,
   ModalShare,
   ModalSuccessDonate,
+  ModalTopUp,
   MusicSection,
   NewPostAvail,
   NoMoreFeeds,

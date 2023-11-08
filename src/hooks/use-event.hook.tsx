@@ -233,6 +233,17 @@ export const useEventHook = () => {
     return useQuery(
       [`event/check-voucher-topup/${params?.userUUID}/${params?.eventId}`],
       () => checkIsGeneratedTopupVoucher(params),
+      {enabled: !!params.eventId},
+    );
+  };
+
+  const useEventCheckGeneratedTopupVoucherHome = (
+    params: CheckIsGeneratedTopupVoucherReq,
+  ) => {
+    return useQuery(
+      [`event/check-voucher-topup-home/${params?.userUUID}/${params?.eventId}`],
+      () => checkIsGeneratedTopupVoucher(params),
+      {enabled: !!params.eventId},
     );
   };
 
@@ -261,6 +272,7 @@ export const useEventHook = () => {
     useEventVoucherList,
     useEventVoucherListDetail,
     useEventCheckGeneratedTopupVoucher,
+    useEventCheckGeneratedTopupVoucherHome,
     useCheckAvailVoucher,
   };
 };

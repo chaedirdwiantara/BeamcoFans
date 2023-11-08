@@ -7,10 +7,11 @@ import {
 } from '../api/credit.api';
 import {getCoinFromProductId} from '../utils';
 import {useIapStore} from '../store/iap.store';
-import {storage} from './use-storage.hook';
+import {profileStorage, storage} from './use-storage.hook';
 import {AuthType} from '../interface/auth.interface';
 import {useCreditHook} from './use-credit.hook';
 import {queryClient} from '../service/queryClient';
+import {generateTopupVoucher} from '../api/event.api';
 
 let executeOnce = false;
 
@@ -140,6 +141,15 @@ export const useIapHook = () => {
                         packageName: purchase.packageNameAndroid,
                         token: purchase.purchaseToken,
                       });
+                    }
+                    const eventId = storage.getString('eventId');
+                    if (eventId) {
+                      await generateTopupVoucher({
+                        eventId,
+                        userType: 'fans',
+                        userUUID: profileStorage()?.uuid || '',
+                      });
+                      storage.delete('eventId');
                     }
                     await getCreditCount();
                   }

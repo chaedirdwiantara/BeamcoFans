@@ -40,6 +40,7 @@ import {
   BottomSheetGuest,
   ModalClaimCredits,
   ModalFreeBeer,
+  ModalTopUp,
 } from '../components';
 import {font} from '../theme';
 import Color from '../theme/Color';
@@ -83,6 +84,7 @@ import {useEventHook} from '../hooks/use-event.hook';
 import {CrashInit} from '../service/crashReport';
 import {GenerateEventVoucherReq} from '../interface/event.interface';
 import {generateEventBasedVoucher} from '../api/event.api';
+import {useRoute} from '@react-navigation/native';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -92,6 +94,7 @@ type HomeProps = NativeStackScreenProps<MainTabParams, 'Home'>;
 
 export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {t} = useTranslation();
+  const currentScreen = useRoute();
   const {showToast} = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -149,19 +152,23 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   } = useSearchHook();
   const {creditCount, getCreditCount} = useCreditHook();
   const {counter, getCountNotification} = useNotificationHook();
-  const {useEventHome, useCheckAvailVoucher} = useEventHook();
+  const {
+    useEventHome,
+    useCheckAvailVoucher,
+    useEventCheckGeneratedTopupVoucherHome,
+  } = useEventHook();
   const isLogin = storage.getBoolean('isLogin');
   const {isLoading: isLoadingEvent, refetch: refetchEvent} = useEventHome(
     {},
     isLogin,
   );
-  const {data: dataCheckVoucher} = useCheckAvailVoucher('event_based');
 
   const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
   const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [showModalClaim, setShowModalClaim] = useState<boolean>(false);
   const [showModalBeer, setShowModalBeer] = useState<boolean>(false);
+  const [showModalTopup, setShowModalTopup] = useState<boolean>(false);
   const [generateVoucherPayload, setGenerateVoucherPayload] =
     useState<GenerateEventVoucherReq>();
 
@@ -178,31 +185,62 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     () => getSearchPlaylists({keyword: ''}),
   );
 
+  const {data: dataCheckVoucher} = useCheckAvailVoucher('event_based');
+  const {data: dataVoucher} = useEventCheckGeneratedTopupVoucherHome({
+    userUUID: uuid ?? '',
+    userType: 'fans',
+    eventId: dataCheckVoucher?.data?.eventID ?? '',
+  });
+
   useEffect(() => {
     // if the user has already redeemed the voucher, modal will not appear
     // if the user is a new user, it will appear when modal claim credit disappear
     const hideModalFreeBeer = storage.getBoolean('RedeemFreeBeer');
-    if (!hideModalFreeBeer && !showModalClaim && isLogin) {
-      if (dataCheckVoucher?.data) {
-        // if voucher avail, show modal free beer
-        const isAvail = dataCheckVoucher.data.isAvailable;
-        setTimeout(() => {
-          InteractionManager.runAfterInteractions(() =>
-            setShowModalBeer(isAvail),
-          );
-        }, 500);
+    if (currentScreen.name === 'Home') {
+      console.log('log10', currentScreen.name);
 
-        // payload for generate voucher when redeem free beer
-        const payload = {
-          userUUID: uuid,
-          userType: 'fans',
-          eventId: dataCheckVoucher.data.eventID,
-          endDateEvent: dataCheckVoucher.data.endDate,
-        };
-        setGenerateVoucherPayload(payload);
+      if (!hideModalFreeBeer && !showModalClaim && isLogin) {
+        console.log('log1', hideModalFreeBeer);
+        if (dataCheckVoucher?.data) {
+          // check end date of event voucher
+          const availDate =
+            new Date(dataCheckVoucher.data.endDate) >= new Date();
+          console.log('log2', availDate);
+
+          // if voucher avail, show modal free beer
+          // otherwise, show modal topup till end date event
+          const isAvail = dataCheckVoucher.data.isAvailable;
+          console.log('log3', isAvail);
+
+          // if user has never topup, show modal popup topup
+          const hideModalTopup =
+            dataVoucher === undefined ? true : dataVoucher?.data;
+          console.log('log4', hideModalTopup);
+
+          if (availDate) {
+            console.log('log5', isAvail);
+            setTimeout(() => {
+              InteractionManager.runAfterInteractions(() =>
+                isAvail
+                  ? setShowModalBeer(true)
+                  : setShowModalTopup(!hideModalTopup),
+              );
+            }, 500);
+          }
+
+          // payload for generate voucher when redeem free beer
+          const payload = {
+            userUUID: uuid,
+            userType: 'fans',
+            eventId: dataCheckVoucher.data.eventID,
+            endDateEvent: dataCheckVoucher.data.endDate,
+          };
+          setGenerateVoucherPayload(payload);
+          storage.set('eventId', dataCheckVoucher.data.eventID);
+        }
       }
     }
-  }, [dataCheckVoucher, isLogin, showModalClaim, uuid]);
+  }, [dataCheckVoucher, isLogin, showModalClaim, uuid, dataVoucher]);
 
   const setGenerateEventVoucher = useMutation({
     mutationKey: ['generate-voucher'],
@@ -773,6 +811,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         onPressRedeem={() =>
           setGenerateEventVoucher.mutate(generateVoucherPayload)
         }
+      />
+
+      <ModalTopUp
+        modalVisible={showModalTopup}
+        onPressClose={() => setShowModalTopup(false)}
       />
     </View>
   );

@@ -10,12 +10,12 @@ import {
   NativeScrollEvent,
   RefreshControl,
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Color from '../../theme/Color';
 import {heightResponsive, width, widthResponsive} from '../../utils';
 import {
   Gap,
-  ModalCustom,
+  ModalTopUp,
   SsuDivider,
   TabFilter,
   TopNavigation,
@@ -33,7 +33,7 @@ import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 import {useEventHook} from '../../hooks/use-event.hook';
 import {useFocusEffect} from '@react-navigation/native';
-import {profileStorage} from '../../hooks/use-storage.hook';
+import {profileStorage, storage} from '../../hooks/use-storage.hook';
 import {Image} from 'react-native';
 import {ModalSuccessTopupVoucher} from '../../components/molecule/Modal/ModalSuccessTopupVoucher';
 
@@ -63,7 +63,8 @@ export const EventDetail: React.FC<EventDetailProps> = ({
     {filterName: 'Event.Detail.TopTiper'},
   ]);
   const [showModalTopup, setShowModaltopup] = useState<boolean>(false);
-  const [showModalSuccess, setShowModalSuccess] = useState<boolean>(true);
+  const [triggerVoucher, setTriggerVoucher] = useState<boolean>(false);
+  // const [showModalSuccess, setShowModalSuccess] = useState<boolean>(true);
 
   const filterDataTab = (item: any, index: any) => {
     setSelectedIndex(index);
@@ -119,6 +120,22 @@ export const EventDetail: React.FC<EventDetailProps> = ({
       refetchVoucher();
     }, []),
   );
+
+  useEffect(() => {
+    if (dataDetail) {
+      storage.set('eventId', dataDetail?.data?.id);
+    }
+
+    return () => {
+      storage.delete('eventId');
+    };
+  }, [dataDetail]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      refetchVoucher();
+    }, 2000);
+  }, [triggerVoucher, showModalTopup]);
 
   return (
     <View style={styles.root}>
@@ -295,130 +312,16 @@ export const EventDetail: React.FC<EventDetailProps> = ({
         </View>
       </ScrollView>
 
-      <ModalCustom
+      <ModalTopUp
         modalVisible={showModalTopup}
-        children={
-          <View style={styles.modalContainer}>
-            <View style={styles.imageModalContainer}>
-              <Image source={require('../../assets/image/topup.png')} />
-              <Gap height={heightResponsive(6)} />
-              <Text
-                style={[
-                  Typography.Body4,
-                  {fontWeight: '500', color: '#FED843', textAlign: 'center'},
-                ]}>
-                540 {t('TopUp.Transaction.Detail.Credit')}
-              </Text>
-            </View>
-            <Gap height={heightResponsive(16)} />
-            <Text
-              style={[
-                Typography.Body2,
-                {
-                  fontWeight: '700',
-                  color: '#FFF',
-                  textAlign: 'center',
-                  paddingHorizontal: widthResponsive(10),
-                },
-              ]}>
-              {t('Event.Detail.Popup.Package1.Title')}
-            </Text>
-            <Gap height={heightResponsive(4)} />
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                width: '100%',
-              }}>
-              <Text
-                style={[
-                  Typography.Overline,
-                  {color: '#BDBDBD'},
-                ]}>{`\u2022`}</Text>
-              <Gap width={widthResponsive(4)} />
-              <Text
-                style={[
-                  Typography.Overline,
-                  {color: '#BDBDBD', fontWeight: '600'},
-                ]}>
-                {t('Event.Detail.Popup.Package1.Subtitle1')}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                width: '100%',
-              }}>
-              <Text
-                style={[
-                  Typography.Overline,
-                  {color: '#BDBDBD'},
-                ]}>{`\u2022`}</Text>
-              <Gap width={widthResponsive(4)} />
-              <Text
-                style={[
-                  Typography.Overline,
-                  {color: '#BDBDBD', fontWeight: '600'},
-                ]}>
-                {t('Event.Detail.Popup.Package1.Subtitle2')}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                width: '100%',
-              }}>
-              <Text
-                style={[
-                  Typography.Overline,
-                  {color: '#BDBDBD'},
-                ]}>{`\u2022`}</Text>
-              <Gap width={widthResponsive(4)} />
-              <Text
-                style={[
-                  Typography.Overline,
-                  {color: '#BDBDBD', fontWeight: '600'},
-                ]}>
-                {t('Event.Detail.Popup.Package1.Subtitle3')}
-              </Text>
-            </View>
-
-            <Gap height={heightResponsive(20)} />
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                width: '100%',
-              }}>
-              <TouchableOpacity onPress={() => setShowModaltopup(false)}>
-                <Text
-                  style={[
-                    Typography.Body2,
-                    {fontWeight: '600', color: '#FFF'},
-                  ]}>
-                  {t('General.Dismiss')}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('TopUpCredit');
-                }}>
-                <Text
-                  style={[
-                    Typography.Body2,
-                    {fontWeight: '600', color: Color.Pink.linear},
-                  ]}>
-                  {t('General.BuyNow')}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        }
+        onPressClose={() => {
+          setShowModaltopup(false);
+          setTriggerVoucher(!triggerVoucher);
+        }}
       />
 
-      <ModalSuccessTopupVoucher
+      {/* // TODO: Bli Neka Kerjain Nanti */}
+      {/* <ModalSuccessTopupVoucher
         modalVisible={showModalSuccess}
         toggleModal={() => {
           setShowModalSuccess(false);
@@ -428,7 +331,7 @@ export const EventDetail: React.FC<EventDetailProps> = ({
             });
           }, 500);
         }}
-      />
+      /> */}
 
       <ModalLoading visible={isLoadingDetail} />
     </View>
