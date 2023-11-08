@@ -47,6 +47,7 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
     hidePlayer,
   } = usePlayerHook();
   const [toastVisible, setToastVisible] = useState<boolean>(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     if (isFocused && isPlaying) {
@@ -65,7 +66,11 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
       } else {
         getPlaylistPublic({uuid: data.id});
       }
-    }, []),
+
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 1000);
+    }, [refreshing]),
   );
 
   const profile = {
@@ -118,13 +123,14 @@ export const OtherUserProfile: FC<OtherProfileProps> = ({
         toastText={''}
         playerVisible={playerVisible}
         totalCountlikedSong={dataCountLiked?.countLikedSong}
-        refreshing={false}
         setRefreshing={handleRefreshing}
         otherUserProfile={true}
         onPressGoBack={onPressGoBack}
         goToSetting={() => {}}
         goToCreatePlaylist={() => {}}
         qrType="fans"
+        refreshing={refreshing}
+        setRefreshOtherProfile={() => setRefreshing(true)}
       />
     </View>
   );

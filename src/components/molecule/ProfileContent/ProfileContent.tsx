@@ -76,6 +76,7 @@ interface ProfileContentProps {
   goToSetting: () => void;
   goToCreatePlaylist: () => void;
   qrType: 'fans' | 'otherMusician' | 'myProfile';
+  setRefreshOtherProfile?: () => void;
 }
 
 export const ProfileContent: React.FC<ProfileContentProps> = ({
@@ -97,6 +98,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   goToFollowing,
   goToCreatePlaylist,
   qrType,
+  setRefreshOtherProfile,
 }) => {
   const {t} = useTranslation();
   const navigation =
@@ -291,7 +293,9 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={setRefreshing}
+            onRefresh={
+              myUuid !== profile.uuid ? setRefreshOtherProfile : setRefreshing
+            }
             tintColor={'transparent'}
           />
         }
