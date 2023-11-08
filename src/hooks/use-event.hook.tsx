@@ -10,6 +10,8 @@ import {
   getEventMusicianTipped,
   getEventTopTipper,
   getEventVoucher,
+  getEventVoucherList,
+  getEventVoucherListDetail,
   getStatusLiveMusician,
   listConcert,
   listEventHome,
@@ -213,6 +215,18 @@ export const useEventHook = () => {
     );
   };
 
+  const useEventVoucherList = (eventId: string) => {
+    return useQuery([`event/voucher/list/${eventId}`], () =>
+      getEventVoucherList(eventId),
+    );
+  };
+
+  const useEventVoucherListDetail = (voucherId: string) => {
+    return useQuery([`event/voucher/list/detail/${voucherId}`], () =>
+      getEventVoucherListDetail(voucherId),
+    );
+  };
+
   const useEventCheckGeneratedTopupVoucher = (
     params: CheckIsGeneratedTopupVoucherReq,
   ) => {
@@ -244,6 +258,8 @@ export const useEventHook = () => {
     useEventRankerLiveTipping,
     useEventGenerateVoucher,
     useEventDetailVoucher,
+    useEventVoucherList,
+    useEventVoucherListDetail,
     useEventCheckGeneratedTopupVoucher,
     useCheckAvailVoucher,
   };
