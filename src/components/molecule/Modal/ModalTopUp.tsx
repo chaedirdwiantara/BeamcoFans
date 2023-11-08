@@ -1,6 +1,13 @@
 import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Platform,
+} from 'react-native';
 
 import {Gap} from '../../atom';
 import Color from '../../../theme/Color';
@@ -41,7 +48,11 @@ export const ModalTopUp: React.FC<ModalTopUpProps> = (
   }, []);
 
   const onPressBuy = () => {
-    purchaseProduct('credit_beamco_540');
+    if (Platform.OS === 'android') {
+      purchaseProduct('credit_beamco_540');
+    } else {
+      purchaseProduct('Credit_beamco_100');
+    }
     onPressClose();
   };
 
