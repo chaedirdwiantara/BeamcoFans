@@ -233,6 +233,7 @@ export const useEventHook = () => {
     return useQuery(
       [`event/check-voucher-topup/${params?.userUUID}/${params?.eventId}`],
       () => checkIsGeneratedTopupVoucher(params),
+      {enabled: !!params.eventId},
     );
   };
 
