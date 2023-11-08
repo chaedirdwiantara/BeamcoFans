@@ -10,7 +10,7 @@ import {
   NativeScrollEvent,
   RefreshControl,
 } from 'react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Color from '../../theme/Color';
 import {heightResponsive, width, widthResponsive} from '../../utils';
 import {
@@ -33,7 +33,7 @@ import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 import {useEventHook} from '../../hooks/use-event.hook';
 import {useFocusEffect} from '@react-navigation/native';
-import {profileStorage} from '../../hooks/use-storage.hook';
+import {profileStorage, storage} from '../../hooks/use-storage.hook';
 import {Image} from 'react-native';
 import {ModalSuccessTopupVoucher} from '../../components/molecule/Modal/ModalSuccessTopupVoucher';
 
@@ -63,7 +63,8 @@ export const EventDetail: React.FC<EventDetailProps> = ({
     {filterName: 'Event.Detail.TopTiper'},
   ]);
   const [showModalTopup, setShowModaltopup] = useState<boolean>(false);
-  const [showModalSuccess, setShowModalSuccess] = useState<boolean>(true);
+  const [triggerVoucher, setTriggerVoucher] = useState<boolean>(false);
+  // const [showModalSuccess, setShowModalSuccess] = useState<boolean>(true);
 
   const filterDataTab = (item: any, index: any) => {
     setSelectedIndex(index);
@@ -119,6 +120,22 @@ export const EventDetail: React.FC<EventDetailProps> = ({
       refetchVoucher();
     }, []),
   );
+
+  useEffect(() => {
+    if (dataDetail) {
+      storage.set('eventId', dataDetail?.data?.id);
+    }
+
+    return () => {
+      storage.delete('eventId');
+    };
+  }, [dataDetail]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      refetchVoucher();
+    }, 2000);
+  }, [triggerVoucher, showModalTopup]);
 
   return (
     <View style={styles.root}>
@@ -297,10 +314,14 @@ export const EventDetail: React.FC<EventDetailProps> = ({
 
       <ModalTopUp
         modalVisible={showModalTopup}
-        onPressClose={() => setShowModaltopup(false)}
+        onPressClose={() => {
+          setShowModaltopup(false);
+          setTriggerVoucher(!triggerVoucher);
+        }}
       />
 
-      <ModalSuccessTopupVoucher
+      {/* // TODO: Bli Neka Kerjain Nanti */}
+      {/* <ModalSuccessTopupVoucher
         modalVisible={showModalSuccess}
         toggleModal={() => {
           setShowModalSuccess(false);
@@ -310,7 +331,7 @@ export const EventDetail: React.FC<EventDetailProps> = ({
             });
           }, 500);
         }}
-      />
+      /> */}
 
       <ModalLoading visible={isLoadingDetail} />
     </View>
