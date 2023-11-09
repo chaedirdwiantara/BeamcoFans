@@ -51,7 +51,7 @@ export const ModalTopUp: React.FC<ModalTopUpProps> = (
     if (Platform.OS === 'android') {
       purchaseProduct('credit_beamco_540');
     } else {
-      purchaseProduct('Credit_beamco_100');
+      purchaseProduct('Credit_beamco_540');
     }
     onPressClose();
   };
