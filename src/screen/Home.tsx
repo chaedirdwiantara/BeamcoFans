@@ -11,11 +11,7 @@ import {
   Platform,
   InteractionManager,
 } from 'react-native';
-import {
-  useNavigation,
-  useIsFocused,
-  useFocusEffect,
-} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {useMutation, useQuery} from 'react-query';
 import {
   NativeStackNavigationProp,
@@ -23,6 +19,8 @@ import {
 } from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
+import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
 import {
   Gap,
@@ -32,9 +30,7 @@ import {
   Carousel,
   IconNotif,
   SsuStatusBar,
-  ListMoodGenre,
   ListImageDesc,
-  EmptyStateHome,
   TopNavigation,
   ListPlaylistHome,
   BottomSheetGuest,
@@ -58,7 +54,6 @@ import {useBannerHook} from '../hooks/use-banner.hook';
 import {useCreditHook} from '../hooks/use-credit.hook';
 import {useSearchHook} from '../hooks/use-search.hook';
 import {ParamsProps} from '../interface/base.interface';
-import {useSettingHook} from '../hooks/use-setting.hook';
 import {useProfileHook} from '../hooks/use-profile.hook';
 import {useMusicianHook} from '../hooks/use-musician.hook';
 import FavoriteMusician from './ListCard/FavoriteMusician';
@@ -197,28 +192,24 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     // if the user is a new user, it will appear when modal claim credit disappear
     const hideModalFreeBeer = storage.getBoolean('RedeemFreeBeer');
     if (currentScreen.name === 'Home') {
-      console.log('log10', currentScreen.name);
-
       if (!hideModalFreeBeer && !showModalClaim && isLogin) {
-        console.log('log1', hideModalFreeBeer);
         if (dataCheckVoucher?.data) {
           // check end date of event voucher
-          const availDate =
-            new Date(dataCheckVoucher.data.endDate) >= new Date();
-          console.log('log2', availDate);
+          dayjs.extend(isSameOrBefore);
+          const availDate = dayjs(dayjs().format('YYYY-MM-DD')).isSameOrBefore(
+            dataCheckVoucher.data.endDate,
+            'day',
+          );
 
           // if voucher avail, show modal free beer
           // otherwise, show modal topup till end date event
           const isAvail = dataCheckVoucher.data.isAvailable;
-          console.log('log3', isAvail);
 
           // if user has never topup, show modal popup topup
           const hideModalTopup =
             dataVoucher === undefined ? true : dataVoucher?.data;
-          console.log('log4', hideModalTopup);
 
           if (availDate) {
-            console.log('log5', isAvail);
             setTimeout(() => {
               InteractionManager.runAfterInteractions(() =>
                 isAvail
