@@ -469,10 +469,12 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   };
 
   const onPressProfile = () => {
-    navigation.navigate('Profile', {
-      showToast: false,
-      deletePlaylist: false,
-    });
+    if (dataProfile) {
+      navigation.navigate('Profile', {
+        showToast: false,
+        deletePlaylist: false,
+      });
+    }
   };
 
   const onPressCoin = () => {
@@ -552,6 +554,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
         onPressCoin={onPressCoin}
         guest={!isLogin}
+        activeOpacity={0}
       />
 
       {Platform.OS === 'ios' && refreshing && (
