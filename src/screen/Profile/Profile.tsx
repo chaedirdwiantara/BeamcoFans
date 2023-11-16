@@ -14,9 +14,9 @@ import {useProfileHook} from '../../hooks/use-profile.hook';
 import {profileStorage} from '../../hooks/use-storage.hook';
 import {GuestContent, ProfileContent} from '../../components';
 import {usePlaylistHook} from '../../hooks/use-playlist.hook';
-import {MainTabParams, RootStackParams} from '../../navigations';
+import {RootStackParams} from '../../navigations';
 
-type ProfileProps = NativeStackScreenProps<MainTabParams, 'Profile'>;
+type ProfileProps = NativeStackScreenProps<RootStackParams, 'Profile'>;
 
 export const ProfileScreen: React.FC<ProfileProps> = ({
   route,

@@ -71,6 +71,7 @@ import NotificationIcon from './Notification.icon';
 import RadioButtonIcon from './RadioButton.icon';
 import RepeatIcon from './Repeaticon';
 import RepeatOneIcon from './RepeatOne.icon';
+import Rewards from '../../screen/Rewards';
 import PauseIcon from './Pause.icon';
 import PauseIcon2 from './Pause2.icon';
 import PauseVideoIcon from './PauseVideo.icon';
@@ -203,6 +204,7 @@ export {
   RadioButtonIcon,
   RepeatIcon,
   RepeatOneIcon,
+  Rewards,
   SaveIcon,
   SearchIcon,
   SettingIcon,
