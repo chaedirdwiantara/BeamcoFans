@@ -34,8 +34,8 @@ import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading'
 import {useEventHook} from '../../hooks/use-event.hook';
 import {useFocusEffect} from '@react-navigation/native';
 import {profileStorage, storage} from '../../hooks/use-storage.hook';
-import {Image} from 'react-native';
-import {ModalSuccessTopupVoucher} from '../../components/molecule/Modal/ModalSuccessTopupVoucher';
+// import {Image} from 'react-native';
+// import {ModalSuccessTopupVoucher} from '../../components/molecule/Modal/ModalSuccessTopupVoucher';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,

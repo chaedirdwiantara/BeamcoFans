@@ -30,7 +30,7 @@ type Props = {
   containerTextStyle?: ViewStyle;
   onPressDropdown?: () => void;
   rightIcon?: React.ReactNode;
-  rightIconAction: () => void;
+  rightIconAction?: () => void;
 };
 
 /** == COMPONENT === */

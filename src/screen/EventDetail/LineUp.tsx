@@ -75,6 +75,7 @@ const LineUp: FC<EventLineUpInterface> = ({
               // })
             }
             onPressMore={() => null}
+            liveTime={item?.startTime}
           />
         );
       })}
