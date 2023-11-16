@@ -877,6 +877,11 @@
     "Title": "Notification"
   },
   "Modal": {
+    "TopupInfo": {
+      "Title": "Credit Purchase",
+      "SubtitleIos": "If a course purchased through the iOS app isn’t in your account, check for a 'Pending' transaction in Apple; this may take 24-48 hours to process. If the status changes but the course isn't added, send us your Apple receipt to help resolve the issue.",
+      "SubtitleAndroid": "If a course purchased through the Android app isn’t in your account, check for a 'Pending' transaction in Google Play; this may take 24-48 hours to process. If the status changes but the course isn't added, send us your Google Play receipt to help resolve the issue."
+    },
     "MusicianNotAvail": {
       "Title": "Featuring Artist",
       "Subtitle": "Artist that you’ve looking for is not available in Beamco platform, we'll let you know as soon as something new is on the horizon."
