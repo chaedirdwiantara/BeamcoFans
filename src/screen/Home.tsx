@@ -239,7 +239,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     onSuccess(res) {
       if (res?.code === 200) {
         navigation.navigate('ListVoucher', {
-          id: generateVoucherPayload.eventId,
+          id: generateVoucherPayload?.eventId || '',
         });
         setShowModalBeer(false);
         storage.set('RedeemFreeBeer', true);
@@ -800,7 +800,12 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         modalVisible={showModalBeer}
         onPressClose={() => setShowModalBeer(false)}
         onPressRedeem={() =>
-          setGenerateEventVoucher.mutate(generateVoucherPayload)
+          setGenerateEventVoucher.mutate({
+            userUUID: generateVoucherPayload?.userUUID || uuid,
+            userType: generateVoucherPayload?.userType || 'fans',
+            eventId: generateVoucherPayload?.eventId || '',
+            endDateEvent: generateVoucherPayload?.endDateEvent || '',
+          })
         }
       />
 

@@ -255,7 +255,7 @@ export const AlbumContent: React.FC<Props> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
-        title={t('Musician.Label.Album')}
+        title={t('Musician.Label.Album') || ''}
         rightIcon={
           comingSoon ? (
             <></>

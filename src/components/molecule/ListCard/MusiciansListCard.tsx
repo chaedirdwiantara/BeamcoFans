@@ -31,7 +31,7 @@ export interface ListProps {
   onPressImage: () => void;
   musicianName: string;
   imgUri: string;
-  point?: string;
+  point?: string | number;
   containerStyles?: ViewStyle;
   dataFilter?: {label: string; value: string}[];
   followerMode?: boolean;
