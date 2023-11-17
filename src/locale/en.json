@@ -359,6 +359,10 @@
       "TopTipper": {
         "Title": "Top Beamer Will Displayed Here",
         "Subtitle": "Wait until event goes live to view the top Beamer"
+      },
+      "LineUp": {
+        "Title": "Artist Unleashing Soon!",
+        "Subtitle": "Stay tuned for exciting artist announcements!"
       }
     },
     "ListVoucher": {
