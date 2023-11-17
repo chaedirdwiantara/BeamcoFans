@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ViewStyle,
+  TextStyle,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {mvs} from 'react-native-size-matters';
@@ -27,6 +28,7 @@ interface ModalConfirmProps {
   rightButtonStyle?: ViewStyle;
   textNavigate?: string;
   textOnPress?: () => void;
+  subtitleStyles?: TextStyle;
 }
 
 export const ModalConfirm: React.FC<ModalConfirmProps> = (
@@ -46,6 +48,7 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = (
     rightButtonStyle,
     textNavigate,
     textOnPress,
+    subtitleStyles,
   } = props;
 
   const renderHighlightedSubtitle = (
@@ -90,7 +93,7 @@ export const ModalConfirm: React.FC<ModalConfirmProps> = (
           {textNavigate && subtitle ? (
             renderHighlightedSubtitle(textNavigate, subtitle)
           ) : (
-            <Text style={styles.subtitle}>{subtitle}</Text>
+            <Text style={[styles.subtitle, subtitleStyles]}>{subtitle}</Text>
           )}
           {!oneButton ? (
             <View style={styles.containerButton}>
