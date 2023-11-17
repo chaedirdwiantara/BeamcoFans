@@ -24,6 +24,7 @@ import {useTranslation} from 'react-i18next';
 import DropdownMore from '../V2/DropdownFilter/DropdownMore';
 import {useDebounce} from '../../../utils/debounce';
 import Color from '../../../theme/Color';
+import Typography from '../../../theme/Typography';
 
 export interface ListProps {
   musicianNum?: number | string;
@@ -43,6 +44,7 @@ export interface ListProps {
   creditCount?: number;
   isEvent?: boolean;
   eventDate?: string;
+  liveTime?: string;
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -65,6 +67,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     creditCount,
     isEvent,
     eventDate,
+    liveTime,
   } = props;
 
   // ? Dropdown Menu Example
@@ -208,6 +211,26 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
           />
         </>
       )}
+
+      {!isLive && liveTime && !isEvent && (
+        <>
+          <Gap width={8} />
+          <View style={styles.containerLiveTime}>
+            <LiveIcon
+              width={widthResponsive(20)}
+              height={heightResponsive(20)}
+            />
+            <Gap width={widthResponsive(4)} />
+            <Text
+              style={[
+                Typography.Body4,
+                {color: Color.Neutral[10], textTransform: 'capitalize'},
+              ]}>
+              {liveTime}
+            </Text>
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -286,5 +309,15 @@ const styles = StyleSheet.create({
     fontSize: normalize(10.5),
     color: color.Dark[50],
     textTransform: 'capitalize',
+  },
+  containerLiveTime: {
+    backgroundColor: Color.Dark[600],
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: widthResponsive(8),
+    paddingVertical: heightResponsive(8),
+    borderRadius: 200,
+    flexDirection: 'row',
+    width: widthResponsive(80),
   },
 });
