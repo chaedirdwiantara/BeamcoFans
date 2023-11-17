@@ -61,7 +61,7 @@ interface ProfileContentProps {
   profile: any;
   goToEditProfile: () => void;
   goToPlaylist: (id: number, name: string) => void;
-  dataPlaylist?: Playlist[];
+  dataPlaylist?: Playlist[] | null;
   showCreateCard: boolean;
   toastVisible: boolean;
   setToastVisible: (param: boolean) => void;
@@ -365,7 +365,9 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
                       onPress={goToCreatePlaylist}
                     />
                   )}
-                  {dataPlaylist !== undefined && dataPlaylist?.length > 0 ? (
+                  {dataPlaylist &&
+                  dataPlaylist !== undefined &&
+                  dataPlaylist?.length > 0 ? (
                     <ListPlaylist
                       data={dataPlaylist === null ? [] : dataPlaylist}
                       onPress={goToPlaylist}

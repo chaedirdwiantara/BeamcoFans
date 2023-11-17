@@ -56,6 +56,9 @@ const CommentAppeal: React.FC<CommentAppealPropsType> = ({
           commentCount={commentsCount}
           hideDropDown
           appeal
+          selectedUserName={() => null}
+          isBlock={false}
+          blockIs={false}
         />
       </TouchableOpacity>
     </View>

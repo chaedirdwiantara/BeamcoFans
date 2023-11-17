@@ -263,7 +263,7 @@ export const PlaylistContent: React.FC<Props> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
-        title={t('Home.Topbar.Search.Playlist')}
+        title={t('Home.Topbar.Search.Playlist') || ''}
         rightIcon={
           <DropdownMore
             dataFilter={othersPlaylist ? dataMoreOther : dataMore}

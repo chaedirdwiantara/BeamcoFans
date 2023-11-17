@@ -81,7 +81,7 @@ export const AddToPlaylistScreen: React.FC<AddToPlaylistProps> = ({
   };
 
   const myPlaylist =
-    dataPlaylist?.length > 0
+    dataPlaylist && dataPlaylist?.length > 0
       ? dataPlaylist.filter(val => val.playlistOwner.UUID === uuid)
       : [];
 

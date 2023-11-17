@@ -15,8 +15,8 @@ export const CircularProgress = ({
   max = 100,
 }) => {
   const animated = React.useRef(new Animated.Value(0)).current;
-  const circleRef = React.useRef();
-  const inputRef = React.useRef();
+  const circleRef = React.useRef<any>();
+  const inputRef = React.useRef<TextInput>();
   const circumference = 2 * Math.PI * radius;
   const halfCircle = radius + strokeWidth;
 
