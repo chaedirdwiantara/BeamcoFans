@@ -29,38 +29,26 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Bundle ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.348871011517-0g9eti5g07q2smrfj9vbl52s3bvesg3m</string>
+				<string>co.beam.fans.ios</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>beamco</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>beamco</string>
+				<string>com.googleusercontent.apps.348871011517-0g9eti5g07q2smrfj9vbl52s3bvesg3m</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CodePushDeploymentKey</key>
 	<string>ADGSNH7aEOh61HPoXI0Ceznw-pPZdVvzseoPt</string>
-	<key>FacebookAppID</key>
-	<string>687852656020966</string>
-	<key>FacebookClientToken</key>
-	<string>ea77058ba43ca99a7c661f0003857457</string>
-	<key>FacebookDisplayName</key>
-	<string>Beamco</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>itms-apps</string>
-	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
