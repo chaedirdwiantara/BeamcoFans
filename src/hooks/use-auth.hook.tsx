@@ -100,11 +100,12 @@ export const useAuthHook = () => {
         if (response.data.accessToken) {
           storage.set('profile', JSON.stringify(response.data));
           if (response.data.deletedAt === null) {
-            if (response.data.lastLoginAt === null) {
-              setLoginResult('preference');
-            } else {
-              setLoginResult('home');
-            }
+            // BEAM-1436: Remove step wizard after sign up
+            // if (response.data.lastLoginAt === null) {
+            //   setLoginResult('preference');
+            // } else {
+            setLoginResult('home');
+            // }
           } else {
             setLoginResult('recover');
           }
@@ -158,11 +159,12 @@ export const useAuthHook = () => {
         if (response.data.accessToken) {
           storage.set('profile', JSON.stringify(response.data));
           if (response.data.deletedAt === null) {
-            if (response.data.lastLoginAt === null) {
-              setLoginResult('preference');
-            } else {
-              setLoginResult('home');
-            }
+            // BEAM-1436: Remove step wizard after sign up
+            // if (response.data.lastLoginAt === null) {
+            //   setLoginResult('preference');
+            // } else {
+            setLoginResult('home');
+            // }
           } else {
             setLoginResult('recover');
           }
@@ -249,11 +251,12 @@ export const useAuthHook = () => {
           if (response.data.accessToken) {
             storage.set('profile', JSON.stringify(response.data));
             if (response.data.deletedAt === null) {
-              if (response.data.lastLoginAt === null) {
-                setLoginResult('preference');
-              } else {
-                setLoginResult('home');
-              }
+              // BEAM-1436: Remove step wizard after sign up
+              // if (response.data.lastLoginAt === null) {
+              //   setLoginResult('preference');
+              // } else {
+              setLoginResult('home');
+              // }
             } else {
               setLoginResult('recover');
             }
@@ -305,11 +308,12 @@ export const useAuthHook = () => {
     try {
       const response = await confirmEmailOtpRegister(email, code, context);
       if (response.status === 1) {
-        if (response.data.lastLoginAt === null) {
-          setLoginResult('preference');
-        } else {
-          setLoginResult('home');
-        }
+        // BEAM-1436: Remove step wizard after sign up
+        // if (response.data.lastLoginAt === null) {
+        //   setLoginResult('preference');
+        // } else {
+        setLoginResult('home');
+        // }
         storage.set('profile', JSON.stringify(response.data));
         setIsOtpValid(true);
         setIsError(false);
@@ -350,11 +354,12 @@ export const useAuthHook = () => {
       if (response.code === 200) {
         storage.set('profile', JSON.stringify(response.data));
         if (response.data.deletedAt === null) {
-          if (response.data.lastLoginAt === null) {
-            setLoginResult('preference');
-          } else {
-            setLoginResult('home');
-          }
+          // BEAM-1436: Remove step wizard after sign up
+          // if (response.data.lastLoginAt === null) {
+          //   setLoginResult('preference');
+          // } else {
+          setLoginResult('home');
+          // }
         } else {
           setLoginResult('recover');
         }
@@ -518,11 +523,12 @@ export const useAuthHook = () => {
         if (response.data.accessToken) {
           storage.set('profile', JSON.stringify(response.data));
           if (response.data.deletedAt === null) {
-            if (response.data.lastLoginAt === null) {
-              setLoginResult('preference');
-            } else {
-              setLoginResult('home');
-            }
+            // BEAM-1436: Remove step wizard after sign up
+            // if (response.data.lastLoginAt === null) {
+            //   setLoginResult('preference');
+            // } else {
+            setLoginResult('home');
+            // }
           } else {
             setLoginResult('recover');
           }
