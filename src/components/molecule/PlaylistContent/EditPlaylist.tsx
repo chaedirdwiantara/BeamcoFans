@@ -162,7 +162,7 @@ export const EditPlaylistContent: React.FC<EditPlaylistProps> = ({
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <View style={styles.root}>
         <TopNavigation.Type4
-          title={t('Music.Playlist.Edit')}
+          title={t('Music.Playlist.Edit') || ''}
           rightIcon={<SaveIcon />}
           leftIcon={<ArrowLeftIcon />}
           itemStrokeColor={color.Neutral[10]}

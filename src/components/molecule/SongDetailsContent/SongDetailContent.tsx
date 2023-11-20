@@ -157,7 +157,7 @@ export const SongDetailsContent: React.FC<Props> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
-        title={t('Music.Label.SongDetails')}
+        title={t('Music.Label.SongDetails') || ''}
         rightIcon={
           <DropdownMore
             dataFilter={dropDownHeaderSongDetails}

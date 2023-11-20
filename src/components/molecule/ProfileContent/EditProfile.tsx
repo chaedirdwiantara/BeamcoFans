@@ -101,7 +101,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
-        title={t('Profile.Edit.Title')}
+        title={t('Profile.Edit.Title') || ''}
         rightIcon={<SaveIcon />}
         leftIcon={<ArrowLeftIcon />}
         itemStrokeColor={Color.Neutral[10]}

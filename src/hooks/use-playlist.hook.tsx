@@ -19,8 +19,9 @@ import {
 export const usePlaylistHook = () => {
   const [playlistLoading, setPlaylistLoading] = useState<boolean>(false);
   const [playlistError, setPlaylistError] = useState<boolean>(false);
-  const [dataPlaylist, setDataPlaylist] = useState<Playlist[]>([]);
-  const [dataDetailPlaylist, setDataDetailPlaylist] = useState<Playlist>();
+  const [dataPlaylist, setDataPlaylist] = useState<Playlist[] | null>([]);
+  const [dataDetailPlaylist, setDataDetailPlaylist] =
+    useState<Playlist | null>();
   const [dataSongsPlaylist, setDataSongsPlaylist] = useState<SongList[]>();
 
   const getPlaylist = async (props?: ParamsProps) => {

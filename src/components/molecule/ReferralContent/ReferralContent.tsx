@@ -7,8 +7,11 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {Camera, useCameraDevices} from 'react-native-vision-camera';
-import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
+import {
+  Camera,
+  useCameraDevice,
+  useCodeScanner,
+} from 'react-native-vision-camera';
 import styles from './styles';
 import Color from '../../../theme/Color';
 import Typography from '../../../theme/Typography';
@@ -98,8 +101,7 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
   const [focusInput, setFocusInput] = useState<string | null>(null);
 
   // Camera
-  const devices = useCameraDevices();
-  const device = devices.back;
+  const device = useCameraDevice('back');
 
   // Camera Handler
   async function getPermission() {
@@ -116,23 +118,16 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
     }
   }, [isScanning]);
 
-  useEffect(() => {
-    if (isValidRef) {
-      setIsScanSuccess(isValidRef);
-    } else if (!isValidRef && isScanning) {
-      setIsScanFailed(true);
-    }
+  // TODO: don't know what should we do with this line of code
+  // useEffect(() => {
+  //   if (isValidRef) {
+  //     setIsScanSuccess(isValidRef);
+  //   } else if (!isValidRef && isScanning) {
+  //     setIsScanFailed(true);
+  //   }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isValidRef]);
-
-  // QRCode
-  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE]);
-
-  useEffect(() => {
-    togleActiveState();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [barcodes]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isValidRef]);
 
   useEffect(() => {
     if (onPress && refCode !== '' && isScanning) {
@@ -142,20 +137,15 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refCode]);
 
-  const togleActiveState = async () => {
-    if (barcodes && barcodes.length > 0 && isScanned === false) {
-      setIsScanned(true);
-
-      barcodes.forEach(async scannedBarcode => {
-        if (
-          scannedBarcode.rawValue !== '' &&
-          scannedBarcode.rawValue !== undefined
-        ) {
-          setRefCode(scannedBarcode.rawValue);
-        }
-      });
-    }
-  };
+  const codeScanner = useCodeScanner({
+    codeTypes: ['qr', 'ean-13'],
+    onCodeScanned: codes => {
+      if (codes.length > 0 && isScanned === false) {
+        setIsScanned(true);
+        setRefCode(codes[0].value.split('=')[1]);
+      }
+    },
+  });
 
   const handleScanning = () => {
     setIsScanning(true);
@@ -193,8 +183,7 @@ export const ReferralContent: React.FC<ReferralContentProps> = ({
                   style={{flex: 1}}
                   device={device}
                   isActive={true}
-                  frameProcessor={frameProcessor}
-                  frameProcessorFps={5}
+                  codeScanner={codeScanner}
                 />
               ) : (
                 ''

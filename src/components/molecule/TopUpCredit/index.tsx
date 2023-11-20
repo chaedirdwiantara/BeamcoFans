@@ -1,12 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import {useQuery} from 'react-query';
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
 
 import {
   width,
-  kFormatter,
   toCurrency,
   widthPercentage,
   heightPercentage,
@@ -16,12 +22,13 @@ import {CoinCard} from './CoinCard';
 import {TabFilter} from '../TabFilter';
 import {TopNavigation} from '../TopNavigation';
 import {TransactionCard} from './TransactionCard';
+import {ModalConfirm} from '../Modal/ModalConfirm';
 import {EmptyState} from '../EmptyState/EmptyState';
 import {useIapHook} from '../../../hooks/use-iap.hook';
 import {color, font, typography} from '../../../theme';
 import {dateLongMonth} from '../../../utils/date-format';
 import {useCreditHook} from '../../../hooks/use-credit.hook';
-import {ArrowLeftIcon, CoinDIcon} from '../../../assets/icon';
+import {ArrowLeftIcon, CoinDIcon, TooltipIcon} from '../../../assets/icon';
 import {TransactionHistoryPropsType} from '../../../interface/credit.interface';
 
 interface TopUpCreditProps {
@@ -54,6 +61,7 @@ export const TopUpCreditContent: React.FC<TopUpCreditProps> = ({
     {filterName: 'TopUp.Filter.Buy'},
     {filterName: 'TopUp.Filter.Transaction'},
   ]);
+  const [showModalTopupInfo, setShowModalTopupInfo] = useState<boolean>(false);
   const filterData = (item: any, index: number) => {
     setSelectedIndex(index);
   };
@@ -77,6 +85,11 @@ export const TopUpCreditContent: React.FC<TopUpCreditProps> = ({
     purchaseProduct(productId);
   };
 
+  const subtitleModal =
+    Platform.OS === 'ios'
+      ? 'Modal.TopupInfo.SubtitleIos'
+      : 'Modal.TopupInfo.SubtitleAndroid';
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type1
@@ -90,8 +103,13 @@ export const TopUpCreditContent: React.FC<TopUpCreditProps> = ({
         contentContainerStyle={styles.containerScrollView}
         showsVerticalScrollIndicator={false}>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={[typography.Subtitle1, styles.text]}>
-            {t('TopUp.Subtitle1')}
+          <Text style={{textAlign: 'center'}}>
+            <Text style={[typography.Subtitle1, styles.text]}>
+              {t('TopUp.Subtitle1')}
+            </Text>
+            <TouchableOpacity onPress={() => setShowModalTopupInfo(true)}>
+              <TooltipIcon stroke={color.Pink[2]} style={styles.tooltipStyle} />
+            </TouchableOpacity>
           </Text>
           <Text style={[typography.Caption, styles.text]}>
             {t('TopUp.Subtitle2')}
@@ -169,6 +187,16 @@ export const TopUpCreditContent: React.FC<TopUpCreditProps> = ({
           />
         )}
       </ScrollView>
+
+      <ModalConfirm
+        modalVisible={showModalTopupInfo}
+        oneButton={true}
+        title={t('Modal.TopupInfo.Title') || ''}
+        subtitle={t(subtitleModal) || ''}
+        yesText={t('General.Dismiss') || ''}
+        onPressOk={() => setShowModalTopupInfo(false)}
+        subtitleStyles={{fontSize: mvs(13)}}
+      />
     </View>
   );
 };
@@ -229,5 +257,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: color.Neutral[10],
     lineHeight: mvs(16),
+  },
+  tooltipStyle: {
+    position: 'absolute',
+    top: mvs(-15),
+    marginLeft: widthPercentage(10),
+    width: widthPercentage(17),
+    height: widthPercentage(17),
   },
 });

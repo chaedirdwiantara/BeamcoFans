@@ -108,13 +108,13 @@ export const PlaylistScreen: React.FC<PlaylistProps> = ({
   });
 
   const goToEditPlaylist = () => {
-    if (dataDetailPlaylist !== undefined) {
+    if (dataDetailPlaylist !== undefined && dataDetailPlaylist !== null) {
       navigation.navigate('EditPlaylist', dataDetailPlaylist);
     }
   };
 
   const goToAddSong = () => {
-    if (dataDetailPlaylist !== undefined) {
+    if (dataDetailPlaylist !== undefined && dataDetailPlaylist !== null) {
       navigation.navigate('AddSong', dataDetailPlaylist);
     }
   };

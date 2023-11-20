@@ -23,7 +23,7 @@ export const EventScreen: React.FC<EventProps> = ({navigation}: EventProps) => {
       {isLogin ? (
         <View>
           <TopNavigation.Type4
-            title={t('Event.Title')}
+            title={t('Event.Title') || ''}
             maxLengthTitle={20}
             itemStrokeColor={'white'}
             rightIcon={<CartIcon />}
