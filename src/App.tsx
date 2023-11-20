@@ -5,7 +5,7 @@ import {AppProvider} from './context/app.context';
 import {PortalProvider} from '@gorhom/portal';
 import {RootStackScreen} from './navigations';
 import {QueryClientProvider} from 'react-query';
-import {CrashLog, CrashRecord} from './service/crashReport';
+import {CrashRecord} from './service/crashReport';
 import codePush from 'react-native-code-push';
 import {queryClient} from './service/queryClient';
 
@@ -20,7 +20,6 @@ Sentry.init({
 
 const App = () => {
   const errorHandler = (error: Error, stackTrace: string) => {
-    CrashLog({message: stackTrace});
     CrashRecord({error: error});
   };
 
