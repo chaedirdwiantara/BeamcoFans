@@ -3,7 +3,6 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {Settings, LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import {
   checkUsername,
@@ -195,25 +194,6 @@ export const useAuthHook = () => {
         }
       }
     }
-  };
-
-  const onLoginFacebook = async () => {
-    setIsError(false);
-    setErrorMsg('');
-    Settings.setAppID('687852656020966');
-    LoginManager.logInWithPermissions(['public_profile', 'email'])
-      .then(res => {
-        console.log(res);
-        if (!res.isCancelled) {
-          AccessToken.getCurrentAccessToken().then(_token => {
-            // console.log(token);
-            // TODO: get email from FB graphapi after apps is live
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
   };
 
   const onLoginApple = async () => {
@@ -605,7 +585,6 @@ export const useAuthHook = () => {
     onRegisterUser,
     onLoginUser,
     onLoginGoogle,
-    onLoginFacebook,
     onLoginApple,
     checkUsernameAvailability,
     confirmEmailOtp,
