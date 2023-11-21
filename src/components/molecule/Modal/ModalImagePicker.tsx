@@ -104,12 +104,16 @@ export const ModalImagePicker: React.FC<ModalImagePickerProps> = ({
   };
 
   return (
-    <Modal isVisible={modalVisible} style={{margin: 0}}>
-      <TouchableWithoutFeedback onPress={onPressClose}>
-        <View style={styles.modalOverlay} />
-      </TouchableWithoutFeedback>
-      <SsuSheet children={children()} />
-    </Modal>
+    <>
+      {modalVisible && (
+        <Modal isVisible={modalVisible} style={{margin: 0}}>
+          <TouchableWithoutFeedback onPress={onPressClose}>
+            <View style={styles.modalOverlay} />
+          </TouchableWithoutFeedback>
+          <SsuSheet children={children()} />
+        </Modal>
+      )}
+    </>
   );
 };
 

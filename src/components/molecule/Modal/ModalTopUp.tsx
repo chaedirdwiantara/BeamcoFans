@@ -163,7 +163,13 @@ export const ModalTopUp: React.FC<ModalTopUpProps> = (
     );
   };
 
-  return <ModalCustom modalVisible={modalVisible} children={children()} />;
+  return (
+    <>
+      {modalVisible && (
+        <ModalCustom modalVisible={modalVisible} children={children()} />
+      )}
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
