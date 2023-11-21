@@ -205,13 +205,13 @@ export const LiveTipping: FC<LiveTippingProps> = ({
     await new Promise(async (_resolve: any) => {
       for (let i = 0; BackgroundService.isRunning(); i++) {
         if (i === 2) {
+          stopBgService();
           setCounterTipping(0);
           await sendTipping();
           getCreditCount();
           if (!dataVoucher?.data?.isGenerated) {
             refetchVoucher();
           }
-          stopBgService();
         }
         await sleep(delay);
       }

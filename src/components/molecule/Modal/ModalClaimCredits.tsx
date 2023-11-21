@@ -14,9 +14,7 @@ interface ModalClaimCreditsProps {
   onPressClaim: () => void;
 }
 
-export const ModalClaimCredits: React.FC<ModalClaimCreditsProps> = (
-  props: ModalClaimCreditsProps,
-) => {
+export const ModalClaimCredits = (props: ModalClaimCreditsProps) => {
   const {t} = useTranslation();
   const {modalVisible, onPressClose, onPressClaim} = props;
   const [isClaimed, setIsClaimed] = useState<boolean>(false);
@@ -58,7 +56,13 @@ export const ModalClaimCredits: React.FC<ModalClaimCreditsProps> = (
     );
   };
 
-  return <ModalCustom modalVisible={modalVisible} children={children()} />;
+  return (
+    <>
+      {modalVisible && (
+        <ModalCustom modalVisible={modalVisible} children={children()} />
+      )}
+    </>
+  );
 };
 
 const styles = StyleSheet.create({

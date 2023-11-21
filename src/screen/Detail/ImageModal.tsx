@@ -67,95 +67,99 @@ const ImageModal: FC<ModalImageProps> = (props: ModalImageProps) => {
   });
 
   return (
-    <Modal
-      isVisible={modalVisible}
-      backdropOpacity={1}
-      backdropColor={color.Dark[800]}
-      style={{marginHorizontal: 0}}
-      onBackButtonPress={toggleModal}>
-      <StatusBar backgroundColor={color.Dark[800]} />
-      <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
-          <CloseCircleIcon />
-        </TouchableOpacity>
+    <>
+      {modalVisible && (
+        <Modal
+          isVisible={modalVisible}
+          backdropOpacity={1}
+          backdropColor={color.Dark[800]}
+          style={{marginHorizontal: 0}}
+          onBackButtonPress={toggleModal}>
+          <StatusBar backgroundColor={color.Dark[800]} />
+          <SafeAreaView style={styles.container}>
+            <TouchableOpacity onPress={toggleModal} style={styles.closeButton}>
+              <CloseCircleIcon />
+            </TouchableOpacity>
 
-        {type === 'zoomProfile' ? (
-          <View>
-            <Animated.View style={styles.mainImageWrapper}>
-              <View style={styles.imageWrapper}>
-                <FastImage
-                  source={{
-                    uri: imageUri,
-                  }}
-                  style={[styles.imageStyle]}
-                  resizeMode={FastImage.resizeMode.contain}
-                />
-              </View>
-            </Animated.View>
-          </View>
-        ) : dataImageGallery ? (
-          <View style={styles.mainContainer}>
-            <Animated.FlatList
-              ref={imageSlider}
-              data={dataImageGallery}
-              keyExtractor={(_, index) => index.toString()}
-              horizontal
-              pagingEnabled
-              initialScrollIndex={imageIdx}
-              getItemLayout={getItemLayout}
-              showsHorizontalScrollIndicator={false}
-              scrollEventThrottle={16}
-              onScroll={Animated.event(
-                [{nativeEvent: {contentOffset: {x: scrollX}}}],
-                {useNativeDriver: true},
-              )}
-              renderItem={({item}) => (
-                <Animated.View style={styles.mainImageWrapper}>
-                  <View style={styles.imageWrapper}>
-                    <FastImage
-                      source={{uri: item.images[3].image}}
-                      style={[styles.imageStyle]}
-                      resizeMode={FastImage.resizeMode.contain}
-                    />
-                  </View>
-                </Animated.View>
-              )}
-            />
-          </View>
-        ) : (
-          <View style={styles.mainContainer}>
-            <Animated.FlatList
-              ref={imageSlider}
-              data={dataImage}
-              keyExtractor={(_, index) => index.toString()}
-              horizontal
-              pagingEnabled
-              initialScrollIndex={imageIdx}
-              showsHorizontalScrollIndicator={false}
-              scrollEventThrottle={16}
-              getItemLayout={getItemLayout}
-              onScroll={Animated.event(
-                [{nativeEvent: {contentOffset: {x: scrollX}}}],
-                {useNativeDriver: true},
-              )}
-              renderItem={({item}) => (
+            {type === 'zoomProfile' ? (
+              <View>
                 <Animated.View style={styles.mainImageWrapper}>
                   <View style={styles.imageWrapper}>
                     <FastImage
                       source={{
-                        uri: item[3].image,
+                        uri: imageUri,
                       }}
                       style={[styles.imageStyle]}
                       resizeMode={FastImage.resizeMode.contain}
                     />
                   </View>
                 </Animated.View>
-              )}
-            />
-          </View>
-        )}
-      </SafeAreaView>
-    </Modal>
+              </View>
+            ) : dataImageGallery ? (
+              <View style={styles.mainContainer}>
+                <Animated.FlatList
+                  ref={imageSlider}
+                  data={dataImageGallery}
+                  keyExtractor={(_, index) => index.toString()}
+                  horizontal
+                  pagingEnabled
+                  initialScrollIndex={imageIdx}
+                  getItemLayout={getItemLayout}
+                  showsHorizontalScrollIndicator={false}
+                  scrollEventThrottle={16}
+                  onScroll={Animated.event(
+                    [{nativeEvent: {contentOffset: {x: scrollX}}}],
+                    {useNativeDriver: true},
+                  )}
+                  renderItem={({item}) => (
+                    <Animated.View style={styles.mainImageWrapper}>
+                      <View style={styles.imageWrapper}>
+                        <FastImage
+                          source={{uri: item.images[3].image}}
+                          style={[styles.imageStyle]}
+                          resizeMode={FastImage.resizeMode.contain}
+                        />
+                      </View>
+                    </Animated.View>
+                  )}
+                />
+              </View>
+            ) : (
+              <View style={styles.mainContainer}>
+                <Animated.FlatList
+                  ref={imageSlider}
+                  data={dataImage}
+                  keyExtractor={(_, index) => index.toString()}
+                  horizontal
+                  pagingEnabled
+                  initialScrollIndex={imageIdx}
+                  showsHorizontalScrollIndicator={false}
+                  scrollEventThrottle={16}
+                  getItemLayout={getItemLayout}
+                  onScroll={Animated.event(
+                    [{nativeEvent: {contentOffset: {x: scrollX}}}],
+                    {useNativeDriver: true},
+                  )}
+                  renderItem={({item}) => (
+                    <Animated.View style={styles.mainImageWrapper}>
+                      <View style={styles.imageWrapper}>
+                        <FastImage
+                          source={{
+                            uri: item[3].image,
+                          }}
+                          style={[styles.imageStyle]}
+                          resizeMode={FastImage.resizeMode.contain}
+                        />
+                      </View>
+                    </Animated.View>
+                  )}
+                />
+              </View>
+            )}
+          </SafeAreaView>
+        </Modal>
+      )}
+    </>
   );
 };
 

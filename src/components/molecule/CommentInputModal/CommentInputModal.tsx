@@ -44,71 +44,79 @@ const CommentInputModal: FC<ModalImageProps> = (props: ModalImageProps) => {
   } = props;
 
   return (
-    <Modal
-      isVisible={modalVisible}
-      backdropOpacity={0}
-      onBackdropPress={toggleModal}
-      onBackButtonPress={toggleModal}
-      onModalHide={onModalHide}
-      style={styles.modalStyle}>
-      <View style={styles.container}>
-        <View style={styles.headerComment}>
-          <Text style={styles.textHeader}>
-            {t('Post.Label.RepliedTo')}
-            <Text style={{color: color.Pink[100]}}> {name}</Text>
-          </Text>
-          <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
-            <CloseIcon
-              height={ms(8)}
-              width={ms(8)}
-              stroke={color.Neutral[10]}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.inputContainer}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Avatar imgUri={userAvatarUri} size={32} />
-            <Gap width={12} />
-            <SsuInput.InputText
-              value={commentValue}
-              onChangeText={(newText: string) => onCommentChange?.(newText)}
-              placeholder={`${t('Post.Placeholder.Write')}...`}
-              containerStyles={{
-                width: widthResponsive(290),
-                backgroundColor: 'transparent',
-                paddingLeft: 0,
-              }}
-              multiline={true}
-              maxLength={200}
-            />
+    <>
+      {modalVisible && (
+        <Modal
+          isVisible={modalVisible}
+          backdropOpacity={0}
+          onBackdropPress={toggleModal}
+          onBackButtonPress={toggleModal}
+          onModalHide={onModalHide}
+          style={styles.modalStyle}>
+          <View style={styles.container}>
+            <View style={styles.headerComment}>
+              <Text style={styles.textHeader}>
+                {t('Post.Label.RepliedTo')}
+                <Text style={{color: color.Pink[100]}}> {name}</Text>
+              </Text>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={toggleModal}>
+                <CloseIcon
+                  height={ms(8)}
+                  width={ms(8)}
+                  stroke={color.Neutral[10]}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.inputContainer}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Avatar imgUri={userAvatarUri} size={32} />
+                <Gap width={12} />
+                <SsuInput.InputText
+                  value={commentValue}
+                  onChangeText={(newText: string) => onCommentChange?.(newText)}
+                  placeholder={`${t('Post.Placeholder.Write')}...`}
+                  containerStyles={{
+                    width: widthResponsive(290),
+                    backgroundColor: 'transparent',
+                    paddingLeft: 0,
+                  }}
+                  multiline={true}
+                  maxLength={200}
+                />
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-      <View style={styles.footerComment}>
-        <Text
-          style={[
-            styles.footerText,
-            {
-              color:
-                commentValue?.length == 200
-                  ? color.Error[400]
-                  : color.Neutral[10],
-            },
-          ]}>
-          {commentValue?.length}/200
-        </Text>
-        <TouchableOpacity style={styles.buttonStyle} onPress={handleOnPress}>
-          <Text style={styles.buttonText}>{t('Btn.Reply')}</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{backgroundColor: color.Dark[800]}}>
-        <Gap height={10} />
-      </View>
-      <KeyboardAvoidingView
-        behavior={
-          Platform.OS === 'ios' ? 'padding' : 'height'
-        }></KeyboardAvoidingView>
-    </Modal>
+          <View style={styles.footerComment}>
+            <Text
+              style={[
+                styles.footerText,
+                {
+                  color:
+                    commentValue?.length == 200
+                      ? color.Error[400]
+                      : color.Neutral[10],
+                },
+              ]}>
+              {commentValue?.length}/200
+            </Text>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={handleOnPress}>
+              <Text style={styles.buttonText}>{t('Btn.Reply')}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{backgroundColor: color.Dark[800]}}>
+            <Gap height={10} />
+          </View>
+          <KeyboardAvoidingView
+            behavior={
+              Platform.OS === 'ios' ? 'padding' : 'height'
+            }></KeyboardAvoidingView>
+        </Modal>
+      )}
+    </>
   );
 };
 
