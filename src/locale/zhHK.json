@@ -418,6 +418,11 @@
       "DisplayProfile": "顯示個人主頁"
     }
   },
+  "Rewards": {
+    "Title": "Rewards",
+    "Reward": "Rewards",
+    "Mission": "Mission"
+  },
   "Musician": {
     "Label": {
       "Fans": "樂迷",

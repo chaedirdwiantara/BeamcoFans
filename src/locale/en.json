@@ -418,6 +418,11 @@
       "DisplayProfile": "Display Profile"
     }
   },
+  "Rewards": {
+    "Title": "Rewards",
+    "Reward": "Rewards",
+    "Mission": "Mission"
+  },
   "Musician": {
     "Label": {
       "Fans": "FANS",
