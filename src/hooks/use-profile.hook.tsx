@@ -135,11 +135,11 @@ export const useProfileHook = () => {
     try {
       setIsLoading(true);
       const response = await applyReferral(refCode);
-      if (response.code === 200) {
-        setIsValidReferral(true);
-      } else {
+      if (response.data === null) {
         setIsValidReferral(false);
         setErrorMsg(response.message);
+      } else {
+        setIsValidReferral(true);
       }
     } catch (error) {
       if (
