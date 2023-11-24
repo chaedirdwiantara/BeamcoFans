@@ -102,7 +102,6 @@ export const UseReferralContent: React.FC<UseReferralContentProps> = ({
   const {t} = useTranslation();
   const [focusInput, setFocusInput] = useState<string | null>(null);
   const [showModalFailed, setShowModalFailed] = useState<boolean>(false);
-  console.log('isValidRef', isValidRef);
 
   // Camera
   const device = useCameraDevice('back');
@@ -110,30 +109,26 @@ export const UseReferralContent: React.FC<UseReferralContentProps> = ({
   // Camera Handler
   async function getPermission() {
     const permission = await Camera.requestCameraPermission();
-
     if (permission === 'denied') {
       await Linking.openSettings();
+    } else {
+      setIsScanning(true);
+      setIsManualEnter(false);
     }
   }
 
   useEffect(() => {
-    if (isScanning) {
-      getPermission();
+    if (!isLoading) {
+      if (isValidRef) {
+        setIsScanning(false);
+        setIsScanSuccess(isValidRef);
+      } else if (!isValidRef && isScanning) {
+        setShowModalFailed(true);
+        setIsScanned(false);
+      }
     }
-  }, [isScanning]);
-  console.log('isLoading', isLoading);
-
-  useEffect(() => {
-    // if(!isLoading) {
-    if (isValidRef) {
-      setIsScanSuccess(isValidRef);
-    } else if (!isValidRef && isScanning) {
-      setShowModalFailed(true);
-      setIsScanned(false);
-    }
-    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isValidRef, isScanned]);
+  }, [isValidRef, isScanned, isLoading]);
 
   const codeScanner = useCodeScanner({
     codeTypes: ['qr', 'ean-13'],
@@ -150,8 +145,7 @@ export const UseReferralContent: React.FC<UseReferralContentProps> = ({
   });
 
   const handleScanning = () => {
-    setIsScanning(true);
-    setIsManualEnter(false);
+    getPermission();
   };
 
   const handleManualEnter = () => {
