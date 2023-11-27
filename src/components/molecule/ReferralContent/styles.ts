@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   containerText: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: heightPercentage(30),
   },
   preTitle: {
     maxWidth: width * 0.9,
@@ -80,11 +79,11 @@ const styles = StyleSheet.create({
     marginBottom: mvs(40),
   },
   containerReferralCode: {
-    width: width * 0.9,
+    width: width * 0.8,
     borderColor: Color.Dark[500],
-    backgroundColor: Color.Dark[900],
-    borderRadius: 12,
-    paddingVertical: mvs(16),
+    borderWidth: mvs(1),
+    borderRadius: mvs(4),
+    paddingVertical: mvs(20),
     justifyContent: 'center',
     alignItems: 'center',
   },
