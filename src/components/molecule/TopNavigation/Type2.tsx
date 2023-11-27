@@ -1,4 +1,4 @@
-import {Text, View} from 'react-native';
+import {Text, View, ViewStyle} from 'react-native';
 import React from 'react';
 import {elipsisText} from '../../../utils';
 import topNavstyles from './topNavstyles';
@@ -10,6 +10,7 @@ type Props = {
   maxLengthTitle?: number;
   bgColor?: string;
   itemStrokeColor?: string;
+  containerStyle?: ViewStyle;
 };
 
 /** == COMPONENT === */
@@ -23,6 +24,7 @@ const Type2: React.FC<Props> = (props: Props) => {
           {
             backgroundColor: props.bgColor,
           },
+          props.containerStyle,
         ]}>
         <View style={topNavstyles.leftContainer}></View>
         <View style={topNavstyles.centerContainer}>
