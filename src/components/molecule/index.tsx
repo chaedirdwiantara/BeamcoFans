@@ -12,6 +12,7 @@ import {ChangePasswordContent} from './SettingContent/ChangePasswordContent';
 import CommentInputModal from './CommentInputModal/CommentInputModal';
 import CommentAppeal from './CommentAppeal';
 import {CreateNewCard} from './CreateNewCard/CreateNewCard';
+import {CustomTipping} from './CustomTipping';
 import {CreateNewPlaylistContent} from './PlaylistContent/CreateNewPlaylistContent';
 import {Dropdown} from './DropDown';
 import DetailPost from './DetailPost/DetailPost';
@@ -90,6 +91,7 @@ export {
   CommentInputModal,
   CommentAppeal,
   CreateNewCard,
+  CustomTipping,
   CreateNewPlaylistContent,
   DetailPost,
   DASContent,
