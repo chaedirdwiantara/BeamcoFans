@@ -350,10 +350,10 @@ export type MainTabParams = {
   Home: {
     showToast?: boolean;
   };
-  // Profile: {
-  //   showToast?: boolean;
-  //   deletePlaylist?: boolean;
-  // };
+  Profile: {
+    showToast?: boolean;
+    deletePlaylist?: boolean;
+  };
   Search: undefined;
   Rewards: undefined;
 };
@@ -435,7 +435,7 @@ const TabScreen = () => {
           ),
         }}
       />
-      {/* <MainTab.Screen
+      <MainTab.Screen
         name="Profile"
         component={ProfileScreen}
         initialParams={{showToast: false, deletePlaylist: false}}
@@ -454,8 +454,9 @@ const TabScreen = () => {
             </TouchableOpacity>
           ),
         }}
-      /> */}
-      <MainTab.Screen
+      />
+      {/*// TODO : ENABLE IT AFTER REWARDS READY */}
+      {/* <MainTab.Screen
         name="Rewards"
         component={Rewards}
         options={{
@@ -468,7 +469,7 @@ const TabScreen = () => {
             </TouchableOpacity>
           ),
         }}
-      />
+      /> */}
     </MainTab.Navigator>
   );
 };

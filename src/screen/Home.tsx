@@ -469,12 +469,15 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   };
 
   const onPressProfile = () => {
-    if (dataProfile) {
-      navigation.navigate('Profile', {
-        showToast: false,
-        deletePlaylist: false,
-      });
-    }
+    console.log('you just pressed profile');
+
+    // TODO : ENABLE AFTER ALL REWARDS READY
+    // if (dataProfile) {
+    //   navigation.navigate('Profile', {
+    //     showToast: false,
+    //     deletePlaylist: false,
+    //   });
+    // }
   };
 
   const onPressCoin = () => {
