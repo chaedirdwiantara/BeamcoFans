@@ -3,6 +3,7 @@ import {
   Easing,
   Image,
   ImageSourcePropType,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -257,7 +258,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
   const options: any = {
     taskName: 'Live Tipping',
     taskTitle: dataDetailMusician?.fullname,
-    taskDesc: dataDetailMusician?.about,
+    taskDesc: dataDetailMusician?.about ?? 'Live Tipping',
     taskIcon: {
       name: 'ic_launcher',
       type: 'mipmap',
@@ -344,7 +345,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
             credit={credit}
             onPressCredit={() => navigation.navigate('TopUpCredit')}
             onPressGift={() => {
-              navigation.navigate('ListVoucher');
+              navigation.navigate('ListVoucher', {id: eventId});
             }}
             onSwipe={onSwipe}
             isNewGift={false}
@@ -479,7 +480,13 @@ export const LiveTipping: FC<LiveTippingProps> = ({
           )}
         </View>
 
-        <View style={{alignItems: 'center', justifyContent: 'flex-end'}}>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            paddingTop:
+              Platform.OS === 'android' ? heightResponsive(30) : 'auto',
+          }}>
           <Image
             source={moneyBatchURL}
             style={
@@ -493,8 +500,12 @@ export const LiveTipping: FC<LiveTippingProps> = ({
           {showMoney && (
             <Draggable
               disabled={disabledSwipe}
-              x={widthResponsive(50)}
-              y={heightResponsive(-5)}
+              x={widthResponsive(45)}
+              y={
+                Platform.OS === 'android'
+                  ? heightResponsive(20)
+                  : heightResponsive(-5)
+              }
               minY={heightResponsive(-300)}
               maxY={heightResponsive(-5)}
               maxX={widthResponsive(50)}
