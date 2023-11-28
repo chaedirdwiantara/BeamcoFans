@@ -461,11 +461,15 @@
       "SubTitle":"Redeem for yourself or send to fellow fans. Visit My Rewards Page for more details.",
       "Button":"Dismiss"
     },
-    "MissionTab":{
+    "MissionTab": {
       "ClaimToast":"Success Claim @{{claimedPoint}} Points from Daily Sign in",
       "BtnCompleted":"Completed",
       "BtnClaim":"Claim",
       "BtnGo":"Go"
+    },
+    "DetailVoucher": {
+      "QuotaLeft": "Quota Left",
+      "SendGift": "Send as gift"
     }
   },
   "Musician": {

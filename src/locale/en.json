@@ -466,6 +466,10 @@
       "BtnCompleted":"Completed",
       "BtnClaim":"Claim",
       "BtnGo":"Go"
+    },
+    "DetailVoucher": {
+      "QuotaLeft": "Quota Left",
+      "SendGift": "Send as gift"
     }
   },
   "Musician": {
