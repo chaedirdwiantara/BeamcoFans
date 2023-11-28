@@ -111,7 +111,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (
     type === 'edit' || backgroundUri === '' || backgroundUri === null;
 
   const showLoading = Platform.OS === 'ios' && refreshing;
-  const newHeight = showLoading ? heightPercentage(420) : heightPercentage(380);
+  const newHeight = showLoading ? heightPercentage(430) : heightPercentage(390);
 
   return (
     <View
