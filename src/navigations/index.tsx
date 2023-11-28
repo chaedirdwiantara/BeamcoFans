@@ -83,6 +83,9 @@ import {RecoverAccountScreen} from '../screen/Profile/RecoverAccount';
 
 import {FollowersScreen} from '../screen/MusicianProfile/ListFollowers';
 
+// Rewards
+import Rewards from '../screen/Rewards';
+
 // Playlist
 import {PlaylistScreen} from '../screen/Playlist/Playlist';
 import {CreateNewPlaylist} from '../screen/Playlist/CreateNewPlaylist';
@@ -155,6 +158,7 @@ import {OtpEmailScreen} from '../screen/Setting/Email/OTP';
 import ListPlaylist from '../screen/Playlist/ListPlaylist';
 import {MyQRCode} from '../screen/Setting/MyQRCode';
 import {TransactionHistoryPropsType} from '../interface/credit.interface';
+import UserRewardsIcon from '../assets/icon/UserRewards.icon';
 
 export type RootStackParams = {
   AboutDeletion: undefined;
@@ -244,6 +248,10 @@ export type RootStackParams = {
   };
   Preference: undefined;
   PreferenceSetting: undefined;
+  Profile: {
+    showToast?: boolean;
+    deletePlaylist?: boolean;
+  };
   ProfileProgress: undefined;
   PushNotification: undefined;
   RecoverAccount: undefined;
@@ -347,6 +355,7 @@ export type MainTabParams = {
     deletePlaylist?: boolean;
   };
   Search: undefined;
+  Rewards: undefined;
 };
 
 const screenOption: NativeStackNavigationOptions = {
@@ -403,18 +412,6 @@ const TabScreen = () => {
         }}
       />
       <MainTab.Screen
-        name="Merch"
-        component={MerchScreen}
-        options={{
-          tabBarIcon: ({color}) => (
-            <View style={styles.root}>
-              <CrownIcon stroke={color} />
-              <Text style={[styles.label, {color}]}>{'Merch'}</Text>
-            </View>
-          ),
-        }}
-      />
-      <MainTab.Screen
         name="Events"
         component={TicketScreen}
         options={{
@@ -422,6 +419,18 @@ const TabScreen = () => {
             <View style={styles.root}>
               <TicketDefaultIcon fill={color} />
               <Text style={[styles.label, {color}]}>{'Events'}</Text>
+            </View>
+          ),
+        }}
+      />
+      <MainTab.Screen
+        name="Merch"
+        component={MerchScreen}
+        options={{
+          tabBarIcon: ({color}) => (
+            <View style={styles.root}>
+              <CrownIcon stroke={color} />
+              <Text style={[styles.label, {color}]}>{'Merch'}</Text>
             </View>
           ),
         }}
@@ -446,6 +455,21 @@ const TabScreen = () => {
           ),
         }}
       />
+      {/*// TODO : ENABLE IT AFTER REWARDS READY */}
+      {/* <MainTab.Screen
+        name="Rewards"
+        component={Rewards}
+        options={{
+          tabBarIcon: ({color}) => (
+            <TouchableOpacity
+              style={styles.root}
+              onPress={() => navigation.navigate('Rewards')}>
+              <UserRewardsIcon stroke={color} />
+              <Text style={[styles.label, {color}]}>{'Rewards'}</Text>
+            </TouchableOpacity>
+          ),
+        }}
+      /> */}
     </MainTab.Navigator>
   );
 };
@@ -573,6 +597,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="DiscoverArtist" component={DiscoverArtist} />
     <RootStack.Screen name="ListVoucher" component={ListVoucher} />
     <RootStack.Screen name="DetailVoucher" component={DetailVoucher} />
+    {/* <RootStack.Screen name="Profile" component={ProfileScreen} /> */}
   </RootStack.Navigator>
 );
 

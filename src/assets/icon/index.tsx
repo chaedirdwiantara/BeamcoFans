@@ -5,6 +5,16 @@ import ArrowRightIcon from './ArrowRight.icon';
 import ArrowRightIcon2 from './ArrowRight2.icon';
 import ArrowUpIcon from './ArrowUp.icon';
 import AudioMusic from './AudioMusic.icon';
+import BadgeSilverIcon from './BadgeSilver.icon';
+import BadgeSilverMIcon from './BadgeSilverM.icon';
+import BadgeBronzeIcon from './BadgeBronze.icon';
+import BadgeBronzeMIcon from './BadgeBronzeM.icon';
+import BadgeGoldIcon from './BadgeGold.icon';
+import BadgeGoldMIcon from './BadgeGoldM.icon';
+import BadgePlatinumIcon from './BadgePlatinum.icon';
+import BadgePlatinumMIcon from './BadgePlatinumM.icon';
+import BadgeDiamondIcon from './BadgeDiamond.icon';
+import BadgeDiamondMIcon from './BadgeDiamondM.icon';
 import BellNotif from './BellNotif.icon';
 import CameraIcon from './Camera';
 import CheckBoxIcon from './CheckBox.icon';
@@ -29,8 +39,10 @@ import CollectionIcon from './Collection.icon';
 import CommentIcon from './Comment.icon';
 import CrackEggIcon from './CrackEgg.icon';
 import CrownIcon from './Crown.icon';
+import CupIcon from './Cup.icon';
 import {DefaultAvatar} from './DefaultAvatar.icon';
 import {DefaultImage} from './DefaultImage.icon';
+import DrinkRewardIcon from './DrinkReward.icon';
 import DropDownIcon from './Dropdown.icon';
 import DonateCoinIcon from './DonateCoin.icon';
 import DiagramIcon from './Diagram.icon';
@@ -60,6 +72,7 @@ import LockIcon from './Lock.icon.';
 import LogOutIcon from './Logout.icon';
 import LoveIcon from './Love.icon';
 import MedalIcon from './Medal.icon';
+import MediaRewardIcon from './MediaReward.icon';
 import MenuIcon from './Menu.icon';
 import MinusCircleIcon from './MinusCircle.icon';
 import MusicPlaylistIcon from './MusicPlaylist.icon';
@@ -71,6 +84,7 @@ import NotificationIcon from './Notification.icon';
 import RadioButtonIcon from './RadioButton.icon';
 import RepeatIcon from './Repeaticon';
 import RepeatOneIcon from './RepeatOne.icon';
+import Rewards from '../../screen/Rewards';
 import PauseIcon from './Pause.icon';
 import PauseIcon2 from './Pause2.icon';
 import PauseVideoIcon from './PauseVideo.icon';
@@ -91,6 +105,7 @@ import SoundIcon from './Sound.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
 import ThreeDotsHorizonIcon from './ThreeDotsHorizon.icon';
 import TickCircleIcon from './TickCircle.icon';
+import TicketRewardIcon from './TicketReward.icon';
 import TiktokIcon from './Tiktok.icon';
 import TooltipIcon from './Tooltip.icon';
 import TwitterIcon from './Twitter.icon';
@@ -127,6 +142,16 @@ export {
   ArrowRightIcon2,
   ArrowUpIcon,
   AudioMusic,
+  BadgeSilverIcon,
+  BadgeSilverMIcon,
+  BadgeBronzeIcon,
+  BadgeBronzeMIcon,
+  BadgeGoldIcon,
+  BadgeGoldMIcon,
+  BadgePlatinumIcon,
+  BadgePlatinumMIcon,
+  BadgeDiamondIcon,
+  BadgeDiamondMIcon,
   BellNotif,
   CameraIcon,
   CheckBoxIcon,
@@ -151,9 +176,11 @@ export {
   CommentIcon,
   CrackEggIcon,
   CrownIcon,
+  CupIcon,
   DefaultAvatar,
   DefaultImage,
   DiagramIcon,
+  DrinkRewardIcon,
   DropDownIcon,
   DonateCoinIcon,
   EditIcon,
@@ -182,6 +209,7 @@ export {
   LogOutIcon,
   LoveIcon,
   MedalIcon,
+  MediaRewardIcon,
   MenuIcon,
   MinusCircleIcon,
   MusicPlaylistIcon,
@@ -203,6 +231,7 @@ export {
   RadioButtonIcon,
   RepeatIcon,
   RepeatOneIcon,
+  Rewards,
   SaveIcon,
   SearchIcon,
   SettingIcon,
@@ -213,6 +242,7 @@ export {
   ThreeDotsIcon,
   ThreeDotsHorizonIcon,
   TickCircleIcon,
+  TicketRewardIcon,
   TiktokIcon,
   TooltipIcon,
   TwitterIcon,
