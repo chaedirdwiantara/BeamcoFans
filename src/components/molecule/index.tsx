@@ -41,8 +41,10 @@ import {ModalDonate} from './Modal/ModalDonate';
 import {ModalFreeBeer} from './Modal/ModalFreeBeer';
 import {ModalImagePicker} from './Modal/ModalImagePicker';
 import {ModalReport} from './Modal/ModalReport';
+import {ModalSendGift} from './Modal/ModalSendGift';
 import {ModalShare} from './Modal/ModalShare';
 import {ModalSuccessDonate} from './Modal/ModalSuccessDonate';
+import {ModalInfoSendGift} from './Modal/ModalInfoSendGift';
 import {ModalTopUp} from './Modal/ModalTopUp';
 import {MusicSection} from './MusicSection/MusicSection';
 import NewPostAvail from './NewPostAvail/newPostAvail';
@@ -120,8 +122,10 @@ export {
   ModalFreeBeer,
   ModalImagePicker,
   ModalReport,
+  ModalSendGift,
   ModalShare,
   ModalSuccessDonate,
+  ModalInfoSendGift,
   ModalTopUp,
   MusicSection,
   NewPostAvail,
