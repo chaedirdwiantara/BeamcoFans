@@ -6,11 +6,19 @@ import {Button, EmptyState, Gap, SuccessToast} from '../../components';
 import {color, font} from '../../theme';
 import {mvs} from 'react-native-size-matters';
 import {widthResponsive} from '../../utils';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useRewardHook} from '../../hooks/use-reward.hook';
-import {DataMissionMaster} from '../../interface/reward.interface';
+import {
+  DataMissionMaster,
+  RewardListFunction,
+} from '../../interface/reward.interface';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {MainTabParams, RootStackParams} from '../../navigations';
 
 const TabTwoRewards = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const [activeIndex, setactiveIndex] = useState<number>(0);
   const [daily, setDaily] = useState<DataMissionMaster[]>([]);
   const [oneTime, setOneTime] = useState<DataMissionMaster[]>([]);
@@ -113,7 +121,55 @@ const TabTwoRewards = () => {
     setParamClaim(data.function);
   };
 
-  const onGoMission = (screenName: string) => {};
+  const onGoMission = (screenFn: RewardListFunction) => {
+    switch (screenFn) {
+      case 'complete-profile':
+        navigation.navigate('Setting');
+        break;
+      case 'daily-sign-in':
+        console.log('nothing to do here');
+        break;
+      case 'refer-friend':
+        navigation2.navigate('Home', {showToast: false});
+        break;
+      case 'tip-live-tipping':
+        navigation2.navigate('Home', {showToast: false});
+        break;
+      case 'top-up-100-credits':
+        navigation.navigate('TopUpCredit');
+        break;
+      case 'top-up-540-credits':
+        navigation.navigate('TopUpCredit');
+        break;
+      case 'top-up-1200-credits':
+        navigation.navigate('TopUpCredit');
+        break;
+      case 'top-up-6500-credits':
+        navigation.navigate('TopUpCredit');
+        break;
+      case 'like-post':
+        navigation2.navigate('Feed');
+        break;
+      case 'vote-post':
+        navigation2.navigate('Feed');
+        break;
+      case 'comment-post':
+        navigation2.navigate('Feed');
+        break;
+      case 'follow-artist':
+        navigation.navigate('SearchScreen');
+        break;
+      case 'share-song-ig':
+        navigation.navigate('MusicPlayer');
+        break;
+      case 'donation':
+        navigation2.navigate('Home', {showToast: false});
+        break;
+      case 'share-ig':
+        navigation.navigate('MusicPlayer');
+        break;
+    }
+  };
 
   return (
     <View style={styles().container}>
