@@ -15,61 +15,35 @@ import {
   MediaRewardIcon,
   TicketRewardIcon,
 } from '../../../assets/icon';
-import {
-  DataAvailableVoucher,
-  DataMyVoucher,
-} from '../../../interface/reward.interface';
-import {useRewardHook} from '../../../hooks/use-reward.hook';
+import {DataMyVoucher} from '../../../interface/reward.interface';
 
 type Props = {
-  data: DataAvailableVoucher;
+  data: DataMyVoucher;
   onPress: () => void;
   containerStyle?: ViewStyle;
 };
 
-const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
-  // const {useClaimMyVoucher} = useRewardHook();
-
-  // const {
-  //   data: dataClaim,
-  //   refetch: refetchClaim,
-  //   isLoading: isLoadingClaim,
-  //   isRefetching: isRefetchingClaim,
-  // } = useClaimMyVoucher(data.id);
-
-  // const onClaim = () => {
-  //   // refetchClaim();
-  //   onPress();
-  // };
-
+const RewardMyVoucher: React.FC<Props> = ({data, onPress, containerStyle}) => {
   return (
     <View style={[styles.container, containerStyle]}>
       {/* Body */}
       <View style={styles.bodyContainer}>
-        <View style={styles.absoluteTextContainer}>
-          {data.generateQty > 1 && (
-            <View style={styles.voucherLeftContainer}>
-              <Text style={styles.voucherLeft}>{data.generateQty} Left</Text>
-            </View>
-          )}
-        </View>
-
-        {data.iconType === 'drink' ? (
+        {data.voucher.iconType === 'drink' ? (
           <DrinkRewardIcon />
-        ) : data.iconType === 'media' ? (
+        ) : data.voucher.iconType === 'media' ? (
           <MediaRewardIcon />
-        ) : data.iconType === 'ticket' ? (
+        ) : data.voucher.iconType === 'ticket' ? (
           <TicketRewardIcon />
         ) : null}
 
         <Gap height={3} />
-        <Text style={styles.pointsText}>{`${data.iconType} Points`}</Text>
+        <Text style={styles.pointsText}>{data.statusVoucher}</Text>
 
         <Text style={styles.voucherTitleText} numberOfLines={1}>
-          {data.title}
+          {data.voucher.title}
         </Text>
         <Text style={styles.voucherText} numberOfLines={1}>
-          {data.titleHeader}
+          {data.voucher.titleHeader}
         </Text>
       </View>
 
@@ -79,28 +53,19 @@ const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
           <DottedLine color={color.Dark[10]} />
         </View>
         <View style={styles.footer}>
-          {data.isClaimable ? (
-            <Button
-              label={'Redeem'}
-              containerStyles={styles.btnClaim}
-              textStyles={styles.textButton}
-              onPress={onPress}
-            />
-          ) : (
-            <Button
-              label={'Not Enough Points'}
-              containerStyles={styles.btnBorder}
-              textStyles={styles.footerText}
-              disabled
-            />
-          )}
+          <Button
+            label={'View'}
+            containerStyles={styles.btnClaim}
+            textStyles={styles.textButton}
+            onPress={onPress}
+          />
         </View>
       </View>
     </View>
   );
 };
 
-export default VoucherReward;
+export default RewardMyVoucher;
 
 const styles = StyleSheet.create({
   container: {

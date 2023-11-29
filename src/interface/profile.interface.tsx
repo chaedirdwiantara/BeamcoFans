@@ -50,6 +50,7 @@ export type ProfileResponseData = {
   point: {
     daily: number;
     lasUpdated: string;
+    pointLifetime: number;
   };
   blockIs?: boolean; // pov i being blocked by that user
   isBlock?: boolean; // pov i blocked that user

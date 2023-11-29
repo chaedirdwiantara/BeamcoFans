@@ -14,34 +14,41 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 
 type Props = {
-  title: string;
-  caption: string;
+  startPoint: number;
+  endPoint: number;
   angle?: number;
   containerStyle?: ViewStyle;
   titleTxtStyle?: ViewStyle;
   captionTxtStyle?: ViewStyle;
-  badgeType: 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
+  currentLvl: string;
 };
 
 const InfoCard: FC<Props> = ({
-  title,
-  caption,
+  startPoint,
+  endPoint,
   angle,
   containerStyle,
   titleTxtStyle,
   captionTxtStyle,
-  badgeType,
+  currentLvl,
 }) => {
+  const whatNextLvl =
+    currentLvl === 'Bronze'
+      ? 'Silver'
+      : currentLvl === 'Silver'
+      ? 'Gold'
+      : currentLvl === 'Gold'
+      ? 'Platinum'
+      : 'Diamond';
   const bgColor =
-    badgeType === 'bronze'
-      ? ['#C59F69', '#8E7144']
-      : badgeType === 'silver'
+    whatNextLvl === 'Silver'
       ? ['#A29E97', '#6C6E6F']
-      : badgeType === 'gold'
+      : whatNextLvl === 'Gold'
       ? ['#DBB65E', '#A48334']
-      : badgeType === 'platinum'
+      : whatNextLvl === 'Platinum'
       ? ['#80A4AA', '#406368']
       : ['#9E7BD6', '#6D4AA8'];
+  const pointNeeded = endPoint - startPoint;
 
   return (
     <LinearGradient
@@ -49,22 +56,43 @@ const InfoCard: FC<Props> = ({
       colors={bgColor}
       angle={angle}
       style={[styles.container, containerStyle]}>
-      {badgeType === 'bronze' ? (
-        <BadgeBronzeIcon />
-      ) : badgeType === 'silver' ? (
+      {whatNextLvl === 'Silver' ? (
         <BadgeSilverIcon />
-      ) : badgeType === 'gold' ? (
+      ) : whatNextLvl === 'Gold' ? (
         <BadgeGoldIcon />
-      ) : badgeType === 'platinum' ? (
+      ) : whatNextLvl === 'Platinum' ? (
         <BadgePlatinumIcon />
       ) : (
-        // ! REMEMBER TO FIX THIS ICON
         <BadgeDiamondIcon />
       )}
       <Gap width={16} />
       <View style={styles.txtContainer}>
-        <Text style={[styles.titleStyle, titleTxtStyle]}>{title}</Text>
-        <Text style={[styles.captionStyle, captionTxtStyle]}>{caption}</Text>
+        {whatNextLvl !== 'Diamond' ? (
+          <Text
+            style={[
+              styles.titleStyle,
+              titleTxtStyle,
+            ]}>{`${whatNextLvl} Streamer Badge is Closer`}</Text>
+        ) : (
+          <Text
+            style={[
+              styles.titleStyle,
+              titleTxtStyle,
+            ]}>{`Your Badge is Maxed Out`}</Text>
+        )}
+        {whatNextLvl !== 'Diamond' ? (
+          <Text
+            style={[
+              styles.captionStyle,
+              captionTxtStyle,
+            ]}>{`You’re ${pointNeeded} Exp away from being ${whatNextLvl}. Let’s get ‘em by completing more mission!`}</Text>
+        ) : (
+          <Text
+            style={[
+              styles.captionStyle,
+              captionTxtStyle,
+            ]}>{`Congratulations! You've reached Diamond Badge Claim the rewards and be proud!`}</Text>
+        )}
       </View>
     </LinearGradient>
   );

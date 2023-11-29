@@ -8,9 +8,9 @@ import {
 } from 'react-native';
 
 type Props = {
-  size: number; // The diameter of the circle
-  color: string; // The background color of the circle
-  containerStyle: ViewStyle;
+  size: number;
+  color: string;
+  containerStyle?: ViewStyle;
 };
 
 const Circle: React.FC<Props> = ({size, color, containerStyle}) => {

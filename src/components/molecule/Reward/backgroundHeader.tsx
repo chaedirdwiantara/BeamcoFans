@@ -11,30 +11,30 @@ import {
 import {color, font} from '../../../theme';
 import {mvs} from 'react-native-size-matters';
 import {Gap} from '../../atom';
-import {widthResponsive} from '../../../utils';
+import {toCurrency, widthResponsive} from '../../../utils';
 
 type Props = {
-  rankTitle: 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
+  rankTitle: string;
   points: number;
 };
 
 const BackgroundHeader: FC<Props> = ({rankTitle, points}) => {
   const Bronze = '../../../assets/image/Bg1.png';
   const Silver = '../../../assets/image/Bg2.png';
-  const Gold = '../../../assets/image/Bg2.png';
-  const Platinum = '../../../assets/image/Bg2.png';
-  const Diamond = '../../../assets/image/Bg2.png';
+  const Gold = '../../../assets/image/Bg3.png';
+  const Platinum = '../../../assets/image/Bg4.png';
+  const Diamond = '../../../assets/image/Bg5.png';
   return (
     <ImageBackground
       style={styles.bgContainer}
       source={
-        rankTitle === 'bronze'
+        rankTitle === 'Bronze'
           ? require(Bronze)
-          : rankTitle === 'silver'
+          : rankTitle === 'Silver'
           ? require(Silver)
-          : rankTitle === 'gold'
+          : rankTitle === 'Gold'
           ? require(Gold)
-          : rankTitle === 'platinum'
+          : rankTitle === 'Platinum'
           ? require(Platinum)
           : require(Diamond)
       }
@@ -48,13 +48,13 @@ const BackgroundHeader: FC<Props> = ({rankTitle, points}) => {
         </Text>
       </View>
       <View style={styles.midStyle}>
-        {rankTitle === 'bronze' ? (
+        {rankTitle === 'Bronze' ? (
           <BadgeBronzeMIcon />
-        ) : rankTitle === 'silver' ? (
+        ) : rankTitle === 'Silver' ? (
           <BadgeSilverMIcon />
-        ) : rankTitle === 'gold' ? (
+        ) : rankTitle === 'Gold' ? (
           <BadgeGoldMIcon />
-        ) : rankTitle === 'platinum' ? (
+        ) : rankTitle === 'Platinum' ? (
           <BadgePlatinumMIcon />
         ) : (
           <BadgeDiamondMIcon />
@@ -64,7 +64,9 @@ const BackgroundHeader: FC<Props> = ({rankTitle, points}) => {
         <View style={styles.pointStyle}>
           <CupIcon width={18} height={18} />
           <Gap width={5} />
-          <Text style={styles.primTxt}>{points}</Text>
+          <Text style={styles.primTxt}>
+            {toCurrency(points, {withFraction: false})}
+          </Text>
         </View>
         <Text style={styles.scndTxt}>Your Loyalty Point</Text>
         <Gap height={65} />

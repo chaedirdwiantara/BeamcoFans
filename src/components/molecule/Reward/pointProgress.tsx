@@ -9,20 +9,31 @@ import {Gap} from '../../atom';
 type Props = {
   progress: number;
   total: number;
-  nextLvl: string;
+  currentLvl: string;
   containerStyle?: ViewStyle;
 };
 
 const PointProgress: FC<Props> = ({
   progress,
   total,
-  nextLvl,
+  currentLvl,
   containerStyle,
 }) => {
   const progressBar = progress / total;
+  const whatNextLvl =
+    currentLvl === 'Bronze'
+      ? '1. Silver'
+      : currentLvl === 'Silver'
+      ? '3. Gold'
+      : currentLvl === 'Gold'
+      ? '4. Platinum'
+      : currentLvl === 'Platinum'
+      ? '5. Diamond'
+      : 'Lvl. Maxed';
+
   return (
     <View style={styles.container}>
-      <Text style={styles.primerTxt}>Current Loyalty Points</Text>
+      <Text style={styles.primerTxt}>Current Progress Level</Text>
       <Gap height={8} />
       <Progress.Bar
         progress={progressBar}
@@ -39,10 +50,13 @@ const PointProgress: FC<Props> = ({
       <View style={styles.descStyle}>
         <Text style={styles.primerTxt}>
           {`Points ${progress}`}
-          <Text style={styles.scndTxt}>{`/${total}`}</Text>
+          {/* <Text style={styles.scndTxt}>{`/${total}`}</Text> */}
         </Text>
         <Text style={styles.primerTxt}>
-          Next lvl: <Text style={styles.scndTxt}>{nextLvl}</Text>
+          {whatNextLvl !== 'Lvl. Maxed' ? 'Next lvl:' : whatNextLvl}{' '}
+          {whatNextLvl !== 'Lvl. Maxed' && (
+            <Text style={styles.scndTxt}>{whatNextLvl}</Text>
+          )}
         </Text>
       </View>
     </View>
