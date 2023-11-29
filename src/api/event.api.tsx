@@ -20,6 +20,7 @@ import {
   MusicianStatusResponse,
   OrderListBookyay,
   SearchEventInput,
+  SendVoucherReq,
 } from '../interface/event.interface';
 import BookYayAPI from './baseBookYay';
 import RinjaniAPI from './baseRinjani';
@@ -301,6 +302,29 @@ export const getEventVoucherListDetail = async (
   const {data} = await KrakatauAPI().request<GetVoucherListDetailResponse>({
     url: `/vouchers/detail/${voucherId}`,
     method: 'GET',
+  });
+
+  return data;
+};
+
+export const getEventVoucherDetailRewards = async (
+  id: string,
+): Promise<GetVoucherListDetailResponse> => {
+  const {data} = await KrakatauAPI().request<GetVoucherListDetailResponse>({
+    url: `/vouchers/loyalty/${id}/detail`,
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const transferVoucher = async (
+  params: SendVoucherReq,
+): Promise<ClaimVoucherResponse> => {
+  const {data} = await KrakatauAPI().request<ClaimVoucherResponse>({
+    url: `/vouchers/loyalty/${params.id}/transfer`,
+    method: 'POST',
+    data: params,
   });
 
   return data;

@@ -10,6 +10,7 @@ import {
   getEventMusicianTipped,
   getEventTopTipper,
   getEventVoucher,
+  getEventVoucherDetailRewards,
   getEventVoucherList,
   getEventVoucherListDetail,
   getStatusLiveMusician,
@@ -227,6 +228,12 @@ export const useEventHook = () => {
     );
   };
 
+  const useEventVoucherDetail = (id: string) => {
+    return useQuery([`event/voucher/detail/${id}`], () =>
+      getEventVoucherDetailRewards(id),
+    );
+  };
+
   const useEventCheckGeneratedTopupVoucher = (
     params: CheckIsGeneratedTopupVoucherReq,
   ) => {
@@ -271,6 +278,7 @@ export const useEventHook = () => {
     useEventDetailVoucher,
     useEventVoucherList,
     useEventVoucherListDetail,
+    useEventVoucherDetail,
     useEventCheckGeneratedTopupVoucher,
     useEventCheckGeneratedTopupVoucherHome,
     useCheckAvailVoucher,

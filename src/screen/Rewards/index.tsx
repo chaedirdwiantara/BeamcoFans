@@ -105,7 +105,10 @@ const Rewards = () => {
   };
 
   const goToDetailVoucher = (id: number) => {
-    navigation.navigate('DetailVoucherRewards', {id})
+    navigation.navigate('DetailVoucherRewards', {
+      id: 'Z3TVK9',
+      status: 'Ready to Redeem',
+    });
   };
 
   return (

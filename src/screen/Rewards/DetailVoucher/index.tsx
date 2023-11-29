@@ -15,11 +15,15 @@ import {useFocusEffect} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
+import {
+  ArrowLeftIcon,
+  ClockIcon,
+  TicketDefaultIcon,
+} from '../../../assets/icon';
 import {color, font} from '../../../theme';
 import {widthResponsive} from '../../../utils';
 import {RootStackParams} from '../../../navigations';
 import {useEventHook} from '../../../hooks/use-event.hook';
-import {ArrowLeftIcon, ClockIcon, TicketDefaultIcon, TicketEventIcon, TicketIcon} from '../../../assets/icon';
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {Button, Gap, ModalCustom, TopNavigation} from '../../../components';
 
@@ -36,10 +40,13 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
   navigation,
 }: ListVoucherProps) => {
   const id = route.params.id;
-  const eventId = route.params.eventId;
+
+  // voucher sent from other = 'Gift Voucher'
+  // self voucher = 'Ready to Redeem'
+  const status = route.params.status;
 
   const {t} = useTranslation();
-  const {useEventVoucherListDetail} = useEventHook();
+  const {useEventVoucherDetail} = useEventHook();
 
   const [scrollEffect, setScrollEffect] = useState<boolean>(false);
   const [showQrPopUp, setShowQrPopUp] = useState<boolean>(false);
@@ -60,7 +67,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
     refetch: refetchDetail,
     isLoading: isLoadingDetail,
     isRefetching: isRefetchingDetail,
-  } = useEventVoucherListDetail(id.toString());
+  } = useEventVoucherDetail(id);
 
   useFocusEffect(
     useCallback(() => {
@@ -70,7 +77,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
 
   useEffect(() => {
     if (dataDetail?.data) {
-      let dataToEncode = `${dataDetail?.data.id}|${eventId}`;
+      let dataToEncode = `${dataDetail?.data.id}|${dataDetail?.data.voucher.id}`;
       setValueEncode(Buffer.from(dataToEncode).toString('base64'));
     }
   }, [dataDetail?.data]);
@@ -78,9 +85,14 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
   const showQrOnPress = () => {
     setShowQrPopUp(true);
   };
+
   const closeQrOnPress = () => {
     setShowQrPopUp(false);
     refetchDetail();
+  };
+
+  const goToSendGift = () => {
+    navigation.navigate('GiftVoucher', {id});
   };
 
   return (
@@ -173,7 +185,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
                   </Text>
                 </View>
                 <Text style={[styles.normalTitle, {color: color.Success[400]}]}>
-                  {dataDetail.data?.expiredDate}
+                  {`${dataDetail.data?.voucher.quotaLeft} Voucher`}
                 </Text>
               </View>
             </View>
@@ -222,19 +234,23 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
             !dataDetail?.data.isAvailable || dataDetail?.data.isRedeemed
           }
         />
-        <Button
-          label={t('Rewards.DetailVoucher.SendGift')}
-          type={'border'}
-          borderColor={'#FF68D6'}
-          containerStyles={{
-            width: '100%',
-            height: widthResponsive(40),
-            aspectRatio: undefined,
-            backgroundColor: 'transparent',
-            marginTop: mvs(10)
-          }}
-          onPress={showQrOnPress}
-        />
+        {status === 'Ready to Redeem' &&
+          dataDetail?.data.isAvailable &&
+          !dataDetail?.data.isRedeemed && (
+            <Button
+              label={t('Rewards.DetailVoucher.SendGift')}
+              type={'border'}
+              borderColor={'#FF68D6'}
+              containerStyles={{
+                width: '100%',
+                height: widthResponsive(40),
+                aspectRatio: undefined,
+                backgroundColor: 'transparent',
+                marginTop: mvs(10),
+              }}
+              onPress={goToSendGift}
+            />
+          )}
       </View>
       <ModalCustom
         modalVisible={showQrPopUp}
@@ -332,8 +348,8 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     paddingHorizontal: widthResponsive(20),
-    paddingBottom: widthResponsive(38),
-    paddingTop: widthResponsive(9),
+    paddingBottom: widthResponsive(25),
+    paddingTop: widthResponsive(15),
     width: '100%',
   },
   buttonStyle: {

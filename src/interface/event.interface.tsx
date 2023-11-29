@@ -413,6 +413,7 @@ export interface DataVoucherListDetail {
       value: string[];
     };
     imageUrl: imageTypes[];
+    quotaLeft: number;
   };
 }
 
@@ -443,4 +444,12 @@ export interface GenerateEventVoucherReq {
   userType: string;
   eventId: string;
   endDateEvent: string;
+}
+
+export interface SendVoucherReq {
+  id: string;
+  UUIDReceiver: string;
+  usernameReceiver: string;
+  fullnameReceiver: string;
+  imageReceiver: string;
 }
