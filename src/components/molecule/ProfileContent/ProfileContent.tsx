@@ -267,26 +267,25 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 
   return (
     <View style={styles.root}>
-      {myUuid !== profile.uuid && (
-        <TopNavigation.Type1
-          type="user detail"
-          title={scrollEffect ? profile.fullname : ''}
-          leftIconAction={handleBackAction}
-          maxLengthTitle={25}
-          itemStrokeColor={'white'}
-          bgColor={scrollEffect ? color.Dark[800] : 'transparent'}
-          containerStyles={styles.topNavStyle}
-          dropdownData={
-            profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
-          }
-          resultDataDropdown={resultDataDropdown}
-          beingBlocked={profile.blockIs}
-          containerTextStyle={{
-            justifyContent: 'flex-start',
-            marginLeft: widthPercentage(20),
-          }}
-        />
-      )}
+      <TopNavigation.Type1
+        type="user detail"
+        title={scrollEffect ? profile.fullname : ''}
+        leftIconAction={handleBackAction}
+        maxLengthTitle={25}
+        itemStrokeColor={'white'}
+        bgColor={scrollEffect ? color.Dark[800] : 'transparent'}
+        containerStyles={styles.topNavStyle}
+        dropdownData={
+          profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
+        }
+        resultDataDropdown={resultDataDropdown}
+        onPressDropdown={() => {}}
+        beingBlocked={profile.blockIs}
+        containerTextStyle={{
+          justifyContent: 'flex-start',
+          marginLeft: widthPercentage(20),
+        }}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
@@ -301,7 +300,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         }
         onScroll={handleScroll}>
         <ProfileHeader
-          type={myUuid !== profile.uuid ? 'user detail' : 'profile'}
+          // type={'user detail'}
           avatarUri={profile.avatarUri}
           backgroundUri={profile.backgroundUri}
           fullname={profile.fullname}
