@@ -89,10 +89,10 @@ const Type5: React.FC<Props> = (props: Props) => {
           </Text>
         </View>
         <View style={topNavstyles.rightContainer}>
-          <TouchableOpacity onPress={props.onPressCoin}>
+          {/* <TouchableOpacity onPress={props.onPressCoin}>
             <ChipMoney balance={props.points} />
           </TouchableOpacity>
-          <Gap width={12} />
+          <Gap width={12} /> */}
           {iconRight()}
         </View>
       </View>

@@ -25,7 +25,9 @@
     "BlockSucceed": "Oops! it looks like you have been blocked",
     "Dismiss": "Dismiss",
     "Topup": "Top Up",
-    "BuyNow": "Buy Now"
+    "BuyNow": "Buy Now",
+    "MyCredit": "My Credit",
+    "LoyaltyPoints": "Loyalty Points"
   },
 
   "Onboarding": {
