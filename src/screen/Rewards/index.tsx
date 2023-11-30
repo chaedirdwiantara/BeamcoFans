@@ -13,17 +13,14 @@ import {widthResponsive} from '../../utils';
 import {Gap, TabFilter} from '../../components';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import TabOneReward from './tabOne';
 import TabTwoRewards from './tabTwo';
 import InfoCard from '../../components/molecule/Reward/infoCard';
 import PointProgress from '../../components/molecule/Reward/pointProgress';
 import BackgroundHeader from '../../components/molecule/Reward/backgroundHeader';
 import {useBadgeHook} from '../../hooks/use-badge.hook';
-import {mvs} from 'react-native-size-matters';
 import RedeemSuccessIcon from '../../assets/icon/RedeemSuccess.icon';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParams } from '../../navigations';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
@@ -33,9 +30,6 @@ type OnScrollEventHandler = (
 ) => void;
 
 const Rewards = () => {
-  const {t} = useTranslation();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const {dataProfile, dataCountProfile, getProfileUser, getTotalCountProfile} =
     useProfileHook();
   // BADGE
@@ -97,18 +91,6 @@ const Rewards = () => {
 
   const tabFilterOnPress = (params: string, index: number) => {
     setSelectedIndex(index);
-  };
-
-  const onClaimVoucher = (id: number) => {
-    console.log(id, 'id');
-    setShowModal(true);
-  };
-
-  const goToDetailVoucher = (id: number) => {
-    navigation.navigate('DetailVoucherRewards', {
-      id: 'Z3TVK9',
-      status: 'Ready to Redeem',
-    });
   };
 
   return (

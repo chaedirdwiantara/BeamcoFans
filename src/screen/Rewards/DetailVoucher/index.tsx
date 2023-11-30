@@ -62,13 +62,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
     setScrollEffect(scrolled);
   };
 
-  const {
-    data: dataDetail,
-    refetch: refetchDetail,
-    isLoading: isLoadingDetail,
-    isRefetching: isRefetchingDetail,
-  } = useEventVoucherDetail(id);
-
+  const {data: dataDetail, refetch: refetchDetail} = useEventVoucherDetail(id);
   useFocusEffect(
     useCallback(() => {
       refetchDetail();
@@ -77,7 +71,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
 
   useEffect(() => {
     if (dataDetail?.data) {
-      let dataToEncode = `qrreward_${dataDetail?.data.id}`;
+      let dataToEncode = `qrreward_${dataDetail?.data.voucher.code}`;
       setValueEncode(Buffer.from(dataToEncode).toString('base64'));
     }
   }, [dataDetail?.data]);
@@ -171,8 +165,8 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
                   {dataDetail.data?.expiredDate}
                 </Text>
               </View>
-              <Gap height={mvs(5)} />
-              <View style={styles.textIcon}>
+              {/* <Gap height={mvs(5)} /> */}
+              {/* <View style={styles.textIcon}>
                 <View style={{flexDirection: 'row'}}>
                   <TicketDefaultIcon
                     fill={color.Pink[200]}
@@ -185,9 +179,9 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
                   </Text>
                 </View>
                 <Text style={[styles.normalTitle, {color: color.Success[400]}]}>
-                  {`${dataDetail.data?.voucher.quotaLeft} Voucher`}
+                  {`${dataDetail.data?.voucher.quotaLeft} ${t('Rewards.DetailVoucher.Voucher')}`}
                 </Text>
-              </View>
+              </View> */}
             </View>
             <View style={styles.tnc}>
               <Text style={styles.normalTitle}>

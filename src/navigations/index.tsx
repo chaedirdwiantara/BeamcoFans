@@ -439,7 +439,7 @@ const TabScreen = () => {
           ),
         }}
       />
-      <MainTab.Screen
+      {/* <MainTab.Screen
         name="Profile"
         component={ProfileScreen}
         initialParams={{showToast: false, deletePlaylist: false}}
@@ -458,9 +458,9 @@ const TabScreen = () => {
             </TouchableOpacity>
           ),
         }}
-      />
+      /> */}
       {/*// TODO : ENABLE IT AFTER REWARDS READY */}
-      {/* <MainTab.Screen
+      <MainTab.Screen
         name="Rewards"
         component={Rewards}
         options={{
@@ -473,7 +473,7 @@ const TabScreen = () => {
             </TouchableOpacity>
           ),
         }}
-      /> */}
+      />
     </MainTab.Navigator>
   );
 };
