@@ -1,8 +1,8 @@
 import {FlatList, StyleSheet, View} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import Mission from '../../components/molecule/Reward/mission';
 import {missionMenu} from '../../data/reward';
-import {Button, EmptyState, Gap, SuccessToast} from '../../components';
+import {Button, Gap, SuccessToast} from '../../components';
 import {color, font} from '../../theme';
 import {mvs} from 'react-native-size-matters';
 import {widthResponsive} from '../../utils';
@@ -16,7 +16,12 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainTabParams, RootStackParams} from '../../navigations';
 import {useTranslation} from 'react-i18next';
 
-const TabTwoRewards = () => {
+type Props = {
+  refreshing: boolean;
+  setRefreshing: (item: boolean) => void;
+};
+
+const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -70,6 +75,17 @@ const TabTwoRewards = () => {
       setRepeatable(repeatableMissions);
     }
   }, [dataMission]);
+
+  useEffect(() => {
+    async function setRefreshingData() {
+      if (refreshing) {
+        await refetchMissionMaster();
+        setRefreshing(false);
+      }
+    }
+
+    setRefreshingData();
+  }, [refreshing]);
 
   useEffect(() => {
     async function fetchClaim() {

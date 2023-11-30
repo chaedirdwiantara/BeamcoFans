@@ -2,6 +2,7 @@ import {
   NativeModules,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   View,
@@ -32,8 +33,13 @@ const Rewards = () => {
     useProfileHook();
   // BADGE
   const {useCheckBadge} = useBadgeHook();
-  // artist type = 2
-  const {data: dataBadge, refetch: refetchBadge} = useCheckBadge({
+  // fans type = 1
+  const {
+    data: dataBadge,
+    refetch: refetchBadge,
+    isLoading: isLoadingBadge,
+    isRefetching: refetchingBadge,
+  } = useCheckBadge({
     userType: 1,
     point: dataProfile?.data.point?.pointLifetime!,
   });
@@ -56,6 +62,7 @@ const Rewards = () => {
     {filterName: 'Rewards.Mission'},
   ]);
   const [scrollEffect, setScrollEffect] = useState(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const handleScroll: OnScrollEventHandler = event => {
     let offsetY = event.nativeEvent.contentOffset.y;
@@ -72,8 +79,15 @@ const Rewards = () => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
-        onScroll={handleScroll}>
-        {dataBadge && (
+        onScroll={handleScroll}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => setRefreshing(true)}
+            tintColor={'transparent'}
+          />
+        }>
+        {dataBadge?.data && !isLoadingBadge && (
           <>
             <View style={styles.slide}>
               <BackgroundHeader
@@ -118,11 +132,17 @@ const Rewards = () => {
           <View style={styles.containerContent}>
             {filter[selectedIndex].filterName === 'Rewards.Reward' ? (
               <View>
-                <TabOneReward />
+                <TabOneReward
+                  refreshing={refreshing}
+                  setRefreshing={setRefreshing}
+                />
               </View>
             ) : (
               <View>
-                <TabTwoRewards />
+                <TabTwoRewards
+                  refreshing={refreshing}
+                  setRefreshing={setRefreshing}
+                />
               </View>
             )}
           </View>

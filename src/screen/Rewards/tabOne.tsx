@@ -17,21 +17,12 @@ import {
 import RewardMyVoucher from '../../components/molecule/Reward/rewardMyVoucher';
 import {useTranslation} from 'react-i18next';
 
-type Props = {};
-
-export type DummyDataProps = {
-  id: number;
-  points: number;
-  voucherTitle: string;
-  voucherSubtitle: string;
-  voucherAvail: number;
-  voucherType: string;
-  claimable: boolean;
-  redeemable: boolean;
-  completed: boolean;
+type Props = {
+  refreshing: boolean;
+  setRefreshing: (item: boolean) => void;
 };
 
-const TabOneReward: FC<Props> = () => {
+const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
   const {t} = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [activeIndex, setactiveIndex] = useState<number>(0);
@@ -76,6 +67,18 @@ const TabOneReward: FC<Props> = () => {
       refetchMyVoucher();
     }, [refetchAvailVoucher, refetchMyVoucher]),
   );
+
+  useEffect(() => {
+    async function setRefreshingData() {
+      if (refreshing) {
+        await refetchAvailVoucher();
+        await refetchMyVoucher();
+        setRefreshing(false);
+      }
+    }
+
+    setRefreshingData();
+  }, [refreshing]);
 
   useEffect(() => {
     async function setClaimSelectedVoucher() {
