@@ -68,6 +68,7 @@ import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {
   heightPercentage,
+  heightResponsive,
   width,
   widthPercentage,
   widthResponsive,
@@ -80,6 +81,7 @@ import {CrashInit} from '../service/crashReport';
 import {GenerateEventVoucherReq} from '../interface/event.interface';
 import {generateEventBasedVoucher} from '../api/event.api';
 import {useRoute} from '@react-navigation/native';
+import BoxCredit from '../components/atom/BoxCredit/BoxCredit';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -93,6 +95,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const {showToast} = route.params;
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const {i18n} = useTranslation();
   const currentLanguage = i18n.language;
   const {
@@ -586,6 +589,27 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
             onTouchStart={handleSearchButton}
           />
         </TouchableOpacity>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingHorizontal: widthResponsive(20),
+            paddingTop: heightResponsive(20),
+          }}>
+          <BoxCredit
+            balance={creditCount}
+            type="credit"
+            text={t('General.MyCredit')}
+            onClick={onPressCoin}
+          />
+          <Gap width={widthResponsive(12)} />
+          <BoxCredit
+            balance={dataProfile?.data.availablePoint!}
+            type="loyalty"
+            text={t('General.LoyaltyPoints')}
+            onClick={() => navigation2.navigate('Rewards')}
+          />
+        </View>
 
         <Carousel
           data={
