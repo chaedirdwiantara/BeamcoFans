@@ -25,7 +25,9 @@
     "Dismiss": "摒棄",
     "BlockSucceed": "封鎖成功",
     "Topup": "充值",
-    "BuyNow": "Buy Now"
+    "BuyNow": "Buy Now",
+    "MyCredit": "我的信用",
+    "LoyaltyPoints": "忠誠積分"
   },
 
   "Onboarding": {
@@ -464,6 +466,29 @@
       "BtnCompleted":"Completed",
       "BtnClaim":"Claim",
       "BtnGo":"Go"
+    },
+    "DetailVoucher": {
+      "QuotaLeft": "Quota Left",
+      "SendGift": "Send as gift",
+      "GiftVoucher": "Gift Voucher",
+      "BottomSheet": {
+        "Title": "Send Voucher Rewards",
+        "Subtitle": "Are you sure you want to send this voucher?",
+        "SendVoucher": "Send Voucher"
+      },
+      "ModalSuccess": {
+        "Title": "Your Voucher has been sent!",
+        "Subtitle": "Thanks for sharing happiness with other fans and support the community"
+      },
+      "ModalFailed": {
+        "Title": "Your Voucher Cannot be Sent",
+        "Subtitle": "There has been a problem sending your voucher. Please check the availability and try to send it again."
+      },
+      "Btn": {
+        "SoldOut": "Sold Out",
+        "Redeemed": "Redeemed",
+        "ShowQR": "Show QR"
+      }
     }
   },
   "Musician": {

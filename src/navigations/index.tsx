@@ -85,6 +85,8 @@ import {FollowersScreen} from '../screen/MusicianProfile/ListFollowers';
 
 // Rewards
 import Rewards from '../screen/Rewards';
+import DetailVoucherRewards from '../screen/Rewards/DetailVoucher';
+import {GiftVoucher} from '../screen/Rewards/DetailVoucher/GiftVoucher';
 
 // Playlist
 import {PlaylistScreen} from '../screen/Playlist/Playlist';
@@ -187,6 +189,7 @@ export type RootStackParams = {
     dataDetail: TransactionHistoryPropsType;
   };
   DetailVoucher: {id: number; eventId: string};
+  DetailVoucherRewards: {id: string; status: string};
   DiscoverArtist: undefined;
   DonationAndSubscription: undefined;
   EditProfile: ProfileResponseData;
@@ -205,6 +208,7 @@ export type RootStackParams = {
     uuid: string;
   };
   ForgotPassword: undefined;
+  GiftVoucher: {id: string};
   InputDeletion: {
     id: number;
     text: string;
@@ -598,6 +602,8 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="ListVoucher" component={ListVoucher} />
     <RootStack.Screen name="DetailVoucher" component={DetailVoucher} />
     <RootStack.Screen name="Profile" component={ProfileScreen} />
+    <RootStack.Screen name="DetailVoucherRewards" component={DetailVoucherRewards} />
+    <RootStack.Screen name="GiftVoucher" component={GiftVoucher} />
   </RootStack.Navigator>
 );
 

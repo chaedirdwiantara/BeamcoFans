@@ -19,7 +19,7 @@ const topNavstyles = StyleSheet.create({
     paddingBottom: heightResponsive(20),
   },
   leftContainer: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',

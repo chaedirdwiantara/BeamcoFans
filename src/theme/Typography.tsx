@@ -29,7 +29,7 @@ const Typography = {
   },
   Heading5: {
     fontFamily: Font.InterSemiBold,
-    fontSize: normalize(18),
+    fontSize: mvs(18),
     lineHeight: mvs(24),
     letterSpacing: 0,
   },

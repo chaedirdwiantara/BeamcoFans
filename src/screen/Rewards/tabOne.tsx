@@ -8,7 +8,7 @@ import {mvs} from 'react-native-size-matters';
 import {rewardMenu} from '../../data/reward';
 import RedeemSuccessIcon from '../../assets/icon/RedeemSuccess.icon';
 import {useRewardHook} from '../../hooks/use-reward.hook';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
   DataAvailableVoucher,
   DataMyVoucher,
@@ -16,6 +16,8 @@ import {
 } from '../../interface/reward.interface';
 import RewardMyVoucher from '../../components/molecule/Reward/rewardMyVoucher';
 import {useTranslation} from 'react-i18next';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../../navigations';
 
 type Props = {
   refreshing: boolean;
@@ -24,6 +26,8 @@ type Props = {
 
 const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
   const {t} = useTranslation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [showModal, setShowModal] = useState(false);
   const [activeIndex, setactiveIndex] = useState<number>(0);
   const [availVoucher, setAvailVoucher] = useState<
@@ -113,6 +117,13 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
     setRefreshing(true);
   };
 
+  const goToDetailVoucher = (item: DataMyVoucher) => {
+    navigation.navigate('DetailVoucherRewards', {
+      id: item.code,
+      status: item.statusVoucher,
+    });
+  };
+
   return (
     <View style={styles().container}>
       <View style={styles().menuStyle}>
@@ -168,9 +179,7 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
           renderItem={({item}) => (
             <RewardMyVoucher
               data={item}
-              onPress={() => {
-                /*// TODO: BY BAMBANG NAVIGATE TO DETAIL */
-              }}
+              onPress={() => goToDetailVoucher(item)}
               containerStyle={styles().voucher}
             />
           )}
