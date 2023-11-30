@@ -44,6 +44,7 @@ export const usePlayerHook = () => {
             item.imageUrl.length !== 0 ? item.imageUrl[0].image : undefined,
           id: item.id,
           musicianId: item.musicianId || item.musicianUUID,
+          isLiked: item.isLiked,
         };
         await TrackPlayer.add(track);
       });
@@ -56,6 +57,7 @@ export const usePlayerHook = () => {
         artwork: val.imageUrl.length !== 0 ? val.imageUrl[0].image : undefined,
         id: val.id,
         musicianId: val.musicianId || val.musicianUUID,
+        isLiked: val.isLiked,
       };
       await TrackPlayer.add(track);
     }
@@ -82,6 +84,7 @@ export const usePlayerHook = () => {
             item.imageUrl.length !== 0 ? item.imageUrl[1].image : dummySongImg,
           id: item.id,
           musicianId: item.musicianId || item.musicianUUID,
+          isLiked: item.isLiked,
         };
       });
       if (playSongId) {
@@ -125,6 +128,7 @@ export const usePlayerHook = () => {
                 : dummySongImg,
             id: Number(item.quoteToPost.targetId),
             musicianId: item.musician.uuid,
+            isLiked: item.isLiked,
           };
         });
       if (playSongId) {

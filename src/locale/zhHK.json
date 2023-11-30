@@ -14,6 +14,7 @@
     "Listeners": "聽眾",
     "GotIt": "好的，我知道了",
     "Share": {
+      "Share": "分享",
       "Feed": "分享動態",
       "Album": "分享專輯",
       "Music": "分享歌曲",
@@ -1294,7 +1295,9 @@
   "LiveTipping": {
     "SwipeUp": "向上滑動以發送",
     "TooFast": "滑動太快，請重新再試！",
-    "EnjoyShow": "讓我們盡情享受表演！"
+    "EnjoyShow": "讓我們盡情享受表演！",
+    "Credit": "餘額",
+    "NowActive": "Now Active"
   },
   "DiscoverArtist": {
     "Title": "Discover Artist"
