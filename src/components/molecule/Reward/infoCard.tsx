@@ -12,36 +12,45 @@ import {
   BadgeSilverIcon,
 } from '../../../assets/icon';
 import LinearGradient from 'react-native-linear-gradient';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
-  title: string;
-  caption: string;
+  startPoint: number;
+  endPoint: number;
   angle?: number;
   containerStyle?: ViewStyle;
   titleTxtStyle?: ViewStyle;
   captionTxtStyle?: ViewStyle;
-  badgeType: 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
+  currentLvl: string;
 };
 
 const InfoCard: FC<Props> = ({
-  title,
-  caption,
+  startPoint,
+  endPoint,
   angle,
   containerStyle,
   titleTxtStyle,
   captionTxtStyle,
-  badgeType,
+  currentLvl,
 }) => {
+  const {t} = useTranslation();
+  const whatNextLvl =
+    currentLvl === 'Bronze'
+      ? 'Silver'
+      : currentLvl === 'Silver'
+      ? 'Gold'
+      : currentLvl === 'Gold'
+      ? 'Platinum'
+      : 'Diamond';
   const bgColor =
-    badgeType === 'bronze'
-      ? ['#C59F69', '#8E7144']
-      : badgeType === 'silver'
+    whatNextLvl === 'Silver'
       ? ['#A29E97', '#6C6E6F']
-      : badgeType === 'gold'
+      : whatNextLvl === 'Gold'
       ? ['#DBB65E', '#A48334']
-      : badgeType === 'platinum'
+      : whatNextLvl === 'Platinum'
       ? ['#80A4AA', '#406368']
       : ['#9E7BD6', '#6D4AA8'];
+  const pointNeeded = endPoint - startPoint;
 
   return (
     <LinearGradient
@@ -49,22 +58,40 @@ const InfoCard: FC<Props> = ({
       colors={bgColor}
       angle={angle}
       style={[styles.container, containerStyle]}>
-      {badgeType === 'bronze' ? (
-        <BadgeBronzeIcon />
-      ) : badgeType === 'silver' ? (
+      {whatNextLvl === 'Silver' ? (
         <BadgeSilverIcon />
-      ) : badgeType === 'gold' ? (
+      ) : whatNextLvl === 'Gold' ? (
         <BadgeGoldIcon />
-      ) : badgeType === 'platinum' ? (
+      ) : whatNextLvl === 'Platinum' ? (
         <BadgePlatinumIcon />
       ) : (
-        // ! REMEMBER TO FIX THIS ICON
         <BadgeDiamondIcon />
       )}
       <Gap width={16} />
       <View style={styles.txtContainer}>
-        <Text style={[styles.titleStyle, titleTxtStyle]}>{title}</Text>
-        <Text style={[styles.captionStyle, captionTxtStyle]}>{caption}</Text>
+        {whatNextLvl !== 'Diamond' ? (
+          <Text style={[styles.titleStyle, titleTxtStyle]}>
+            {t('Rewards.InfoCard.NextLvl', {
+              whatNextLvl: whatNextLvl,
+            })}
+          </Text>
+        ) : (
+          <Text style={[styles.titleStyle, titleTxtStyle]}>
+            {t('Rewards.InfoCard.LvlMax')}
+          </Text>
+        )}
+        {whatNextLvl !== 'Diamond' ? (
+          <Text style={[styles.captionStyle, captionTxtStyle]}>
+            {t('Rewards.InfoCard.Desc', {
+              pointNeeded: pointNeeded,
+              whatNextLvl: whatNextLvl,
+            })}
+          </Text>
+        ) : (
+          <Text style={[styles.captionStyle, captionTxtStyle]}>
+            {t('Rewards.InfoCard.MaxLvlDesc')}
+          </Text>
+        )}
       </View>
     </LinearGradient>
   );

@@ -435,7 +435,7 @@ const TabScreen = () => {
           ),
         }}
       />
-      <MainTab.Screen
+      {/* <MainTab.Screen
         name="Profile"
         component={ProfileScreen}
         initialParams={{showToast: false, deletePlaylist: false}}
@@ -454,9 +454,9 @@ const TabScreen = () => {
             </TouchableOpacity>
           ),
         }}
-      />
+      /> */}
       {/*// TODO : ENABLE IT AFTER REWARDS READY */}
-      {/* <MainTab.Screen
+      <MainTab.Screen
         name="Rewards"
         component={Rewards}
         options={{
@@ -469,7 +469,7 @@ const TabScreen = () => {
             </TouchableOpacity>
           ),
         }}
-      /> */}
+      />
     </MainTab.Navigator>
   );
 };
@@ -597,7 +597,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="DiscoverArtist" component={DiscoverArtist} />
     <RootStack.Screen name="ListVoucher" component={ListVoucher} />
     <RootStack.Screen name="DetailVoucher" component={DetailVoucher} />
-    {/* <RootStack.Screen name="Profile" component={ProfileScreen} /> */}
+    <RootStack.Screen name="Profile" component={ProfileScreen} />
   </RootStack.Navigator>
 );
 

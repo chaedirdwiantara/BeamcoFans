@@ -3,7 +3,7 @@ import {Button} from './Button/Button';
 import {ButtonGradient} from './Button/ButtonGradient';
 import CheckBox from './CheckBox';
 import Circle from './Circle';
-import DottedLine from './DottedLine';
+import DottedLine from './DottedLine/dottedLineAndroid';
 import ErrorWarning from './ErrorWarning/ErrorWarning';
 import {Indicator} from './Indicator/Indicator';
 import Gap from './Gap/Gap';

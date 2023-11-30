@@ -5,24 +5,37 @@ import {widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
 import {mvs} from 'react-native-size-matters';
 import {Gap} from '../../atom';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
   progress: number;
   total: number;
-  nextLvl: string;
+  currentLvl: string;
   containerStyle?: ViewStyle;
 };
 
 const PointProgress: FC<Props> = ({
   progress,
   total,
-  nextLvl,
+  currentLvl,
   containerStyle,
 }) => {
+  const {t} = useTranslation();
   const progressBar = progress / total;
+  const whatNextLvl =
+    currentLvl === 'Bronze'
+      ? '1. Silver'
+      : currentLvl === 'Silver'
+      ? '3. Gold'
+      : currentLvl === 'Gold'
+      ? '4. Platinum'
+      : currentLvl === 'Platinum'
+      ? '5. Diamond'
+      : 'Lvl. Maxed';
+
   return (
     <View style={styles.container}>
-      <Text style={styles.primerTxt}>Current Loyalty Points</Text>
+      <Text style={styles.primerTxt}>{t('Rewards.CurrentPrg.Title')}</Text>
       <Gap height={8} />
       <Progress.Bar
         progress={progressBar}
@@ -38,11 +51,16 @@ const PointProgress: FC<Props> = ({
       <Gap height={8} />
       <View style={styles.descStyle}>
         <Text style={styles.primerTxt}>
-          {`Points ${progress}`}
+          {`${t('Rewards.CurrentPrg.Exp')} ${progress}`}
           <Text style={styles.scndTxt}>{`/${total}`}</Text>
         </Text>
         <Text style={styles.primerTxt}>
-          Next lvl: <Text style={styles.scndTxt}>{nextLvl}</Text>
+          {whatNextLvl !== 'Lvl. Maxed'
+            ? t('Rewards.CurrentPrg.NextLvl')
+            : whatNextLvl}{' '}
+          {whatNextLvl !== 'Lvl. Maxed' && (
+            <Text style={styles.scndTxt}>{whatNextLvl}</Text>
+          )}
         </Text>
       </View>
     </View>

@@ -24,6 +24,7 @@ interface ButtonProps {
   disabled?: boolean;
   onPress?: () => void;
   typeOfButton?: 'withIcon' | undefined;
+  customIcon?: React.ReactNode;
   iconColor?: string;
   iconSize?: number;
   gapTextToIcon?: number;
@@ -39,6 +40,7 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
     disabled,
     onPress,
     typeOfButton,
+    customIcon,
     iconColor = Color.Pink[200],
     gapTextToIcon,
     iconSize,
@@ -66,11 +68,13 @@ export const Button: React.FC<ButtonProps> = (props: ButtonProps) => {
         {typeOfButton === 'withIcon' && (
           <View style={{flexDirection: 'row'}}>
             <Gap width={gapTextToIcon ?? 4} />
-            <ChevronDownIcon
-              width={iconSize ?? 16}
-              height={iconSize ?? 16}
-              stroke={iconColor}
-            />
+            {customIcon ?? (
+              <ChevronDownIcon
+                width={iconSize ?? 16}
+                height={iconSize ?? 16}
+                stroke={iconColor}
+              />
+            )}
           </View>
         )}
       </View>

@@ -1,6 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, ViewStyle, Platform} from 'react-native';
-import {Button, DottedLine, Gap} from '../../atom';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
+import {Button, Circle, DottedLine, Gap} from '../../atom';
 import {color, font} from '../../../theme';
 import {widthResponsive} from '../../../utils';
 import {mvs} from 'react-native-size-matters';
@@ -9,85 +15,59 @@ import {
   MediaRewardIcon,
   TicketRewardIcon,
 } from '../../../assets/icon';
-import {DataAvailableVoucher} from '../../../interface/reward.interface';
+import {DataMyVoucher} from '../../../interface/reward.interface';
 import {useTranslation} from 'react-i18next';
-import DottedLineIos from '../../atom/DottedLine/dottedLineiOs';
-import DottedLineAndroid from '../../atom/DottedLine/dottedLineAndroid';
 
 type Props = {
-  data: DataAvailableVoucher;
+  data: DataMyVoucher;
   onPress: () => void;
   containerStyle?: ViewStyle;
 };
 
-const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
+const RewardMyVoucher: React.FC<Props> = ({data, onPress, containerStyle}) => {
   const {t} = useTranslation();
-
   return (
     <View style={[styles.container, containerStyle]}>
       {/* Body */}
       <View style={styles.bodyContainer}>
-        <View style={styles.absoluteTextContainer}>
-          {data.generateQty > 1 && (
-            <View style={styles.voucherLeftContainer}>
-              <Text style={styles.voucherLeft}>{data.generateQty} Left</Text>
-            </View>
-          )}
-        </View>
-
-        {data.iconType === 'drink' ? (
+        {data.voucher.iconType === 'drink' ? (
           <DrinkRewardIcon />
-        ) : data.iconType === 'media' ? (
+        ) : data.voucher.iconType === 'media' ? (
           <MediaRewardIcon />
-        ) : data.iconType === 'ticket' ? (
+        ) : data.voucher.iconType === 'ticket' ? (
           <TicketRewardIcon />
         ) : null}
 
         <Gap height={3} />
-        <Text style={styles.pointsText}>{`${data.claimPoint} ${t(
-          'Rewards.AvailVoucher.PointTxt',
-        )}`}</Text>
+        <Text style={styles.pointsText}>{data.statusVoucher}</Text>
 
         <Text style={styles.voucherTitleText} numberOfLines={1}>
-          {data.titleHeader}
+          {data.voucher.titleHeader}
         </Text>
         <Text style={styles.voucherText} numberOfLines={1}>
-          {data.title}
+          {data.voucher.title}
         </Text>
       </View>
 
       {/* Footer */}
       <View style={styles.footerContainer}>
         <View style={styles.dottedContainer}>
-          {Platform.OS === 'ios' ? (
-            <DottedLineIos color={color.Dark[10]} />
-          ) : (
-            <DottedLineAndroid color={color.Dark[10]} />
-          )}
+          <DottedLine color={color.Dark[10]} />
         </View>
         <View style={styles.footer}>
-          {data.isClaimable ? (
-            <Button
-              label={t('Rewards.AvailVoucher.BtnActive')}
-              containerStyles={styles.btnClaim}
-              textStyles={styles.textButton}
-              onPress={onPress}
-            />
-          ) : (
-            <Button
-              label={t('Rewards.AvailVoucher.BtnDisabled')}
-              containerStyles={styles.btnBorder}
-              textStyles={styles.footerText}
-              disabled
-            />
-          )}
+          <Button
+            label={t('Rewards.MyVoucher.Btn')}
+            containerStyles={styles.btnClaim}
+            textStyles={styles.textButton}
+            onPress={onPress}
+          />
         </View>
       </View>
     </View>
   );
 };
 
-export default VoucherReward;
+export default RewardMyVoucher;
 
 const styles = StyleSheet.create({
   container: {
