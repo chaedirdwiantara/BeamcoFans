@@ -33,6 +33,15 @@ const Rewards = () => {
     useProfileHook();
   // BADGE
   const {useCheckBadge} = useBadgeHook();
+
+  const [selectedIndex, setSelectedIndex] = useState(-0);
+  const [filter] = useState([
+    {filterName: 'Rewards.Reward'},
+    {filterName: 'Rewards.Mission'},
+  ]);
+  const [scrollEffect, setScrollEffect] = useState(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+
   // fans type = 1
   const {
     data: dataBadge,
@@ -56,13 +65,22 @@ const Rewards = () => {
     }
   }, [dataProfile]);
 
-  const [selectedIndex, setSelectedIndex] = useState(-0);
-  const [filter] = useState([
-    {filterName: 'Rewards.Reward'},
-    {filterName: 'Rewards.Mission'},
-  ]);
-  const [scrollEffect, setScrollEffect] = useState(false);
-  const [refreshing, setRefreshing] = useState<boolean>(false);
+  useEffect(() => {
+    if (refreshing) {
+    }
+  }, [refreshing]);
+
+  useEffect(() => {
+    async function setRefreshDataMain() {
+      if (refreshing) {
+        await getProfileUser();
+        await refetchBadge();
+        setRefreshing(false);
+      }
+    }
+
+    setRefreshDataMain();
+  }, [refreshing]);
 
   const handleScroll: OnScrollEventHandler = event => {
     let offsetY = event.nativeEvent.contentOffset.y;

@@ -100,10 +100,6 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
   }, [dataMyVoucher]);
 
   const onClaimVoucher = (item: DataAvailableVoucher) => {
-    // const newAvailable = availVoucher?.filter(
-    //   voucher => voucher.id !== item.id,
-    // );
-    // setAvailVoucher(newAvailable);
     setVoucherId(item.id);
     setShowModal(true);
   };
@@ -114,8 +110,7 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
 
   const handleModalOnClose = () => {
     setShowModal(false);
-    refetchAvailVoucher();
-    refetchMyVoucher();
+    setRefreshing(true);
   };
 
   return (
