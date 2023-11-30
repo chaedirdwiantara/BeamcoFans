@@ -183,7 +183,7 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
         onPress={handleShowMoreVoucher}
       /> */}
       {/* FOR AVAILABLE VOCHER */}
-      {availVoucher && availVoucher.length == 0 && (
+      {activeIndex === 0 && availVoucher && availVoucher.length == 0 && (
         <EmptyState
           text={t('Rewards.AvailVoucher.EmptyState.Title')}
           subtitle={t('Rewards.AvailVoucher.EmptyState.Subtitle')}
@@ -192,7 +192,7 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
         />
       )}
       {/* FOR MY VOCHER */}
-      {myVoucher && myVoucher.length == 0 && (
+      {activeIndex === 1 && myVoucher && myVoucher.length == 0 && (
         <EmptyState
           text={t('Rewards.MyVoucher.EmptyState.Title')}
           subtitle={t('Rewards.MyVoucher.EmptyState.Subtitle')}

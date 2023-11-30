@@ -13,6 +13,8 @@ import {widthResponsive} from '../../../../utils';
 import FilterModal from './modalFilter';
 import {DataDropDownType} from '../../../../data/dropdown';
 import {ms, mvs} from 'react-native-size-matters';
+import {storage} from '../../../../hooks/use-storage.hook';
+import {BottomSheetGuest} from '../../GuestComponent/BottomSheetGuest';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
@@ -54,6 +56,7 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
     leftPosition = 0,
     onPress,
   } = props;
+  const isLogin = storage.getBoolean('isLogin');
   const [offsetSortFilter, setOffsetSortFilter] = useState<{
     px: number;
     py: number;
@@ -63,6 +66,7 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
   const [compHeight, setCompHeight] = useState(0);
   const [dropDownHeight, setDropdownHeight] = useState(0);
   const [heightPercent, setHeightPercent] = useState<number>(0);
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (menuSelected) {
@@ -116,8 +120,8 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
       <TouchableOpacity
         style={[styles.iconContainer, iconContainerStyle]}
         onPress={() => {
-          if (onPress) {
-            onPress();
+          if (!isLogin) {
+            setModalGuestVisible(true);
           } else {
             setIsModalVisible(true);
           }
@@ -155,6 +159,10 @@ const DropdownMore: React.FC<DropdownV2Props> = (props: DropdownV2Props) => {
           }}
         />
       )}
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
+      />
     </View>
   );
 };

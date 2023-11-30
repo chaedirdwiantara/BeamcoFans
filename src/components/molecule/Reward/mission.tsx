@@ -87,8 +87,8 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
           color={color.Pink[200]}
           unfilledColor={color.Dark[300]}
           borderRadius={4}
-          animated={true}
-          animationType={'timing'}
+          animated={false}
+          // animationType={'timing'}
         />
         {!dataProgress?.isClaimed ? (
           <View style={styles.progressContainer}>

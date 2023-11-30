@@ -45,6 +45,7 @@ import {RootStackParams} from '../../../navigations';
 import {usePlayerStore} from '../../../store/player.store';
 import {
   DataDropDownType,
+  dataMyProfileDropDown,
   dataProfileDropdown,
   dataProfileDropdownBlocked,
 } from '../../../data/dropdown';
@@ -173,7 +174,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   };
 
   const onPressShareQR = () => {
-    navigation.navigate('MyQRCode', {uuid: profile.uuid, type: qrType});
+    navigation.navigate('MyQRCode', {uuid: '', type: 'myProfile'});
   };
 
   //! BLOCK/UNBLOCK AREA
@@ -232,6 +233,9 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
       case '4':
         setModalUnblock(true);
         break;
+      case '5':
+        navigation.navigate('Setting');
+        break;
       default:
         break;
     }
@@ -275,11 +279,10 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         itemStrokeColor={'white'}
         bgColor={scrollEffect ? color.Dark[800] : 'transparent'}
         containerStyles={styles.topNavStyle}
-        dropdownData={
-          profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
-        }
+        dropdownData={dataMyProfileDropDown}
         resultDataDropdown={resultDataDropdown}
-        onPressDropdown={() => {}}
+        // onPressDropdown={() => {
+        // }}
         beingBlocked={profile.blockIs}
         containerTextStyle={{
           justifyContent: 'flex-start',

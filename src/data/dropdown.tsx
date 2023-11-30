@@ -202,3 +202,8 @@ export const dataProfileDropdownBlocked: DataDropDownType[] = [
   {label: 'Dropdown.Profile.qr', value: '1', disabled: false},
   {label: 'Dropdown.Profile.unblock', value: '4', disabled: false},
 ];
+
+export const dataMyProfileDropDown: DataDropDownType[] = [
+  {label: 'Dropdown.Profile.qr', value: '1', disabled: false},
+  {label: 'Dropdown.Profile.setting', value: '5', disabled: false},
+];

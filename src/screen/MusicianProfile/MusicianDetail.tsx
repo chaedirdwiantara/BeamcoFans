@@ -337,7 +337,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
         }
         resultDataDropdown={resultDataDropdown}
-        onPressDropdown={() => (isLogin ? null : setModalGuestVisible(true))}
+        // onPressDropdown={() => (isLogin ? null : setModalGuestVisible(true))}
         beingBlocked={profile.blockIs}
         containerTextStyle={{
           justifyContent: 'flex-start',
