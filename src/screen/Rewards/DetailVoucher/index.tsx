@@ -77,7 +77,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
 
   useEffect(() => {
     if (dataDetail?.data) {
-      let dataToEncode = `${dataDetail?.data.id}|${dataDetail?.data.voucher.id}`;
+      let dataToEncode = `qrreward_${dataDetail?.data.id}`;
       setValueEncode(Buffer.from(dataToEncode).toString('base64'));
     }
   }, [dataDetail?.data]);
