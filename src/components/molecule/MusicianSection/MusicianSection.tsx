@@ -30,6 +30,7 @@ interface MusicianProps {
   followerMode?: boolean;
   followersCount?: number;
   followOnPress?: () => void;
+  onPress?: () => void;
   activeMore?: boolean;
   type?: string;
   isLive?: boolean;
@@ -44,7 +45,7 @@ interface DataMore {
 
 const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
   const {t} = useTranslation();
-  const {isFollowed, followOnPress, userId, type} = props;
+  const {isFollowed, followOnPress, userId, type, onPress} = props;
 
   const followText = isFollowed
     ? t('Home.Tab.TopMusician.Unfollow')
@@ -139,7 +140,7 @@ const MusicianSection: React.FC<MusicianProps> = (props: MusicianProps) => {
       <ListCard.MusicianList
         dataFilter={dataMore}
         onPressMore={resultDataMore}
-        onPressImage={handleNavigate}
+        onPressImage={onPress ? onPress : handleNavigate}
         {...props}
       />
       <ModalDonate

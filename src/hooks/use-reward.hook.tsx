@@ -6,6 +6,7 @@ import {
   setClaimMissionEp,
   getMyVouchertEp,
   claimAvailVoucherEp,
+  getEventVoucherDetailRewards,
 } from '../api/reward.api';
 import {GetMissionProgressParams} from '../interface/reward.interface';
 
@@ -43,6 +44,12 @@ export const useRewardHook = () => {
     });
   };
 
+  const useEventVoucherDetail = (id: string) => {
+    return useQuery([`event/voucher/detail/${id}`], () =>
+      getEventVoucherDetailRewards(id),
+    );
+  };
+
   return {
     useGetMissionMaster,
     useGetMissionProgress,
@@ -50,5 +57,6 @@ export const useRewardHook = () => {
     useGetAvailableVoucher,
     useGetMyVoucher,
     useClaimMyVoucher,
+    useEventVoucherDetail,
   };
 };

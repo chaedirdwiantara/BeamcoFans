@@ -20,6 +20,7 @@ import InfoCard from '../../components/molecule/Reward/infoCard';
 import PointProgress from '../../components/molecule/Reward/pointProgress';
 import BackgroundHeader from '../../components/molecule/Reward/backgroundHeader';
 import {useBadgeHook} from '../../hooks/use-badge.hook';
+import RedeemSuccessIcon from '../../assets/icon/RedeemSuccess.icon';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;

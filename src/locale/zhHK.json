@@ -461,11 +461,34 @@
       "SubTitle":"Redeem for yourself or send to fellow fans. Visit My Rewards Page for more details.",
       "Button":"Dismiss"
     },
-    "MissionTab":{
+    "MissionTab": {
       "ClaimToast":"Success Claim @{{claimedPoint}} Points from Daily Sign in",
       "BtnCompleted":"Completed",
       "BtnClaim":"Claim",
       "BtnGo":"Go"
+    },
+    "DetailVoucher": {
+      "QuotaLeft": "Quota Left",
+      "SendGift": "Send as gift",
+      "GiftVoucher": "Gift Voucher",
+      "BottomSheet": {
+        "Title": "Send Voucher Rewards",
+        "Subtitle": "Are you sure you want to send this voucher?",
+        "SendVoucher": "Send Voucher"
+      },
+      "ModalSuccess": {
+        "Title": "Your Voucher has been sent!",
+        "Subtitle": "Thanks for sharing happiness with other fans and support the community"
+      },
+      "ModalFailed": {
+        "Title": "Your Voucher Cannot be Sent",
+        "Subtitle": "There has been a problem sending your voucher. Please check the availability and try to send it again."
+      },
+      "Btn": {
+        "SoldOut": "Sold Out",
+        "Redeemed": "Redeemed",
+        "ShowQR": "Show QR"
+      }
     }
   },
   "Musician": {

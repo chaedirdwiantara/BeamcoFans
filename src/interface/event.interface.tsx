@@ -413,6 +413,7 @@ export interface DataVoucherListDetail {
       value: string[];
     };
     imageUrl: imageTypes[];
+    quotaLeft: number;
   };
 }
 
