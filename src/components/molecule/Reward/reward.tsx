@@ -42,15 +42,15 @@ const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
         ) : null}
 
         <Gap height={3} />
-        <Text style={styles.pointsText}>{`${data.iconType} ${t(
+        <Text style={styles.pointsText}>{`${data.claimPoint} ${t(
           'Rewards.AvailVoucher.PointTxt',
         )}`}</Text>
 
         <Text style={styles.voucherTitleText} numberOfLines={1}>
-          {data.title}
+          {data.titleHeader}
         </Text>
         <Text style={styles.voucherText} numberOfLines={1}>
-          {data.titleHeader}
+          {data.title}
         </Text>
       </View>
 

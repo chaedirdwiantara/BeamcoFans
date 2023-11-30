@@ -42,10 +42,10 @@ const RewardMyVoucher: React.FC<Props> = ({data, onPress, containerStyle}) => {
         <Text style={styles.pointsText}>{data.statusVoucher}</Text>
 
         <Text style={styles.voucherTitleText} numberOfLines={1}>
-          {data.voucher.title}
+          {data.voucher.titleHeader}
         </Text>
         <Text style={styles.voucherText} numberOfLines={1}>
-          {data.voucher.titleHeader}
+          {data.voucher.title}
         </Text>
       </View>
 
