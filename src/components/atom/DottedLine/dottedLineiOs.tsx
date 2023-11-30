@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
-const DottedLine = ({length = '100%', color = '#000', dotSize = 2}) => {
+const DottedLineIos = ({length = '200%', color = '#fff', dotSize = 2}) => {
   const numberOfDots = Math.ceil(
     Number(length.replace('%', '')) / (dotSize * 2),
   );
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DottedLine;
+export default DottedLineIos;

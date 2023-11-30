@@ -11,7 +11,8 @@ import {
 } from '../../../assets/icon';
 import {DataAvailableVoucher} from '../../../interface/reward.interface';
 import {useTranslation} from 'react-i18next';
-import DottedLineIos from '../../atom/DottedLine';
+import DottedLineIos from '../../atom/DottedLine/dottedLineiOs';
+import DottedLineAndroid from '../../atom/DottedLine/dottedLineAndroid';
 
 type Props = {
   data: DataAvailableVoucher;
@@ -61,7 +62,7 @@ const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
           {Platform.OS === 'ios' ? (
             <DottedLineIos color={color.Dark[10]} />
           ) : (
-            <DottedLine color={color.Dark[10]} />
+            <DottedLineAndroid color={color.Dark[10]} />
           )}
         </View>
         <View style={styles.footer}>
