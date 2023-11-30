@@ -6,7 +6,7 @@ type Props = {
   color?: string;
 };
 
-const DottedLine: React.FC<Props> = ({length = '100%', color = '#000'}) => {
+const DottedLineIos: React.FC<Props> = ({length = '100%', color = '#000'}) => {
   return <View style={[styles.line, {width: length, borderColor: color}]} />;
 };
 
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DottedLine;
+export default DottedLineIos;

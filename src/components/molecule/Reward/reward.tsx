@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, ViewStyle} from 'react-native';
+import {View, Text, StyleSheet, ViewStyle, Platform} from 'react-native';
 import {Button, DottedLine, Gap} from '../../atom';
 import {color, font} from '../../../theme';
 import {widthResponsive} from '../../../utils';
@@ -11,6 +11,7 @@ import {
 } from '../../../assets/icon';
 import {DataAvailableVoucher} from '../../../interface/reward.interface';
 import {useTranslation} from 'react-i18next';
+import DottedLineIos from '../../atom/DottedLine';
 
 type Props = {
   data: DataAvailableVoucher;
@@ -57,7 +58,11 @@ const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
       {/* Footer */}
       <View style={styles.footerContainer}>
         <View style={styles.dottedContainer}>
-          <DottedLine color={color.Dark[10]} />
+          {Platform.OS === 'ios' ? (
+            <DottedLineIos color={color.Dark[10]} />
+          ) : (
+            <DottedLine color={color.Dark[10]} />
+          )}
         </View>
         <View style={styles.footer}>
           {data.isClaimable ? (
