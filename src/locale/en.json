@@ -483,6 +483,11 @@
       "ModalFailed": {
         "Title": "Your Voucher Cannot be Sent",
         "Subtitle": "There has been a problem sending your voucher. Please check the availability and try to send it again."
+      },
+      "Btn": {
+        "SoldOut": "Sold Out",
+        "Redeemed": "Redeemed",
+        "ShowQR": "Show QR"
       }
     }
   },

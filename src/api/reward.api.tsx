@@ -4,10 +4,15 @@ import {
   GetMissionProgress,
   GetMissionProgressParams,
   GetMyVoucher,
+  SendVoucherReq,
   SetClaimMission,
 } from '../interface/reward.interface';
 import SsuAPI from './baseRinjani';
 import SsuKrakatauAPI from './baseKrakatau';
+import {
+  ClaimVoucherResponse,
+  GetVoucherListDetailResponse,
+} from '../interface/event.interface';
 
 export const getMissionMasterEp = async (): Promise<GetMissionMaster> => {
   const {data} = await SsuAPI().request<GetMissionMaster>({
@@ -75,6 +80,29 @@ export const claimAvailVoucherEp = async (
   const {data} = await SsuKrakatauAPI().request<SetClaimMission>({
     url: `/vouchers/loyalty/${voucherId}/claim`,
     method: 'POST',
+  });
+
+  return data;
+};
+
+export const getEventVoucherDetailRewards = async (
+  id: string,
+): Promise<GetVoucherListDetailResponse> => {
+  const {data} = await SsuKrakatauAPI().request<GetVoucherListDetailResponse>({
+    url: `/vouchers/loyalty/${id}/detail`,
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const transferVoucher = async (
+  params: SendVoucherReq,
+): Promise<ClaimVoucherResponse> => {
+  const {data} = await SsuKrakatauAPI().request<ClaimVoucherResponse>({
+    url: `/vouchers/loyalty/${params.id}/transfer`,
+    method: 'POST',
+    data: params,
   });
 
   return data;

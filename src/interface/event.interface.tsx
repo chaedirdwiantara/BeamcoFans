@@ -445,11 +445,3 @@ export interface GenerateEventVoucherReq {
   eventId: string;
   endDateEvent: string;
 }
-
-export interface SendVoucherReq {
-  id: string;
-  UUIDReceiver: string;
-  usernameReceiver: string;
-  fullnameReceiver: string;
-  imageReceiver: string;
-}

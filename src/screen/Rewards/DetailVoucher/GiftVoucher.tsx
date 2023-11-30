@@ -17,13 +17,10 @@ import {color} from '../../../theme';
 import Color from '../../../theme/Color';
 import {widthResponsive} from '../../../utils';
 import {RootStackParams} from '../../../navigations';
-import {transferVoucher} from '../../../api/event.api';
+import {transferVoucher} from '../../../api/reward.api';
 import {ListDataSearchFans} from '../../../interface/search.interface';
 
-type GiftVoucherProps = NativeStackScreenProps<
-  RootStackParams,
-  'GiftVoucher'
->;
+type GiftVoucherProps = NativeStackScreenProps<RootStackParams, 'GiftVoucher'>;
 
 export const GiftVoucher: React.FC<GiftVoucherProps> = ({
   route,

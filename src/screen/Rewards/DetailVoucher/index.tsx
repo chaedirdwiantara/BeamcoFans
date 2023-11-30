@@ -13,6 +13,7 @@ import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
 import {useFocusEffect} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {
@@ -23,8 +24,7 @@ import {
 import {color, font} from '../../../theme';
 import {widthResponsive} from '../../../utils';
 import {RootStackParams} from '../../../navigations';
-import {useEventHook} from '../../../hooks/use-event.hook';
-import React, {FC, useCallback, useEffect, useState} from 'react';
+import {useRewardHook} from '../../../hooks/use-reward.hook';
 import {Button, Gap, ModalCustom, TopNavigation} from '../../../components';
 
 type OnScrollEventHandler = (
@@ -46,7 +46,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
   const status = route.params.status;
 
   const {t} = useTranslation();
-  const {useEventVoucherDetail} = useEventHook();
+  const {useEventVoucherDetail} = useRewardHook();
 
   const [scrollEffect, setScrollEffect] = useState<boolean>(false);
   const [showQrPopUp, setShowQrPopUp] = useState<boolean>(false);
@@ -209,10 +209,10 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
         <Button
           label={
             !dataDetail?.data.isAvailable
-              ? 'Sold Out'
+              ? t('Rewards.DetailVoucher.Btn.SoldOut')
               : dataDetail?.data.isRedeemed
-              ? 'Redeemed'
-              : 'Show QR'
+              ? t('Rewards.DetailVoucher.Btn.Redeemed')
+              : t('Rewards.DetailVoucher.Btn.ShowQR')
           }
           containerStyles={{
             width: '100%',

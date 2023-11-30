@@ -112,3 +112,11 @@ export interface GetAvailableVoucher extends BaseResponseApi {
 export interface GetMyVoucher extends BaseResponseApi {
   data: DataMyVoucher[];
 }
+
+export interface SendVoucherReq {
+  id: string;
+  UUIDReceiver: string;
+  usernameReceiver: string;
+  fullnameReceiver: string;
+  imageReceiver: string;
+}
