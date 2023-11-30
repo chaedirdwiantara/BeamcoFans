@@ -52,7 +52,7 @@ const PointProgress: FC<Props> = ({
       <View style={styles.descStyle}>
         <Text style={styles.primerTxt}>
           {`${t('Rewards.CurrentPrg.Exp')} ${progress}`}
-          {/* <Text style={styles.scndTxt}>{`/${total}`}</Text> */}
+          <Text style={styles.scndTxt}>{`/${total}`}</Text>
         </Text>
         <Text style={styles.primerTxt}>
           {whatNextLvl !== 'Lvl. Maxed'
