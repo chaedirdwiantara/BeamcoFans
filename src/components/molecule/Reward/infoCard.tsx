@@ -12,6 +12,7 @@ import {
   BadgeSilverIcon,
 } from '../../../assets/icon';
 import LinearGradient from 'react-native-linear-gradient';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
   startPoint: number;
@@ -32,6 +33,7 @@ const InfoCard: FC<Props> = ({
   captionTxtStyle,
   currentLvl,
 }) => {
+  const {t} = useTranslation();
   const whatNextLvl =
     currentLvl === 'Bronze'
       ? 'Silver'
@@ -68,30 +70,27 @@ const InfoCard: FC<Props> = ({
       <Gap width={16} />
       <View style={styles.txtContainer}>
         {whatNextLvl !== 'Diamond' ? (
-          <Text
-            style={[
-              styles.titleStyle,
-              titleTxtStyle,
-            ]}>{`${whatNextLvl} Streamer Badge is Closer`}</Text>
+          <Text style={[styles.titleStyle, titleTxtStyle]}>
+            {t('Rewards.InfoCard.NextLvl', {
+              whatNextLvl: whatNextLvl,
+            })}
+          </Text>
         ) : (
-          <Text
-            style={[
-              styles.titleStyle,
-              titleTxtStyle,
-            ]}>{`Your Badge is Maxed Out`}</Text>
+          <Text style={[styles.titleStyle, titleTxtStyle]}>
+            {t('Rewards.InfoCard.LvlMax')}
+          </Text>
         )}
         {whatNextLvl !== 'Diamond' ? (
-          <Text
-            style={[
-              styles.captionStyle,
-              captionTxtStyle,
-            ]}>{`You’re ${pointNeeded} Exp away from being ${whatNextLvl}. Let’s get ‘em by completing more mission!`}</Text>
+          <Text style={[styles.captionStyle, captionTxtStyle]}>
+            {t('Rewards.InfoCard.Desc', {
+              pointNeeded: pointNeeded,
+              whatNextLvl: whatNextLvl,
+            })}
+          </Text>
         ) : (
-          <Text
-            style={[
-              styles.captionStyle,
-              captionTxtStyle,
-            ]}>{`Congratulations! You've reached Diamond Badge Claim the rewards and be proud!`}</Text>
+          <Text style={[styles.captionStyle, captionTxtStyle]}>
+            {t('Rewards.InfoCard.MaxLvlDesc')}
+          </Text>
         )}
       </View>
     </LinearGradient>

@@ -5,6 +5,7 @@ import {widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
 import {mvs} from 'react-native-size-matters';
 import {Gap} from '../../atom';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
   progress: number;
@@ -19,6 +20,7 @@ const PointProgress: FC<Props> = ({
   currentLvl,
   containerStyle,
 }) => {
+  const {t} = useTranslation();
   const progressBar = progress / total;
   const whatNextLvl =
     currentLvl === 'Bronze'
@@ -33,7 +35,7 @@ const PointProgress: FC<Props> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.primerTxt}>Current Progress Level</Text>
+      <Text style={styles.primerTxt}>{t('Rewards.CurrentPrg.Title')}</Text>
       <Gap height={8} />
       <Progress.Bar
         progress={progressBar}
@@ -49,11 +51,13 @@ const PointProgress: FC<Props> = ({
       <Gap height={8} />
       <View style={styles.descStyle}>
         <Text style={styles.primerTxt}>
-          {`Points ${progress}`}
+          {`${t('Rewards.CurrentPrg.Exp')} ${progress}`}
           {/* <Text style={styles.scndTxt}>{`/${total}`}</Text> */}
         </Text>
         <Text style={styles.primerTxt}>
-          {whatNextLvl !== 'Lvl. Maxed' ? 'Next lvl:' : whatNextLvl}{' '}
+          {whatNextLvl !== 'Lvl. Maxed'
+            ? t('Rewards.CurrentPrg.NextLvl')
+            : whatNextLvl}{' '}
           {whatNextLvl !== 'Lvl. Maxed' && (
             <Text style={styles.scndTxt}>{whatNextLvl}</Text>
           )}

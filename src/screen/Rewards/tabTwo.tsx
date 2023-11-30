@@ -14,8 +14,10 @@ import {
 } from '../../interface/reward.interface';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainTabParams, RootStackParams} from '../../navigations';
+import {useTranslation} from 'react-i18next';
 
 const TabTwoRewards = () => {
+  const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
@@ -211,22 +213,14 @@ const TabTwoRewards = () => {
           )}
         />
       )}
-      {/* FOR AVAILABLE VOCHER */}
-      {dataMission?.data.length == 0 && (
-        <EmptyState
-          text="No Mission Available"
-          subtitle="Mission limit reached. Keep an eye out for 
-      future opportunities!"
-          hideIcon
-          containerStyle={{height: 300}}
-        />
-      )}
 
       {showToast && (
         <SuccessToast
           toastVisible={showToast}
           onBackPressed={() => setShowToast(false)}
-          caption={`Success Claim ${claimedPoint} Points from Daily Sign in`}
+          caption={t('Rewards.MissionTab.ClaimToast', {
+            claimedPoint: claimedPoint,
+          })}
         />
       )}
     </View>

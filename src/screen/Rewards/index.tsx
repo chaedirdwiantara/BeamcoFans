@@ -11,7 +11,6 @@ import {color} from '../../theme';
 import {widthResponsive} from '../../utils';
 import {Gap, TabFilter} from '../../components';
 import {useProfileHook} from '../../hooks/use-profile.hook';
-import {useTranslation} from 'react-i18next';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {useFocusEffect} from '@react-navigation/native';
 import TabOneReward from './tabOne';
@@ -29,7 +28,6 @@ type OnScrollEventHandler = (
 ) => void;
 
 const Rewards = () => {
-  const {t} = useTranslation();
   const {dataProfile, dataCountProfile, getProfileUser, getTotalCountProfile} =
     useProfileHook();
   // BADGE

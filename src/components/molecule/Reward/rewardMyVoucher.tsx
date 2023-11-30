@@ -16,6 +16,7 @@ import {
   TicketRewardIcon,
 } from '../../../assets/icon';
 import {DataMyVoucher} from '../../../interface/reward.interface';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
   data: DataMyVoucher;
@@ -24,6 +25,7 @@ type Props = {
 };
 
 const RewardMyVoucher: React.FC<Props> = ({data, onPress, containerStyle}) => {
+  const {t} = useTranslation();
   return (
     <View style={[styles.container, containerStyle]}>
       {/* Body */}
@@ -54,7 +56,7 @@ const RewardMyVoucher: React.FC<Props> = ({data, onPress, containerStyle}) => {
         </View>
         <View style={styles.footer}>
           <Button
-            label={'View'}
+            label={t('Rewards.MyVoucher.Btn')}
             containerStyles={styles.btnClaim}
             textStyles={styles.textButton}
             onPress={onPress}

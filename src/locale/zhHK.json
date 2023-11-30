@@ -421,7 +421,49 @@
   "Rewards": {
     "Title": "Rewards",
     "Reward": "Rewards",
-    "Mission": "Mission"
+    "Mission": "Mission",
+    "BgHeader": {
+      "RankTitle":"Your Rank",
+      "LoyaltyTitle":"Your Loyalty Point"
+    },
+    "InfoCard":{
+      "NextLvl":"@{{whatNextLvl}} Streamer Badge is Closer",
+      "LvlMax":"Your Badge is Maxed Out",
+      "Desc":"You’re @{{pointNeeded}} Exp away from being @{{whatNextLvl}}. Let’s get ‘em by completing more mission!",
+      "MaxLvlDesc":"Congratulations! You've reached Diamond Badge Claim the rewards and be proud!"
+    },
+    "CurrentPrg":{
+      "Title":"Current Progress Level",
+      "Exp":"Exp",
+      "NextLvl": "Next Lvl:"
+    },
+    "AvailVoucher": {
+      "EmptyState": {
+        "Title":"All Voucher is Already Claimed",
+        "SubTitle":"Voucher limit reached. Keep an eye out for future opportunities!"
+      },
+      "PointTxt":"Points",
+      "BtnActive":"Redeem",
+      "BtnDisabled":"Not Enough Points"
+    },
+    "MyVoucher": {
+      "EmptyState": {
+        "Title":"No Voucher Available",
+        "SubTitle":"Claim on Voucher on Available Voucher or Someone gift the Voucher."
+      },
+      "Btn":"View"
+    },
+    "ModalRedeem": {
+      "Title":"Congrats! You’ve Claimed 1 Voucher!",
+      "SubTitle":"Redeem for yourself or send to fellow fans. Visit My Rewards Page for more details.",
+      "Button":"Dismiss"
+    },
+    "MissionTab":{
+      "ClaimToast":"Success Claim @{{claimedPoint}} Points from Daily Sign in",
+      "BtnCompleted":"Completed",
+      "BtnClaim":"Claim",
+      "BtnGo":"Go"
+    }
   },
   "Musician": {
     "Label": {

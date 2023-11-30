@@ -1,12 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ViewStyle,
-} from 'react-native';
-import {Button, Circle, DottedLine, Gap} from '../../atom';
+import {View, Text, StyleSheet, ViewStyle} from 'react-native';
+import {Button, DottedLine, Gap} from '../../atom';
 import {color, font} from '../../../theme';
 import {widthResponsive} from '../../../utils';
 import {mvs} from 'react-native-size-matters';
@@ -15,11 +9,8 @@ import {
   MediaRewardIcon,
   TicketRewardIcon,
 } from '../../../assets/icon';
-import {
-  DataAvailableVoucher,
-  DataMyVoucher,
-} from '../../../interface/reward.interface';
-import {useRewardHook} from '../../../hooks/use-reward.hook';
+import {DataAvailableVoucher} from '../../../interface/reward.interface';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
   data: DataAvailableVoucher;
@@ -28,19 +19,7 @@ type Props = {
 };
 
 const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
-  // const {useClaimMyVoucher} = useRewardHook();
-
-  // const {
-  //   data: dataClaim,
-  //   refetch: refetchClaim,
-  //   isLoading: isLoadingClaim,
-  //   isRefetching: isRefetchingClaim,
-  // } = useClaimMyVoucher(data.id);
-
-  // const onClaim = () => {
-  //   // refetchClaim();
-  //   onPress();
-  // };
+  const {t} = useTranslation();
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -63,7 +42,9 @@ const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
         ) : null}
 
         <Gap height={3} />
-        <Text style={styles.pointsText}>{`${data.iconType} Points`}</Text>
+        <Text style={styles.pointsText}>{`${data.iconType} ${t(
+          'Rewards.AvailVoucher.PointTxt',
+        )}`}</Text>
 
         <Text style={styles.voucherTitleText} numberOfLines={1}>
           {data.title}
@@ -81,14 +62,14 @@ const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
         <View style={styles.footer}>
           {data.isClaimable ? (
             <Button
-              label={'Redeem'}
+              label={t('Rewards.AvailVoucher.BtnActive')}
               containerStyles={styles.btnClaim}
               textStyles={styles.textButton}
               onPress={onPress}
             />
           ) : (
             <Button
-              label={'Not Enough Points'}
+              label={t('Rewards.AvailVoucher.BtnDisabled')}
               containerStyles={styles.btnBorder}
               textStyles={styles.footerText}
               disabled

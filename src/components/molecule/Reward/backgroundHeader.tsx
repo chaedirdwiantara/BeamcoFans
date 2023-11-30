@@ -12,6 +12,7 @@ import {color, font} from '../../../theme';
 import {mvs} from 'react-native-size-matters';
 import {Gap} from '../../atom';
 import {toCurrency, widthResponsive} from '../../../utils';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
   rankTitle: string;
@@ -19,6 +20,7 @@ type Props = {
 };
 
 const BackgroundHeader: FC<Props> = ({rankTitle, points}) => {
+  const {t} = useTranslation();
   const Bronze = '../../../assets/image/Bg1.png';
   const Silver = '../../../assets/image/Bg2.png';
   const Gold = '../../../assets/image/Bg3.png';
@@ -42,7 +44,7 @@ const BackgroundHeader: FC<Props> = ({rankTitle, points}) => {
     >
       <View style={styles.topStyle}>
         <Gap height={45} />
-        <Text style={styles.scndTxt}>Your rank</Text>
+        <Text style={styles.scndTxt}>{t('Rewards.BgHeader.RankTitle')}</Text>
         <Text style={styles.primTxt}>
           {rankTitle.charAt(0).toUpperCase() + rankTitle.slice(1)}
         </Text>
@@ -68,7 +70,7 @@ const BackgroundHeader: FC<Props> = ({rankTitle, points}) => {
             {toCurrency(points, {withFraction: false})}
           </Text>
         </View>
-        <Text style={styles.scndTxt}>Your Loyalty Point</Text>
+        <Text style={styles.scndTxt}>{t('Rewards.BgHeader.LoyaltyTitle')}</Text>
         <Gap height={65} />
       </View>
     </ImageBackground>

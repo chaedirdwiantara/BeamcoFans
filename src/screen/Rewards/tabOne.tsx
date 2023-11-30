@@ -15,6 +15,7 @@ import {
   GetMyVoucher,
 } from '../../interface/reward.interface';
 import RewardMyVoucher from '../../components/molecule/Reward/rewardMyVoucher';
+import {useTranslation} from 'react-i18next';
 
 type Props = {};
 
@@ -31,6 +32,7 @@ export type DummyDataProps = {
 };
 
 const TabOneReward: FC<Props> = () => {
+  const {t} = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [activeIndex, setactiveIndex] = useState<number>(0);
   const [availVoucher, setAvailVoucher] = useState<
@@ -185,9 +187,8 @@ const TabOneReward: FC<Props> = () => {
       {/* FOR AVAILABLE VOCHER */}
       {availVoucher && availVoucher.length == 0 && (
         <EmptyState
-          text="All Voucher is Already Claimed"
-          subtitle="Voucher limit reached. Keep an eye out for 
-      future opportunities!"
+          text={t('Rewards.AvailVoucher.EmptyState.Title')}
+          subtitle={t('Rewards.AvailVoucher.EmptyState.Subtitle')}
           hideIcon
           containerStyle={{height: 300}}
         />
@@ -195,9 +196,8 @@ const TabOneReward: FC<Props> = () => {
       {/* FOR MY VOCHER */}
       {myVoucher && myVoucher.length == 0 && (
         <EmptyState
-          text="No Voucher Available"
-          subtitle="Claim on Voucher on Available Voucher or 
-          Someone gift the Voucher."
+          text={t('Rewards.MyVoucher.EmptyState.Title')}
+          subtitle={t('Rewards.MyVoucher.EmptyState.Subtitle')}
           hideIcon
           containerStyle={{height: 300}}
         />
@@ -210,16 +210,15 @@ const TabOneReward: FC<Props> = () => {
             <RedeemSuccessIcon />
             <Gap height={16} />
             <Text style={styles().modalTitle}>
-              Congrats! You’ve Claimed 1 Voucher!
+              {t('Rewards.ModalRedeem.Title')}
             </Text>
             <Gap height={8} />
             <Text style={styles().modalCaption}>
-              Redeem for yourself or send to fellow fans. Visit My Rewards Page
-              for more details.
+              {t('Rewards.ModalRedeem.Subtitle')}
             </Text>
             <Gap height={20} />
             <Button
-              label={'Dismiss'}
+              label={t('Rewards.ModalRedeem.Button')}
               containerStyles={styles().btnClaimModal}
               textStyles={styles().textButtonModal}
               onPress={handleModalOnClose}
