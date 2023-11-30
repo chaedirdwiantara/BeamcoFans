@@ -428,9 +428,9 @@
       "LoyaltyTitle":"Your Loyalty Point"
     },
     "InfoCard":{
-      "NextLvl":"@{{whatNextLvl}} Streamer Badge is Closer",
+      "NextLvl":"{{whatNextLvl}} Streamer Badge is Closer",
       "LvlMax":"Your Badge is Maxed Out",
-      "Desc":"You’re @{{pointNeeded}} Exp away from being @{{whatNextLvl}}. Let’s get ‘em by completing more mission!",
+      "Desc":"You’re {{pointNeeded}} Exp away from being {{whatNextLvl}}. Let’s get ‘em by completing more mission!",
       "MaxLvlDesc":"Congratulations! You've reached Diamond Badge Claim the rewards and be proud!"
     },
     "CurrentPrg":{
@@ -460,7 +460,7 @@
       "Button":"Dismiss"
     },
     "MissionTab":{
-      "ClaimToast":"Success Claim @{{claimedPoint}} Points from Daily Sign in",
+      "ClaimToast":"Success Claim {{claimedPoint}} Points",
       "BtnCompleted":"Completed",
       "BtnClaim":"Claim",
       "BtnGo":"Go"
