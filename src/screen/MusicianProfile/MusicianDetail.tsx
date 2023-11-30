@@ -127,7 +127,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
-    {filterName: 'Musician.Tab.Main'},
+    //TODO: HIDE IT FOR NOW {filterName: 'Musician.Tab.Main'},
     {filterName: 'Musician.Tab.Musician'},
     {filterName: 'Musician.Tab.Music'},
     {filterName: 'Musician.Tab.Fans'},
