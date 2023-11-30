@@ -61,7 +61,6 @@ const ListContributionToMusician: FC<ListContributonProps> = (
         data={dataContribution}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item: MusicianList) => item?.uuid?.toString()}
-        onTouchEnd={loadMore}
         ListEmptyComponent={
           !isLoading ? (
             <EmptyStateFeed text={t('Profile.Label.NoMusician') || ''} />
@@ -90,7 +89,7 @@ const ListContributionToMusician: FC<ListContributonProps> = (
             point={item.credit}
           />
         )}
-        estimatedItemSize={150}
+        estimatedItemSize={mvs(500)}
       />
       {(isLoading || isRefetching || isFetchingNextPage) && (
         <View style={styles.loadingContainer}>

@@ -158,7 +158,10 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         title={t('Modal.EditProfile.Title') || ''}
         subtitle={t('Modal.EditProfile.Subtitle') || ''}
         onPressClose={closeModal}
-        onPressOk={() => onPressSave({bio})}
+        onPressOk={() => {
+          onPressSave({bio});
+          closeModal();
+        }}
       />
     </View>
   );
