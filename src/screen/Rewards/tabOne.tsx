@@ -40,7 +40,7 @@ const TabOneReward: FC<Props> = () => {
   >([]);
   const [myVoucher, setMyVoucher] = useState<DataMyVoucher[] | undefined>([]);
   const [showMoreVoucher, setShowMoreVoucher] = useState<boolean>(false);
-  const [voucherId, setVoucherId] = useState<number>(-10);
+  const [voucherId, setVoucherId] = useState<number | undefined>();
 
   const {useGetAvailableVoucher, useGetMyVoucher, useClaimMyVoucher} =
     useRewardHook();
@@ -74,18 +74,18 @@ const TabOneReward: FC<Props> = () => {
     useCallback(() => {
       refetchAvailVoucher();
       refetchMyVoucher();
-    }, []),
+    }, [refetchAvailVoucher, refetchMyVoucher]),
   );
 
   useEffect(() => {
-    async function fetchClaim() {
-      if (voucherId && voucherId !== -10) {
+    async function setClaimSelectedVoucher() {
+      if (voucherId && voucherId !== undefined) {
         await refetchClaim();
-        setVoucherId(-10);
+        setVoucherId(undefined);
       }
     }
 
-    fetchClaim();
+    setClaimSelectedVoucher();
   }, [voucherId]);
 
   useEffect(() => {

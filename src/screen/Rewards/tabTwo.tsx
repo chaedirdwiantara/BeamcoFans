@@ -43,7 +43,7 @@ const TabTwoRewards = () => {
     refetch: refetchClaimMission,
     isLoading: isLoadingClaimMission,
     isRefetching: isRefetchingClaimMissionr,
-  } = useSetClaimMission({function: paramClaim!});
+  } = useSetClaimMission(paramClaim!);
 
   // ! 1. FETCH DATA ON FOCUS
   useFocusEffect(

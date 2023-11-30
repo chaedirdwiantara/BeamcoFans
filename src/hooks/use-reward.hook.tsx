@@ -21,10 +21,10 @@ export const useRewardHook = () => {
     );
   };
 
-  const useSetClaimMission = (param: GetMissionProgressParams) => {
-    return useQuery(['reward/post-mission-claim'], () =>
-      setClaimMissionEp(param),
-    );
+  const useSetClaimMission = (functionTxt: string | undefined) => {
+    return useQuery(['reward/post-mission-claim'], () => {
+      functionTxt !== undefined && setClaimMissionEp(functionTxt);
+    });
   };
 
   const useGetAvailableVoucher = () => {
@@ -37,10 +37,10 @@ export const useRewardHook = () => {
     return useQuery(['reward/get-my-voucher'], () => getMyVouchertEp());
   };
 
-  const useClaimMyVoucher = (voucherId: number) => {
-    return useQuery(['reward/claim-voucher'], () =>
-      claimAvailVoucherEp(voucherId),
-    );
+  const useClaimMyVoucher = (voucherId: number | undefined) => {
+    return useQuery(['reward/claim-voucher'], () => {
+      voucherId !== undefined && claimAvailVoucherEp(voucherId);
+    });
   };
 
   return {

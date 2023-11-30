@@ -31,10 +31,10 @@ export const getMissionProgressEp = async (
 };
 
 export const setClaimMissionEp = async (
-  params: GetMissionProgressParams,
+  functionTxt: string | undefined,
 ): Promise<SetClaimMission> => {
   const {data} = await SsuAPI().request<SetClaimMission>({
-    url: `fans-app/missions/${params.function}/claim`,
+    url: `fans-app/missions/${functionTxt}/claim`,
     method: 'POST',
   });
 
@@ -70,7 +70,7 @@ export const getMyVouchertEp = async (): Promise<GetMyVoucher> => {
 };
 
 export const claimAvailVoucherEp = async (
-  voucherId: number,
+  voucherId: number | undefined,
 ): Promise<SetClaimMission> => {
   const {data} = await SsuKrakatauAPI().request<SetClaimMission>({
     url: `/vouchers/loyalty/${voucherId}/claim`,
