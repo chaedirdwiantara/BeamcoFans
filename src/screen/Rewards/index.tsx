@@ -110,7 +110,7 @@ const Rewards = () => {
             <View style={styles.slide}>
               <BackgroundHeader
                 rankTitle={dataBadge.data.title}
-                points={dataProfile?.data.point?.pointLifetime!}
+                points={dataProfile?.data.availablePoint!}
               />
             </View>
 

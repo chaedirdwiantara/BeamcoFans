@@ -55,6 +55,7 @@ export type ProfileResponseData = {
   blockIs?: boolean; // pov i being blocked by that user
   isBlock?: boolean; // pov i blocked that user
   isBanned: boolean;
+  availablePoint: number;
 };
 
 export type ExpectationType = {
