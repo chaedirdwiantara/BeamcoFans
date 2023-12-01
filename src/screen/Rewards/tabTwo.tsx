@@ -54,6 +54,7 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
   useFocusEffect(
     useCallback(() => {
       refetchMissionMaster();
+      setactiveIndex(0);
     }, []),
   );
 
@@ -91,8 +92,11 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
     async function fetchClaim() {
       if (paramClaim) {
         await refetchClaimMission();
+        // Set a timeout of 3 second before calling setRefreshing
+        setTimeout(() => {
+          setRefreshing(true);
+        }, 3000);
         setParamClaim(undefined);
-        setRefreshing(true);
       }
     }
 

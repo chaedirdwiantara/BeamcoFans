@@ -67,11 +67,6 @@ const Rewards = () => {
   }, [dataProfile]);
 
   useEffect(() => {
-    if (refreshing) {
-    }
-  }, [refreshing]);
-
-  useEffect(() => {
     async function setRefreshDataMain() {
       if (refreshing) {
         await getProfileUser();
