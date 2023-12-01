@@ -11,6 +11,7 @@ type Props = {
   progress: number;
   total: number;
   currentLvl: string;
+  lifeTimePoint: number;
   containerStyle?: ViewStyle;
 };
 
@@ -18,10 +19,15 @@ const PointProgress: FC<Props> = ({
   progress,
   total,
   currentLvl,
+  lifeTimePoint,
   containerStyle,
 }) => {
   const {t} = useTranslation();
-  const progressBar = progress / total;
+  //? lifeTimePoint is total point user have
+  //? progress is minimum point on user current level
+  //? total is maximum point on user current level
+  const progressStart = lifeTimePoint - progress;
+  const progressBar = progressStart / total;
   const whatNextLvl =
     currentLvl === 'Bronze'
       ? '1. Silver'
@@ -51,7 +57,7 @@ const PointProgress: FC<Props> = ({
       <Gap height={8} />
       <View style={styles.descStyle}>
         <Text style={styles.primerTxt}>
-          {`${t('Rewards.CurrentPrg.Exp')} ${progress}`}
+          {`${t('Rewards.CurrentPrg.Exp')} ${lifeTimePoint}`}
           <Text style={styles.scndTxt}>{`/${total}`}</Text>
         </Text>
         <Text style={styles.primerTxt}>

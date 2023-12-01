@@ -92,6 +92,7 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
       if (paramClaim) {
         await refetchClaimMission();
         setParamClaim(undefined);
+        setRefreshing(true);
       }
     }
 

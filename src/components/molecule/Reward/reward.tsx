@@ -66,7 +66,14 @@ const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
           )}
         </View>
         <View style={styles.footer}>
-          {data.isClaimable ? (
+          {data.generateQty === 0 ? (
+            <Button
+              label={'Redeemed'}
+              containerStyles={styles.btnBorder}
+              textStyles={styles.footerText}
+              disabled
+            />
+          ) : data.isClaimable ? (
             <Button
               label={t('Rewards.AvailVoucher.BtnActive')}
               containerStyles={styles.btnClaim}

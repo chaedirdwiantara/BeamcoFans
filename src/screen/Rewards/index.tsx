@@ -106,7 +106,7 @@ const Rewards = () => {
             tintColor={'transparent'}
           />
         }>
-        {dataBadge?.data && !isLoadingBadge && (
+        {dataBadge?.data && !isLoadingBadge && dataProfile?.data && (
           <>
             <View style={styles.slide}>
               <BackgroundHeader
@@ -118,9 +118,10 @@ const Rewards = () => {
             <Gap height={14} />
             <View style={{paddingHorizontal: widthResponsive(20)}}>
               <PointProgress
-                progress={dataBadge.data.startPoint}
+                progress={dataBadge.data.startPoint} //point life time profile
                 total={dataBadge.data.endPoint}
                 currentLvl={dataBadge.data.title}
+                lifeTimePoint={dataProfile?.data.point?.pointLifetime!}
               />
             </View>
 

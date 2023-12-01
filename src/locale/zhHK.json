@@ -430,9 +430,9 @@
       "LoyaltyTitle":"Your Loyalty Point"
     },
     "InfoCard":{
-      "NextLvl":"@{{whatNextLvl}} Streamer Badge is Closer",
+      "NextLvl":"{{whatNextLvl}} Streamer Badge is Closer",
       "LvlMax":"Your Badge is Maxed Out",
-      "Desc":"You’re @{{pointNeeded}} Exp away from being @{{whatNextLvl}}. Let’s get ‘em by completing more mission!",
+      "Desc":"You’re {{pointNeeded}} Exp away from being {{whatNextLvl}}. Let’s get ‘em by completing more mission!",
       "MaxLvlDesc":"Congratulations! You've reached Diamond Badge Claim the rewards and be proud!"
     },
     "CurrentPrg":{
@@ -461,8 +461,8 @@
       "SubTitle":"Redeem for yourself or send to fellow fans. Visit My Rewards Page for more details.",
       "Button":"Dismiss"
     },
-    "MissionTab": {
-      "ClaimToast":"Success Claim @{{claimedPoint}} Points from Daily Sign in",
+    "MissionTab":{
+      "ClaimToast":"Success Claim {{claimedPoint}} Points",
       "BtnCompleted":"Completed",
       "BtnClaim":"Claim",
       "BtnGo":"Go"
@@ -1308,7 +1308,8 @@
       "qr": "二維碼",
       "share": "分享個人資料",
       "block": "封鎖",
-      "unblock": "解除封鎖"
+      "unblock": "解除封鎖",
+      "setting": "Setting"
     }
   },
   "ClaimReward": {
