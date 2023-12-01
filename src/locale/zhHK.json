@@ -421,74 +421,74 @@
       "DisplayProfile": "顯示個人主頁"
     }
   },
-  "Rewards": {
-    "Title": "Rewards",
-    "Reward": "Rewards",
-    "Mission": "Mission",
+ "Rewards": {
+    "Title": "獎勵",
+    "Reward": "獎勵",
+    "Mission": "任務",
     "BgHeader": {
-      "RankTitle":"Your Rank",
-      "LoyaltyTitle":"Your Loyalty Point"
+      "RankTitle": "你的排名",
+      "LoyaltyTitle": "你的忠誠積分"
     },
-    "InfoCard":{
-      "NextLvl":"{{whatNextLvl}} Streamer Badge is Closer",
-      "LvlMax":"Your Badge is Maxed Out",
-      "Desc":"You’re {{pointNeeded}} Exp away from being {{whatNextLvl}}. Let’s get ‘em by completing more mission!",
-      "MaxLvlDesc":"Congratulations! You've reached Diamond Badge Claim the rewards and be proud!"
+    "InfoCard": {
+      "NextLvl": "{{whatNextLvl}}串流徽章更近了",
+      "LvlMax": "你的徽章已達最高級",
+      "Desc": "你距離成為{{whatNextLvl}}還差{{pointNeeded}}經驗值。通過完成更多任務來獲得它們吧！",
+      "MaxLvlDesc": "恭喜！你已經達到鑽石徽章。領取獎勵並感到自豪吧！"
     },
-    "CurrentPrg":{
-      "Title":"Current Progress Level",
-      "Exp":"Exp",
-      "NextLvl": "Next Lvl:"
+    "CurrentPrg": {
+      "Title": "當前進度等級",
+      "Exp": "經驗值",
+      "NextLvl": "下一等級:"
     },
     "AvailVoucher": {
       "EmptyState": {
-        "Title":"All Voucher is Already Claimed",
-        "SubTitle":"Voucher limit reached. Keep an eye out for future opportunities!"
+        "Title": "所有優惠券已經領取完畢",
+        "SubTitle": "優惠券已達上限。請密切注意未來的機會！"
       },
-      "PointTxt":"Points",
-      "BtnActive":"Redeem",
-      "BtnDisabled":"Not Enough Points"
+      "PointTxt": "積分",
+      "BtnActive": "兌換",
+      "BtnDisabled": "積分不足"
     },
     "MyVoucher": {
       "EmptyState": {
-        "Title":"No Voucher Available",
-        "SubTitle":"Claim on Voucher on Available Voucher or Someone gift the Voucher."
+        "Title": "無可用優惠券",
+        "SubTitle": "在可用優惠券中領取或由其他粉絲贈送優惠券。"
       },
-      "Btn":"View"
+      "Btn": "查看"
     },
     "ModalRedeem": {
-      "Title":"Congrats! You’ve Claimed 1 Voucher!",
-      "SubTitle":"Redeem for yourself or send to fellow fans. Visit My Rewards Page for more details.",
-      "Button":"Dismiss"
+      "Title": "恭喜！你已經領取了1張優惠券！",
+      "SubTitle": "兌換給自己或送給其他粉絲。詳細信息請訪問我的獎勵頁面。",
+      "Button": "關閉"
     },
-    "MissionTab":{
-      "ClaimToast":"Success Claim {{claimedPoint}} Points",
-      "BtnCompleted":"Completed",
-      "BtnClaim":"Claim",
-      "BtnGo":"Go"
+    "MissionTab": {
+      "ClaimToast": "成功領取{{claimedPoint}}積分",
+      "BtnCompleted": "已完成",
+      "BtnClaim": "領取",
+      "BtnGo": "前往"
     },
     "DetailVoucher": {
-      "QuotaLeft": "Quota Left",
-      "SendGift": "Send as gift",
-      "GiftVoucher": "Gift Voucher",
+      "QuotaLeft": "剩餘額度",
+      "SendGift": "作為禮物發送",
+      "GiftVoucher": "禮品券",
       "BottomSheet": {
-        "Title": "Send Voucher Rewards",
-        "Subtitle": "Are you sure you want to send this voucher?",
-        "SendVoucher": "Send Voucher"
+        "Title": "發送優惠券獎勵",
+        "Subtitle": "您確定要發送此優惠券嗎？",
+        "SendVoucher": "發送優惠券"
       },
       "ModalSuccess": {
-        "Title": "Your Voucher has been sent!",
-        "Subtitle": "Thanks for sharing happiness with other fans and support the community"
+        "Title": "您的優惠券已發送！",
+        "Subtitle": "感謝您與其他粉絲分享快樂，支持社區"
       },
       "ModalFailed": {
-        "Title": "Your Voucher Cannot be Sent",
-        "Subtitle": "There has been a problem sending your voucher. Please check the availability and try to send it again."
+        "Title": "您的優惠券無法發送",
+        "Subtitle": "發送優惠券時出現問題。請檢查可用性，然後重試。"
       },
       "Btn": {
-        "SoldOut": "Sold Out",
-        "Expired": "Expired",
-        "Redeemed": "Redeemed",
-        "ShowQR": "Show QR"
+        "SoldOut": "已售罄",
+        "Expired": "已過期",
+        "Redeemed": "已兌換",
+        "ShowQR": "顯示QR碼"
       }
     }
   },
