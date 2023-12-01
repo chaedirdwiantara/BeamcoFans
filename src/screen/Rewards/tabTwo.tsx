@@ -54,6 +54,7 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
   useFocusEffect(
     useCallback(() => {
       refetchMissionMaster();
+      setactiveIndex(0);
     }, []),
   );
 
