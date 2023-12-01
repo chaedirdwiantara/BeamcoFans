@@ -174,7 +174,10 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   };
 
   const onPressShareQR = () => {
-    navigation.navigate('MyQRCode', {uuid: '', type: 'myProfile'});
+    navigation.navigate('MyQRCode', {
+      uuid: qrType === 'myProfile' ? '' : profile.uuid,
+      type: qrType,
+    });
   };
 
   //! BLOCK/UNBLOCK AREA
@@ -279,7 +282,13 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         itemStrokeColor={'white'}
         bgColor={scrollEffect ? color.Dark[800] : 'transparent'}
         containerStyles={styles.topNavStyle}
-        dropdownData={dataMyProfileDropDown}
+        dropdownData={
+          qrType === 'myProfile'
+            ? dataMyProfileDropDown
+            : profile.isBlock
+            ? dataProfileDropdownBlocked
+            : dataProfileDropdown
+        }
         resultDataDropdown={resultDataDropdown}
         // onPressDropdown={() => {
         // }}
@@ -303,7 +312,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
         }
         onScroll={handleScroll}>
         <ProfileHeader
-          // type={'user detail'}
+          type={qrType === 'myProfile' ? 'profile' : 'others'}
           avatarUri={profile.avatarUri}
           backgroundUri={profile.backgroundUri}
           fullname={profile.fullname}
@@ -313,7 +322,6 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
           iconPress={goToSetting}
           scrollEffect={scrollEffect}
           noEdit={!showCreateCard}
-          backIcon={showCreateCard}
           onPressImage={showImage}
           refreshing={refreshing}
           dataBadge={dataBadge?.data}
