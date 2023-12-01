@@ -92,10 +92,10 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
     async function fetchClaim() {
       if (paramClaim) {
         await refetchClaimMission();
-        // Set a timeout of 2 second before calling setRefreshing
+        // Set a timeout of 3 second before calling setRefreshing
         setTimeout(() => {
           setRefreshing(true);
-        }, 2000);
+        }, 3000);
         setParamClaim(undefined);
       }
     }
