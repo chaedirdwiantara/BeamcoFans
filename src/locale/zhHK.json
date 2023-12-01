@@ -486,6 +486,7 @@
       },
       "Btn": {
         "SoldOut": "Sold Out",
+        "Expired": "Expired",
         "Redeemed": "Redeemed",
         "ShowQR": "Show QR"
       }

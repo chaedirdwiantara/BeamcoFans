@@ -24,6 +24,7 @@ import {
 import {color, font} from '../../../theme';
 import {widthResponsive} from '../../../utils';
 import {RootStackParams} from '../../../navigations';
+import {dateFormatDaily} from '../../../utils/date-format';
 import {useRewardHook} from '../../../hooks/use-reward.hook';
 import {Button, Gap, ModalCustom, TopNavigation} from '../../../components';
 
@@ -71,7 +72,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
 
   useEffect(() => {
     if (dataDetail?.data) {
-      let dataToEncode = `qrreward_${dataDetail?.data.voucher.code}`;
+      let dataToEncode = `${dataDetail?.data.id}|""`;
       setValueEncode(Buffer.from(dataToEncode).toString('base64'));
     }
   }, [dataDetail?.data]);
@@ -88,6 +89,10 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
   const goToSendGift = () => {
     navigation.navigate('GiftVoucher', {id});
   };
+
+  const expiredDate = new Date(dataDetail?.data?.expiredDate || '');
+  const today = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000);
+  const isExpired = today > expiredDate;
 
   return (
     <View style={styles.root}>
@@ -162,7 +167,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
                   </Text>
                 </View>
                 <Text style={[styles.normalTitle, {color: color.Success[400]}]}>
-                  {dataDetail.data?.expiredDate}
+                  {dateFormatDaily(dataDetail.data?.expiredDate)}
                 </Text>
               </View>
               {/* <Gap height={mvs(5)} /> */}
@@ -208,8 +213,8 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
       <View style={styles.bottomContainer}>
         <Button
           label={
-            !dataDetail?.data.isAvailable
-              ? t('Rewards.DetailVoucher.Btn.SoldOut')
+            isExpired
+              ? t('Rewards.DetailVoucher.Btn.Expired')
               : dataDetail?.data.isRedeemed
               ? t('Rewards.DetailVoucher.Btn.Redeemed')
               : t('Rewards.DetailVoucher.Btn.ShowQR')
@@ -219,17 +224,15 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
             height: widthResponsive(40),
             aspectRatio: undefined,
             backgroundColor:
-              dataDetail?.data.isAvailable && !dataDetail?.data.isRedeemed
+              !isExpired && !dataDetail?.data.isRedeemed
                 ? color.Pink[10]
                 : color.Dark[50],
           }}
           onPress={showQrOnPress}
-          disabled={
-            !dataDetail?.data.isAvailable || dataDetail?.data.isRedeemed
-          }
+          disabled={isExpired || dataDetail?.data.isRedeemed}
         />
         {status === 'Ready to Redeem' &&
-          dataDetail?.data.isAvailable &&
+          !isExpired &&
           !dataDetail?.data.isRedeemed && (
             <Button
               label={t('Rewards.DetailVoucher.SendGift')}
