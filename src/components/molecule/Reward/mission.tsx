@@ -59,7 +59,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
     data: DataMissionMaster,
   ) => {
     if (data.taskType !== 'based-reward') {
-      setDataProgress({...dataProgress, isClaimed: true});
+      setDataProgress({...dataProgress, isClaimable: false, isClaimed: true});
     }
     onClaim(dataProgress?.sumLoyaltyPoints!, data);
   };
