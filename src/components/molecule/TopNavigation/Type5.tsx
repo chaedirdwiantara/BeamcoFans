@@ -23,6 +23,7 @@ type Props = {
   containerStyles?: ViewStyle;
   guest?: boolean;
   activeOpacity?: number;
+  leftContainerStyles?: ViewStyle;
 };
 
 /** == COMPONENT === */
@@ -71,7 +72,7 @@ const Type5: React.FC<Props> = (props: Props) => {
           },
           props.containerStyles,
         ]}>
-        <View style={topNavstyles.leftContainer}>
+        <View style={[topNavstyles.leftContainer, props.leftContainerStyles]}>
           {props.guest ? <DefaultAvatar.ProfileIcon /> : iconLeft()}
           <Gap width={8} />
           <Text
