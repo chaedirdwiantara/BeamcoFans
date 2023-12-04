@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {CheckCircle2Icon, CupIcon} from '../../../assets/icon';
@@ -7,7 +7,6 @@ import {color, font} from '../../../theme';
 import {mvs} from 'react-native-size-matters';
 import {Button, Gap} from '../../atom';
 import {useRewardHook} from '../../../hooks/use-reward.hook';
-import {useFocusEffect} from '@react-navigation/native';
 import {
   DataListMissioProgress,
   DataMissionMaster,
@@ -75,8 +74,11 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
         <View style={styles.captionContainer}>
           <Text style={styles.titleTxt}>{data.taskName}</Text>
           <View style={styles.rewardCountContainer}>
-            {/* change it later for repeatable */}
-            <Text style={styles.rewardCountTxt}>{data.rewards}</Text>
+            <Text style={styles.rewardCountTxt}>
+              {dataProgress && dataProgress?.sumLoyaltyPoints > 0
+                ? dataProgress.sumLoyaltyPoints
+                : data.rewards}
+            </Text>
             <Gap width={3} />
             <CupIcon />
           </View>
