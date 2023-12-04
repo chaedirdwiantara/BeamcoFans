@@ -551,13 +551,14 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         leftIconAction={onPressProfile}
         rightIcon={rightIconComp()}
         rightIconAction={onPressNotif}
-        maxLengthTitle={14}
+        maxLengthTitle={25}
         itemStrokeColor={Color.Pink[100]}
         points={isLogin && !isClaimedCredit ? creditCount : 0}
         containerStyles={{paddingHorizontal: widthResponsive(24)}}
         onPressCoin={onPressCoin}
         guest={!isLogin}
         activeOpacity={0}
+        leftContainerStyles={{flex: 3}}
       />
 
       {Platform.OS === 'ios' && refreshing && (
