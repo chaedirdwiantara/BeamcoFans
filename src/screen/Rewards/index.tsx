@@ -123,7 +123,7 @@ const Rewards = () => {
             <Gap height={24} />
             <View style={{paddingHorizontal: widthResponsive(20)}}>
               <InfoCard
-                startPoint={dataBadge.data.startPoint}
+                startPoint={dataProfile?.data.point?.pointLifetime!}
                 endPoint={dataBadge.data.endPoint}
                 currentLvl={dataBadge.data.title}
               />
