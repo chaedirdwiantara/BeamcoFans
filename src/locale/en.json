@@ -24,7 +24,9 @@
     "BlockSucceed": "Oops! It looks like you have been blocked",
     "Dismiss": "Dismiss",
     "Topup": "Top up",
-    "BuyNow": "Buy now"
+    "BuyNow": "Buy now",
+    "MyCredit": "My Credit",
+    "LoyaltyPoints": "Loyalty Points"
   },
 
   "Onboarding": {
@@ -209,7 +211,7 @@
           "Highlight": "Highlight post"
         }
       },
-      "Recommended": {
+      "Recomended": {
         "Title": "Recommended"
       },
       "Favorite": {
@@ -423,46 +425,46 @@
     "Reward": "Rewards",
     "Mission": "Mission",
     "BgHeader": {
-      "RankTitle":"Your Rank",
-      "LoyaltyTitle":"Your Loyalty Point"
+      "RankTitle": "Your Rank",
+      "LoyaltyTitle": "Your Loyalty Point"
     },
-    "InfoCard":{
-      "NextLvl":"{{whatNextLvl}} Badge is Closer",
-      "LvlMax":"Your Badge is Maxed Out",
-      "Desc":"You’re {{pointNeeded}} Exp away from being {{whatNextLvl}}. Let’s get ‘em by completing more mission!",
-      "MaxLvlDesc":"Congratulations! You've reached Diamond Badge Claim the rewards and be proud!"
+    "InfoCard": {
+      "NextLvl": "{{whatNextLvl}} Badge is Closer",
+      "LvlMax": "Your Badge is Maxed Out",
+      "Desc": "You’re {{pointNeeded}} Exp away from being {{whatNextLvl}}. Let’s get ‘em by completing more mission!",
+      "MaxLvlDesc": "Congratulations! You've reached Diamond Badge Claim the rewards and be proud!"
     },
-    "CurrentPrg":{
-      "Title":"Current Progress Level",
-      "Exp":"Exp",
+    "CurrentPrg": {
+      "Title": "Current Progress Level",
+      "Exp": "Exp",
       "NextLvl": "Next Lvl:"
     },
     "AvailVoucher": {
       "EmptyState": {
-        "Title":"All Voucher is Already Claimed",
-        "SubTitle":"Voucher limit reached. Keep an eye out for future opportunities!"
+        "Title": "All Voucher is Already Claimed",
+        "SubTitle": "Voucher limit reached. Keep an eye out for future opportunities!"
       },
-      "PointTxt":"Points",
-      "BtnActive":"Redeem",
-      "BtnDisabled":"Not Enough Points"
+      "PointTxt": "Points",
+      "BtnActive": "Redeem",
+      "BtnDisabled": "Not Enough Points"
     },
     "MyVoucher": {
       "EmptyState": {
-        "Title":"No Voucher Available",
-        "SubTitle":"Claim on Voucher on Available Voucher or Someone gift the Voucher."
+        "Title": "No Voucher Available",
+        "SubTitle": "Claim on Voucher on Available Voucher or Someone gift the Voucher."
       },
-      "Btn":"View"
+      "Btn": "View"
     },
     "ModalRedeem": {
-      "Title":"Congrats! You’ve Claimed 1 Voucher!",
-      "SubTitle":"Redeem for yourself or send to fellow fans. Visit My Rewards Page for more details.",
-      "Button":"Dismiss"
+      "Title": "Congrats! You’ve Claimed 1 Voucher!",
+      "SubTitle": "Redeem for yourself or send to fellow fans. Visit My Rewards Page for more details.",
+      "Button": "Dismiss"
     },
-    "MissionTab":{
-      "ClaimToast":"Success Claim {{claimedPoint}} Points",
-      "BtnCompleted":"Completed",
-      "BtnClaim":"Claim",
-      "BtnGo":"Go"
+    "MissionTab": {
+      "ClaimToast": "Success Claim {{claimedPoint}} Points",
+      "BtnCompleted": "Completed",
+      "BtnClaim": "Claim",
+      "BtnGo": "Go"
     },
     "DetailVoucher": {
       "QuotaLeft": "Quota Left",
@@ -487,6 +489,7 @@
         "Redeemed": "Redeemed",
         "ShowQR": "Show QR"
       }
+    }
   },
   "Musician": {
     "Label": {
@@ -716,6 +719,7 @@
         "Duration": "Duration",
         "All": "All",
         "OneTime": "One time",
+        "Daily": "Daily",
         "Weekly": "Weekly",
         "Monthly": "Monthly",
         "Yearly": "Yearly"
@@ -864,7 +868,7 @@
       "Subtitle": "We have restricted your interactions with others. Visit 'Help' in settings to send appeal if you believe this is an error.",
       "TextNavigate": "help in settings"
     },
-    "Help": {
+    "Helps": {
       "Title": "Help"
     },
     "TnC": {
@@ -1305,7 +1309,8 @@
       "qr": "QR Code",
       "share": "Share profile",
       "block": "Block",
-      "unblock": "Unblock"
+      "unblock": "Unblock",
+      "setting": "Setting"
     }
   },
   "ClaimReward": {
