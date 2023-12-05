@@ -5,12 +5,13 @@ import {
   RefreshControl,
   ScrollView,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {color} from '../../theme';
+import {color, font} from '../../theme';
 import {widthResponsive} from '../../utils';
-import {Gap, TabFilter} from '../../components';
+import {Button, Gap, ModalCustom, TabFilter} from '../../components';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {useFocusEffect} from '@react-navigation/native';
@@ -20,7 +21,16 @@ import InfoCard from '../../components/molecule/Reward/infoCard';
 import PointProgress from '../../components/molecule/Reward/pointProgress';
 import BackgroundHeader from '../../components/molecule/Reward/backgroundHeader';
 import {useBadgeHook} from '../../hooks/use-badge.hook';
-import RedeemSuccessIcon from '../../assets/icon/RedeemSuccess.icon';
+import {
+  BadgeBronzeMIcon,
+  BadgeDiamondMIcon,
+  BadgeGoldMIcon,
+  BadgePlatinumMIcon,
+  BadgeSilverMIcon,
+} from '../../assets/icon';
+import {mvs} from 'react-native-size-matters';
+import {dataMissionStore} from '../../store/reward.store';
+import {useTranslation} from 'react-i18next';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
@@ -30,10 +40,12 @@ type OnScrollEventHandler = (
 ) => void;
 
 const Rewards = () => {
+  const {t} = useTranslation();
   const {dataProfile, dataCountProfile, getProfileUser, getTotalCountProfile} =
     useProfileHook();
   // BADGE
   const {useCheckBadge} = useBadgeHook();
+  const {storedBadgeTitle, setStoredBadgeTitle} = dataMissionStore();
 
   const [selectedIndex, setSelectedIndex] = useState(-0);
   const [filter] = useState([
@@ -42,6 +54,7 @@ const Rewards = () => {
   ]);
   const [scrollEffect, setScrollEffect] = useState(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [modalNewRank, setModalNewRank] = useState<boolean>(false);
 
   // fans type = 1
   const {
@@ -65,6 +78,23 @@ const Rewards = () => {
       refetchBadge();
     }
   }, [dataProfile]);
+
+  useEffect(() => {
+    if (
+      storedBadgeTitle &&
+      dataBadge &&
+      dataBadge?.data.title !== storedBadgeTitle
+    ) {
+      setStoredBadgeTitle(dataBadge?.data.title);
+      setModalNewRank(true);
+    } else if (
+      !storedBadgeTitle &&
+      dataBadge &&
+      dataBadge?.data.title !== 'Bronze'
+    ) {
+      setStoredBadgeTitle(dataBadge?.data.title);
+    }
+  }, [dataBadge]);
 
   useEffect(() => {
     async function setRefreshDataMain() {
@@ -113,8 +143,8 @@ const Rewards = () => {
             <Gap height={14} />
             <View style={{paddingHorizontal: widthResponsive(20)}}>
               <PointProgress
-                progress={dataBadge.data.startPoint} //point life time profile
-                total={dataBadge.data.endPoint}
+                startPoint={dataBadge.data.startPoint} //point life time profile
+                endPoint={dataBadge.data.endPoint}
                 currentLvl={dataBadge.data.title}
                 lifeTimePoint={dataProfile?.data.point?.pointLifetime!}
               />
@@ -162,6 +192,43 @@ const Rewards = () => {
             )}
           </View>
         </View>
+        <ModalCustom
+          modalVisible={modalNewRank}
+          onPressClose={() => setModalNewRank(false)}
+          children={
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>
+                {t('Rewards.ModalRankUp.Title')}
+              </Text>
+              <Gap height={16} />
+              {storedBadgeTitle === 'Bronze' ? (
+                <BadgeBronzeMIcon />
+              ) : storedBadgeTitle === 'Silver' ? (
+                <BadgeSilverMIcon />
+              ) : storedBadgeTitle === 'Gold' ? (
+                <BadgeGoldMIcon />
+              ) : storedBadgeTitle === 'Platinum' ? (
+                <BadgePlatinumMIcon />
+              ) : storedBadgeTitle === 'Diamond' ? (
+                <BadgeDiamondMIcon />
+              ) : null}
+              <Gap height={16} />
+              <Text style={styles.modalTitle}>{storedBadgeTitle}</Text>
+              <Gap height={8} />
+              <Text style={styles.modalCaption}>
+                {t('Rewards.ModalRankUp.Subtitle')}
+              </Text>
+              <Gap height={20} />
+              <Button
+                label={'Dismiss'}
+                containerStyles={styles.btnClaim}
+                textStyles={styles.textButton}
+                onPress={() => setModalNewRank(false)}
+                type="border"
+              />
+            </View>
+          }
+        />
       </ScrollView>
     </View>
   );
@@ -189,5 +256,41 @@ const styles = StyleSheet.create({
   slide: {
     position: 'relative',
     width: '100%',
+  },
+  btnClaim: {
+    aspectRatio: undefined,
+    width: undefined,
+    height: undefined,
+    paddingHorizontal: 3,
+    borderWidth: 0,
+  },
+  textButton: {
+    fontFamily: font.InterMedium,
+    fontSize: mvs(14),
+    fontWeight: '500',
+    color: '#BDE3FF',
+  },
+  modalTitle: {
+    color: color.Neutral[10],
+    textAlign: 'center',
+    fontFamily: font.InterMedium,
+    fontWeight: '600',
+    fontSize: mvs(14),
+  },
+  modalCaption: {
+    color: color.Secondary[10],
+    textAlign: 'center',
+    fontFamily: font.InterRegular,
+    fontWeight: '400',
+    fontSize: mvs(10),
+  },
+  modalContainer: {
+    alignItems: 'center',
+    backgroundColor: color.Dark[800],
+    paddingTop: widthResponsive(32),
+    paddingHorizontal: widthResponsive(16),
+    paddingBottom: widthResponsive(16),
+    width: widthResponsive(244),
+    borderRadius: 16,
   },
 });
