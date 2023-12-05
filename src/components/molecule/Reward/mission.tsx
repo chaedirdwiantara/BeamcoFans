@@ -10,8 +10,10 @@ import {useRewardHook} from '../../../hooks/use-reward.hook';
 import {
   DataListMissioProgress,
   DataMissionMaster,
+  DataMissionStoreProps,
 } from '../../../interface/reward.interface';
 import {useTranslation} from 'react-i18next';
+import {dataMissionStore} from '../../../store/reward.store';
 
 interface MissionProps {
   data: DataMissionMaster;
@@ -22,7 +24,9 @@ interface MissionProps {
 const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
   const {t} = useTranslation();
   const {useGetMissionProgress} = useRewardHook();
+  const {storedDataMission, setStoredDataMission} = dataMissionStore();
   const [dataProgress, setDataProgress] = useState<DataListMissioProgress>();
+  const [readyToRefetch, setreadyToRefetch] = useState<boolean>(false);
 
   const {
     data: dataMissionPrg,
@@ -44,6 +48,32 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
     }
   }, [dataMissionPrg]);
 
+  useEffect(() => {
+    if (readyToRefetch) {
+      setTimeout(() => {
+        refetchMissionPrg();
+      }, 3000);
+      setreadyToRefetch(false);
+    }
+  }, [readyToRefetch]);
+
+  // TODO: set data to store UNCOMMENT LATER
+  // useEffect(() => {
+  //   if (data && dataMissionPrg) {
+  //     const newMission: DataMissionStoreProps = {
+  //       id: data.id,
+  //       typeOnIndex:
+  //         data.taskType === 'daily' ? 0 : data.taskType === 'one-time' ? 1 : 2,
+  //       isClaimable: dataMissionPrg.data.isClaimable,
+  //     };
+  //     const filterData = storedDataMission.filter(
+  //       data => data.id !== newMission.id,
+  //     );
+  //     const updatedDataMission = [...filterData, newMission];
+  //     setStoredDataMission(updatedDataMission);
+  //   }
+  // }, [data, dataMissionPrg]);
+
   const progressBar = dataProgress
     ? dataProgress?.rowCount / data.amountToClaim
     : 0 / data.amountToClaim;
@@ -64,7 +94,10 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
   ) => {
     if (data.taskType !== 'based-reward') {
       setDataProgress({...dataProgress, isClaimable: false, isClaimed: true});
+    } else {
+      setDataProgress({...dataProgress, isClaimable: false, isClaimed: false});
     }
+    setreadyToRefetch(true);
     onClaim(dataProgress?.sumLoyaltyPoints!, data);
   };
 
