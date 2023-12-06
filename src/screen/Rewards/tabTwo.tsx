@@ -2,7 +2,7 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import Mission from '../../components/molecule/Reward/mission';
 import {missionMenu} from '../../data/reward';
-import {Button, Gap, SuccessToast} from '../../components';
+import {Button, Circle, Gap, SuccessToast} from '../../components';
 import {color, font} from '../../theme';
 import {mvs} from 'react-native-size-matters';
 import {widthResponsive} from '../../utils';
@@ -15,6 +15,7 @@ import {
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainTabParams, RootStackParams} from '../../navigations';
 import {useTranslation} from 'react-i18next';
+import {dataMissionStore} from '../../store/reward.store';
 
 type Props = {
   refreshing: boolean;
@@ -35,6 +36,7 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
   const [paramClaim, setParamClaim] = useState<string>();
 
   const {useGetMissionMaster, useSetClaimMission} = useRewardHook();
+  const {storedDataMission, setStoredDataMission} = dataMissionStore();
 
   const {
     data: dataMission,
@@ -119,13 +121,13 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
   const onGoMission = (screenFn: RewardListFunction) => {
     switch (screenFn) {
       case 'complete-profile':
-        navigation.navigate('Setting');
+        navigation.navigate('ProfileProgress');
         break;
       case 'daily-sign-in':
         console.log('nothing to do here');
         break;
       case 'refer-friend':
-        navigation2.navigate('Home', {showToast: false});
+        navigation.navigate('ReferralCode');
         break;
       case 'tip-live-tipping':
         navigation2.navigate('Home', {showToast: false});
@@ -155,13 +157,13 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
         navigation.navigate('SearchScreen');
         break;
       case 'share-song-ig':
-        navigation.navigate('MusicPlayer');
+        navigation2.navigate('Home', {showToast: false});
         break;
       case 'donation':
         navigation2.navigate('Home', {showToast: false});
         break;
       case 'share-ig':
-        navigation.navigate('MusicPlayer');
+        navigation2.navigate('Home', {showToast: false});
         break;
     }
   };
@@ -170,12 +172,23 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
     <View style={styles().container}>
       <View style={styles().menuStyle}>
         {missionMenu.map((data, index) => {
+          // TODO: set data to store UNCOMMENT LATER
+          // const isTypeOnIndexAndClaimable = storedDataMission.some(
+          //   mission => mission.typeOnIndex === index && mission.isClaimable,
+          // );
           return (
             <Button
               label={data.label}
               containerStyles={styles(activeIndex, index).btnClaim}
               textStyles={styles().textButton}
               onPress={() => onPressMenu(index)}
+              // TODO: set data to store UNCOMMENT LATER
+              // typeOfButton={
+              //   index !== activeIndex && isTypeOnIndexAndClaimable
+              //     ? 'withIcon'
+              //     : undefined
+              // }
+              customIcon={<Circle size={8} color={color.Pink[200]} />}
             />
           );
         })}

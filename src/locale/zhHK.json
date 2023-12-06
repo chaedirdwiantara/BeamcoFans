@@ -490,7 +490,11 @@
         "Redeemed": "已兌換",
         "ShowQR": "顯示QR碼"
       }
-    }
+    },
+    "ModalRankUp": {
+      "Title": "您剛剛獲得了一個新徽章！",
+      "Subtitle": "在獎勵頁面上查看，為您贏得更多獎勵"
+    }    
   },
   "Musician": {
     "Label": {

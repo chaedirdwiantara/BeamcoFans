@@ -8,16 +8,16 @@ import {Gap} from '../../atom';
 import {useTranslation} from 'react-i18next';
 
 type Props = {
-  progress: number;
-  total: number;
+  startPoint: number;
+  endPoint: number;
   currentLvl: string;
   lifeTimePoint: number;
   containerStyle?: ViewStyle;
 };
 
 const PointProgress: FC<Props> = ({
-  progress,
-  total,
+  startPoint,
+  endPoint,
   currentLvl,
   lifeTimePoint,
   containerStyle,
@@ -26,17 +26,17 @@ const PointProgress: FC<Props> = ({
   //? lifeTimePoint is total point user have
   //? progress is minimum point on user current level
   //? total is maximum point on user current level
-  const progressStart = lifeTimePoint - progress;
-  const progressBar = progressStart / total;
+  const progressStart = lifeTimePoint - startPoint;
+  const progressBar = progressStart / endPoint;
   const whatNextLvl =
     currentLvl === 'Bronze'
-      ? '1. Silver'
+      ? ' Silver'
       : currentLvl === 'Silver'
-      ? '3. Gold'
+      ? ' Gold'
       : currentLvl === 'Gold'
-      ? '4. Platinum'
+      ? ' Platinum'
       : currentLvl === 'Platinum'
-      ? '5. Diamond'
+      ? ' Diamond'
       : 'Lvl. Maxed';
 
   return (
@@ -57,8 +57,8 @@ const PointProgress: FC<Props> = ({
       <Gap height={8} />
       <View style={styles.descStyle}>
         <Text style={styles.primerTxt}>
-          {`${t('Rewards.CurrentPrg.Exp')} ${lifeTimePoint}`}
-          <Text style={styles.scndTxt}>{`/${total}`}</Text>
+          {`${t('Rewards.CurrentPrg.Exp')} ${progressStart}`}
+          <Text style={styles.scndTxt}>{`/${endPoint}`}</Text>
         </Text>
         <Text style={styles.primerTxt}>
           {whatNextLvl !== 'Lvl. Maxed'

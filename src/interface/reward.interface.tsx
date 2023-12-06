@@ -120,3 +120,8 @@ export interface SendVoucherReq {
   fullnameReceiver: string;
   imageReceiver: string;
 }
+export interface DataMissionStoreProps {
+  id: number;
+  typeOnIndex: number;
+  isClaimable: boolean;
+}
