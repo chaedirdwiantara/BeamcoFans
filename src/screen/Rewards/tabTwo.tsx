@@ -157,13 +157,13 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
         navigation.navigate('SearchScreen');
         break;
       case 'share-song-ig':
-        navigation.navigate('MusicPlayer');
+        navigation2.navigate('Home', {showToast: false});
         break;
       case 'donation':
         navigation2.navigate('Home', {showToast: false});
         break;
       case 'share-ig':
-        navigation.navigate('MusicPlayer');
+        navigation2.navigate('Home', {showToast: false});
         break;
     }
   };
