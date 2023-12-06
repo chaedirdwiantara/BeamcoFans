@@ -442,7 +442,7 @@
     "AvailVoucher": {
       "EmptyState": {
         "Title": "All Voucher is Already Claimed",
-        "SubTitle": "Voucher limit reached. Keep an eye out for future opportunities!"
+        "Subtitle": "Voucher limit reached. Keep an eye out for future opportunities!"
       },
       "PointTxt": "Points",
       "BtnActive": "Redeem",
@@ -451,13 +451,13 @@
     "MyVoucher": {
       "EmptyState": {
         "Title": "No Voucher Available",
-        "SubTitle": "Claim on Voucher on Available Voucher or Someone gift the Voucher."
+        "Subtitle": "Claim on Voucher on Available Voucher or Someone gift the Voucher."
       },
       "Btn": "View"
     },
     "ModalRedeem": {
       "Title": "Congrats! You’ve Claimed 1 Voucher!",
-      "SubTitle": "Redeem for yourself or send to fellow fans. Visit My Rewards Page for more details.",
+      "Subtitle": "Redeem for yourself or send to fellow fans. Visit My Rewards Page for more details.",
       "Button": "Dismiss"
     },
     "MissionTab": {
