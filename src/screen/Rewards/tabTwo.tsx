@@ -147,13 +147,13 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
   const onGoMission = (screenFn: RewardListFunction) => {
     switch (screenFn) {
       case 'complete-profile':
-        navigation.navigate('Setting');
+        navigation.navigate('ProfileProgress');
         break;
       case 'daily-sign-in':
         console.log('nothing to do here');
         break;
       case 'refer-friend':
-        navigation2.navigate('Home', {showToast: false});
+        navigation.navigate('ReferralCode');
         break;
       case 'tip-live-tipping':
         navigation2.navigate('Home', {showToast: false});
