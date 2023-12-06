@@ -1322,7 +1322,9 @@
   "LiveTipping": {
     "SwipeUp": "Swipe up to Beam",
     "TooFast": "You swipe too fast!",
-    "EnjoyShow": "Let’s enjoy the show\nand take a rest for few seconds"
+    "EnjoyShow": "Let’s enjoy the show\nand take a rest for few seconds",
+    "Credit": "Credit",
+    "NowActive": "Now Active"
   },
   "DiscoverArtist": {
     "Title": "Discover Artists"
