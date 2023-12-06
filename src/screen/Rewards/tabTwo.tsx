@@ -2,7 +2,7 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import Mission from '../../components/molecule/Reward/mission';
 import {missionMenu} from '../../data/reward';
-import {Button, Gap, SuccessToast} from '../../components';
+import {Button, Circle, Gap, SuccessToast} from '../../components';
 import {color, font} from '../../theme';
 import {mvs} from 'react-native-size-matters';
 import {widthResponsive} from '../../utils';
@@ -15,6 +15,7 @@ import {
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainTabParams, RootStackParams} from '../../navigations';
 import {useTranslation} from 'react-i18next';
+import {dataMissionStore} from '../../store/reward.store';
 
 type Props = {
   refreshing: boolean;
@@ -35,6 +36,7 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
   const [paramClaim, setParamClaim] = useState<string>();
 
   const {useGetMissionMaster, useSetClaimMission} = useRewardHook();
+  const {storedDataMission, setStoredDataMission} = dataMissionStore();
 
   const {
     data: dataMission,
@@ -107,41 +109,13 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
     setactiveIndex(index);
   };
 
-  const setDataState = (rewardCount: number, data: DataMissionMaster) => {
-    const stateChoosen =
-      data.taskType === 'daily'
-        ? daily
-        : data.taskType === 'one-time'
-        ? oneTime
-        : repeatable;
-
-    // Remove the selected data from the stateChoosen list
-    const newDataMission = stateChoosen.filter(
-      mission => mission.id !== data.id,
-    );
-
-    // Add the selected data to the new state list
-    const dataFilter: DataMissionMaster[] = [
-      ...newDataMission,
-      {
-        ...data,
-        rewards: data.rewards + rewardCount,
-      },
-    ];
-
-    // Update the state
-    data.taskType === 'daily'
-      ? setDaily(dataFilter)
-      : data.taskType === 'one-time'
-      ? setOneTime(dataFilter)
-      : setRepeatable(dataFilter);
-  };
-
-  const onClaimMission = (rewardCount: number, data: DataMissionMaster) => {
-    setClaimedPoint(rewardCount);
-    setDataState(rewardCount, data);
-    setShowToast(true);
-    setParamClaim(data.function);
+  const onClaimMission = (
+    sumLoyaltyPoints: number,
+    data: DataMissionMaster,
+  ) => {
+    setClaimedPoint(sumLoyaltyPoints); // to show on toast
+    setShowToast(true); // to show toast
+    setParamClaim(data.function); // to hit api
   };
 
   const onGoMission = (screenFn: RewardListFunction) => {
@@ -198,12 +172,23 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
     <View style={styles().container}>
       <View style={styles().menuStyle}>
         {missionMenu.map((data, index) => {
+          // TODO: set data to store UNCOMMENT LATER
+          // const isTypeOnIndexAndClaimable = storedDataMission.some(
+          //   mission => mission.typeOnIndex === index && mission.isClaimable,
+          // );
           return (
             <Button
               label={data.label}
               containerStyles={styles(activeIndex, index).btnClaim}
               textStyles={styles().textButton}
               onPress={() => onPressMenu(index)}
+              // TODO: set data to store UNCOMMENT LATER
+              // typeOfButton={
+              //   index !== activeIndex && isTypeOnIndexAndClaimable
+              //     ? 'withIcon'
+              //     : undefined
+              // }
+              customIcon={<Circle size={8} color={color.Pink[200]} />}
             />
           );
         })}
