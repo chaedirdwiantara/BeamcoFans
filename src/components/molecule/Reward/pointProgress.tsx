@@ -30,13 +30,13 @@ const PointProgress: FC<Props> = ({
   const progressBar = progressStart / endPoint;
   const whatNextLvl =
     currentLvl === 'Bronze'
-      ? '1. Silver'
+      ? ' Silver'
       : currentLvl === 'Silver'
-      ? '3. Gold'
+      ? ' Gold'
       : currentLvl === 'Gold'
-      ? '4. Platinum'
+      ? ' Platinum'
       : currentLvl === 'Platinum'
-      ? '5. Diamond'
+      ? ' Diamond'
       : 'Lvl. Maxed';
 
   return (
