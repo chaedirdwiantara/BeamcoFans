@@ -421,7 +421,7 @@
       "DisplayProfile": "顯示個人主頁"
     }
   },
- "Rewards": {
+  "Rewards": {
     "Title": "獎勵",
     "Reward": "獎勵",
     "Mission": "任務",
@@ -720,6 +720,7 @@
         "Duration": "時長",
         "All": "所有",
         "OneTime": "一次性",
+        "Daily": "每天",
         "Weekly": "每週",
         "Monthly": "每月",
         "Yearly": "每年"
