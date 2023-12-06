@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {CheckCircle2Icon, CupIcon} from '../../../assets/icon';
@@ -7,7 +7,6 @@ import {color, font} from '../../../theme';
 import {mvs} from 'react-native-size-matters';
 import {Button, Gap} from '../../atom';
 import {useRewardHook} from '../../../hooks/use-reward.hook';
-import {useFocusEffect} from '@react-navigation/native';
 import {
   DataListMissioProgress,
   DataMissionMaster,
@@ -50,7 +49,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
     : 0 / data.amountToClaim;
   const progressText = `${dataProgress ? dataProgress?.rowCount : 0}/${
     data.amountToClaim
-  }`;
+  }${dataProgress?.function.includes('profile') ? '%' : ''}`;
   const progressRepeatable = dataProgress?.rowCount === 0 ? 0 / 1 : 1;
   const progressTextRepeatable = `${dataProgress?.rowCount} ${
     dataProgress?.function.includes('donation') ||
