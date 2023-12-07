@@ -150,12 +150,12 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
           showsVerticalScrollIndicator={false}
           keyExtractor={(_, index) => index.toString()}
           scrollEnabled={false}
-          numColumns={2}
-          columnWrapperStyle={{
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            marginBottom: widthResponsive(16),
-          }}
+          // numColumns={2}
+          // columnWrapperStyle={{
+          //   justifyContent: 'space-between',
+          //   alignItems: 'flex-start',
+          //   marginBottom: widthResponsive(16),
+          // }}
           renderItem={({item}) => (
             <VoucherReward
               data={item}
@@ -170,12 +170,12 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
           showsVerticalScrollIndicator={false}
           keyExtractor={(_, index) => index.toString()}
           scrollEnabled={false}
-          numColumns={2}
-          columnWrapperStyle={{
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            marginBottom: widthResponsive(16),
-          }}
+          // numColumns={2}
+          // columnWrapperStyle={{
+          //   justifyContent: 'space-between',
+          //   alignItems: 'flex-start',
+          //   marginBottom: widthResponsive(16),
+          // }}
           renderItem={({item}) => (
             <RewardMyVoucher
               data={item}
@@ -246,7 +246,8 @@ const styles = (activeIndex?: number, index?: number) =>
       // backgroundColor: 'brown',
     },
     voucher: {
-      width: widthResponsive(156),
+      // width: widthResponsive(156),
+      marginBottom: widthResponsive(16),
     },
     btnClaim: {
       aspectRatio: undefined,

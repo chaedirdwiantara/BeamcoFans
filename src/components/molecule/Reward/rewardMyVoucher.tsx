@@ -1,12 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ViewStyle,
-} from 'react-native';
-import {Button, Circle, DottedLine, Gap} from '../../atom';
+import {View, Text, StyleSheet, ViewStyle} from 'react-native';
+import {Button, DottedLine, Gap} from '../../atom';
 import {color, font} from '../../../theme';
 import {widthResponsive} from '../../../utils';
 import {mvs} from 'react-native-size-matters';
@@ -37,13 +31,7 @@ const RewardMyVoucher: React.FC<Props> = ({data, onPress, containerStyle}) => {
         ) : data.voucher.iconType === 'ticket' ? (
           <TicketRewardIcon />
         ) : null}
-
-        <Gap height={3} />
-        <Text style={styles.pointsText}>{data.statusVoucher}</Text>
-
-        <Text style={styles.voucherTitleText} numberOfLines={1}>
-          {data.voucher.titleHeader}
-        </Text>
+        <Gap width={8} />
         <Text style={styles.voucherText} numberOfLines={1}>
           {data.voucher.title}
         </Text>
@@ -54,7 +42,10 @@ const RewardMyVoucher: React.FC<Props> = ({data, onPress, containerStyle}) => {
         <View style={styles.dottedContainer}>
           <DottedLine color={color.Dark[10]} />
         </View>
-        <View style={styles.footer}>
+
+        <View style={styles.bottomContainer}>
+          <Text style={styles.pointsText}>{data.statusVoucher}</Text>
+
           <Button
             label={t('Rewards.MyVoucher.Btn')}
             containerStyles={styles.btnClaim}
@@ -81,15 +72,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthResponsive(16),
     paddingTop: widthResponsive(16),
     paddingBottom: widthResponsive(11),
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   pointsText: {
     color: color.Dark[50],
     fontFamily: font.InterRegular,
     fontWeight: '400',
     fontSize: mvs(10),
-  },
-  eventContainer: {
-    // Style for the event name container
   },
   voucherTitleText: {
     color: color.Pink[200],
@@ -126,15 +116,15 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     width: '100%',
-    alignItems: 'center',
     backgroundColor: '#1A2435',
     borderRadius: 8,
   },
-  footer: {
-    paddingVertical: widthResponsive(10),
-    paddingHorizontal: widthResponsive(8),
-    width: '100%',
+  bottomContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: widthResponsive(16),
+    paddingVertical: widthResponsive(8),
   },
   footerText: {
     fontFamily: font.InterSemiBold,
@@ -146,22 +136,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: widthResponsive(5),
   },
-  absoluteTextContainer: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-  },
-  voucherLeftContainer: {
-    backgroundColor: color.Dark[800],
-    borderRadius: 4,
-    paddingHorizontal: widthResponsive(6),
-    paddingVertical: widthResponsive(2),
-    alignSelf: 'flex-end',
-    marginTop: widthResponsive(9),
-    marginRight: widthResponsive(9),
-  },
   voucherLeft: {
     fontFamily: font.InterRegular,
     fontSize: mvs(10),
@@ -171,9 +145,10 @@ const styles = StyleSheet.create({
   },
   btnClaim: {
     aspectRatio: undefined,
-    width: '100%',
+    width: undefined,
     backgroundColor: color.Pink[200],
     paddingVertical: widthResponsive(4),
+    paddingHorizontal: widthResponsive(16),
   },
   btnBorder: {
     aspectRatio: undefined,
