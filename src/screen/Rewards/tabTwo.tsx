@@ -16,6 +16,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainTabParams, RootStackParams} from '../../navigations';
 import {useTranslation} from 'react-i18next';
 import {dataMissionStore} from '../../store/reward.store';
+import {MissionCardSkeleton} from '../../skeleton/Rewards/MissionCard';
 
 type Props = {
   refreshing: boolean;
@@ -196,28 +197,34 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
 
       <Gap height={16} />
 
-      {dataMission?.data && (
-        <FlatList
-          data={
-            activeIndex === 0
-              ? daily
-              : activeIndex === 1
-              ? oneTime
-              : activeIndex === 2
-              ? repeatable
-              : daily
-          }
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(_, index) => index.toString()}
-          scrollEnabled={false}
-          renderItem={({item}) => (
-            <Mission
-              data={item}
-              onClaim={onClaimMission}
-              onGo={() => onGoMission(item.function)}
+      {isLoadingMissionMaster ? (
+        <MissionCardSkeleton />
+      ) : (
+        <>
+          {dataMission?.data && (
+            <FlatList
+              data={
+                activeIndex === 0
+                  ? daily
+                  : activeIndex === 1
+                  ? oneTime
+                  : activeIndex === 2
+                  ? repeatable
+                  : daily
+              }
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(_, index) => index.toString()}
+              scrollEnabled={false}
+              renderItem={({item}) => (
+                <Mission
+                  data={item}
+                  onClaim={onClaimMission}
+                  onGo={() => onGoMission(item.function)}
+                />
+              )}
             />
           )}
-        />
+        </>
       )}
 
       {showToast && (
