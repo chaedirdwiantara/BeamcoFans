@@ -487,7 +487,9 @@
         "SoldOut": "Sold Out",
         "Expired": "Expired",
         "Redeemed": "Redeemed",
-        "ShowQR": "Show QR"
+        "ShowQR": "Show QR",
+        "Redeem": "Redeem",
+        "NotEnoughPoints": "Not Enough Points"
       }
     },
     "ModalRankUp": {

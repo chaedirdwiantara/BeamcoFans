@@ -118,11 +118,38 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
     setRefreshing(true);
   };
 
-  const goToDetailVoucher = (item: DataMyVoucher) => {
-    navigation.navigate('DetailVoucherRewards', {
-      id: item.code,
-      status: item.statusVoucher,
-    });
+  const goToDetailVoucher = (
+    item: DataMyVoucher & DataAvailableVoucher,
+    isMyVoucher: boolean,
+  ) => {
+    const dataDetail = {
+      code: 200,
+      data: {
+        id: item.id,
+        voucher: item,
+        ownerUUID: '',
+        ownerType: '',
+        expiredDate: item.endDate,
+        isRedeemed: item.generateQty === 0,
+        isAvailable: item.isClaimable,
+      },
+      message: 'success',
+      status: 1,
+    };
+
+    // send code generate if from my voucher
+    // send data detail if from available voucher
+    const payload = isMyVoucher
+      ? {
+          id: item.code,
+          status: item.statusVoucher,
+        }
+      : {
+          dataDetailAvailVoucher: dataDetail,
+          status: 'Available Voucher',
+        };
+
+    navigation.navigate('DetailVoucherRewards', payload);
   };
 
   return (
@@ -165,6 +192,7 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
                 <VoucherReward
                   data={item}
                   onPress={() => onClaimVoucher(item)}
+                  onPressDetail={() => goToDetailVoucher(item, false)}
                   containerStyle={styles().voucher}
                 />
               )}
@@ -184,7 +212,7 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
               renderItem={({item}) => (
                 <RewardMyVoucher
                   data={item}
-                  onPress={() => goToDetailVoucher(item)}
+                  onPress={() => goToDetailVoucher(item, true)}
                   containerStyle={styles().voucher}
                 />
               )}
