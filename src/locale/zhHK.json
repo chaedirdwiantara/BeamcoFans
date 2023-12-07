@@ -489,8 +489,8 @@
         "Expired": "已過期",
         "Redeemed": "已兌換",
         "ShowQR": "顯示QR碼",
-        "Redeem": "Redeem",
-        "NotEnoughPoints": "Not Enough Points"
+        "Redeem": "兌換",
+        "NotEnoughPoints": "積分不足"
       }
     },
     "ModalRankUp": {
