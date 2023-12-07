@@ -32,8 +32,6 @@ import {mvs} from 'react-native-size-matters';
 import {dataMissionStore} from '../../store/reward.store';
 import {useTranslation} from 'react-i18next';
 import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
-import RedeemSuccessIcon from '../../assets/icon/RedeemSuccess.icon';
-import {RewardsSkeleton} from '../../skeleton/Rewards';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
@@ -45,9 +43,9 @@ type OnScrollEventHandler = (
 const Rewards = () => {
   const {t} = useTranslation();
   const {
-    isLoading: isLoadingProfile,
     dataProfile,
     dataCountProfile,
+    isLoading,
     getProfileUser,
     getTotalCountProfile,
   } = useProfileHook();
@@ -128,23 +126,23 @@ const Rewards = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        scrollEventThrottle={16}
-        onScroll={handleScroll}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => setRefreshing(true)}
-            tintColor={'transparent'}
-          />
-        }>
-
-        {isLoadingBadge || isLoadingProfile ? (
-          <RewardsSkeleton />
-        ) : (
-          dataBadge?.data &&
-          dataProfile?.data && (
+      {isLoadingBadge || isLoading ? (
+        <View style={styles.loadingSpinner}>
+          <LoadingSpinner />
+        </View>
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
+          onScroll={handleScroll}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => setRefreshing(true)}
+              tintColor={'transparent'}
+            />
+          }>
+          {dataBadge?.data && !isLoadingBadge && dataProfile?.data && (
             <>
               <View style={styles.slide}>
                 <BackgroundHeader
@@ -172,78 +170,78 @@ const Rewards = () => {
                 />
               </View>
             </>
-          )
-        )}
-        <Gap height={16} />
+          )}
+          <Gap height={16} />
 
-        <View style={styles.filterContainer}>
-          <TabFilter.Type1
-            filterData={filter}
-            onPress={tabFilterOnPress}
-            selectedIndex={selectedIndex}
-            translation={true}
-            flatlistContainerStyle={{
-              justifyContent: 'space-between',
-            }}
-            TouchableStyle={{width: widthPercentageToDP(45)}}
-          />
+          <View style={styles.filterContainer}>
+            <TabFilter.Type1
+              filterData={filter}
+              onPress={tabFilterOnPress}
+              selectedIndex={selectedIndex}
+              translation={true}
+              flatlistContainerStyle={{
+                justifyContent: 'space-between',
+              }}
+              TouchableStyle={{width: widthPercentageToDP(45)}}
+            />
 
-          <View style={styles.containerContent}>
-            {filter[selectedIndex].filterName === 'Rewards.Reward' ? (
-              <View>
-                <TabOneReward
-                  refreshing={refreshing}
-                  setRefreshing={setRefreshing}
-                />
-              </View>
-            ) : (
-              <View>
-                <TabTwoRewards
-                  refreshing={refreshing}
-                  setRefreshing={setRefreshing}
-                />
-              </View>
-            )}
-          </View>
-        </View>
-        <ModalCustom
-          modalVisible={modalNewRank}
-          onPressClose={() => setModalNewRank(false)}
-          children={
-            <View style={styles.modalContainer}>
-              <Text style={styles.modalTitle}>
-                {t('Rewards.ModalRankUp.Title')}
-              </Text>
-              <Gap height={16} />
-              {storedBadgeTitle === 'Bronze' ? (
-                <BadgeBronzeMIcon />
-              ) : storedBadgeTitle === 'Silver' ? (
-                <BadgeSilverMIcon />
-              ) : storedBadgeTitle === 'Gold' ? (
-                <BadgeGoldMIcon />
-              ) : storedBadgeTitle === 'Platinum' ? (
-                <BadgePlatinumMIcon />
-              ) : storedBadgeTitle === 'Diamond' ? (
-                <BadgeDiamondMIcon />
-              ) : null}
-              <Gap height={16} />
-              <Text style={styles.modalTitle}>{storedBadgeTitle}</Text>
-              <Gap height={8} />
-              <Text style={styles.modalCaption}>
-                {t('Rewards.ModalRankUp.Subtitle')}
-              </Text>
-              <Gap height={20} />
-              <Button
-                label={'Dismiss'}
-                containerStyles={styles.btnClaim}
-                textStyles={styles.textButton}
-                onPress={() => setModalNewRank(false)}
-                type="border"
-              />
+            <View style={styles.containerContent}>
+              {filter[selectedIndex].filterName === 'Rewards.Reward' ? (
+                <View>
+                  <TabOneReward
+                    refreshing={refreshing}
+                    setRefreshing={setRefreshing}
+                  />
+                </View>
+              ) : (
+                <View>
+                  <TabTwoRewards
+                    refreshing={refreshing}
+                    setRefreshing={setRefreshing}
+                  />
+                </View>
+              )}
             </View>
-          }
-        />
-      </ScrollView>
+          </View>
+          <ModalCustom
+            modalVisible={modalNewRank}
+            onPressClose={() => setModalNewRank(false)}
+            children={
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>
+                  {t('Rewards.ModalRankUp.Title')}
+                </Text>
+                <Gap height={16} />
+                {storedBadgeTitle === 'Bronze' ? (
+                  <BadgeBronzeMIcon />
+                ) : storedBadgeTitle === 'Silver' ? (
+                  <BadgeSilverMIcon />
+                ) : storedBadgeTitle === 'Gold' ? (
+                  <BadgeGoldMIcon />
+                ) : storedBadgeTitle === 'Platinum' ? (
+                  <BadgePlatinumMIcon />
+                ) : storedBadgeTitle === 'Diamond' ? (
+                  <BadgeDiamondMIcon />
+                ) : null}
+                <Gap height={16} />
+                <Text style={styles.modalTitle}>{storedBadgeTitle}</Text>
+                <Gap height={8} />
+                <Text style={styles.modalCaption}>
+                  {t('Rewards.ModalRankUp.Subtitle')}
+                </Text>
+                <Gap height={20} />
+                <Button
+                  label={'Dismiss'}
+                  containerStyles={styles.btnClaim}
+                  textStyles={styles.textButton}
+                  onPress={() => setModalNewRank(false)}
+                  type="border"
+                />
+              </View>
+            }
+          />
+        </ScrollView>
+      )}
     </View>
   );
 };

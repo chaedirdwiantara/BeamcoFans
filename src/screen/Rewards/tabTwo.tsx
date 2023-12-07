@@ -16,7 +16,6 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainTabParams, RootStackParams} from '../../navigations';
 import {useTranslation} from 'react-i18next';
 import {dataMissionStore} from '../../store/reward.store';
-import {MissionCardSkeleton} from '../../skeleton/Rewards/MissionCard';
 
 type Props = {
   refreshing: boolean;
@@ -197,10 +196,10 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
 
       <Gap height={16} />
 
-      {isLoadingMissionMaster ? (
+      {/* {isLoadingMissionMaster ? (
         <MissionCardSkeleton />
       ) : (
-        <>
+        <> */}
           {dataMission?.data && (
             <FlatList
               data={
@@ -224,8 +223,8 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
               )}
             />
           )}
-        </>
-      )}
+        {/* </>
+      )} */}
 
       {showToast && (
         <SuccessToast

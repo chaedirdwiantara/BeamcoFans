@@ -18,7 +18,6 @@ import RewardMyVoucher from '../../components/molecule/Reward/rewardMyVoucher';
 import {useTranslation} from 'react-i18next';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
-import {RewardCardSkeleton} from '../../skeleton/Rewards/RewardCard';
 
 type Props = {
   refreshing: boolean;
@@ -172,10 +171,10 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
 
       <Gap height={16} />
 
-      {isLoadingAvailVoucher || isLoadingMyVoucher ? (
+      {/* {isLoadingAvailVoucher || isLoadingMyVoucher ? (
         <RewardCardSkeleton />
       ) : (
-        <>
+        <> */}
           {activeIndex === 0 ? (
             <FlatList
               data={availVoucher}
@@ -242,8 +241,8 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
               containerStyle={{height: 300}}
             />
           )}
-        </>
-      )}
+        {/* </>
+      )} */}
 
       <ModalCustom
         modalVisible={showModal}
