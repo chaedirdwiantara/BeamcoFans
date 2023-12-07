@@ -421,7 +421,7 @@
       "DisplayProfile": "顯示個人主頁"
     }
   },
- "Rewards": {
+  "Rewards": {
     "Title": "獎勵",
     "Reward": "獎勵",
     "Mission": "任務",
@@ -430,7 +430,7 @@
       "LoyaltyTitle": "你的忠誠積分"
     },
     "InfoCard": {
-      "NextLvl": "{{whatNextLvl}}串流徽章更近了",
+      "NextLvl": "{{whatNextLvl}} 徽章嚟緊啦",
       "LvlMax": "你的徽章已達最高級",
       "Desc": "你距離成為{{whatNextLvl}}還差{{pointNeeded}}經驗值。通過完成更多任務來獲得它們吧！",
       "MaxLvlDesc": "恭喜！你已經達到鑽石徽章。領取獎勵並感到自豪吧！"
@@ -443,7 +443,7 @@
     "AvailVoucher": {
       "EmptyState": {
         "Title": "所有優惠券已經領取完畢",
-        "SubTitle": "優惠券已達上限。請密切注意未來的機會！"
+        "Subtitle": "優惠券已達上限。請密切注意未來的機會！"
       },
       "PointTxt": "積分",
       "BtnActive": "兌換",
@@ -452,13 +452,13 @@
     "MyVoucher": {
       "EmptyState": {
         "Title": "無可用優惠券",
-        "SubTitle": "在可用優惠券中領取或由其他粉絲贈送優惠券。"
+        "Subtitle": "在可用優惠券中領取或由其他粉絲贈送優惠券。"
       },
       "Btn": "查看"
     },
     "ModalRedeem": {
       "Title": "恭喜！你已經領取了1張優惠券！",
-      "SubTitle": "兌換給自己或送給其他粉絲。詳細信息請訪問我的獎勵頁面。",
+      "Subtitle": "兌換給自己或送給其他粉絲。詳細信息請訪問我的獎勵頁面。",
       "Button": "關閉"
     },
     "MissionTab": {
@@ -494,7 +494,7 @@
     "ModalRankUp": {
       "Title": "您剛剛獲得了一個新徽章！",
       "Subtitle": "在獎勵頁面上查看，為您贏得更多獎勵"
-    }    
+    }
   },
   "Musician": {
     "Label": {
@@ -724,6 +724,7 @@
         "Duration": "時長",
         "All": "所有",
         "OneTime": "一次性",
+        "Daily": "每天",
         "Weekly": "每週",
         "Monthly": "每月",
         "Yearly": "每年"
