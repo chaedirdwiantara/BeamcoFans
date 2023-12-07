@@ -160,11 +160,11 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
 
                   <View style={styles.titleContainer}>
                     <Text style={styles.vTitle}>
-                      {dataDetail?.data?.voucher.title}
+                      {details?.voucher.title}
                     </Text>
                     <Gap height={5} />
                     <Text style={styles.vSubTitle}>
-                      {dataDetail?.data?.voucher.subTitle}
+                      {details?.voucher.subTitle}
                     </Text>
                   </View>
                 </View>
