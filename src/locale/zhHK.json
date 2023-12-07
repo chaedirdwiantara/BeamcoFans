@@ -488,7 +488,9 @@
         "SoldOut": "已售罄",
         "Expired": "已過期",
         "Redeemed": "已兌換",
-        "ShowQR": "顯示QR碼"
+        "ShowQR": "顯示QR碼",
+        "Redeem": "Redeem",
+        "NotEnoughPoints": "Not Enough Points"
       }
     },
     "ModalRankUp": {
