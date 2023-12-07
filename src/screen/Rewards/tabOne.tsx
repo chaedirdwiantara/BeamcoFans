@@ -18,6 +18,7 @@ import RewardMyVoucher from '../../components/molecule/Reward/rewardMyVoucher';
 import {useTranslation} from 'react-i18next';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
+import {RewardCardSkeleton} from '../../skeleton/Rewards/RewardCard';
 
 type Props = {
   refreshing: boolean;
@@ -144,71 +145,78 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
 
       <Gap height={16} />
 
-      {activeIndex === 0 ? (
-        <FlatList
-          data={availVoucher}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(_, index) => index.toString()}
-          scrollEnabled={false}
-          numColumns={2}
-          columnWrapperStyle={{
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            marginBottom: widthResponsive(16),
-          }}
-          renderItem={({item}) => (
-            <VoucherReward
-              data={item}
-              onPress={() => onClaimVoucher(item)}
-              containerStyle={styles().voucher}
-            />
-          )}
-        />
+      {isLoadingAvailVoucher || isLoadingMyVoucher ? (
+        <RewardCardSkeleton />
       ) : (
-        <FlatList
-          data={myVoucher}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(_, index) => index.toString()}
-          scrollEnabled={false}
-          numColumns={2}
-          columnWrapperStyle={{
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            marginBottom: widthResponsive(16),
-          }}
-          renderItem={({item}) => (
-            <RewardMyVoucher
-              data={item}
-              onPress={() => goToDetailVoucher(item)}
-              containerStyle={styles().voucher}
+        <>
+          {activeIndex === 0 ? (
+            <FlatList
+              data={availVoucher}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(_, index) => index.toString()}
+              scrollEnabled={false}
+              numColumns={2}
+              columnWrapperStyle={{
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                marginBottom: widthResponsive(16),
+              }}
+              renderItem={({item}) => (
+                <VoucherReward
+                  data={item}
+                  onPress={() => onClaimVoucher(item)}
+                  containerStyle={styles().voucher}
+                />
+              )}
+            />
+          ) : (
+            <FlatList
+              data={myVoucher}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(_, index) => index.toString()}
+              scrollEnabled={false}
+              numColumns={2}
+              columnWrapperStyle={{
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                marginBottom: widthResponsive(16),
+              }}
+              renderItem={({item}) => (
+                <RewardMyVoucher
+                  data={item}
+                  onPress={() => goToDetailVoucher(item)}
+                  containerStyle={styles().voucher}
+                />
+              )}
             />
           )}
-        />
+          {/* <Button
+          label={'Show More'}
+          containerStyles={styles().btnBorder}
+          textStyles={styles().footerText}
+          onPress={handleShowMoreVoucher}
+        /> */}
+          {/* FOR AVAILABLE VOCHER */}
+          {activeIndex === 0 && availVoucher && availVoucher.length == 0 && (
+            <EmptyState
+              text={t('Rewards.AvailVoucher.EmptyState.Title')}
+              subtitle={t('Rewards.AvailVoucher.EmptyState.Subtitle')}
+              hideIcon
+              containerStyle={{height: 300}}
+            />
+          )}
+          {/* FOR MY VOCHER */}
+          {activeIndex === 1 && myVoucher && myVoucher.length == 0 && (
+            <EmptyState
+              text={t('Rewards.MyVoucher.EmptyState.Title')}
+              subtitle={t('Rewards.MyVoucher.EmptyState.Subtitle')}
+              hideIcon
+              containerStyle={{height: 300}}
+            />
+          )}
+        </>
       )}
-      {/* <Button
-        label={'Show More'}
-        containerStyles={styles().btnBorder}
-        textStyles={styles().footerText}
-        onPress={handleShowMoreVoucher}
-      /> */}
-      {/* FOR AVAILABLE VOCHER */}
-      {activeIndex === 0 && availVoucher && availVoucher.length == 0 && (
-        <EmptyState
-          text={t('Rewards.AvailVoucher.EmptyState.Title')}
-          subtitle={t('Rewards.AvailVoucher.EmptyState.Subtitle')}
-          hideIcon
-          containerStyle={{height: 300}}
-        />
-      )}
-      {/* FOR MY VOCHER */}
-      {activeIndex === 1 && myVoucher && myVoucher.length == 0 && (
-        <EmptyState
-          text={t('Rewards.MyVoucher.EmptyState.Title')}
-          subtitle={t('Rewards.MyVoucher.EmptyState.Subtitle')}
-          hideIcon
-          containerStyle={{height: 300}}
-        />
-      )}
+
       <ModalCustom
         modalVisible={showModal}
         onPressClose={handleModalOnClose}
