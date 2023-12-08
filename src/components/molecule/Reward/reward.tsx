@@ -1,6 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet, ViewStyle, Platform} from 'react-native';
-import {Button, DottedLine, Gap} from '../../atom';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ViewStyle,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
+import {Button, Gap} from '../../atom';
 import {color, font} from '../../../theme';
 import {widthResponsive} from '../../../utils';
 import {mvs} from 'react-native-size-matters';
@@ -17,86 +24,94 @@ import DottedLineAndroid from '../../atom/DottedLine/dottedLineAndroid';
 type Props = {
   data: DataAvailableVoucher;
   onPress: () => void;
+  onPressDetail: () => void;
   containerStyle?: ViewStyle;
 };
 
-const VoucherReward: React.FC<Props> = ({data, onPress, containerStyle}) => {
+const VoucherReward: React.FC<Props> = ({
+  data,
+  onPress,
+  onPressDetail,
+  containerStyle,
+}) => {
   const {t} = useTranslation();
 
   return (
-    <View style={[styles.container, containerStyle]}>
-      {/* Body */}
-      <View style={styles.bodyContainer}>
-        <View style={styles.bodyLeftSide}>
-          {data.iconType === 'drink' ? (
-            <DrinkRewardIcon />
-          ) : data.iconType === 'media' ? (
-            <MediaRewardIcon />
-          ) : data.iconType === 'ticket' ? (
-            <TicketRewardIcon />
-          ) : null}
+    <TouchableOpacity onPress={onPressDetail}>
+      <View style={[styles.container, containerStyle]}>
+        {/* Body */}
+        <View style={styles.bodyContainer}>
+          <View style={styles.bodyLeftSide}>
+            {data.iconType === 'drink' ? (
+              <DrinkRewardIcon />
+            ) : data.iconType === 'media' ? (
+              <MediaRewardIcon />
+            ) : data.iconType === 'ticket' ? (
+              <TicketRewardIcon />
+            ) : null}
 
-          <Gap width={8} />
+            <Gap width={8} />
 
-          <Text
-            style={[
-              styles.voucherText,
-              {color: data.isClaimable ? color.Neutral[10] : color.Dark[200]},
-            ]}
-            numberOfLines={3}>
-            {data.title}
-          </Text>
-        </View>
-
-        {data.generateQty > 1 && (
-          <View style={styles.bodyRightSide}>
-            <Text style={styles.voucherLeft}>{data.generateQty} Left</Text>
+            <Text
+              style={[
+                styles.voucherText,
+                {color: data.isClaimable ? color.Neutral[10] : color.Dark[200]},
+              ]}
+              numberOfLines={3}>
+              {data.title}
+            </Text>
           </View>
-        )}
-      </View>
 
-      {/* Footer */}
-      <View style={styles.footerContainer}>
-        <View style={styles.dottedContainer}>
-          {Platform.OS === 'ios' ? (
-            <DottedLineIos color={color.Dark[10]} />
-          ) : (
-            <DottedLineAndroid color={color.Dark[10]} />
+          {data.generateQty > 1 && (
+            <View style={styles.bodyRightSide}>
+              <Text style={styles.voucherLeft}>{data.generateQty} Left</Text>
+            </View>
           )}
         </View>
 
-        <View style={styles.bottomContainer}>
-          <Text style={styles.pointsText}>{`${data.claimPoint} ${t(
-            'Rewards.AvailVoucher.PointTxt',
-          )}`}</Text>
-
-          <View style={styles.footer}>
-            {data.generateQty === 0 ? (
-              <Button
-                label={'Redeemed'}
-                containerStyles={styles.btnBorder}
-                textStyles={styles.footerText}
-                disabled
-              />
-            ) : data.isClaimable ? (
-              <Button
-                label={t('Rewards.AvailVoucher.BtnActive')}
-                containerStyles={styles.btnClaim}
-                textStyles={styles.textButton}
-                onPress={onPress}
-              />
+        {/* Footer */}
+        <View style={styles.footerContainer}>
+          <View style={styles.dottedContainer}>
+            {Platform.OS === 'ios' ? (
+              <DottedLineIos color={color.Dark[10]} />
             ) : (
-              <Button
-                label={t('Rewards.AvailVoucher.BtnDisabled')}
-                containerStyles={styles.btnBorder}
-                textStyles={styles.footerText}
-                disabled
-              />
+              <DottedLineAndroid color={color.Dark[10]} />
             )}
+          </View>
+
+          <View style={styles.bottomContainer}>
+            <Text style={styles.pointsText}>{`${data.claimPoint} ${t(
+              'Rewards.AvailVoucher.PointTxt',
+            )}`}</Text>
+
+            <View style={styles.footer}>
+              {data.generateQty === 0 ? (
+                <Button
+                  label={'Redeemed'}
+                  containerStyles={styles.btnBorder}
+                  textStyles={styles.footerText}
+                  disabled
+                />
+              ) : data.isClaimable ? (
+                <Button
+                  label={t('Rewards.AvailVoucher.BtnActive')}
+                  containerStyles={styles.btnClaim}
+                  textStyles={styles.textButton}
+                  onPress={onPress}
+                />
+              ) : (
+                <Button
+                  label={t('Rewards.AvailVoucher.BtnDisabled')}
+                  containerStyles={styles.btnBorder}
+                  textStyles={styles.footerText}
+                  disabled
+                />
+              )}
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
