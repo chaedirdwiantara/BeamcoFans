@@ -44,9 +44,10 @@ export const useRewardHook = () => {
     });
   };
 
-  const useEventVoucherDetail = (id: string) => {
-    return useQuery([`event/voucher/detail/${id}`], () =>
-      getEventVoucherDetailRewards(id),
+  const useEventVoucherDetail = (id?: string) => {
+    return useQuery(
+      [`event/voucher/detail/${id}`],
+      () => id !== undefined ? getEventVoucherDetailRewards(id) : null,
     );
   };
 

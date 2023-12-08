@@ -34,7 +34,7 @@ import {
 
 interface ListTipsProps {
   status: 'current' | 'past';
-  duration: '' | 'onetime' | 'weekly' | 'monthly' | 'yearly' | string;
+  duration: '' | 'onetime' | 'daily' | 'weekly' | 'monthly' | 'yearly' | string;
 }
 
 const ListTips: React.FC<ListTipsProps> = props => {
@@ -71,7 +71,9 @@ const ListTips: React.FC<ListTipsProps> = props => {
             ? [`${status === 'current' ? 1 : 4}`]
             : [
                 `${status === 'current' ? 1 : 4}, ${
-                  duration === 'weekly'
+                  duration === 'daily'
+                    ? 1
+                    : duration === 'weekly'
                     ? 7
                     : duration === 'monthly'
                     ? 30
