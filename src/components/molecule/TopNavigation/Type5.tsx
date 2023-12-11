@@ -72,7 +72,9 @@ const Type5: React.FC<Props> = (props: Props) => {
           },
           props.containerStyles,
         ]}>
-        <View style={[topNavstyles.leftContainer, props.leftContainerStyles]}>
+        <TouchableOpacity
+          style={[topNavstyles.leftContainer, props.leftContainerStyles]}
+          onPress={() => props.profileUri ? props.leftIconAction() : null}>
           {props.guest ? <DefaultAvatar.ProfileIcon /> : iconLeft()}
           <Gap width={8} />
           <Text
@@ -88,7 +90,7 @@ const Type5: React.FC<Props> = (props: Props) => {
                   props.maxLengthTitle ?? 20,
                 )}
           </Text>
-        </View>
+        </TouchableOpacity>
         <View style={topNavstyles.rightContainer}>
           {/* <TouchableOpacity onPress={props.onPressCoin}>
             <ChipMoney balance={props.points} />
