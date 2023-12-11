@@ -190,9 +190,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthResponsive(16),
     paddingVertical: widthResponsive(8),
   },
-  footer: {
-    paddingHorizontal: widthResponsive(8),
-  },
+  footer: {},
   footerText: {
     fontFamily: font.InterSemiBold,
     color: color.Dark[200],
@@ -215,6 +213,7 @@ const styles = StyleSheet.create({
     width: undefined,
     backgroundColor: color.Pink[200],
     paddingVertical: widthResponsive(4),
+    paddingHorizontal: widthResponsive(16),
   },
   btnBorder: {
     aspectRatio: undefined,
