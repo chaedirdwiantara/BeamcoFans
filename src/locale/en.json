@@ -430,10 +430,10 @@
       "LoyaltyTitle": "Your Loyalty Points"
     },
     "InfoCard": {
-      "NextLvl": "{{whatNextLvl}} Streamer Badge is Closer",
+      "NextLvl": "{{whatNextLvl}} Badge is Closer",
       "LvlMax": "Your Badge is Maxed Out",
       "Desc": "You’re {{pointNeeded}} Exp away from being {{whatNextLvl}}. Let’s get them by completing more mission!",
-      "MaxLvlDesc": "Congratulations! You've reached Diamond Badge Claim the rewards and be proud!"
+      "MaxLvlDesc": "Congratulations! You've reached Diamond Badge. Claim the rewards and be proud!"
     },
     "CurrentPrg": {
       "Title": "Current Progress Level",
