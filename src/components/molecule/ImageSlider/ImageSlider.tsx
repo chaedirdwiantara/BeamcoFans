@@ -24,6 +24,7 @@ import {
 } from '../../../interface/musician.interface';
 import {DataOnboardType} from '../../../data/onboard';
 import {color, font, typography} from '../../../theme';
+import {storage} from '../../../hooks/use-storage.hook';
 import {ModalLoading} from '../ModalLoading/ModalLoading';
 import {useProfileHook} from '../../../hooks/use-profile.hook';
 import {UpdateProfilePropsType} from '../../../api/profile.api';
@@ -75,6 +76,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   );
   const [activeIndexSlide, setActiveIndexSlide] = useState<number>(0);
   const [listMusician, setListMusician] = useState(dataList);
+  const isLogin = storage.getBoolean('isLogin');
 
   const selectedData = [selectedGenres, selectedMoods, selectedExpectations];
 
@@ -106,7 +108,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
   }, [dataProfile]);
 
   useEffect(() => {
-    getProfileUser();
+    isLogin && getProfileUser();
   }, []);
 
   const dataArray = [
