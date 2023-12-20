@@ -18,6 +18,7 @@ import RewardMyVoucher from '../../components/molecule/Reward/rewardMyVoucher';
 import {useTranslation} from 'react-i18next';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
+import {RewardCardSkeleton} from '../../skeleton/Rewards/RewardCard';
 
 type Props = {
   refreshing: boolean;
@@ -170,23 +171,16 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
       </View>
 
       <Gap height={16} />
-
-      {/* {isLoadingAvailVoucher || isLoadingMyVoucher ? (
+      {isLoadingAvailVoucher || isLoadingMyVoucher ? (
         <RewardCardSkeleton />
       ) : (
-        <> */}
+        <>
           {activeIndex === 0 ? (
             <FlatList
               data={availVoucher}
               showsVerticalScrollIndicator={false}
               keyExtractor={(_, index) => index.toString()}
               scrollEnabled={false}
-              numColumns={2}
-              columnWrapperStyle={{
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                marginBottom: widthResponsive(16),
-              }}
               renderItem={({item}) => (
                 <VoucherReward
                   data={item}
@@ -202,12 +196,6 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
               showsVerticalScrollIndicator={false}
               keyExtractor={(_, index) => index.toString()}
               scrollEnabled={false}
-              numColumns={2}
-              columnWrapperStyle={{
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                marginBottom: widthResponsive(16),
-              }}
               renderItem={({item}) => (
                 <RewardMyVoucher
                   data={item}
@@ -218,11 +206,11 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
             />
           )}
           {/* <Button
-          label={'Show More'}
-          containerStyles={styles().btnBorder}
-          textStyles={styles().footerText}
-          onPress={handleShowMoreVoucher}
-        /> */}
+            label={'Show More'}
+            containerStyles={styles().btnBorder}
+            textStyles={styles().footerText}
+            onPress={handleShowMoreVoucher}
+          /> */}
           {/* FOR AVAILABLE VOCHER */}
           {activeIndex === 0 && availVoucher && availVoucher.length == 0 && (
             <EmptyState
@@ -241,8 +229,8 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
               containerStyle={{height: 300}}
             />
           )}
-        {/* </>
-      )} */}
+        </>
+      )}
 
       <ModalCustom
         modalVisible={showModal}
@@ -281,7 +269,8 @@ const styles = (activeIndex?: number, index?: number) =>
       // backgroundColor: 'brown',
     },
     voucher: {
-      width: widthResponsive(156),
+      // width: widthResponsive(156),
+      marginBottom: widthResponsive(16),
     },
     btnClaim: {
       aspectRatio: undefined,

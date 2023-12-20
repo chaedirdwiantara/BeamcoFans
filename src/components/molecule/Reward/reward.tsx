@@ -7,7 +7,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import {Button, DottedLine, Gap} from '../../atom';
+import {Button, Gap} from '../../atom';
 import {color, font} from '../../../theme';
 import {widthResponsive} from '../../../utils';
 import {mvs} from 'react-native-size-matters';
@@ -28,7 +28,12 @@ type Props = {
   containerStyle?: ViewStyle;
 };
 
-const VoucherReward: React.FC<Props> = ({data, onPress, onPressDetail, containerStyle}) => {
+const VoucherReward: React.FC<Props> = ({
+  data,
+  onPress,
+  onPressDetail,
+  containerStyle,
+}) => {
   const {t} = useTranslation();
 
   return (
@@ -36,33 +41,32 @@ const VoucherReward: React.FC<Props> = ({data, onPress, onPressDetail, container
       <View style={[styles.container, containerStyle]}>
         {/* Body */}
         <View style={styles.bodyContainer}>
-          <View style={styles.absoluteTextContainer}>
-            {data.generateQty > 1 && (
-              <View style={styles.voucherLeftContainer}>
-                <Text style={styles.voucherLeft}>{data.generateQty} Left</Text>
-              </View>
-            )}
+          <View style={styles.bodyLeftSide}>
+            {data.iconType === 'drink' ? (
+              <DrinkRewardIcon />
+            ) : data.iconType === 'media' ? (
+              <MediaRewardIcon />
+            ) : data.iconType === 'ticket' ? (
+              <TicketRewardIcon />
+            ) : null}
+
+            <Gap width={8} />
+
+            <Text
+              style={[
+                styles.voucherText,
+                {color: data.isClaimable ? color.Neutral[10] : color.Dark[200]},
+              ]}
+              numberOfLines={3}>
+              {data.title}
+            </Text>
           </View>
 
-          {data.iconType === 'drink' ? (
-            <DrinkRewardIcon />
-          ) : data.iconType === 'media' ? (
-            <MediaRewardIcon />
-          ) : data.iconType === 'ticket' ? (
-            <TicketRewardIcon />
-          ) : null}
-
-          <Gap height={3} />
-          <Text style={styles.pointsText}>{`${data.claimPoint} ${t(
-            'Rewards.AvailVoucher.PointTxt',
-          )}`}</Text>
-
-          <Text style={styles.voucherTitleText} numberOfLines={1}>
-            {data.titleHeader}
-          </Text>
-          <Text style={styles.voucherText} numberOfLines={1}>
-            {data.title}
-          </Text>
+          {data.generateQty > 1 && (
+            <View style={styles.bodyRightSide}>
+              <Text style={styles.voucherLeft}>{data.generateQty} Left</Text>
+            </View>
+          )}
         </View>
 
         {/* Footer */}
@@ -74,29 +78,36 @@ const VoucherReward: React.FC<Props> = ({data, onPress, onPressDetail, container
               <DottedLineAndroid color={color.Dark[10]} />
             )}
           </View>
-          <View style={styles.footer}>
-            {data.generateQty === 0 ? (
-              <Button
-                label={'Redeemed'}
-                containerStyles={styles.btnBorder}
-                textStyles={styles.footerText}
-                disabled
-              />
-            ) : data.isClaimable ? (
-              <Button
-                label={t('Rewards.AvailVoucher.BtnActive')}
-                containerStyles={styles.btnClaim}
-                textStyles={styles.textButton}
-                onPress={onPress}
-              />
-            ) : (
-              <Button
-                label={t('Rewards.AvailVoucher.BtnDisabled')}
-                containerStyles={styles.btnBorder}
-                textStyles={styles.footerText}
-                disabled
-              />
-            )}
+
+          <View style={styles.bottomContainer}>
+            <Text style={styles.pointsText}>{`${data.claimPoint} ${t(
+              'Rewards.AvailVoucher.PointTxt',
+            )}`}</Text>
+
+            <View style={styles.footer}>
+              {data.generateQty === 0 ? (
+                <Button
+                  label={'Redeemed'}
+                  containerStyles={styles.btnBorder}
+                  textStyles={styles.footerText}
+                  disabled
+                />
+              ) : data.isClaimable ? (
+                <Button
+                  label={t('Rewards.AvailVoucher.BtnActive')}
+                  containerStyles={styles.btnClaim}
+                  textStyles={styles.textButton}
+                  onPress={onPress}
+                />
+              ) : (
+                <Button
+                  label={t('Rewards.AvailVoucher.BtnDisabled')}
+                  containerStyles={styles.btnBorder}
+                  textStyles={styles.footerText}
+                  disabled
+                />
+              )}
+            </View>
           </View>
         </View>
       </View>
@@ -118,15 +129,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthResponsive(16),
     paddingTop: widthResponsive(16),
     paddingBottom: widthResponsive(11),
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bodyLeftSide: {flexDirection: 'row', alignItems: 'center', flex: 1},
+  bodyRightSide: {
+    backgroundColor: color.Dark[800],
+    borderRadius: 4,
+    paddingHorizontal: widthResponsive(6),
+    paddingVertical: widthResponsive(2),
   },
   pointsText: {
-    color: color.Dark[50],
+    color: color.Pink[200],
     fontFamily: font.InterRegular,
-    fontWeight: '400',
-    fontSize: mvs(10),
-  },
-  eventContainer: {
-    // Style for the event name container
+    fontWeight: '600',
+    fontSize: mvs(11),
   },
   voucherTitleText: {
     color: color.Pink[200],
@@ -143,10 +160,10 @@ const styles = StyleSheet.create({
     lineHeight: widthResponsive(22),
   },
   voucherText: {
-    color: color.Neutral[10],
     fontFamily: font.InterSemiBold,
     fontWeight: '600',
-    fontSize: mvs(16),
+    fontSize: mvs(14),
+    maxWidth: '80%',
   },
   voucherTextD: {
     color: color.Dark[200],
@@ -163,15 +180,18 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     width: '100%',
-    alignItems: 'center',
     backgroundColor: '#1A2435',
     borderRadius: 8,
   },
-  footer: {
-    paddingVertical: widthResponsive(10),
-    paddingHorizontal: widthResponsive(8),
-    width: '100%',
+  bottomContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: widthResponsive(16),
+    paddingVertical: widthResponsive(8),
+  },
+  footer: {
+    paddingHorizontal: widthResponsive(8),
   },
   footerText: {
     fontFamily: font.InterSemiBold,
@@ -183,22 +203,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: widthResponsive(5),
   },
-  absoluteTextContainer: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-  },
-  voucherLeftContainer: {
-    backgroundColor: color.Dark[800],
-    borderRadius: 4,
-    paddingHorizontal: widthResponsive(6),
-    paddingVertical: widthResponsive(2),
-    alignSelf: 'flex-end',
-    marginTop: widthResponsive(9),
-    marginRight: widthResponsive(9),
-  },
   voucherLeft: {
     fontFamily: font.InterRegular,
     fontSize: mvs(10),
@@ -208,13 +212,13 @@ const styles = StyleSheet.create({
   },
   btnClaim: {
     aspectRatio: undefined,
-    width: '100%',
+    width: undefined,
     backgroundColor: color.Pink[200],
     paddingVertical: widthResponsive(4),
   },
   btnBorder: {
     aspectRatio: undefined,
-    width: '100%',
+    width: undefined,
     backgroundColor: 'transparent',
     borderWidth: 0,
     paddingVertical: widthResponsive(4),

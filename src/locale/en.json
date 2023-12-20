@@ -454,7 +454,7 @@
         "Title": "No Voucher Available",
         "Subtitle": "Claim on Voucher on Available Voucher or Someone gift the Voucher."
       },
-      "Btn": "View"
+      "Btn":"View Details"
     },
     "ModalRedeem": {
       "Title": "Congrats! You’ve Claimed 1 Voucher!",
