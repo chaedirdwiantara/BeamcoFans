@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet, ViewStyle} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ViewStyle,
+  TouchableOpacity,
+} from 'react-native';
 import {Button, DottedLine, Gap} from '../../atom';
 import {color, font} from '../../../theme';
 import {widthResponsive} from '../../../utils';
@@ -21,7 +27,9 @@ type Props = {
 const RewardMyVoucher: React.FC<Props> = ({data, onPress, containerStyle}) => {
   const {t} = useTranslation();
   return (
-    <View style={[styles.container, containerStyle]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.container, containerStyle]}>
       {/* Body */}
       <View style={styles.bodyContainer}>
         {data.voucher.iconType === 'drink' ? (
@@ -54,7 +62,7 @@ const RewardMyVoucher: React.FC<Props> = ({data, onPress, containerStyle}) => {
           />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
