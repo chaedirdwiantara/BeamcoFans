@@ -468,6 +468,9 @@
       "BtnGo": "Go"
     },
     "DetailVoucher": {
+      "Stock": "Stock",
+      "StockLeft": "{{stock}} Left",
+      "Expired": "Expired",
       "QuotaLeft": "Quota Left",
       "SendGift": "Send as gift",
       "GiftVoucher": "Gift Voucher",
@@ -485,11 +488,11 @@
         "Subtitle": "There has been a problem sending your voucher. Please check the availability and try to send it again."
       },
       "Btn": {
-        "SoldOut": "Sold Out",
+        "SoldOut": "Sold Out!",
         "Expired": "Expired",
         "Redeemed": "Redeemed",
         "ShowQR": "Show QR",
-        "Redeem": "Redeem",
+        "Redeem": "Redeem Now!",
         "NotEnoughPoints": "Not Enough Points"
       }
     },
