@@ -129,3 +129,15 @@ export const listContribution = async (
 
   return data;
 };
+
+export const listTopArtists = async (
+  filter: 'lifetime' | 'trending',
+): Promise<ListMusicianResponseType> => {
+  const {data} = await SsuAPI().request<ListMusicianResponseType>({
+    url: '/musicians/top-musician',
+    method: 'GET',
+    params: {filter},
+  });
+
+  return data;
+};

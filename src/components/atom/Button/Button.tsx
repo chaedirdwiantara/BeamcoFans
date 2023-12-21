@@ -7,13 +7,13 @@ import {
   TextStyle,
   View,
 } from 'react-native';
-import {ms} from 'react-native-size-matters';
+import {ms, mvs} from 'react-native-size-matters';
 
+import Gap from '../Gap/Gap';
 import Font from '../../../theme/Font';
 import Color from '../../../theme/Color';
-import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 import {ChevronDownIcon} from '../../../assets/icon';
-import Gap from '../Gap/Gap';
+import {heightPercentage, widthPercentage} from '../../../utils';
 
 interface ButtonProps {
   label: string;
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Success[400],
   },
   labelStyle: {
-    fontSize: normalize(12),
+    fontSize: mvs(12),
     color: Color.Neutral[10],
     fontFamily: Font.InterMedium,
   },

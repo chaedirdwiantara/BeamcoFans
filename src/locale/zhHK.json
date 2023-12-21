@@ -177,7 +177,9 @@
     },
     "Tab": {
       "TopMusician": {
-        "Title": "頂尖音樂人",
+        "Title": "Artists",
+        "AllTime": "All Time",
+        "Trending": "Trending",
         "Follow": "追蹤",
         "Unfollow": "取消追蹤",
         "Tip": "發送 Beam",
