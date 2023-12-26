@@ -1,7 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import * as Progress from 'react-native-progress';
-import {CheckCircle2Icon, CupIcon} from '../../../assets/icon';
+import {
+  BadgeBronzeMissionIcon,
+  BadgeDiamondMissionIcon,
+  BadgeGoldMissionIcon,
+  BadgePlatinumMissionIcon,
+  BadgeSilverMissionIcon,
+  CheckCircle2Icon,
+  CupIcon,
+} from '../../../assets/icon';
 import {widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
 import {mvs} from 'react-native-size-matters';
@@ -19,9 +27,10 @@ interface MissionProps {
   data: DataMissionMaster;
   onClaim: (rewardCount: number, data: DataMissionMaster) => void;
   onGo: () => void;
+  rankTitle?: string;
 }
 
-const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
+const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
   const {t} = useTranslation();
   const {useGetMissionProgress} = useRewardHook();
   const {storedDataMission, setStoredDataMission} = dataMissionStore();
@@ -104,12 +113,33 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
   };
 
   return (
-    <View style={styles.voteTopContainer}>
+    <TouchableOpacity onPress={onGo} style={styles.voteTopContainer}>
+      <View style={{alignItems: 'center'}}>
+        {rankTitle === 'Bronze' ? (
+          <BadgeBronzeMissionIcon />
+        ) : rankTitle === 'Silver' ? (
+          <BadgeSilverMissionIcon />
+        ) : rankTitle === 'Gold' ? (
+          <BadgeGoldMissionIcon />
+        ) : rankTitle === 'Platinum' ? (
+          <BadgePlatinumMissionIcon />
+        ) : rankTitle === 'Diamond' ? (
+          <BadgeDiamondMissionIcon />
+        ) : null}
+        <Text style={styles.rewardCountTxt}>
+          {data.taskType === 'based-reward' &&
+          dataProgress &&
+          dataProgress?.sumLoyaltyPoints > 0
+            ? dataProgress.sumLoyaltyPoints
+            : data.rewards}
+        </Text>
+      </View>
+      <Gap width={widthResponsive(12)} />
       <View style={styles.progressBarContainer}>
-        <View style={styles.captionContainer}>
-          <Text style={styles.titleTxt}>{data.taskName}</Text>
-          <View style={styles.rewardCountContainer}>
-            {/* change it later for repeatable */}
+        {/* <View style={styles.captionContainer}> */}
+        <Text style={styles.titleTxt}>{data.taskName}</Text>
+        {/* <View style={styles.rewardCountContainer}>
+            change it later for repeatable
             <Text style={styles.rewardCountTxt}>
               {data.taskType === 'based-reward' &&
               dataProgress &&
@@ -119,9 +149,9 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
             </Text>
             <Gap width={3} />
             <CupIcon />
-          </View>
-        </View>
-        <Gap height={12} />
+          </View> */}
+        {/* </View> */}
+        <Gap height={mvs(5)} />
         <View style={styles.prgContainer}>
           <Progress.Bar
             progress={
@@ -159,7 +189,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
         </View>
       </View>
 
-      {!dataProgress?.isClaimed && (
+      {/* {!dataProgress?.isClaimed && (
         <View style={styles.btnContainer}>
           <Gap width={16} />
           {dataProgress?.isClaimable ? (
@@ -178,8 +208,8 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo}) => {
             />
           )}
         </View>
-      )}
-    </View>
+      )} */}
+    </TouchableOpacity>
   );
 };
 
@@ -194,7 +224,7 @@ const styles = StyleSheet.create({
   progressBarContainer: {
     flex: 1,
     position: 'relative',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   prgContainer: {
     justifyContent: 'center',

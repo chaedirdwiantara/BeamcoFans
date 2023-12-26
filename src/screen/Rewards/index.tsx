@@ -199,6 +199,7 @@ const Rewards = () => {
                 <TabTwoRewards
                   refreshing={refreshing}
                   setRefreshing={setRefreshing}
+                  rankTitle={dataBadge?.data.title}
                 />
               </View>
             )}
