@@ -159,7 +159,7 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
       <View style={styles().menuStyle}>
         {rewardMenu.map((data, index) => {
           return (
-            <>
+            <View key={index}>
               <Button
                 label={data.label}
                 containerStyles={styles(activeIndex, index).btnClaim}
@@ -167,7 +167,7 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
                 onPress={() => onPressMenu(index)}
               />
               <Gap width={8} />
-            </>
+            </View>
           );
         })}
       </View>

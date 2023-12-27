@@ -177,7 +177,9 @@
     },
     "Tab": {
       "TopMusician": {
-        "Title": "Top Artists",
+        "Title": "Artists",
+        "AllTime": "All Time",
+        "Trending": "Trending",
         "Follow": "Follow",
         "Unfollow": "Unfollow",
         "Tip": "Beam",

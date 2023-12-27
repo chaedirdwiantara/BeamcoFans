@@ -15,6 +15,11 @@ import BadgePlatinumIcon from './BadgePlatinum.icon';
 import BadgePlatinumMIcon from './BadgePlatinumM.icon';
 import BadgeDiamondIcon from './BadgeDiamond.icon';
 import BadgeDiamondMIcon from './BadgeDiamondM.icon';
+import BadgeBronzeMissionIcon from './BadgeBronzeMission.icon';
+import BadgeDiamondMissionIcon from './BadgeDiamondMission.icon';
+import BadgeGoldMissionIcon from './BadgeGoldMission.icon';
+import BadgePlatinumMissionIcon from './BadgePlatinumMission.icon';
+import BadgeSilverMissionIcon from './BadgeSilverMission.icon';
 import BellNotif from './BellNotif.icon';
 import CameraIcon from './Camera';
 import CheckBoxIcon from './CheckBox.icon';
@@ -152,6 +157,11 @@ export {
   BadgePlatinumMIcon,
   BadgeDiamondIcon,
   BadgeDiamondMIcon,
+  BadgeBronzeMissionIcon,
+  BadgeDiamondMissionIcon,
+  BadgeGoldMissionIcon,
+  BadgePlatinumMissionIcon,
+  BadgeSilverMissionIcon,
   BellNotif,
   CameraIcon,
   CheckBoxIcon,
