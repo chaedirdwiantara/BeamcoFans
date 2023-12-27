@@ -468,6 +468,9 @@
       "BtnGo": "前往"
     },
     "DetailVoucher": {
+      "Stock": "Stock",
+      "StockLeft": "{{stock}} Left",
+      "Expired": "Expired",
       "QuotaLeft": "剩餘額度",
       "SendGift": "作為禮物發送",
       "GiftVoucher": "禮品券",
@@ -485,11 +488,11 @@
         "Subtitle": "發送優惠券時出現問題。請檢查可用性，然後重試。"
       },
       "Btn": {
-        "SoldOut": "已售罄",
+        "SoldOut": "Sold Out!",
         "Expired": "已過期",
         "Redeemed": "已兌換",
         "ShowQR": "顯示QR碼",
-        "Redeem": "兌換",
+        "Redeem": "Redeem Now!",
         "NotEnoughPoints": "積分不足"
       }
     },

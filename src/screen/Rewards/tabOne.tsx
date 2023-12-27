@@ -132,6 +132,8 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
         expiredDate: item.endDate,
         isRedeemed: item.generateQty === 0,
         isAvailable: item.isClaimable,
+        stock: item.generateQty,
+        description: item.description,
       },
       message: 'success',
       status: 1,

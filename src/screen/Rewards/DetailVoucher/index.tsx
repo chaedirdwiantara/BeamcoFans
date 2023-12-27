@@ -6,6 +6,7 @@ import {
   ImageBackground,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  TouchableOpacity,
 } from 'react-native';
 import {Buffer} from 'buffer';
 import QRCode from 'react-native-qrcode-svg';
@@ -17,13 +18,19 @@ import React, {FC, useCallback, useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {color, font} from '../../../theme';
-import {width, widthResponsive} from '../../../utils';
 import {RootStackParams} from '../../../navigations';
+import {width, widthResponsive} from '../../../utils';
 import {dateFormatDaily} from '../../../utils/date-format';
 import {useRewardHook} from '../../../hooks/use-reward.hook';
-import {ArrowLeftIcon, ClockIcon} from '../../../assets/icon';
 import RedeemSuccessIcon from '../../../assets/icon/RedeemSuccess.icon';
 import {Button, Gap, ModalCustom, TopNavigation} from '../../../components';
+import {
+  ArrowLeftIcon,
+  ChevronDown2,
+  ChevronUp2,
+  ClockIcon,
+  TicketDefaultIcon,
+} from '../../../assets/icon';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -49,6 +56,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
   const [valueEncode, setValueEncode] = useState<string>();
   const [voucherId, setVoucherId] = useState<number | undefined>();
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showTnC, setShowTnC] = useState<boolean>(false);
 
   const handleBackAction = () => {
     navigation.goBack();
@@ -117,7 +125,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
 
   const statusAvailVoucher = status === 'Available Voucher';
   const notEnoughPoints = statusAvailVoucher && !details.isAvailable;
-  
+
   return (
     <View style={styles.root}>
       {scrollEffect && (
@@ -131,7 +139,10 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
           rightIconAction={() => {}}
         />
       )}
-      <ScrollView onScroll={handleScroll} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        onScroll={handleScroll}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}>
         {details && (
           <View style={styles.slide}>
             <ImageBackground
@@ -159,9 +170,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
                   )}
 
                   <View style={styles.titleContainer}>
-                    <Text style={styles.vTitle}>
-                      {details?.voucher.title}
-                    </Text>
+                    <Text style={styles.vTitle}>{details?.voucher.title}</Text>
                     <Gap height={5} />
                     <Text style={styles.vSubTitle}>
                       {details?.voucher.subTitle}
@@ -177,6 +186,27 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
           <View style={styles.content}>
             <View style={styles.expired}>
               <View style={styles.textIcon}>
+                {/* Stock */}
+                <View style={{flexDirection: 'row'}}>
+                  <TicketDefaultIcon
+                    fill={color.Pink[200]}
+                    width={mvs(17)}
+                    height={mvs(17)}
+                  />
+                  <Gap width={8} />
+                  <Text style={styles.normalTitle}>
+                    {t('Rewards.DetailVoucher.Stock')}
+                  </Text>
+                </View>
+                <Text style={styles.stockValue}>
+                  {t('Rewards.DetailVoucher.StockLeft', {
+                    stock: details?.stock,
+                  })}
+                </Text>
+              </View>
+              <Gap height={mvs(5)} />
+              {/* Expired */}
+              <View style={styles.textIcon}>
                 <View style={{flexDirection: 'row'}}>
                   <ClockIcon
                     stroke={color.Pink[200]}
@@ -185,36 +215,55 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
                   />
                   <Gap width={8} />
                   <Text style={styles.normalTitle}>
-                    {t('Event.DetailVoucher.Expired')}
+                    {t('Rewards.DetailVoucher.Expired')}
                   </Text>
                 </View>
-                <Text style={[styles.normalTitle, {color: color.Success[400]}]}>
-                  {dateFormatDaily(details?.expiredDate)}
-                </Text>
+                <Text style={styles.stockValue}>{'90 Days After Claim'}</Text>
               </View>
             </View>
-            <View style={styles.tnc}>
-              <Text style={styles.normalTitle}>
-                {t('Event.DetailVoucher.Tnc')}
-              </Text>
-              <Gap height={4} />
-              {details?.voucher.termsCondition.value.map(
-                (val: string, i: number) => (
-                  <View key={i} style={{flexDirection: 'row'}}>
-                    <View
-                      style={{
-                        width: widthResponsive(20),
-                      }}>
-                      <Text style={styles.tncValue}>{i + 1}.</Text>
-                    </View>
-                    <Text
-                      style={[styles.tncValue, {flex: 1, textAlign: 'auto'}]}>
-                      {val}
-                    </Text>
-                  </View>
-                ),
-              )}
+            {/* Description */}
+            <View style={styles.containerContent}>
+              <Text style={styles.descValue}>{details?.description}</Text>
             </View>
+            {/* TnC */}
+            <TouchableOpacity
+              style={styles.containerContent}
+              onPress={() => setShowTnC(!showTnC)}>
+              <View style={styles.titleTnC}>
+                <Text style={styles.normalTitle}>
+                  {t('Event.DetailVoucher.Tnc')}
+                </Text>
+                {showTnC ? (
+                  <ChevronUp2 fill={color.Neutral[10]} />
+                ) : (
+                  <ChevronDown2 fill={color.Neutral[10]} />
+                )}
+              </View>
+              {showTnC && (
+                <>
+                  <Gap height={mvs(10)} />
+                  {details?.voucher.termsCondition.value.map(
+                    (val: string, i: number) => (
+                      <View key={i} style={{flexDirection: 'row'}}>
+                        <View
+                          style={{
+                            width: widthResponsive(20),
+                          }}>
+                          <Text style={styles.tncValue}>{i + 1}.</Text>
+                        </View>
+                        <Text
+                          style={[
+                            styles.tncValue,
+                            {flex: 1, textAlign: 'auto'},
+                          ]}>
+                          {val}
+                        </Text>
+                      </View>
+                    ),
+                  )}
+                </>
+              )}
+            </TouchableOpacity>
           </View>
         )}
       </ScrollView>
@@ -369,12 +418,32 @@ const styles = StyleSheet.create({
   },
   normalTitle: {
     fontFamily: font.InterRegular,
-    fontSize: mvs(13),
+    fontSize: mvs(13.5),
     fontWeight: '500',
     color: color.Neutral[10],
   },
-  tnc: {
+  stockValue: {
+    fontFamily: font.InterRegular,
+    fontSize: mvs(13),
+    fontWeight: '700',
+    color: color.Success[400],
+  },
+  containerContent: {
     padding: widthResponsive(20),
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    borderColor: color.Dark[500],
+  },
+  descValue: {
+    fontFamily: font.InterRegular,
+    fontSize: mvs(13),
+    fontWeight: '400',
+    color: color.Neutral[35],
+  },
+  titleTnC: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   tncValue: {
     fontFamily: font.InterRegular,
