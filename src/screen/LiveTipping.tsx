@@ -39,6 +39,7 @@ import {liveTipping} from '../api/credit.api';
 import {profileStorage, storage} from '../hooks/use-storage.hook';
 import {useEventHook} from '../hooks/use-event.hook';
 import {EventTopTipper} from '../interface/event.interface';
+import Torch from 'react-native-torch';
 
 type LiveTippingProps = NativeStackScreenProps<RootStackParams, 'LiveTipping'>;
 
@@ -82,6 +83,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
   const [moneyURL, setMoneyURL] = useState<ImageSourcePropType>(
     require('../assets/image/money-1.png'),
   );
+  const [totalCredit, setTotalCredit] = useState<number>(0);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   const handleBackAction = () => {
@@ -231,7 +233,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
     }, [uuid]),
   );
 
-  const sleep = (time: any) => {
+  const sleep = async (time: any) => {
     return new Promise<void>(resolve => setTimeout(() => resolve(), time));
   };
 
@@ -303,19 +305,6 @@ export const LiveTipping: FC<LiveTippingProps> = ({
   }, [counterTipping]);
 
   const onPressCustomTipping = (chip: number) => {
-    // if (!isSentATip && counter > 0) {
-    //   // setIsSentATip change to default
-    //   setIsSentATip(false);
-    //   stopBgService();
-    //   setCounterTipping(0);
-    //   setCounter(0);
-    //   await sendTipping();
-    //   getCreditCount();
-    //   if (!dataVoucher?.data?.isGenerated) {
-    //     refetchVoucher();
-    //   }
-    // }
-
     const money =
       chip === 1
         ? require('../assets/image/money-1.png')
@@ -347,6 +336,22 @@ export const LiveTipping: FC<LiveTippingProps> = ({
 
     setCreditBySwipe(chip);
   };
+
+  useEffect(() => {
+    const timeMs = 500;
+    const light = async () => {
+      Torch.switchState(true);
+      await sleep(timeMs);
+      Torch.switchState(false);
+      await sleep(timeMs);
+      setTotalCredit(totalCredit - 1);
+    };
+    let i = 0;
+    while (i < totalCredit) {
+      light();
+      i++;
+    }
+  }, [totalCredit]);
 
   return (
     <View style={styles.root}>
@@ -532,6 +537,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
                 }
                 if (credit > 0) {
                   setShowMoney(false);
+                  setTotalCredit(totalCredit + creditBySwipe);
                   setCredit(credit - creditBySwipe);
                   setOnSwipe(true);
                   setCounter(counter + 1);
