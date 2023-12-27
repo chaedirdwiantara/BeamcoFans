@@ -7,6 +7,7 @@ import {
   getAppersOnAlbum,
   listContribution,
   listMusician,
+  listTopArtists,
   recommendedMusician,
   unfollowMusician,
 } from '../api/musician.api';
@@ -20,7 +21,7 @@ import {
 } from '../interface/musician.interface';
 import {ParamsProps} from '../interface/base.interface';
 import {PostPropsTypeA} from '../interface/feed.interface';
-import {useInfiniteQuery} from 'react-query';
+import {useInfiniteQuery, useQuery} from 'react-query';
 
 export const useMusicianHook = () => {
   const [isLoadingMusician, setIsLoadingMusician] = useState(false);
@@ -193,6 +194,12 @@ export const useMusicianHook = () => {
     });
   };
 
+  const useGetListTopArtists = (filter: 'lifetime' | 'trending') => {
+    return useQuery([`top-artists/${filter}`], () =>
+      listTopArtists(filter),
+    );
+  };
+
   return {
     isLoadingMusician,
     isErrorMusician,
@@ -214,5 +221,6 @@ export const useMusicianHook = () => {
     getDetailMusicianGuest,
     getDataAppearsOn,
     useListContribution,
+    useGetListTopArtists,
   };
 };

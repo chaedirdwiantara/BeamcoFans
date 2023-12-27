@@ -160,7 +160,9 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         onPressClose={closeModal}
         onPressOk={() => {
           onPressSave({bio});
-          closeModal();
+          setTimeout(() => {
+            closeModal();
+          }, 500);
         }}
       />
     </View>

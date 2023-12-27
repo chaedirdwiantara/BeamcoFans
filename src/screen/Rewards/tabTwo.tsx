@@ -16,13 +16,15 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainTabParams, RootStackParams} from '../../navigations';
 import {useTranslation} from 'react-i18next';
 import {dataMissionStore} from '../../store/reward.store';
+import {MissionCardSkeleton} from '../../skeleton/Rewards/MissionCard';
 
 type Props = {
   refreshing: boolean;
   setRefreshing: (item: boolean) => void;
+  rankTitle?: string;
 };
 
-const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
+const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing, rankTitle}) => {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
@@ -170,7 +172,7 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
 
   return (
     <View style={styles().container}>
-      <View style={styles().menuStyle}>
+      {/* <View style={styles().menuStyle}>
         {missionMenu.map((data, index) => {
           // TODO: set data to store UNCOMMENT LATER
           // const isTypeOnIndexAndClaimable = storedDataMission.some(
@@ -192,24 +194,24 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
             />
           );
         })}
-      </View>
+      </View> */}
 
       <Gap height={16} />
-
-      {/* {isLoadingMissionMaster ? (
+      {isLoadingMissionMaster ? (
         <MissionCardSkeleton />
       ) : (
-        <> */}
+        <>
           {dataMission?.data && (
             <FlatList
               data={
-                activeIndex === 0
-                  ? daily
-                  : activeIndex === 1
-                  ? oneTime
-                  : activeIndex === 2
-                  ? repeatable
-                  : daily
+                // activeIndex === 0
+                //   ? daily
+                //   : activeIndex === 1
+                //   ? 
+                  oneTime
+                  // : activeIndex === 2
+                  // ? repeatable
+                  // : daily
               }
               showsVerticalScrollIndicator={false}
               keyExtractor={(_, index) => index.toString()}
@@ -219,12 +221,13 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing}) => {
                   data={item}
                   onClaim={onClaimMission}
                   onGo={() => onGoMission(item.function)}
+                  rankTitle={rankTitle}
                 />
               )}
             />
           )}
-        {/* </>
-      )} */}
+        </>
+      )}
 
       {showToast && (
         <SuccessToast

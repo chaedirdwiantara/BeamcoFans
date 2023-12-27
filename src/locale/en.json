@@ -14,6 +14,7 @@
     "Listeners": "Listeners",
     "GotIt": "Ok, I got it",
     "Share": {
+      "Share": "Share",
       "Feed": "Share feed",
       "Album": "Share album",
       "Music": "Share music",
@@ -176,7 +177,9 @@
     },
     "Tab": {
       "TopMusician": {
-        "Title": "Top Artists",
+        "Title": "Artists",
+        "AllTime": "All Time",
+        "Trending": "Trending",
         "Follow": "Follow",
         "Unfollow": "Unfollow",
         "Tip": "Beam",
@@ -429,10 +432,10 @@
       "LoyaltyTitle": "Your Loyalty Points"
     },
     "InfoCard": {
-      "NextLvl": "{{whatNextLvl}} Streamer Badge is Closer",
+      "NextLvl": "{{whatNextLvl}} Badge is Closer",
       "LvlMax": "Your Badge is Maxed Out",
       "Desc": "You’re {{pointNeeded}} Exp away from being {{whatNextLvl}}. Let’s get them by completing more mission!",
-      "MaxLvlDesc": "Congratulations! You've reached Diamond Badge Claim the rewards and be proud!"
+      "MaxLvlDesc": "Congratulations! You've reached Diamond Badge. Claim the rewards and be proud!"
     },
     "CurrentPrg": {
       "Title": "Current Progress Level",
@@ -453,7 +456,7 @@
         "Title": "No Voucher Available",
         "Subtitle": "Claim on Voucher on Available Voucher or Someone gift the Voucher."
       },
-      "Btn": "View"
+      "Btn":"View Details"
     },
     "ModalRedeem": {
       "Title": "Congrats! You’ve Claimed 1 Voucher!",
@@ -467,6 +470,9 @@
       "BtnGo": "Go"
     },
     "DetailVoucher": {
+      "Stock": "Stock",
+      "StockLeft": "{{stock}} Left",
+      "Expired": "Expired",
       "QuotaLeft": "Quota Left",
       "SendGift": "Send as gift",
       "GiftVoucher": "Gift Voucher",
@@ -484,11 +490,11 @@
         "Subtitle": "There has been a problem sending your voucher. Please check the availability and try to send it again."
       },
       "Btn": {
-        "SoldOut": "Sold Out",
+        "SoldOut": "Sold Out!",
         "Expired": "Expired",
         "Redeemed": "Redeemed",
         "ShowQR": "Show QR",
-        "Redeem": "Redeem",
+        "Redeem": "Redeem Now!",
         "NotEnoughPoints": "Not Enough Points"
       }
     },
@@ -1083,7 +1089,7 @@
       "Buy": "Buy a package",
       "Transaction": "Transaction history"
     },
-    "Transactions": {
+    "Transaction": {
       "SuccessPurchased": "You have successfully purchased {{credit}} credits!",
       "Detail": {
         "Title": "Transaction details",

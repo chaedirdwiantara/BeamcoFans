@@ -37,6 +37,7 @@ import {
   ModalClaimCredits,
   ModalFreeBeer,
   ModalTopUp,
+  Button,
 } from '../components';
 import {font} from '../theme';
 import Color from '../theme/Color';
@@ -108,6 +109,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     getListDataRecommendedMusician,
     setFollowMusician,
     setUnfollowMusician,
+    useGetListTopArtists,
   } = useMusicianHook();
   const {
     dataDiveIn,
@@ -162,6 +164,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   );
 
   const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
+  const [selectedTopArtist, setSelectedTopArtist] = useState<
+    'lifetime' | 'trending'
+  >('lifetime');
   const [selectedIndexSong, setSelectedIndexSong] = useState(-0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [showModalClaim, setShowModalClaim] = useState<boolean>(false);
@@ -189,6 +194,13 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     userType: 'fans',
     eventId: dataCheckVoucher?.data?.eventID ?? '',
   });
+
+  // const {
+  //   data: dataTopArtists,
+  //   refetch: refetchTopArtists,
+  //   isLoading: isLoadingTopArtists,
+  //   isRefetching: isRefetchingTopArtists,
+  // } = useGetListTopArtists(selectedTopArtist);
 
   useEffect(() => {
     // if the user has already redeemed the voucher, modal will not appear
@@ -286,6 +298,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         getProfileProgress();
         getProfileUser();
         setLastActive();
+        // refetchTopArtists();
 
         if (selectedIndexMusician === 0) {
           getListDataMusician({filterBy: 'top'});
@@ -302,6 +315,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         setRefreshing(false);
       }, 1000);
     }, [refreshing, selectedIndexMusician]),
+    // }, [refreshing, selectedIndexMusician, selectedTopArtist]),
   );
 
   // Triggering when click love on the same song in top & new song tab
@@ -385,17 +399,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const handleOnGetToken = (token: string) => {
     addFcmToken(token);
   };
-
-  const [filterMusician] = useState([
-    {filterName: 'Home.Tab.TopMusician.Title'},
-    {filterName: 'Home.Tab.Recomended.Title'},
-    {filterName: 'Home.Tab.Favorite.Title'},
-  ]);
-
-  const [filterMusicianGuest] = useState([
-    {filterName: 'Home.Tab.TopMusician.Title'},
-    {filterName: 'Home.Tab.Recomended.Title'},
-  ]);
 
   const [filterSong] = useState([
     {filterName: 'Home.Tab.TopSong.Title'},
@@ -542,6 +545,12 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     navigation.navigate('MusicianProfile', {id: uuid});
   };
 
+  const bgTabArtist = (tabActive: 'lifetime' | 'trending') => {
+    return tabActive === selectedTopArtist
+      ? Color.Pink[200]
+      : Color.Dark[600];
+  };
+
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
@@ -664,13 +673,31 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         {/* Tab Musician */}
         <View style={[styles.containerContent]}>
           <TabFilter.Type3
-            filterData={!isLogin ? filterMusicianGuest : filterMusician}
-            onPress={filterDataMusician}
-            selectedIndex={selectedIndexMusician}
+            filterData={[{filterName: 'Home.Tab.TopMusician.Title'}]}
+            onPress={() => null}
+            selectedIndex={0}
             translation={true}
           />
-          {filterMusician[selectedIndexMusician].filterName ===
-          'Home.Tab.TopMusician.Title' ? (
+          <View style={styles.containerTabArtist}>
+            <Button
+              label={t('Home.Tab.TopMusician.AllTime')}
+              onPress={() => setSelectedTopArtist('lifetime')}
+              containerStyles={{
+                ...styles.tabArtist,
+                backgroundColor: bgTabArtist('lifetime'),
+              }}
+            />
+            <Gap width={widthPercentage(10)} />
+            <Button
+              label={t('Home.Tab.TopMusician.Trending')}
+              containerStyles={{
+                ...styles.tabArtist,
+                backgroundColor: bgTabArtist('trending'),
+              }}
+              onPress={() => setSelectedTopArtist('trending')}
+            />
+          </View>
+          {selectedTopArtist === 'lifetime' ? (
             <TopMusician
               dataMusician={isLogin ? dataMusician : dataSearchMusicians}
               setFollowMusician={(
@@ -684,24 +711,9 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               isLoading={isLoadingMusician || searchLoading}
               toDetailOnPress={goToMusicianProfile}
             />
-          ) : filterMusician[selectedIndexMusician].filterName ===
-            'Home.Tab.Recomended.Title' ? (
+          ) : (
             <RecomendedMusician
               dataMusician={dataRecommendedMusician}
-              setFollowMusician={(
-                props?: FollowMusicianPropsType,
-                params?: ParamsProps,
-              ) => setFollowMusician(props, params)}
-              setUnfollowMusician={(
-                props?: FollowMusicianPropsType,
-                params?: ParamsProps,
-              ) => setUnfollowMusician(props, params)}
-              isLoading={isLoadingMusician}
-              toDetailOnPress={goToMusicianProfile}
-            />
-          ) : (
-            <FavoriteMusician
-              dataMusician={isLogin ? dataFavoriteMusician : []}
               setFollowMusician={(
                 props?: FollowMusicianPropsType,
                 params?: ParamsProps,
@@ -896,4 +908,15 @@ const styles = StyleSheet.create({
   containerList: {
     marginTop: heightPercentage(10),
   },
+  containerTabArtist: {
+    flexDirection: 'row',
+    paddingLeft: widthResponsive(24),
+    marginTop: mvs(8),
+    marginBottom: mvs(2),
+  },
+  tabArtist: {
+    width: widthPercentage(72),
+    aspectRatio: heightPercentage(72 / 24),
+    borderRadius: mvs(30),
+  }
 });

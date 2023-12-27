@@ -681,6 +681,8 @@ PODS:
     - React-Core
   - RNCClipboard (1.12.1):
     - React-Core
+  - RNCMaskedView (0.3.0):
+    - React-Core
   - RNDeviceInfo (10.11.0):
     - React-Core
   - RNFastImage (8.6.3):
@@ -868,6 +870,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
+  - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -1046,6 +1049,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNCClipboard:
     :path: "../node_modules/@react-native-clipboard/clipboard"
+  RNCMaskedView:
+    :path: "../node_modules/@react-native-masked-view/masked-view"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFastImage:
@@ -1086,7 +1091,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
-  boost: 57d2868c099736d80fcd648bf211b4431e51a558
+  boost: a7c83b31436843459a1961bfd74b96033dc77234
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CodePush: 255d7607f428dcbec39085f81a206b170e01d012
@@ -1130,7 +1135,7 @@ SPEC CHECKSUMS:
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
-  RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
+  RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: 28469809442eb4eb5528462705f7d852948c8a74
   RCTTypeSafety: e9c6c409fca2cc584e5b086862d562540cb38d29
   React: 769f469909b18edfe934f0539fffb319c4c61043
@@ -1175,6 +1180,7 @@ SPEC CHECKSUMS:
   ReactCommon: dd03c17275c200496f346af93a7b94c53f3093a4
   RNAppleAuthentication: e99eaf3c4c01ad8ecb6125dd6f0cfd98871685b5
   RNCClipboard: d77213bfa269013bf4b857b7a9ca37ee062d8ef1
+  RNCMaskedView: f7c74478c83c4fdfc5cf4df51f80c0dd5cf125c6
   RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBApp: 5a16a735bad57ca29ee44757bde7e654c5bc8f60

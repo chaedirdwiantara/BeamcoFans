@@ -14,8 +14,13 @@ export const TicketScreen: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getBookyayToken();
-      setLoading(false);
+      const token = async () => {
+        setLoading(true);
+        await getBookyayToken();
+        setLoading(false);
+      };
+
+      token();
     }, []),
   );
 
