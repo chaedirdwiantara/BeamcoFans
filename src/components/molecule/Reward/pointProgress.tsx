@@ -108,7 +108,13 @@ const PointProgress: FC<Props> = ({
   return (
     <View style={styles.container}>
       <Progress.Bar
-        progress={progressBar}
+        progress={
+          storedSlideIndex !== undefined && lvlOnNum > storedSlideIndex
+            ? 1
+            : storedSlideIndex !== undefined && lvlOnNum < storedSlideIndex
+            ? 0
+            : progressBar
+        }
         width={null}
         height={widthResponsive(10)}
         borderWidth={2}
