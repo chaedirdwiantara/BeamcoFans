@@ -17,7 +17,12 @@ export const useRewardHook = () => {
 
   const useGetMissionProgress = (param: GetMissionProgressParams) => {
     return useQuery(
-      ['reward/get-mission-progress', param.task_type, param.function],
+      [
+        'reward/get-mission-progress',
+        param.task_type,
+        param.function,
+        param.campaignId,
+      ],
       () => getMissionProgressEp(param),
     );
   };
@@ -45,9 +50,8 @@ export const useRewardHook = () => {
   };
 
   const useEventVoucherDetail = (id?: string) => {
-    return useQuery(
-      [`event/voucher/detail/${id}`],
-      () => id !== undefined ? getEventVoucherDetailRewards(id) : null,
+    return useQuery([`event/voucher/detail/${id}`], () =>
+      id !== undefined ? getEventVoucherDetailRewards(id) : null,
     );
   };
 
