@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Buffer} from 'buffer';
+import {useMutation} from 'react-query';
 import QRCode from 'react-native-qrcode-svg';
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
@@ -17,20 +18,31 @@ import LinearGradient from 'react-native-linear-gradient';
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
+import {
+  Gap,
+  Button,
+  ModalCustom,
+  TopNavigation,
+  ModalConfirm2,
+} from '../../../components';
+import {
+  ClockIcon,
+  ChevronUp2,
+  ChevronDown2,
+  ArrowLeftIcon,
+  TicketDefaultIcon,
+} from '../../../assets/icon';
 import {color, font} from '../../../theme';
 import {RootStackParams} from '../../../navigations';
 import {width, widthResponsive} from '../../../utils';
-import {dateFormatDaily} from '../../../utils/date-format';
+import {claimAvailVoucherEp} from '../../../api/reward.api';
 import {useRewardHook} from '../../../hooks/use-reward.hook';
 import RedeemSuccessIcon from '../../../assets/icon/RedeemSuccess.icon';
-import {Button, Gap, ModalCustom, TopNavigation} from '../../../components';
 import {
-  ArrowLeftIcon,
-  ChevronDown2,
-  ChevronUp2,
-  ClockIcon,
-  TicketDefaultIcon,
-} from '../../../assets/icon';
+  DataVoucherDetailBeforeClaim,
+  DataVoucherListDetail,
+} from '../../../interface/reward.interface';
+import {dateFormatDaily} from '../../../utils/date-format';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -44,19 +56,27 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
   route,
   navigation,
 }: ListVoucherProps) => {
-  // voucher sent from other, status = 'Gift Voucher'
-  // self voucher, status = 'Ready to Redeem'
-  const {id, status, dataDetailAvailVoucher} = route.params;
+  // use id if it's before claim / not my voucher
+  // use codeGenerated if it's my voucher
+  const {id, codeGenerated} = route.params;
 
   const {t} = useTranslation();
-  const {useEventVoucherDetail, useClaimMyVoucher} = useRewardHook();
+  const {useVoucherDetailBeforeClaim, useMyVoucherDetail, useClaimMyVoucher} =
+    useRewardHook();
 
   const [scrollEffect, setScrollEffect] = useState<boolean>(false);
   const [showQrPopUp, setShowQrPopUp] = useState<boolean>(false);
   const [valueEncode, setValueEncode] = useState<string>();
-  const [voucherId, setVoucherId] = useState<number | undefined>();
+  const [voucherCode, setVoucherCode] = useState<string | undefined>(
+    codeGenerated,
+  );
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModalConfirm, setShowModalConfirm] = useState<boolean>(false);
   const [showTnC, setShowTnC] = useState<boolean>(false);
+  const [idQR, setIdQR] = useState<number>(0);
+  const [details, setDetails] = useState<
+    DataVoucherDetailBeforeClaim | DataVoucherListDetail
+  >();
 
   const handleBackAction = () => {
     navigation.goBack();
@@ -68,33 +88,64 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
     setScrollEffect(scrolled);
   };
 
-  const {data: dataDetail, refetch: refetchDetail} = useEventVoucherDetail(id);
-  const {data: dataClaim, refetch: refetchClaim} = useClaimMyVoucher(voucherId);
-  const details = id ? dataDetail?.data : dataDetailAvailVoucher.data;
+  // Detail voucher use 2 different APIs
+  // If before claim, use API get voucher detail before redeem & using id to fetch the API
+  // If after claim, use get my voucher detail & using codeGenerated from list voucher to fetch the API
+  const {data: dataDetailBefore, refetch: refetchDetailBefore} =
+    useVoucherDetailBeforeClaim(id);
+  const {data: dataDetailAfter, refetch: refetchDetailAfter} =
+    useMyVoucherDetail(voucherCode);
 
   useFocusEffect(
     useCallback(() => {
-      id && refetchDetail();
+      id && refetchDetailBefore();
     }, []),
   );
 
   useEffect(() => {
-    if (dataDetail?.data) {
-      let dataToEncode = `${dataDetail?.data.id}|""`;
-      setValueEncode(Buffer.from(dataToEncode).toString('base64'));
-    }
-  }, [dataDetail?.data]);
-
-  useEffect(() => {
-    async function setClaimSelectedVoucher() {
-      if (voucherId && voucherId !== undefined) {
-        await refetchClaim();
-        setVoucherId(undefined);
+    async function setFetchDetail() {
+      if (voucherCode && voucherCode !== undefined && idQR > 0) {
+        await refetchDetailAfter();
+        showQrOnPress();
       }
     }
 
-    setClaimSelectedVoucher();
-  }, [voucherId]);
+    setFetchDetail();
+  }, [voucherCode, idQR]);
+
+  useEffect(() => {
+    if (voucherCode !== undefined) {
+      setDetails(dataDetailAfter?.data);
+    } else {
+      setDetails(dataDetailBefore?.data);
+    }
+  }, [dataDetailAfter?.data, dataDetailBefore?.data, voucherCode]);
+
+  useEffect(() => {
+    if (details) {
+      const idQr = idQR === 0 ? dataDetailAfter?.data.id : idQR;
+      const dataToEncode = `${idQr}|""`;
+      setValueEncode(Buffer.from(dataToEncode).toString('base64'));
+    }
+  }, [details, idQR]);
+
+  const setClaimVoucher = useMutation({
+    mutationKey: ['generate-voucher'],
+    mutationFn: claimAvailVoucherEp,
+    onSuccess(res) {
+      setShowModalConfirm(false);
+      setIdQR(res.data.id);
+      setVoucherCode(res.data.codeGenerated);
+    },
+    onError(e: any) {
+      // show popup failed claim voucher
+      setShowModalConfirm(false);
+    },
+  });
+
+  const onClaimVoucher = () => {
+    setClaimVoucher.mutate(id);
+  };
 
   const showQrOnPress = () => {
     setShowQrPopUp(true);
@@ -102,16 +153,10 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
 
   const closeQrOnPress = () => {
     setShowQrPopUp(false);
-    refetchDetail();
   };
 
   const goToSendGift = () => {
-    id !== undefined && navigation.navigate('GiftVoucher', {id});
-  };
-
-  const onClaimVoucher = () => {
-    setVoucherId(details?.id);
-    setShowModal(true);
+    id !== undefined && navigation.navigate('GiftVoucher', {voucherid: id});
   };
 
   const handleModalOnClose = () => {
@@ -119,12 +164,18 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
     handleBackAction();
   };
 
-  const expiredDate = new Date(details?.expiredDate || '');
+  // List Status Voucher
+  const expiredDate = new Date(dataDetailAfter?.data.expiredDate || '');
   const today = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000);
   const isExpired = today > expiredDate;
-
-  const statusAvailVoucher = status === 'Available Voucher';
-  const notEnoughPoints = statusAvailVoucher && !details.isAvailable;
+  const notEnoughPoints = !details?.isClaimable;
+  const soldOut = details?.stock === 0;
+  const limitReached = details?.isLimitedClaim;
+  const enabledMainBtn =
+    (voucherCode !== undefined && !details?.status.buttonDisabled) ||
+    (!soldOut && !notEnoughPoints && !limitReached && !isExpired);
+  const showBtnSendGift =
+    id !== undefined && !soldOut && !limitReached && !notEnoughPoints;
 
   return (
     <View style={styles.root}>
@@ -147,7 +198,11 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
           <View style={styles.slide}>
             <ImageBackground
               style={{width: '100%', height: 400}}
-              source={require('../../../assets/image/detail_voucher_default.png')}>
+              source={
+                details.imageUrl.length > 0
+                  ? {uri: details.imageUrl[2].image}
+                  : require('../../../assets/image/detail_voucher_default.png')
+              }>
               <LinearGradient
                 colors={['#00000000', color.Dark[800]]}
                 style={{height: '100%', width: '100%'}}>
@@ -170,10 +225,10 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
                   )}
 
                   <View style={styles.titleContainer}>
-                    <Text style={styles.vTitle}>{details?.voucher.title}</Text>
+                    <Text style={styles.vTitle}>{details?.title}</Text>
                     <Gap height={5} />
                     <Text style={styles.vSubTitle}>
-                      {details?.voucher.subTitle}
+                      {details?.claimPoint + ' Points'}
                     </Text>
                   </View>
                 </View>
@@ -185,26 +240,39 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
         {details && (
           <View style={styles.content}>
             <View style={styles.expired}>
-              <View style={styles.textIcon}>
-                {/* Stock */}
-                <View style={{flexDirection: 'row'}}>
-                  <TicketDefaultIcon
-                    fill={color.Pink[200]}
-                    width={mvs(17)}
-                    height={mvs(17)}
-                  />
-                  <Gap width={8} />
-                  <Text style={styles.normalTitle}>
-                    {t('Rewards.DetailVoucher.Stock')}
-                  </Text>
-                </View>
-                <Text style={styles.stockValue}>
-                  {t('Rewards.DetailVoucher.StockLeft', {
-                    stock: details?.stock,
-                  })}
-                </Text>
-              </View>
-              <Gap height={mvs(5)} />
+              {/* Stock */}
+              {voucherCode === undefined ? (
+                <>
+                  <View style={styles.textIcon}>
+                    <View style={{flexDirection: 'row'}}>
+                      <TicketDefaultIcon
+                        fill={color.Pink[200]}
+                        width={mvs(17)}
+                        height={mvs(17)}
+                      />
+                      <Gap width={8} />
+                      <Text style={styles.normalTitle}>
+                        {t('Rewards.DetailVoucher.Stock')}
+                      </Text>
+                    </View>
+                    <Text
+                      style={[
+                        styles.stockValue,
+                        {
+                          color:
+                            details.stock === 0
+                              ? '#FF0000'
+                              : color.Success[400],
+                        },
+                      ]}>
+                      {t('Rewards.DetailVoucher.StockLeft', {
+                        stock: details?.stock,
+                      })}
+                    </Text>
+                  </View>
+                  <Gap height={mvs(5)} />
+                </>
+              ) : null}
               {/* Expired */}
               <View style={styles.textIcon}>
                 <View style={{flexDirection: 'row'}}>
@@ -218,10 +286,14 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
                     {t('Rewards.DetailVoucher.Expired')}
                   </Text>
                 </View>
-                <Text style={styles.stockValue}>{'90 Days After Claim'}</Text>
+                <Text style={styles.stockValue}>
+                  {voucherCode !== undefined
+                    ? dateFormatDaily(details.endDate || details.expiredDate)
+                    : details.expiredDays + ' Days After Claim'}
+                </Text>
               </View>
             </View>
-            {/* Description */}
+            {/* Descr!iption */}
             <View style={styles.containerContent}>
               <Text style={styles.descValue}>{details?.description}</Text>
             </View>
@@ -242,7 +314,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
               {showTnC && (
                 <>
                   <Gap height={mvs(10)} />
-                  {details?.voucher.termsCondition.value.map(
+                  {details?.termsCondition.value.map(
                     (val: string, i: number) => (
                       <View key={i} style={{flexDirection: 'row'}}>
                         <View
@@ -270,29 +342,35 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
       <View style={styles.bottomContainer}>
         <Button
           label={
-            isExpired
-              ? t('Rewards.DetailVoucher.Btn.Expired')
-              : details?.isRedeemed
+            details?.isRedeemed
               ? t('Rewards.DetailVoucher.Btn.Redeemed')
+              : voucherCode !== undefined
+              ? details?.status.text || ''
+              : // t('Rewards.DetailVoucher.Btn.ShowQR')
+              soldOut
+              ? 'Sold Out'
               : notEnoughPoints
               ? t('Rewards.DetailVoucher.Btn.NotEnoughPoints')
-              : statusAvailVoucher
-              ? t('Rewards.DetailVoucher.Btn.Redeem')
-              : t('Rewards.DetailVoucher.Btn.ShowQR')
+              : limitReached
+              ? 'Limit Reached'
+              : isExpired
+              ? t('Rewards.DetailVoucher.Btn.Expired')
+              : t('Rewards.DetailVoucher.Btn.Redeem')
           }
           containerStyles={{
             width: '100%',
             height: widthResponsive(40),
             aspectRatio: undefined,
-            backgroundColor:
-              !isExpired && !details?.isRedeemed && !notEnoughPoints
-                ? color.Pink[10]
-                : color.Dark[50],
+            backgroundColor: enabledMainBtn ? color.Pink[10] : color.Dark[50],
           }}
-          onPress={statusAvailVoucher ? onClaimVoucher : showQrOnPress}
-          disabled={isExpired || details?.isRedeemed || notEnoughPoints}
+          onPress={
+            voucherCode !== undefined
+              ? showQrOnPress
+              : () => setShowModalConfirm(true)
+          }
+          disabled={!enabledMainBtn}
         />
-        {status === 'Ready to Redeem' && !isExpired && !details?.isRedeemed && (
+        {showBtnSendGift && (
           <Button
             label={t('Rewards.DetailVoucher.SendGift')}
             type={'border'}
@@ -336,6 +414,16 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
             />
           </View>
         }
+      />
+
+      {/* Modal Confirm Redeem */}
+      <ModalConfirm2
+        modalVisible={showModalConfirm}
+        imgUri={details?.imageUrl[3]?.image || ''}
+        title={'Redeem Voucher'}
+        subtitle={'Are you sure you want to redeem 100 points?'}
+        onPressClose={() => setShowModalConfirm(false)}
+        onPressYes={onClaimVoucher}
       />
 
       {/* Modal Success Redeem */}
@@ -401,7 +489,7 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontSize: mvs(12),
     fontWeight: '500',
-    color: color.Success[400],
+    color: color.Pink[10],
   },
   content: {},
   expired: {
