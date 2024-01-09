@@ -95,6 +95,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
       ? 'Credit Detected'
       : 'Activity Detected'
   }`;
+  const progressCompleted = dataProgress?.isClaimed;
 
   const handleOnClaim = (
     dataProgress: DataListMissioProgress,
@@ -110,7 +111,10 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
   };
 
   return (
-    <TouchableOpacity onPress={onGo} style={styles.voteTopContainer}>
+    <TouchableOpacity
+      onPress={onGo}
+      style={[styles.voteTopContainer, {opacity: progressCompleted ? 0.6 : 1}]}
+      disabled={progressCompleted}>
       <View style={{alignItems: 'center'}}>
         {rankTitle === 'Bronze' ? (
           <BadgeBronzeMissionIcon />
@@ -166,7 +170,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
             style={{width: '100%'}}
             // animationType={'timing'}
           />
-          {!dataProgress?.isClaimed ? (
+          {!progressCompleted ? (
             <View style={styles.progressContainer}>
               <Text style={styles.progressTxt}>
                 {data.taskType === 'based-reward'
