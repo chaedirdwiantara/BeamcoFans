@@ -37,15 +37,12 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
   const [dataProgress, setDataProgress] = useState<DataListMissioProgress>();
   const [readyToRefetch, setreadyToRefetch] = useState<boolean>(false);
 
-  const {
-    data: dataMissionPrg,
-    refetch: refetchMissionPrg,
-    isLoading: isLoadingMissionPrg,
-    isRefetching: isRefetchingMissionPrg,
-  } = useGetMissionProgress({
-    task_type: data.taskType,
-    function: data.function,
-  });
+  const {data: dataMissionPrg, refetch: refetchMissionPrg} =
+    useGetMissionProgress({
+      task_type: data.taskType,
+      function: data.function,
+      campaignId: data.campaignId,
+    });
 
   useEffect(() => {
     refetchMissionPrg();
@@ -219,7 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.Dark[700],
     padding: widthResponsive(16),
     borderRadius: 4,
-    marginBottom: widthResponsive(16),
+    marginBottom: widthResponsive(12),
   },
   progressBarContainer: {
     flex: 1,

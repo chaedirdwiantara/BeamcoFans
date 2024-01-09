@@ -1,5 +1,6 @@
 import {
   GetAvailableVoucher,
+  GetHistoryVoucher,
   GetMissionMaster,
   GetMissionProgress,
   GetMissionProgressParams,
@@ -11,8 +12,9 @@ import SsuAPI from './baseRinjani';
 import SsuKrakatauAPI from './baseKrakatau';
 import {
   ClaimVoucherResponse,
+  GetVoucherDetailBeforeClaimResponse,
   GetVoucherListDetailResponse,
-} from '../interface/event.interface';
+} from '../interface/reward.interface';
 
 export const getMissionMasterEp = async (): Promise<GetMissionMaster> => {
   const {data} = await SsuAPI().request<GetMissionMaster>({
@@ -29,7 +31,7 @@ export const getMissionProgressEp = async (
   const {data} = await SsuAPI().request<GetMissionProgress>({
     url: `/missions/progress/${params.function}`,
     method: 'GET',
-    params: {task_type: params.task_type},
+    params: {task_type: params.task_type, campaignId: params.campaignId},
   });
 
   return data;
@@ -74,6 +76,15 @@ export const getMyVouchertEp = async (): Promise<GetMyVoucher> => {
   return data;
 };
 
+export const getHistoryVoucher = async (): Promise<GetHistoryVoucher> => {
+  const {data} = await SsuKrakatauAPI().request<GetHistoryVoucher>({
+    url: `/vouchers/history`,
+    method: 'GET',
+  });
+
+  return data;
+};
+
 export const claimAvailVoucherEp = async (
   voucherId: number | undefined,
 ): Promise<SetClaimMission> => {
@@ -85,13 +96,25 @@ export const claimAvailVoucherEp = async (
   return data;
 };
 
-export const getEventVoucherDetailRewards = async (
-  id: string,
+export const getVoucherDetailRewards = async (
+  codeGenerated: string,
 ): Promise<GetVoucherListDetailResponse> => {
   const {data} = await SsuKrakatauAPI().request<GetVoucherListDetailResponse>({
-    url: `/vouchers/loyalty/${id}/detail`,
+    url: `/vouchers/my-voucher/${codeGenerated}/detail`,
     method: 'GET',
   });
+
+  return data;
+};
+
+export const getVoucherDetailBeforeClaim = async (
+  id: number,
+): Promise<GetVoucherDetailBeforeClaimResponse> => {
+  const {data} =
+    await SsuKrakatauAPI().request<GetVoucherDetailBeforeClaimResponse>({
+      url: `/vouchers/detail/${id}`,
+      method: 'GET',
+    });
 
   return data;
 };
@@ -100,7 +123,7 @@ export const transferVoucher = async (
   params: SendVoucherReq,
 ): Promise<ClaimVoucherResponse> => {
   const {data} = await SsuKrakatauAPI().request<ClaimVoucherResponse>({
-    url: `/vouchers/loyalty/${params.id}/transfer`,
+    url: `/vouchers/loyalty/${params.voucherid}/gift`,
     method: 'POST',
     data: params,
   });

@@ -87,6 +87,7 @@ import {FollowersScreen} from '../screen/MusicianProfile/ListFollowers';
 import Rewards from '../screen/Rewards';
 import DetailVoucherRewards from '../screen/Rewards/DetailVoucher';
 import {GiftVoucher} from '../screen/Rewards/DetailVoucher/GiftVoucher';
+import {MyVoucherScreen} from '../screen/Rewards/MyVoucher';
 
 // Playlist
 import {PlaylistScreen} from '../screen/Playlist/Playlist';
@@ -190,9 +191,10 @@ export type RootStackParams = {
   };
   DetailVoucher: {id: number; eventId: string};
   DetailVoucherRewards: {
-    id?: string;
-    dataDetailAvailVoucher?: any;
-    status: string;
+    id?: number;
+    codeGenerated?: string;
+    // dataDetailAvailVoucher?: any;
+    // status: string;
   };
   DiscoverArtist: undefined;
   DonationAndSubscription: undefined;
@@ -212,7 +214,7 @@ export type RootStackParams = {
     uuid: string;
   };
   ForgotPassword: undefined;
-  GiftVoucher: {id: string};
+  GiftVoucher: {voucherid: number};
   InputDeletion: {
     id: number;
     text: string;
@@ -236,6 +238,7 @@ export type RootStackParams = {
   ListVoucher: {id: string};
   Login: undefined;
   MainTab: undefined;
+  MyVoucher: undefined;
   OtherUserProfile: {id: string};
   Otp: {
     id: string;
@@ -608,6 +611,7 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="Profile" component={ProfileScreen} />
     <RootStack.Screen name="DetailVoucherRewards" component={DetailVoucherRewards} />
     <RootStack.Screen name="GiftVoucher" component={GiftVoucher} />
+    <RootStack.Screen name="MyVoucher" component={MyVoucherScreen} />
   </RootStack.Navigator>
 );
 

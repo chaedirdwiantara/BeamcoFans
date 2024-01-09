@@ -203,16 +203,7 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing, rankTitle}) => {
         <>
           {dataMission?.data && (
             <FlatList
-              data={
-                // activeIndex === 0
-                //   ? daily
-                //   : activeIndex === 1
-                //   ? 
-                  oneTime
-                  // : activeIndex === 2
-                  // ? repeatable
-                  // : daily
-              }
+              data={dataMission.data}
               showsVerticalScrollIndicator={false}
               keyExtractor={(_, index) => index.toString()}
               scrollEnabled={false}

@@ -68,6 +68,7 @@ import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {
+  bgColorTab,
   heightPercentage,
   heightResponsive,
   width,
@@ -510,12 +511,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     navigation.navigate('MusicianProfile', {id: uuid});
   };
 
-  const bgTabArtist = (tabActive: 'lifetime' | 'trending') => {
-    return tabActive === selectedTopArtist
-      ? Color.Pink[200]
-      : Color.Dark[600];
-  };
-
   return (
     <View style={styles.root}>
       <SsuStatusBar type="black" />
@@ -649,7 +644,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               onPress={() => setSelectedTopArtist('lifetime')}
               containerStyles={{
                 ...styles.tabArtist,
-                backgroundColor: bgTabArtist('lifetime'),
+                backgroundColor: bgColorTab('lifetime', selectedTopArtist),
               }}
             />
             <Gap width={widthPercentage(10)} />
@@ -657,7 +652,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               label={t('Home.Tab.TopMusician.Trending')}
               containerStyles={{
                 ...styles.tabArtist,
-                backgroundColor: bgTabArtist('trending'),
+                backgroundColor: bgColorTab('trending', selectedTopArtist),
               }}
               onPress={() => setSelectedTopArtist('trending')}
             />
@@ -867,5 +862,5 @@ const styles = StyleSheet.create({
     width: widthPercentage(72),
     aspectRatio: heightPercentage(72 / 24),
     borderRadius: mvs(30),
-  }
+  },
 });
