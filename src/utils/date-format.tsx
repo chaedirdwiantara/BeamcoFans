@@ -82,6 +82,21 @@ const dateFormatDaily = (ISOStringDate: string) => {
   return day + ' ' + month + ' ' + year;
 };
 
+const addZeroBefore = (n: number) => {
+  return (n < 10 ? '0' : '') + n;
+};
+
+const dateFormatVoucher = (ISOStringDate: string) => {
+  const today = new Date(ISOStringDate);
+  const day = today.toLocaleString('default', {day: 'numeric'});
+  const month = today.toLocaleString('default', {month: 'long'});
+  const year = today.getFullYear();
+  const hours = addZeroBefore(today.getHours());
+  const minutes = addZeroBefore(today.getMinutes());
+
+  return day + ' ' + month + ' ' + year + ', ' + hours + ':' + minutes;
+};
+
 export {
   dateFormat,
   dateFormatBirth,
@@ -93,4 +108,5 @@ export {
   dateFormatSubscribe,
   dateFormatHoursMinutes,
   dateFormatDaily,
+  dateFormatVoucher,
 };
