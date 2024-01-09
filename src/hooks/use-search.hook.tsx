@@ -5,6 +5,7 @@ import {
   listBannerPublic,
   listFanss,
   listFollowers,
+  liveEventSearch,
   musicianSearch,
   playlistSearch,
   songSearch,
@@ -169,6 +170,17 @@ export const useSearchHook = () => {
     }
   };
 
+  const getSearchLiveEvent = async (props?: SearchProps) => {
+    try {
+      const response = await liveEventSearch(props);
+      return {
+        data: response?.data,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     searchLoading,
     dataPublicBanner,
@@ -186,5 +198,6 @@ export const useSearchHook = () => {
     getSearchEvents,
     getListFollowers,
     getListMusiciansFans,
+    getSearchLiveEvent,
   };
 };

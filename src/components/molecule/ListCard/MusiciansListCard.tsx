@@ -45,6 +45,7 @@ export interface ListProps {
   isEvent?: boolean;
   eventDate?: string;
   liveTime?: string;
+  isHideNum?: boolean;
 }
 
 const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
@@ -68,6 +69,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
     isEvent,
     eventDate,
     liveTime,
+    isHideNum,
   } = props;
 
   // ? Dropdown Menu Example
@@ -105,7 +107,7 @@ const MusiciansListCard: React.FC<ListProps> = (props: ListProps) => {
             paddingRight: widthPercentage(15),
           }}
         />
-      ) : (
+      ) : isHideNum ? null : (
         <Text
           style={[
             styles.rankStyle,
