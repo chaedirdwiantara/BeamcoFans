@@ -84,6 +84,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
     require('../assets/image/money-1.png'),
   );
   const [totalCredit, setTotalCredit] = useState<number>(0);
+  const [isFlashOn, setIsFlashOn] = useState<boolean>(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   const handleBackAction = () => {
@@ -337,9 +338,10 @@ export const LiveTipping: FC<LiveTippingProps> = ({
     setCreditBySwipe(chip);
   };
 
-  useEffect(() => {
+  const lightOn = () => {
     const timeMs = 500;
     const light = async () => {
+      console.log('tes ' + totalCredit);
       Torch.switchState(true);
       await sleep(timeMs);
       Torch.switchState(false);
@@ -347,11 +349,26 @@ export const LiveTipping: FC<LiveTippingProps> = ({
       setTotalCredit(totalCredit - 1);
     };
     let i = 0;
-    while (i < totalCredit) {
+    while (i < totalCredit && isFlashOn) {
       light();
       i++;
     }
+  };
+
+  useEffect(() => {
+    setIsFlashOn(false);
+    const timeOut = setTimeout(() => {
+      setIsFlashOn(true);
+    }, 500);
+
+    return () => clearTimeout(timeOut);
   }, [totalCredit]);
+
+  useEffect(() => {
+    if (isFlashOn) {
+      lightOn();
+    }
+  }, [isFlashOn]);
 
   return (
     <View style={styles.root}>
@@ -483,7 +500,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
 
           {!isLoadingMusician && (
             <View style={styles.rowCenter}>
-              {formatRanker(dataRanker?.data ?? []).map((v, i) => {
+              {formatRanker(dataRanker?.data?.list ?? []).map((v, i) => {
                 return (
                   <React.Fragment key={i}>
                     <RankCard
