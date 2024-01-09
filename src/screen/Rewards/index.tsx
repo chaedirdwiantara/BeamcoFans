@@ -31,8 +31,8 @@ import {
 import {mvs} from 'react-native-size-matters';
 import {dataMissionStore} from '../../store/reward.store';
 import {useTranslation} from 'react-i18next';
-import LoadingSpinner from '../../components/atom/Loading/LoadingSpinner';
 import {RewardsSkeleton} from '../../skeleton/Rewards';
+import HeaderSwiper from '../../components/molecule/Reward/headerSwiper';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
@@ -54,7 +54,7 @@ const Rewards = () => {
   const {useCheckBadge} = useBadgeHook();
   const {storedBadgeTitle, setStoredBadgeTitle} = dataMissionStore();
 
-  const [selectedIndex, setSelectedIndex] = useState(-0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [filter] = useState([
     {filterName: 'Rewards.Reward'},
     {filterName: 'Rewards.Mission'},
@@ -62,6 +62,7 @@ const Rewards = () => {
   const [scrollEffect, setScrollEffect] = useState(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [modalNewRank, setModalNewRank] = useState<boolean>(false);
+  const [slideIndex, setSlideIndex] = useState<number>(0);
 
   // fans type = 1
   const {
@@ -144,7 +145,7 @@ const Rewards = () => {
           dataBadge?.data &&
           dataProfile?.data && (
             <>
-              <View style={styles.slide}>
+              {/* <View style={styles.slide}>
                 <BackgroundHeader
                   rankTitle={dataBadge.data.title}
                   points={dataProfile?.data.availablePoint!}
@@ -167,6 +168,20 @@ const Rewards = () => {
                   startPoint={dataProfile?.data.point?.pointLifetime!}
                   endPoint={dataBadge.data.endPoint}
                   currentLvl={dataBadge.data.title}
+                />
+              </View> */}
+              <HeaderSwiper currentLvl={dataBadge.data.title} />
+              <Gap height={15} />
+              <View
+                style={{
+                  paddingHorizontal: widthResponsive(20),
+                  marginBottom: 5,
+                }}>
+                <PointProgress
+                  startPoint={dataBadge.data.startPoint} //point life time profile
+                  endPoint={dataBadge.data.endPoint}
+                  currentLvl={dataBadge.data.title}
+                  lifeTimePoint={dataProfile?.data.point?.pointLifetime!}
                 />
               </View>
             </>
