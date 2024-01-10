@@ -147,31 +147,6 @@ const Rewards = () => {
           dataBadge?.data &&
           dataProfile?.data && (
             <>
-              {/* <View style={styles.slide}>
-                <BackgroundHeader
-                  rankTitle={dataBadge.data.title}
-                  points={dataProfile?.data.availablePoint!}
-                />
-              </View>
-
-              <Gap height={14} />
-              <View style={{paddingHorizontal: widthResponsive(20)}}>
-                <PointProgress
-                  startPoint={dataBadge.data.startPoint} //point life time profile
-                  endPoint={dataBadge.data.endPoint}
-                  currentLvl={dataBadge.data.title}
-                  lifeTimePoint={dataProfile?.data.point?.pointLifetime!}
-                />
-              </View>
-
-              <Gap height={24} />
-              <View style={{paddingHorizontal: widthResponsive(20)}}>
-                <InfoCard
-                  startPoint={dataProfile?.data.point?.pointLifetime!}
-                  endPoint={dataBadge.data.endPoint}
-                  currentLvl={dataBadge.data.title}
-                />
-              </View> */}
               <HeaderSwiper currentLvl={dataBadge.data.title} />
               <Gap height={15} />
               <View
