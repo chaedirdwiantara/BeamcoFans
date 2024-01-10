@@ -7,8 +7,11 @@ import {
   getMyVouchertEp,
   claimAvailVoucherEp,
   getEventVoucherDetailRewards,
+  getBenefitEp,
+  getDetailBenefitEp,
 } from '../api/reward.api';
 import {GetMissionProgressParams} from '../interface/reward.interface';
+import {ParamsProps} from '../interface/base.interface';
 
 export const useRewardHook = () => {
   const useGetMissionMaster = () => {
@@ -45,9 +48,18 @@ export const useRewardHook = () => {
   };
 
   const useEventVoucherDetail = (id?: string) => {
-    return useQuery(
-      [`event/voucher/detail/${id}`],
-      () => id !== undefined ? getEventVoucherDetailRewards(id) : null,
+    return useQuery([`event/voucher/detail/${id}`], () =>
+      id !== undefined ? getEventVoucherDetailRewards(id) : null,
+    );
+  };
+
+  const useGetBenefit = (param: ParamsProps) => {
+    return useQuery(['reward/get-benefit'], () => getBenefitEp(param));
+  };
+
+  const useGetDetailBenefit = (param: ParamsProps) => {
+    return useQuery(['reward/get-detail-benefit'], () =>
+      getDetailBenefitEp(param),
     );
   };
 
@@ -59,5 +71,7 @@ export const useRewardHook = () => {
     useGetMyVoucher,
     useClaimMyVoucher,
     useEventVoucherDetail,
+    useGetBenefit,
+    useGetDetailBenefit,
   };
 };

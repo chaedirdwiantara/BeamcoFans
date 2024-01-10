@@ -42,6 +42,7 @@ import ClaimReward from '../screen/EventDetail/ClaimReward';
 import DiscoverArtist from '../screen/DiscoverArtist';
 import ListVoucher from '../screen/ListVoucher';
 import DetailVoucher from '../screen/DetailVoucher';
+import DetailBenefit from '../screen/Rewards/DetailBenefit/detailBenefit';
 
 // Home
 import {HomeScreen} from '../screen/Home';
@@ -189,6 +190,7 @@ export type RootStackParams = {
     dataDetail: TransactionHistoryPropsType;
   };
   DetailVoucher: {id: number; eventId: string};
+  DetailBenefit: {benefitId: number};
   DetailVoucherRewards: {
     id?: string;
     dataDetailAvailVoucher?: any;
@@ -606,8 +608,12 @@ export const RootStackScreen = () => (
     <RootStack.Screen name="ListVoucher" component={ListVoucher} />
     <RootStack.Screen name="DetailVoucher" component={DetailVoucher} />
     <RootStack.Screen name="Profile" component={ProfileScreen} />
-    <RootStack.Screen name="DetailVoucherRewards" component={DetailVoucherRewards} />
+    <RootStack.Screen
+      name="DetailVoucherRewards"
+      component={DetailVoucherRewards}
+    />
     <RootStack.Screen name="GiftVoucher" component={GiftVoucher} />
+    <RootStack.Screen name="DetailBenefit" component={DetailBenefit} />
   </RootStack.Navigator>
 );
 

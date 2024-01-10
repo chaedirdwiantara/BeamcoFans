@@ -29,10 +29,11 @@ import {
   BadgeSilverMIcon,
 } from '../../assets/icon';
 import {mvs} from 'react-native-size-matters';
-import {dataMissionStore} from '../../store/reward.store';
+import {dataMissionStore, slideIndexStore} from '../../store/reward.store';
 import {useTranslation} from 'react-i18next';
 import {RewardsSkeleton} from '../../skeleton/Rewards';
 import HeaderSwiper from '../../components/molecule/Reward/headerSwiper';
+import BenefitCard from '../../components/molecule/Reward/benefitCard';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
@@ -53,6 +54,7 @@ const Rewards = () => {
   // BADGE
   const {useCheckBadge} = useBadgeHook();
   const {storedBadgeTitle, setStoredBadgeTitle} = dataMissionStore();
+  const {storedSlideIndex} = slideIndexStore();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [filter] = useState([
@@ -175,7 +177,6 @@ const Rewards = () => {
               <View
                 style={{
                   paddingHorizontal: widthResponsive(20),
-                  marginBottom: 5,
                 }}>
                 <PointProgress
                   startPoint={dataBadge.data.startPoint} //point life time profile
@@ -183,6 +184,10 @@ const Rewards = () => {
                   currentLvl={dataBadge.data.title}
                   lifeTimePoint={dataProfile?.data.point?.pointLifetime!}
                 />
+              </View>
+              <Gap height={19} />
+              <View style={{paddingHorizontal: widthResponsive(20)}}>
+                {storedSlideIndex && <BenefitCard id={storedSlideIndex + 1} />}
               </View>
             </>
           )
