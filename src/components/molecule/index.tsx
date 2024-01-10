@@ -36,6 +36,7 @@ import ListPlaylistHome from './ListCard/ListPlaylistHome';
 import {LoginDescription} from './LoginDescription/LoginDescription';
 import {ModalClaimCredits} from './Modal/ModalClaimCredits';
 import {ModalConfirm} from './Modal/ModalConfirm';
+import {ModalConfirm2} from './Modal/ModalConfirm2';
 import {ModalCustom} from './Modal/ModalCustom';
 import {ModalDonate} from './Modal/ModalDonate';
 import {ModalFreeBeer} from './Modal/ModalFreeBeer';
@@ -117,6 +118,7 @@ export {
   LoginDescription,
   ModalClaimCredits,
   ModalConfirm,
+  ModalConfirm2,
   ModalCustom,
   ModalDonate,
   ModalFreeBeer,

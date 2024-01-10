@@ -460,11 +460,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                   'Musician.Tab.Music' ? (
                   isLoading ? null : showContentMusic ? (
                     <View style={{paddingHorizontal: widthResponsive(20)}}>
-                      <ListPlaylist
+                      {/* <ListPlaylist
                         data={dataPlaylist}
                         onPress={goToPlaylist}
                         scrollable={false}
-                      />
+                      /> */}
                       <Gap height={mvs(20)} />
                       {/* List Album Horizontal */}
                       {dataAlbum && dataAlbum?.length > 0 && (

@@ -4,6 +4,7 @@ import {
   Image,
   ImageSourcePropType,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -16,9 +17,15 @@ import {
   CustomTipping,
   Gap,
   ModalCustom,
+  SsuDivider,
   TopNavigation,
 } from '../components';
-import {ArrowLeftIcon, ChevronUp, LiveIcon} from '../assets/icon';
+import {
+  ArrowLeftIcon,
+  ChevronUp,
+  InfoCircleIcon,
+  LiveIcon,
+} from '../assets/icon';
 import {useTranslation} from 'react-i18next';
 import {heightResponsive, kFormatter, widthResponsive} from '../utils';
 import {useFocusEffect} from '@react-navigation/native';
@@ -39,6 +46,8 @@ import {liveTipping} from '../api/credit.api';
 import {profileStorage, storage} from '../hooks/use-storage.hook';
 import {useEventHook} from '../hooks/use-event.hook';
 import {EventTopTipper} from '../interface/event.interface';
+import Torch from 'react-native-torch';
+import RankCardNew from '../components/molecule/ListCard/RankCardNew';
 
 type LiveTippingProps = NativeStackScreenProps<RootStackParams, 'LiveTipping'>;
 
@@ -82,6 +91,8 @@ export const LiveTipping: FC<LiveTippingProps> = ({
   const [moneyURL, setMoneyURL] = useState<ImageSourcePropType>(
     require('../assets/image/money-1.png'),
   );
+  const [totalCredit, setTotalCredit] = useState<number>(0);
+  const [isFlashOn, setIsFlashOn] = useState<boolean>(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   const handleBackAction = () => {
@@ -231,7 +242,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
     }, [uuid]),
   );
 
-  const sleep = (time: any) => {
+  const sleep = async (time: any) => {
     return new Promise<void>(resolve => setTimeout(() => resolve(), time));
   };
 
@@ -303,19 +314,6 @@ export const LiveTipping: FC<LiveTippingProps> = ({
   }, [counterTipping]);
 
   const onPressCustomTipping = (chip: number) => {
-    // if (!isSentATip && counter > 0) {
-    //   // setIsSentATip change to default
-    //   setIsSentATip(false);
-    //   stopBgService();
-    //   setCounterTipping(0);
-    //   setCounter(0);
-    //   await sendTipping();
-    //   getCreditCount();
-    //   if (!dataVoucher?.data?.isGenerated) {
-    //     refetchVoucher();
-    //   }
-    // }
-
     const money =
       chip === 1
         ? require('../assets/image/money-1.png')
@@ -348,6 +346,38 @@ export const LiveTipping: FC<LiveTippingProps> = ({
     setCreditBySwipe(chip);
   };
 
+  const lightOn = () => {
+    const timeMs = 500;
+    const light = async () => {
+      console.log('tes ' + totalCredit);
+      Torch.switchState(true);
+      await sleep(timeMs);
+      Torch.switchState(false);
+      await sleep(timeMs);
+      setTotalCredit(totalCredit - 1);
+    };
+    let i = 0;
+    while (i < totalCredit && isFlashOn) {
+      light();
+      i++;
+    }
+  };
+
+  useEffect(() => {
+    setIsFlashOn(false);
+    const timeOut = setTimeout(() => {
+      setIsFlashOn(true);
+    }, 500);
+
+    return () => clearTimeout(timeOut);
+  }, [totalCredit]);
+
+  useEffect(() => {
+    if (isFlashOn) {
+      lightOn();
+    }
+  }, [isFlashOn]);
+
   return (
     <View style={styles.root}>
       <TopNavigation.Type4
@@ -365,7 +395,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
             }}
             onSwipe={onSwipe}
             isNewGift={false}
-            showGift={true}
+            showGift={false}
           />
         }
         rightIconAction={() => null}
@@ -379,27 +409,21 @@ export const LiveTipping: FC<LiveTippingProps> = ({
         style={{
           flex: 1,
           justifyContent: 'space-between',
-          paddingHorizontal: widthResponsive(24),
         }}>
         <View style={{alignItems: 'center'}}>
           <TouchableOpacity style={{alignItems: 'center'}}>
-            <AvatarProfile
-              initialName={initialname(dataDetailMusician?.fullname ?? '')}
-              imgUri={
-                dataDetailMusician?.imageProfileUrls?.length === 0
-                  ? ''
-                  : (dataDetailMusician?.imageProfileUrls[0].image as string)
-              }
-              onPress={() => null}
-            />
-            <Gap height={heightResponsive(4)} />
-            <View
-              style={[
-                styles.rowCenter,
-                {
-                  position: 'relative',
-                },
-              ]}>
+            <View>
+              <AvatarProfile
+                initialName={initialname(dataDetailMusician?.fullname ?? '')}
+                imgUri={
+                  dataDetailMusician?.imageProfileUrls?.length === 0
+                    ? ''
+                    : (dataDetailMusician?.imageProfileUrls[0].image as string)
+                }
+                onPress={() => null}
+                showBorder={dataStatus?.data}
+                borderColor="#FF68D6"
+              />
               {dataStatus?.data && (
                 <View style={styles.containerIconLive}>
                   <LiveIcon
@@ -408,7 +432,9 @@ export const LiveTipping: FC<LiveTippingProps> = ({
                   />
                 </View>
               )}
-
+            </View>
+            <Gap height={heightResponsive(10)} />
+            <View>
               <Text
                 style={[
                   Typography.Heading6,
@@ -416,6 +442,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
                     color: Color.Neutral[10],
                     justifyContent: 'center',
                     alignItems: 'center',
+                    fontWeight: '700',
                   },
                 ]}>
                 {dataDetailMusician?.fullname}
@@ -423,23 +450,9 @@ export const LiveTipping: FC<LiveTippingProps> = ({
             </View>
 
             <Text style={[Typography.Overline, {color: '#A1A1A1'}]}>
-              {dataDetailMusician?.username}
+              @{dataDetailMusician?.username}
             </Text>
           </TouchableOpacity>
-
-          <Gap height={heightResponsive(4)} />
-
-          <Text
-            style={[
-              Typography.Overline,
-              {
-                textAlign: 'center',
-                paddingHorizontal: widthResponsive(30),
-                color: Color.Neutral[10],
-              },
-            ]}>
-            {dataDetailMusician?.about}
-          </Text>
 
           <Gap height={heightResponsive(14)} />
 
@@ -474,123 +487,168 @@ export const LiveTipping: FC<LiveTippingProps> = ({
             </TouchableOpacity>
           </View>
 
+          <Gap height={heightResponsive(14)} />
+
+          <SsuDivider />
+
+          <Gap height={heightResponsive(12)} />
+
+          <View>
+            <Text
+              style={[
+                Typography.Subtitle3,
+                {
+                  color: Color.Neutral[10],
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  fontWeight: '700',
+                },
+              ]}>
+              {t('LiveTipping.LeaderTipper')}
+            </Text>
+          </View>
+
           <Gap height={heightResponsive(12)} />
 
           {!isLoadingMusician && (
-            <View style={styles.rowCenter}>
-              {formatRanker(dataRanker?.data ?? []).map((v, i) => {
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{paddingHorizontal: widthResponsive(24)}}>
+              {formatRanker(dataRanker?.data?.list ?? []).map((v, i) => {
                 return (
                   <React.Fragment key={i}>
-                    <RankCard
+                    <RankCardNew
                       rank={Number(v.rank)}
                       username={v.username}
                       credit={v.credit}
                       isYou={v.isYou}
                       avatar={v.avatar}
                     />
-                    {i < 3 && <Gap width={widthResponsive(8)} />}
                   </React.Fragment>
                 );
               })}
+            </ScrollView>
+          )}
+
+          {dataRanker?.data?.message !== '' && (
+            <View style={styles.info}>
+              <InfoCircleIcon width={widthResponsive(12)} />
+              <Gap width={widthResponsive(4)} />
+              <Text
+                style={[
+                  Typography.Overline,
+                  {
+                    color: Color.Neutral[10],
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontWeight: '500',
+                  },
+                ]}>
+                {dataRanker?.data?.message}
+              </Text>
             </View>
           )}
         </View>
 
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            paddingTop:
-              Platform.OS === 'android' ? heightResponsive(30) : 'auto',
-          }}>
-          <Image
-            source={moneyBatchURL}
-            style={
-              {
-                // width: width * 0.5,
+        <View style={{paddingHorizontal: widthResponsive(24)}}>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              paddingTop:
+                Platform.OS === 'android' ? heightResponsive(30) : 'auto',
+            }}>
+            <Image
+              source={moneyBatchURL}
+              style={
+                {
+                  // width: width * 0.5,
+                }
               }
-            }
-            resizeMode="contain"
-          />
+              resizeMode="contain"
+            />
 
-          {showMoney && (
-            <Draggable
-              disabled={disabledSwipe || stopSwipe}
-              x={widthResponsive(45)}
-              y={
-                Platform.OS === 'android'
-                  ? heightResponsive(20)
-                  : heightResponsive(-5)
-              }
-              minY={heightResponsive(-300)}
-              maxY={heightResponsive(-5)}
-              maxX={widthResponsive(50)}
-              minX={widthResponsive(50)}
-              onDragRelease={(event, ges, bound) => {
-                if (showSwipeText) {
-                  setShowSwipeText(false);
+            {showMoney && (
+              <Draggable
+                disabled={disabledSwipe || stopSwipe}
+                x={widthResponsive(45)}
+                y={
+                  Platform.OS === 'android'
+                    ? heightResponsive(20)
+                    : heightResponsive(-5)
                 }
-                if (credit > 0) {
-                  setShowMoney(false);
-                  setCredit(credit - creditBySwipe);
-                  setOnSwipe(true);
-                  setCounter(counter + 1);
-                  setCounterTipping(counterTipping + 1);
-                  startBgService();
-                } else {
-                  setShowModalEmpty(true);
-                }
-              }}
-              shouldReverse>
-              {counter >= 50 && (
+                minY={heightResponsive(-300)}
+                maxY={heightResponsive(-5)}
+                maxX={widthResponsive(50)}
+                minX={widthResponsive(50)}
+                onDragRelease={(event, ges, bound) => {
+                  if (showSwipeText) {
+                    setShowSwipeText(false);
+                  }
+                  if (credit > 0) {
+                    setShowMoney(false);
+                    setTotalCredit(totalCredit + creditBySwipe);
+                    setCredit(credit - creditBySwipe);
+                    setOnSwipe(true);
+                    setCounter(counter + 1);
+                    setCounterTipping(counterTipping + 1);
+                    startBgService();
+                  } else {
+                    setShowModalEmpty(true);
+                  }
+                }}
+                shouldReverse>
+                {counter >= 50 && (
+                  <Image
+                    source={require('../assets/image/fire.png')}
+                    style={{
+                      // width: width * 0.47,
+                      position: 'absolute',
+                      opacity: opacityMoney,
+                      top: heightResponsive(-60),
+                      left: widthResponsive(-25),
+                    }}
+                    resizeMode="contain"
+                  />
+                )}
+
                 <Image
-                  source={require('../assets/image/fire.png')}
+                  source={moneyURL}
                   style={{
                     // width: width * 0.47,
                     position: 'absolute',
                     opacity: opacityMoney,
-                    top: heightResponsive(-60),
-                    left: widthResponsive(-25),
                   }}
                   resizeMode="contain"
                 />
-              )}
-
-              <Image
-                source={moneyURL}
-                style={{
-                  // width: width * 0.47,
-                  position: 'absolute',
-                  opacity: opacityMoney,
-                }}
-                resizeMode="contain"
-              />
-              {showSwipeText && (
-                <View style={styles.containerAnimation}>
-                  <Animated.View
-                    style={[styles.square, {transform: [{translateY}]}]}>
-                    <View style={{marginBottom: heightResponsive(-12)}}>
+                {showSwipeText && (
+                  <View style={styles.containerAnimation}>
+                    <Animated.View
+                      style={[styles.square, {transform: [{translateY}]}]}>
+                      <View style={{marginBottom: heightResponsive(-12)}}>
+                        <ChevronUp />
+                      </View>
                       <ChevronUp />
-                    </View>
-                    <ChevronUp />
-                    <Text
-                      style={[
-                        Typography.Subtitle2,
-                        {color: Color.Neutral[10]},
-                      ]}>
-                      {t('LiveTipping.SwipeUp')}
-                    </Text>
-                  </Animated.View>
-                </View>
-              )}
-            </Draggable>
-          )}
+                      <Text
+                        style={[
+                          Typography.Subtitle2,
+                          {color: Color.Neutral[10]},
+                        ]}>
+                        {t('LiveTipping.SwipeUp')}
+                      </Text>
+                    </Animated.View>
+                  </View>
+                )}
+              </Draggable>
+            )}
 
-          <CustomTipping
-            containerStyles={styles.customTipping}
-            selectedChip={activeCredit}
-            onPress={creditAmount => onPressCustomTipping(creditAmount)}
-          />
+            <CustomTipping
+              containerStyles={styles.customTipping}
+              selectedChip={activeCredit}
+              onPress={creditAmount => onPressCustomTipping(creditAmount)}
+            />
+          </View>
         </View>
       </View>
 
@@ -753,7 +811,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: widthResponsive(2),
     borderRadius: 4,
     position: 'absolute',
-    left: widthResponsive(-30),
+    left: widthResponsive(19),
+    bottom: heightResponsive(-6),
   },
   modalContainer: {
     backgroundColor: Color.Dark[800],
@@ -786,5 +845,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: widthResponsive(-25),
     bottom: mvs(80),
+  },
+  info: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Color.DarkBlue[100],
+    paddingHorizontal: widthResponsive(8),
+    paddingVertical: heightResponsive(2),
+    borderRadius: widthResponsive(4),
   },
 });

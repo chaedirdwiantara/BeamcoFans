@@ -550,6 +550,8 @@ PODS:
     - React-Core
   - react-native-safe-area-context (4.7.4):
     - React-Core
+  - react-native-torch (1.2.0):
+    - React
   - react-native-track-player (3.2.0):
     - React-Core
     - SwiftAudioEx (= 0.15.3)
@@ -845,6 +847,7 @@ DEPENDENCIES:
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-torch (from `../node_modules/react-native-torch`)
   - react-native-track-player (from `../node_modules/react-native-track-player`)
   - react-native-ultimate-config (from `../node_modules/react-native-ultimate-config`)
   - react-native-version-check (from `../node_modules/react-native-version-check`)
@@ -999,6 +1002,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-mmkv"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-torch:
+    :path: "../node_modules/react-native-torch"
   react-native-track-player:
     :path: "../node_modules/react-native-track-player"
   react-native-ultimate-config:
@@ -1155,6 +1160,7 @@ SPEC CHECKSUMS:
   react-native-get-random-values: dee677497c6a740b71e5612e8dbd83e7539ed5bb
   react-native-mmkv: e97c0c79403fb94577e5d902ab1ebd42b0715b43
   react-native-safe-area-context: 2cd91d532de12acdb0a9cbc8d43ac72a8e4c897c
+  react-native-torch: 3f278a42607fb5b69f3e378d740ff0b128c859fd
   react-native-track-player: 0c26d981b5097910486cbbeb6d8f5352d41be069
   react-native-ultimate-config: bc816775e31bb2056ccfe18b49e76a5ba2d39b6c
   react-native-version-check: 6cd36aad4e30b8e3216747e3b4ddeb09e0647af8

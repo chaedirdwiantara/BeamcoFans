@@ -6,9 +6,11 @@ import {
   setClaimMissionEp,
   getMyVouchertEp,
   claimAvailVoucherEp,
-  getEventVoucherDetailRewards,
   getBenefitEp,
   getDetailBenefitEp,
+  getVoucherDetailBeforeClaim,
+  getVoucherDetailRewards,
+  getHistoryVoucher,
 } from '../api/reward.api';
 import {GetMissionProgressParams} from '../interface/reward.interface';
 import {ParamsProps} from '../interface/base.interface';
@@ -20,7 +22,12 @@ export const useRewardHook = () => {
 
   const useGetMissionProgress = (param: GetMissionProgressParams) => {
     return useQuery(
-      ['reward/get-mission-progress', param.task_type, param.function],
+      [
+        'reward/get-mission-progress',
+        param.task_type,
+        param.function,
+        param.campaignId,
+      ],
       () => getMissionProgressEp(param),
     );
   };
@@ -41,15 +48,27 @@ export const useRewardHook = () => {
     return useQuery(['reward/get-my-voucher'], () => getMyVouchertEp());
   };
 
+  const useGetHistoryVoucher = () => {
+    return useQuery(['reward/history-voucher'], () => getHistoryVoucher());
+  };
+
   const useClaimMyVoucher = (voucherId: number | undefined) => {
     return useQuery(['reward/claim-voucher'], () => {
       voucherId !== undefined && claimAvailVoucherEp(voucherId);
     });
   };
 
-  const useEventVoucherDetail = (id?: string) => {
-    return useQuery([`event/voucher/detail/${id}`], () =>
-      id !== undefined ? getEventVoucherDetailRewards(id) : null,
+  const useVoucherDetailBeforeClaim = (id?: number) => {
+    return useQuery([`voucher/detail/${id}`], () =>
+      id !== undefined ? getVoucherDetailBeforeClaim(id) : null,
+    );
+  };
+
+  const useMyVoucherDetail = (codeGenerated?: string) => {
+    return useQuery([`my-voucher/detail/${codeGenerated}`], () =>
+      codeGenerated !== undefined
+        ? getVoucherDetailRewards(codeGenerated)
+        : null,
     );
   };
 
@@ -69,9 +88,11 @@ export const useRewardHook = () => {
     useSetClaimMission,
     useGetAvailableVoucher,
     useGetMyVoucher,
+    useGetHistoryVoucher,
     useClaimMyVoucher,
-    useEventVoucherDetail,
     useGetBenefit,
     useGetDetailBenefit,
+    useVoucherDetailBeforeClaim,
+    useMyVoucherDetail,
   };
 };

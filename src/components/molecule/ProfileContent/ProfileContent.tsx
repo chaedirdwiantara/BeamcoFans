@@ -141,7 +141,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
   };
 
   const [filter] = useState([
-    {filterName: 'Profile.Tab.Playlist'},
+    // {filterName: 'Profile.Tab.Playlist'},
     {filterName: 'Profile.Tab.TopMusician'},
     {filterName: 'Profile.Tab.Badge'},
   ]);
@@ -363,7 +363,7 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
             />
           ) : (
             <>
-              <TabFilter.Type1
+              <TabFilter.Type4
                 filterData={filter}
                 onPress={filterData}
                 selectedIndex={selectedIndex}

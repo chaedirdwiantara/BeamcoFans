@@ -68,6 +68,7 @@ import {FollowMusicianPropsType} from '../interface/musician.interface';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import {ModalPlayMusic} from '../components/molecule/Modal/ModalPlayMusic';
 import {
+  bgColorTab,
   heightPercentage,
   heightResponsive,
   width,
@@ -99,18 +100,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const {i18n} = useTranslation();
   const currentLanguage = i18n.language;
-  const {
-    isLoadingMusician,
-    dataMusician,
-    dataFavoriteMusician,
-    dataRecommendedMusician,
-    getListDataMusician,
-    getListDataFavoriteMusician,
-    getListDataRecommendedMusician,
-    setFollowMusician,
-    setUnfollowMusician,
-    useGetListTopArtists,
-  } = useMusicianHook();
+  const {setFollowMusician, setUnfollowMusician, useGetListTopArtists} =
+    useMusicianHook();
   const {
     dataDiveIn,
     dataAlbumComingSoon,
@@ -142,10 +133,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   } = usePlayerHook();
   const {
     searchLoading,
-    dataSearchMusicians,
     dataSearchSongs,
     dataPublicBanner,
-    getSearchMusicians,
     getSearchSongs,
     getListDataBannerPublic,
     getSearchPlaylists,
@@ -163,7 +152,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     isLogin,
   );
 
-  const [selectedIndexMusician, setSelectedIndexMusician] = useState(-0);
   const [selectedTopArtist, setSelectedTopArtist] = useState<
     'lifetime' | 'trending'
   >('lifetime');
@@ -195,12 +183,11 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     eventId: dataCheckVoucher?.data?.eventID ?? '',
   });
 
-  // const {
-  //   data: dataTopArtists,
-  //   refetch: refetchTopArtists,
-  //   isLoading: isLoadingTopArtists,
-  //   isRefetching: isRefetchingTopArtists,
-  // } = useGetListTopArtists(selectedTopArtist);
+  const {
+    data: dataTopArtists,
+    refetch: refetchTopArtists,
+    isLoading: isLoadingTopArtists,
+  } = useGetListTopArtists(selectedTopArtist);
 
   useEffect(() => {
     // if the user has already redeemed the voucher, modal will not appear
@@ -293,29 +280,16 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   // Triggering isFollowing musician when go back from other screen
   useFocusEffect(
     useCallback(() => {
-      if (isLogin) {
-        // Triggering when go back from other screen
-        getProfileProgress();
-        getProfileUser();
-        setLastActive();
-        // refetchTopArtists();
-
-        if (selectedIndexMusician === 0) {
-          getListDataMusician({filterBy: 'top'});
-        } else if (selectedIndexMusician === 1) {
-          getListDataRecommendedMusician();
-        } else {
-          getListDataFavoriteMusician({fansUUID: uuid});
-        }
-      } else {
-        getSearchMusicians({keyword: '', filterBy: 'top'});
-      }
+      // Triggering when go back from other screen
+      getProfileProgress();
+      getProfileUser();
+      setLastActive();
+      refetchTopArtists();
 
       setTimeout(() => {
         setRefreshing(false);
       }, 1000);
-    }, [refreshing, selectedIndexMusician]),
-    // }, [refreshing, selectedIndexMusician, selectedTopArtist]),
+    }, [refreshing, selectedTopArtist]),
   );
 
   // Triggering when click love on the same song in top & new song tab
@@ -404,14 +378,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     {filterName: 'Home.Tab.TopSong.Title'},
     {filterName: 'Home.Tab.NewSong.Title'},
   ]);
-
-  const filterDataMusician = (item: any, index: any) => {
-    if (!isLogin && index === 1) {
-      setModalGuestVisible(true);
-    } else {
-      setSelectedIndexMusician(index);
-    }
-  };
 
   const filterDataSong = (item: any, index: any) => {
     setSelectedIndexSong(index);
@@ -543,12 +509,6 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
 
   const goToMusicianProfile = (uuid: string) => {
     navigation.navigate('MusicianProfile', {id: uuid});
-  };
-
-  const bgTabArtist = (tabActive: 'lifetime' | 'trending') => {
-    return tabActive === selectedTopArtist
-      ? Color.Pink[200]
-      : Color.Dark[600];
   };
 
   return (
@@ -684,7 +644,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               onPress={() => setSelectedTopArtist('lifetime')}
               containerStyles={{
                 ...styles.tabArtist,
-                backgroundColor: bgTabArtist('lifetime'),
+                backgroundColor: bgColorTab('lifetime', selectedTopArtist),
               }}
             />
             <Gap width={widthPercentage(10)} />
@@ -692,40 +652,24 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               label={t('Home.Tab.TopMusician.Trending')}
               containerStyles={{
                 ...styles.tabArtist,
-                backgroundColor: bgTabArtist('trending'),
+                backgroundColor: bgColorTab('trending', selectedTopArtist),
               }}
               onPress={() => setSelectedTopArtist('trending')}
             />
           </View>
-          {selectedTopArtist === 'lifetime' ? (
-            <TopMusician
-              dataMusician={isLogin ? dataMusician : dataSearchMusicians}
-              setFollowMusician={(
-                props?: FollowMusicianPropsType,
-                params?: ParamsProps,
-              ) => setFollowMusician(props, params)}
-              setUnfollowMusician={(
-                props?: FollowMusicianPropsType,
-                params?: ParamsProps,
-              ) => setUnfollowMusician(props, params)}
-              isLoading={isLoadingMusician || searchLoading}
-              toDetailOnPress={goToMusicianProfile}
-            />
-          ) : (
-            <RecomendedMusician
-              dataMusician={dataRecommendedMusician}
-              setFollowMusician={(
-                props?: FollowMusicianPropsType,
-                params?: ParamsProps,
-              ) => setFollowMusician(props, params)}
-              setUnfollowMusician={(
-                props?: FollowMusicianPropsType,
-                params?: ParamsProps,
-              ) => setUnfollowMusician(props, params)}
-              isLoading={isLoadingMusician}
-              toDetailOnPress={goToMusicianProfile}
-            />
-          )}
+          <TopMusician
+            dataMusician={dataTopArtists?.data || []}
+            setFollowMusician={(
+              props?: FollowMusicianPropsType,
+              params?: ParamsProps,
+            ) => setFollowMusician(props, params)}
+            setUnfollowMusician={(
+              props?: FollowMusicianPropsType,
+              params?: ParamsProps,
+            ) => setUnfollowMusician(props, params)}
+            isLoading={isLoadingTopArtists}
+            toDetailOnPress={goToMusicianProfile}
+          />
         </View>
         {/* End of Tab Musician */}
         {/* Tab Song */}
@@ -793,13 +737,13 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         />
         {/* End Of Dive In */}
         {/* Playlist */}
-        {dataPlaylist?.data && dataPlaylist?.data.length > 0 ? (
+        {/* {dataPlaylist?.data && dataPlaylist?.data.length > 0 ? (
           <ListPlaylistHome
             title={t('Home.Playlist.Title')}
             data={dataPlaylist?.data}
             onPress={() => navigation.navigate('ListPlaylist')}
           />
-        ) : null}
+        ) : null} */}
         {/* End of Playlist */}
         <Gap height={heightPercentage(10)} />
         {/* Coming Soon */}
@@ -918,5 +862,5 @@ const styles = StyleSheet.create({
     width: widthPercentage(72),
     aspectRatio: heightPercentage(72 / 24),
     borderRadius: mvs(30),
-  }
+  },
 });

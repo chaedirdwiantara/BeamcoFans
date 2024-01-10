@@ -303,7 +303,10 @@ export interface EventTopTipper {
 }
 
 export interface EventTopTipperResponse extends BaseResponseApi {
-  data: EventTopTipper[];
+  data: {
+    list: EventTopTipper[];
+    message: string;
+  };
 }
 
 export interface EventMusicianTipped {

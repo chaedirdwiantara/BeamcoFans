@@ -5,6 +5,7 @@ export interface GetMissionProgressParams {
   //   amount_to_claim?: number;
   //   max_claim?: number;
   function: string;
+  campaignId: number;
 }
 
 // Define a type for different reward functions
@@ -41,6 +42,7 @@ export interface DataMissionMaster {
   taskType: TaskType;
   amountType: number;
   maxClaim: number;
+  campaignId: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -65,7 +67,10 @@ export interface GetMissionProgress extends BaseResponseApi {
 }
 
 export interface SetClaimMission extends BaseResponseApi {
-  data: null;
+  data: {
+    id: number;
+    codeGenerated: string;
+  };
 }
 
 export interface DataAvailableVoucher {
@@ -100,9 +105,32 @@ export interface DataMyVoucher {
     imageUrl: imageTypes[];
     claimPoint: number;
     iconType: string;
+    startDate: string;
+    endDate: string;
   };
   code: string;
   statusVoucher: string;
+  codeGenerated: string;
+}
+
+export interface DataHistoryVoucher {
+  id: number;
+  voucher: {
+    id: number;
+    title: string;
+    imageUrl: imageTypes[];
+    claimPoint: number;
+  };
+  statusVoucher: string;
+  date: string;
+  transferLog: {
+    isTransfer: boolean;
+    uuid: string;
+    username: string;
+    fullname: string;
+    image: string;
+  };
+  codeGenerated: string;
 }
 
 export interface GetAvailableVoucher extends BaseResponseApi {
@@ -113,8 +141,78 @@ export interface GetMyVoucher extends BaseResponseApi {
   data: DataMyVoucher[];
 }
 
+export interface GetHistoryVoucher extends BaseResponseApi {
+  data: DataHistoryVoucher[];
+}
+
+export interface DataVoucherListDetail {
+  id: number;
+  ownerUUID: string;
+  ownerType: string;
+  expiredDate: string;
+  isRedeemed: boolean;
+  isAvailable: boolean;
+  code: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  subTitle: string;
+  description: string;
+  termsCondition: {
+    title: string;
+    value: string[];
+  };
+  imageUrl: imageTypes[];
+  quotaLeft: number;
+  claimPoint: number;
+  stock: number;
+  expiredDays: number;
+  isClaimable: boolean;
+  isLimitedClaim: boolean;
+  status: {
+    buttonDisabled: boolean;
+    text: string;
+  };
+}
+
+export interface DataVoucherDetailBeforeClaim {
+  id: number;
+  title: string;
+  imageUrl: imageTypes[];
+  generateType: string;
+  claimPoint: number;
+  stock: number;
+  expiredDays: number;
+  description: string;
+  termsCondition: {
+    title: string;
+    value: string[];
+  };
+  isClaimable: boolean;
+  isLimitedClaim: boolean;
+  isRedeemed: boolean;
+  status: {
+    buttonDisabled: boolean;
+    text: string;
+  };
+  endDate: string;
+  expiredDate: string;
+}
+
+export interface GetVoucherListDetailResponse extends BaseResponseApi {
+  data: DataVoucherListDetail;
+}
+
+export interface GetVoucherDetailBeforeClaimResponse extends BaseResponseApi {
+  data: DataVoucherDetailBeforeClaim;
+}
+
+export interface ClaimVoucherResponse extends BaseResponseApi {
+  data: null;
+}
+
 export interface SendVoucherReq {
-  id: string;
+  voucherid: number;
   UUIDReceiver: string;
   usernameReceiver: string;
   fullnameReceiver: string;

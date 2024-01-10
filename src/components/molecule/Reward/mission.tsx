@@ -37,15 +37,12 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
   const [dataProgress, setDataProgress] = useState<DataListMissioProgress>();
   const [readyToRefetch, setreadyToRefetch] = useState<boolean>(false);
 
-  const {
-    data: dataMissionPrg,
-    refetch: refetchMissionPrg,
-    isLoading: isLoadingMissionPrg,
-    isRefetching: isRefetchingMissionPrg,
-  } = useGetMissionProgress({
-    task_type: data.taskType,
-    function: data.function,
-  });
+  const {data: dataMissionPrg, refetch: refetchMissionPrg} =
+    useGetMissionProgress({
+      task_type: data.taskType,
+      function: data.function,
+      campaignId: data.campaignId,
+    });
 
   useEffect(() => {
     refetchMissionPrg();
@@ -98,6 +95,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
       ? 'Credit Detected'
       : 'Activity Detected'
   }`;
+  const progressCompleted = dataProgress?.isClaimed;
 
   const handleOnClaim = (
     dataProgress: DataListMissioProgress,
@@ -113,7 +111,10 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
   };
 
   return (
-    <TouchableOpacity onPress={onGo} style={styles.voteTopContainer}>
+    <TouchableOpacity
+      onPress={onGo}
+      style={[styles.voteTopContainer, {opacity: progressCompleted ? 0.6 : 1}]}
+      disabled={progressCompleted}>
       <View style={{alignItems: 'center'}}>
         {rankTitle === 'Bronze' ? (
           <BadgeBronzeMissionIcon />
@@ -169,7 +170,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
             style={{width: '100%'}}
             // animationType={'timing'}
           />
-          {!dataProgress?.isClaimed ? (
+          {!progressCompleted ? (
             <View style={styles.progressContainer}>
               <Text style={styles.progressTxt}>
                 {data.taskType === 'based-reward'
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.Dark[700],
     padding: widthResponsive(16),
     borderRadius: 4,
-    marginBottom: widthResponsive(16),
+    marginBottom: widthResponsive(12),
   },
   progressBarContainer: {
     flex: 1,

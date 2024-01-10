@@ -27,7 +27,7 @@ export const GiftVoucher: React.FC<GiftVoucherProps> = ({
   navigation,
 }: GiftVoucherProps) => {
   const {t} = useTranslation();
-  const id = route.params.id;
+  const voucherid = route.params.voucherid;
 
   const [state, setState] = useState<string>('');
   const [modalSendGift, setModalSendGift] = useState<boolean>(false);
@@ -60,7 +60,7 @@ export const GiftVoucher: React.FC<GiftVoucherProps> = ({
 
   const handleTransfer = () => {
     setTransferVoucher.mutate({
-      id,
+      voucherid,
       UUIDReceiver: selectedFans?.uuid || '',
       usernameReceiver: selectedFans?.username || '',
       fullnameReceiver: selectedFans?.fullname || '',
@@ -80,9 +80,9 @@ export const GiftVoucher: React.FC<GiftVoucherProps> = ({
     setSelectedFans(item);
   };
 
-  const onPressModalInfo = () => {
+  const goToHistoryVoucher = () => {
+    navigation.navigate('MyVoucher');
     setModalInfo(false);
-    navigation.pop(2);
   };
 
   return (
@@ -118,7 +118,7 @@ export const GiftVoucher: React.FC<GiftVoucherProps> = ({
         <ModalInfoSendGift
           type={modalType}
           modalVisible={modalInfo}
-          onPressClose={() => onPressModalInfo()}
+          onPressClose={goToHistoryVoucher}
         />
       </View>
     </>
