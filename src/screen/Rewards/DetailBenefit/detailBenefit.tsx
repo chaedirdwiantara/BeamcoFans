@@ -68,7 +68,7 @@ const DetailBenefit: FC<ListVoucherProps> = ({
     <View style={styles.root}>
       {scrollEffect && (
         <TopNavigation.Type1
-          title={t('Event.DetailVoucher.Title')}
+          title={''}
           maxLengthTitle={20}
           itemStrokeColor={'white'}
           leftIcon={<ArrowLeftIcon />}
@@ -88,7 +88,7 @@ const DetailBenefit: FC<ListVoucherProps> = ({
               <View style={styles.headerContent}>
                 {!scrollEffect ? (
                   <TopNavigation.Type1
-                    title={t('Event.DetailVoucher.Title')}
+                    title={''}
                     maxLengthTitle={20}
                     itemStrokeColor={'white'}
                     leftIcon={<ArrowLeftIcon />}
@@ -102,20 +102,17 @@ const DetailBenefit: FC<ListVoucherProps> = ({
                 ) : (
                   <View />
                 )}
-
-                <View style={styles.titleContainer}>
-                  <Text style={styles.vTitle}>{dataDetail?.data.title}</Text>
-                  <Gap height={5} />
-                  <Text style={styles.vSubTitle}>
-                    {dataDetail?.data.description}
-                  </Text>
-                </View>
               </View>
             </LinearGradient>
           </ImageBackground>
         </View>
 
         <View style={styles.content}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.vTitle}>{dataDetail?.data.title}</Text>
+            <Gap height={5} />
+            <Text style={styles.vSubTitle}>{dataDetail?.data.description}</Text>
+          </View>
           <View style={styles.expired}>
             <View style={styles.textIcon}>
               <View style={{flexDirection: 'row'}}>
@@ -126,7 +123,7 @@ const DetailBenefit: FC<ListVoucherProps> = ({
                 />
                 <Gap width={8} />
                 <Text style={styles.normalTitle}>
-                  {t('Event.DetailVoucher.Expired')}
+                  {t('Rewards.DetailBenefit.Available')}
                 </Text>
               </View>
               <Text style={[styles.normalTitle, {color: color.Success[400]}]}>
@@ -194,7 +191,7 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontSize: mvs(12),
     fontWeight: '500',
-    color: color.Success[400],
+    color: color.Neutral[10],
   },
   content: {},
   expired: {

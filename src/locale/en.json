@@ -501,6 +501,9 @@
     "ModalRankUp": {
       "Title": "You’ve just earned a new badge!",
       "Subtitle": "Earn more rewards just for you check on Reward Page"
+    },
+    "DetailBenefit": {
+      "Available": "Available for"
     }
   },
   "Musician": {
