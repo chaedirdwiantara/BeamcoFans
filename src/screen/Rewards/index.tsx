@@ -187,7 +187,10 @@ const Rewards = () => {
               </View>
               <Gap height={19} />
               <View style={{paddingHorizontal: widthResponsive(20)}}>
-                {storedSlideIndex && <BenefitCard id={storedSlideIndex + 1} />}
+                <BenefitCard
+                  id={storedSlideIndex ? storedSlideIndex + 1 : 1}
+                  currentLvl={dataBadge.data.title}
+                />
               </View>
             </>
           )

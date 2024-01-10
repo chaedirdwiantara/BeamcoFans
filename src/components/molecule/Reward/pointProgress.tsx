@@ -106,7 +106,13 @@ const PointProgress: FC<Props> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          opacity: lvlOnNum === storedSlideIndex ? 1 : 0.6,
+        },
+      ]}>
       <Progress.Bar
         progress={
           storedSlideIndex !== undefined && lvlOnNum > storedSlideIndex
