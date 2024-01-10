@@ -462,7 +462,7 @@
         "SubtitleVoucherHistory": "Clear some mission and claim your voucher with loyalty point as a rewards",
         "Btn": "Clear Mission"
       },
-      "Btn":"View Details"
+      "Btn": "View Details"
     },
     "ModalRedeem": {
       "Title": "Congrats! You’ve Claimed 1 Voucher!",
@@ -1342,7 +1342,8 @@
     "TooFast": "You swipe too fast!",
     "EnjoyShow": "Let’s enjoy the show\nand take a rest for few seconds",
     "Credit": "Credit",
-    "NowActive": "Now Active"
+    "NowActive": "Now Active",
+    "LeaderTipper": "Leaderboard Tipper"
   },
   "DiscoverArtist": {
     "Title": "Discover Artists"
