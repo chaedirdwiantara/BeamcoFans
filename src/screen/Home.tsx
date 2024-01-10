@@ -737,13 +737,13 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         />
         {/* End Of Dive In */}
         {/* Playlist */}
-        {dataPlaylist?.data && dataPlaylist?.data.length > 0 ? (
+        {/* {dataPlaylist?.data && dataPlaylist?.data.length > 0 ? (
           <ListPlaylistHome
             title={t('Home.Playlist.Title')}
             data={dataPlaylist?.data}
             onPress={() => navigation.navigate('ListPlaylist')}
           />
-        ) : null}
+        ) : null} */}
         {/* End of Playlist */}
         <Gap height={heightPercentage(10)} />
         {/* Coming Soon */}
