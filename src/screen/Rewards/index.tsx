@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {color, font} from '../../theme';
-import {widthResponsive} from '../../utils';
+import {bgColorTab, toCurrency, widthResponsive} from '../../utils';
 import {Button, Gap, ModalCustom, TabFilter} from '../../components';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import TabOneReward from './tabOne';
 import TabTwoRewards from './tabTwo';
 import InfoCard from '../../components/molecule/Reward/infoCard';
@@ -27,6 +27,7 @@ import {
   BadgeGoldMIcon,
   BadgePlatinumMIcon,
   BadgeSilverMIcon,
+  CupIcon,
 } from '../../assets/icon';
 import {mvs} from 'react-native-size-matters';
 import {dataMissionStore, slideIndexStore} from '../../store/reward.store';
@@ -34,6 +35,9 @@ import {useTranslation} from 'react-i18next';
 import {RewardsSkeleton} from '../../skeleton/Rewards';
 import HeaderSwiper from '../../components/molecule/Reward/headerSwiper';
 import BenefitCard from '../../components/molecule/Reward/benefitCard';
+import {rewardMenu} from '../../data/reward';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParams} from '../../navigations';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
@@ -44,6 +48,9 @@ type OnScrollEventHandler = (
 
 const Rewards = () => {
   const {t} = useTranslation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
+
   const {
     dataProfile,
     dataCountProfile,
@@ -124,8 +131,12 @@ const Rewards = () => {
     setScrollEffect(scrolled);
   };
 
-  const tabFilterOnPress = (params: string, index: number) => {
+  const tabFilterOnPress = (index: number) => {
     setSelectedIndex(index);
+  };
+
+  const goToMyVoucher = () => {
+    navigation.navigate('MyVoucher');
   };
 
   return (
@@ -147,7 +158,10 @@ const Rewards = () => {
           dataBadge?.data &&
           dataProfile?.data && (
             <>
-              <HeaderSwiper currentLvl={dataBadge.data.title} />
+              <HeaderSwiper
+                currentLvl={dataBadge.data.title}
+                onPressIcon={goToMyVoucher}
+              />
               <Gap height={15} />
               <View
                 style={{
@@ -173,16 +187,35 @@ const Rewards = () => {
         <Gap height={16} />
 
         <View style={styles.filterContainer}>
-          <TabFilter.Type1
-            filterData={filter}
-            onPress={tabFilterOnPress}
-            selectedIndex={selectedIndex}
-            translation={true}
-            flatlistContainerStyle={{
-              justifyContent: 'space-between',
-            }}
-            TouchableStyle={{width: widthPercentageToDP(45)}}
-          />
+          <View style={styles.menuStyle}>
+            <View style={{flexDirection: 'row'}}>
+              {rewardMenu.map((data, index) => {
+                return (
+                  <View key={index}>
+                    <Button
+                      label={data.label}
+                      containerStyles={{
+                        ...styles.containerTab,
+                        backgroundColor: bgColorTab(selectedIndex, index),
+                      }}
+                      textStyles={styles.textTab}
+                      onPress={() => tabFilterOnPress(index)}
+                    />
+                  </View>
+                );
+              })}
+            </View>
+
+            <View style={styles.containerPoint}>
+              <CupIcon />
+              <Gap width={widthResponsive(20)} />
+              <Text style={[styles.textTab, {fontWeight: '600'}]}>
+                {toCurrency(dataProfile?.data.availablePoint!, {
+                  withFraction: false,
+                })}
+              </Text>
+            </View>
+          </View>
 
           <View style={styles.containerContent}>
             {filter[selectedIndex].filterName === 'Rewards.Reward' ? (
@@ -203,6 +236,7 @@ const Rewards = () => {
             )}
           </View>
         </View>
+
         <ModalCustom
           modalVisible={modalNewRank}
           onPressClose={() => setModalNewRank(false)}
@@ -307,5 +341,34 @@ const styles = StyleSheet.create({
   loadingSpinner: {
     alignItems: 'center',
     paddingVertical: mvs(20),
+  },
+  menuStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  textTab: {
+    fontFamily: font.InterRegular,
+    fontSize: mvs(10),
+    fontWeight: '500',
+    color: color.Neutral[10],
+  },
+  containerTab: {
+    aspectRatio: undefined,
+    width: undefined,
+    height: undefined,
+    paddingVertical: widthResponsive(6),
+    paddingHorizontal: widthResponsive(16),
+    borderRadius: 30,
+    marginRight: widthResponsive(10),
+  },
+  containerPoint: {
+    flexDirection: 'row',
+    backgroundColor: '#1B3868',
+    borderWidth: mvs(1),
+    borderColor: '#375795',
+    borderRadius: mvs(30),
+    paddingVertical: widthResponsive(6),
+    paddingHorizontal: widthResponsive(10),
+    alignItems: 'center',
   },
 });

@@ -90,6 +90,8 @@ export interface DataAvailableVoucher {
   iconType: string;
   generateQty: number;
   isClaimable: boolean;
+  isLimitedClaim: boolean;
+  stock: number;
 }
 
 export interface DataMyVoucher {
