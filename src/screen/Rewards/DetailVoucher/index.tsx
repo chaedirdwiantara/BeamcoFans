@@ -36,16 +36,17 @@ import {
   TicketDefaultIcon,
 } from '../../../assets/icon';
 import {color, font} from '../../../theme';
-import {MainTabParams, RootStackParams} from '../../../navigations';
+import {
+  DataVoucherListDetail,
+  DataVoucherDetailBeforeClaim,
+} from '../../../interface/reward.interface';
 import {width, widthResponsive} from '../../../utils';
+import {storage} from '../../../hooks/use-storage.hook';
+import {dateFormatDaily} from '../../../utils/date-format';
 import {claimAvailVoucherEp} from '../../../api/reward.api';
 import {useRewardHook} from '../../../hooks/use-reward.hook';
+import {MainTabParams, RootStackParams} from '../../../navigations';
 import RedeemSuccessIcon from '../../../assets/icon/RedeemSuccess.icon';
-import {
-  DataVoucherDetailBeforeClaim,
-  DataVoucherListDetail,
-} from '../../../interface/reward.interface';
-import {dateFormatDaily} from '../../../utils/date-format';
 import {ModalLoading} from '../../../components/molecule/ModalLoading/ModalLoading';
 
 type OnScrollEventHandler = (
@@ -164,6 +165,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
 
   const closeQrOnPress = () => {
     setShowQrPopUp(false);
+    refetchDetailAfter();
   };
 
   const goToSendGift = () => {
@@ -188,15 +190,16 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
   const limitReached = details?.isLimitedClaim;
   const enabledMainBtn =
     (voucherCode !== undefined && !details?.status?.buttonDisabled) ||
-    (!soldOut && !limitReached);
+    (!soldOut && !limitReached && !isSent && !isRedeemed && !isExpired);
   const showBtnSendGift =
-    id !== undefined && !soldOut && !limitReached && !notEnoughPoints;
+    id !== undefined && !soldOut && !limitReached && !notEnoughPoints && !voucherCode;
 
   const onPressMainBtn = () => {
     if (isReceived) {
       showQrOnPress();
     } else if (notEnoughPoints) {
       navigation2.navigate('Rewards');
+      storage.set('tabActiveRewards', 1);
     } else {
       setShowModalConfirm(true);
     }
@@ -367,19 +370,14 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
       <View style={styles.bottomContainer}>
         <Button
           label={
-            details?.isRedeemed
-              ? t('Rewards.DetailVoucher.Btn.Redeemed')
-              : voucherCode !== undefined
-              ? details?.status.text || ''
-              : // t('Rewards.DetailVoucher.Btn.ShowQR')
-              soldOut
+            voucherCode !== undefined
+              ? details?.status?.text || ''
+              : soldOut
               ? 'Sold Out'
               : notEnoughPoints
               ? t('Rewards.DetailVoucher.Btn.NotEnoughPoints')
               : limitReached
               ? 'Limit Reached'
-              : isExpired
-              ? t('Rewards.DetailVoucher.Btn.Expired')
               : t('Rewards.DetailVoucher.Btn.Redeem')
           }
           containerStyles={{
@@ -418,9 +416,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
               <QRCode value={valueEncode} size={widthResponsive(200)} />
             </View>
             <Gap height={16} />
-            <Text style={styles.modalTitle}>
-              {t('Rewards.ModalQR.Title')}
-            </Text>
+            <Text style={styles.modalTitle}>{t('Rewards.ModalQR.Title')}</Text>
             <Gap height={4} />
             <Text style={styles.modalCaption}>
               {t('Rewards.ModalQR.Subtitle')}
