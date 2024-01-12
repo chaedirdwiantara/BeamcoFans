@@ -84,6 +84,7 @@ import {GenerateEventVoucherReq} from '../interface/event.interface';
 import {generateEventBasedVoucher} from '../api/event.api';
 import {useRoute} from '@react-navigation/native';
 import BoxCredit from '../components/atom/BoxCredit/BoxCredit';
+import {CarouselAutoPlay} from '../components/molecule/Carousel/BannerAutoPlay';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -387,11 +388,20 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     navigation.navigate('SearchScreen');
   };
 
-  const handleWebview = (title: string, url: string) => {
-    navigation.navigate('Webview', {
-      title: title,
-      url: url,
-    });
+  const bannerOnPress = (
+    title: string,
+    url: string,
+    type: 'artist' | 'event' | 'external',
+    key: string,
+  ) => {
+    type === 'artist'
+      ? navigation.navigate('MusicianProfile', {id: key})
+      : type === 'event'
+      ? navigation.navigate('EventDetail', {id: key})
+      : navigation.navigate('Webview', {
+          title: title,
+          url: url,
+        });
   };
 
   const rightIconComp = () => {
@@ -581,7 +591,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
           />
         </View>
 
-        <Carousel
+        <CarouselAutoPlay
           data={
             dataBanner?.length === 0
               ? defaultBanner
@@ -589,7 +599,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               ? dataBanner
               : dataPublicBanner
           }
-          onPressBanner={handleWebview}
+          onPressBanner={bannerOnPress}
         />
 
         {/* // ? TICKET https://thebeamco.atlassian.net/browse/BEAM-1211 Hide Mood & Genre*/}
