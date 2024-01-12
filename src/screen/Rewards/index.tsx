@@ -38,6 +38,7 @@ import BenefitCard from '../../components/molecule/Reward/benefitCard';
 import {rewardMenu} from '../../data/reward';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
+import {storage} from '../../hooks/use-storage.hook';
 
 const {StatusBarManager} = NativeModules;
 const barHeight = StatusBarManager.HEIGHT;
@@ -53,10 +54,8 @@ const Rewards = () => {
 
   const {
     dataProfile,
-    dataCountProfile,
     isLoading: isLoadingProfile,
     getProfileUser,
-    getTotalCountProfile,
   } = useProfileHook();
   // BADGE
   const {useCheckBadge} = useBadgeHook();
@@ -83,6 +82,14 @@ const Rewards = () => {
     userType: 1,
     point: dataProfile?.data.point?.pointLifetime!,
   });
+
+  useFocusEffect(
+    useCallback(() => {
+      const tabActive = storage.getNumber('tabActiveRewards') || 0;
+      setSelectedIndex(tabActive);
+      storage.delete('tabActiveRewards');
+    }, []),
+  );
 
   useFocusEffect(
     useCallback(() => {
