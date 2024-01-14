@@ -1,5 +1,7 @@
 import {
+  DetailBenefitsResponse,
   GetAvailableVoucher,
+  GetBenefits,
   GetHistoryVoucher,
   GetMissionMaster,
   GetMissionProgress,
@@ -15,6 +17,8 @@ import {
   GetVoucherDetailBeforeClaimResponse,
   GetVoucherListDetailResponse,
 } from '../interface/reward.interface';
+import SsuAPIKrakatau from './baseKrakatau';
+import {ParamsProps} from '../interface/base.interface';
 
 export const getMissionMasterEp = async (): Promise<GetMissionMaster> => {
   const {data} = await SsuAPI().request<GetMissionMaster>({
@@ -126,6 +130,28 @@ export const transferVoucher = async (
     url: `/vouchers/loyalty/${params.voucherid}/gift`,
     method: 'POST',
     data: params,
+  });
+
+  return data;
+};
+
+export const getBenefitEp = async (
+  params: ParamsProps,
+): Promise<GetBenefits> => {
+  const {data} = await SsuAPIKrakatau().request<GetBenefits>({
+    url: `/benefits/tier/${params.id}`,
+    method: 'GET',
+  });
+
+  return data;
+};
+
+export const getDetailBenefitEp = async (
+  params: ParamsProps,
+): Promise<DetailBenefitsResponse> => {
+  const {data} = await SsuAPIKrakatau().request<DetailBenefitsResponse>({
+    url: `/benefits/detail/${params.id}`,
+    method: 'GET',
   });
 
   return data;

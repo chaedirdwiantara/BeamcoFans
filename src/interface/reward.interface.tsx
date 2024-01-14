@@ -223,3 +223,35 @@ export interface DataMissionStoreProps {
   typeOnIndex: number;
   isClaimable: boolean;
 }
+
+export interface DataBenefitProps {
+  id: number;
+  title: string;
+  imageUrl: imageTypes[];
+  type: string;
+  tier: {
+    value: number;
+    name: string;
+  };
+}
+export interface GetBenefits extends BaseResponseApi {
+  data: DataBenefitProps[];
+}
+export interface DataDetailBenefitProps {
+  id: number;
+  title: string;
+  description: string;
+  tnc: {
+    title: string;
+    value: string[];
+  };
+  imageUrl: imageTypes[];
+  type: string;
+  tier: {
+    value: number;
+    name: string;
+  };
+}
+export interface DetailBenefitsResponse extends BaseResponseApi {
+  data: DataDetailBenefitProps;
+}
