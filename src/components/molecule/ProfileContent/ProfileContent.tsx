@@ -170,10 +170,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 
   const handleBackAction = () => {
     show && setWithoutBottomTab(false);
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'MainTab'}],
-    });
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{name: 'MainTab'}],
+    // });
+    navigation.goBack();
   };
 
   const onPressShareQR = () => {

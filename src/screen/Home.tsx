@@ -673,7 +673,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
         </View>
         {/* End of Tab Musician */}
         {/* Tab Song */}
-        <View style={[styles.containerContent]}>
+        {/* <View style={[styles.containerContent]}>
           <TabFilter.Type3
             filterData={filterSong}
             onPress={filterDataSong}
@@ -699,7 +699,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
               isLoading={isLoadingSong}
             />
           )}
-        </View>
+        </View> */}
         {/* End of Tab Song */}
 
         {isLogin && profileProgress?.stepProgress !== '100%' ? (
