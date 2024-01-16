@@ -444,8 +444,8 @@
     },
     "AvailVoucher": {
       "EmptyState": {
-        "Title": "All Voucher is Already Claimed",
-        "Subtitle": "Voucher limit reached. Keep an eye out for future opportunities!"
+        "Title": "Exciting rewards are on the way!",
+        "Subtitle": "We're working hard to bring you something special. Stay tuned for upcoming announcements"
       },
       "PointTxt": "Points",
       "BtnActive": "Redeem",
@@ -468,6 +468,10 @@
       "Title": "Congrats! You’ve Claimed 1 Voucher!",
       "Subtitle": "Redeem for yourself or send to fellow fans. Visit My Rewards Page for more details.",
       "Button": "Dismiss"
+    },
+    "ModalQR": {
+      "Title": "Your voucher is ready to claim!",
+      "Subtitle": "Let’s Find Beamco admin and show this QR to redeem your voucher."
     },
     "MissionTab": {
       "ClaimToast": "Success Claim {{claimedPoint}} Points",

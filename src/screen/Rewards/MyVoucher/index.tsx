@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
 import {StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {
@@ -17,13 +17,20 @@ import {ArrowLeftIcon} from '../../../assets/icon';
 import {MainTabParams} from '../../../navigations';
 import {VoucherAvailable} from './VoucherAvailable';
 import {Button, Gap, TopNavigation} from '../../../components';
+import {storage} from '../../../hooks/use-storage.hook';
 
 export const MyVoucherScreen: React.FC = () => {
   const {t} = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<MainTabParams>>();
 
-  const [selectedTab, setSelectedTab] = useState<'available' | 'history'>(
-    'available',
+  const [selectedTab, setSelectedTab] = useState<string>('available');
+
+  useFocusEffect(
+    useCallback(() => {
+      const tabActive = storage.getString('tabActiveMyVoucher') || 'available';
+      setSelectedTab(tabActive);
+      storage.delete('tabActiveMyVoucher');
+    }, []),
   );
 
   const onPressGoBack = () => {

@@ -1,4 +1,10 @@
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import Swiper from 'react-native-swiper';
 import {
@@ -12,6 +18,7 @@ import {
   BadgePlatinumMIcon,
   BadgeSilverIcon,
   BadgeSilverMIcon,
+  TicketEventIcon,
 } from '../../../assets/icon';
 import {widthResponsive} from '../../../utils';
 import {useTranslation} from 'react-i18next';
@@ -24,9 +31,10 @@ import {slideIndexStore} from '../../../store/reward.store';
 
 type Props = {
   currentLvl: string;
+  onPressIcon: () => void;
 };
 
-const HeaderSwiper: FC<Props> = ({currentLvl}) => {
+const HeaderSwiper: FC<Props> = ({currentLvl, onPressIcon}) => {
   const {storedSlideIndex, setStoredSlideIndex} = slideIndexStore();
   const {t} = useTranslation();
 
@@ -129,6 +137,11 @@ const HeaderSwiper: FC<Props> = ({currentLvl}) => {
                       : require(Diamond)
                   }
                   resizeMode="stretch">
+                  <TouchableOpacity
+                    style={styles.containerTicket}
+                    onPress={onPressIcon}>
+                    <TicketEventIcon style={styles.ticketIcon} />
+                  </TouchableOpacity>
                   <View style={styles.midStyle}>
                     {data.rankTitle === 'Bronze' ? (
                       <BadgeBronzeMIcon height={80} width={80} />
@@ -165,6 +178,15 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  containerTicket: {
+    position: 'absolute',
+    right: widthResponsive(25),
+    top: widthResponsive(50),
+  },
+  ticketIcon: {
+    width: widthResponsive(24),
+    height: widthResponsive(24),
   },
   midStyle: {
     justifyContent: 'center',

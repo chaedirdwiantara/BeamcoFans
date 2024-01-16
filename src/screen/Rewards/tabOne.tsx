@@ -1,7 +1,7 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {FC, useCallback, useEffect, useState} from 'react';
 import VoucherReward from '../../components/molecule/Reward/reward';
-import {widthResponsive} from '../../utils';
+import {width, widthResponsive} from '../../utils';
 import {Button, EmptyState, Gap, ModalCustom} from '../../components';
 import {color, font} from '../../theme';
 import {mvs} from 'react-native-size-matters';
@@ -30,54 +30,28 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [showModal, setShowModal] = useState(false);
-  const [activeIndex, setactiveIndex] = useState<number>(0);
   const [availVoucher, setAvailVoucher] = useState<
     DataAvailableVoucher[] | undefined
   >([]);
-  const [myVoucher, setMyVoucher] = useState<DataMyVoucher[] | undefined>([]);
-  const [showMoreVoucher, setShowMoreVoucher] = useState<boolean>(false);
-  const [voucherId, setVoucherId] = useState<number | undefined>();
 
-  const {useGetAvailableVoucher, useGetMyVoucher, useClaimMyVoucher} =
-    useRewardHook();
+  const {useGetAvailableVoucher} = useRewardHook();
 
   const {
     data: dataAvailVoucher,
     refetch: refetchAvailVoucher,
     isLoading: isLoadingAvailVoucher,
-    isRefetching: isRefetchingAvailVoucher,
   } = useGetAvailableVoucher();
-
-  const {
-    data: dataMyVoucher,
-    refetch: refetchMyVoucher,
-    isLoading: isLoadingMyVoucher,
-    isRefetching: isRefetchingMyVoucherr,
-  } = useGetMyVoucher();
-
-  const {
-    data: dataClaim,
-    refetch: refetchClaim,
-    isLoading: isLoadingClaim,
-    isRefetching: isRefetchingClaim,
-  } = useClaimMyVoucher(voucherId);
-
-  const onPressMenu = (index: number) => {
-    setactiveIndex(index);
-  };
 
   useFocusEffect(
     useCallback(() => {
       refetchAvailVoucher();
-      refetchMyVoucher();
-    }, [refetchAvailVoucher, refetchMyVoucher]),
+    }, []),
   );
 
   useEffect(() => {
     async function setRefreshingData() {
       if (refreshing) {
         await refetchAvailVoucher();
-        await refetchMyVoucher();
         setRefreshing(false);
       }
     }
@@ -86,32 +60,8 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
   }, [refreshing]);
 
   useEffect(() => {
-    async function setClaimSelectedVoucher() {
-      if (voucherId && voucherId !== undefined) {
-        await refetchClaim();
-        setVoucherId(undefined);
-      }
-    }
-
-    setClaimSelectedVoucher();
-  }, [voucherId]);
-
-  useEffect(() => {
     setAvailVoucher(dataAvailVoucher?.data);
   }, [dataAvailVoucher]);
-
-  useEffect(() => {
-    setMyVoucher(dataMyVoucher?.data);
-  }, [dataMyVoucher]);
-
-  const onClaimVoucher = (item: DataAvailableVoucher) => {
-    setVoucherId(item.id);
-    setShowModal(true);
-  };
-
-  const handleShowMoreVoucher = () => {
-    setShowMoreVoucher(true);
-  };
 
   const handleModalOnClose = () => {
     setShowModal(false);
@@ -126,81 +76,34 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
 
   return (
     <View style={styles().container}>
-      <View style={styles().menuStyle}>
-        {rewardMenu.map((data, index) => {
-          return (
-            <View key={index}>
-              <Button
-                label={data.label}
-                containerStyles={styles(activeIndex, index).btnClaim}
-                textStyles={styles().textButton}
-                onPress={() => onPressMenu(index)}
-              />
-              <Gap width={8} />
-            </View>
-          );
-        })}
-      </View>
-
-      <Gap height={16} />
-      {isLoadingAvailVoucher || isLoadingMyVoucher ? (
+      {isLoadingAvailVoucher ? (
         <RewardCardSkeleton />
       ) : (
         <>
-          {activeIndex === 0 ? (
-            <FlatList
-              data={availVoucher}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(_, index) => index.toString()}
-              scrollEnabled={false}
-              renderItem={({item}) => (
-                <VoucherReward
-                  data={item}
-                  onPress={() => onClaimVoucher(item)}
-                  onPressDetail={() => goToDetailVoucher(item.id)}
-                  containerStyle={styles().voucher}
-                />
-              )}
-            />
-          ) : (
-            <FlatList
-              data={myVoucher}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={(_, index) => index.toString()}
-              scrollEnabled={false}
-              renderItem={({item}) => (
-                <RewardMyVoucher
-                  data={item}
-                  onPress={() => goToDetailVoucher(item.id)}
-                  containerStyle={styles().voucher}
-                />
-              )}
-            />
-          )}
-          {/* <Button
-            label={'Show More'}
-            containerStyles={styles().btnBorder}
-            textStyles={styles().footerText}
-            onPress={handleShowMoreVoucher}
-          /> */}
-          {/* FOR AVAILABLE VOCHER */}
-          {activeIndex === 0 && availVoucher && availVoucher.length == 0 && (
-            <EmptyState
-              text={t('Rewards.AvailVoucher.EmptyState.Title')}
-              subtitle={t('Rewards.AvailVoucher.EmptyState.Subtitle')}
-              hideIcon
-              containerStyle={{height: 300}}
-            />
-          )}
-          {/* FOR MY VOCHER */}
-          {activeIndex === 1 && myVoucher && myVoucher.length == 0 && (
-            <EmptyState
-              text={t('Rewards.MyVoucher.EmptyState.Title')}
-              subtitle={t('Rewards.MyVoucher.EmptyState.Subtitle')}
-              hideIcon
-              containerStyle={{height: 300}}
-            />
-          )}
+          <FlatList
+            data={availVoucher}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(_, index) => index.toString()}
+            contentContainerStyle={{alignSelf: 'center'}}
+            numColumns={2}
+            scrollEnabled={false}
+            renderItem={({item}) => (
+              <VoucherReward
+                data={item}
+                onPressDetail={() => goToDetailVoucher(item.id)}
+                containerStyle={styles().voucher}
+              />
+            )}
+            ListEmptyComponent={
+              <EmptyState
+                text={t('Rewards.AvailVoucher.EmptyState.Title')}
+                subtitle={t('Rewards.AvailVoucher.EmptyState.Subtitle')}
+                hideIcon
+                containerStyle={{height: 300}}
+                textStyle={styles().textEmpty}
+              />
+            }
+          />
         </>
       )}
 
@@ -309,5 +212,12 @@ const styles = (activeIndex?: number, index?: number) =>
       backgroundColor: 'transparent',
       paddingVertical: widthResponsive(4),
       marginBottom: widthResponsive(16),
+    },
+    listContainer: {
+      alignItems: 'center',
+    },
+    textEmpty: {
+      fontWeight: '600',
+      marginBottom: mvs(5),
     },
   });

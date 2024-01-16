@@ -18,6 +18,7 @@ import Color from '../../../theme/Color';
 import {widthResponsive} from '../../../utils';
 import {RootStackParams} from '../../../navigations';
 import {transferVoucher} from '../../../api/reward.api';
+import {storage} from '../../../hooks/use-storage.hook';
 import {ListDataSearchFans} from '../../../interface/search.interface';
 
 type GiftVoucherProps = NativeStackScreenProps<RootStackParams, 'GiftVoucher'>;
@@ -81,6 +82,7 @@ export const GiftVoucher: React.FC<GiftVoucherProps> = ({
   };
 
   const goToHistoryVoucher = () => {
+    storage.set('tabActiveMyVoucher', 'history');
     navigation.navigate('MyVoucher');
     setModalInfo(false);
   };

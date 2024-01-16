@@ -13,10 +13,13 @@ import {useMutation} from 'react-query';
 import QRCode from 'react-native-qrcode-svg';
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import React, {FC, useCallback, useEffect, useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 
 import {
   Gap,
@@ -33,16 +36,18 @@ import {
   TicketDefaultIcon,
 } from '../../../assets/icon';
 import {color, font} from '../../../theme';
-import {RootStackParams} from '../../../navigations';
+import {
+  DataVoucherListDetail,
+  DataVoucherDetailBeforeClaim,
+} from '../../../interface/reward.interface';
 import {width, widthResponsive} from '../../../utils';
+import {storage} from '../../../hooks/use-storage.hook';
+import {dateFormatDaily} from '../../../utils/date-format';
 import {claimAvailVoucherEp} from '../../../api/reward.api';
 import {useRewardHook} from '../../../hooks/use-reward.hook';
+import {MainTabParams, RootStackParams} from '../../../navigations';
 import RedeemSuccessIcon from '../../../assets/icon/RedeemSuccess.icon';
-import {
-  DataVoucherDetailBeforeClaim,
-  DataVoucherListDetail,
-} from '../../../interface/reward.interface';
-import {dateFormatDaily} from '../../../utils/date-format';
+import {ModalLoading} from '../../../components/molecule/ModalLoading/ModalLoading';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -61,6 +66,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
   const {id, codeGenerated} = route.params;
 
   const {t} = useTranslation();
+  const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const {useVoucherDetailBeforeClaim, useMyVoucherDetail, useClaimMyVoucher} =
     useRewardHook();
 
@@ -91,10 +97,16 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
   // Detail voucher use 2 different APIs
   // If before claim, use API get voucher detail before redeem & using id to fetch the API
   // If after claim, use get my voucher detail & using codeGenerated from list voucher to fetch the API
-  const {data: dataDetailBefore, refetch: refetchDetailBefore} =
-    useVoucherDetailBeforeClaim(id);
-  const {data: dataDetailAfter, refetch: refetchDetailAfter} =
-    useMyVoucherDetail(voucherCode);
+  const {
+    data: dataDetailBefore,
+    isLoading: isLoadingBefore,
+    refetch: refetchDetailBefore,
+  } = useVoucherDetailBeforeClaim(id);
+  const {
+    data: dataDetailAfter,
+    isLoading: isLoadingAfter,
+    refetch: refetchDetailAfter,
+  } = useMyVoucherDetail(voucherCode);
 
   useFocusEffect(
     useCallback(() => {
@@ -153,6 +165,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
 
   const closeQrOnPress = () => {
     setShowQrPopUp(false);
+    refetchDetailAfter();
   };
 
   const goToSendGift = () => {
@@ -165,17 +178,32 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
   };
 
   // List Status Voucher
-  const expiredDate = new Date(dataDetailAfter?.data.expiredDate || '');
-  const today = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000);
-  const isExpired = today > expiredDate;
+  // const expiredDate = new Date(dataDetailAfter?.data.expiredDate || '');
+  // const today = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000);
+  // const isExpired = today > expiredDate;
+  const isExpired = details?.status?.text === 'Expired';
+  const isRedeemed = details?.status?.text === 'Redeemed';
+  const isSent = details?.status?.text === 'Sent';
+  const isReceived = details?.status?.text === 'Show QR';
   const notEnoughPoints = !details?.isClaimable;
   const soldOut = details?.stock === 0;
   const limitReached = details?.isLimitedClaim;
   const enabledMainBtn =
-    (voucherCode !== undefined && !details?.status.buttonDisabled) ||
-    (!soldOut && !notEnoughPoints && !limitReached && !isExpired);
+    (voucherCode !== undefined && !details?.status?.buttonDisabled) ||
+    (!soldOut && !limitReached && !isSent && !isRedeemed && !isExpired);
   const showBtnSendGift =
-    id !== undefined && !soldOut && !limitReached && !notEnoughPoints;
+    id !== undefined && !soldOut && !limitReached && !notEnoughPoints && !voucherCode;
+
+  const onPressMainBtn = () => {
+    if (isReceived) {
+      showQrOnPress();
+    } else if (notEnoughPoints) {
+      navigation2.navigate('Rewards');
+      storage.set('tabActiveRewards', 1);
+    } else {
+      setShowModalConfirm(true);
+    }
+  };
 
   return (
     <View style={styles.root}>
@@ -342,19 +370,14 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
       <View style={styles.bottomContainer}>
         <Button
           label={
-            details?.isRedeemed
-              ? t('Rewards.DetailVoucher.Btn.Redeemed')
-              : voucherCode !== undefined
-              ? details?.status.text || ''
-              : // t('Rewards.DetailVoucher.Btn.ShowQR')
-              soldOut
+            voucherCode !== undefined
+              ? details?.status?.text || ''
+              : soldOut
               ? 'Sold Out'
               : notEnoughPoints
               ? t('Rewards.DetailVoucher.Btn.NotEnoughPoints')
               : limitReached
               ? 'Limit Reached'
-              : isExpired
-              ? t('Rewards.DetailVoucher.Btn.Expired')
               : t('Rewards.DetailVoucher.Btn.Redeem')
           }
           containerStyles={{
@@ -363,11 +386,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
             aspectRatio: undefined,
             backgroundColor: enabledMainBtn ? color.Pink[10] : color.Dark[50],
           }}
-          onPress={
-            voucherCode !== undefined
-              ? showQrOnPress
-              : () => setShowModalConfirm(true)
-          }
+          onPress={onPressMainBtn}
           disabled={!enabledMainBtn}
         />
         {showBtnSendGift && (
@@ -397,16 +416,14 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
               <QRCode value={valueEncode} size={widthResponsive(200)} />
             </View>
             <Gap height={16} />
-            <Text style={styles.modalTitle}>
-              {t('Event.DetailVoucher.PopUp.Title')}
-            </Text>
+            <Text style={styles.modalTitle}>{t('Rewards.ModalQR.Title')}</Text>
             <Gap height={4} />
             <Text style={styles.modalCaption}>
-              {t('Event.DetailVoucher.PopUp.Desc')}
+              {t('Rewards.ModalQR.Subtitle')}
             </Text>
             <Gap height={20} />
             <Button
-              label={t('Event.DetailVoucher.PopUp.ButtonTitle')}
+              label={t('General.Dismiss')}
               type="border"
               containerStyles={styles.buttonModalStyle}
               textStyles={{color: color.Pink[200]}}
@@ -421,7 +438,7 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
         modalVisible={showModalConfirm}
         imgUri={details?.imageUrl[3]?.image || ''}
         title={'Redeem Voucher'}
-        subtitle={'Are you sure you want to redeem 100 points?'}
+        subtitle={`Are you sure you want to redeem ${details?.claimPoint} points?`}
         onPressClose={() => setShowModalConfirm(false)}
         onPressYes={onClaimVoucher}
       />
@@ -452,6 +469,8 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
           </View>
         }
       />
+
+      <ModalLoading visible={isLoadingBefore || isLoadingAfter} />
     </View>
   );
 };
@@ -571,7 +590,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: font.InterRegular,
     fontWeight: '600',
-    fontSize: mvs(16),
+    fontSize: mvs(15),
     maxWidth: width * 0.7,
   },
   modalCaption: {

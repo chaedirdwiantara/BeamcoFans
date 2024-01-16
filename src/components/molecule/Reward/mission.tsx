@@ -95,7 +95,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
       ? 'Credit Detected'
       : 'Activity Detected'
   }`;
-  const progressCompleted = dataProgress?.isClaimed;
+  const progressCompleted = progressBar === 1;
 
   const handleOnClaim = (
     dataProgress: DataListMissioProgress,
@@ -170,7 +170,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
             style={{width: '100%'}}
             // animationType={'timing'}
           />
-          {!progressCompleted ? (
+          {!dataProgress?.isClaimed ? (
             <View style={styles.progressContainer}>
               <Text style={styles.progressTxt}>
                 {data.taskType === 'based-reward'
