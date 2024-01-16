@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, Platform} from 'react-native';
 import {mvs} from 'react-native-size-matters';
 import {Image} from 'react-native-image-crop-picker';
@@ -15,30 +15,34 @@ import {ArrowLeftIcon, SaveIcon} from '../../../assets/icon';
 import {ParamsProps} from '../../../interface/base.interface';
 import {heightPercentage, width, widthPercentage} from '../../../utils';
 import {useTranslation} from 'react-i18next';
+import {ProfileResponseData} from '../../../interface/profile.interface';
+import {useUploadImageHook} from '../../../hooks/use-uploadImage.hook';
 
 interface EditProfileProps {
   profile: any;
+  dataProfile: ProfileResponseData | undefined;
   type: string;
   onPressGoBack: () => void;
   onPressSave: (params: {bio: string}) => void;
   setUploadImage: (image: Image, type: string) => void;
-  setResetImage: (type: string) => void;
   imageLoading: boolean;
   deleteValueProfile: (props?: ParamsProps) => void;
 }
 
 export const EditProfile: React.FC<EditProfileProps> = ({
   type,
+  dataProfile,
   profile,
   onPressGoBack,
   onPressSave,
-  setUploadImage,
-  setResetImage,
+  // setUploadImage,
   imageLoading,
   deleteValueProfile,
 }) => {
   const {t} = useTranslation();
-  const [bio, setBio] = useState(profile.bio || '');
+  const {isLoadingImage, dataImage, setUploadImage} = useUploadImageHook();
+
+  const [bio, setBio] = useState(dataProfile?.bio || '');
   const [isModalVisible, setModalVisible] = useState({
     modalConfirm: false,
     modalImage: false,
@@ -48,6 +52,31 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     avatarUri: {path: profile.avatarUri || null},
     backgroundUri: {path: profile.backgroundUri || null},
   });
+  const [uploadImgActive, setUploadImgActive] = useState<boolean>(false);
+  // image for use (before upload)
+  const [avatarUri, setAvatarUri] = useState<Image>();
+  const [backgroundUri, setBackgroundUri] = useState<Image>();
+  // image for send to API Edit Profile (after upload)
+  const [uploadedAvatar, setUploadedAvatar] = useState<string | null>(null);
+  const [uploadedBgUri, setUploadedBgUri] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (dataProfile) {
+      const avatar =
+        dataProfile.images?.length > 0 ? dataProfile.images[2].image : null;
+      const banners =
+        dataProfile.banners?.length > 0 ? dataProfile.banners[2].image : null;
+      setAvatarUri(avatar);
+      setBackgroundUri(banners);
+    }
+  }, [dataProfile]);
+
+  useEffect(() => {
+    if (uploadImgActive) {
+      const img = uriType === 'avatarUri' ? avatarUri : backgroundUri;
+      setUploadImage(avatarUri);
+    }
+  }, [avatarUri, backgroundUri]);
 
   const openModalConfirm = () => {
     setModalVisible({
@@ -65,10 +94,11 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   };
 
   const resetImage = () => {
-    setUri({...uri, [uriType]: null});
-    setResetImage(uriType);
-
+    // reset value of state
+    uriType === 'avatarUri' ? setAvatarUri(null) : setBackgroundUri(null);
+    // send the value of which image was deleted
     const valueName = uriType === 'avatarUri' ? 'imageProfileUrl' : 'banner';
+    // fetch delete profile value
     deleteValueProfile({
       context: valueName,
     });
@@ -91,11 +121,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     uriType === 'avatarUri'
       ? t('Profile.Edit.ProfilePicture')
       : t('Profile.Edit.HeaderPicture');
-  const hideMenuDelete =
-    uriType === 'avatarUri'
-      ? uri.avatarUri !== null && uri.avatarUri?.path !== null
-      : uri.backgroundUri !== null && uri.backgroundUri?.path !== null;
-
+  const showDeleteImage =
+    uriType === 'avatarUri' ? avatarUri !== null : backgroundUri !== null;
   const newColor = bio.length === 110 ? Color.Error[400] : Color.Neutral[10];
 
   return (
@@ -111,10 +138,10 @@ export const EditProfile: React.FC<EditProfileProps> = ({
       />
       <ProfileHeader
         type={type}
-        avatarUri={uri.avatarUri?.path}
-        backgroundUri={uri.backgroundUri?.path}
-        fullname={profile.fullname}
-        username={profile.username}
+        avatarUri={avatarUri}
+        backgroundUri={backgroundUri}
+        fullname={dataProfile?.fullname}
+        username={dataProfile?.username}
         containerStyles={{height: heightPercentage(206)}}
         iconPress={openModalImage}
       />
@@ -150,7 +177,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         sendUri={sendUri}
         onDeleteImage={resetImage}
         onPressClose={closeModal}
-        hideMenuDelete={hideMenuDelete}
+        showDeleteImage={showDeleteImage}
       />
 
       <ModalConfirm

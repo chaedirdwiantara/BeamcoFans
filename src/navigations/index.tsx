@@ -195,8 +195,6 @@ export type RootStackParams = {
   DetailVoucherRewards: {
     id?: number;
     codeGenerated?: string;
-    // dataDetailAvailVoucher?: any;
-    // status: string;
   };
   DiscoverArtist: undefined;
   DonationAndSubscription: undefined;

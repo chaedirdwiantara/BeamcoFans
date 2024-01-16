@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {InteractionManager, StyleSheet, View} from 'react-native';
 import {Image} from 'react-native-image-crop-picker';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 import Color from '../../theme/Color';
 import {EditProfile} from '../../components';
@@ -23,8 +23,19 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
 }: EditProfileProps) => {
   const {t} = useTranslation();
   const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
-  const dataProfile = route.params;
-  const {isLoading, updateProfileUser, deleteValueProfile} = useProfileHook();
+  const {
+    isLoading,
+    dataProfile,
+    updateProfileUser,
+    getProfileUser,
+    deleteValueProfile,
+  } = useProfileHook();
+
+  useFocusEffect(
+    useCallback(() => {
+      getProfileUser();
+    }, []),
+  );
 
   const banners =
     dataProfile !== undefined && dataProfile.banners?.length > 0
@@ -58,10 +69,6 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
     }, 500);
   };
 
-  const setResetImage = (type: string) => {
-    type === 'avatarUri' ? setAvatarUri('') : setBackgroundUri('');
-  };
-
   const setUploadImage = async (image: Image, type: string) => {
     InteractionManager.runAfterInteractions(() => setImageLoading(true));
     try {
@@ -88,15 +95,13 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
     <View style={styles.root}>
       <EditProfile
         profile={profile}
+        dataProfile={dataProfile?.data}
         type={'edit'}
         onPressGoBack={goBack}
         onPressSave={onPressSave}
         setUploadImage={(image: Image, type: string) =>
           setUploadImage(image, type)
         }
-        setResetImage={(type: string) => {
-          setResetImage(type);
-        }}
         imageLoading={imageLoading}
         deleteValueProfile={deleteValueProfile}
       />

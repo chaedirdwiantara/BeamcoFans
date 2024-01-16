@@ -23,7 +23,7 @@ interface ModalImagePickerProps {
   onPressClose: () => void;
   sendUri: (params: Image) => void;
   onDeleteImage: () => void;
-  hideMenuDelete?: boolean;
+  showDeleteImage?: boolean;
 }
 
 export const ModalImagePicker: React.FC<ModalImagePickerProps> = ({
@@ -32,7 +32,7 @@ export const ModalImagePicker: React.FC<ModalImagePickerProps> = ({
   sendUri,
   onPressClose,
   onDeleteImage,
-  hideMenuDelete,
+  showDeleteImage,
 }) => {
   const {t} = useTranslation();
 
@@ -86,7 +86,7 @@ export const ModalImagePicker: React.FC<ModalImagePickerProps> = ({
             onPress={onImageLibraryPress}>
             <Text style={styles.textMenu}>{t('Profile.Edit.Add')}</Text>
           </TouchableOpacity>
-          {hideMenuDelete && (
+          {showDeleteImage && (
             <TouchableOpacity style={{width: '100%'}} onPress={onDeleteImage}>
               <Text style={styles.textMenu}>{t('Profile.Edit.Delete')}</Text>
             </TouchableOpacity>
