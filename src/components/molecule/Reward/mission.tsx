@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {
@@ -22,6 +22,7 @@ import {
 } from '../../../interface/reward.interface';
 import {useTranslation} from 'react-i18next';
 import {dataMissionStore} from '../../../store/reward.store';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface MissionProps {
   data: DataMissionMaster;
@@ -44,9 +45,11 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
       campaignId: data.campaignId,
     });
 
-  useEffect(() => {
-    refetchMissionPrg();
-  }, [data]);
+  useFocusEffect(
+    useCallback(() => {
+      refetchMissionPrg();
+    }, []),
+  );
 
   useEffect(() => {
     if (dataMissionPrg?.data) {
