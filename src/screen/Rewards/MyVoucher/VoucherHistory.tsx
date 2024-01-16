@@ -8,6 +8,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {color, font} from '../../../theme';
 import {Avatar, EmptyState} from '../../../components';
+import {storage} from '../../../hooks/use-storage.hook';
 import {dateFormatVoucher} from '../../../utils/date-format';
 import {useRewardHook} from '../../../hooks/use-reward.hook';
 import {elipsisText, width, widthPercentage} from '../../../utils';
@@ -37,9 +38,15 @@ export const VoucherHistory: React.FC<Props> = () => {
   );
 
   const goToDetailVoucher = (codeGenerated: string) => {
+    storage.set('tabActiveMyVoucher', 'history');
     navigation2.navigate('DetailVoucherRewards', {
       codeGenerated,
     });
+  };
+
+  const goToMission = () => {
+    storage.set('tabActiveRewards', 1);
+    navigation.navigate('Rewards');
   };
 
   return (
@@ -79,7 +86,7 @@ export const VoucherHistory: React.FC<Props> = () => {
                     <View style={styles.transfer}>
                       <Avatar imgUri={item.transferLog.image} size={mvs(20)} />
                       <Text style={styles.name}>
-                        {item.transferLog.fullname}
+                        {elipsisText(item.transferLog.fullname, 12)}
                       </Text>
                     </View>
                   )}
@@ -100,7 +107,7 @@ export const VoucherHistory: React.FC<Props> = () => {
             containerStyle={styles.containerEmpty}
             textStyle={styles.textEmpty}
             btnText={t('Rewards.MyVoucher.EmptyState.Btn') || ''}
-            onPress={() => navigation.navigate('Rewards')}
+            onPress={goToMission}
           />
         }
         estimatedItemSize={150}

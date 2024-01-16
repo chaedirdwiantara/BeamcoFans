@@ -5,11 +5,11 @@ export interface DataRewardMenuType {
 export const rewardMenu: DataRewardMenuType[] = [
   {
     value: '1',
-    label: 'Available Voucher',
+    label: 'Rewards',
   },
   {
     value: '2',
-    label: 'My Voucher',
+    label: 'Mission',
   },
 ];
 

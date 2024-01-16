@@ -444,8 +444,8 @@
     },
     "AvailVoucher": {
       "EmptyState": {
-        "Title": "所有優惠券已經領取完畢",
-        "Subtitle": "優惠券已達上限。請密切注意未來的機會！"
+        "Title": "Exciting rewards are on the way!",
+        "Subtitle": "We're working hard to bring you something special. Stay tuned for upcoming announcements"
       },
       "PointTxt": "積分",
       "BtnActive": "兌換",
@@ -468,6 +468,10 @@
       "Title": "恭喜！你已經領取了1張優惠券！",
       "Subtitle": "兌換給自己或送給其他粉絲。詳細信息請訪問我的獎勵頁面。",
       "Button": "關閉"
+    },
+    "ModalQR": {
+      "Title": "Your voucher is ready to claim!",
+      "Subtitle": "Let’s Find Beamco admin and show this QR to redeem your voucher."
     },
     "MissionTab": {
       "ClaimToast": "成功領取{{claimedPoint}}積分",
@@ -1233,17 +1237,18 @@
     "Placeholder": "例如：我喜歡這個產品，品質很高！"
   },
   "ProfileProgress": {
-    "Title": "個人資料進度",
+    "Title": "Profiling Progress",
     "Card": {
       "Title": "個人及帳戶資料",
       "Subtitle": "點擊以完成你的帳戶資料"
     },
-    "Title2": "待完成的任務",
+    "Title2": "Task To Complete",
     "Tab": {
       "AccountInformation": "帳戶資料",
-      "ProfileInformation": "個人資料"
+      "ProfileInformation": "個人資料",
+      "ProfileAccountInformation": "Profile & Account Information"
     },
-    "SubtitleTooltip": "完成你的個人資料：",
+    "SubtitleTooltip": "To finish this step, you need to fulfill this information below:",
     "SubtitleTooltipFinish": "你已完成你的帳戶資料"
   },
   "ShareLink": {

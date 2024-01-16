@@ -1,23 +1,23 @@
 import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
-import {FlashList} from '@shopify/flash-list';
-import {StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {EmptyState} from '../../../components';
 import {useRewardHook} from '../../../hooks/use-reward.hook';
 import {MainTabParams, RootStackParams} from '../../../navigations';
+import VoucherReward from '../../../components/molecule/Reward/reward';
 import LoadingSpinner from '../../../components/atom/Loading/LoadingSpinner';
-import RewardMyVoucher from '../../../components/molecule/Reward/rewardMyVoucher';
 
 type Props = {};
 
 export const VoucherAvailable: React.FC<Props> = () => {
   const {t} = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<MainTabParams>>();
-  const navigation2 = useNavigation<NativeStackNavigationProp<RootStackParams>>();
+  const navigation2 =
+    useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
   const {useGetMyVoucher} = useRewardHook();
   const {
@@ -41,15 +41,18 @@ export const VoucherAvailable: React.FC<Props> = () => {
 
   return (
     <>
-      <FlashList
+      <FlatList
         data={dataMyVoucher?.data}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, index) => index.toString()}
+        contentContainerStyle={{alignSelf: 'center', paddingBottom: mvs(30)}}
+        numColumns={2}
         renderItem={({item}) => (
-          <RewardMyVoucher
+          <VoucherReward
             data={item}
-            onPress={() => goToDetailVoucher(item.codeGenerated)}
+            onPressDetail={() => goToDetailVoucher(item.codeGenerated)}
             containerStyle={{marginBottom: mvs(16)}}
+            type={'self'}
           />
         )}
         ListEmptyComponent={
@@ -65,7 +68,6 @@ export const VoucherAvailable: React.FC<Props> = () => {
             onPress={() => navigation.navigate('Rewards')}
           />
         }
-        estimatedItemSize={150}
       />
 
       {(isLoading || isRefetching) && (
