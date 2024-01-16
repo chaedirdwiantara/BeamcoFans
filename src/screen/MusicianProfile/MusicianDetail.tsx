@@ -130,7 +130,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     //TODO: HIDE IT FOR NOW {filterName: 'Musician.Tab.Main'},
     {filterName: 'Musician.Tab.Fans'},
     {filterName: 'Musician.Tab.Musician'},
-    {filterName: 'Musician.Tab.Music'},
+    // {filterName: 'Musician.Tab.Music'},
     {filterName: 'Musician.Tab.Event'},
     {filterName: 'Musician.Tab.Profile'},
     {filterName: 'Musician.Tab.Merchandise'},
