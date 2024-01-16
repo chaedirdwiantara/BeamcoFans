@@ -84,6 +84,7 @@ import {GenerateEventVoucherReq} from '../interface/event.interface';
 import {generateEventBasedVoucher} from '../api/event.api';
 import {useRoute} from '@react-navigation/native';
 import BoxCredit from '../components/atom/BoxCredit/BoxCredit';
+import {useVersionHook} from '../hooks/use-version.hook';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -100,6 +101,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
   const {i18n} = useTranslation();
   const currentLanguage = i18n.language;
+  const {saveVersionStorage} = useVersionHook();
   const {setFollowMusician, setUnfollowMusician, useGetListTopArtists} =
     useMusicianHook();
   const {
@@ -275,6 +277,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     } else {
       getListDataBannerPublic();
     }
+    saveVersionStorage();
   }, []);
 
   // Triggering isFollowing musician when go back from other screen
@@ -359,8 +362,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
 
     const onNotification = (data: FirebaseMessagingTypes.RemoteMessage) => {
       FCMService.showNotification({
-        title: data.data?.title,
-        message: data.data?.body,
+        title: data.data?.title as string,
+        message: data.data?.body as string,
       });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
