@@ -347,9 +347,8 @@ export const LiveTipping: FC<LiveTippingProps> = ({
   };
 
   const lightOn = () => {
-    const timeMs = 500;
+    const timeMs = 300;
     const light = async () => {
-      console.log('tes ' + totalCredit);
       Torch.switchState(true);
       await sleep(timeMs);
       Torch.switchState(false);
