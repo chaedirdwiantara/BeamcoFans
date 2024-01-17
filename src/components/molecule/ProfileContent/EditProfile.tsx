@@ -24,8 +24,8 @@ interface EditProfileProps {
   type: string;
   onPressGoBack: () => void;
   onPressSave: (params: {bio: string}) => void;
-  setUploadImage: (image: Image, type: string) => void;
-  imageLoading: boolean;
+  // setUploadImage: (image: Image, type: string) => void;
+  // imageLoading: boolean;
   deleteValueProfile: (props?: ParamsProps) => void;
 }
 
@@ -36,7 +36,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   onPressGoBack,
   onPressSave,
   // setUploadImage,
-  imageLoading,
+  // imageLoading,
   deleteValueProfile,
 }) => {
   const {t} = useTranslation();
@@ -66,17 +66,25 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         dataProfile.images?.length > 0 ? dataProfile.images[2].image : null;
       const banners =
         dataProfile.banners?.length > 0 ? dataProfile.banners[2].image : null;
-      setAvatarUri(avatar);
-      setBackgroundUri(banners);
+      setAvatarUri({path: '', size: 2, mime: '', width: 2, height: 2});
+      setBackgroundUri({path: banners});
     }
   }, [dataProfile]);
 
   useEffect(() => {
     if (uploadImgActive) {
       const img = uriType === 'avatarUri' ? avatarUri : backgroundUri;
-      setUploadImage(avatarUri);
+      img !== undefined && setUploadImage(img);
     }
   }, [avatarUri, backgroundUri]);
+
+  useEffect(() => {
+    if (uploadImgActive) {
+      const setDataResponseImg =
+        uriType === 'avatarUri' ? setUploadedAvatar : setUploadedBgUri;
+      dataImage?.data !== undefined ? setDataResponseImg(dataImage.data) : null;
+    }
+  }, [dataImage]);
 
   const openModalConfirm = () => {
     setModalVisible({
@@ -169,7 +177,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
           ]}>{`${bio.length}/110`}</Text>
       </View>
 
-      <ModalLoading visible={imageLoading} />
+      <ModalLoading visible={isLoadingImage} />
 
       <ModalImagePicker
         title={titleModalPicker}
