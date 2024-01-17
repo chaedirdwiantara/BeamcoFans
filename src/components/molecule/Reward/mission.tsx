@@ -83,16 +83,19 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
   //   }
   // }, [data, dataMissionPrg]);
 
+  const amount = dataProgress?.function.includes('top-up')
+    ? dataProgress?.sumLoyaltyPoints
+    : dataProgress?.rowCount || 0;
   const progressBar = dataProgress
-    ? dataProgress?.rowCount / data.amountToClaim
+    ? amount / data.amountToClaim
     : 0 / data.amountToClaim;
   const completeProfile = dataProgress?.function.includes('profile');
   const dailySignIn = dataProgress?.function.includes('sign-in');
-  const progressTextCompleteProfile = `${
-    dataProgress ? dataProgress?.rowCount : 0
-  }%/${data.amountToClaim}%`;
-  const progressRepeatable = dataProgress?.rowCount === 0 ? 0 / 1 : 1;
-  const progressText = `${dataProgress?.rowCount} Done`;
+  const progressTextCompleteProfile = `${dataProgress ? amount : 0}%/${
+    data.amountToClaim
+  }%`;
+  const progressRepeatable = amount === 0 ? 0 / 1 : 1;
+  const progressText = `${amount} Done`;
   const progressTextSignIn =
     dataProgress && dataProgress.isClaimable ? '1 Claim Active' : progressText;
   const progressCompleted = dailySignIn
