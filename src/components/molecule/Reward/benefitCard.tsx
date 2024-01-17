@@ -71,7 +71,7 @@ const BenefitCard: FC<Props> = ({id, currentLvl}) => {
   return (
     <>
       {dataBenefit?.data && (
-        <View style={[styles.container, {opacity: lvlOnNum === id ? 1 : 0.6}]}>
+        <View style={[styles.container, {opacity: lvlOnNum >= id ? 1 : 0.6}]}>
           <Text style={styles.textStyle}>Benefit</Text>
           <Gap height={10} />
           <FlatList
@@ -83,7 +83,7 @@ const BenefitCard: FC<Props> = ({id, currentLvl}) => {
             renderItem={({item}) => (
               <TouchableOpacity
                 style={styles.compContainer}
-                disabled={lvlOnNum !== id}
+                disabled={lvlOnNum < id}
                 onPress={handleOnPress}>
                 <Image source={imageByRank[id]} style={styles.iconStyle} />
                 <Gap width={6} />
