@@ -66,9 +66,24 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
     }
   }, [readyToRefetch]);
 
-  const amount = dataProgress?.function.includes('top-up')
-    ? dataProgress?.sumLoyaltyPoints
-    : dataProgress?.rowCount || 0;
+  // TODO: set data to store UNCOMMENT LATER
+  // useEffect(() => {
+  //   if (data && dataMissionPrg) {
+  //     const newMission: DataMissionStoreProps = {
+  //       id: data.id,
+  //       typeOnIndex:
+  //         data.taskType === 'daily' ? 0 : data.taskType === 'one-time' ? 1 : 2,
+  //       isClaimable: dataMissionPrg.data.isClaimable,
+  //     };
+  //     const filterData = storedDataMission.filter(
+  //       data => data.id !== newMission.id,
+  //     );
+  //     const updatedDataMission = [...filterData, newMission];
+  //     setStoredDataMission(updatedDataMission);
+  //   }
+  // }, [data, dataMissionPrg]);
+
+  const amount = dataProgress?.rowCount || 0;
   const progressBar = dataProgress
     ? amount / data.amountToClaim
     : 0 / data.amountToClaim;
@@ -158,9 +173,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
           {!progressCompleted ? (
             <View style={styles.progressContainer}>
               <Text style={styles.progressTxt}>
-                {completeProfile
-                  ? progressTextCompleteProfile
-                  : progressText}
+                {completeProfile ? progressTextCompleteProfile : progressText}
               </Text>
             </View>
           ) : (
