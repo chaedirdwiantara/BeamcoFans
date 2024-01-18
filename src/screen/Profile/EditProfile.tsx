@@ -1,19 +1,15 @@
-import React, {useCallback, useState} from 'react';
-import {InteractionManager, StyleSheet, View} from 'react-native';
-import {Image} from 'react-native-image-crop-picker';
-import {
-  NativeStackNavigationProp,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {StyleSheet, View} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
 import {EditProfile} from '../../components';
-import {uploadImage} from '../../api/uploadImage.api';
+import {RootStackParams} from '../../navigations';
 import {useProfileHook} from '../../hooks/use-profile.hook';
-import {MainTabParams, RootStackParams} from '../../navigations';
+import {useSettingHook} from '../../hooks/use-setting.hook';
+import {useLocationHook} from '../../hooks/use-location.hook';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
-import {useTranslation} from 'react-i18next';
 
 type EditProfileProps = NativeStackScreenProps<RootStackParams, 'EditProfile'>;
 
@@ -21,90 +17,53 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
   navigation,
   route,
 }: EditProfileProps) => {
-  const {t} = useTranslation();
-  const navigation2 = useNavigation<NativeStackNavigationProp<MainTabParams>>();
+  const {isLoading, dataProfile, getProfileUser, deleteValueProfile} =
+    useProfileHook();
   const {
-    isLoading,
-    dataProfile,
-    updateProfileUser,
-    getProfileUser,
-    deleteValueProfile,
-  } = useProfileHook();
+    dataAllCountry,
+    dataCitiesOfCountry,
+    getDataAllCountry,
+    getCitiesOfCountry,
+  } = useLocationHook();
+  const {getListMoodGenre, listGenre, listMood} = useSettingHook();
+  const [selectedCountry, setSelectedCountry] = useState<number>(0);
 
   useFocusEffect(
     useCallback(() => {
       getProfileUser();
+      getDataAllCountry();
+      getListMoodGenre({page: 0, perPage: 30});
     }, []),
   );
 
-  const banners =
-    dataProfile !== undefined && dataProfile.banners?.length > 0
-      ? dataProfile.banners[2].image
-      : null;
-
-  const avatar =
-    dataProfile !== undefined && dataProfile.images?.length > 0
-      ? dataProfile.images[2].image
-      : null;
-
-  const [avatarUri, setAvatarUri] = useState<string>(avatar || '');
-  const [backgroundUri, setBackgroundUri] = useState<string>(banners || '');
-  const [imageLoading, setImageLoading] = useState<boolean>(false);
-
-  const goBack = () => {
-    navigation.goBack();
-  };
-
-  const onPressSave = async (param: {bio: string}) => {
-    await updateProfileUser(
-      {
-        about: param.bio,
-        imageProfileUrl: avatarUri,
-        banner: backgroundUri,
-      },
-      true,
-    );
-    setTimeout(() => {
-      navigation2.navigate('Profile', {showToast: true});
-    }, 500);
-  };
-
-  const setUploadImage = async (image: Image, type: string) => {
-    InteractionManager.runAfterInteractions(() => setImageLoading(true));
-    try {
-      const response = await uploadImage(image);
-      type === 'avatarUri'
-        ? setAvatarUri(response.data)
-        : setBackgroundUri(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setImageLoading(false);
+  useEffect(() => {
+    if (dataProfile) {
+      setSelectedCountry(dataProfile.data.locationCountry?.id || 0);
     }
-  };
+  }, [dataProfile]);
 
-  const profile = {
-    fullname: dataProfile?.fullname,
-    username: '@' + dataProfile?.username,
-    bio: dataProfile?.about || t('Profile.Label.Description'),
-    avatarUri: avatarUri,
-    backgroundUri: backgroundUri,
-  };
+  useEffect(() => {
+    if (selectedCountry > 0) {
+      getCitiesOfCountry({id: selectedCountry});
+    }
+  }, [dataProfile, selectedCountry]);
 
   return (
     <View style={styles.root}>
-      <EditProfile
-        profile={profile}
-        dataProfile={dataProfile?.data}
-        type={'edit'}
-        onPressGoBack={goBack}
-        onPressSave={onPressSave}
-        setUploadImage={(image: Image, type: string) =>
-          setUploadImage(image, type)
-        }
-        imageLoading={imageLoading}
-        deleteValueProfile={deleteValueProfile}
-      />
+      {dataProfile && (
+        <EditProfile
+          dataProfile={dataProfile.data}
+          deleteValueProfile={deleteValueProfile}
+          dataAllCountry={dataAllCountry !== undefined ? dataAllCountry : []}
+          moods={listMood}
+          genres={listGenre}
+          dataCitiesOfCountry={
+            dataCitiesOfCountry !== undefined ? dataCitiesOfCountry : []
+          }
+          selectedCountry={selectedCountry}
+          setSelectedCountry={setSelectedCountry}
+        />
+      )}
       <ModalLoading visible={isLoading} />
     </View>
   );
