@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {
   NativeStackNavigationProp,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 import Color from '../../theme/Color';
 import {storage} from '../../hooks/use-storage.hook';
@@ -40,15 +40,24 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (showToast !== undefined && !deletePlaylist) {
-      setToastVisible(showToast);
-      setToastText('Your Profile have been updated!');
-    } else if (deletePlaylist !== undefined) {
-      setToastVisible(deletePlaylist);
-      setToastText('Playlist have been deleted!');
-    }
-  }, [route.params]);
+  // useEffect(() => {
+  //   if (showToast !== undefined && !deletePlaylist) {
+  //     setToastVisible(showToast);
+  //     setToastText('Your Profile have been updated!');
+  //   } else if (deletePlaylist !== undefined) {
+  //     setToastVisible(deletePlaylist);
+  //     setToastText('Playlist have been deleted!');
+  //   }
+  // }, [route.params]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const tabActive = storage.getBoolean('editProfileSuccess') || false;
+      setToastVisible(tabActive);
+      setToastText('Profile & Account Information have been saved!');
+      storage.delete('editProfileSuccess');
+    }, []),
+  );
 
   useEffect(() => {
     toastVisible &&
@@ -57,8 +66,13 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
       }, 3000);
   }, [toastVisible]);
 
+  useFocusEffect(
+    useCallback(() => {
+      getProfileUser();
+    }, [refreshing]),
+  );
+
   useEffect(() => {
-    getProfileUser();
     getUserCountLikedSong({uuid: profileStorage()?.uuid});
     setTimeout(() => {
       setRefreshing(false);
@@ -85,7 +99,7 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
 
   const goToEditProfile = () => {
     if (dataProfile !== undefined) {
-      navigation.navigate('EditProfile', {...dataProfile?.data});
+      navigation.navigate('EditProfile');
     }
   };
 
