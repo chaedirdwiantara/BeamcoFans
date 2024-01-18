@@ -198,7 +198,7 @@ export type RootStackParams = {
   };
   DiscoverArtist: undefined;
   DonationAndSubscription: undefined;
-  EditProfile: ProfileResponseData;
+  EditProfile: undefined;
   EditPlaylist: Playlist;
   Email: {
     info?: boolean;

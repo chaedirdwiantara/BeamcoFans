@@ -24,7 +24,7 @@ export type ProfileResponseData = {
   username: string;
   email: string;
   fullname: string;
-  about: string | null;
+  about: string;
   banners: imageTypes[];
   images: imageTypes[];
   phoneNumber: string | null;
@@ -45,7 +45,7 @@ export type ProfileResponseData = {
   gender: string;
   followers: number;
   fans: number;
-  bio: string | null;
+  bio: string;
   totalLiked: number;
   point: {
     daily: number;
