@@ -26,6 +26,7 @@ import {
 import Color from '../../../theme/Color';
 import {font, typography} from '../../../theme';
 import {heightPercentage, normalize, widthPercentage} from '../../../utils';
+import {useTranslation} from 'react-i18next';
 
 interface InputLabelProps extends TextInputProps {
   label?: string;
@@ -44,6 +45,7 @@ interface InputLabelProps extends TextInputProps {
   leftIcon?: React.ReactNode;
   leftIconStyle?: ViewStyle;
   listImage?: Image[];
+  isRequired?: boolean;
   onPressDeleteImage?: (id: number) => void;
 }
 
@@ -64,9 +66,10 @@ const InputLabel: React.FC<InputLabelProps> = (props: InputLabelProps) => {
     leftIcon,
     leftIconStyle,
     listImage,
+    isRequired,
     onPressDeleteImage,
   } = props;
-
+  const {t} = useTranslation();
   const [state, setState] = useState<boolean>(false);
   const [secure, setSecure] = useState<boolean>(true);
 
@@ -139,8 +142,20 @@ const InputLabel: React.FC<InputLabelProps> = (props: InputLabelProps) => {
   return (
     <View style={containerStyles}>
       {label && (
-        <Text style={[typography.Overline, {color}, styles.label]}>
-          {label}
+        <Text>
+          <Text style={[typography.Overline, {color}, styles.label]}>
+            {label}
+          </Text>
+          {isRequired && (
+            <Text
+              style={[
+                typography.Overline,
+                {color: Color.Pink[200]},
+                styles.label,
+              ]}>
+              {' *' + t('General.Required')}
+            </Text>
+          )}
         </Text>
       )}
       <View style={[styles.root, {borderBottomColor}, containerInputStyles]}>
