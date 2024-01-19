@@ -170,19 +170,21 @@ export const EditProfile: React.FC<EditProfileProps> = ({
   useEffect(() => {
     if (dataProfile) {
       const avatar =
-        dataProfile.images?.length > 0 ? dataProfile.images[2].image : null;
+        dataProfile.images?.length > 0 ? dataProfile.images[2].image : '';
       const banners =
-        dataProfile.banners?.length > 0 ? dataProfile.banners[2].image : null;
+        dataProfile.banners?.length > 0 ? dataProfile.banners[2].image : '';
 
       // default except path
       setAvatarUri({
         ...defaultImg,
         path: avatar || '',
       });
+      setUploadedAvatar(avatar);
       setBackgroundUri({
         ...defaultImg,
         path: banners || '',
       });
+      setUploadedBgUri(banners);
       setBio(dataProfile?.about || '');
     }
   }, [dataProfile]);
@@ -221,6 +223,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
 
   const resetImage = () => {
     // reset value of state
+    setUploadImgActive(false);
     if (uriType === 'avatarUri') {
       setAvatarUri(defaultImg);
       setUploadedAvatar('');

@@ -1,22 +1,15 @@
 import {StyleSheet, View} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import Color from '../../theme/Color';
 import {EditProfile} from '../../components';
-import {RootStackParams} from '../../navigations';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {useSettingHook} from '../../hooks/use-setting.hook';
 import {useLocationHook} from '../../hooks/use-location.hook';
 import {ModalLoading} from '../../components/molecule/ModalLoading/ModalLoading';
 
-type EditProfileProps = NativeStackScreenProps<RootStackParams, 'EditProfile'>;
-
-export const EditProfileScreen: React.FC<EditProfileProps> = ({
-  navigation,
-  route,
-}: EditProfileProps) => {
+export const EditProfileScreen: React.FC = () => {
   const {isLoading, dataProfile, getProfileUser, deleteValueProfile} =
     useProfileHook();
   const {
