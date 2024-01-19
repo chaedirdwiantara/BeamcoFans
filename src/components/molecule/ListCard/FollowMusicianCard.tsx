@@ -13,6 +13,8 @@ import {DefaultAvatar} from '../../../assets/icon';
 import {normalize, widthPercentage, widthResponsive} from '../../../utils';
 import {imageTypes} from '../../../interface/base.interface';
 import {useTranslation} from 'react-i18next';
+import {storage} from '../../../hooks/use-storage.hook';
+import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
 
 interface ListProps {
   musicianNum?: number | string;
@@ -28,6 +30,8 @@ interface ListProps {
 
 const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
   const {t} = useTranslation();
+  const isLogin = storage.getBoolean('isLogin');
+
   const {
     musicianNum,
     musicianName,
@@ -45,14 +49,20 @@ const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
     : t('Preference.Follow');
   const [textFollow, setTextFollow] = useState(follow);
   const [countFollower, setCountFollower] = useState(followerCount ?? 0);
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
 
   const onPressFollow = () => {
-    const followers = stateButton ? countFollower - 1 : countFollower + 1;
-    setTextFollow(
-      (stateButton ? t('Preference.Follow') : t('Preference.Following')) || '',
-    );
-    setCountFollower(followers);
-    followOnPress();
+    if (isLogin) {
+      const followers = stateButton ? countFollower - 1 : countFollower + 1;
+      setTextFollow(
+        (stateButton ? t('Preference.Follow') : t('Preference.Following')) ||
+          '',
+      );
+      setCountFollower(followers);
+      followOnPress();
+    } else {
+      setModalGuestVisible(true);
+    }
   };
 
   const followMenu = () => {
@@ -78,36 +88,42 @@ const FollowMusicianCard: React.FC<ListProps> = (props: ListProps) => {
   };
 
   return (
-    <TouchableOpacity
-      onPress={toDetailOnPress}
-      activeOpacity={0.5}
-      style={[styles.container, containerStyles]}>
-      {musicianNum && (
-        <Text style={styles.rankStyle}>
-          {musicianNum?.toLocaleString('en-US', {
-            minimumIntegerDigits: 2,
-            useGrouping: false,
-          })}
-        </Text>
-      )}
-      {imgUri === null || imgUri.length === 0 ? (
-        <DefaultAvatar.MusicianIcon />
-      ) : (
-        <Avatar imgUri={imgUri[0].image} size={widthPercentage(44)} />
-      )}
-      <Gap width={8} />
-      <View style={styles.textContainer}>
-        <Text style={styles.musicianName} numberOfLines={1}>
-          {musicianName}
-        </Text>
-        {!recommended && (
-          <Text style={styles.followerCount} numberOfLines={1}>
-            {countFollower + ' ' + t('General.Followers')}
+    <>
+      <TouchableOpacity
+        onPress={toDetailOnPress}
+        activeOpacity={0.5}
+        style={[styles.container, containerStyles]}>
+        {musicianNum && (
+          <Text style={styles.rankStyle}>
+            {musicianNum?.toLocaleString('en-US', {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            })}
           </Text>
         )}
-      </View>
-      <View style={styles.rightContainer}>{followMenu()}</View>
-    </TouchableOpacity>
+        {imgUri === null || imgUri.length === 0 ? (
+          <DefaultAvatar.MusicianIcon />
+        ) : (
+          <Avatar imgUri={imgUri[0].image} size={widthPercentage(44)} />
+        )}
+        <Gap width={8} />
+        <View style={styles.textContainer}>
+          <Text style={styles.musicianName} numberOfLines={1}>
+            {musicianName}
+          </Text>
+          {!recommended && (
+            <Text style={styles.followerCount} numberOfLines={1}>
+              {countFollower + ' ' + t('General.Followers')}
+            </Text>
+          )}
+        </View>
+        <View style={styles.rightContainer}>{followMenu()}</View>
+      </TouchableOpacity>
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
+      />
+    </>
   );
 };
 
