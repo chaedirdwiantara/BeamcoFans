@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import * as Progress from 'react-native-progress';
 import {widthResponsive} from '../../../utils';
 import {color, font} from '../../../theme';
@@ -7,6 +7,8 @@ import {mvs} from 'react-native-size-matters';
 import {Button, Gap} from '../../atom';
 import {CheckCircle2Icon} from '../../../assets/icon';
 import {PollingOptions} from '../../../interface/feed.interface';
+import {storage} from '../../../hooks/use-storage.hook';
+import {BottomSheetGuest} from '../GuestComponent/BottomSheetGuest';
 
 interface VoteCardProps {
   pollingOptions: PollingOptions[];
@@ -26,6 +28,12 @@ const VoteCard: FC<VoteCardProps> = (props: VoteCardProps) => {
     isVoted,
     setGiveVote,
   } = props;
+  const isLogin = storage.getBoolean('isLogin');
+  const [modalGuestVisible, setModalGuestVisible] = useState<boolean>(false);
+
+  const onPressVote = (optionId: string) => {
+    isLogin ? setGiveVote(optionId) : setModalGuestVisible(true);
+  };
   return (
     <View>
       {pollingOptions?.map((item, i) => (
@@ -62,7 +70,7 @@ const VoteCard: FC<VoteCardProps> = (props: VoteCardProps) => {
                   label={'Vote'}
                   containerStyles={styles.buttonContainer}
                   textStyles={styles.textButton}
-                  onPress={() => setGiveVote(item.id)}
+                  onPress={() => onPressVote(item.id)}
                 />
               ) : null}
             </View>
@@ -79,6 +87,10 @@ const VoteCard: FC<VoteCardProps> = (props: VoteCardProps) => {
           {pollTimeLeft ?? 'Failed to get data'}
         </Text>
       </View>
+      <BottomSheetGuest
+        modalVisible={modalGuestVisible}
+        onPressClose={() => setModalGuestVisible(false)}
+      />
     </View>
   );
 };
