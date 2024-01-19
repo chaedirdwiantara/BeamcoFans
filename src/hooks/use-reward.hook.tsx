@@ -38,9 +38,9 @@ export const useRewardHook = () => {
     });
   };
 
-  const useGetAvailableVoucher = () => {
+  const useGetAvailableVoucher = (param: ParamsProps) => {
     return useQuery(['reward/get-available-voucher'], () =>
-      getAvailableVouchertEp(),
+      getAvailableVouchertEp(param),
     );
   };
 

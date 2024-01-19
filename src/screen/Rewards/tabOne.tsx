@@ -19,6 +19,7 @@ import {useTranslation} from 'react-i18next';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import {RewardCardSkeleton} from '../../skeleton/Rewards/RewardCard';
+import {tabRewardStore} from '../../store/reward.store';
 
 type Props = {
   refreshing: boolean;
@@ -27,6 +28,7 @@ type Props = {
 
 const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
   const {t} = useTranslation();
+  const {metaReward, setAllowUpdateMeta} = tabRewardStore();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const [showModal, setShowModal] = useState(false);
@@ -40,7 +42,10 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
     data: dataAvailVoucher,
     refetch: refetchAvailVoucher,
     isLoading: isLoadingAvailVoucher,
-  } = useGetAvailableVoucher();
+  } = useGetAvailableVoucher({
+    page: metaReward.page,
+    perPage: metaReward.perPage,
+  });
 
   useFocusEffect(
     useCallback(() => {
@@ -55,12 +60,29 @@ const TabOneReward: FC<Props> = ({refreshing, setRefreshing}) => {
         setRefreshing(false);
       }
     }
-
     setRefreshingData();
   }, [refreshing]);
 
   useEffect(() => {
-    setAvailVoucher(dataAvailVoucher?.data);
+    refetchAvailVoucher();
+    setTimeout(() => {
+      availVoucher &&
+      dataAvailVoucher?.meta &&
+      availVoucher?.length < dataAvailVoucher?.meta?.TotalData
+        ? setAllowUpdateMeta(true)
+        : null;
+    }, 1000);
+  }, [metaReward]);
+
+  useEffect(() => {
+    if (metaReward.page === 1) {
+      setAvailVoucher(dataAvailVoucher?.data);
+    } else {
+      if (availVoucher && dataAvailVoucher?.data) {
+        const updatedVouchers = availVoucher.concat(dataAvailVoucher.data);
+        setAvailVoucher(updatedVouchers);
+      }
+    }
   }, [dataAvailVoucher]);
 
   const handleModalOnClose = () => {

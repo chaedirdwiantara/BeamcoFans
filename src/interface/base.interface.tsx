@@ -43,8 +43,15 @@ export type nameValue = {
   Value?: number | string;
 };
 
+export type metaValue = {
+  Page: number;
+  PerPage: number;
+  TotalData: number;
+};
+
 export type BaseResponseApi = {
   code: number;
   message: string;
   status: number;
+  meta?: metaValue;
 };
