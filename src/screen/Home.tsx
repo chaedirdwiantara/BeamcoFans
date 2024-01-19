@@ -179,7 +179,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     () => getSearchPlaylists({keyword: ''}),
   );
 
-  const {data: dataCheckVoucher} = useCheckAvailVoucher('event_based');
+  const {data: dataCheckVoucher} = useCheckAvailVoucher('event_based', isLogin);
   const {data: dataVoucher} = useEventCheckGeneratedTopupVoucherHome({
     userUUID: uuid ?? '',
     userType: 'fans',
@@ -285,14 +285,16 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   useFocusEffect(
     useCallback(() => {
       // Triggering when go back from other screen
-      getProfileProgress();
-      getProfileUser();
-      setLastActive();
-      refetchTopArtists();
+      if (isLogin) {
+        getProfileProgress();
+        getProfileUser();
+        setLastActive();
+        refetchTopArtists();
 
-      setTimeout(() => {
-        setRefreshing(false);
-      }, 1000);
+        setTimeout(() => {
+          setRefreshing(false);
+        }, 1000);
+      }
     }, [refreshing, selectedTopArtist]),
   );
 
