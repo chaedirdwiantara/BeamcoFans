@@ -44,8 +44,8 @@ export const useRewardHook = () => {
     );
   };
 
-  const useGetMyVoucher = () => {
-    return useQuery(['reward/get-my-voucher'], () => getMyVouchertEp());
+  const useGetMyVoucher = (param: ParamsProps) => {
+    return useQuery(['reward/get-my-voucher'], () => getMyVouchertEp(param));
   };
 
   const useGetHistoryVoucher = () => {

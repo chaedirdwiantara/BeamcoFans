@@ -18,10 +18,12 @@ import {MainTabParams} from '../../../navigations';
 import {VoucherAvailable} from './VoucherAvailable';
 import {Button, Gap, TopNavigation} from '../../../components';
 import {storage} from '../../../hooks/use-storage.hook';
+import {tabVoucherStore} from '../../../store/voucher.store';
 
 export const MyVoucherScreen: React.FC = () => {
   const {t} = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<MainTabParams>>();
+  const {metaVoucher, setMetaVoucher} = tabVoucherStore();
 
   const [selectedTab, setSelectedTab] = useState<string>('available');
 
@@ -35,6 +37,18 @@ export const MyVoucherScreen: React.FC = () => {
 
   const onPressGoBack = () => {
     navigation.navigate('Rewards');
+    setMetaVoucher({
+      page: 1,
+      perPage: 10,
+    });
+  };
+
+  const tabFilterOnPress = (tabName: 'available' | 'history') => {
+    setSelectedTab(tabName);
+    setMetaVoucher({
+      page: 1,
+      perPage: 10,
+    });
   };
 
   return (
@@ -54,7 +68,7 @@ export const MyVoucherScreen: React.FC = () => {
       <View style={styles.containerTabVoucher}>
         <Button
           label={t('Rewards.MyVoucher.Tab1')}
-          onPress={() => setSelectedTab('available')}
+          onPress={() => tabFilterOnPress('available')}
           containerStyles={{
             ...styles.tabVoucher,
             backgroundColor: bgColorTab('available', selectedTab),
@@ -67,7 +81,7 @@ export const MyVoucherScreen: React.FC = () => {
             ...styles.tabVoucher,
             backgroundColor: bgColorTab('history', selectedTab),
           }}
-          onPress={() => setSelectedTab('history')}
+          onPress={() => tabFilterOnPress('history')}
         />
       </View>
 
