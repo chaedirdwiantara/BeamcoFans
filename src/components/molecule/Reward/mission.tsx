@@ -73,17 +73,12 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
     ? amount / data.amountToClaim
     : 0 / data.amountToClaim;
   const completeProfile = dataProgress?.function.includes('profile');
-  const dailySignIn = dataProgress?.function.includes('sign-in');
   const progressTextCompleteProfile = `${dataProgress ? amount : 0}%/${
     data.amountToClaim
   }%`;
   const progressRepeatable = amount === 0 ? 0 / 1 : 1;
   const progressText = `${amount} Done`;
-  const progressTextSignIn =
-    dataProgress && dataProgress.isClaimable ? '1 Claim Active' : progressText;
-  const progressCompleted = dailySignIn
-    ? dataProgress?.isClaimed && dataProgress?.rowCount >= 10
-    : dataProgress?.isClaimed;
+  const progressCompleted = dataProgress?.isClaimed;
 
   // ? set data complete & data progressed into global state
   useEffect(() => {
@@ -142,21 +137,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
       </View>
       <Gap width={widthResponsive(12)} />
       <View style={styles.progressBarContainer}>
-        {/* <View style={styles.captionContainer}> */}
         <Text style={styles.titleTxt}>{data.taskName}</Text>
-        {/* <View style={styles.rewardCountContainer}>
-            change it later for repeatable
-            <Text style={styles.rewardCountTxt}>
-              {data.taskType === 'based-reward' &&
-              dataProgress &&
-              dataProgress?.sumLoyaltyPoints > 0
-                ? dataProgress.sumLoyaltyPoints
-                : data.rewards}
-            </Text>
-            <Gap width={3} />
-            <CupIcon />
-          </View> */}
-        {/* </View> */}
         <Gap height={mvs(5)} />
         <View style={styles.prgContainer}>
           <Progress.Bar
@@ -177,9 +158,7 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
           {!progressCompleted ? (
             <View style={styles.progressContainer}>
               <Text style={styles.progressTxt}>
-                {dailySignIn
-                  ? progressTextSignIn
-                  : completeProfile
+                {completeProfile
                   ? progressTextCompleteProfile
                   : progressText}
               </Text>
@@ -195,18 +174,6 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
           )}
         </View>
       </View>
-
-      {dataProgress?.isClaimable && dailySignIn && (
-        <View style={styles.btnContainer}>
-          <Gap width={16} />
-          <Button
-            label={t('Rewards.MissionTab.BtnClaim')}
-            containerStyles={styles.btnClaim}
-            textStyles={styles.textButton}
-            onPress={() => handleOnClaim(dataProgress, data)}
-          />
-        </View>
-      )}
     </TouchableOpacity>
   );
 };

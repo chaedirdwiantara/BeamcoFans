@@ -201,31 +201,6 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing, rankTitle}) => {
 
   return (
     <View style={styles().container}>
-      {/* <View style={styles().menuStyle}>
-        {missionMenu.map((data, index) => {
-          // TODO: set data to store UNCOMMENT LATER
-          // const isTypeOnIndexAndClaimable = storedDataMission.some(
-          //   mission => mission.typeOnIndex === index && mission.isClaimable,
-          // );
-          return (
-            <Button
-              label={data.label}
-              containerStyles={styles(activeIndex, index).btnClaim}
-              textStyles={styles().textButton}
-              onPress={() => onPressMenu(index)}
-              // TODO: set data to store UNCOMMENT LATER
-              // typeOfButton={
-              //   index !== activeIndex && isTypeOnIndexAndClaimable
-              //     ? 'withIcon'
-              //     : undefined
-              // }
-              customIcon={<Circle size={8} color={color.Pink[200]} />}
-            />
-          );
-        })}
-      </View> */}
-
-      <Gap height={16} />
       {isLoadingMissionMaster ? (
         <MissionCardSkeleton />
       ) : (
