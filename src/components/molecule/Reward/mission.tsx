@@ -63,23 +63,6 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
     }
   }, [readyToRefetch]);
 
-  // TODO: set data to store UNCOMMENT LATER
-  // useEffect(() => {
-  //   if (data && dataMissionPrg) {
-  //     const newMission: DataMissionStoreProps = {
-  //       id: data.id,
-  //       typeOnIndex:
-  //         data.taskType === 'daily' ? 0 : data.taskType === 'one-time' ? 1 : 2,
-  //       isClaimable: dataMissionPrg.data.isClaimable,
-  //     };
-  //     const filterData = storedDataMission.filter(
-  //       data => data.id !== newMission.id,
-  //     );
-  //     const updatedDataMission = [...filterData, newMission];
-  //     setStoredDataMission(updatedDataMission);
-  //   }
-  // }, [data, dataMissionPrg]);
-
   const progressBar = dataProgress
     ? dataProgress?.rowCount / data.amountToClaim
     : 0 / data.amountToClaim;
@@ -96,6 +79,26 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
       : 'Activity Detected'
   }`;
   const progressCompleted = progressBar === 1;
+
+  // ? set data complete & data progressed into global state
+  useEffect(() => {
+    if (data && dataMissionPrg) {
+      const progressBarZ = dataMissionPrg.data
+        ? dataMissionPrg.data?.rowCount / data.amountToClaim
+        : 0 / data.amountToClaim;
+      if (dataMissionPrg.data.isClaimable || progressBarZ === 1) {
+        const newMission: DataMissionStoreProps = {
+          id: data.id,
+          isClaimable: dataMissionPrg.data.isClaimable,
+        };
+        const filterData = storedDataMission.filter(
+          data => data.id !== newMission.id,
+        );
+        const updatedDataMission = [...filterData, newMission];
+        setStoredDataMission(updatedDataMission);
+      }
+    }
+  }, [data, dataMissionPrg]);
 
   const handleOnClaim = (
     dataProgress: DataListMissioProgress,

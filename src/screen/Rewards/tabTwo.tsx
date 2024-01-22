@@ -36,6 +36,8 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing, rankTitle}) => {
   const [showToast, setShowToast] = useState<boolean>(false);
   const [claimedPoint, setClaimedPoint] = useState<number>(0);
   const [paramClaim, setParamClaim] = useState<string>();
+  const [dataStateMission, setDataStateMission] =
+    useState<DataMissionMaster[]>();
 
   const {useGetMissionMaster, useSetClaimMission} = useRewardHook();
   const {storedDataMission, setStoredDataMission} = dataMissionStore();
@@ -91,6 +93,25 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing, rankTitle}) => {
 
     setRefreshingData();
   }, [refreshing]);
+
+  useEffect(() => {
+    if (dataMission?.data && storedDataMission) {
+      // check if the number exists in storedDataMission
+      const exInStored = (num: number) =>
+        storedDataMission.some(el => el.id === num);
+
+      // Sorting
+      const sorted = [...dataMission.data].sort((a, b) => {
+        if (exInStored(a.id) && !exInStored(b.id)) {
+          return 1; // Move 'a' to end if it exists in exInStored
+        } else if (!exInStored(a.id) && exInStored(b.id)) {
+          return -1; // Keep 'a' before 'b' if only 'b' exists in exInStored
+        }
+        return 0; // No change in order if both or neither are in exInStored
+      });
+      setDataStateMission(sorted);
+    }
+  }, [dataMission?.data, storedDataMission]);
 
   useEffect(() => {
     async function fetchClaim() {
@@ -201,9 +222,9 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing, rankTitle}) => {
         <MissionCardSkeleton />
       ) : (
         <>
-          {dataMission?.data && (
+          {dataStateMission && (
             <FlatList
-              data={dataMission.data}
+              data={dataStateMission}
               showsVerticalScrollIndicator={false}
               keyExtractor={(_, index) => index.toString()}
               scrollEnabled={false}
