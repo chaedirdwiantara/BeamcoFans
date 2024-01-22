@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import * as Progress from 'react-native-progress';
 import {
@@ -22,6 +22,7 @@ import {
 } from '../../../interface/reward.interface';
 import {useTranslation} from 'react-i18next';
 import {dataMissionStore} from '../../../store/reward.store';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface MissionProps {
   data: DataMissionMaster;
@@ -44,9 +45,11 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
       campaignId: data.campaignId,
     });
 
-  useEffect(() => {
-    refetchMissionPrg();
-  }, [data]);
+  useFocusEffect(
+    useCallback(() => {
+      refetchMissionPrg();
+    }, []),
+  );
 
   useEffect(() => {
     if (dataMissionPrg?.data) {
@@ -63,30 +66,29 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
     }
   }, [readyToRefetch]);
 
+  const amount = dataProgress?.function.includes('top-up')
+    ? dataProgress?.sumLoyaltyPoints
+    : dataProgress?.rowCount || 0;
   const progressBar = dataProgress
-    ? dataProgress?.rowCount / data.amountToClaim
+    ? amount / data.amountToClaim
     : 0 / data.amountToClaim;
-  const progressText = `${dataProgress ? dataProgress?.rowCount : 0}${
-    dataProgress?.function.includes('profile') ? '%' : ''
-  }/${data.amountToClaim}${
-    dataProgress?.function.includes('profile') ? '%' : ''
-  }`;
-  const progressRepeatable = dataProgress?.rowCount === 0 ? 0 / 1 : 1;
-  const progressTextRepeatable = `${dataProgress?.rowCount} ${
-    dataProgress?.function.includes('donation') ||
-    dataProgress?.function.includes('tipping')
-      ? 'Credit Detected'
-      : 'Activity Detected'
-  }`;
-  const progressCompleted = progressBar === 1;
+  const completeProfile = dataProgress?.function.includes('profile');
+  const dailySignIn = dataProgress?.function.includes('sign-in');
+  const progressTextCompleteProfile = `${dataProgress ? amount : 0}%/${
+    data.amountToClaim
+  }%`;
+  const progressRepeatable = amount === 0 ? 0 / 1 : 1;
+  const progressText = `${amount} Done`;
+  const progressTextSignIn =
+    dataProgress && dataProgress.isClaimable ? '1 Claim Active' : progressText;
+  const progressCompleted = dailySignIn
+    ? dataProgress?.isClaimed && dataProgress?.rowCount >= 10
+    : dataProgress?.isClaimed;
 
   // ? set data complete & data progressed into global state
   useEffect(() => {
     if (data && dataMissionPrg) {
-      const progressBarZ = dataMissionPrg.data
-        ? dataMissionPrg.data?.rowCount / data.amountToClaim
-        : 0 / data.amountToClaim;
-      if (dataMissionPrg.data.isClaimable || progressBarZ === 1) {
+      if (dataMissionPrg.data.isClaimed || progressCompleted) {
         const newMission: DataMissionStoreProps = {
           id: data.id,
           isClaimable: dataMissionPrg.data.isClaimable,
@@ -171,13 +173,14 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
             borderRadius={4}
             animated={false}
             style={{width: '100%'}}
-            // animationType={'timing'}
           />
-          {!dataProgress?.isClaimed ? (
+          {!progressCompleted ? (
             <View style={styles.progressContainer}>
               <Text style={styles.progressTxt}>
-                {data.taskType === 'based-reward'
-                  ? progressTextRepeatable
+                {dailySignIn
+                  ? progressTextSignIn
+                  : completeProfile
+                  ? progressTextCompleteProfile
                   : progressText}
               </Text>
             </View>
@@ -193,26 +196,17 @@ const Mission: React.FC<MissionProps> = ({data, onClaim, onGo, rankTitle}) => {
         </View>
       </View>
 
-      {/* {!dataProgress?.isClaimed && (
+      {dataProgress?.isClaimable && dailySignIn && (
         <View style={styles.btnContainer}>
           <Gap width={16} />
-          {dataProgress?.isClaimable ? (
-            <Button
-              label={t('Rewards.MissionTab.BtnClaim')}
-              containerStyles={styles.btnClaim}
-              textStyles={styles.textButton}
-              onPress={() => handleOnClaim(dataProgress, data)}
-            />
-          ) : (
-            <Button
-              label={t('Rewards.MissionTab.BtnGo')}
-              containerStyles={styles.btnGo}
-              textStyles={styles.textGoButton}
-              onPress={onGo}
-            />
-          )}
+          <Button
+            label={t('Rewards.MissionTab.BtnClaim')}
+            containerStyles={styles.btnClaim}
+            textStyles={styles.textButton}
+            onPress={() => handleOnClaim(dataProgress, data)}
+          />
         </View>
-      )} */}
+      )}
     </TouchableOpacity>
   );
 };

@@ -195,12 +195,10 @@ export type RootStackParams = {
   DetailVoucherRewards: {
     id?: number;
     codeGenerated?: string;
-    // dataDetailAvailVoucher?: any;
-    // status: string;
   };
   DiscoverArtist: undefined;
   DonationAndSubscription: undefined;
-  EditProfile: ProfileResponseData;
+  EditProfile: undefined;
   EditPlaylist: Playlist;
   Email: {
     info?: boolean;

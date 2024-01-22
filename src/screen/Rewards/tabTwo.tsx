@@ -128,6 +128,14 @@ const TabTwoRewards: FC<Props> = ({refreshing, setRefreshing, rankTitle}) => {
     fetchClaim();
   }, [paramClaim]);
 
+  // hide toast after 3s
+  useEffect(() => {
+    showToast &&
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+  }, [showToast]);
+
   const onPressMenu = (index: number) => {
     setactiveIndex(index);
   };
