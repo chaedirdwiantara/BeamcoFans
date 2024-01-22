@@ -20,15 +20,15 @@ export const useRewardHook = () => {
     return useQuery(['reward/get-mission-master'], () => getMissionMasterEp());
   };
 
-  const useGetMissionProgress = (param: GetMissionProgressParams) => {
+  const useGetMissionProgress = (param?: GetMissionProgressParams) => {
     return useQuery(
       [
         'reward/get-mission-progress',
-        param.task_type,
-        param.function,
-        param.campaignId,
+        param?.task_type,
+        param?.function,
+        param?.campaignId,
       ],
-      () => getMissionProgressEp(param),
+      () => param !== undefined ? getMissionProgressEp(param) : null,
     );
   };
 

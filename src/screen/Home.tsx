@@ -86,6 +86,8 @@ import {useRoute} from '@react-navigation/native';
 import BoxCredit from '../components/atom/BoxCredit/BoxCredit';
 import {CarouselAutoPlay} from '../components/molecule/Carousel/BannerAutoPlay';
 import {useVersionHook} from '../hooks/use-version.hook';
+import {useRewardHook} from '../hooks/use-reward.hook';
+import {GetMissionProgressParams} from '../interface/reward.interface';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -149,6 +151,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     useCheckAvailVoucher,
     useEventCheckGeneratedTopupVoucherHome,
   } = useEventHook();
+  const {useGetMissionMaster, useGetMissionProgress} = useRewardHook();
   const isLogin = storage.getBoolean('isLogin');
   const {isLoading: isLoadingEvent, refetch: refetchEvent} = useEventHome(
     {},
@@ -165,6 +168,8 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
   const [showModalTopup, setShowModalTopup] = useState<boolean>(false);
   const [generateVoucherPayload, setGenerateVoucherPayload] =
     useState<GenerateEventVoucherReq>();
+  const [paramProgressMission, setParamProgressMission] =
+    useState<GetMissionProgressParams>();
 
   const JSONProfile = storage.getString('profile');
   let uuid: string = '';
@@ -191,6 +196,33 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     refetch: refetchTopArtists,
     isLoading: isLoadingTopArtists,
   } = useGetListTopArtists(selectedTopArtist);
+
+  const {data: dataMission} = useGetMissionMaster();
+  const {refetch: refetchMissionPrg} =
+    useGetMissionProgress(paramProgressMission);
+
+  // Auto Claim Mission Daily Sign In
+  useEffect(() => {
+    if (dataMission?.data) {
+      const dailySignIn = dataMission?.data.filter(
+        data => data.function === 'daily-sign-in',
+      )[0];
+
+      setParamProgressMission({
+        task_type: dailySignIn.taskType,
+        function: dailySignIn.function,
+        campaignId: dailySignIn.campaignId,
+      });
+    }
+  }, [dataMission]);
+
+  // When Fetch Get Mission Progress,
+  // BE will automatically claim the mission if available
+  useEffect(() => {
+    if (paramProgressMission !== undefined) {
+      refetchMissionPrg();
+    }
+  }, [paramProgressMission]);
 
   useEffect(() => {
     // if the user has already redeemed the voucher, modal will not appear
