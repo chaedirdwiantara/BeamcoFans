@@ -18,10 +18,12 @@ import {
   EmptyState,
   Gap,
   ModalConfirm,
+  ModalConfirm2,
   ModalDonate,
   ModalSuccessDonate,
   PopUp,
   SsuStatusBar,
+  SsuToast,
   SuccessToast,
   TabFilter,
   TopNavigation,
@@ -67,6 +69,9 @@ import {
 } from '../../data/dropdown';
 import EventMusician from '../../components/molecule/EventMusician';
 import {useBadgeHook} from '../../hooks/use-badge.hook';
+import {CheckCircle2Icon} from '../../assets/icon';
+import { ProfileHeaderNew } from './ProfileHeaderNew';
+import initialname from '../../utils/initialname';
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -128,8 +133,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [scrolEffect, setScrollEffect] = useState(false);
   const [filter] = useState([
     //TODO: HIDE IT FOR NOW {filterName: 'Musician.Tab.Main'},
-    {filterName: 'Musician.Tab.Fans'},
     {filterName: 'Musician.Tab.Musician'},
+    {filterName: 'Musician.Tab.Fans'},
     // {filterName: 'Musician.Tab.Music'},
     {filterName: 'Musician.Tab.Event'},
     {filterName: 'Musician.Tab.Profile'},
@@ -152,6 +157,21 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [toastBlock, setToastBlock] = useState<boolean>(false);
   const [endReached, setEndReached] = useState<boolean>(false);
   const [allowPagination, setAllowPagination] = useState<boolean>(true);
+  const [toastText, setToastText] = useState<string>('');
+  const [toastVisible, setToastVisible] = useState<boolean>(false);
+  const [isFollowed, setIsFollowed] = useState<boolean>(false);
+  const [showModalUnfollow, setShowModalUnfollow] = useState<boolean>(false);
+
+  useEffect(() => {
+    toastVisible &&
+      setTimeout(() => {
+        setToastVisible(false);
+      }, 3000);
+  }, [toastVisible]);
+
+  useEffect(() => {
+    setIsFollowed(profile.isFollowed);
+  }, []);
 
   const showPopUp: boolean | undefined = storage.getBoolean('showPopUp');
 
@@ -238,11 +258,18 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
 
   const followOnPress = (isFollowed: boolean) => {
     if (isLogin) {
-      isFollowed
-        ? (setUnfollowMusician({musicianID: profile.uuid}),
-          setFollowersCount(followersCount - 1))
-        : (setFollowMusician({musicianID: profile.uuid}),
-          setFollowersCount(followersCount + 1));
+      setToastVisible(true);
+      if (isFollowed) {
+        setUnfollowMusician({musicianID: profile.uuid});
+        setFollowersCount(followersCount - 1);
+        setIsFollowed(true);
+        setToastText(`Successfully Following ${profile?.fullname}`);
+      } else {
+        setFollowMusician({musicianID: profile.uuid});
+        setFollowersCount(followersCount + 1);
+        setIsFollowed(false);
+        setToastText(`Successfully Unfollowing ${profile?.fullname}`);
+      }
     } else setModalGuestVisible(true);
   };
 
@@ -336,6 +363,11 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     dataAlbum.length > 0 ||
     dataAppearsOn.length > 0;
 
+    const avatarUri =
+    profile.imageProfileUrls.length !== 0
+      ? profile.imageProfileUrls[1].image
+      : '';
+
   return (
     <View style={styles.container}>
       <SsuStatusBar type={'black'} />
@@ -369,37 +401,28 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           />
         }
         onScroll={handleScroll}>
-        <ProfileHeader
-          avatarUri={
-            profile.imageProfileUrls.length !== 0
-              ? profile.imageProfileUrls[1].image
-              : ''
-          }
-          backgroundUri={
-            profile.banners !== null && profile.banners.length !== 0
-              ? profile.banners[1].image
-              : ''
-          }
-          fullname={profile?.fullname}
-          username={profile?.username}
-          bio={profile?.bio}
-          isFollowed={profile?.isFollowed}
-          followOnPress={followOnPress}
-          onPressDonate={() =>
+        <ProfileHeaderNew
+          avatarUri={avatarUri}
+          fullname={profile.fullname}
+          username={profile.username}
+          bio={profile.bio}
+          dataBadge={dataBadge?.data}
+          isFollowed={isFollowed}
+          onPressImage={showImage}
+          donateOnPress={() =>
             isLogin ? setModalDonate(true) : setModalGuestVisible(true)
           }
-          onPressImage={showImage}
-          blocked={profile.isBlock || profile.blockIs}
-          dataBadge={dataBadge?.data}
-          refresh={refresh}
+          followOnPress={() => followOnPress(true)}
+          unfollowOnPress={() => setShowModalUnfollow(true)}
+          refreshing={refresh}
+          totalFollowers={profile.followers}
+          totalFans={profile.fans}
+          spotifyUrl={profile.spotifyUrl}
+          websiteUrl={profile.websiteUrl}
+          instagramUrl={profile.instagramUrl}
+          youtubeUrl={profile.youtubeUrl}
         />
         <View style={styles.infoCard}>
-          <UserInfoCard
-            onPress={goToFollowers}
-            profile={profile}
-            followersCount={followersCount}
-            disabled={true}
-          />
           {profile.isBlock ? (
             <BlockProfileUI
               title={`@${profile.fullname} ${t(
@@ -428,16 +451,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
                   musician={profile}
                 />
               )}
-              <Gap height={10} />
+              <Gap height={mvs(20)} />
               <View style={styles.containerContent}>
-                <TabFilter.Type1
+                <TabFilter.Type5
                   filterData={filter}
                   onPress={filterData}
                   selectedIndex={selectedIndex}
-                  flatlistContainerStyle={{
-                    paddingHorizontal: widthResponsive(24),
-                    width: 'auto',
-                  }}
+                  flatlistContainerStyle={styles.tabStyle}
                   translation={true}
                 />
 
@@ -583,6 +603,21 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         onPressClose={() => setModalGuestVisible(false)}
       />
 
+       {/* Confirm when unfollow artist */}
+       <ModalConfirm2
+        modalVisible={showModalUnfollow}
+        imgUri={avatarUri || ''}
+        showAvatar={avatarUri === '' || avatarUri === undefined}
+        initialAvatar={initialname(profile.fullname)}
+        title={`Unfollow ${profile.fullname}`}
+        subtitle={`Are you sure you want to unfollow ${profile.fullname}?`}
+        onPressClose={() => setShowModalUnfollow(false)}
+        onPressYes={() => {
+          followOnPress(false);
+          setShowModalUnfollow(false);
+        }}
+      />
+
       {/* //? Block user modal */}
       {modalBlock && (
         <ModalConfirm
@@ -624,6 +659,21 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         onBackPressed={handleToastUnblock}
         caption={`@${profile.fullname} ${t('Block.BlockUI.unblockSuccess')}`}
       />
+
+      {/* toast follow / unfollow */}
+      <SsuToast
+        modalVisible={toastVisible}
+        onBackPressed={() => setToastVisible(false)}
+        children={
+          <View style={[styles.modalContainer]}>
+            <CheckCircle2Icon />
+            <Gap width={4} />
+            <Text style={[styles.textStyle]} numberOfLines={2}>
+              {toastText}
+            </Text>
+          </View>
+        }
+      />
     </View>
   );
 };
@@ -642,10 +692,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   topNavStyle: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 100,
     borderBottomWidth: 0,
     paddingBottom: heightPercentage(15),
   },
@@ -668,5 +714,24 @@ const styles = StyleSheet.create({
   },
   blockProfile: {
     paddingHorizontal: widthResponsive(16),
+  },
+  tabStyle: {
+    paddingHorizontal: widthResponsive(24),
+    marginVertical: mvs(10),
+    width: 'auto',
+  },
+  modalContainer: {
+    width: '100%',
+    position: 'absolute',
+    bottom: heightPercentage(22),
+    height: heightPercentage(36),
+    backgroundColor: color.Success[400],
+    paddingHorizontal: widthPercentage(12),
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textStyle: {
+    color: color.Neutral[10],
   },
 });

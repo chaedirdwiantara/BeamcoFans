@@ -75,6 +75,10 @@ export type DataDetailMusician = {
   favoriteGenres: TheGenres[];
   blockIs: boolean; // pov i being blocked by that user
   isBlock: boolean; // pov i blocked that user
+  websiteUrl: string | null;
+  spotifyUrl: string | null;
+  instagramUrl: string | null;
+  youtubeUrl: string | null;
 };
 
 export type DetailMusicianResponseType = {
