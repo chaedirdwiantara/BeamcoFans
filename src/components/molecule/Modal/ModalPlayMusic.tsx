@@ -57,7 +57,6 @@ export const ModalPlayMusic: React.FC<ModalPlayMusicProps> = ({
     ) {
       hidePlayer();
       resetPlayer();
-      setModalGuestVisible(true);
     } else {
       if (playCounterGuest === undefined) {
         storage.set('playCounterGuest', 1);

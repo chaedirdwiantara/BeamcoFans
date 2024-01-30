@@ -16,7 +16,7 @@ type EventProps = NativeStackScreenProps<RootStackParams, 'Event'>;
 
 export const EventScreen: React.FC<EventProps> = ({navigation}: EventProps) => {
   const {t} = useTranslation();
-  const isLogin = storage.getString('profile');
+  const isLogin = storage.getBoolean('isLogin');
 
   return (
     <View style={styles.root}>

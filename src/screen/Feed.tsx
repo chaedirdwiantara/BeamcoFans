@@ -26,7 +26,7 @@ export const FeedScreen: React.FC = () => {
     {filterName: 'Feed.Public'},
     {filterName: 'Feed.Exclusive'},
   ]);
-  const isLogin = storage.getString('profile');
+  const isLogin = storage.getBoolean('isLogin');
 
   const filterData = (item: any, index: any) => {
     setSelectedIndex(index);

@@ -3,6 +3,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   RefreshControl,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,7 +12,13 @@ import {
 import React, {useCallback, useEffect, useState} from 'react';
 import {color, font} from '../../theme';
 import {bgColorTab, toCurrency, widthResponsive} from '../../utils';
-import {Button, Gap, ModalCustom, TabFilter} from '../../components';
+import {
+  Button,
+  Gap,
+  GuestContent,
+  ModalCustom,
+  TabFilter,
+} from '../../components';
 import {useProfileHook} from '../../hooks/use-profile.hook';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -49,6 +56,7 @@ type OnScrollEventHandler = (
 
 const Rewards = () => {
   const {t} = useTranslation();
+  const isLogin = storage.getBoolean('isLogin');
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
@@ -78,10 +86,13 @@ const Rewards = () => {
     refetch: refetchBadge,
     isLoading: isLoadingBadge,
     isRefetching: refetchingBadge,
-  } = useCheckBadge({
-    userType: 1,
-    point: dataProfile?.data.point?.pointLifetime!,
-  });
+  } = useCheckBadge(
+    {
+      userType: 1,
+      point: dataProfile?.data.point?.pointLifetime!,
+    },
+    isLogin,
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -93,7 +104,9 @@ const Rewards = () => {
 
   useFocusEffect(
     useCallback(() => {
-      getProfileUser();
+      if (isLogin) {
+        getProfileUser();
+      }
     }, []),
   );
 
@@ -148,142 +161,148 @@ const Rewards = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        scrollEventThrottle={16}
-        onScroll={handleScroll}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => setRefreshing(true)}
-            tintColor={'transparent'}
-          />
-        }>
-        {isLoadingBadge || isLoadingProfile ? (
-          <RewardsSkeleton />
-        ) : (
-          dataBadge?.data &&
-          dataProfile?.data && (
-            <>
-              <HeaderSwiper
-                currentLvl={dataBadge.data.title}
-                onPressIcon={goToMyVoucher}
-              />
-              <Gap height={15} />
-              <View
-                style={{
-                  paddingHorizontal: widthResponsive(20),
-                }}>
-                <PointProgress
-                  startPoint={dataBadge.data.startPoint} //point life time profile
-                  endPoint={dataBadge.data.endPoint}
+      {isLogin ? (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
+          onScroll={handleScroll}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => setRefreshing(true)}
+              tintColor={'transparent'}
+            />
+          }>
+          {isLoadingBadge || isLoadingProfile ? (
+            <RewardsSkeleton />
+          ) : (
+            dataBadge?.data &&
+            dataProfile?.data && (
+              <>
+                <HeaderSwiper
                   currentLvl={dataBadge.data.title}
-                  lifeTimePoint={dataProfile?.data.point?.pointLifetime!}
+                  onPressIcon={goToMyVoucher}
                 />
-              </View>
-              <Gap height={19} />
-              <View style={{paddingHorizontal: widthResponsive(20)}}>
-                {storedSlideIndex !== undefined && (
-                  <BenefitCard
-                    id={storedSlideIndex ? storedSlideIndex + 1 : 1}
+                <Gap height={15} />
+                <View
+                  style={{
+                    paddingHorizontal: widthResponsive(20),
+                  }}>
+                  <PointProgress
+                    startPoint={dataBadge.data.startPoint} //point life time profile
+                    endPoint={dataBadge.data.endPoint}
                     currentLvl={dataBadge.data.title}
+                    lifeTimePoint={dataProfile?.data.point?.pointLifetime!}
                   />
-                )}
-              </View>
-            </>
-          )
-        )}
-        <Gap height={16} />
-
-        <View style={styles.filterContainer}>
-          <View style={styles.menuStyle}>
-            <View style={{flexDirection: 'row'}}>
-              {rewardMenu.map((data, index) => {
-                return (
-                  <View key={index}>
-                    <Button
-                      label={data.label}
-                      containerStyles={{
-                        ...styles.containerTab,
-                        backgroundColor: bgColorTab(selectedIndex, index),
-                      }}
-                      textStyles={styles.textTab}
-                      onPress={() => tabFilterOnPress(index)}
+                </View>
+                <Gap height={19} />
+                <View style={{paddingHorizontal: widthResponsive(20)}}>
+                  {storedSlideIndex !== undefined && (
+                    <BenefitCard
+                      id={storedSlideIndex ? storedSlideIndex + 1 : 1}
+                      currentLvl={dataBadge.data.title}
                     />
-                  </View>
-                );
-              })}
-            </View>
+                  )}
+                </View>
+              </>
+            )
+          )}
+          <Gap height={16} />
 
-            <View style={styles.containerPoint}>
-              <CupIcon />
-              <Gap width={widthResponsive(20)} />
-              <Text style={[styles.textTab, {fontWeight: '600'}]}>
-                {toCurrency(dataProfile?.data.availablePoint!, {
-                  withFraction: false,
+          <View style={styles.filterContainer}>
+            <View style={styles.menuStyle}>
+              <View style={{flexDirection: 'row'}}>
+                {rewardMenu.map((data, index) => {
+                  return (
+                    <View key={index}>
+                      <Button
+                        label={data.label}
+                        containerStyles={{
+                          ...styles.containerTab,
+                          backgroundColor: bgColorTab(selectedIndex, index),
+                        }}
+                        textStyles={styles.textTab}
+                        onPress={() => tabFilterOnPress(index)}
+                      />
+                    </View>
+                  );
                 })}
-              </Text>
+              </View>
+
+              <View style={styles.containerPoint}>
+                <CupIcon />
+                <Gap width={widthResponsive(20)} />
+                <Text style={[styles.textTab, {fontWeight: '600'}]}>
+                  {toCurrency(dataProfile?.data.availablePoint!, {
+                    withFraction: false,
+                  })}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.containerContent}>
+              {filter[selectedIndex].filterName === 'Rewards.Reward' ? (
+                <View>
+                  <TabOneReward
+                    refreshing={refreshing}
+                    setRefreshing={setRefreshing}
+                  />
+                </View>
+              ) : (
+                <View>
+                  <TabTwoRewards
+                    refreshing={refreshing}
+                    setRefreshing={setRefreshing}
+                    rankTitle={dataBadge?.data.title}
+                  />
+                </View>
+              )}
             </View>
           </View>
 
-          <View style={styles.containerContent}>
-            {filter[selectedIndex].filterName === 'Rewards.Reward' ? (
-              <View>
-                <TabOneReward
-                  refreshing={refreshing}
-                  setRefreshing={setRefreshing}
+          <ModalCustom
+            modalVisible={modalNewRank}
+            onPressClose={() => setModalNewRank(false)}
+            children={
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>
+                  {t('Rewards.ModalRankUp.Title')}
+                </Text>
+                <Gap height={16} />
+                {storedBadgeTitle === 'Bronze' ? (
+                  <BadgeBronzeMIcon />
+                ) : storedBadgeTitle === 'Silver' ? (
+                  <BadgeSilverMIcon />
+                ) : storedBadgeTitle === 'Gold' ? (
+                  <BadgeGoldMIcon />
+                ) : storedBadgeTitle === 'Platinum' ? (
+                  <BadgePlatinumMIcon />
+                ) : storedBadgeTitle === 'Diamond' ? (
+                  <BadgeDiamondMIcon />
+                ) : null}
+                <Gap height={16} />
+                <Text style={styles.modalTitle}>{storedBadgeTitle}</Text>
+                <Gap height={8} />
+                <Text style={styles.modalCaption}>
+                  {t('Rewards.ModalRankUp.Subtitle')}
+                </Text>
+                <Gap height={20} />
+                <Button
+                  label={'Dismiss'}
+                  containerStyles={styles.btnClaim}
+                  textStyles={styles.textButton}
+                  onPress={() => setModalNewRank(false)}
+                  type="border"
                 />
               </View>
-            ) : (
-              <View>
-                <TabTwoRewards
-                  refreshing={refreshing}
-                  setRefreshing={setRefreshing}
-                  rankTitle={dataBadge?.data.title}
-                />
-              </View>
-            )}
-          </View>
-        </View>
-
-        <ModalCustom
-          modalVisible={modalNewRank}
-          onPressClose={() => setModalNewRank(false)}
-          children={
-            <View style={styles.modalContainer}>
-              <Text style={styles.modalTitle}>
-                {t('Rewards.ModalRankUp.Title')}
-              </Text>
-              <Gap height={16} />
-              {storedBadgeTitle === 'Bronze' ? (
-                <BadgeBronzeMIcon />
-              ) : storedBadgeTitle === 'Silver' ? (
-                <BadgeSilverMIcon />
-              ) : storedBadgeTitle === 'Gold' ? (
-                <BadgeGoldMIcon />
-              ) : storedBadgeTitle === 'Platinum' ? (
-                <BadgePlatinumMIcon />
-              ) : storedBadgeTitle === 'Diamond' ? (
-                <BadgeDiamondMIcon />
-              ) : null}
-              <Gap height={16} />
-              <Text style={styles.modalTitle}>{storedBadgeTitle}</Text>
-              <Gap height={8} />
-              <Text style={styles.modalCaption}>
-                {t('Rewards.ModalRankUp.Subtitle')}
-              </Text>
-              <Gap height={20} />
-              <Button
-                label={'Dismiss'}
-                containerStyles={styles.btnClaim}
-                textStyles={styles.textButton}
-                onPress={() => setModalNewRank(false)}
-                type="border"
-              />
-            </View>
-          }
-        />
-      </ScrollView>
+            }
+          />
+        </ScrollView>
+      ) : (
+        <SafeAreaView style={styles.container}>
+          <GuestContent />
+        </SafeAreaView>
+      )}
     </View>
   );
 };

@@ -247,9 +247,11 @@ export const useEventHook = () => {
     );
   };
 
-  const useCheckAvailVoucher = (generateType: string) => {
-    return useQuery(['event/check-voucher'], () =>
-      checkVoucherAvail(generateType),
+  const useCheckAvailVoucher = (generateType: string, enabled?: boolean) => {
+    return useQuery(
+      ['event/check-voucher'],
+      () => checkVoucherAvail(generateType),
+      {enabled},
     );
   };
 

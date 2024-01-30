@@ -1,26 +1,29 @@
 import React, {useCallback, useState} from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
-import {SsuStatusBar} from '../components';
+import {GuestContent, SsuStatusBar} from '../components';
 import Color from '../theme/Color';
 import WebView from 'react-native-webview';
 import {width} from '../utils';
-import {profileStorage} from '../hooks/use-storage.hook';
+import {profileStorage, storage} from '../hooks/use-storage.hook';
 import {useFocusEffect} from '@react-navigation/native';
 import {getBookyayToken} from '../service/refreshBookyayToken';
 import {ModalLoading} from '../components/molecule/ModalLoading/ModalLoading';
 
 export const MerchScreen: React.FC = () => {
+  const isLogin = storage.getBoolean('isLogin');
   const [loading, setLoading] = useState<boolean>(true);
 
   useFocusEffect(
     useCallback(() => {
-      const token = async () => {
-        setLoading(true);
-        await getBookyayToken();
-        setLoading(false);
-      };
+      if (isLogin) {
+        const token = async () => {
+          setLoading(true);
+          await getBookyayToken();
+          setLoading(false);
+        };
 
-      token();
+        token();
+      }
     }, []),
   );
 
@@ -31,8 +34,14 @@ export const MerchScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.root}>
       <SsuStatusBar type="black" />
-      <ModalLoading visible={loading} />
-      {!loading && <WebView source={{uri: merchantUrl}} />}
+      {isLogin ? (
+        <>
+          <ModalLoading visible={loading} />
+          {!loading && <WebView source={{uri: merchantUrl}} />}
+        </>
+      ) : (
+        <GuestContent />
+      )}
     </SafeAreaView>
   );
 };
