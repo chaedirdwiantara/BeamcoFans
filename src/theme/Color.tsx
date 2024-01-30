@@ -115,6 +115,9 @@ const Color = {
   RedVelvet: {
     100: '#541947',
   },
+  Purple: {
+    100: '#6D0E71',
+  },
 };
 
 export default Color;
