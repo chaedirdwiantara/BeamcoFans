@@ -27,7 +27,8 @@
     "Topup": "充值",
     "BuyNow": "Buy Now",
     "MyCredit": "我的信用",
-    "LoyaltyPoints": "忠誠積分"
+    "LoyaltyPoints": "忠誠積分",
+    "Beam": "Beam"
   },
 
   "Onboarding": {
@@ -541,14 +542,14 @@
       "AppearsOn": "出現在"
     },
     "Tab": {
-      "Profile": "個人資料",
-      "Main": "主要",
-      "Musician": "帖子",
-      "Music": "音樂",
-      "Fans": "樂迷",
-      "Merchandise": "商品",
-      "Ticket": "票",
-      "Event": "活動"
+      "Profile": "Profile",
+      "Main": "Main",
+      "Musician": "Studio",
+      "Music": "Music",
+      "Fans": "Fans",
+      "Merchandise": "Merchandise",
+      "Ticket": "Ticket",
+      "Event": "Live"
     },
     "ShowAppreciate": "表達您的欣賞",
     "SendTip": "發送小費以支持您最喜愛的藝術家，看到他們的成長",

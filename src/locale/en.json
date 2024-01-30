@@ -27,7 +27,8 @@
     "Topup": "Top up",
     "BuyNow": "Buy now",
     "MyCredit": "My Credit",
-    "LoyaltyPoints": "Loyalty Points"
+    "LoyaltyPoints": "Loyalty Points",
+    "Beam": "Beam"
   },
 
   "Onboarding": {
@@ -541,14 +542,14 @@
       "AppearsOn": "Appears on"
     },
     "Tab": {
-      "Profile": "PROFILE",
-      "Main": "MAIN",
-      "Musician": "POST",
-      "Music": "MUSIC",
-      "Fans": "FANS",
-      "Merchandise": "MERCHANDISE",
-      "Ticket": "TICKET",
-      "Event": "LIVE"
+      "Profile": "Profile",
+      "Main": "Main",
+      "Musician": "Studio",
+      "Music": "Music",
+      "Fans": "Fans",
+      "Merchandise": "Merchandise",
+      "Ticket": "Ticket",
+      "Event": "Live"
     },
     "ShowAppreciate": "Show your appreciation",
     "SendTip": "Tip your favourite artist to show your support and watch them grow!",
