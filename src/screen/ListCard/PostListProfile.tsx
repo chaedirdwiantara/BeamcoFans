@@ -81,6 +81,9 @@ type RenderItemProps = {
 
 interface PostListProps extends DataExclusiveResponse {
   uuidMusician?: string;
+  endReached: boolean;
+  setEndReached: (value: boolean) => void;
+  setAllowPagination: (value: boolean) => void;
 }
 
 const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
@@ -88,7 +91,15 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const {coverImage, title, description, uuidMusician = ''} = props;
+  const {
+    coverImage,
+    title,
+    description,
+    uuidMusician = '',
+    endReached,
+    setEndReached,
+    setAllowPagination,
+  } = props;
 
   const dataToExc = {coverImage, title, description};
 
@@ -219,17 +230,30 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
   );
 
   //* Handle when end of Scroll
-  const handleEndScroll = () => {
-    handleEndScrollOnFeed(
-      dataMain,
-      getListProfilePost,
-      perPage,
-      page,
-      setPage,
-      setFilterActive,
-      uuidMusician,
-    );
-  };
+  useEffect(() => {
+    if (endReached) {
+      handleEndScrollOnFeed(
+        dataMain,
+        getListProfilePost,
+        perPage,
+        page,
+        setPage,
+        setFilterActive,
+        undefined,
+        undefined,
+        undefined,
+        uuidMusician.length > 0 ? uuidMusician : undefined,
+      );
+    }
+  }, [endReached]);
+
+  //* Allow pagination when there's still data response
+  useEffect(() => {
+    if (dataPostList && dataPostList.length > 0) {
+      setAllowPagination(true);
+      setEndReached(false);
+    }
+  }, [dataPostList]);
 
   const cardOnPress = (id: string) => {
     if (isLogin) {
@@ -489,8 +513,6 @@ const PostListProfile: FC<PostListProps> = (props: PostListProps) => {
                 onRefresh={() => setRefreshing(true)}
               />
             }
-            onEndReached={handleEndScroll}
-            onEndReachedThreshold={1}
             renderItem={({item, index}: RenderItemProps) => (
               <>
                 <ListCard.PostList
