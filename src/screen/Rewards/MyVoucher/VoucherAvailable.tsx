@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {mvs} from 'react-native-size-matters';
 import {FlatList, StyleSheet, View} from 'react-native';
@@ -10,6 +10,8 @@ import {useRewardHook} from '../../../hooks/use-reward.hook';
 import {MainTabParams, RootStackParams} from '../../../navigations';
 import VoucherReward from '../../../components/molecule/Reward/reward';
 import LoadingSpinner from '../../../components/atom/Loading/LoadingSpinner';
+import {tabVoucherStore} from '../../../store/voucher.store';
+import {DataMyVoucher} from '../../../interface/reward.interface';
 
 type Props = {};
 
@@ -19,13 +21,17 @@ export const VoucherAvailable: React.FC<Props> = () => {
   const navigation2 =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
 
+  const {metaVoucher, setMetaVoucher} = tabVoucherStore();
+  const [stateMyVoucher, setStateMyVoucher] = useState<
+    DataMyVoucher[] | undefined
+  >([]);
   const {useGetMyVoucher} = useRewardHook();
   const {
     data: dataMyVoucher,
     refetch: refetchMyVoucher,
     isLoading,
     isRefetching,
-  } = useGetMyVoucher();
+  } = useGetMyVoucher({page: metaVoucher.page, perPage: metaVoucher.perPage});
 
   useFocusEffect(
     useCallback(() => {
@@ -33,20 +39,49 @@ export const VoucherAvailable: React.FC<Props> = () => {
     }, []),
   );
 
+  useEffect(() => {
+    refetchMyVoucher();
+  }, [metaVoucher]);
+
+  useEffect(() => {
+    if (metaVoucher.page === 1) {
+      setStateMyVoucher(dataMyVoucher?.data);
+    } else {
+      if (stateMyVoucher && dataMyVoucher?.data) {
+        const updatedVouchers = stateMyVoucher.concat(dataMyVoucher.data);
+        setStateMyVoucher(updatedVouchers);
+      }
+    }
+  }, [dataMyVoucher]);
+
   const goToDetailVoucher = (codeGenerated: string) => {
     navigation2.navigate('DetailVoucherRewards', {
       codeGenerated,
     });
   };
 
+  const handleEndScroll = () => {
+    if (
+      dataMyVoucher &&
+      dataMyVoucher.meta?.TotalData &&
+      dataMyVoucher.data.length < dataMyVoucher.meta?.TotalData
+    ) {
+      setMetaVoucher({
+        ...metaVoucher,
+        page: metaVoucher.page + 1,
+      });
+    }
+  };
+
   return (
     <>
       <FlatList
-        data={dataMyVoucher?.data}
+        data={stateMyVoucher}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, index) => index.toString()}
         contentContainerStyle={{alignSelf: 'center', paddingBottom: mvs(30)}}
         numColumns={2}
+        onEndReached={handleEndScroll}
         renderItem={({item}) => (
           <VoucherReward
             data={item}

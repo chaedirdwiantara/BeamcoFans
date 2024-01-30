@@ -1,5 +1,4 @@
 import {
-  NativeModules,
   NativeScrollEvent,
   NativeSyntheticEvent,
   RefreshControl,
@@ -20,13 +19,10 @@ import {
   TabFilter,
 } from '../../components';
 import {useProfileHook} from '../../hooks/use-profile.hook';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import TabOneReward from './tabOne';
 import TabTwoRewards from './tabTwo';
-import InfoCard from '../../components/molecule/Reward/infoCard';
 import PointProgress from '../../components/molecule/Reward/pointProgress';
-import BackgroundHeader from '../../components/molecule/Reward/backgroundHeader';
 import {useBadgeHook} from '../../hooks/use-badge.hook';
 import {
   BadgeBronzeMIcon,
@@ -37,7 +33,11 @@ import {
   CupIcon,
 } from '../../assets/icon';
 import {mvs} from 'react-native-size-matters';
-import {dataMissionStore, slideIndexStore} from '../../store/reward.store';
+import {
+  dataMissionStore,
+  slideIndexStore,
+  tabRewardStore,
+} from '../../store/reward.store';
 import {useTranslation} from 'react-i18next';
 import {RewardsSkeleton} from '../../skeleton/Rewards';
 import HeaderSwiper from '../../components/molecule/Reward/headerSwiper';
@@ -46,9 +46,6 @@ import {rewardMenu} from '../../data/reward';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParams} from '../../navigations';
 import {storage} from '../../hooks/use-storage.hook';
-
-const {StatusBarManager} = NativeModules;
-const barHeight = StatusBarManager.HEIGHT;
 
 type OnScrollEventHandler = (
   event: NativeSyntheticEvent<NativeScrollEvent>,
@@ -69,6 +66,8 @@ const Rewards = () => {
   const {useCheckBadge} = useBadgeHook();
   const {storedBadgeTitle, setStoredBadgeTitle} = dataMissionStore();
   const {storedSlideIndex} = slideIndexStore();
+  const {metaReward, setMetaReward, allowUpdateMeta, setAllowUpdateMeta} =
+    tabRewardStore();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [filter] = useState([
@@ -78,7 +77,6 @@ const Rewards = () => {
   const [scrollEffect, setScrollEffect] = useState(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [modalNewRank, setModalNewRank] = useState<boolean>(false);
-  const [slideIndex, setSlideIndex] = useState<number>(0);
 
   // fans type = 1
   const {
@@ -149,10 +147,24 @@ const Rewards = () => {
     let offsetY = event.nativeEvent.contentOffset.y;
     const scrolled = offsetY > 10;
     setScrollEffect(scrolled);
+
+    const height = event.nativeEvent.layoutMeasurement.height;
+    const contentHeight = event.nativeEvent.contentSize.height;
+    if (offsetY + height >= contentHeight && allowUpdateMeta) {
+      setAllowUpdateMeta(false);
+      setMetaReward({
+        ...metaReward,
+        page: metaReward.page + 1,
+      });
+    }
   };
 
   const tabFilterOnPress = (index: number) => {
     setSelectedIndex(index);
+    setMetaReward({
+      page: 1,
+      perPage: 10,
+    });
   };
 
   const goToMyVoucher = () => {

@@ -222,8 +222,8 @@ export interface SendVoucherReq {
 }
 export interface DataMissionStoreProps {
   id: number;
-  typeOnIndex: number;
-  isClaimable: boolean;
+  typeOnIndex?: number;
+  isClaimable?: boolean;
 }
 
 export interface DataBenefitProps {

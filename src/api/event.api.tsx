@@ -257,6 +257,7 @@ export const getEventVoucherList = async (
   const {data} = await KrakatauAPI().request<GetVoucherListResponse>({
     url: `/vouchers/event/${eventId}`,
     method: 'GET',
+    // params: {per_page: 40},
   });
 
   return data;

@@ -52,21 +52,26 @@ export const setClaimMissionEp = async (
   return data;
 };
 
-export const getAvailableVouchertEp =
-  async (): Promise<GetAvailableVoucher> => {
-    const {data} = await SsuKrakatauAPI().request<GetAvailableVoucher>({
-      url: `/vouchers`,
-      method: 'GET',
-      params: {
-        filter_column: 'generate_type',
-        filter_value: 'loyalty_point_based',
-      },
-    });
+export const getAvailableVouchertEp = async (
+  params: ParamsProps,
+): Promise<GetAvailableVoucher> => {
+  const {data} = await SsuKrakatauAPI().request<GetAvailableVoucher>({
+    url: `/vouchers`,
+    method: 'GET',
+    params: {
+      filter_column: 'generate_type',
+      filter_value: 'loyalty_point_based',
+      page: params.page,
+      per_Page: params.perPage,
+    },
+  });
 
-    return data;
-  };
+  return data;
+};
 
-export const getMyVouchertEp = async (): Promise<GetMyVoucher> => {
+export const getMyVouchertEp = async (
+  params: ParamsProps,
+): Promise<GetMyVoucher> => {
   const {data} = await SsuKrakatauAPI().request<GetMyVoucher>({
     url: `/vouchers`,
     method: 'GET',
@@ -74,6 +79,8 @@ export const getMyVouchertEp = async (): Promise<GetMyVoucher> => {
       withUser: true,
       filter_column: 'generate_type',
       filter_value: 'loyalty_point_based',
+      page: params.page,
+      per_Page: params.perPage,
     },
   });
 
