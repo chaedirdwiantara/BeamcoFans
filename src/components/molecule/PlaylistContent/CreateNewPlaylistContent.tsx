@@ -20,7 +20,6 @@ import {ArrowLeftIcon} from '../../../assets/icon';
 import {ModalConfirm} from '../Modal/ModalConfirm';
 import {Image} from 'react-native-image-crop-picker';
 import {dataVisibility} from '../../../data/playlist';
-import {storage} from '../../../hooks/use-storage.hook';
 import {uploadImage} from '../../../api/uploadImage.api';
 import {ModalLoading} from '../ModalLoading/ModalLoading';
 import {ModalImagePicker} from '../Modal/ModalImagePicker';
@@ -129,7 +128,6 @@ export const CreateNewPlaylistContent: React.FC<Props> = ({
         addSongToPlaylist(response.data.id);
         goToPlaylist(response.data.id);
       }
-      storage.set('fetchingProfile', true);
       closeModal();
     } catch (error) {
       console.log(error);
