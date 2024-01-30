@@ -173,7 +173,7 @@ export const ProfileProgressScreen: React.FC = () => {
             <CheckCircle2Icon />
             <Gap width={4} />
             <Text style={[styles.textStyle]} numberOfLines={2}>
-              {'Profile & Account Information have been saved!'}
+              {'Your Profile have been updated!'}
             </Text>
           </View>
         }
