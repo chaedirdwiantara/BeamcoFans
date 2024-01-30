@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  View,
   Text,
   StyleSheet,
   TouchableOpacity,
@@ -14,6 +15,7 @@ import {heightPercentage, normalize, widthPercentage} from '../../../utils';
 
 interface ButtonGradientProps {
   label: string;
+  icon?: React.ReactNode;
   angle?: number;
   colors?: string[];
   disabled?: boolean;
@@ -28,6 +30,7 @@ export const ButtonGradient: React.FC<ButtonGradientProps> = (
 ) => {
   const {
     label,
+    icon,
     angle = 95.44,
     colors = [Color.Success[400], Color.Success[400]],
     disabled,
@@ -48,7 +51,10 @@ export const ButtonGradient: React.FC<ButtonGradientProps> = (
         colors={disabled ? [Color.Dark[50], Color.Dark[50]] : colors}
         angle={angle}
         style={[styles.gradient, gradientStyles]}>
-        <Text style={[styles.text, textStyles]}>{label}</Text>
+        <View style={styles.containerText}>
+          {icon}
+          <Text style={[styles.text, textStyles]}>{label}</Text>
+        </View>
       </LinearGradient>
     </TouchableOpacity>
   );
@@ -61,6 +67,10 @@ const styles = StyleSheet.create({
     aspectRatio: heightPercentage(279 / 40),
     borderRadius: 4,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  containerText: {
+    flexDirection: 'row',
     alignItems: 'center',
   },
   text: {

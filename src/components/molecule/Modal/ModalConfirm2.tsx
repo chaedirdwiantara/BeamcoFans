@@ -6,6 +6,7 @@ import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 import {ModalCustom} from './ModalCustom';
 import {color, font} from '../../../theme';
 import {width, widthPercentage} from '../../../utils';
+import {AvatarProfile} from '../AvatarProfile/AvatarProfile';
 
 interface ModalConfirm2Props {
   modalVisible: boolean;
@@ -13,6 +14,8 @@ interface ModalConfirm2Props {
   subtitle: string;
   imgUri?: string;
   yesText?: string;
+  showAvatar?: boolean;
+  initialAvatar?: string;
   onPressClose: () => void;
   onPressYes: () => void;
 }
@@ -27,6 +30,8 @@ export const ModalConfirm2: React.FC<ModalConfirm2Props> = (
     title,
     subtitle,
     yesText,
+    showAvatar,
+    initialAvatar,
     onPressClose,
     onPressYes,
   } = props;
@@ -34,14 +39,22 @@ export const ModalConfirm2: React.FC<ModalConfirm2Props> = (
   const children = () => {
     return (
       <View style={styles.card}>
-        <Image
-          style={styles.image}
-          source={
-            imgUri
-              ? {uri: imgUri}
-              : require('../../../assets/image/detail_voucher_default.png')
-          }
-        />
+        {showAvatar ? (
+          <AvatarProfile
+            initialName={initialAvatar}
+            imgUri={''}
+            size={widthPercentage(100)}
+          />
+        ) : (
+          <Image
+            style={styles.image}
+            source={
+              imgUri
+                ? {uri: imgUri}
+                : require('../../../assets/image/detail_voucher_default.png')
+            }
+          />
+        )}
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{subtitle}</Text>
         <View style={styles.containerBtn}>
