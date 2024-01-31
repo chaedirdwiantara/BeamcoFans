@@ -22,6 +22,7 @@ interface AvatarProps {
   backgroundColor?: string;
   showBorder?: boolean;
   borderColor?: string;
+  disabledIcon?: boolean;
   containerStyles?: ViewStyle;
 }
 
@@ -35,6 +36,7 @@ export const AvatarProfileNew: React.FC<AvatarProps> = (props: AvatarProps) => {
     backgroundColor,
     showBorder,
     borderColor,
+    disabledIcon,
     onPress,
     containerStyles,
   } = props;
@@ -59,6 +61,7 @@ export const AvatarProfileNew: React.FC<AvatarProps> = (props: AvatarProps) => {
       <TouchableOpacity
         style={[styles.icon, {width: size}, stylesIcon]}
         activeOpacity={1}
+        disabled={disabledIcon}
         onPress={onPress}>
         {icon}
       </TouchableOpacity>

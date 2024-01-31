@@ -40,6 +40,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
   } = useMusicianHook();
   const {dataExclusiveContent, getExclusiveContent} = useSettingHook();
   const [refresh, setRefresh] = useState<boolean>(false);
+  const [refetchBlock, setRefetchBlock] = useState<boolean>(false);
 
   //  ? Get Detail Musician
   useFocusEffect(
@@ -75,6 +76,7 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
 
   const handleRefreshing = () => {
     getDetailMusician({id: uuid, myUUID: MyUuid});
+    setRefetchBlock(true);
   };
 
   const musicianPlaylist =
@@ -109,7 +111,9 @@ const MusicianProfile: FC<PostDetailProps> = ({route}: PostDetailProps) => {
         />
       )}
       <ModalLoading
-        visible={(isLoadingMusician || isLoadingAlbum) && !refresh}
+        visible={
+          (isLoadingMusician || isLoadingAlbum) && !refresh && !refetchBlock
+        }
       />
     </View>
   );

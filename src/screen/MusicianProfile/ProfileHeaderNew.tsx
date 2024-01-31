@@ -52,6 +52,7 @@ export interface ProfileHeaderProps {
   refreshing?: boolean;
   dataBadge?: DataBadgeType;
   isFollowed?: boolean;
+  blocked?: boolean;
   containerStyles?: ViewStyle;
   followOnPress?: () => void;
   unfollowOnPress?: () => void;
@@ -79,6 +80,7 @@ export const ProfileHeaderNew: React.FC<ProfileHeaderProps> = (
     refreshing,
     dataBadge,
     isFollowed,
+    blocked,
     followOnPress,
     unfollowOnPress,
     donateOnPress,
@@ -190,6 +192,7 @@ export const ProfileHeaderNew: React.FC<ProfileHeaderProps> = (
             imgUri={avatarUri}
             icon={avatarIcon}
             onPress={onPressIcon}
+            disabledIcon={blocked}
             showBorder={true}
             borderColor={'#563354'}
           />
@@ -228,9 +231,9 @@ export const ProfileHeaderNew: React.FC<ProfileHeaderProps> = (
       </View>
       {type !== 'profile' && (
         <Shadow
-          distance={mvs(10)}
+          distance={blocked ? 0 : mvs(10)}
           startColor={'#FF00C880'}
-          containerStyle={{alignSelf: 'center', marginBottom: mvs(15)}}
+          containerStyle={{alignSelf: 'center'}}
           style={{borderRadius: 8}}
           offset={[0, 2]}>
           <ButtonGradient
@@ -242,6 +245,7 @@ export const ProfileHeaderNew: React.FC<ProfileHeaderProps> = (
             gradientStyles={styles.btnContainer}
             containerStyles={{alignSelf: 'center'}}
             angle={5}
+            disabled={blocked}
           />
         </Shadow>
       )}

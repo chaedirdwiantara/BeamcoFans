@@ -1,15 +1,14 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   View,
   StyleSheet,
   ScrollView,
+  RefreshControl,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  Text,
-  TouchableOpacity,
-  RefreshControl,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
+import {mvs} from 'react-native-size-matters';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -23,11 +22,9 @@ import {
   ModalSuccessDonate,
   PopUp,
   SsuStatusBar,
-  SsuToast,
   SuccessToast,
   TabFilter,
   TopNavigation,
-  UserInfoCard,
 } from '../../components';
 import {color, font} from '../../theme';
 import DataMusician from './DataMusician';
@@ -38,9 +35,7 @@ import {
   FollowMusicianPropsType,
 } from '../../interface/musician.interface';
 import ImageModal from '../Detail/ImageModal';
-import {ProfileHeader} from './ProfileHeader';
 import {RootStackParams} from '../../navigations';
-import ListPlaylist from '../ListCard/ListPlaylist';
 import {useCreditHook} from '../../hooks/use-credit.hook';
 import ExclusiveDailyContent from './ExclusiveDailyContent';
 import {Playlist} from '../../interface/playlist.interface';
@@ -55,7 +50,6 @@ import PostListProfile from '../ListCard/PostListProfile';
 import MainTab from '../../components/molecule/ProfileContent/MainTab/MainTab';
 import {storage} from '../../hooks/use-storage.hook';
 import {FansScreen} from './ListFans';
-import {mvs} from 'react-native-size-matters';
 import {usePlayerStore} from '../../store/player.store';
 import MerchList from '../ListCard/MerchList';
 import ConcertList from '../ListCard/ConcertList';
@@ -69,8 +63,7 @@ import {
 } from '../../data/dropdown';
 import EventMusician from '../../components/molecule/EventMusician';
 import {useBadgeHook} from '../../hooks/use-badge.hook';
-import {CheckCircle2Icon} from '../../assets/icon';
-import { ProfileHeaderNew } from './ProfileHeaderNew';
+import {ProfileHeaderNew} from './ProfileHeaderNew';
 import initialname from '../../utils/initialname';
 
 type OnScrollEventHandler = (
@@ -153,7 +146,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   const [showStatePopUp, setShowStatePopUp] = useState<boolean>();
   const [modalUnblock, setModalUnblock] = useState<boolean>(false);
   const [modalBlock, setModalBlock] = useState<boolean>(false);
-  const [toastUnblock, settoastUnblock] = useState<boolean>(false);
+  const [toastUnblock, setToastUnblock] = useState<boolean>(false);
   const [toastBlock, setToastBlock] = useState<boolean>(false);
   const [endReached, setEndReached] = useState<boolean>(false);
   const [allowPagination, setAllowPagination] = useState<boolean>(true);
@@ -262,13 +255,13 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       if (isFollowed) {
         setUnfollowMusician({musicianID: profile.uuid});
         setFollowersCount(followersCount - 1);
-        setIsFollowed(true);
-        setToastText(`Successfully Following ${profile?.fullname}`);
+        setIsFollowed(false);
+        setToastText(`Successfully Unfollowing ${profile?.fullname}`);
       } else {
         setFollowMusician({musicianID: profile.uuid});
         setFollowersCount(followersCount + 1);
-        setIsFollowed(false);
-        setToastText(`Successfully Unfollowing ${profile?.fullname}`);
+        setIsFollowed(true);
+        setToastText(`Successfully Following ${profile?.fullname}`);
       }
     } else setModalGuestVisible(true);
   };
@@ -284,6 +277,14 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         setModalSuccessDonate(false);
       }, 3000);
   }, [modalSuccessDonate, trigger2ndModal]);
+
+  useEffect(() => {
+    (toastBlock || toastUnblock) &&
+      setTimeout(() => {
+        setToastBlock(false);
+        setToastUnblock(false);
+      }, 3000);
+  }, [toastBlock, toastUnblock]);
 
   const onPressSuccess = () => {
     setModalSuccessDonate(false);
@@ -309,7 +310,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   useEffect(() => {
     if (unblockResponse === 'Success') {
       setRefreshing!();
-      settoastUnblock(true);
+      setToastUnblock(true);
       setUnblockResponse(undefined);
     }
   }, [unblockResponse]);
@@ -324,7 +325,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
   };
 
   const handleToastUnblock = () => {
-    settoastUnblock(false);
+    setToastUnblock(false);
   };
 
   const handleToastBlock = () => {
@@ -363,7 +364,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
     dataAlbum.length > 0 ||
     dataAppearsOn.length > 0;
 
-    const avatarUri =
+  const avatarUri =
     profile.imageProfileUrls.length !== 0
       ? profile.imageProfileUrls[1].image
       : '';
@@ -383,7 +384,6 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           profile.isBlock ? dataProfileDropdownBlocked : dataProfileDropdown
         }
         resultDataDropdown={resultDataDropdown}
-        // onPressDropdown={() => (isLogin ? null : setModalGuestVisible(true))}
         beingBlocked={profile.blockIs}
         containerTextStyle={{
           justifyContent: 'flex-start',
@@ -412,15 +412,16 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
           donateOnPress={() =>
             isLogin ? setModalDonate(true) : setModalGuestVisible(true)
           }
-          followOnPress={() => followOnPress(true)}
+          followOnPress={() => followOnPress(false)}
           unfollowOnPress={() => setShowModalUnfollow(true)}
           refreshing={refresh}
-          totalFollowers={profile.followers}
+          totalFollowers={followersCount}
           totalFans={profile.fans}
           spotifyUrl={profile.spotifyUrl}
           websiteUrl={profile.websiteUrl}
           instagramUrl={profile.instagramUrl}
           youtubeUrl={profile.youtubeUrl}
+          blocked={profile.isBlock || profile.blockIs}
         />
         <View style={styles.infoCard}>
           {profile.isBlock ? (
@@ -603,8 +604,8 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         onPressClose={() => setModalGuestVisible(false)}
       />
 
-       {/* Confirm when unfollow artist */}
-       <ModalConfirm2
+      {/* Confirm when unfollow artist */}
+      <ModalConfirm2
         modalVisible={showModalUnfollow}
         imgUri={avatarUri || ''}
         showAvatar={avatarUri === '' || avatarUri === undefined}
@@ -613,7 +614,7 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
         subtitle={`Are you sure you want to unfollow ${profile.fullname}?`}
         onPressClose={() => setShowModalUnfollow(false)}
         onPressYes={() => {
-          followOnPress(false);
+          followOnPress(true);
           setShowModalUnfollow(false);
         }}
       />
@@ -661,18 +662,10 @@ export const MusicianDetail: React.FC<MusicianDetailProps> = ({
       />
 
       {/* toast follow / unfollow */}
-      <SsuToast
-        modalVisible={toastVisible}
+      <SuccessToast
+        toastVisible={toastVisible}
         onBackPressed={() => setToastVisible(false)}
-        children={
-          <View style={[styles.modalContainer]}>
-            <CheckCircle2Icon />
-            <Gap width={4} />
-            <Text style={[styles.textStyle]} numberOfLines={2}>
-              {toastText}
-            </Text>
-          </View>
-        }
+        caption={toastText}
       />
     </View>
   );
@@ -684,8 +677,7 @@ const styles = StyleSheet.create({
   },
   infoCard: {
     width: '100%',
-    marginTop: heightResponsive(-20),
-    marginBottom: heightResponsive(24),
+    marginBottom: heightResponsive(30),
     alignItems: 'center',
   },
   containerContent: {
