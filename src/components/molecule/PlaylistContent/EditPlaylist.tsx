@@ -35,7 +35,6 @@ import {Gap, SsuInput, SsuToast} from '../../atom';
 import {ModalConfirm} from '../Modal/ModalConfirm';
 import {dataVisibility} from '../../../data/playlist';
 import {color, font, typography} from '../../../theme';
-import {storage} from '../../../hooks/use-storage.hook';
 import {uploadImage} from '../../../api/uploadImage.api';
 import {updatePlaylist} from '../../../api/playlist.api';
 import {ModalLoading} from '../ModalLoading/ModalLoading';
@@ -139,7 +138,6 @@ export const EditPlaylistContent: React.FC<EditPlaylistProps> = ({
       };
       const response = await updatePlaylist(playlist, payload);
       response.data !== null && goToPlaylist(response.data.id);
-      storage.set('fetchingProfile', true);
       closeModal();
     } catch (error) {
       console.log(error);

@@ -171,7 +171,6 @@ export const AccountContent: React.FC<AccountProps> = ({
         'profile',
         JSON.stringify({...profileStorage(), fullname: getValues('fullname')}),
       );
-      storage.set('fetchingProfile', true);
       setIsSubmit(true);
       setChanges(false);
     } catch (error) {

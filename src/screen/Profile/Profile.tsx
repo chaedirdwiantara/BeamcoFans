@@ -34,27 +34,16 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
   } = useProfileHook();
   const {dataPlaylist, getPlaylist, getPlaylistPublic} = usePlaylistHook();
   const isLogin = storage.getString('profile');
-  const isFetching = storage.getBoolean('fetchingProfile');
   const {visible: playerVisible} = usePlayerHook();
   const [toastText, setToastText] = useState<string>('');
   const [toastVisible, setToastVisible] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   if (showToast !== undefined && !deletePlaylist) {
-  //     setToastVisible(showToast);
-  //     setToastText('Your Profile have been updated!');
-  //   } else if (deletePlaylist !== undefined) {
-  //     setToastVisible(deletePlaylist);
-  //     setToastText('Playlist have been deleted!');
-  //   }
-  // }, [route.params]);
-
   useFocusEffect(
     useCallback(() => {
       const tabActive = storage.getBoolean('editProfileSuccess') || false;
       setToastVisible(tabActive);
-      setToastText('Profile & Account Information have been saved!');
+      setToastText('Your Profile have been updated!');
       storage.delete('editProfileSuccess');
     }, []),
   );
@@ -77,13 +66,12 @@ export const ProfileScreen: React.FC<ProfileProps> = ({
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
-    storage.set('fetchingProfile', false);
     if (isLogin) {
       getPlaylist({uuid: profileStorage()?.uuid});
     } else {
       getPlaylistPublic({uuid: profileStorage()?.uuid});
     }
-  }, [refreshing, showToast, deletePlaylist, isFetching]);
+  }, [refreshing, showToast, deletePlaylist]);
 
   const goToSetting = () => {
     navigation.navigate('Setting');

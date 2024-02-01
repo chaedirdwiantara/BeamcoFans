@@ -117,5 +117,7 @@ const styles = StyleSheet.create({
     fontFamily: font.InterRegular,
     fontSize: widthResponsive(12),
     fontWeight: '400',
+    textAlign: 'center',
+    maxWidth: '70%',
   },
 });

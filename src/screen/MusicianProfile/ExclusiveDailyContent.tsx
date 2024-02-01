@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     paddingHorizontal: widthResponsive(20),
-    paddingTop: heightResponsive(12),
+    paddingTop: heightResponsive(35),
   },
   mainStyle: {
     borderRadius: 4,

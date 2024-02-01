@@ -1,5 +1,6 @@
 import AddIcon from './Add.icon';
 import AddCircleIcon from './AddCircle.icon';
+import AddCircle2Icon from './AddCircle2.icon';
 import ArrowLeftIcon from './ArrowLeft.icon';
 import ArrowRightIcon from './ArrowRight.icon';
 import ArrowRightIcon2 from './ArrowRight2.icon';
@@ -21,10 +22,13 @@ import BadgeGoldMissionIcon from './BadgeGoldMission.icon';
 import BadgePlatinumMissionIcon from './BadgePlatinumMission.icon';
 import BadgeSilverMissionIcon from './BadgeSilverMission.icon';
 import BellNotif from './BellNotif.icon';
+import BrowserIcon from './Browser.icon';
+import BrowserDisabledIcon from './BrowserDisabled.icon';
 import CameraIcon from './Camera';
 import CheckBoxIcon from './CheckBox.icon';
 import CheckCircleIcon from './CheckCircle.icon';
 import CheckCircle2Icon from './CheckCircle2.icon';
+import CheckCircle3Icon from './CheckCircle3.icon';
 import CheckGradientIcon from './CheckGradien.icon';
 import ChevronDownIcon from './ChevronDown.icon';
 import ChevronDown2 from './ChevronDown2.icon';
@@ -52,6 +56,7 @@ import DropDownIcon from './Dropdown.icon';
 import DonateCoinIcon from './DonateCoin.icon';
 import DiagramIcon from './Diagram.icon';
 import EditIcon from './Edit.icon';
+import EditCircleIcon from './EditCircle.icon';
 import EmailIcon from './Email.icon';
 import ErrorIcon from './Error.icon';
 import ExportIcon from './Export.icon';
@@ -72,6 +77,8 @@ import HornChatIcon from './hornChat.icon';
 import InfoCircleIcon from './InfoCircle.icon';
 import InfoCircle2Icon from './InfoCircle2.icon';
 import InstagramIcon from './Instagram.icon';
+import Instagram2Icon from './Instagram2.icon';
+import Instagram2DisabledIcon from './Instagram2Disabled.icon';
 import KeyIcon from './Key.icon';
 import LockIcon from './Lock.icon.';
 import LogOutIcon from './Logout.icon';
@@ -107,6 +114,7 @@ import ShareIcon from './Share.icon';
 import ShuffleIcon from './Shuffle.icon';
 import SnapchatIcon from './Snapchat.icon';
 import SoundIcon from './Sound.icon';
+import SpotifyIcon from './Spotify.icon';
 import ThreeDotsIcon from './ThreeDots.icon';
 import ThreeDotsHorizonIcon from './ThreeDotsHorizon.icon';
 import TickCircleIcon from './TickCircle.icon';
@@ -120,6 +128,7 @@ import VoucherNotif from './Voucher.icon';
 import VkIcon from './Vk.icon';
 import VolumeIcon from './Volume.icon';
 import WeiboIcon from './Weibo.icon';
+import YoutubeIcon from './Youtube.icon';
 import CartIcon from './Cart.icon';
 import BoxStore from './BoxStore.icon';
 import CheckIcon from './Check.icon';
@@ -144,6 +153,7 @@ import RankStarIcon from './RankStar.icon';
 export {
   AddIcon,
   AddCircleIcon,
+  AddCircle2Icon,
   ArrowLeftIcon,
   ArrowRightIcon,
   ArrowRightIcon2,
@@ -165,11 +175,14 @@ export {
   BadgePlatinumMissionIcon,
   BadgeSilverMissionIcon,
   BellNotif,
+  BrowserIcon,
+  BrowserDisabledIcon,
   CameraIcon,
   CheckBoxIcon,
   CheckGradientIcon,
   CheckCircleIcon,
   CheckCircle2Icon,
+  CheckCircle3Icon,
   ChevronDownIcon,
   ChevronDown2,
   ChevronUp,
@@ -196,6 +209,7 @@ export {
   DropDownIcon,
   DonateCoinIcon,
   EditIcon,
+  EditCircleIcon,
   EmailIcon,
   ErrorIcon,
   ExportIcon,
@@ -216,6 +230,8 @@ export {
   InfoCircleIcon,
   InfoCircle2Icon,
   InstagramIcon,
+  Instagram2Icon,
+  Instagram2DisabledIcon,
   KeyIcon,
   LockIcon,
   LogOutIcon,
@@ -251,6 +267,7 @@ export {
   ShuffleIcon,
   SnapchatIcon,
   SoundIcon,
+  SpotifyIcon,
   ThreeDotsIcon,
   ThreeDotsHorizonIcon,
   TickCircleIcon,
@@ -264,6 +281,7 @@ export {
   VkIcon,
   VolumeIcon,
   WeiboIcon,
+  YoutubeIcon,
   CartIcon,
   BoxStore,
   CheckIcon,

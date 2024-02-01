@@ -11,6 +11,7 @@ import {heightPercentage, heightResponsive} from '../../../utils';
 import {ListDataSearchFans} from '../../../interface/search.interface';
 import LoadingSpinner from '../../../components/atom/Loading/LoadingSpinner';
 import MusicianSection from '../../../components/molecule/MusicianSection/MusicianSection';
+import {profileStorage} from '../../../hooks/use-storage.hook';
 
 export interface ListFansProps {
   keyword: string;
@@ -19,6 +20,7 @@ export interface ListFansProps {
 
 const ListFans: FC<ListFansProps> = ({keyword, onPress}: ListFansProps) => {
   const {t} = useTranslation();
+  const myUuid = profileStorage()?.uuid;
   const {getSearchFans} = useSearchHook();
 
   const {
@@ -33,6 +35,9 @@ const ListFans: FC<ListFansProps> = ({keyword, onPress}: ListFansProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword]);
 
+  // does not show our name in listing searches
+  const filteredData = dataSearchFans?.data.filter(val => val.uuid !== myUuid);
+
   return (
     <View style={styles.container}>
       {(isRefetching || isLoading) && (
@@ -44,7 +49,7 @@ const ListFans: FC<ListFansProps> = ({keyword, onPress}: ListFansProps) => {
       <FlatList
         contentContainerStyle={styles.ListContainer}
         showsVerticalScrollIndicator={false}
-        data={dataSearchFans?.data}
+        data={filteredData}
         renderItem={({item, index}) => (
           <MusicianSection
             musicianNum={(index + 1).toLocaleString('en-US', {

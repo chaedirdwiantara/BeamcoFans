@@ -8,6 +8,13 @@ export type RegistrationType =
   | 'apple'
   | 'phoneNumber';
 
+export const SocialMedia: string[] = [
+  'spotify',
+  'browser',
+  'instagram',
+  'youtube',
+];
+
 export type ListImageType = {
   length: number;
   image: string;

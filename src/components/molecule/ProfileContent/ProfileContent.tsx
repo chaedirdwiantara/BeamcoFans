@@ -170,11 +170,11 @@ export const ProfileContent: React.FC<ProfileContentProps> = ({
 
   const handleBackAction = () => {
     show && setWithoutBottomTab(false);
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{name: 'MainTab'}],
-    // });
-    navigation.goBack();
+    // must reset, because if previous screen was edit, user will be back to edit not home
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'MainTab'}],
+    });
   };
 
   const onPressShareQR = () => {

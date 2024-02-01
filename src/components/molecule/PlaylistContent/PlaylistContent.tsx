@@ -144,7 +144,6 @@ export const PlaylistContent: React.FC<Props> = ({
   const onPressDelete = async () => {
     try {
       await deletePlaylist(dataDetail);
-      storage.set('fetchingProfile', true);
       goBackProfile(true);
     } catch (error) {
       console.log(error);

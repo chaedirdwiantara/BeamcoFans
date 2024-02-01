@@ -25,7 +25,7 @@ const BlockProfileUI: FC<BlockProfileUIProps> = (
       {buttonOnPress && (
         <Button
           type="border"
-          label={'Ublock'}
+          label={'Unblock'}
           borderColor={color.Success[400]}
           containerStyles={styles.buttonStyle}
           textStyles={{color: color.Neutral[10]}}
@@ -40,7 +40,7 @@ export default BlockProfileUI;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: widthResponsive(15),
+    marginTop: widthResponsive(30),
   },
   title: {
     fontFamily: font.InterRegular,

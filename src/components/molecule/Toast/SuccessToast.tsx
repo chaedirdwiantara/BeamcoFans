@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     bottom: heightPercentage(22),
-    height: heightPercentage(36),
+    paddingVertical: heightPercentage(5),
     backgroundColor: color.Success[400],
     paddingHorizontal: widthResponsive(12),
     borderRadius: 4,
@@ -51,5 +51,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: color.Neutral[10],
+    maxWidth: '90%',
   },
 });
