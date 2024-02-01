@@ -353,13 +353,16 @@ export const LiveTipping: FC<LiveTippingProps> = ({
       await sleep(timeMs);
       Torch.switchState(false);
       await sleep(timeMs);
-      setTotalCredit(totalCredit - 1);
     };
     let i = 0;
     while (i < totalCredit && isFlashOn) {
       light();
       i++;
+      setTimeout(() => {
+        setTotalCredit(totalCredit - 1);
+      }, timeMs);
     }
+    return;
   };
 
   useEffect(() => {
