@@ -1,8 +1,7 @@
 import React from 'react';
-import {Platform, StyleSheet} from 'react-native';
-import Modal from 'react-native-modal';
+import {Modal, Platform, StyleSheet, View} from 'react-native';
 import Lottie from 'lottie-react-native';
-import {height, heightResponsive, widthResponsive} from '../../../utils';
+import {widthResponsive} from '../../../utils';
 
 interface ModalLoadingProps {
   visible: boolean;
@@ -14,27 +13,19 @@ export const ModalLoading = (props: ModalLoadingProps) => {
   return (
     <>
       {visible && (
-        <Modal
-          deviceHeight={height}
-          statusBarTranslucent
-          isVisible={visible}
-          style={styles.root}>
-          <Lottie
-            source={require('../../../assets/animation/loading-beamco-fans.json')}
-            autoPlay
-            loop
-            style={
-              Platform.OS === 'ios'
-                ? {
-                    padding: 0,
-                    margin: 0,
-                    width: widthResponsive(250),
-                    height: heightResponsive(250),
-                    aspectRatio: 1 / 1,
-                  }
-                : {}
-            }
-          />
+        <Modal statusBarTranslucent transparent visible={visible}>
+          <View style={styles.root}>
+            <Lottie
+              source={require('../../../assets/animation/loading-beamco-musician.json')}
+              autoPlay
+              loop
+              style={{
+                height: '100%',
+                width: widthResponsive(250),
+                alignSelf: 'center',
+              }}
+            />
+          </View>
         </Modal>
       )}
     </>
@@ -44,7 +35,7 @@ export const ModalLoading = (props: ModalLoadingProps) => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.3)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
     justifyContent: 'center',
     alignItems: Platform.OS === 'ios' ? 'center' : 'flex-start',
     margin: 0,
