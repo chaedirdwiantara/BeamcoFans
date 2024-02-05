@@ -16,7 +16,7 @@ export const ModalLoading = (props: ModalLoadingProps) => {
         <Modal statusBarTranslucent transparent visible={visible}>
           <View style={styles.root}>
             <Lottie
-              source={require('../../../assets/animation/loading-beamco-musician.json')}
+              source={require('../../../assets/animation/loading-beamco-fans.json')}
               autoPlay
               loop
               style={{
