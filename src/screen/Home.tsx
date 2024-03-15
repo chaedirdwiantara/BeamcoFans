@@ -61,7 +61,7 @@ import FavoriteMusician from './ListCard/FavoriteMusician';
 import {CheckCircle2Icon, SearchIcon} from '../assets/icon';
 import {MainTabParams, RootStackParams} from '../navigations';
 import RecomendedMusician from './ListCard/RecomendedMusician';
-import {storage} from '../hooks/use-storage.hook';
+import {profileStorage, storage} from '../hooks/use-storage.hook';
 import {useNotificationHook} from '../hooks/use-notification.hook';
 import LoadingSpinner from '../components/atom/Loading/LoadingSpinner';
 import {FollowMusicianPropsType} from '../interface/musician.interface';
@@ -275,9 +275,7 @@ export const HomeScreen: React.FC<HomeProps> = ({route}: HomeProps) => {
     mutationFn: generateEventBasedVoucher,
     onSuccess(res) {
       if (res?.code === 200) {
-        navigation.navigate('ListVoucher', {
-          id: generateVoucherPayload?.eventId || '',
-        });
+        navigation.navigate('MyVoucher');
         setShowModalBeer(false);
         storage.set('RedeemFreeBeer', true);
       }

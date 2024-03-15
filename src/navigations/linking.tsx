@@ -28,6 +28,18 @@ const linking: LinkingOptions<RootStackParams> = {
   config: {
     screens: {
       // TODO: path to specific screen
+      MusicianProfile: {
+        path: 'musician/:id',
+        parse: {
+          id: id => `${id}`,
+        },
+      },
+      PostDetail: {
+        path: 'feed/:id',
+        parse: {
+          id: id => `${id}`,
+        },
+      },
     },
   },
 };

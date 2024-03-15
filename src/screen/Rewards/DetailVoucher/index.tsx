@@ -192,7 +192,11 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
     (voucherCode !== undefined && !details?.status?.buttonDisabled) ||
     (!soldOut && !limitReached && !isSent && !isRedeemed && !isExpired);
   const showBtnSendGift =
-    id !== undefined && !soldOut && !limitReached && !notEnoughPoints && !voucherCode;
+    id !== undefined &&
+    !soldOut &&
+    !limitReached &&
+    !notEnoughPoints &&
+    !voucherCode;
 
   const onPressMainBtn = () => {
     if (isReceived) {
@@ -345,12 +349,6 @@ const DetailVoucherRewards: FC<ListVoucherProps> = ({
                   {details?.termsCondition.value.map(
                     (val: string, i: number) => (
                       <View key={i} style={{flexDirection: 'row'}}>
-                        <View
-                          style={{
-                            width: widthResponsive(20),
-                          }}>
-                          <Text style={styles.tncValue}>{i + 1}.</Text>
-                        </View>
                         <Text
                           style={[
                             styles.tncValue,

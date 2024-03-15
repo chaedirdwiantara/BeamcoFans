@@ -393,7 +393,7 @@ export const LiveTipping: FC<LiveTippingProps> = ({
             credit={credit}
             onPressCredit={() => navigation.navigate('TopUpCredit')}
             onPressGift={() => {
-              navigation.navigate('ListVoucher', {id: eventId});
+              navigation.navigate('MyVoucher');
             }}
             onSwipe={onSwipe}
             isNewGift={false}

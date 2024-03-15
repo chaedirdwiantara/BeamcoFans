@@ -150,11 +150,7 @@ export const EventDetail: React.FC<EventDetailProps> = ({
           containerStyles={styles.containerStickyHeader}
           rightIcon={
             <TopNavigation.EventDetailNav
-              onPressGift={() =>
-                navigation.navigate('ListVoucher', {
-                  id: dataDetail?.data.id ?? '',
-                })
-              }
+              onPressGift={() => navigation.navigate('MyVoucher')}
               isGenerated={dataVoucher?.data ?? true}
               onPressVoucher={() => setShowModaltopup(true)}
             />
@@ -204,11 +200,7 @@ export const EventDetail: React.FC<EventDetailProps> = ({
                 }}
                 rightIcon={
                   <TopNavigation.EventDetailNav
-                    onPressGift={() =>
-                      navigation.navigate('ListVoucher', {
-                        id: dataDetail?.data.id ?? '',
-                      })
-                    }
+                    onPressGift={() => navigation.navigate('MyVoucher')}
                     isGenerated={dataVoucher?.data ?? true}
                     onPressVoucher={() => setShowModaltopup(true)}
                   />
@@ -329,9 +321,7 @@ export const EventDetail: React.FC<EventDetailProps> = ({
         toggleModal={() => {
           setShowModalSuccess(false);
           setTimeout(() => {
-            navigation.navigate('ListVoucher', {
-              id: dataDetail?.data.id ?? '',
-            });
+              navigation.navigate('MyVoucher')
           }, 500);
         }}
       /> */}
